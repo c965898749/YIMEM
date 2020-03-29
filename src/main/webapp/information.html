@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>消息</title>
+    <script src="jquery/jquery.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <style>
+
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .navigation div {
+            float: left;
+            font-size: 15px;
+            /*margin-top: 20px;*/
+            margin-left: 8px;
+            color: #707070;
+        }
+
+        .navigation img {
+            float: left;
+            vertical-align: middle;
+            margin-top: -3px;
+        }
+
+        .navigation {
+            position: absolute;
+            width: 1220px;
+            margin: 0 auto;
+            padding: 10px;
+            height: 50px;
+            left: 370px;
+
+            /*line-height: 50px;*/
+            /*border: 1px red solid;*/
+
+        }
+
+        .navigation input {
+            margin-left: 20px;
+            float: left;
+            height: 25px;
+            margin-top: -5px;
+        }
+
+        .navigation_frame {
+
+            background-color: white;
+            height: 50px;
+        }
+
+        .contents {
+            width: 1220px;
+            margin: 0 auto;
+
+        }
+
+        a {
+            color: #707070;
+            text-decoration: none;
+        }
+
+        .content {
+            width: 1200px;
+            height: 700px;
+            /*border:1px red solid;*/
+            margin: 10px auto;
+        }
+
+        .content_left {
+            width: 200px;
+            background: white;
+            font-size: 18px;
+            float: left;
+            margin-top: 10px;
+
+        }
+
+        .content_left_sub {
+            width: 180px;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 20px;
+            cursor: pointer;
+            color: #4D4D4D;
+
+        }
+
+        .content_right {
+            width: 900px;
+            height: 600px;
+            /*border: 1px black solid;*/
+            float: left;
+            margin-left: 10px;
+            background: white;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            padding: 20px 20px;
+        }
+
+        .content_right p {
+            margin: 10px;
+
+        }
+
+        .buttom {
+
+            width: 100%;
+            height: 200px;
+            color: white;
+            background-color: white;
+            clear: both;
+
+        }
+
+        .buttom img {
+            margin-top: 30px;
+            margin-left: 270px;
+        }
+
+        .content_frame {
+            background-color: #F5F6F7;
+        }
+
+        .logined {
+            width: 30px;
+            height: 30px;
+            /*border: 1px red solid;*/
+            display: none;
+        }
+
+        .logined_sub {
+            position: absolute;
+            top: 30px;
+            right: 130px;
+            display: none;
+            background-color: white;
+        }
+
+        .logined_sub li {
+            margin: 10px;
+            cursor: pointer;
+            height: 20px;
+        }
+
+        .tip {
+            display: block;
+            background: #f00;
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+            top: 0px;
+            left: 0px;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<!--导航-->
+<div id="titleContai"></div>
+
+<div class="content_frame">
+    <div class="content">
+        <div class="content_left">
+            <div class="content_left_sub" id="comment" style="background-color: #B20B13;color: white">评论</div>
+            <div class="content_left_sub" id="focus">关注</div>
+            <div class="content_left_sub" id="like">点赞</div>
+        </div>
+        <div class="content_right">
+
+
+        </div>
+        <div id="pageContainer" style="text-align: center"></div>
+    </div>
+</div>
+
+<div class="buttom">
+    <img src="imgs/introduce/buttom.png">
+</div>
+<script src="layui/layui.all.js"></script>
+<script>
+    //分页
+    var laypage;
+    var pageNum = 1;
+    var nub=1;
+    // //引用表头
+    $("#titleContai").load("title.html")
+    //切换选项卡
+    $(".content_left_sub").click(function () {
+        $(".content_left_sub").css("background", "white")
+        $(".content_left_sub").css("color", "#4D4D4D")
+        $(this).css("background", "#B20B13")
+        $(this).css("color", "white")
+
+    })
+    loadreq(pageNum)
+    // var pageSize = 3;
+    layui.use('laypage', function () {
+        laypage = layui.laypage;
+    });
+    function renderPager(totalCount,nub) {
+
+        laypage.render({
+            elem: 'pageContainer'
+            , count: totalCount
+            , limit: 6
+            , curr: pageNum
+            , layout: ['prev', 'page', 'next']
+            , jump: function (obj, first) {
+                //obj包含了当前分页的所有参数，比如：
+                // console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                // console.log(obj.limit); //得到每页显示的条数
+
+                //首次不执行
+                if (!first) {
+
+                    //把分页值，和分页量（分页量可能会变化）
+                    pageNum = obj.curr;
+                    // pageSize = obj.limit;
+                    if (nub==1){
+                        loadreq(pageNum);
+                    } else if (nub==2){
+                        fansaa(pageNum)
+                    } else if (nub==3){
+                        loveeq(pageNum)
+                    }
+                }
+            }
+        });
+
+    }
+
+    function loadreq(pageNum) {
+        // commentreq()
+        // console.log(pageNum)
+        $.ajax({
+            url: "queryReplayInformation",
+            data:{"pageNum":pageNum},
+            dataType: "json",
+            type: "GET",
+            success: function (json) {
+                // console.log("dadad")
+                console.log(json)
+                commentreq(json.data, json.count)
+                renderPager(json.count2,1)
+            },
+            error: function () {
+
+            }
+        })
+    }
+
+
+    //评论页面请求
+    $("#comment").click(function () {
+        pageNum=1
+        loadreq(pageNum)
+    })
+
+    //评论页面渲染
+    function commentreq(data, count) {
+        $(".content_right").html(" <span>未读消息：" + count + "</span><span style='margin-left: 70%;cursor: pointer;color: #00a1d6' onclick='readcommentreq()'>全部标记已读</span><span style='margin-left: 10px;cursor: pointer;color: #00a1d6' onclick='removecommentreq(" + count + ")'>清除消息</span>")
+        $.each(data, function (index, each) {
+            var eachobj=JSON.parse(each)
+            var html = `
+      <p style="position: relative"><i ${eachobj[4] == 1 ? 'class="tip"' : ''}></i><span style="padding: 0 5px;display: inline-block;text-align: center;font-size: 12px;height: 20px;border: 1px solid #e0e0e0;line-height: 18px;color: #4d4d4d;">博客</span><span ><a style="color: #6CC2F5" href="perInfor.html?viewUserId=${eachobj[5]}&type=blog">${eachobj[0]}</a></span> 回复了你 </p>
+      <p><span style="font-weight: bold" onclick="onclickcommentreq(${eachobj[6]})"><a href="details.html?blog_id=${eachobj[2]}">${eachobj[1]}</a></span><span style="float: right;margin-right: 10px;color: #00A3D9">${eachobj[3]}</span></p>
+        <hr>
+        `
+            $(".content_right").append(html)
+        })
+
+    }
+
+    //点击评论已读
+    function onclickcommentreq(blog_id) {
+        $.ajax({
+            url: "onclickcommentreq",
+            dataType: "json",
+            data: {"blog_id": blog_id},
+            type: "post",
+            success: function (json) {
+            },
+            error: function () {
+
+            }
+        })
+    }
+
+    // 已读评论
+    function readcommentreq() {
+        $.ajax({
+            url: "readcommentreq",
+            dataType: "json",
+            type: "post",
+            success: function (json) {
+                loadreq(pageNum)
+                messageAlert()
+            },
+            error: function () {
+
+            }
+        })
+    }
+
+    //清除评论
+    function removecommentreq(count) {
+        if (count > 0) {
+            layer.open({
+                content: '还有未读消息'
+                , btn: ['清除', '取消']
+                , yes: function (index, layero) {
+                    $.ajax({
+                        url: "removecommentreq",
+                        dataType: "json",
+                        type: "post",
+                        success: function (json) {
+                            loadreq(pageNum)
+                            messageAlert()
+                        },
+                        error: function () {
+
+                        }
+                    })
+                    layer.close(index);
+                }
+                , btn2: function (index, layero) {
+                    layer.close(index);
+                }
+            });
+        } else {
+            layer.open({
+                content: '是否确定清除'
+                , btn: ['确定', '取消']
+                , yes: function (index, layero) {
+                    $.ajax({
+                        url: "removecommentreq",
+                        dataType: "json",
+                        type: "post",
+                        success: function (json) {
+                            loadreq(pageNum)
+                            messageAlert()
+                        },
+                        error: function () {
+
+                        }
+                    })
+                    layer.close(index);
+                }
+                , btn2: function (index, layero) {
+                    layer.close(index);
+                }
+            });
+        }
+    }
+
+    //关注页面请求
+    $("#focus").click(function () {
+        pageNum=1;
+        fansaa(pageNum)
+    })
+
+    function fansaa(pageNum) {
+        $.ajax({
+            url: "/queryAllFans",
+            dataType: "json",
+            data:{"pageNum":pageNum},
+            type: "get",
+            success: function (json) {
+                console.log(json)
+                focusreq(json.data,json.count)
+                renderPager(json.count2,2)
+            },
+            error: function () {
+
+            }
+        })
+    }
+
+    //关注页面渲染
+    function focusreq(data,count) {
+        $(".content_right").html(" <span>未读消息：" + count + "</span><span style='margin-left: 70%;cursor: pointer;color: #00a1d6' onclick='readfansaa()'>全部标记已读</span><span style='margin-left: 10px;cursor: pointer;color: #00a1d6' onclick='removefansaa(" + count + ")'>清除消息</span>")
+        $.each(data, function (index, each) {
+            var eachobj=JSON.parse(each)
+            var html = ` <div style="height: 40px;line-height: 40px;">
+        <div style="color: red;display: inline-block;border: 1px red solid;text-align: center;height: 20px;line-height: 20px;width: 40px;margin-left: 10px;position: relative"><i ${eachobj[2] == 1 ? 'class="tip"' : ''} style="left:-10px "></i>粉丝</div><span><a style="color: #6CC2F5" href="perInfor.html?viewUserId=${eachobj[1]}&type=blog">${eachobj[0]}</a></span> 关注了你
+        </div>
+        <hr>
+        `
+            $(".content_right").append(html)
+        })
+
+    }
+
+    //关注信息已读
+    function readfansaa() {
+        $.ajax({
+            url: "readfansaa",
+            dataType: "json",
+            type: "post",
+            success: function (json) {
+                fansaa(pageNum)
+                messageAlert()
+            },
+            error: function () {
+
+            }
+        })
+    }
+
+    //关注信息清除
+    function removefansaa(count){
+        if (count > 0) {
+            layer.open({
+                content: '还有未读消息'
+                , btn: ['清除', '取消']
+                , yes: function (index, layero) {
+                    $.ajax({
+                        url: "removefansaa",
+                        dataType: "json",
+                        type: "post",
+                        success: function (json) {
+                            fansaa(pageNum)
+                            messageAlert()
+                        },
+                        error: function () {
+
+                        }
+                    })
+                    layer.close(index);
+                }
+                , btn2: function (index, layero) {
+                    layer.close(index);
+                }
+            });
+        } else {
+            layer.open({
+                content: '是否确定清除'
+                , btn: ['确定', '取消']
+                , yes: function (index, layero) {
+                    $.ajax({
+                        url: "removefansaa",
+                        dataType: "json",
+                        type: "post",
+                        success: function (json) {
+                            fansaa(pageNum)
+                            messageAlert()
+                        },
+                        error: function () {
+
+                        }
+                    })
+                    layer.close(index);
+                }
+                , btn2: function (index, layero) {
+                    layer.close(index);
+                }
+            });
+        }
+    }
+
+    //点赞页面请求
+    $("#like").click(function () {
+        pageNum=1
+        loveeq(pageNum)
+    })
+
+    function loveeq(pageNum) {
+        $.ajax({
+            url: "/queryLikeId",
+            dataType: "json",
+            data:{"pageNum":pageNum},
+            type: "get",
+            success: function (json) {
+                console.log(json)
+                likereq(json.data, json.count)
+                renderPager(json.count2,3)
+            },
+            error: function () {
+
+            }
+        })
+    }
+
+    //点赞页面渲染
+    function likereq(data, count) {
+        $(".content_right").html(" <span>未读消息：" + count + "</span><span style='margin-left: 70%;cursor: pointer;color: #00a1d6' onclick='readqueryLikeId()'>全部标记已读</span><span style='margin-left: 10px;cursor: pointer;color: #00a1d6' onclick='removequeryLikeId(" + count + ")'>清除消息</span>")
+        $.each(data, function (index, each) {
+            var eachobj=JSON.parse(each)
+            var html = `
+       <p style="position: relative"><i ${eachobj[3] == 1 ? 'class="tip"' : ''}></i><span style="padding: 0 5px;display: inline-block;text-align: center;font-size: 12px;height: 20px;border: 1px solid #e0e0e0;line-height: 18px;color: #4d4d4d;">博客</span><span ><a style="color: #6CC2F5" href="perInfor.html?viewUserId=${eachobj[5]}&type=blog">${eachobj[1]}</a></span> 点赞了你的博文  </p>
+      <p><span style="font-weight: bold" onclick="onclickqueryLikeId(${eachobj[4]})" ><a href="details.html?blog_id=${eachobj[2]}">${eachobj[0]}</a></span></p>
+        <hr>
+        `
+            $(".content_right").append(html)
+        })
+
+
+    }
+
+    //点赞已读
+    function readqueryLikeId() {
+        $.ajax({
+            url: "readqueryLikeId",
+            dataType: "json",
+            type: "post",
+            success: function (json) {
+                loveeq(pageNum)
+                messageAlert()
+            },
+            error: function () {
+
+            }
+        })
+    }
+
+    //清除点赞消息
+    function removequeryLikeId(count) {
+        if (count > 0) {
+            layer.open({
+                content: '还有未读消息'
+                , btn: ['清除', '取消']
+                , yes: function (index, layero) {
+                    $.ajax({
+                        url: "removequeryLikeId",
+                        dataType: "json",
+                        type: "post",
+                        success: function (json) {
+                            loveeq(pageNum)
+                            messageAlert()
+                        },
+                        error: function () {
+
+                        }
+                    })
+                    layer.close(index);
+                }
+                , btn2: function (index, layero) {
+                    layer.close(index);
+                }
+            });
+        } else {
+            layer.open({
+                content: '是否确定清除'
+                , btn: ['确定', '取消']
+                , yes: function (index, layero) {
+                    $.ajax({
+                        url: "removequeryLikeId",
+                        dataType: "json",
+                        type: "post",
+                        success: function (json) {
+                            loveeq(pageNum)
+                            messageAlert()
+                        },
+                        error: function () {
+
+                        }
+                    })
+                    layer.close(index);
+                }
+                , btn2: function (index, layero) {
+                    layer.close(index);
+                }
+            });
+        }
+    }
+
+    //点击点赞已读
+    function onclickqueryLikeId(blog_id) {
+        $.ajax({
+            url: "onclickqueryLikeId",
+            dataType: "json",
+            data: {"blog_id": blog_id},
+            type: "post",
+            success: function (json) {
+            },
+            error: function () {
+
+            }
+        })
+    }
+</script>
+
+</body>
+</html>

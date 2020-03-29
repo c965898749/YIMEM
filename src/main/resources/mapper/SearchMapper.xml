@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.SearchMapper">
+    <select id="queryDownload" resultType="com.sy.model.Upload">
+      SELECT * FROM upload where title like #{key}
+   </select>
+    <select id="queryForum" resultType="com.sy.model.Invitation">
+      SELECT * FROM invitation where title like #{key}
+   </select>
+    <select id="queryAsk" resultType="com.sy.model.Ask">
+        select * from ask where askName like #{key}
+    </select>
+
+
+
+
+
+</mapper>

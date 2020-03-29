@@ -1,0 +1,3903 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="./css/css2.css" />
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="layui/layui.all.js"></script>
+		<script src="js/bt.js"></script>
+		<style>
+			header {
+				background: url(img/f4fa2bb8cbfb1013a6bbb15ee52b4861ccaae69b.png);
+			}
+			.topNAV{
+				font-size: 14px;
+				margin-top: 60px;
+				margin-bottom: -40px;
+			}
+			.topNAV span{
+				margin-right: 40px;
+				color: #6D757A;
+				cursor: pointer;
+			}
+			.topNAV span:hover{
+				color: #00AAE2;
+			}
+
+		</style>
+	</head>
+
+	<body>
+		<header>
+			<div class="nav-mask" id="nav-mask">
+				<div class="header">
+					<ul class="left">
+						<li class="shou" style="display: flex;">
+							<div style=" background: url(img/icons.png) -917px   -85px ;width: 20px;height: 20px;margin-top: 10px;margin-right: 4px;"></div>
+							<a href="index.html">主站</a>
+						</li>
+						<li class="shou"><a href="ConF.html">音频</a></li>
+						<li class="shou">
+							游戏中心
+							<div class="code-game-n">
+								<div class="code-game">
+									<div>
+										<img src="img/_20190708100629.png" alt="" />
+									</div>
+
+									<div class="code-game-li">
+										<ul>
+											<li>
+												<p>重装战姬</p>
+
+											</li>
+											<li>
+												<p>苍蓝誓约</p>
+											</li>
+											<li>
+												<p>皇家骑士</p>
+
+											</li>
+											<li>
+												<p>龙族幻想</p>
+											</li>
+											<li>
+												<p>原神</p>
+
+											</li>
+											<li>
+												<p>无法触碰的掌心</p>
+
+											</li>
+											<li>
+												<p>公主连结Re:Dive</p>
+											</li>
+
+										</ul>
+									</div>
+
+								</div>
+							</div>
+
+						</li>
+						<li class="shou">直播
+							<div class="code-live-n">
+								<div class="code-live">
+									<div>
+										<img src="img/_20190708110339.png" alt="" />
+									</div>
+
+									<div>
+										<img src="img/_20190708110352.png" alt="" />
+									</div>
+
+								</div>
+							</div>
+						</li>
+						<li class="shou">会员购</li>
+						<li class="shou">漫画</li>
+						<li class="shou">BW
+							<div class="code-BW-n">
+								<div class="code-BW">
+									<div>
+										<img src="img/_0190708110807 (2).png" alt="" />
+									</div>
+									<div>
+										<img src="img/_0190708110807 (1).png" alt="" />
+									</div>
+
+								</div>
+							</div>
+
+						</li>
+						<li class="shou">70年</li>
+						<li class="shou"><div style="display: flex;">
+								<div style=" background: url(img/icons.png) -1365px   -1175px;width: 20px;height: 20px;margin-top: 11px;margin-right: 2px;"></div>
+								下载APP
+							</div>
+							<div class="code-APP-n">
+								<div class="code-APP">
+									<div>
+										<img src="img/_20190709182619.png" alt="" />
+									</div>
+
+								</div>
+							</div>
+
+						</li>
+					</ul>
+					<ul class="right">
+						<li class="shou"><img class="img-header" src="img/u=3005463034,1406873953&fm=27&gp=0.jpg" />
+							<div class="code-imgheader-n">
+								<div class="code-imgheader">
+									<ul>
+										<li>
+											<span style="font-size: 14px;font-weight: bolder;">小明</span>
+										</li>
+										<li style="display: flex;line-height: 20px;">
+											<div style="width: 20px;height: 20px;border-radius: 10px;background: #00A1D6;line-height:20px;color: white;margin-left: 20px;margin-right: 5px;">币</div>
+											<span><a href="paywallet.html">122</a></span>
+											<div style="width: 20px;height: 20px;border-radius: 10px;background: #FFD800;line-height:20px;color: white;margin-left: 20px;margin-right: 5px;">B</div>
+											<span><a href="paywallet.html">0</a></span>
+											<img src="img/_20190709194018.png" style="margin-left: 40px;" />
+										</li>
+
+										<li class="myGrade" style="display: flex;line-height: 20px;margin-top: 20px;position: relative;">
+											<span style="margin-left: 20px;">等级</span>
+											<div style="width: 20px;height: 20px;border-radius: 10px;background: orange;line-height:20px;color: white;margin-left: 10px;margin-right: -4px;z-index: 2;">3</div>
+											<div style="width: 150px;margin-top: 7px;">
+												<div class="layui-progress">
+													<div class="layui-progress-bar layui-bg-orange" lay-percent="20%"></div>
+												</div>
+											</div>
+											<div class="grade">
+												<div class="grade-cn" style="color: #8A8D93;text-align: left;">
+													<p>作为<span style="font-size: 14px;font-weight: bold;">LV3</span>，你可以</p>
+													<p>1、发射个性弹幕（彩色、高级、顶级、底部）</p>
+													<p>2、参与视频互动（评论、添加tag）</p>
+													<p>3、投稿成为偶像</p>
+													<p style="color:#007ACC ;text-align: right;">会员等级相关说明</p>
+												</div>
+											</div>
+										</li>
+										<li style="margin-top: -10px;">
+											<span>115</span>/<span style="margin-right: -150px;color: #B8C0CC;">4500</span>
+										</li>
+										<li>
+											<div style="width: 250px;border-bottom:1px  #E5E9EF solid;"></div>
+										</li>
+										<li>
+											<div class="img-header-lis" style="background: url(img/_20190709202818.png);width: 240px;height: 100px;margin-left: 10px;display: flex;flex-wrap: wrap;">
+												<div style="width: 100px;height: 20px;margin-left: 10px;margin-top: -5px;">个人中心</div>
+												<div style="width: 100px;height: 20px;margin-left: 15px;margin-top: -5px;">投稿管理</div>
+												<div style="width: 100px;height: 20px;margin-left: 10px;margin-top: -20px;">B币钱包</div>
+												<div style="width: 100px;height: 20px;margin-left: 15px;margin-top: -20px;">直播中心</div>
+												<div style="width: 100px;height: 20px;margin-left: 10px;margin-top: -25px;">订单中心</div>
+											</div>
+										</li>
+										<li>
+											<div style="margin-top: -20px;" class="exit">退出</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+						<script src="layui/layui.all.js">
+							//注意进度条依赖 element 模块，否则无法进行正常渲染和功能性操作
+							layui.use('element', function() {
+								var element = layui.element;
+							});
+						</script>
+						<li class="shou">大会员
+							<div class="code-member-n">
+								<div class="code-member">
+									精彩推荐
+									<div class="code-member-skin">
+										<div>
+											<img src="img/_20190708113302.png" alt="" />
+											<p>大会员限时优惠</p>
+										</div>
+										<div>
+											<img src="img/_20190708113318.png" alt="" />
+											<p>皮卡丘卡送大会员啦!</p>
+										</div>
+									</div>
+
+									<input type="button" class="member" value="开通会员" />
+								</div>
+							</div>
+						</li>
+						<li class="shou">消息
+							<div class="code-news-n">
+								<div class="code-news">
+									<ul>
+										<li>
+											<p>回复我的</p>
+										</li>
+										<li>
+											<p>@我的</p>
+										</li>
+										<li>
+											<p>皇家骑士</p>
+										</li>
+										<li>
+											<p>收到的赞</p>
+										</li>
+										<li>
+											<p>系统通知</p>
+										</li>
+										<li>
+											<p>我的消息</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+						<li class="shou">动态
+							<div class="code-dynamic-n">
+								<div class="code-dynamic">
+									<iframe src="dynamic.html" frameborder="0" scrolling="true" width="380px" height="400px"></iframe>
+								</div>
+							</div>
+						</li>
+						<li class="shou" style="width: 60px;">稍后再看
+							<div class="code-record-n">
+								<div class="code-record">
+									<ul>
+										<li>
+											<p>.空空如野，赶紧添加几个吧</p>
+										</li>
+
+									</ul>
+								</div>
+							</div>
+						</li>
+
+						<li class="shou">收藏
+							<div class="code-collect-n">
+								<div class="code-collect">
+									<ul>
+										<li>
+											<span>.Intellij-全套IDEA视频教程</span>
+										</li>
+										<li>
+											<span>.Spring Boot框架-黑马2019JavaEE全套(IDEA版)-12</span>
+										</li>
+										<li>
+											<span>.黑马程序员-JavaWeb(共455集)</span>
+										</li>
+										<li>
+											<span>.07-jQuery-黑马程序员39期</span>
+										</li>
+										<li>
+											<span>.3秒入侵win10，看了你也可以做到！</span>
+										</li>
+										<li>
+											<span>.神仙混音：Without You x Wolves</span>
+										</li>
+									</ul>
+									<input type="button" class="collect" value="查看更多>" />
+								</div>
+
+							</div>
+						</li>
+						<li class="shou">历史
+							<div class="code-history-n">
+								<div class="code-history">
+									<ul>
+										<li>
+											<span>在家自学编程半年的我终于做出了第一个项目25%</span>
+										</li>
+										<li>
+											<span>黑马程序员-JavaWeb(共455集)第2P|25%</span>
+										</li>
+										<li>
+											<span>Intellij-全套IDEA视频教程第1P|24%</span>
+										</li>
+										<li>
+											<span>Spring Boot框架-黑马2019JavaEE全套(IDEA版)-12第1P|1%</span>
+										</li>
+										<li>
+											<span>07-jQuery-黑马程序员39期第16P|1%</span>
+										</li>
+										<li>
+											<span>【抑郁症】上帝造了一束美丽而又孤独的光18%</span>
+										</li>
+									</ul>
+									<input type="button" class="history" value="查看更多>" />
+								</div>
+
+							</div>
+						</li>
+						<li class="shou">
+							<div class="u-link">
+								投稿
+							</div>
+							<div class="code-n">
+								<ul class="code-m">
+									<li>
+										<div class="rt1-m"><img src="img/20190706140225.png" /></div>
+										<p>专栏投稿</p>
+
+									</li>
+									<li>
+										<div class="rt1-m"><img src="img/20190706140249.png" /></div>
+										<p>音频投稿</p>
+
+									</li>
+									<li>
+										<div class="rt1-m"><img src="img/20190706140311.png" /></div>
+										<p>视频投稿</p>
+
+									</li>
+									<li>
+										<div class="rt1-m"><img src="img/20190706140328.png" /></div>
+										<p>投稿管理</p>
+
+									</li>
+									<li>
+										<div class="rt1-m"><img src="img/20190706140342.png" /></div>
+										<p>创作中心</p>
+
+									</li>
+
+								</ul>
+							</div>
+
+						</li>
+					</ul>
+				</div>
+				<div class="header-serch">
+					<div class="header-serch-m">
+						<div class="ranking">
+							<div style=" background: url(img/icons.png) -659px -655px no-repeat;width: 20px;height: 20px;"></div>
+							<a href="">排行榜</a>
+						</div>
+						<div class="header-serch-n">
+							<input type="text" name="serch-text" placeholder="24小时编排舞蹈秘籍是？" class="serach-text" value="" />
+							<input type="submit" name="serch-bt" class="serach-bt" value="" />
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</header>
+
+		<div class="TOP">
+			<div class="left">
+				<ul>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: url(img/icons.png) -660px -1170px;width: 20px;height: 20px;margin-top: -5px;"></div>
+								<a href="index.html">首页</a>
+							</div>
+						</div>
+
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background:#FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">999+</div>
+								<a href="ConB.html">动画</a>
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>MAD.AMV</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>MMD.3D</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>短片.手书.配音</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>特设</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>综合</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">44+</div>
+								<a href="ConC.html">番剧</a>
+							</div>
+							<div class="code-index-n">
+								<div class="code-index">
+									<ul>
+										<li>
+											<p><span style="color: #02A2D6;">></span>连载动画</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>完结动画</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>咨询</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>官方延伸</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>新番时间表</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>番剧索引</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								<a href="ConE.html">国创</a>
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								<a href="ConD.html">游戏</a>
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>单机游戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>电子竞技</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>手机游戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>网络游戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>桌游棋牌</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>GMV</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>音游</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>Mugen</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>游戏赛事</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								<a href="ConF.html">音乐</a>
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								舞蹈
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								科技
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								数码
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								生活
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								鬼畜
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								时尚
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								娱乐
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								放映厅
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								广告
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								广告
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: #FFB3CF;color: white;width: 40px;height: 15px;border-radius: 5px;line-height: 15px;text-align: center;">68+</div>
+								广告
+							</div>
+						</div>
+						<div class="code-index-n">
+							<div class="code-index">
+								<ul>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动画</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产原创相关</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>布袋戏</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>动态漫.广播剧</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>新番时间表</p>
+									</li>
+									<li>
+										<p><span style="color: #02A2D6;">></span>国产动漫索引</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+
+				</ul>
+
+			</div>
+			<div class="right">
+				<ul>
+					<li class="shou">
+						<img src="img/11c9c2b93d35520bbec19a28b2478c06ca92dd81.gif" style="margin-top: -5px;" />
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: url(img/icons.png) -87px -1814px;width: 20px;height: 20px;margin-top: -5px;"></div>
+								专栏
+							</div>
+						</div>
+
+					</li>
+					<li class="shou">
+						<div>
+							<div id="a1">
+								<div style=" background: url(img/icons.png) -87px -2006px;width: 20px;height: 20px;margin-top: -5px;"></div>
+								广场
+							</div>
+							<div class="code-index-n">
+								<div class="code-index">
+									<ul>
+										<li>
+											<p><span style="color: #02A2D6;">></span>会员购</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>游戏中心</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>画友</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>芒果TV</p>
+										</li>
+									</ul>
+									<div class="column">
+										<img src="img/_20190708221748.png" />
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: url(img/icons.png) -87px -1878px;width: 20px;height: 20px;margin-top: -5px;"></div>
+								直播
+							</div>
+							<div class="code-index-n">
+								<div class="code-index">
+									<ul>
+										<li>
+											<p><span style="color: #02A2D6;">></span>全员直播</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>游戏直播</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>手游直播</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>娱乐直播</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>电台直播</p>
+										</li>
+										<li>
+											<p><span style="color: #02A2D6;">></span>绘画直播</p>
+										</li>
+									</ul>
+									<div class="column">
+										<img src="img/_20190708223313.png" />
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</li>
+					<li class="shou">
+						<div>
+							<div>
+								<div style=" background: url(img/icons.png) -87px -1942px;width: 20px;height: 20px;margin-top: -5px;"></div>
+								小黑屋
+							</div>
+						</div>
+
+					</li>
+
+				</ul>
+
+			</div>
+		</div>
+		<div class="NAV">
+			<div class="topNAV">
+					<span>全部</span>
+					<span>国产动画</span>
+					<span>国产原创相关</span>
+					<span>布袋戏</span>
+					<span>动态漫·广播剧</span>
+					<span>资讯</span>
+					<span>新番时间表</span>
+					<span>国产动画索引</span>
+				</div>
+			<div class="nav">
+				<div class="carousel" style="width:1160px ;height: 332px;">
+					<div class="layui-carousel" id="test1">
+						<div carousel-item>
+							<div><img src="img/136d04a80a94567fdb078d0e13fb2e9cf55af4ba.jpg@2320w_664h.jpg" style="width: 1160px;height: 332px;" /></div>
+							<div><img src="img/47eb047f5ca5f389768ed3a614a788634ad83233.jpg@2320w_664h.jpg" style="width: 1160px;height: 332px;" /></div>
+							<div><img src="img/f756a19fefc4f041abd7c8d9f4dbdaf50e1d56ab.jpg@2320w_664h.jpg" style="width: 1160px;height:332px;" /></div>
+						</div>
+					</div>
+				</div>
+				<script>
+					layui.use('carousel', function() {
+						var carousel = layui.carousel;
+						//建造实例
+						carousel.render({
+							elem: '#test1',
+							width: '100%' //设置容器宽度
+								,
+							height: '100%',
+							arrow: 'always' //始终显示箭头
+							//,anim: 'updown' //切换动画方式
+						});
+					});
+				</script>
+
+			</div>
+		</div>
+		<div class="ConA">
+			<div class="left">
+				<div class="con" style=" background: url(img/icons.png) -141px -75px;width: 40px;height: 40px;"></div>
+				<span style="font-size: 24px;font-weight: bold;">编辑精选</span>
+				<span style="font-size: 12px;color:#6D757A;">垃圾分类等你挑战</span>
+			</div>
+			<div class="right">
+				<div class="mbox">
+					<span>在线人数：2778964</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span>最新投稿：22020</span>
+				</div>
+			</div>
+			<div class="main">
+				<div class="main-lf">
+					<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+						<div class="lis-m">
+							<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:85px;">30:14</p>
+							<div class="laterBt" style="margin-top: -25px;"></div>
+						</div>
+					</div>
+					<p class="home-m2">【王老菊】奴隶阿飞的励志人生05</p>
+				</div>
+				<div class="main-lf">
+					<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+						<div class="lis-m">
+							<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:85px;">30:14</p>
+							<div class="laterBt" style="margin-top: -25px;"></div>
+						</div>
+					</div>
+					<p class="home-m2">【王老菊】奴隶阿飞的励志人生05</p>
+				</div>
+				<div class="main-lf">
+					<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+						<div class="lis-m">
+							<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:85px;">30:14</p>
+							<div class="laterBt" style="margin-top: -25px;"></div>
+						</div>
+					</div>
+					<p class="home-m2">【王老菊】奴隶阿飞的励志人生05</p>
+				</div>
+				<div class="main-lf">
+					<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+						<div class="lis-m">
+							<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:85px;">30:14</p>
+							<div class="laterBt" style="margin-top: -25px;"></div>
+						</div>
+					</div>
+					<p class="home-m2">【王老菊】奴隶阿飞的励志人生05</p>
+				</div>
+				<div class="main-lf">
+					<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+						<div class="lis-m">
+							<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:85px;">30:14</p>
+							<div class="laterBt" style="margin-top: -25px;"></div>
+						</div>
+					</div>
+					<p class="home-m2">【王老菊】奴隶阿飞的励志人生05</p>
+				</div>
+
+				<div class="main-rt">
+					<div style="width: 160px;height: 150;">
+						<div><img src="img/203c894c247d1ef42701faf415bae733.jpg" style="width: 260px;height: 150px;border-radius: 5px;" /></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="AD">
+			<img src="img/67537ab2f52737797d1b0f6502d30389.jpg" alt="" style="width: 1160px;height: 96px;" />
+		</div>
+		<div class="ConB">
+			<div class="left">
+				<div class="left-top">
+					<div style="float: left;" id="a2">
+						<div class="con" style=" background: url(img/icons.png) -141px -908px;width: 40px;height: 40px;"></div>
+						<span style="font-size: 24px;font-weight: bold;">连载动画<span>
+						<span style="font-size: 12px;" class="newState">有新动态</span>
+						<span style="font-size: 12px;" class="newManu">有新稿件</span>
+					</div>
+					<div style="float: right;">
+						<div class="ConB-bt" style="margin-top: 10px;margin-left:20px;float: right;font-size: 12px;width: 120px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+						<div class="ConB-bt" style="margin-top: 10px;float: right;font-size: 12px;width: 120px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">788878369条新动态</div>
+					</div>
+				</div>
+				<div class="left-main newStateLis">
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="left-main newManuLis">
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="right">
+				<div class="right-top">
+					<span style="font-size: 24px;font-weight: bold;margin-left: 20px;">排行</span>
+					<span style="font-size: 12px;margin-left: 20px;cursor: pointer;" class="allCartoon">全部</span>
+					<span style="font-size: 12px;margin-left: 20px;cursor: pointer;" class="originalCartoon">原创</span>
+					<div class="selected" style="position: relative;margin-top: 10px;margin-left:20px;float: right;font-size: 12px;width: 40px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">
+						一周
+						<div class="selected-cd">
+							周三
+						</div>
+					</div>
+				</div>
+				<div class="right-main allCartoonlis">
+					<div class="right-main-lis" style="width: 260px;display: flex;font-size: 12px;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;margin-right: 8px;">1</div>
+						<div style="width: 240px;display: flex;">
+							<img src="img/_20190709142233.png" />《崩坏3》动画短片「天使重构」正式发布！
+						</div>
+
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">2</div>
+						这动画也太沙雕了！2019七月新番吐槽大盘点！（第一弹）
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">3</div>
+						征程【凹凸世界超豪华20P/群像配音/同人手书动画剧情歌】
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">4</div>
+						奶爆新番！七月最值得期待的10部动画！最后一部竟然出乎意料！「泛式/七月新番导视」
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">5</div>
+						请问UP主，男主变恶魔男二变妹子是什么番？阅片无数的请进！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">6</div>
+						小小的垃圾分类竟道出国人心声！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">7</div>
+						【Fate手书】与名为命运的怪物战斗的英雄们
+					</div>
+					<div class="right-main-bt" style="font-size: 12px;width: 260px;height: 26px;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+				</div>
+				<div class="right-main originalCartoonlis">
+					<div class="right-main-lis" style="width: 260px;display: flex;font-size: 12px;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;margin-right: 8px;">1</div>
+						<div style="width: 240px;display: flex;">
+							<img src="img/_20190709151304.png" />红气喘为哪般？七月新番吐槽第一波
+						</div>
+
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">2</div>
+						前方极致盛宴！！！请戴好耳机！戴好耳机！！！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">3</div>
+						全B站首部互动推理动画视频上线了！[神探·埃尔梅罗二世]
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">4</div>
+						【仙剑奇侠传一】片头惨遭动画化 神还原
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">5</div>
+						我算出了四代飞雷神的速度，b站第一人
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">6</div>
+						【明日方舟手书】Be Affected【学园大香蕉ed再现】
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">7</div>
+						【明日方舟】刀客塔的日常
+					</div>
+					<div class="right-main-bt" style="font-size: 12px;width: 260px;height: 26px;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="AD">
+			<img src="img/bdc6f6945277c3d069bdd9e40894b918.jpg" alt="" style="width: 1160px;height: 96px;" />
+		</div>
+		<div class="ConC">
+			<div class="left">
+				<div class="left-top">
+					<div style="float: left;" id="a3">
+						<div class="con" style=" background: url(img/icons.png) -141px -140px;width: 40px;height: 40px;"></div>
+						<span style="font-size: 24px;font-weight: bold;">国产动画</span>
+						<span style="font-size: 12px;" class="newState">有新动态</span>
+						<span style="font-size: 12px;" class="newManu">有新稿件</span>
+					</div>
+					<div style="float: right;">
+						<div class="ConC-bt" style="margin-top: 10px;margin-left:20px;float: right;font-size: 12px;width: 120px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+						<div class="ConC-bt" style="margin-top: 10px;float: right;font-size: 12px;width: 120px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">788878369条新动态</div>
+					</div>
+				</div>
+				<div class="left-main newStateLis">
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="left-main newManuLis">
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="right">
+				<div class="right-top">
+					<span style="font-size: 24px;font-weight: bold;margin-left: 20px;">排行</span>
+					<span style="font-size: 12px;margin-left: 20px;cursor: pointer;" class="allCartoon">全部</span>
+					<span style="font-size: 12px;margin-left: 20px;cursor: pointer;" class="originalCartoon">原创</span>
+					<div class="selected" style="position: relative;margin-top: 10px;margin-left:20px;float: right;font-size: 12px;width: 40px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">
+						一周
+						<div class="selected-cd">
+							周三
+						</div>
+					</div>
+				</div>
+				<div class="right-main allCartoonlis">
+					<div class="right-main-lis" style="width: 260px;display: flex;font-size: 12px;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;margin-right: 8px;">1</div>
+						<div style="width: 240px;display: flex;">
+							<img src="img/_20190709142233.png" />《崩坏3》动画短片「天使重构」正式发布！
+						</div>
+
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">2</div>
+						这动画也太沙雕了！2019七月新番吐槽大盘点！（第一弹）
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">3</div>
+						征程【凹凸世界超豪华20P/群像配音/同人手书动画剧情歌】
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">4</div>
+						奶爆新番！七月最值得期待的10部动画！最后一部竟然出乎意料！「泛式/七月新番导视」
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">5</div>
+						请问UP主，男主变恶魔男二变妹子是什么番？阅片无数的请进！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">6</div>
+						小小的垃圾分类竟道出国人心声！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">7</div>
+						【Fate手书】与名为命运的怪物战斗的英雄们
+					</div>
+					<div class="right-main-bt" style="font-size: 12px;width: 260px;height: 26px;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+				</div>
+				<div class="right-main originalCartoonlis">
+					<div class="right-main-lis" style="width: 260px;display: flex;font-size: 12px;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;margin-right: 8px;">1</div>
+						<div style="width: 240px;display: flex;">
+							<img src="img/_20190709151304.png" />红气喘为哪般？七月新番吐槽第一波
+						</div>
+
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">2</div>
+						前方极致盛宴！！！请戴好耳机！戴好耳机！！！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">3</div>
+						全B站首部互动推理动画视频上线了！[神探·埃尔梅罗二世]
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">4</div>
+						【仙剑奇侠传一】片头惨遭动画化 神还原
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">5</div>
+						我算出了四代飞雷神的速度，b站第一人
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">6</div>
+						【明日方舟手书】Be Affected【学园大香蕉ed再现】
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">7</div>
+						【明日方舟】刀客塔的日常
+					</div>
+					<div class="right-main-bt" style="font-size: 12px;width: 260px;height: 26px;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="AD">
+			<img src="img/4eb0c5664ccee76e8e4e7ccfb9c79c12.jpg" alt="" style="width: 1160px;height: 96px;" />
+		</div>
+		<div class="ConD">
+			<div class="left">
+				<div class="left-top">
+					<div style="float: left;" id="a4">
+						<div class="con" style=" background: url(img/icons.png) -140px -1611px;width: 40px;height: 40px;"></div>
+						<span style="font-size: 24px;font-weight: bold;">国产原创相关</span>
+						<span style="font-size: 12px;" class="newState">有新动态</span>
+						<span style="font-size: 12px;" class="newManu">有新稿件</span>
+					</div>
+					<div style="float: right;">
+						<div class="ConD-bt" style="margin-top: 10px;margin-left:20px;float: right;font-size: 12px;width: 120px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+						<div class="ConD-bt" style="margin-top: 10px;float: right;font-size: 12px;width: 120px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">788878369条新动态</div>
+					</div>
+				</div>
+				<div class="left-main newStateLis">
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="left-main newManuLis">
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="right">
+				<div class="right-top">
+					<span style="font-size: 24px;font-weight: bold;margin-left: 20px;">排行</span>
+					<span style="font-size: 12px;margin-left: 20px;cursor: pointer;" class="allCartoon">全部</span>
+					<span style="font-size: 12px;margin-left: 20px;cursor: pointer;" class="originalCartoon">原创</span>
+					<div class="selected" style="position: relative;margin-top: 10px;margin-left:20px;float: right;font-size: 12px;width: 40px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">
+						一周
+						<div class="selected-cd">
+							周三
+						</div>
+					</div>
+				</div>
+				<div class="right-main allCartoonlis">
+					<div class="right-main-lis" style="width: 260px;display: flex;font-size: 12px;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;margin-right: 8px;">1</div>
+						<div style="width: 240px;display: flex;">
+							<img src="img/_20190709142233.png" />《崩坏3》动画短片「天使重构」正式发布！
+						</div>
+
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">2</div>
+						这动画也太沙雕了！2019七月新番吐槽大盘点！（第一弹）
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">3</div>
+						征程【凹凸世界超豪华20P/群像配音/同人手书动画剧情歌】
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">4</div>
+						奶爆新番！七月最值得期待的10部动画！最后一部竟然出乎意料！「泛式/七月新番导视」
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">5</div>
+						请问UP主，男主变恶魔男二变妹子是什么番？阅片无数的请进！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">6</div>
+						小小的垃圾分类竟道出国人心声！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">7</div>
+						【Fate手书】与名为命运的怪物战斗的英雄们
+					</div>
+					<div class="right-main-bt" style="font-size: 12px;width: 260px;height: 26px;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+				</div>
+				<div class="right-main originalCartoonlis">
+					<div class="right-main-lis" style="width: 260px;display: flex;font-size: 12px;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;margin-right: 8px;">1</div>
+						<div style="width: 240px;display: flex;">
+							<img src="img/_20190709151304.png" />红气喘为哪般？七月新番吐槽第一波
+						</div>
+
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">2</div>
+						前方极致盛宴！！！请戴好耳机！戴好耳机！！！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">3</div>
+						全B站首部互动推理动画视频上线了！[神探·埃尔梅罗二世]
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">4</div>
+						【仙剑奇侠传一】片头惨遭动画化 神还原
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">5</div>
+						我算出了四代飞雷神的速度，b站第一人
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">6</div>
+						【明日方舟手书】Be Affected【学园大香蕉ed再现】
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">7</div>
+						【明日方舟】刀客塔的日常
+					</div>
+					<div class="right-main-bt" style="font-size: 12px;width: 260px;height: 26px;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="AD">
+			<img src="img/3f6433e753df9a5493a81e03ff28b7f8.jpg" alt="" style="width: 1160px;height: 96px;" />
+		</div>
+		<div class="ConE">
+			<div class="left">
+				<div class="left-top">
+					<div style="float: left;" id="a5">
+						<div class="con" style=" background: url(img/icons.png) -140px -266px;width: 40px;height: 40px;"></div>
+						<span style="font-size: 24px;font-weight: bold;">动态漫·广播剧</span>
+						<span style="font-size: 12px;" class="newState">有新动态</span>
+						<span style="font-size: 12px;" class="newManu">有新稿件</span>
+					</div>
+					<div style="float: right;">
+						<div class="ConE-bt" style="margin-top: 10px;margin-left:20px;float: right;font-size: 12px;width: 120px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+						<div class="ConE-bt" style="margin-top: 10px;float: right;font-size: 12px;width: 120px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">788878369条新动态</div>
+					</div>
+				</div>
+				<div class="left-main newStateLis">
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="left-main newManuLis">
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="right">
+				<div class="right-top">
+					<span style="font-size: 24px;font-weight: bold;margin-left: 20px;">排行</span>
+					<span style="font-size: 12px;margin-left: 20px;cursor: pointer;" class="allCartoon">全部</span>
+					<span style="font-size: 12px;margin-left: 20px;cursor: pointer;" class="originalCartoon">原创</span>
+					<div class="selected" style="position: relative;margin-top: 10px;margin-left:20px;float: right;font-size: 12px;width: 40px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">
+						一周
+						<div class="selected-cd">
+							周三
+						</div>
+					</div>
+				</div>
+				<div class="right-main allCartoonlis">
+					<div class="right-main-lis" style="width: 260px;display: flex;font-size: 12px;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;margin-right: 8px;">1</div>
+						<div style="width: 240px;display: flex;">
+							<img src="img/_20190709142233.png" />《崩坏3》动画短片「天使重构」正式发布！
+						</div>
+
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">2</div>
+						这动画也太沙雕了！2019七月新番吐槽大盘点！（第一弹）
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">3</div>
+						征程【凹凸世界超豪华20P/群像配音/同人手书动画剧情歌】
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">4</div>
+						奶爆新番！七月最值得期待的10部动画！最后一部竟然出乎意料！「泛式/七月新番导视」
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">5</div>
+						请问UP主，男主变恶魔男二变妹子是什么番？阅片无数的请进！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">6</div>
+						小小的垃圾分类竟道出国人心声！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">7</div>
+						【Fate手书】与名为命运的怪物战斗的英雄们
+					</div>
+					<div class="right-main-bt" style="font-size: 12px;width: 260px;height: 26px;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+				</div>
+				<div class="right-main originalCartoonlis">
+					<div class="right-main-lis" style="width: 260px;display: flex;font-size: 12px;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;margin-right: 8px;">1</div>
+						<div style="width: 240px;display: flex;">
+							<img src="img/_20190709151304.png" />红气喘为哪般？七月新番吐槽第一波
+						</div>
+
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">2</div>
+						前方极致盛宴！！！请戴好耳机！戴好耳机！！！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">3</div>
+						全B站首部互动推理动画视频上线了！[神探·埃尔梅罗二世]
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">4</div>
+						【仙剑奇侠传一】片头惨遭动画化 神还原
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">5</div>
+						我算出了四代飞雷神的速度，b站第一人
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">6</div>
+						【明日方舟手书】Be Affected【学园大香蕉ed再现】
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">7</div>
+						【明日方舟】刀客塔的日常
+					</div>
+					<div class="right-main-bt" style="font-size: 12px;width: 260px;height: 26px;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="AD">
+			<img src="img/e71793edcd5f37c30ab7bfe89d1b5061.jpg" alt="" style="width: 1160px;height: 96px;" />
+		</div>
+		<div class="ConF">
+			<div class="left">
+				<div class="left-top">
+					<div style="float: left;" id="a6">
+						<div class="con" style=" background: url(img/icons.png) -141px -461px;width: 40px;height: 40px;"></div>
+						<span style="font-size: 24px;font-weight: bold;">综合</span>
+						<span style="font-size: 12px;" class="newState">有新动态</span>
+						<span style="font-size: 12px;" class="newManu">有新稿件</span>
+					</div>
+					<div style="float: right;">
+						<div class="ConF-bt" style="margin-top: 10px;margin-left:20px;float: right;font-size: 12px;width: 120px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+						<div class="ConF-bt" style="margin-top: 10px;float: right;font-size: 12px;width: 120px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">788878369条新动态</div>
+					</div>
+				</div>
+				<div class="left-main newStateLis">
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190708231700.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">【王老菊】奴隶阿飞的励志人生05</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="left-main newManuLis">
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="main-lf">
+						<div class="lis" style="background: url(img/_20190709131459.png);background-size:100%;width: 160px;height: 100px;">
+							<div class="lis-m">
+								<p style="color: #99A2AA;margin-left: 5px;font-size: 12px;margin-top:70px;height: 14px;">30:14</p>
+								<div class="laterBt"></div>
+							</div>
+						</div>
+						<div class="home-m2">精灵宝可梦：波尔凯尼恩与机巧的玛机雅娜</div>
+						<div class="home-m3">
+							<div style="background: white;">
+								<div class="con" style=" background: url(img/icons.png) -282px -90px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									2.6万
+								</div>
+								<div class="con" style=" background: url(img/icons.png) -282px -218px;width: 20px;height: 20px;"></div>
+								<div class="con" style="font-size: 12px;color: #98A3AC;height: 20px;line-height: 15px;">
+									54
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="right">
+				<div class="right-top">
+					<span style="font-size: 24px;font-weight: bold;margin-left: 20px;">排行</span>
+					<span style="font-size: 12px;margin-left: 20px;cursor: pointer;" class="allCartoon">全部</span>
+					<span style="font-size: 12px;margin-left: 20px;cursor: pointer;" class="originalCartoon">原创</span>
+					<div class="selected" style="position: relative;margin-top: 10px;margin-left:20px;float: right;font-size: 12px;width: 40px;height: 24px;border: 1px #CCD0D7 solid;border-radius: 5px;text-align: center;line-height: 24px;">
+						一周
+						<div class="selected-cd">
+							周三
+						</div>
+					</div>
+				</div>
+				<div class="right-main allCartoonlis">
+					<div class="right-main-lis" style="width: 260px;display: flex;font-size: 12px;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;margin-right: 8px;">1</div>
+						<div style="width: 240px;display: flex;">
+							<img src="img/_20190709142233.png" />《崩坏3》动画短片「天使重构」正式发布！
+						</div>
+
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">2</div>
+						这动画也太沙雕了！2019七月新番吐槽大盘点！（第一弹）
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">3</div>
+						征程【凹凸世界超豪华20P/群像配音/同人手书动画剧情歌】
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">4</div>
+						奶爆新番！七月最值得期待的10部动画！最后一部竟然出乎意料！「泛式/七月新番导视」
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">5</div>
+						请问UP主，男主变恶魔男二变妹子是什么番？阅片无数的请进！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">6</div>
+						小小的垃圾分类竟道出国人心声！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">7</div>
+						【Fate手书】与名为命运的怪物战斗的英雄们
+					</div>
+					<div class="right-main-bt" style="font-size: 12px;width: 260px;height: 26px;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+				</div>
+				<div class="right-main originalCartoonlis">
+					<div class="right-main-lis" style="width: 260px;display: flex;font-size: 12px;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;margin-right: 8px;">1</div>
+						<div style="width: 240px;display: flex;">
+							<img src="img/_20190709151304.png" />红气喘为哪般？七月新番吐槽第一波
+						</div>
+
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">2</div>
+						前方极致盛宴！！！请戴好耳机！戴好耳机！！！
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #F25D8E;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">3</div>
+						全B站首部互动推理动画视频上线了！[神探·埃尔梅罗二世]
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">4</div>
+						【仙剑奇侠传一】片头惨遭动画化 神还原
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">5</div>
+						我算出了四代飞雷神的速度，b站第一人
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">6</div>
+						【明日方舟手书】Be Affected【学园大香蕉ed再现】
+					</div>
+					<div class="right-main-lis" style="width: 260px;font-size: 12px;text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
+						<div style="width: 20px;height: 20px;background: #B8C0CC;border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;float: left;margin-right: 8px;">7</div>
+						【明日方舟】刀客塔的日常
+					</div>
+					<div class="right-main-bt" style="font-size: 12px;width: 260px;height: 26px;border-radius: 5px;text-align: center;line-height: 24px;">更多></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="BOM">
+			<div class="flooter">
+				<div class="top" style="display: flex;">
+					<div class="left" style="width: 400px;display: flex;height: 112px;">
+						<a href="">bilibili</a>
+						<a href="">关于我们</a>
+						<a href="">联系我们</a>
+						<a href="">加入我们</a>
+						<a href="">友情链接</a>
+						<a href="">bilibili认证</a>
+						<a href="">Investor Relations</a>
+					</div>
+					<div class="med" style="width: 420px;display: flex;height: 112px;">
+						<a href="">传送门</a>
+						<a href="">帮助中心</a>
+						<a href="">高级弹幕</a>
+						<a href="">活动专题页</a>
+						<a href="">侵权申诉</a>
+						<a href="">活动中心</a>
+						<a href="">用户反馈论坛</a>
+						<a href="">壁纸站</a>
+						<a href="">名人堂</a>
+						<a href="">专车号服务中心</a>
+					</div>
+					<div class="right" style="width: 320px;display: flex;height: 112px;">
+						<div>
+							<div class="con" style=" background: url(img/icons.png) -1024px -194px;width: 60px;height: 60px;"></div>
+							客户端下载
+						</div>
+						<div>
+							<div class="con" style=" background: url(img/icons.png) -1024px -322px;width: 60px;height: 60px;"></div>
+							新浪微博
+						</div>
+						<div>
+							<div class="con" style=" background: url(img/icons.png) -1024px -66px;width: 60px;height: 60px;"></div>
+							官方微信
+						</div>
+					</div>
+				</div>
+
+				<div class="flooter-cnt">
+					<div><img src="img/_20190709155635.png" alt="" /></div>
+					<div>
+						<a href="">广播电视节目制作经营许可证：（沪）字第1248号 | 网络文化经营许可证：沪网文[2016]2296-134号 | 信息网络传播视听节目许可证：0910417 | 互联网ICP备案：沪ICP备13002172号-3 沪ICP证：沪B2-20100043 | 违法不良信息举报邮箱：help@bilibili.com | 违法不良信息举报电话：4000233233转3 | 营业执照</a>
+						<br />
+						<a href=""> 上海互联网举报中心 |12318 全国文化市场举报网站 | 沪公网安备 31011002002436号 |儿童色情信息举报专区</a>
+						<br />
+						<a href="">网上有害信息举报专区： 中国互联网违法和不良信息举报中心</a>
+						<br />
+						<a href="">亲爱的市民朋友，上海警方反诈劝阻电话“962110”系专门针对避免您财产被骗受损而设，请您一旦收到来电，立即接听。</a>
+						<br />
+						<a href="">公司名称：上海宽娱数码科技有限公司 | 公司地址：上海市杨浦区政立路485号 | 电话：021-25099888</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="nav-top" style=" background: url(img/icons.png) -648px -72px;width: 50px;height: 50px;">
+			<a href="#nav-mask" style="display: block;width: 40px;height: 40px;"></a>
+		</div>
+	</body>
+
+</html>

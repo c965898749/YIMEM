@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSDN登录</title>
+    <style>
+        body{
+            background: #F5F6F7;
+        }
+        .contain{
+            width: 1200px;
+            height: 500px;
+            margin: 50px auto;
+        }
+        .adContain{
+            width: 575px;
+            height: 100%;
+            /*border: 1px solid #D4D4D4;*/
+            box-sizing: border-box;
+            float: left;
+            background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566631172661&di=1fa109774d26850386abebbb7b29742d&imgtype=0&src=http%3A%2F%2Fs16.sinaimg.cn%2Fbmiddle%2F4bc4d417g5eeee3f9b05f");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            color: red;
+            font-size: 20px;
+        }
+        .formContain{
+            width: 575px;
+            height: 85%;
+            border: 1px solid #D4D4D4;
+            box-sizing: border-box;
+            float: right;
+            background: white;
+        }
+        .downloadImgContain{
+            width: 575px;
+            height: 424px;
+            position: absolute;
+            top: 50px;
+            background-image: url("imgs/saoma/download.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            display: none;
+        }
+        .downloadContain{
+            width: 575px;
+            height: 10%;
+            float: right;
+            margin-top: 25px;
+
+        }
+        .downloadContain button{
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            background: red;
+            border-radius:10px;
+            font-size: 20px;
+            cursor: pointer;
+            color: white;
+        }
+        .fromAlign{
+            width: 70%;
+            height: 70%;
+            margin: 40px auto;
+        }
+        .fromAlign input{
+            width: 100%;
+            height: 50px;
+            border:1px solid  #D4D4D4 ;
+            outline: none;
+            font-size:15px;
+            padding-left: 15px;
+            box-sizing: border-box;
+        }
+        .fromAlign button{
+            width: 100%;
+            height: 50px;
+            border:none;
+            outline: none;
+            font-size: 20px;
+            background: #D4D4D4;
+            cursor: pointer;
+        }
+        .loginText{
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+        }
+        .acountContain{
+            width: 100%;
+            margin: 30px auto;
+        }
+        .pawContain{
+            width: 100%;
+            margin: 0 auto;
+        }
+        .submitContain{
+            width: 100%;
+            text-align: center;
+            margin: 30px auto;
+        }
+        .errorContain{
+            width: 100%;
+            color: red;
+        }
+        .regist{
+            margin-left: 10px;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div class="contain">
+    <div class="adContain"></div>
+    <div class="formContain">
+        <div class="fromAlign">
+            <form onsubmit="return false">
+                <div class="loginText">登 &nbsp;&nbsp;&nbsp; 录</div>
+                <div class="acountContain">
+                    <input type="text" name="username" placeholder="请输入用户名">
+                </div>
+                <div class="pawContain">
+                    <input type="password" name="password" placeholder="请输入密码">
+                </div>
+                <div class="errorContain"></div>
+                <div class="submitContain">
+                    <button type="button">登录</button>
+                </div>
+            </form>
+            <div class="regist"><a href="index.html">返回首页</a></div>
+            <div class="regist"><a href="register.html">注册新账号</a></div>
+        </div>
+        <div class="downloadImgContain"></div>
+    </div>
+    <div class="downloadContain">
+        <button>下载CSDN APP</button>
+    </div>
+</div>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+</body>
+<script>
+    //下载二维码点击事件
+    $(".downloadContain button").click(function () {
+        if($(".downloadContain button").text()=="下载CSDN APP"){
+            $(".downloadContain button").text("关闭二维码")
+            $(".downloadImgContain").slideToggle()
+        }else {
+            $(".downloadContain button").text("下载CSDN APP")
+            $(".downloadImgContain").slideToggle()
+        }
+    })
+    //登录点击事件
+    $(".submitContain button").click(function () {
+        var errorObj=$(".errorContain")
+        var username=$("input[name='username']").val()
+        var password=$("input[name='password']").val()
+        if(!username){
+            errorObj.text("用户名不能为空")
+            return false
+        }
+        if(!password){
+            errorObj.text("密码不能为空")
+            return false
+        }
+        $.ajax({
+            url:"loginVerification"
+            ,type:"post"
+            ,data:{"username":username,"userpassword":password}
+            ,dataType:"json"
+            ,success:function (jsonData) {
+                if(jsonData.success==0){
+                    errorObj.text(jsonData.errorMsg)
+                }else {
+                    alert(username+"您已登录成功！")
+                    if(document.referrer=== ''){
+                        location.href="userHomepage.html"
+                    }else if (document.referrer.indexOf('register.html') != -1){
+                        location.href="index.html"
+                    }else {
+                        location.href=document.referrer;
+                    }
+                }
+            }
+            ,error:function (res) {
+                console.log("ajax提交错误")
+            }
+        })
+    })
+
+</script>
+</html>

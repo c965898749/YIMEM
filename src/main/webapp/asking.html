@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发问答</title>
+    <script type="text/javascript" src="syntax/scripts/shCore.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushJava.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushCss.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushPython.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushPhp.js"></script>
+    <link type="text/css" rel="stylesheet" href="syntax/styles/shCoreDefault.css"/>
+    <script type="text/javascript" src="kindeditor/kindeditor-all.js"></script>
+    <script type="text/javascript" src="kindeditor/plugins/code/code.js"></script>
+    <script type="text/javascript" src="kindeditor/lang/zh-CN.js"></script>
+    <link rel="stylesheet" href="kindeditor/themes/default/default.css"/>
+    <script src="js/include.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body {
+            background: #F3F3F3;
+        }
+        #questions_html{
+            border-bottom: 2px red solid;
+        }
+        .title {
+            width: 1200px;
+            height: 40px;
+            margin: 10px auto;
+        }
+
+        .title input {
+            height: 100%;
+            width: 930px;
+            outline: none;
+            border: 1px solid #E0E0E0;
+            box-sizing: border-box;
+            padding: 0 10px;
+            font-size: 18px;
+            border-radius: 10px;
+        }
+
+        .title button {
+            height: 100%;
+            width: 100px;
+            outline: none;
+            border-radius: 5px;
+            border: none;
+            background: red;
+            color: white;
+            font-size: 18px;
+            margin-left: 30px;
+            cursor: pointer;
+        }
+
+        .headImg {
+            /*width: 40px;*/
+            /*height: 40px;*/
+            /*border-radius: 20px;*/
+            float: right;
+            box-sizing: border-box;
+            /*margin-left: 10px;*/
+            /*background-image: url("//profile.csdnimg.cn/4/2/0/2_guanguoyi");*/
+            /*background-repeat: no-repeat;*/
+            /*background-size: 100% 100%;*/
+            vertical-align: middle;
+            cursor: pointer;
+            line-height: 40px;
+
+        }
+
+        .allContain {
+            height: 1000px;
+            width: 1200px;
+            margin: 0 auto;
+        }
+
+        .textareaContain {
+            height: 1000px;
+            width: 1130px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .textareaContain textarea {
+            /*width:550px;*/
+            height: 100%;
+        }
+
+        .view {
+            height: 1000px;
+            width: 580px;
+            float: right;
+            box-sizing: border-box;
+            background-color: white;
+            margin-left: 10px;
+            vertical-align: top;
+            display: none;
+            overflow:auto
+        }
+
+        .folw {
+            height: 1000px;
+            width: 50px;
+            box-sizing: border-box;
+            background-color: white;
+            line-height: 1000px;
+            text-align: center;
+            font-size: 50px;
+            vertical-align: top;
+            cursor: pointer;
+            /*float: right;*/
+            /*margin-right: 5px;*/
+            display: inline-block;
+            margin-left: 5px;
+        }
+        .typeContain{
+            height: 50px;
+            width: 1200px;
+            margin: 0 auto;
+        }
+        .publishForm{
+            /*width: 100px;*/
+            margin: 0 50px;
+        }
+        .publishForm select{
+           height: 30px;
+            width: 100px;
+            outline: none;
+            border: 1px solid #E0E0E0;
+        }
+        .publishForm input{
+            height: 20px;
+            width: 20px;
+            outline: none;
+            border: 1px solid #E0E0E0;
+            vertical-align: middle;
+        }
+        .publishForm span{
+           margin: 0 20px;
+        }
+        .money{
+            margin: 0 !important;
+        }
+        #titleContai{
+            margin-top: -10px;
+        }
+    </style>
+</head>
+<body>
+<div id="titleContai">
+    <include src="title.html" ></include>
+</div>
+<div class="title">
+    <input type="text" placeholder="输入文章标题">
+    <span>0</span>/100
+    <button>发布文章</button>
+    <!--<div class="headImg">-->
+
+        <!--未登入-->
+    <!--</div>-->
+</div>
+<div class="typeContain">
+    <div class="publishForm">
+        <input type="checkbox" name="award">
+        <span>悬赏</span>
+        <select >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="40">40</option>
+            <option value="80">80</option>
+            <option value="100">100</option>
+            <option value="500">500</option>
+            <option value="1000">1000</option>
+        </select>
+        ￥
+        <span >我的余额：<span class="money">0</span></span>
+    </div>
+</div>
+<div class="allContain">
+    <div class="textareaContain">
+        <textarea id="editor_id" name="content"></textarea>
+    </div>
+    <div class="folw">＜</div>
+    <div class="view">
+    </div>
+</div>
+
+</body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+    //获取当前用户
+    function getUser() {
+        var data;
+        $.ajax({
+            url: "isEnter"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                //console.log(jsonData)
+                if (jsonData.success == 1) {
+                    data = jsonData.data;
+                }
+            }
+            , error: function (res) {
+                console.log("ajax提交错误")
+            }
+        })
+        return data;
+    }
+
+    //获取登入者ID
+    var user = getUser();
+    var userID = 0;
+    if (user) {
+        userID = user.userId
+    //     $(".headImg").html(`<img src="${user.headImg}" width="40px" height="40px" style="border-radius: 20px">`)
+    //     $(".money").text(user.askmoney)
+    // }else {
+    //     $(".headImg").text("去登入")
+    }
+    //头像点击事件
+    // $(".headImg").click(function () {
+    //     if(user){
+    //         location.href = "userHomepage.html"
+    //     }else {
+    //         location.href="login.html"
+    //     }
+    // })
+    KindEditor.ready(function (K) {
+        window.editor = K.create('#editor_id', {
+            items: [
+                "redo", "|", "undo", "|", "bold", "|", "italic", "|", "strikethrough", "|", "insertorderedlist", "|",
+                "insertunorderedlist", "|", "code", "|", "formatblock", "|", "table", "|", "link", "|", "unlink", "|",
+                "image", "|", "fontname", "|", "fontsize", "|", "forecolor", "|", "preview", "|", "removeformat", "|", "fullscreen",
+                "clearhtml", "|", "quickformat"
+            ], width: '100%',
+            uploadJson: 'imgUpload',
+            fillDescAfterUploadImage:true,
+            allowUpload: true,
+            afterUpload: function (url) {
+                console.log(url)   //上传图片的路径
+            },
+            afterChange:function () {
+                $(".view").html(this.html())
+                SyntaxHighlighter.highlight()
+            }
+        });
+        //发布文章点击事件
+         $("button").click(function () {
+             var integralNeed=0;
+             var title=$(".title input").val()
+             var content=editor.html();
+             var isaward=$(".publishForm input").prop('checked')
+             if(isaward){
+                 integralNeed=$(".publishForm select").val()
+             }
+             console.log(integralNeed)
+             if(!user){
+                 alert("请登录后再发布！")
+                 location.href="login.html"
+                 return false
+             }
+             if(!title){
+                 alert("请输入文章标题再发布！")
+                 return false
+             }
+             if(title.length>100){
+                 alert("标题长度不能超过100！")
+                 return false
+             }
+             if(!editor.html()){
+                 alert("请输入文章正文后再发布！")
+                 return false
+             }
+             $.ajax({
+                 url: "addNewAsk"
+                 , type: "post"
+                 ,data:{"askName":title,"askText":content,"integralNeed":integralNeed,"userId":userID}
+                 , dataType: "json"
+                 ,async:false
+                 , success: function (jsonData) {
+                     console.log(jsonData)
+                     if (jsonData.success == 1) {
+                         alert("发布成功！")
+                         location.href="askInfor.html?askId="+jsonData.data
+                     }else {
+                         alert(jsonData.errorMsg)
+                     }
+                 }
+                 , error: function (res) {
+                     console.log("发布问答事件ajax提交错误")
+                 }
+             })
+         })
+
+
+        //预览点击事件
+        $(".folw").click(function () {
+            var type = $(".folw").text()
+            if (type == "＞") {
+                type = $(".folw").text("＜")
+                $(".view").css("display", "none")
+                $(".textareaContain").css("width", "1130px")
+            } else {
+                type = $(".folw").text("＞")
+                $(".view").css("display", "block")
+                $(".textareaContain").css("width", "550px")
+
+            }
+            // $(".view").html($(".view").html())
+        })
+
+
+    });
+    $(".title input").keyup(function () {
+        $(".title span").text($(".title input").val().length)
+    })
+
+
+</script>
+</html>

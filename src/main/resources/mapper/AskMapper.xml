@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.AskMapper">
+    <!--根据条件查询所有问答明细-->
+    <select id="selectAsksByCondition" resultType="com.sy.model.Ask">
+        select * from ask
+        <where>
+            <if test="ask.solve != null">
+                and solve = #{ask.solve}
+            </if>
+            <if test="ask.award ==1 ">
+                and award = #{ask.award}
+            </if>
+        </where>
+        <if test="time == 1 and askNum==0 ">
+            order by createTime desc
+        </if>
+    </select>
+    <!--根据问答Id查询标签-->
+    <select id="selectAsklabelsByAskId" resultType="com.sy.model.Ask_label">
+        select * from ask_label where askId=#{askId}
+    </select>
+    <!--根据标签ID查询标签-->
+    <select id="selectSelabelByLabelId" resultType="com.sy.model.Se_label">
+        select * from se_label where seLabelId=#{labelId}
+    </select>
+    <!--根据问答Id获取回答总数量-->
+    <select id="selectAnswerCountByAskId" resultType="java.lang.Integer">
+        select count(*) from answer_ask where askId=#{askId}
+    </select>
+    <!--根据问答ID获取同问数量-->
+    <select id="selectAllAlsoAskConuntByAskID" resultType="java.lang.Integer">
+        select count(*) from alsoask where askId=#{askId}
+    </select>
+    <!--根据UserID获取同问数量-->
+    <select id="selectAllAlsoAskConuntByUserID" resultType="java.lang.Integer">
+        select count(*) from alsoask where userId=#{userId}
+    </select>
+    <!--根据问答ID获取问答关注人数-->
+    <select id="selectAskInvPerCountByAskID" resultType="java.lang.Integer">
+        select count(*) from collectitems where askID=#{askId}
+    </select>
+    <!--根据UserId获取所有问答-->
+    <select id="selectAsksByUserId" resultType="com.sy.model.Ask">
+        select * from ask where userId=#{userId}
+    </select>
+    <!--根据UserId获取回答总数-->
+    <select id="selectAnswerCountByUserId" resultType="java.lang.Integer">
+        select count(*) from answer_ask where userId=#{userId}
+    </select>
+    <!--新增问答-->
+    <insert id="insertNewAsk" parameterType="com.sy.model.Ask" useGeneratedKeys="true" keyColumn="askId" keyProperty="askId">
+        <if test="integralNeed ==0 ">
+            INSERT into ask(userId,askName,askText,integralNeed,award) VALUES(#{userId},#{askName},#{askText},#{integralNeed},0);
+        </if>
+        <if test="integralNeed !=0 ">
+            INSERT into ask(userId,askName,askText,integralNeed,award) VALUES(#{userId},#{askName},#{askText},#{integralNeed},1);
+        </if>
+
+    </insert>
+    <!--根据问答ID获取问答明细-->
+    <select id="selectAskByAskid" resultType="com.sy.model.Ask">
+        select * from ask where askId=#{askId}
+    </select>
+    <!--根据问答ID获取所有回答-->
+    <select id="selectAllAnswerByAskid" resultType="com.sy.model.Answer_ask">
+        select * from answer_ask where askId=#{askId}
+    </select>
+    <!--添加问答回复-->
+    <insert id="insertAnswerAsk" >
+        INSERT into answer_ask(answerAskText,askId,userId) VALUES(#{answerAskText},#{askId},#{userID});
+    </insert>
+    <!--添加收藏夹事件-->
+    <insert id="addAskTocollect" >
+       insert into collectitems(askID,collectid) values (#{askID},#{collectid})
+    </insert>
+    <!--根据问答ID和收藏夹ID查看是否收藏过记录-->
+    <select id="selectByAskIdAndCollectid"  resultType="java.lang.Integer">
+       select count(*) from  collectitems where askID=#{askID} and collectid=#{collectid}
+    </select>
+    <!--新增同问记录-->
+    <insert id="insertNewAlsoask" >
+       insert into alsoask(askId,userId) values (#{askId},#{userId})
+    </insert>
+    <!--根据问答ID和userID查询是否同问过-->
+    <select id="selectalsoaskByaskidAndUserId"  resultType="java.lang.Integer">
+       select count(*) from  alsoask where askId=#{askId} and userId=#{userId}
+    </select>
+
+
+</mapper>

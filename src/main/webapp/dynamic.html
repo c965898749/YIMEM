@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+		<script src="layui/layui.all.js"></script>
+		<style>
+			*{
+				background: white;
+			}
+			.container {
+				margin: 0 auto;
+				width: 400px;
+			}
+			
+			.container .layui-tab .layui-tab-content .state {
+				margin-top: 10px;
+				display: flex;
+				width: 400px;
+			}
+			.container .layui-tab .layui-tab-content .state:hover {
+				background: #E5E9EF;
+			}
+			
+			.container .layui-tab .layui-tab-content .state div {
+				margin-left: 10px;
+				/*	margin-top: 10px;*/
+			}
+			
+			.container .layui-tab .layui-tab-content .title {
+				/*溢出省略*/
+				width: 300px;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+				color: #47BBE1;
+			}
+			
+			.container .layui-tab .layui-tab-content input[type="button"] {
+				display: block;
+			/*	text-align: center;*/
+				width: 350px;
+				height: 20px;
+				color: black;
+				background: #EEF3FA;
+				/*font-weight: bold;*/
+				font-size: 12px;
+				border: none;
+				cursor: pointer;
+			}
+			
+			.container .layui-tab .layui-tab-content  input[type="button"]:hover {
+				background: #CCD0D7;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="layui-tab">
+				<ul class="layui-tab-title">
+					<li class="layui-this">视频</li>
+					<li>直播</li>
+					<li>专栏</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item layui-show">
+						<span style="color: #A1A9B0;">历史动态</span>
+						<div>
+							<ul>
+								<li>
+									<div class="state">
+										<div><img src="img/u=3361934473,3725527506&fm=27&gp=0.jpg" alt="" class="headerimg" style="width: 40px;height: 40px;" /></div>
+										<div>
+											<div><img src="img/_20190708155125.png" alt="" />竖笛小魔王 <span style="color: #A1A9B0;">投稿了</span> </div>
+											<div class="title">【SBR01】GO！GO！ZEPPELI！GO！GO！Johnny！sdfsddfsdfsdfs</div>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="state">
+										<div><img src="img/u=4259300811,497831842&fm=27&gp=0.jpg" alt="" class="headerimg" style="width: 40px;height: 40px;" /></div>
+										<di>
+											<div><img src="img/_20190708155125.png" alt="" /> 森纳映画 <span style="color: #A1A9B0;">投稿了</span> </div>
+											<div class="title">小时候玩的FC打鸭子游戏竟变成了恐怖游戏？〖游戏不止〗</div>
+										</di>
+									</div>
+
+								</li>
+								<li>
+									<div class="state">
+										<div><img src="img/u=4259300811,497831842&fm=27&gp=0.jpg" alt="" class="headerimg" style="width: 40px;height: 40px;" /></div>
+										<div>
+											<div><img src="img/_20190708155125.png" alt="" /> 森纳映画 <span style="color: #A1A9B0;">投稿了</span></div>
+											<div class="title">小时候玩的FC打鸭子游戏竟变成了恐怖游戏？〖游戏不止〗</div>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="state">
+										<div><img src="img/u=4259300811,497831842&fm=27&gp=0.jpg" alt="" class="headerimg" style="width: 40px;height: 40px;" /></div>
+										<div>
+											<div> 森纳映画 <span style="color: #A1A9B0;">投稿了</span></div>
+											<div class="title">小时候玩的FC打鸭子游戏竟变成了恐怖游戏？〖游戏不止〗</div>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="state">
+										<div><img src="img/u=4259300811,497831842&fm=27&gp=0.jpg" alt="" class="headerimg" style="width: 40px;height: 40px;" /></div>
+										<div>
+											<div><img src="img/_20190708155125.png" alt="" /> 森纳映画 <span style="color: #A1A9B0;">投稿了</span></div>
+											<div class="title">小时候玩的FC打鸭子游戏竟变成了恐怖游戏？〖游戏不止〗</div>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="state">
+										<div><img src="img/u=4259300811,497831842&fm=27&gp=0.jpg" alt="" class="headerimg" style="width: 40px;height: 40px;" /></div>
+										<div>
+											<div><img src="img/_20190708155125.png" alt="" /> 森纳映画 <span style="color: #A1A9B0;">投稿了</span></div>
+											<div class="title">小时候玩的FC打鸭子游戏竟变成了恐怖游戏？〖游戏不止〗</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<input type="button" class="state" value="查看全部>" />
+						</div>
+					</div>
+					<div class="layui-tab-item">
+						<div><img src="img/微信截图_20190708155332.png"/></div>
+					</div>
+					<div class="layui-tab-item">
+						<span style="color: #A1A9B0;">历史动态</span>
+						<div>
+							<ul>
+								<li>
+									<div class="state">
+										<div><img src="img/u=3361934473,3725527506&fm=27&gp=0.jpg" alt="" class="headerimg" style="width: 40px;height: 40px;" /></div>
+										<div>
+											<div><img src="img/_20190708155125.png" alt="" />竖笛小魔王 <span style="color: #A1A9B0;">投稿了</span> </div>
+											<div class="title">【SBR01】GO！GO！ZEPPELI！GO！GO！Johnny！sdfsddfsdfsdfs</div>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="state">
+										<div><img src="img/u=4259300811,497831842&fm=27&gp=0.jpg" alt="" class="headerimg" style="width: 40px;height: 40px;" /></div>
+										<di>
+											<div><img src="img/_20190708155125.png" alt="" /> 森纳映画 <span style="color: #A1A9B0;">投稿了</span> </div>
+											<div class="title">小时候玩的FC打鸭子游戏竟变成了恐怖游戏？〖游戏不止〗</div>
+										</di>
+									</div>
+
+								</li>
+								<li>
+									<div class="state">
+										<div><img src="img/u=4259300811,497831842&fm=27&gp=0.jpg" alt="" class="headerimg" style="width: 40px;height: 40px;" /></div>
+										<div>
+											<div><img src="img/_20190708155125.png" alt="" /> 森纳映画 <span style="color: #A1A9B0;">投稿了</span></div>
+											<div class="title">小时候玩的FC打鸭子游戏竟变成了恐怖游戏？〖游戏不止〗</div>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="state">
+										<div><img src="img/u=4259300811,497831842&fm=27&gp=0.jpg" alt="" class="headerimg" style="width: 40px;height: 40px;" /></div>
+										<div>
+											<div> 森纳映画 <span style="color: #A1A9B0;">投稿了</span></div>
+											<div class="title">小时候玩的FC打鸭子游戏竟变成了恐怖游戏？〖游戏不止〗</div>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="state">
+										<div><img src="img/u=4259300811,497831842&fm=27&gp=0.jpg" alt="" class="headerimg" style="width: 40px;height: 40px;" /></div>
+										<div>
+											<div><img src="img/_20190708155125.png" alt="" /> 森纳映画 <span style="color: #A1A9B0;">投稿了</span></div>
+											<div class="title">小时候玩的FC打鸭子游戏竟变成了恐怖游戏？〖游戏不止〗</div>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="state">
+										<div><img src="img/u=4259300811,497831842&fm=27&gp=0.jpg" alt="" class="headerimg" style="width: 40px;height: 40px;" /></div>
+										<div>
+											<div><img src="img/_20190708155125.png" alt="" /> 森纳映画 <span style="color: #A1A9B0;">投稿了</span></div>
+											<div class="title">小时候玩的FC打鸭子游戏竟变成了恐怖游戏？〖游戏不止〗</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<input type="button" class="state" value="进入专栏>" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<script>
+				//注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+				layui.use('element', function() {
+					var element = layui.element;
+
+					//…
+				});
+			</script>
+		</div>
+	</body>
+
+</html>

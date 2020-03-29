@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.6.xsd">
+
+    <!--<rabbit:connection-factory id="connectionFactory" virtual-host="${rabbitmq.vhost}"-->
+        <!--host="${rabbitmq.host}" username="${rabbitmq.username}"-->
+         <!--password="${rabbitmq.password}"-->
+        <!--port="${rabbitmq.port}" />-->
+    <!--<rabbit:admin connection-factory="connectionFactory" />-->
+
+    <rabbit:connection-factory id="connectionFactory" virtual-host="/"
+                               host="45.40.240.107" username="admin"
+                               password="123456"
+                               port="5672" />
+    <rabbit:admin connection-factory="connectionFactory" />
+    <!-- 声明消息队列，消息系统监听队列 -->
+    <!-- messageQueue 是在（1）中创建的队列 -->
+    <rabbit:queue id="messageQueue" durable="true"
+        auto-delete="false" exclusive="false" name="messageQueue" />
+
+    <!-- exchange queue binging key 绑定 -->
+    <!--声明交换 在（1）配置的交换-->
+    <rabbit:topic-exchange name="messageExchange"
+        durable="true" auto-delete="false" id="messageExchange">
+        <rabbit:bindings>
+            <!-- 声明队列和交换的关系 -->
+            <rabbit:binding pattern="message.*" queue="messageQueue"></rabbit:binding>
+        </rabbit:bindings>
+    </rabbit:topic-exchange>
+
+    <rabbit:template exchange="messageExchange" id="rabbitTemplate"
+        connection-factory="connectionFactory" />
+
+    <rabbit:listener-container
+        connection-factory="connectionFactory" acknowledge="auto">
+        <!-- 让消费者监听这个队列 -->
+        <rabbit:listener ref="messageConsumer" queue-names="messageQueue"  />
+        <!-- queues="messageQueue" -->
+    </rabbit:listener-container>
+    <!--声明生产者-->
+    <!--<bean id="messageSender" class="com.sy.amqp.MessageSender">-->
+        <!--<property name="amqpTemplate" ref="rabbitTemplate"></property>-->
+        <!--&lt;!&ndash; <property name="routingKey" value="message.test" ></property> &ndash;&gt;-->
+    <!--</bean>-->
+    <!--声明消费者 -->
+    <bean id="messageConsumer" class="com.sy.amqp.MessageConsumer" />
+
+
+</beans>

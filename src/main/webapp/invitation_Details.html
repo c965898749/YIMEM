@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>论坛详情</title>
+        <script src="jquery/jquery.js"></script>
+        <link rel="stylesheet" href="layui/css/layui.css">
+        <link rel="stylesheet" href="css/css.css">
+        <style>
+
+            body {
+                background-color: #F5F6F7;
+            }
+
+            * {
+                margin: 0px;
+                padding: 0px;
+            }
+            .TOP{
+                margin: 0 auto;
+            }
+            .TOP-nav{
+                width: 720px;
+            }
+            .Faquality:hover .quality {
+                display: block;
+            }
+
+            .quality {
+                display: none;
+            }
+
+            .TOP .TOP-nav .Faquality .quality {
+                padding: 20px;
+                box-sizing: border-box;
+                /*margin-top: 5px;*/
+            }
+
+            .TOP .TOP-nav .Faquality .quality thead th,
+            .TOP .TOP-nav .Faquality .quality tbody td {
+                /*margin-top: 10px;*/
+                width: 160px;
+                /*height: 20px;*/
+                text-align: center;
+                line-height: 25px;
+            }
+
+            .TOP .TOP-nav .Faquality .quality tbody td a {
+                color: #337ABD;
+                cursor: pointer;
+                font-size: 12px;
+            }
+
+
+            .left-nav {
+                width: 200px;
+                height: 800px;
+                border: 2px #E3E6E8 solid;
+                /*background-color: #0C0C0C;*/
+                position: fixed;
+                top: 100px;
+                z-index: 99999;
+            }
+
+            .shousuo {
+                position: fixed;
+                z-index: 9999999;
+                left: 200px;
+                top: 360px;
+            }
+
+            .NN {
+                width: 1200px;
+                margin: 0 auto;
+            }
+
+            .NN .top {
+                margin-top: 30px;
+                width: 1200px;
+                background-color: white;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            .NN .nav {
+                background-color: white;
+                margin-top: 10px;
+                width: 1200px;
+                height: 40px;
+                /*display: flex;*/
+                justify-content: space-between;
+                padding: 10px;
+                box-sizing: border-box;
+                color: #999999;
+            }
+
+            .NN .nav-sec {
+                margin-top: 4px;
+                background-color: white;
+                width: 1200px;
+                height: 40px;
+            }
+
+            .NN .context {
+                /*margin-top: 30px;*/
+                width: 1200px;
+                background-color: white;
+                /*padding: 20px;*/
+                /*box-sizing: border-box;*/
+                height: 1200px;
+            }
+
+
+
+            .content {
+                width: 1000px;
+                height: 600px;
+                /*border: 1px solid red;*/
+                margin: 30px auto;
+            }
+
+            .content_left, .content_left_replay {
+                width: 200px;
+                /*height: 600px;*/
+                /*border: 1px solid red;*/
+                float: left;
+                text-align: center;
+                background-color: white;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+                padding-top: 30px;
+                overflow: hidden;
+            }
+
+            .content_right, .content_right_replay {
+                width: 580px;
+                /*height: 600px;*/
+                /*border: 1px solid red;*/
+                float: left;
+                margin-left: 10px;
+                background: white;
+                line-height: 40px;
+                box-sizing: border-box;
+                padding: 30px;
+                margin-bottom: 10px;
+                overflow: hidden;
+
+
+            }
+
+            .people .content_left {
+
+                margin-top: 10px;
+
+            }
+
+            .people .content_right {
+
+                margin-top: 10px;
+
+            }
+
+            .replay {
+                width: 1000px;
+                text-align: center;
+                height: 200px;
+                background: white;
+                margin-top: 20px;
+                float: left;
+                padding-top: 20px;
+            }
+
+            #replay_value {
+                margin-top: 20px;
+                width: 800px;
+                margin: 0 auto;
+                height: 100px;
+
+
+            }
+
+            .submit_replay {
+                background: red;
+                color: white;
+                text-align: center;
+                height: 40px;
+                line-height: 40px;
+                width: 80px;
+                margin-left: 300px;
+                display: inline-block;
+                cursor: pointer;
+            }
+
+
+            a {
+                text-decoration: none;
+            }
+
+           .content .forum_moderator .layui-table  #tbodys td {
+                background-color: white;
+            }
+
+
+            .replay_index {
+                color: #9a9afb;
+            }
+
+        </style>
+    </head>
+    <body style="background: #F5F6F7">
+        <!--导航-->
+
+        <div id="titleContai"></div>
+        <div class="TOP">
+            <div class="TOP-nav">
+                <div id="homesubdivide" style="cursor:pointer;"><a href="forum.html?type=1">论坛首页</a></div>
+                <div class="Faquality" style="cursor:pointer;position: relative">精选模块
+                    <div class="quality"
+                         style="position: absolute;width:550px;height: 400px;background: #EAEBEC;z-index: 999999;box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th><a href="/forumsubdivide.html?id=5&pid=0">移动开发</a></th>
+                                <th><a href="/forumsubdivide.html?id=6&pid=0">云计算</a></th>
+                                <th><a href="/forumsubdivide.html?id=11&pid=0">Java技术</a></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=58&pid=5">iOS</a><a
+                                        href="/forumsubdivide.html?id=59&pid=5">Android</a><a
+                                        href="/forumsubdivide.html?id=65&pid=5">Qt</a></td>
+                                <td><a href="/forumsubdivide.html?id=251&pid=6">IaaSPass/SaaS</a></td>
+                                <td><a href="/forumsubdivide.html?id=94&pid=11">Java SE</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=62&pid=5">WP</a></td>
+                                <td><a href="/forumsubdivide.html?id=253&pid=6">服务器</a></td>
+                                <td><a href="/forumsubdivide.html?id=96&pid=11">Java Web 开发</a></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><a href="/forumsubdivide.html?id=99&pid=11">Java EEJava其他相关</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th><a href="/forumsubdivide.html?id=10&pid=0">.NET技术</a></th>
+                                <th><a href="/forumsubdivide.html?id=12&pid=0">Web开发</a></th>
+                                <th><a href="/forumsubdivide.html?id=13&pid=0">开发语言/框架</a></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=82&pid=10">.NET Framework</a></td>
+                                <td><a href="/forumsubdivide.html?id=103&pid=12">PHPJavaScript</a></td>
+                                <td><a href="/forumsubdivide.html?id=118&pid=13">DelphiVC/MFCVB</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=83&pid=10">WP</a></td>
+                                <td><a href="/forumsubdivide.html?id=256&pid=251">分布式计算/Hadoop</a></td>
+                                <td><a href="/forumsubdivide.html?id=96&pid=11">Java Web 开发</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=80&pid=10">C#.NET</a></td>
+                                <td><a href="/forumsubdivide.html?id=116&pid=12">HTML(CSS)HTML5</a></td>
+                                <td><a href="/forumsubdivide.html?id=121&pid=13">C/C++C++ Builder</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=101&pid=12">ASP .NETVB .NET</a></td>
+                                <td><a href="/forumsubdivide.html?id=110&pid=12">Apache</a></td>
+                                <td><a href="/forumsubdivide.html?id=123&pid=13">其他开发语言</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th><a href="/forumsubdivide.html?id=14&pid=0">数据库开发</a></th>
+                                <th><a href="/forumsubdivide.html?id=17&pid=0">硬件/嵌入式开发</a></th>
+                                <th><a href="/forumsubdivide.html?id=15&pid=0">Linux/Unix社区</a></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=125&pid=14">.MS-SQL Server</a></td>
+                                <td><a href="/forumsubdivide.html?id=151&pid=17">嵌入开发(WinCE)</a></td>
+                                <td><a href="/forumsubdivide.html?id=130&pid=15">系统维护与使用区</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=127&pid=14">OraclePowerBuilder</a></td>
+                                <td><a href="/forumsubdivide.html?id=153&pid=17">驱动开发/核心开发</a></td>
+                                <td><a href="/forumsubdivide.html?id=131&pid=15">应用程序开发区</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=128&pid=14">Informatica</a></td>
+                                <td><a href="/forumsubdivide.html?id=153&pid=17">硬件设计单片机/工控</a></td>
+                                <td><a href="/forumsubdivide.html?id=132&pid=15">内核源代码研究区</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=129&pid=14">其他数据库开发</a></td>
+                                <td><a href="/forumsubdivide.html?id=123&pid=13">汇编语言</a></td>
+                                <td><a href="/forumsubdivide.html?id=153&pid=17">驱动程序开发区</a></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><a href="/forumsubdivide.html?id=157&pid=17">VxWorks开发</a></td>
+                                <td><a href="/forumsubdivide.html?id=134&pid=15">CPU和硬件区</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="uploadsubdivide" style="cursor:pointer;"><a href="forum.html?type=3">我要发帖</a></div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="forum_moderator">
+
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150">
+                        <col width="200">
+                        <col>
+                    </colgroup>
+                    <tbody id="tbodys">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="people">
+
+            </div>
+            <div class="replay">
+                <textarea type="text" id="replay_value"></textarea>
+                <div>
+                    <div class="submit_replay" id="submit_replay">发表评论</div>
+                    <span style="float: right;margin-right: 120px">还能输入1000个字符</span>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </body>
+    <script src="layui/layui.all.js"></script>
+    <script>
+        var layer;
+        //引用表头
+        $("#titleContai").load("title.html")
+
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return r[2];
+            return null;
+        }
+
+        var invitationId = getQueryString("invitationId")
+        $.ajax({
+            url: "queryByInvitation",
+            data: {"invitationId": invitationId},
+            dataType: "json",
+            type: "GET",
+            async: false,
+            success: function (json) {
+                console.log(json)
+                loadInvitationUserIdRender(json.data)
+            },
+            error: function () {
+
+            }
+        })
+
+        $.ajax({
+            url: "queryReplayByInvitation",
+            data: {"invitationId": invitationId},
+            dataType: "json",
+            type: "GET",
+            async: false,
+            success: function (json) {
+                console.log(json)
+                ReplayInvitationRender(json.data)
+            },
+            error: function () {
+
+            }
+        })
+
+        //渲染帖子发帖人数据
+        function loadInvitationUserIdRender(data) {
+
+            $("#tbodys").html("")
+            var html = ` <tr>
+                <td>
+                    <div class="content_left">
+
+                   <a href="perInfor.html?viewUserId=`+data.user.userid+`&type=blog">
+    <img src="${data.user.headImg}" style="margin:0 auto">
+</a>
+                    <p>${data.user.nickname}</p>
+                    <p><img src="imgs/icons/blog/logo_01.png">
+                        <img src="imgs/icons/blog/forum_moderator.png"></p>
+
+                </div>
+                </td>
+
+                <td><div class="content_right">
+                    <p>${data.content}</p>
+                    <p style="margin-top: 200px;color:blue">${data.createtime}
+                        <a style="float: right;margin-right: 30px;cursor: pointer;" href="#replay_value" class="replay_index">回复</a>
+                    </p>
+
+                </div></td>
+            </tr>`
+
+            $("#tbodys").append(html)
+        }
+
+        //渲染帖子回复
+        function ReplayInvitationRender(data) {
+            console.log("+++++++++++++")
+            console.log(data)
+            $.each(data, function (index, eachobj) {
+                var html = ` <tr>
+                <td style="position: relative">
+                    <div class="content_left" style="top:10px">
+<a href="perInfor.html?viewUserId=`+eachobj.user.userid+`&type=blog">
+    <img src="${eachobj.user.headImg}" style="margin:0 auto">
+</a>
+
+                    <p>${eachobj.user.nickname}</p>
+                    <p><img src="imgs/icons/blog/logo_01.png">
+
+
+                </div>
+                </td>
+
+                <td><div class="content_right">
+                    <p>${eachobj.comment}</p>
+                    <p style="margin-top: 200px;color:blue">${eachobj.time}
+                        <a style="float: right;margin-right: 30px;cursor: pointer" href="#replay_value" class="replay_index">回复</a>
+                    </p>
+
+                </div></td>
+            </tr>`
+                $("#tbodys").append(html)
+
+            })
+
+
+        }
+
+        // console.log(replay_value)
+
+        $("#submit_replay").click(function () {
+            var replay_value = $("#replay_value").val()
+            if (replay_value != "") {
+
+                $.ajax({
+                    url: "addInvitationReplay",
+                    data: {"comment": replay_value, "invitationId": invitationId},
+                    dataType: "json",
+                    type: "POST",
+                    success: function (json) {
+                        if (json.success == -1) {
+                            layer.open({
+                                content: '你还未登录'
+                                , btn: ['登录', '退出']
+                                , yes: function (index, layero) {
+                                    //按钮【按钮一】的回调
+                                    location.href = "login.html";
+                                    layer.close(index);
+                                }
+                                , btn2: function (index, layero) {
+                                    layer.close(index);
+                                }
+                            });
+                            return false;
+                        } else {
+                            alert("回复成功")
+                            window.location.href = "invitation_Details.html?invitationId=" + invitationId
+                        }
+
+
+                    },
+                    error: function () {
+
+                    }
+                })
+
+            } else {
+                alert("请输入评论")
+            }
+        })
+
+        layui.use('layer', function(){
+            layer = layui.layer;
+        });
+
+    </script>
+</html>

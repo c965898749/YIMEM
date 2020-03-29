@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    body{
+        background-image: url("imgs/404.png");
+    }
+</style>
+<body>
+<div style="width: 1200px;margin: 0 auto">
+    <div style="text-align: center;line-height: 900px;color: red">
+        无法访问本页：
+        <span id="sp"></span>
+        秒后自动返回网站首页
+    </div>
+</div>
+
+<script type="text/javascript">
+    onload=function(){
+        setInterval(go, 1000);
+    };
+    var x=3; //利用了全局变量来执行
+    function go(){
+        x--;
+        if(x>0){
+            document.getElementById("sp").innerHTML=x;  //每次设置的x的值都不一样了。
+        }else{
+            window.location.href='index.html';
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.ResocollectMapper">
+    <!--&lt;!&ndash;查询所有&ndash;&gt;-->
+    <select id="selectByUserid" resultType="com.sy.model.Resocollect">
+       select *from resocollect where userid=#{userid} ORDER BY createtime DESC LIMIT #{page},#{pageSize}
+</select>
+    <!--&lt;!&ndash;查询所有条数&ndash;&gt;-->
+    <select id="selectAllCount" resultType="java.lang.Integer">
+         SELECT COUNT(*) FROM `csdn`.`resocollect` where userid=#{userid}
+    </select>
+    <!--&lt;!&ndash;新增资源&ndash;&gt;-->
+    <update id="insert" parameterType="com.sy.model.Resocollect">
+     INSERT INTO `csdn`.`resocollect` (`userid`, `dowid`, `createtime`, `replystate`, `title`,`price`,`size`,`leixin2`) VALUES (#{userid}, #{dowid}, NOW(), #{replystate}, #{title},#{price},#{size},#{leixin2});
+    </update>
+    <!--查询所有-->
+    <select id="selectAll" resultType="com.sy.model.Resocollect">
+       select *from resocollect where userid=#{userid} and dowid=#{dowid}
+</select>
+    <update id="delete" parameterType="com.sy.model.Resocollect">
+     DELETE from resocollect where userid=#{userid} and dowid=#{dowid}
+    </update>
+</mapper>

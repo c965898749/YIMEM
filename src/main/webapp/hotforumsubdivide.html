@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>论坛</title>
+        <link rel="stylesheet" type="text/css" href="css/css.css"/>
+        <link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
+        <script src="js/jquery.js"></script>
+        <script src="js/download.js"></script>
+        <style>
+            #forum_html{
+                border-bottom: 2px red solid;
+            }
+            .Faquality:hover .quality {
+                display: block;
+            }
+
+            .quality {
+                display: none;
+            }
+
+            .TOP .TOP-nav .Faquality .quality {
+                padding: 20px;
+                box-sizing: border-box;
+                /*margin-top: 5px;*/
+            }
+            .TOP .TOP-nav .Faquality .quality thead th,
+            .TOP .TOP-nav .Faquality .quality tbody td {
+                /*margin-top: 10px;*/
+                width: 160px;
+                /*height: 20px;*/
+                text-align: center;
+                line-height: 25px;
+            }
+
+            .TOP .TOP-nav .Faquality .quality tbody td a {
+                color: #337ABD;
+                cursor: pointer;
+                font-size: 12px;
+            }
+
+
+            .left-nav {
+                width: 200px;
+                height: 800px;
+                border: 2px #E3E6E8 solid;
+                /*background-color: #0C0C0C;*/
+                position: fixed;
+                top: 100px;
+                z-index: 99999;
+            }
+
+            .shousuo {
+                position: fixed;
+                z-index: 9999999;
+                left: 200px;
+                top: 360px;
+            }
+
+            .NN {
+                width: 1200px;
+                margin: 0 auto;
+            }
+
+            .NN .top {
+                margin-top: 30px;
+                width: 1200px;
+                background-color: white;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            .NN .nav {
+                background-color: white;
+                margin-top: 10px;
+                width: 1200px;
+                height: 40px;
+                /*display: flex;*/
+                justify-content: space-between;
+                padding: 10px;
+                box-sizing: border-box;
+                color: #999999;
+            }
+
+            .NN .nav-sec {
+                margin-top: 4px;
+                background-color: white;
+                width: 1200px;
+                height: 40px;
+            }
+
+            .NN .context {
+                /*margin-top: 30px;*/
+                width: 1200px;
+                background-color: white;
+                /*padding: 20px;*/
+                /*box-sizing: border-box;*/
+                height: 640px;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <div id="titleContai">
+        </div>
+        <div class="shousuo">
+            <input type="button"
+                   style="background: url('imgs/icons/blog/_20190815190550.png');background-repeat: no-repeat;width: 20px;height: 100px;border: none"
+                   value="">
+        </div>
+        <div class="left-nav">
+
+            <div id="treemenu" style="font-size: 12px">
+
+            </div>
+
+        </div>
+        <div class="TOP">
+            <div class="TOP-nav">
+                <div id="homesubdivide" style="cursor:pointer;"><a href="forum.html?type=1">论坛首页</a></div>
+                <div class="Faquality" style="cursor:pointer;position: relative">精选模块
+                    <div class="quality"
+                         style="position: absolute;width:550px;height: 400px;background: #EAEBEC;z-index: 999999;box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th><a href="/forumsubdivide.html?id=5&pid=0">移动开发</a></th>
+                                <th><a href="/forumsubdivide.html?id=6&pid=0">云计算</a></th>
+                                <th><a href="/forumsubdivide.html?id=11&pid=0">Java技术</a></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=58&pid=5">iOS</a><a
+                                        href="/forumsubdivide.html?id=59&pid=5">Android</a><a
+                                        href="/forumsubdivide.html?id=65&pid=5">Qt</a></td>
+                                <td><a href="/forumsubdivide.html?id=251&pid=6">IaaSPass/SaaS</a></td>
+                                <td><a href="/forumsubdivide.html?id=94&pid=11">Java SE</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=62&pid=5">WP</a></td>
+                                <td><a href="/forumsubdivide.html?id=253&pid=6">服务器</a></td>
+                                <td><a href="/forumsubdivide.html?id=96&pid=11">Java Web 开发</a></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><a href="/forumsubdivide.html?id=99&pid=11">Java EEJava其他相关</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th><a href="/forumsubdivide.html?id=10&pid=0">.NET技术</a></th>
+                                <th><a href="/forumsubdivide.html?id=12&pid=0">Web开发</a></th>
+                                <th><a href="/forumsubdivide.html?id=13&pid=0">开发语言/框架</a></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=82&pid=10">.NET Framework</a></td>
+                                <td><a href="/forumsubdivide.html?id=103&pid=12">PHPJavaScript</a></td>
+                                <td><a href="/forumsubdivide.html?id=118&pid=13">DelphiVC/MFCVB</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=83&pid=10">WP</a></td>
+                                <td><a href="/forumsubdivide.html?id=256&pid=251">分布式计算/Hadoop</a></td>
+                                <td><a href="/forumsubdivide.html?id=96&pid=11">Java Web 开发</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=80&pid=10">C#.NET</a></td>
+                                <td><a href="/forumsubdivide.html?id=116&pid=12">HTML(CSS)HTML5</a></td>
+                                <td><a href="/forumsubdivide.html?id=121&pid=13">C/C++C++ Builder</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=101&pid=12">ASP .NETVB .NET</a></td>
+                                <td><a href="/forumsubdivide.html?id=110&pid=12">Apache</a></td>
+                                <td><a href="/forumsubdivide.html?id=123&pid=13">其他开发语言</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th><a href="/forumsubdivide.html?id=14&pid=0">数据库开发</a></th>
+                                <th><a href="/forumsubdivide.html?id=17&pid=0">硬件/嵌入式开发</a></th>
+                                <th><a href="/forumsubdivide.html?id=15&pid=0">Linux/Unix社区</a></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=125&pid=14">.MS-SQL Server</a></td>
+                                <td><a href="/forumsubdivide.html?id=151&pid=17">嵌入开发(WinCE)</a></td>
+                                <td><a href="/forumsubdivide.html?id=130&pid=15">系统维护与使用区</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=127&pid=14">OraclePowerBuilder</a></td>
+                                <td><a href="/forumsubdivide.html?id=153&pid=17">驱动开发/核心开发</a></td>
+                                <td><a href="/forumsubdivide.html?id=131&pid=15">应用程序开发区</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=128&pid=14">Informatica</a></td>
+                                <td><a href="/forumsubdivide.html?id=153&pid=17">硬件设计单片机/工控</a></td>
+                                <td><a href="/forumsubdivide.html?id=132&pid=15">内核源代码研究区</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/forumsubdivide.html?id=129&pid=14">其他数据库开发</a></td>
+                                <td><a href="/forumsubdivide.html?id=123&pid=13">汇编语言</a></td>
+                                <td><a href="/forumsubdivide.html?id=153&pid=17">驱动程序开发区</a></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><a href="/forumsubdivide.html?id=157&pid=17">VxWorks开发</a></td>
+                                <td><a href="/forumsubdivide.html?id=134&pid=15">CPU和硬件区</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="uploadsubdivide" style="cursor:pointer;"><a href="forum.html?type=3">我要发帖</a></div>
+            </div>
+        </div>
+        <div class="NN">
+            <div class="top" id="top">
+
+            </div>
+            <div class="nav"><span>推荐精华  版主管理</span><span style="margin-left: 1000px;cursor: pointer" id="myInvitation">我的帖子</span></div>
+            <div class="nav-sec">
+                <div id="test1" style="float: right;margin-top: -5px"></div>
+                <script src="layui/layui.js"></script>
+            </div>
+            <div class="context">
+                <table class="layui-table" lay-skin="line">
+                    <colgroup>
+                        <col width="700">
+                        <col width="150">
+                        <col width="100">
+                        <col width="150">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>主题</th>
+                        <th>作者</th>
+                        <th>人气</th>
+                        <th>最后发表</th>
+                    </tr>
+                    </thead>
+                    <tbody class="tbContext">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="nav-sec">
+                <div id="test2" style="float: right;margin-top: -5px"></div>
+                <!--<script src="layui/layui.js"></script>-->
+            </div>
+        </div>
+
+
+    </body>
+    <script src="layui/layui.all.js"></script>
+    <script>
+        var id = 'id';
+        var pid = 'pid';
+        var categoryid2=getQueryString(id);
+        var categoryid=getQueryString(pid);
+        var page=1;
+        var pageSize=15;
+        // var basUrl = "http://localhost:8888/";
+        $(function () {
+            renderAllinvitation()
+            xuanran();
+            ajaxGetCategory()
+            //引用表头
+            $("#titleContai").load("title.html")
+
+        })
+        $("#myInvitation").click(function () {
+            $.ajax({
+                url:"isEnter",
+                dataType:"json",
+                type:"GET",
+                success:function (json) {
+                    console.log(json)
+                    if (json.success==1){
+                        window.location.href="myInvitation.html"
+                    } else {
+                        alert("您还没有登录，请先登录")
+                    }
+                },
+                error:function () {
+
+                }
+            })
+        })
+        var user = getUser();
+        var userid = 0;
+        if (user) {
+            userid = user.userId
+        }
+        var invitation = null;
+        var url=null;
+        $(function () {
+            ajaxGetCategory()
+            // getMenu()
+        })
+        //获取当前用户
+        function getUser() {
+            var data;
+            $.ajax({
+                url: "isEnter"
+                , type: "get"
+                , dataType: "json"
+                , async: false
+                , success: function (jsonData) {
+                    ////////////console.log(jsonData)
+                    if (jsonData.success == 1) {
+                        data = jsonData.data;
+                    }
+                }
+                , error: function (res) {
+                    ////////////console.log("ajax提交错误")
+                }
+            })
+            return data;
+        }
+        var tree;
+        layui.use('tree', function () {
+            tree = layui.tree;
+        });
+        //分页
+        function loadLayui(count){
+            layui.use('laypage', function () {
+                var laypage = layui.laypage;
+
+                //执行一个laypage实例
+
+                laypage.render({
+                    elem: 'test2' //注意，这里的 test1 是 ID，不用加 # 号
+                    , count: count //数据总数，从服务端得到
+                    ,limit: pageSize
+                    ,curr: page
+                    ,theme:"#F3925A"
+                    ,jump: function (obj, first) {
+                        //obj包含了当前分页的所有参数，比如：
+                        console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                        console.log(obj.limit);
+                        //首次不执行
+                        if (!first) {
+
+                            //把分页值，和分页量（分页量可能会变化）
+                            page = obj.curr;
+                            pageSize = obj.limit;
+
+                            renderAllinvitation()
+                        }
+                    }
+                });
+                //执行一个laypage实例
+                laypage.render({
+                    elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+                    , count: count //数据总数，从服务端得到
+                    ,limit: pageSize
+                    ,curr: page
+                    ,theme:"#F3925A"
+                    ,jump: function (obj, first) {
+                        //obj包含了当前分页的所有参数，比如：
+                        console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                        console.log(obj.limit);
+                        //首次不执行
+                        if (!first) {
+
+                            //把分页值，和分页量（分页量可能会变化）
+                            page = obj.curr;
+                            pageSize = obj.limit;
+                            renderAllinvitation()
+
+
+                        }
+                    }
+                });
+
+
+            });
+        }
+        function renderAllinvitation() {
+
+
+            // $.ajax({
+            //     url: "findMaxreadCountInvitation",
+            //     type: "get",
+            //     data:{"page":page,"pageSize":pageSize},
+            //     dataType: "json",
+            //     success: function (jsonData) {
+            //         var  data = jsonData.data;
+            //         ////console.log(data)
+            //         var html='';
+            //         $.each(data,function (k,v) {
+            //             html=`  <tr>
+            //                 <td style="display: flex"><div style="width: 40px;height: 20px;background-color:#FFBB66;color: white;margin-right: 10px;text-align: center">`+v.publishForm+`</div><a href="invitation_Details.html?invitationId=`+v.id+`">`+v.title+`</a></td>
+            //                 <td>`+v.user.username+`</td>
+            //                 <td>(`+v.readCount+`)人气</td>
+            //             </tr>`;
+            //             $(".tbHotSkill").append(html);
+            //         })
+            //     }
+            // })
+            $.ajax({
+                url:"findMaxreadCountInvitation",
+                data:{"page":page,"pageSize":pageSize},
+                dataType:"json",
+                type:"GET",
+                success:function (json) {
+                    console.log(json)
+                    loadLayui(json.count)
+                    renderMain(json.data)
+
+                },
+                error:function () {
+
+                }
+
+            })
+        }
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return r[2];
+            return null;
+        }
+
+        // ajax获取资源方法
+        function ajaxGetCategory() {
+            $.ajax({
+                url:  "findAllforumCategory",
+                type: "get",
+                dataType: "json",
+                success: function (jsonData) {
+                    Category = jsonData.data;
+                    insetCategory(Category);
+                }
+            })
+
+        }
+
+        function insetCategory(Category) {
+            // var data=[{title:"总大类",children:Category}];
+            var data = Category;
+            var inst1 = tree.render({
+                elem: '#treemenu'  //绑定元素
+                , data: data
+                , click: function (obj) {
+                    ////console.log(obj.data); //得到当前点击的节点数据
+                    ////console.log(obj.state); //得到当前节点的展开状态：open、close、normal
+                    ////console.log(obj.elem); //得到当前节点元素
+                    ////console.log(obj.data.children); //当前节点下是否有子节点
+                    location.href = "forumsubdivide.html?id=" + obj.data.id + "&pid=" + obj.data.pid;
+                }
+            });
+        }
+
+        // 渲染页面
+        function gettitle(id) {
+            var data;
+            $.ajax({
+                url:  "findforumCategoryByid",
+                type: "get",
+                data: {"id": id},
+                dataType: "json",
+                async: false,
+                success: function (jsonData) {
+                    ////console.log(jsonData)
+                    data = jsonData.data;
+
+                }
+            })
+            return data;
+        }
+
+        function xuanran() {
+            // ////console.log(getQueryString(pid))
+           if(getQueryString(pid)!=0){
+               var html = `YIMEM > YIMEM论坛 > 论坛热帖-技术区`;
+               $("#top").append(html)
+           }else {
+               var html = `<ul>
+                    <li> <span style="font-weight: 700;font-size: 24px;color: #4d4d4d;"> ` + gettitle(getQueryString(id)).title + `论坛 </span><span>申请版主</span></li>
+                    <li>  <span style="font-size: 14px;color: #666;"> 版主：</span><span style="font-size: 14px;color: #3399ea"> 嘿木耳 Birds2018 Aimn</span></li>
+                </ul>`;
+               $("#top").append(html)
+           }
+
+        }
+        //渲染主页面
+        function renderMain(data) {
+            console.log(data)
+            $(".tbContext").empty()
+            var  html='';
+            $.each(data,function (index,v) {
+
+                // console.log(eachobj)
+             html=`   <tr>
+                             <td style="display: flex"><div style="width: 40px;height: 20px;background-color:#FFBB66;color: white;margin-right: 10px;text-align: center">`+v.publishForm+`</div><a href="invitation_Details.html?invitationId=`+v.id+`">`+v.title+`</a></td>
+                           <td>`+v.user.username+`</td>
+                           <td>(`+v.readCount+`)人气</td>
+                            <td>`+v.createtime+`</td>
+                        </tr>
+                    `
+                $(".tbContext").append(html)
+            })
+        }
+
+
+
+
+    </script>
+</html>

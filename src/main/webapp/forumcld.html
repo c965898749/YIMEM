@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>下载</title>
+        <link rel="stylesheet" type="text/css" href="css/css.css"/>
+        <link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
+        <script src="js/jquery.js"></script>
+        <script src="js/download.js"></script>
+        <style>
+
+            .Faquality:hover .quality {
+                display: block;
+            }
+
+            .quality {
+                display: none;
+            }
+
+            .TOP .TOP-nav .Faquality .quality {
+                padding: 20px;
+                box-sizing: border-box;
+                /*margin-top: 5px;*/
+            }
+
+            .TOP .TOP-nav .Faquality .quality thead th,
+            .TOP .TOP-nav .Faquality .quality tbody td {
+                /*margin-top: 10px;*/
+                width: 160px;
+                /*height: 20px;*/
+                line-height: 25px;
+            }
+
+            .TOP .TOP-nav .Faquality .quality tbody td {
+                color: #337ABD;
+                cursor: pointer;
+            }
+
+            .TOP .TOP-nav .Faquality .quality tbody td:hover {
+                color: red;
+            }
+
+            .left-nav {
+                width: 140px;
+                height: 800px;
+                border: 2px #E3E6E8 solid;
+                /*background-color: #0C0C0C;*/
+                position: fixed;
+                top:100px;
+                z-index: 99999;
+            }
+            .shousuo{
+                position: fixed;
+                z-index:9999999;
+                left: 140px;
+                top:360px;
+            }
+            .NN{
+                width: 1200px;
+                margin: 0 auto;
+            }
+            /*.NN .top{*/
+                /*margin-top: 30px;*/
+                /*width: 1200px;*/
+                /*background-color: white;*/
+                /*padding: 20px;*/
+                /*box-sizing: border-box;*/
+            /*}*/
+            /*.NN .nav{*/
+                /*background-color: white;*/
+                /*margin-top: 10px;*/
+                /*width: 1200px;*/
+                /*height: 40px;*/
+                /*display: flex;*/
+                /*justify-content: space-between;*/
+                /*padding: 10px;*/
+                /*box-sizing: border-box;*/
+                /*color: #999999;*/
+            /*}*/
+            /*.NN .nav-sec{*/
+                /*margin-top: 4px;*/
+                /*background-color: white;*/
+                /*width: 1200px;*/
+                /*height: 40px;*/
+            /*}*/
+            /*.NN .context{*/
+                /*!*margin-top: 30px;*!*/
+                /*width: 1200px;*/
+                /*background-color: white;*/
+                /*!*padding: 20px;*!*/
+                /*!*box-sizing: border-box;*!*/
+                /*height: 1200px;*/
+            /*}*/
+            .NN .content {
+                width: 1000px;
+                height: 600px;
+                /*border: 1px solid red;*/
+                margin: 0 auto;
+            }
+
+           .NN .content_left {
+                width: 300px;
+                height: 600px;
+                /*border: 1px solid red;*/
+                float: left;
+                text-align: center;
+                background-color: white;
+
+            }
+
+           .NN .content_right {
+                width: 680px;
+                height: 600px;
+                /*border: 1px solid red;*/
+                float: left;
+                margin-left: 10px;
+                background: white;
+                line-height: 40px;
+                box-sizing:border-box;
+                padding: 30px;
+
+            }
+
+           .NN .people .content_left{
+                height: 200px;
+                margin-top: 10px;
+
+            }
+           .NN .people .content_right{
+                height: 200px;
+                margin-top: 10px;
+
+            }
+            .NN .replay{
+                width: 990px;
+                text-align: center;
+                height: 200px;
+                background: white;
+                margin-top: 20px;
+                float: left;
+                padding-top: 20px;
+            }
+            .NN #replay_value{
+                margin-top: 20px;
+                width: 600px;
+                margin: 0 auto;
+                height: 100px;
+
+
+            }
+            .NN .submit_replay{
+                background: red;
+                color: white;
+                text-align: center;
+                height: 40px;
+                line-height: 40px;
+                width: 80px;
+                margin-left: 300px;
+                display: inline-block;
+            }
+            a{
+                text-decoration: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+        </header>
+        <div class="TOP">
+            <div class="TOP-nav">
+                <div id="homeDetails" style="cursor:pointer;">论坛首页</div>
+                <div class="Faquality" style="cursor:pointer;position: relative">精选模块
+                    <div class="quality"
+                         style="position: absolute;width:550px;height: 400px;background: #EAEBEC;z-index: 999999;box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>移动开发</th>
+                                <th>云计算</th>
+                                <th>Java技术</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>iOSAndroidQt</td>
+                                <td>IaaSPass/SaaS</td>
+                                <td>Java SE</td>
+                            </tr>
+                            <tr>
+                                <td>WP</td>
+                                <td>分布式计算/Hadoop</td>
+                                <td>Java Web 开发</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Java EEJava其他相关</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>.NET技术</th>
+                                <th>Web开发</th>
+                                <th>开发语言/框架</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>.NET Framework</td>
+                                <td>PHPJavaScript</td>
+                                <td>DelphiVC/MFCVB</td>
+                            </tr>
+                            <tr>
+                                <td>WP</td>
+                                <td>分布式计算/Hadoop</td>
+                                <td>Java Web 开发</td>
+                            </tr>
+                            <tr>
+                                <td>C#.NET</td>
+                                <td>HTML(CSS)HTML5</td>
+                                <td>C/C++C++ Builder</td>
+                            </tr>
+                            <tr>
+                                <td>ASP .NETVB .NET</td>
+                                <td>Apache</td>
+                                <td>其他开发语言</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>数据库开发</th>
+                                <th>硬件/嵌入式开发</th>
+                                <th>Linux/Unix社区</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>.MS-SQL Server</td>
+                                <td>嵌入开发(WinCE)</td>
+                                <td>系统维护与使用区</td>
+                            </tr>
+                            <tr>
+                                <td>OraclePowerBuilder</td>
+                                <td>驱动开发/核心开发</td>
+                                <td>应用程序开发区</td>
+                            </tr>
+                            <tr>
+                                <td>Informatica</td>
+                                <td>硬件设计单片机/工控</td>
+                                <td>内核源代码研究区</td>
+                            </tr>
+                            <tr>
+                                <td>其他数据库开发</td>
+                                <td>汇编语言</td>
+                                <td>驱动程序开发区</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>VxWorks开发</td>
+                                <td>CPU和硬件区</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="uploadDetails" style="cursor:pointer;">我要发帖</div>
+            </div>
+        </div>
+        <div class="NN">
+            <div class="content">
+                <div class="forum_moderator">
+                    <div class="content_left">
+
+                        <img src="imgs/head_05.png" style="margin:0 auto">
+                        <p>华为云</p>
+                        <p><img src="imgs/icons/blog/logo_01.png">
+                            <img src="imgs/icons/blog/forum_moderator.png"></p>
+
+                    </div>
+                    <div class="content_right">
+                        <p>还在独自一人挥洒热血敲代码？还在默默孤单写项目？专业的文字没人懂？
+
+                            别再埋没你的才华啦，华为云寻找黑马程序员计划，寻找才华无限的你！
+
+                            来这里，和我们分享您程序员道路上的经验总结、技术干货或者在华为云上的开发实践……
+
+                            让我们共同成长！更可赢取机械键盘、热门书籍等大量礼品哟！
+
+                            I want you，快来加入我们吧！
+
+                            关注华为云 再戳活动传送门参与↓↓
+
+                            方式一：CSDN博客
+
+                            方式二：华为云社区
+
+                            活动详情请戳→了解详情</p>
+                        <p style="margin-top: 200px;color:blue">2019-07-22 11:29:03
+                            <a style="float: right;margin-right: 30px;cursor: pointer" href="#replay_value">回复</a>
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="people">
+                    <div class="content_left">
+                        <p style="margin-top: 10px">华为云</p>
+                        <p><img src="imgs/icons/blog/logo_01.png">
+                        </p>
+
+                    </div>
+                    <div class="content_right">
+                        <p>还在独自一人挥洒热血敲代码？还在默默孤单写项目？专业的文字没人懂？
+
+                        </p>
+                        <p style="margin-top: 20px;color:blue">2019-07-22 11:29:03</p>
+                    </div>
+                </div>
+                <div class="replay">
+                    <textarea type="text" id="replay_value"></textarea>
+                    <div>
+                        <div class="submit_replay">发表评论</div>
+                        <span style="float: right;margin-right: 120px">还能输入1000个字符</span>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </body>
+
+</html>

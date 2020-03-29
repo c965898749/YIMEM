@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<style>
+    .aaa{
+        color: #00FF00;
+    }
+</style>
+</head>
+<body>
+<div>sgeddgdg</div>
+<div>sgeddgdg</div>
+<div>sgeddgdg</div>
+<div>sgeddgdg</div>
+<div>sgeddgdg</div>
+<div>sgeddgdg</div>
+<div>sgeddgdg</div>
+<div>sgeddgdg</div>
+<div id="test"></div>
+
+</body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+    $.ajax({
+        url:'test.html',
+        type:'get',
+        success:function(res){
+            console.log(res)
+            $('#test').html(res);
+        }
+    });
+    // $('#test').load('test.html')
+</script>
+</html>

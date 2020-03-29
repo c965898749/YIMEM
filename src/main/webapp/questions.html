@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>问答</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <style>
+        #questions_html{
+            border-bottom: 2px red solid;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #F5F6F7 !important;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .secondTitleBack {
+            width: 100%;
+            height: 40px;
+            background: #E4E9EC;
+            margin-top: -10px;
+        }
+
+        .secondTitleContian {
+            width: 1200px;
+            height: 40px;
+            margin: 0 auto;
+        }
+
+        .secondTitleContian li {
+            line-height: 40px;
+            margin-right: 10px;
+            float: left;
+            box-sizing: border-box;
+        }
+
+        .secondTitleContian li:hover {
+            border-bottom: 2px solid red;
+            cursor: pointer;
+        }
+
+        .myContain {
+            width: 1200px;
+            margin: 10px auto;
+        }
+
+        .textContain {
+            width: 1000px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .orderTitle {
+            height: 40px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #F5F6F7;
+        }
+
+        .order {
+            line-height: 40px;
+            float: right;
+            margin-right: 10px;
+            color: #979997;
+            cursor: pointer;
+        }
+
+        .orderShowContain {
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            text-align: center;
+            background: white;
+            display: none;
+        }
+
+        .orderByTime {
+            height: 30px;
+            width: 100%;
+        }
+
+        .orderByTime:hover {
+            color: orange;
+        }
+
+        .orderByanswer {
+            height: 30px;
+            width: 100%;
+        }
+
+        .orderByanswer:hover {
+            color: orange;
+        }
+
+        .answerContain {
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 20px 15px 0 15px;
+
+        }
+
+        .answerTextContain {
+            width: 760px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .answerTimeandName {
+            height: 30px;
+            color: #979997;
+        }
+
+        .answerTitel {
+            width: 100%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .answerText {
+            width: 100%;
+            height: 40px;
+            color: #666666;
+            margin: 5px 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap; /* 不换行 */
+        }
+
+        .answerLabel {
+            height: 50px;
+        }
+
+        .labelContain {
+            height: 30px;
+            border-radius: 15px;
+            box-sizing: border-box;
+            border: 1px solid #979997;
+            float: left;
+            margin: 10px 10px 10px 0;
+            text-align: center;
+            line-height: 30px;
+            padding: 0 10px;
+        }
+
+        .share_bar_con {
+            height: 30px;
+            width: 970px;
+            margin: 0 auto 10px;
+            background: #F5F6F7;
+            color: #666666;
+            line-height: 30px;
+        }
+
+        .answerCollect {
+            float: right;
+            margin: 0 15px;
+        }
+
+        .alsoanswer {
+            float: right;
+        }
+
+        .answerNumContain {
+            width: 50px;
+            height: 50px;
+            background: #A0D56D;
+            color: white;
+            display: inline-block;
+            vertical-align: top;
+            margin-left: 155px;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 25px;
+            font-size: 15px;
+        }
+
+        .myInfoContain {
+            width: 300px;
+            height: 300px;
+            position: fixed;
+            background: white;
+            top: 200px;
+            right: 0;
+            display: none;
+        }
+
+        .myInfoTitle {
+            height: 50px;
+            color: #8F99EA;
+            box-sizing: border-box;
+            padding: 0 10px;
+            border-bottom: 1px solid #F0F0F0;
+            font-size: 18px;
+            line-height: 50px;
+        }
+
+        .myInfoTitle:hover {
+            color: red;
+            cursor: pointer;
+        }
+
+        .myInfoImg {
+            height: 100px;
+            color: #8F99EA;
+            box-sizing: border-box;
+            padding: 20px 10px;
+            font-size: 17px;
+        }
+
+        .myInfoImg span:hover {
+            color: orange;
+            cursor: pointer;
+        }
+
+        .myInfoAsk {
+            height: 30px;
+            box-sizing: border-box;
+            padding: 0 10px;
+        }
+
+        .myInfoAskImg {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background: #A0D56D;
+            color: white;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .myInfoAskText {
+            height: 20px;
+            line-height: 20px;
+            display: inline-block;
+        }
+
+        .myInfoAskText span {
+            color: #8F99EA;
+        }
+
+        .myInfoReplay {
+            height: 30px;
+            box-sizing: border-box;
+            padding: 0 10px;
+        }
+
+        .myInfoReplayImg {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background: #F9AF57;
+            color: white;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .myInfoReplayText {
+            height: 20px;
+            line-height: 20px;
+            display: inline-block;
+        }
+
+        .myInfoReplayText span {
+            color: #8F99EA;
+        }
+
+        .myInfoAlsoAsk {
+            height: 30px;
+            box-sizing: border-box;
+            padding: 0 10px;
+        }
+
+        .myInfoAlsoAskImg {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background: #64B1CB;
+            color: white;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .myInfoAlsoAskText {
+            height: 20px;
+            line-height: 20px;
+            display: inline-block;
+        }
+
+        .myInfoAlsoAskText span {
+            color: #8F99EA;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<div id="titleContai"></div>
+<div class="secondTitleBack">
+    <div class="secondTitleContian" data-type="1">
+        <ul>
+            <li>问答首页</li>
+            <li>悬赏问题</li>
+            <li>未解决</li>
+            <li>已解决</li>
+            <li>标签</li>
+            <li>我要提问</li>
+        </ul>
+    </div>
+</div>
+<div class="myContain">
+    <div class="textContain">
+        <div class="orderTitle">
+            <div class="order">
+                <span>按问答数排序▼</span>
+                <div class="orderShowContain">
+                    <div class="orderByTime">时间</div>
+                    <div class="orderByanswer">回答数</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="answerDetail">
+
+        </div>
+    </div>
+</div>
+<div class="myInfoContain">
+    <!--此处个人页渲染-->
+</div>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<!--<script src="jquery/jquery.js"></script>-->
+<script src="layui/layui.all.js"></script>
+<script>
+    //重表头获取数据
+    function getsearchtype(page) {
+        var jsondata = getdata(null, 0, 1, 0, page)
+        var type = location.search.substring(location.search.indexOf("=") + 1);
+        if (type == "askAndtime") {
+            var jsondata = getdata(null, 0, 1, 0, page)
+            $(".secondTitleContian li").eq(0).css("border-bottom", "2px solid red")
+            $(".secondTitleContian").attr("data-type", "1")
+        }
+        if (type == "awardAndtime") {
+            var jsondata = getdata(null, 1, 1, 0, page)
+            $(".secondTitleContian li").eq(1).css("border-bottom", "2px solid red")
+            $(".secondTitleContian").attr("data-type", "2")
+        }
+        if (type == "noSolveAndtime") {
+            var jsondata = getdata(0, 0, 1, 0, page)
+            $(".secondTitleContian li").eq(2).css("border-bottom", "2px solid red")
+            $(".secondTitleContian").attr("data-type", "3")
+        }
+        if (type == "hasSolveAndtime") {
+            var jsondata = getdata(1, 0, 1, 0, page)
+            $(".secondTitleContian li").eq(3).css("border-bottom", "2px solid red")
+            $(".secondTitleContian").attr("data-type", "4")
+        }
+        if (type == "askAndAsknum") {
+            var jsondata = getdata(null, 0, 0, 1, page)
+            $(".secondTitleContian li").eq(0).css("border-bottom", "2px solid red")
+            $(".secondTitleContian").attr("data-type", "1")
+            $(".order span").text("按时间排序▼")
+        }
+        if (type == "awardAndAsknum") {
+            var jsondata = getdata(null, 1, 0, 1, page)
+            $(".secondTitleContian li").eq(1).css("border-bottom", "2px solid red")
+            $(".secondTitleContian").attr("data-type", "2")
+            $(".order span").text("按时间排序▼")
+        }
+        if (type == "noSolveAndAsknum") {
+            var jsondata = getdata(0, 0, 0, 1, page)
+            $(".secondTitleContian li").eq(2).css("border-bottom", "2px solid red")
+            $(".secondTitleContian").attr("data-type", "3")
+            $(".order span").text("按时间排序▼")
+        }
+        if (type == "hasSolveAndAsknum") {
+            var jsondata = getdata(1, 0, 0, 1, page)
+            $(".secondTitleContian li").eq(3).css("border-bottom", "2px solid red")
+            $(".secondTitleContian").attr("data-type", "4")
+            $(".order span").text("按时间排序▼")
+        }
+        return jsondata
+
+    }
+
+    //初始渲染
+    layui.use('flow', function () {
+        var flow = layui.flow;
+        flow.load({
+            elem: '#answerDetail' //流加载容器
+            , done: function (page, next) { //执行下一页的回调
+                //console.log(page)
+                //模拟数据插入
+                var jsondata = getsearchtype(page)
+                setTimeout(function () {
+                    var lis = [];
+                    $.each(jsondata.data, function (index, obj) {
+                        lis.push(setHtml(obj))
+
+                    })
+                    //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                    //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                    next(lis.join(''), page < jsondata.count); //假设总页数为 10
+                    var objs = document.getElementsByClassName("answerText")
+                    $.each(objs, function (index, eachobj) {
+                        var test = $(eachobj).prev().text()
+                        $(eachobj).text(test.substring(0,200))
+                    })
+                }, 300);
+            }
+        });
+    });
+
+    //设置渲染html
+    function setHtml(data) {
+        var html = `<div class="answerContain">
+                <div class="answerTextContain">
+                    <div class="answerTimeandName">
+                        <span>${data.createTime}</span>
+                        <span>来自</span>
+                        <span style="color: #1E9FFF">${data.username}</span>
+                    </div>
+                    <div class="answerTitel" data-askid="${data.askId}">${data.askName}</div>
+                    <div hidden class="totext">${data.askText}</div>
+                    <div class="answerText"></div>
+                    <div class="answerLabel">`
+        $.each(data.se_labelList, function (index, obj) {
+            html = html + `<div class="labelContain">${obj.seLabelName}</div>`
+        })
+        html = html + `</div>
+                </div>
+                <div class="answerNumContain">
+                    <div>${data.answerCount}</div>
+                    <div>回答</div>
+                </div>
+                <div class="share_bar_con">
+                    <div class="answerCollect">收藏<span>${data.attentionCount}</span></div>
+                    <div class="alsoanswer">同问<span>${data.alsoAskCount}</span></div>
+                </div>
+            </div>`
+        return html
+    }
+
+    //获取页面渲染数据
+    function getdata(solve, award, time, askNum, page) {
+        var jsondata;
+        $.ajax({
+            url: "getAskdata"
+            , type: "post"
+            , data: {
+                "solve": solve,
+                "award": award,
+                "time": time,
+                "askNum": askNum,
+                "page": page
+            }
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                console.log(jsonData)
+                jsondata = jsonData;
+            }
+            , error: function (res) {
+                console.log("问答获取页面渲染数据ajax提交错误")
+            }
+        })
+        return jsondata;
+    }
+
+    function tsest() {
+        var a = 1;
+        $(".secondTitleContian li").click(function (a) {
+            a = 2
+        })
+        return a;
+    }
+
+    //分类点击切换事件
+    $(".secondTitleContian li").click(function () {
+        var type = Type = $(this).text()
+        if (type == "问答首页") {
+            location.href = "questions.html?type=askAndtime"
+        }
+        if (type == "悬赏问题") {
+            location.href = "questions.html?type=awardAndtime"
+
+        }
+        if (type == "未解决") {
+            location.href = "questions.html?type=noSolveAndtime"
+
+        }
+        if (type == "已解决") {
+            location.href = "questions.html?type=hasSolveAndtime"
+        }
+        if (type == "我要提问") {
+            if(user){
+                location.href = "asking.html"
+            }else {
+                alert("未登入，请先登录！")
+                location.href = "login.html"
+            }
+
+        }
+    })
+    //时间的点击事件
+    $(".orderByTime").click(function () {
+        var type = $(".secondTitleContian").attr("data-type")
+        if (type == 1) {
+            location.href = "questions.html?type=hasSolveAndtime"
+        }
+        if (type == 2) {
+            location.href = "questions.html?type=awardAndtime"
+        }
+        if (type == 3) {
+            location.href = "questions.html?type=noSolveAndtime"
+        }
+        if (type == 4) {
+            location.href = "questions.html?type=hasSolveAndtime"
+        }
+    })
+    //问答数的点击事件
+    $(".orderByanswer").click(function () {
+        var type = $(".secondTitleContian").attr("data-type")
+        if (type == 1) {
+            location.href = "questions.html?type=hasSolveAndAsknum"
+        }
+        if (type == 2) {
+            location.href = "questions.html?type=awardAndAsknum"
+        }
+        if (type == 3) {
+            location.href = "questions.html?type=noSolveAndAsknum"
+        }
+        if (type == 4) {
+            location.href = "questions.html?type=hasSolveAndAsknum"
+        }
+    })
+</script>
+</body>
+<script>
+    //排序弹出
+    $(".order").mouseenter(function () {
+        $(".orderShowContain").css("display", "block")
+    })
+    //排序收起
+    $(".order").mouseleave(function () {
+        $(".orderShowContain").css("display", "none")
+    })
+    //引用表头
+    $("#titleContai").load('title.html')
+
+    //获取当前用户
+    function getUser() {
+        var data;
+        $.ajax({
+            url: "isEnter"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                //console.log(jsonData)
+                if (jsonData.success == 1) {
+                    data = jsonData.data;
+                }
+            }
+            , error: function (res) {
+                console.log("ajax提交错误")
+            }
+        })
+        return data;
+    }
+
+    //获取登入者ID
+    var user = getUser();
+    var userID = 0;
+    if (user) {
+        userID = user.userId
+        $(".myInfoContain").css("display", "block")
+        $.ajax({
+            url: "userinfor"
+            , type: "post"
+            , data: {"userId": userID}
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                // console.log(jsonData)
+                var obj = jsonData.data;
+                var html = ` <div class="myInfoTitle">我的问答</div>
+                            <div class="myInfoImg">
+                                <img src="${user.headImg}" width="50x" height="50px">
+                                <span>${user.username}</span>
+                            </div>
+                            <div class="myInfoAsk">
+                                <div class="myInfoAskImg">问</div>
+                                <div class="myInfoAskText">
+                                    提了<span>${obj.askCount}</span>个问题，
+                                    <span>${obj.hasAnswerCount}</span>人进行了回答
+                                </div>
+                            </div>
+                            <div class="myInfoReplay">
+                                <div class="myInfoReplayImg">答</div>
+                                <div class="myInfoReplayText">
+                                    回答了<span>${obj.myAnswerCount}</span>个问题
+                                </div>
+                            </div>
+                            <div class="myInfoAlsoAsk">
+                                <div class="myInfoAlsoAskImg">答</div>
+                                <div class="myInfoAlsoAskText">
+                                    有<span>${obj.alsoCount}</span>个同问
+                                </div>
+                            </div>`
+                $(".myInfoContain").html(html)
+            }
+            , error: function (res) {
+                console.log("问答页个人信息ajax提交错误")
+            }
+        })
+    } else {
+        $(".myInfoContain").css("display", "none")
+    }
+
+    $(".textContain").on("click",".answerTitel",function () {
+        var askId=$(this).attr("data-askid");
+        location.href="askInfor.html?askId="+askId;
+    })
+    //头像跳转事件
+    $(".myInfoContain").on("click",".myInfoImg span",function () {
+        location.href="perInfor.html?viewUserId="+userID+"&type=blog"
+    })
+
+</script>
+</html>

@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详情页面</title>
+    <link rel="shortcut icon" href="#"/>
+    <link rel="stylesheet" href="css/siderBar2.css">
+    <script src="jquery/jquery.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shCore.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushJava.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushCss.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushPython.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushPhp.js"></script>
+    <link type="text/css" rel="stylesheet" href="syntax/styles/shCoreDefault.css"/>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <style>
+        #blog_page {
+            border-bottom: 2px red solid;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #E4E6CD;
+        }
+
+        .navigation div {
+            float: left;
+            font-size: 15px;
+            /*margin-top: 20px;*/
+            margin-left: 8px;
+            color: #707070;
+        }
+
+        .navigation img {
+            float: left;
+            vertical-align: middle;
+            margin-top: -3px;
+        }
+
+        .navigation {
+            width: 1220px;
+            margin: 0 auto;
+            padding: 10px;
+            height: 50px;
+            /*line-height: 50px;*/
+            /*border: 1px red solid;*/
+
+        }
+
+        .navigation input {
+            margin-left: 20px;
+            float: left;
+            height: 25px;
+            margin-top: -5px;
+        }
+
+        .navigation_frame {
+            background-color: white;
+            height: 50px;
+        }
+
+        .head_portrait {
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+
+        }
+
+        .content {
+            width: 1200px;
+            /*height: 600px;*/
+            /*border: 1px red solid;*/
+            margin: 10px auto;
+            overflow: hidden;
+            display: flex;
+
+        }
+
+        .content_left {
+            width: 300px;
+            /*float: left;*/
+            /*position: fixed;*/
+        }
+
+        .aside-box-top {
+            background: white;
+            height: 80px;
+            /*border: 1px red solid;*/
+            padding: 10px;
+
+        }
+
+        .focus {
+            border: 1px red solid;
+            float: right;
+            margin-top: 10px;
+            font-size: 15px;
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            padding-top: 5px;
+            color: red;
+            cursor: pointer;
+        }
+
+        .aside-box-middle {
+            background: white;
+            height: 80px;
+            margin-top: 5px;
+            /*border: 1px red solid;*/
+            padding: 10px;
+        }
+
+        .aside-box-middle-sub {
+            display: inline-block;
+            margin-left: 29px;
+            margin-top: 8px;
+            font-size: 15px;
+        }
+
+        .aside-box-middle-sub p:nth-child(2) {
+            font-weight: 700;
+        }
+
+        .aside-box-buttom {
+            background: white;
+            height: 150px;
+            margin-top: 5px;
+            /*border: 1px red solid;*/
+            padding: 10px;
+        }
+
+        .aside-box-buttom p {
+            margin-top: 10px;
+        }
+
+        .content_middle {
+            width: 900px;
+            /*border: 1px red solid;*/
+            /*height: 1800px;*/
+            /*float: left;*/
+            margin-left: 7px;
+            /*background: white;*/
+            /*margin-left: 305px;*/
+            /*padding:    10px;*/
+
+        }
+
+        .aside-box2 {
+            width: 300px;
+            /*height: 540px;*/
+            background: white;
+            margin-top: 10px;
+
+        }
+
+        .aside-box2-title {
+            background: #F5F5F5;
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .aside-box2-content {
+            padding-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .new_article, .Blogger_column, .pigeonhole, .hot_article, .latest_comments, .Personal_classification {
+            width: 300px;
+            height: 200px;
+            background: white;
+            margin-top: 10px;
+        }
+
+        .new_article {
+
+        }
+
+        .like {
+            width: 44px;
+            height: 56px;
+            background: white;
+            /*border: 1px green solid;*/
+            margin-top: 2px;
+            text-align: center;
+            cursor: pointer;
+            line-height: 56px;
+        }
+
+
+        .clike_font, .ccomment_font, .ccatalog_font, .ccollect_font, .cphone_look_font {
+            color: red;
+            display: none
+        }
+
+        .like:hover .clike {
+            display: none;
+        }
+
+        .like:hover .clike_font {
+            display: block;
+        }
+
+        .comment, .catalog, .phone_look, .collect {
+            width: 44px;
+            height: 56px;
+            background: white;
+            /*border: 1px green solid;*/
+            margin-top: 2px;
+            text-align: center;
+            cursor: pointer;
+            line-height: 56px;
+        }
+
+        .comment:hover .ccomment {
+            display: none;
+        }
+
+        .comment:hover .ccomment_font {
+            display: inline-block;
+        }
+
+        .catalog:hover .ccatalog {
+            display: none;
+        }
+
+        .catalog:hover .ccatalog_font {
+            display: inline-block;
+        }
+
+        .collect:hover .ccollect {
+            display: none;
+        }
+
+        .collect:hover .ccollect_font {
+            display: inline-block;
+        }
+
+        .phone_look:hover .cphone_look {
+            display: none;
+        }
+
+        .phone_look:hover .cphone_look_font {
+            display: inline-block;
+        }
+
+
+        .content_right {
+            width: 50px;
+            height: 590px;
+            /*border: 1px green solid;*/
+            /*float: left;*/
+            margin-left: 3px;
+            position: fixed;
+            left: 95%;
+
+        }
+
+        .content_middle_content {
+            background-color: white;
+            /*height: 400px;*/
+            overflow: hidden;
+
+        }
+
+        .replay {
+            text-align: center;
+            width: 900px;
+            /*border: 1px red solid;*/
+            /*height: 200px;*/
+            /*float: left;*/
+            /*margin-left: 305px;*/
+            background: white;
+            margin-top: 3px;
+
+
+        }
+
+        #licenseother {
+            padding: 10px;
+            height: 120px;
+            width: 840px;
+            margin: 20px;
+
+
+        }
+
+        .submit_replay {
+            float: right;
+            margin-right: 40px;
+            background: red;
+            color: white;
+            width: 120px;
+            height: 30px;
+            line-height: 30px;
+            cursor: pointer;
+        }
+
+        .collect_frame {
+            display: none;
+            text-align: center;
+        }
+
+        .replays {
+
+            clear: both;
+            text-align: left;
+            margin: 20px;
+        }
+
+        .replays img {
+            width: 30px;
+            height: 30px;
+            border-radius: 30px;
+        }
+
+        #blog {
+            border-bottom: 2px red solid;
+        }
+
+        .blog_type {
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            border: 1px red solid;
+            color: red;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .content_middle_content_title {
+            padding: 10px;
+        }
+
+        .content_middle_content_title .title {
+            display: inline-block;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .content_middle_content_title p {
+            margin-top: 20px;
+            font-size: 15px;
+            color: #707070;
+        }
+
+        .new_collect {
+            clear: both;
+            width: 340px;
+            font-size: 20px;
+            display: none;
+        }
+
+        .layui-form-label {
+            margin-left: -14px;
+        }
+
+        .layui-textarea {
+            margin-left: -35px;
+            width: 247px;
+        }
+
+        .new_article_items {
+            height: 20px;
+            text-overflow: ellipsis;
+            width: 260px;
+            white-space: nowrap;
+            overflow: hidden;
+            margin-top: 10px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .new_article_items:hover {
+            color: red;
+        }
+
+        .content_middle_content_content {
+            padding: 10px;
+            margin: auto;
+            width: 850px;
+        }
+        .show{
+            display: block;
+        }
+    </style>
+</head>
+<body style="background-color:  #E4E6CD">
+
+<div id="titleContai" ></div>
+<div class="content">
+    <div class="content_left">
+        <div class="aside-box">
+
+        </div>
+
+        <div class="new_article">
+            <div class="aside-box2-title" style="font-weight: bolder;padding-left: 10px;border-left: solid 2px red">
+                <p>最新文章</p>
+            </div>
+            <div class="new_article_content">
+
+            </div>
+        </div>
+        <div class="aside-box2">
+            <div class="aside-box2-title" style=";font-weight:bolder;padding-left: 10px;border-left: solid 2px red">
+                <p>热门文章</p>
+
+            </div>
+            <div class="aside-box2-content">
+
+            </div>
+        </div>
+
+        <img src="imgs/introduce/csdn.png" style="margin-top: 10px;">
+
+    </div>
+    <!--<div class="content_left_and_right">-->
+
+
+    <div class="content_middle">
+        <div class="content_middle_content">
+            <div class="content_middle_content_title">
+
+            </div>
+            <hr>
+            <div class="content_middle_content_content">
+
+            </div>
+        </div>
+        <!--<hr style="border: 2px #E4E6CD solid">-->
+        <div class="replay" id="replay_1">
+            <textarea cols=100 rows=4 id="licenseother" onkeypress="count()" onkeyup="count()" onblur="count();"
+                      onChange="count();"></textarea>
+            <!--<textarea type="text" id="replay"></textarea>-->
+            <div>
+                <div class="submit_replay" id="submit_replay">发表评论</div>
+                <span style="float: right;margin-right: 10px">还能输入 <span id="span_id">255</span> 个字符</span>
+            </div>
+            <hr>
+            <div class="replaylist"></div>
+            <div id="pageContainer"></div>
+        </div>
+    </div>
+
+
+    <div class="content_right" id="content_right">
+        <div class="like" id="like">
+
+            <img src="imgs/icons/blog/hand.png" style="margin-top: 10px;margin-left: 3px" class="clike">
+
+            <p class="clike_font">点赞</p>
+        </div>
+        <div class="comment" id="comment">
+            <a href="#replay_1">
+                <img src="imgs/icons/blog/comment.png" style="margin-top: 10px;margin-left: 4px" class="ccomment">
+                <div class="ccomment_font">评论</div>
+            </a>
+        </div>
+        <div class="catalog" id="catalog">
+            <img src="imgs/icons/blog/catalog.png" style="margin-top: 10px;margin-left: 0px" class="ccatalog">
+
+            <div class="ccatalog_font"><span style="margin-right: 100px">类别</span>
+                <div style="margin-left: 50px;width: 100px;height: 50px;overflow: hidden;margin-top: -50px;color: #9a9afb"
+                     id="categoryings">
+                </div>
+            </div>
+        </div>
+        <div class="collect" id="collect">
+            <img src="imgs/icons/blog/collect.png" style="margin-top: 10px;margin-left: -1px" class="ccollect">
+            <div class="ccollect_font">收藏</div>
+        </div>
+        <div class="phone_look" id="phone_look">
+            <img src="imgs/icons/blog/phone_look.png" style="margin-top: 10px;margin-left:-4px" class="cphone_look">
+            <div class="cphone_look_font">手机</div>
+        </div>
+
+    </div>
+</div>
+
+</div>
+<!--弹出层-->
+<div class="collect_frame" id="collect_frame" style="display: none;">
+    <div id="collects">
+        <!--<p style="margin-top: 20px">-->
+        <!--<div style="display: inline-block;width: 180px">浏览器从服务器下载文件</div>-->
+        <!--<div style="border: 1px red solid;width: 50px;display: inline-block;color: red;cursor: pointer" class="collect_button">收藏</div>-->
+        <!--</p>-->
+        <!--<hr>-->
+    </div>
+
+    <div>
+        <span style="float: right;margin-right: 20px;color: red;margin-bottom: 15px;cursor: pointer" id="newCollect">新建收藏夹</span>
+    </div>
+</div>
+<!--手机观看-->
+<div class="phone_look_frame" id="phone_look_frame" style="display: none">
+    <img src="imgs/saoma/Qrcode2.png">
+</div>
+<!--新建收藏夹-->
+<div class="new_collect" id="new_collect">
+    <div style="margin: 10px"><span style="margin-right: 20px">标题</span>
+        <input type="text" placeholder="请填写收藏夹的名称" id="new_collect_tilte_value">
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容(选填)" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <p style="float: right;margin-right: 20px;color: red;cursor: pointer;margin-bottom: 10px" id="new_collect_submit">
+        确定</p>
+</div>
+<div class="siderBar">
+    <!--<div class="siderBar-bg" ></div>-->
+    <ul>
+        <!--<li>返回</li>-->
+        <!--<li>顶部</li>-->
+        <div>
+            <div class="siderBar-line"></div>
+
+            <div class="siderBar-goTop" id="btn"></div>
+
+        </div>
+    </ul>
+</div>
+</body>
+
+
+<script src="layui/layui.all.js"></script>
+<script>
+    //评论分页
+    var AAA=0;
+    var laypage;
+    var pageNum = 1;
+    var register_Status = 0;
+    //0为未关注，1为关注
+    var focus_status = 0;
+    var blog_id = getQueryString("blog_id")
+    var userid = 0;
+    var user = getUser();
+    if (user) {
+        userid = user.userId
+    }
+    //是否点赞
+    var islike = 0
+    var bloguserid = 0
+    // var pageSize = 3;
+    $("#titleContai").load("title.html")
+    $(function () {
+        load()
+        // getUserInformation()
+        loadReq(pageNum)
+    })
+    layui.use('laypage', function () {
+        laypage = layui.laypage;
+    });
+
+    function renderPager(totalCount) {
+        laypage.render({
+            elem: 'pageContainer'
+            ,count: totalCount //数据总数，从服务端得到
+            , curr: pageNum
+            , limit: 5
+            ,jump: function(obj, first){
+                //obj包含了当前分页的所有参数，比如：
+                //////console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                //////console.log(obj.limit); //得到每页显示的条数
+
+                //首次不执行
+                if(!first){
+                    //把分页值，和分页量（分页量可能会变化）
+                    pageNum = obj.curr;
+                    // pageSize = obj.limit;
+                    loadReq(pageNum);
+                }
+            }
+        });
+    }
+
+    function loadReq(pageNum) {
+        //渲染此博文的评论
+        var blog_id = getQueryString("blog_id")
+        $.ajax({
+            url: "/queryReplayByBlogId",
+            data: {"blogid": blog_id, "pageNum": pageNum},
+            dataType: "json",
+            type: "get",
+            success: function (json) {
+                //console.log(json)
+                $(".replaylist").html("")
+                $.each(json.data, function (index, eachobj) {
+                    var html = ` <div class="replays">
+                                     <div style="overflow: hidden;height: 40px" >
+                                       <div style="float: left">
+                                        <img  src="${eachobj.user.headImg}">
+                                        </div>
+                                       <div style="line-height:30px;margin-left: 5px;margin-right: 5px;float: left">
+                                       <a class="WWW" style="float: left;color: #2e2e2e;font-size: 14px" href="perInfor.html?viewUserId=${eachobj.user.userId}&type=blog">${eachobj.user.nickname}:</a>
+                                       </div>
+                                        <span style="line-height:30px;float: left;color: #999;font-size: 14px">${eachobj.time}</span>
+                                         <div style="line-height:30px;float: right;color:#94b7ea">
+                                             <span>${eachobj.commentuserid==userid?"删除":""}</span>
+                                             <!--<span>举报</span>-->
+                                             <span class="replayson" data-value="${eachobj.id}" style="cursor: pointer" >回复${eachobj.sonreplaycount>0?'('+eachobj.sonreplaycount+')':""}</span>
+
+                                        </div>
+                                     </div>
+                                     <div ></div>
+                                      <div style="margin-left: 30px;color: #4d4d4d"> ${eachobj.comment}</div>
+                                      <div class="replayfson"  style="display: none;margin-top:10px;padding: 10px;margin-left:30px ;width: 810px;border-left: 4px solid #c5c5c5">
+                                           <input type = "hidden" class="YYY" name = "BBB" value = "">
+                                           <div class="replayfson2" data-value="${eachobj.commentuserid}"> </div>
+                                            <div style="margin-top: 5px;display: flex">
+                                                <textarea maxlength="200" class="ZZZ" style="padding: 3px;width: 750px"></textarea>
+                                                <div>
+                                                    <button type="button"   class="layui-btn layui-btn-primary sss">回复</button>
+                                                </div>
+                                                <hr>
+                                            </div>
+                                      </div>
+                                </div>
+                            <hr>`
+                    $(".replaylist").append(html)
+                })
+
+                $(".sss").click(function () {
+                    var blogReplay= $(this).parents(".replays").find(".replayson");
+                    var replayfson3= $(this).parents(".replays").find(".replayfson .YYY");
+                    var replayfson4= $(this).parents(".replays").find(".replayfson .ZZZ");
+                    var blog_id = getQueryString("blog_id")
+                    var blogReplayId=blogReplay.attr("data-value");
+                    var replayUserId=replayfson3.val();
+                    var comment=replayfson4.val();
+                    $.ajax({
+                        url: "blogReplaySonsave",
+                        data: {"blogReplayId": blogReplayId,"comment":comment,"replayUserId":replayUserId,"blogid":blog_id},
+                        dataType: "json",
+                        type: "post",
+                        success: function (json) {
+                            // //console.log(json)
+                            window.location.reload()
+                        },
+                        error: function () {
+
+                        }
+                    })
+                })
+
+                $(".replayson").click(function () {
+                   var replayfson= $(this).parents(".replays").find(".replayfson");
+                   var replayfson2= $(this).parents(".replays").find(".replayfson .replayfson2");
+                   var replayfson3= $(this).parents(".replays").find(".replayfson .YYY");
+                   var replayfson4= $(this).parents(".replays").find(".replayfson .ZZZ");
+                   var replayfson5= $(this).parents(".replays").find(".WWW");
+                    replayfson4.attr('placeholder',replayfson5.text());
+                    replayfson3.val(replayfson2.attr("data-value"));
+                    replayfson2.empty()
+                    var blogReplayId=$(this).attr("data-value")
+
+                    // //console.log()
+                    $.ajax({
+                        url: "queryBlogReplaySonByReplayId",
+                        data: {"blogReplayId": blogReplayId},
+                        type: "post",
+                        dataType: "json",
+                        success: function (json) {
+                            ////console.log(json)
+                            $.each(json.data, function (index, eachobj) {
+                                var  html=`<div class="VVV">
+                                              <img style="width: 20px;height: 20px" src="${eachobj.commentheadimg}" alt="">
+                                               <a class="UUU" style="color: #2e2e2e;font-size: 14px" href="perInfor.html?viewUserId=${eachobj.commentuserid}&type=blog">${eachobj.commentnickname}:</a>
+                                               <span style="line-height:30px;color: #999;font-size: 14px">${eachobj.time}</span>
+                                               <a  style="${eachobj.commentuserid==eachobj.replayUserId?"display:none":""};color: #2e2e2e;font-size: 14px" href="perInfor.html?viewUserId=${eachobj.replayUserId}&type=blog">${eachobj.replayUsernickname}</a>
+                                                  <div style="line-height:30px;float: right;color:#94b7ea">
+                                                     <span>${eachobj.commentuserid==userid?"删除":""}</span>
+                                                     <!--<span>举报</span>-->
+                                                     <span style="${eachobj.commentuserid==userid?"display:none":""};cursor: pointer" class="sss2" data-value="${eachobj.commentuserid}">回复</span>
+                                                   </div>
+                                           </div>
+                                            <div style="word-wrap:break-word;margin-left: 30px;color: #4d4d4d"> ${eachobj.comment}</div>
+                                           `
+                                replayfson2.append(html)
+                            })
+                            $(".sss2").click(function () {
+                                replayfson3.val($(this).attr("data-value"));
+                                replayfson4.attr('placeholder',$(this).parents(".VVV").find(".UUU").text()+":");
+                            })
+
+
+                        },
+                        error: function () {
+
+                        }
+                    })
+                    replayfson.toggle()
+                })
+                renderPager(json.count);
+            },
+            error: function () {
+
+            }
+        })
+    }
+
+    function queryBlogReplaySonByReplayId(blogReplayId) {
+
+    }
+
+    // 限制字符
+    function getStringUTFLength(str) {
+        var value = str.replace(/[\u4e00-\u9fa5]/g, " ");
+        //将汉字替换为两个空格
+        return value.length;
+    }
+
+    function leftUTFString(str, len) {
+        if (getStringUTFLength(str) <= len) {
+            return str;
+        }
+        var value = str.substring(0, len);
+        while (getStringUTFLength(value) > len) {
+            value = value.substring(0, value.length - 1);
+        }
+        return value;
+    }
+
+    function count() {
+        var len = 255;
+        var value = document.getElementById("licenseother").value;
+        if (getStringUTFLength(value) >= len) {
+            document.getElementById("licenseother").value = leftUTFString(document.getElementById("licenseother").value, len);
+        }
+        document.getElementById("span_id").innerText = len - getStringUTFLength(document.getElementById("licenseother").value);
+    }
+
+    //回到顶部
+    var timer = null;
+    document.getElementById("btn").onclick = function () {
+        cancelAnimationFrame(timer);
+        timer = requestAnimationFrame(function fn() {
+            var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+            if (oTop > 0) {
+                scrollBy(0, -50);
+                timer = requestAnimationFrame(fn);
+            } else {
+                cancelAnimationFrame(timer);
+            }
+        });
+    }
+
+    //地址参数获取
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return r[2];
+        return null;
+    }
+
+    // SyntaxHighlighter.highlight()
+    // layui.use('layer', function () {
+    //     $ = layui.jquery
+        //引用表头
+        window.onscroll = function () {
+            if (document.documentElement.scrollTop > 50) {
+                $("#content_right").css("top", "0px")
+                $(".content_left").css("top", "0px")
+            }
+            if (document.documentElement.scrollTop <= 50) {
+                $("#content_right").css("top", "60px")
+                $(".content_left").css("top", "60px")
+            }
+        }
+
+
+
+    //获取当前用户
+    function getUser() {
+        var data;
+        $.ajax({
+            url: "isEnter"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                //////////////////console.log(jsonData)
+                if (jsonData.success == 1) {
+                    data = jsonData.data;
+                }
+            }
+            , error: function (res) {
+                //////////////////console.log("ajax提交错误")
+            }
+        })
+        return data;
+    }
+
+        //页面加载渲染
+        function load() {
+            //页面加载时增加博客的阅读量
+            $.ajax({
+                url: "blog/addReadCount",
+                data: {"id": blog_id},
+                type: "GET",
+                dataType: "json",
+                success: function (json) {
+                    // //////console.log(json)
+                },
+                error: function () {
+
+                }
+            })
+            //页面加载渲染博文正文
+            $.ajax({
+                url: "/blog/" + blog_id,
+                type: "GET",
+                dataType: "json",
+                success: function (json) {
+
+                    // ////console.log(json)
+                    //////console.log("dadadada")
+                    if (json.success = 200) {
+                        $("#categoryings").text(json.data.category)
+                        $(".content_middle_content").html("")
+                        var html = ` <div class="content_middle_content_title">
+                <div class="blog_type">原</div>
+                <div class="title">${json.data.title}</div>
+                <p>
+                    <span>${json.data.createtime}</span>
+
+                    <span>阅读数：${json.data.readCount}</span>
+                </p>
+            </div>
+            <div class="content_middle_content_content">${json.data.content}</div>   `
+                        $(".content_middle_content").append(html)
+                    }
+
+
+                },
+                error: function () {
+
+                }
+            })
+
+
+
+            function getUserInformation() {
+                        //查找是否点赞此博文
+                        $.ajax({
+                            url: "/queryIsLike",
+                            data: {"blogId": blog_id},
+                            dataType: "json",
+                            type: "get",
+                            success: function (json) {
+                                // //////console.log("dadaadaadada")
+                                // //////console.log(json)
+                                if (json.success == 1) {
+
+                                    $("#like").find("img").attr("src", "imgs/icons/blog/hand2.png")
+                                    $("#like").find(".clike_font").text("取消")
+                                    islike = 1
+
+                                }
+                            },
+                            error: function () {
+
+                            }
+                        })
+
+                        //渲染用户收藏夹
+                        $.ajax({
+                            url: "/queryCollectByUserId",
+                            data: {"userId": userid, "blogId": blog_id},
+                            type: "get",
+                            dataType: "json",
+                            success: function (json) {
+                                // //////console.log("用户id为："+userid)
+                                // //////console.log(json)
+                                $.each(json.data, function (index, eachobj) {
+                                    if (eachobj.isCollectBlogId != 0) {
+                                        var html = `<p style="margin-top: 20px">
+        <div style="display: inline-block; width: 180px">${eachobj.name}</div>
+        <div style="border: 1px #8B8C8C solid;width: 50px;display: inline-block;color:#8B8C8C;cursor: pointer" class="collect_button" collect_id="${eachobj.id}" isCollect="1">已收藏</div>
+        </p>
+        <hr>`
+                                    } else {
+                                        var html = `<p style="margin-top: 20px">
+        <div style="display: inline-block; width: 180px">${eachobj.name}</div>
+        <div style="border: 1px red solid;width: 50px;display: inline-block;color: red;cursor: pointer" class="collect_button" collect_id="${eachobj.id}" isCollect="0">收藏</div>
+        </p>
+        <hr>`
+                                    }
+
+                                    $("#collects").append(html)
+
+                                })
+                                //点击收藏按钮
+                                $(".collect_button").click(function () {
+                                    if ($(this).attr("isCollect") == 0) {
+                                        var collect_id = $(this).attr("collect_id")
+                                        // //////console.log(collect_id)
+                                        $.ajax({
+                                            url: "/addCollectitems",
+                                            data: {"collectId": collect_id, "blogId": blog_id},
+                                            dataType: "json",
+                                            type: "get",
+                                            success: function (json) {
+                                            },
+                                            error: function () {
+
+                                            }
+                                        })
+
+                                        alert("收藏成功！")
+                                        $(this).css("border", "1px #8B8C8C solid")
+                                        $(this).css("color", "#8B8C8C")
+                                        $(this).text("已收藏")
+                                        $(this).attr("isCollect", "1")
+                                        window.location.href = "/details.html?blog_id=" + blog_id
+
+                                    } else {
+                                        var collect_id = $(this).attr("collect_id")
+                                        //////console.log(collect_id)
+                                        $.ajax({
+                                            url: "/deleteCollectitems",
+                                            data: {"collectId": collect_id, "blogId": blog_id},
+                                            dataType: "json",
+                                            type: "get",
+                                            success: function (json) {
+                                                //////console.log(json)
+
+
+                                            },
+                                            error: function () {
+
+                                            }
+                                        })
+                                        alert("取消收藏成功！")
+                                        $(this).css("border", "1px red solid")
+                                        $(this).css("color", "red")
+                                        $(this).text("收藏")
+                                        $(this).attr("isCollect", "0")
+                                        // alert("您已经收藏过，不用多次收藏")
+                                    }
+
+                                })
+                            },
+                            error: function () {
+
+                            }
+                        })
+            }
+
+
+
+
+            //获取博文主人信息的方法
+            function blogUserIdReq(data) {
+                var html = `
+            <div class="aside-box-top">
+                <img class="head_portrait" src="${data.headImg}" userid="${data.userId}" id="img_head" style="cursor: pointer">
+                <span>${data.nickname}</span>
+                <span class="focus" id="focus">关注</span>
+            </div>
+            <div class="aside-box-middle">
+                <div class="aside-box-middle-sub">
+                    <p>原创</p>
+                    <p>${data.blogCount}</p>
+                </div>
+                <div class="aside-box-middle-sub">
+                    <p>粉丝</p>
+                    <p>${data.fansCount}</p>
+                </div>
+                <div class="aside-box-middle-sub">
+                    <p>获赞</p>
+                    <p>${data.likeCount}</p>
+                </div>
+                <div class="aside-box-middle-sub">
+                    <p>评论</p>
+                    <p>${data.commentCount}</p>
+                </div>
+            </div>
+            <div class="aside-box-buttom">
+                <p>
+                <div style="width: 100px;display: inline-block;margin-left: 30px;">
+                    等级：<span style="color: blue">博客</span><span style="font-weight: 700;">${data.level}</span>
+                </div>
+                <div style="width: 120px;display: inline-block;">
+                  访问：<span style="font-weight: 700;">${data.visitorCount}</span>
+                </div>
+                </p>
+                <div style="width: 100px;display: inline-block;margin-left: 30px;">
+                    <p>积分：<span style="font-weight: 700;">${data.downloadmoney}</span>
+                </div>
+               <div style="width: 120px;display: inline-block">
+                排名：<span style="font-weight: 700;">${data.ranking}</span>
+                </div>
+                </p>
+                <a style="float:left;color: #00A3D9;cursor: pointer;margin-top: 10px" href="blog_home.html?bloguserid=${data.userId}" >TA的个人博客</a>
+                <p style="float: right;color: #00A3D9;cursor: pointer" id="personal_homepage" userid="${data.userId}">TA的个人主页></p>
+            </div>
+        `
+                $(".aside-box").append(html)
+                $("#personal_homepage").click(function () {
+                    var userid = $(this).attr("userid")
+                    window.location.href = "perInfor.html?viewUserId=" + userid + "&type=blog"
+
+                })
+                $("#img_head").click(function () {
+                    var userid = $(this).attr("userid")
+                    window.location.href = "perInfor.html?viewUserId=" + userid + "&type=blog"
+                })
+                //关注块
+                $("#focus").click(function () {
+                    if (userid != 0) {
+                        // //////console.log(userid)
+                        //如果登陆成功，需要请求ajax访问数据库关注数据表
+                        //首先进行关注状态的判断
+                        //状态为关注
+                        if (focus_status == 0) {
+
+                            //设置为取消关注
+                            $("#focus").css("width", "100px")
+                            $("#focus").text("取消关注")
+                            focus_status = 1;
+                            $.ajax({
+                                url: "addFocus",
+                                data: {"blogUserId": bloguserid},
+                                type: "get",
+                                dataType: "json",
+                                success: function (json) {
+                                    //////console.log(json)
+
+                                }, error: function (xhr) {
+
+                                }
+                            })
+
+                            //状态为关注
+                        } else {
+                            $("#focus").css("width", "50px")
+                            $("#focus").text("关注")
+                            focus_status = 0;
+                            $.ajax({
+                                url: "deleteFocus",
+                                data: {"blogUserId": bloguserid},
+                                type: "get",
+                                dataType: "json",
+                                success: function (json) {
+                                    //////console.log(json)
+                                }, error: function (xhr) {
+
+                                }
+                            })
+                        }
+                    } else {
+                        alert("请先登录！")
+                        window.location.href = "/login.html"
+                    }
+
+
+                })
+
+            }
+
+            //通过博文id查找博文用户id，渲染页面，原创，粉丝，喜欢，评论
+            $.ajax({
+                url: "/blog/queryUserIdById",
+                data: {"blogId": blog_id},
+                type: "get",
+                dataType: "json",
+                success: function (json) {
+                    // //////console.log(json.data+"aaaasssss")
+                    bloguserid = json.data
+                    //
+                    $.ajax({
+                        url: "/blog/blog/" + bloguserid,
+                        type: "GET"
+                        , dataType: "json"
+                        , success: function (jsonData) {
+                            // //////console.log("----------")
+                            // //////console.log(jsonData)
+                            // //////console.log("----------")
+                            //渲染博主的信息
+                            blogUserIdReq(jsonData.data)
+
+                            //查找是否点赞此博文
+                            $.ajax({
+                                url: "/queryIsLike",
+                                data: {"blogId": blog_id, "userId": userid},
+                                dataType: "json",
+                                type: "get",
+                                success: function (json) {
+                                    // //////console.log(json)
+                                    if (json.success == 1) {
+
+                                        $("#like").find("img").attr("src", "imgs/icons/blog/hand2.png")
+                                        $("#like").find(".clike_font").text("取消")
+                                        islike = 1
+
+                                    }
+                                },
+                                error: function () {
+
+                                }
+                            })
+
+                            //查找此用户是否关注博文用户
+                            $.ajax({
+                                url: "/queryIsFocus",
+                                data: {"bloguserid": bloguserid},
+                                type: "get",
+                                dataType: "json",
+                                success: function (json) {
+                                    // //////console.log("kkkk________kkkkkkkk+++++++")
+                                    // //////console.log(json)
+                                    // //////console.log("kkkk________kkkkkkkk+++++++")
+                                    if (json.success != 400) {
+                                        if (json.success != 0) {
+                                            $("#focus").css("width", "100px")
+                                            $("#focus").text("取消关注")
+                                            focus_status = 1
+                                        }
+                                    } else {
+                                        $("#focus").css("display", "none")
+                                    }
+
+                                },
+                                error: function () {
+
+                                }
+                            })
+
+
+                        }
+                        , error: function (res) {
+                            //////console.log("ajax提交错误")
+                        }
+                    })
+                    //渲染博主的最新文章
+                    $.ajax({
+                        url: "/blog/queryByUserId",
+                        data: {"userId": bloguserid, "pageNum": 1},
+                        type: "GET"
+                        , dataType: "json"
+                        , success: function (json) {
+                            $(".new_article_content").html("")
+                            $.each(json.data, function (index, eachobj) {
+                                var html = `  <p class="new_article_items" blog_id="${eachobj.id}" >${eachobj.title}</p>`
+                                $(".new_article_content").append(html)
+                                if (index == 4) {
+                                    return false
+                                }
+                            })
+                            $(".new_article_items").click(function () {
+                                var blog_id = $(this).attr("blog_id")
+                                window.location.href = "/details.html?blog_id=" + blog_id
+                            })
+
+                        }
+                        , error: function () {
+
+                        }
+                    })
+                    //渲染博主的热门文章
+                    $.ajax({
+                        url: "/blog/queryBlogIdByUserIdAndReadCount",
+                        data: {"userId": bloguserid, "pageNum": 1},
+                        type: "GET"
+                        , dataType: "json"
+                        , success: function (json) {
+                            ////console.log(json)
+                            $(".aside-box2-content").html("")
+                            $.each(json.data, function (index, eachobj) {
+                                var html = `<p class="new_article_items" blog_id="${eachobj.id}" >${eachobj.title}</p><p style="color: #858585;font-size: 12px;margin-left: 10px;margin-top: -5px">阅读数：${eachobj.readCount}</p>`
+                                $(".aside-box2-content").append(html)
+                                if (index == 4) {
+                                    return false
+                                }
+                            })
+                            $(".new_article_items").click(function () {
+                                var blog_id = $(this).attr("blog_id")
+                                window.location.href = "/details.html?blog_id=" + blog_id
+                            })
+
+                        }
+                        , error: function () {
+
+                        }
+                    })
+
+                },
+                error: function () {
+
+                }
+            })
+
+
+        }
+
+
+        //消息
+        $(".TmsgContain").click(function () {
+            if (userid == 0) {
+                alert("请先登录！")
+            } else {
+                window.location.href = "https://www.baidu.com"
+            }
+        })
+        //写博客
+        $("#write_blog").click(function () {
+            if (register_Status == 0) {
+                alert("请先登录！")
+            } else {
+                window.location.href = "https://www.baidu.com"
+            }
+        })
+
+
+        //TA的个人主页-->
+        $("#personal_homepage").click(function () {
+            //需要将个人信息携带到地址栏中
+            window.location.href = "";
+        })
+        //点击
+        //是否点赞
+        $("#like").click(function () {
+            if (userid != 0) {
+                if (islike == 0) {
+                    //////console.log(121)
+                    $(this).find("img").attr("src", "imgs/icons/blog/hand2.png")
+                    $(this).find(".clike_font").text("取消")
+                    islike = 1
+                    $.ajax({
+                        url: "/addLike",
+                        data: {"blogId": blog_id, "userId": userid},
+                        dataType: "json",
+                        type: "get",
+                        success: function (json) {
+
+                        },
+                        error: function () {
+
+                        }
+                    })
+                } else {
+                    $(this).find("img").attr("src", "imgs/icons/blog/hand.png")
+                    $(this).find(".clike_font").text("点赞")
+                    islike = 0
+                    $.ajax({
+                        url: "/deleteLike",
+                        data: {"blogId": blog_id, "userId": userid},
+                        dataType: "json",
+                        type: "get",
+                        success: function (json) {
+
+                        },
+                        error: function () {
+
+                        }
+                    })
+                }
+            } else {
+                alert("请先登录！")
+            }
+
+
+        })
+
+
+        // var layer = layui.layer;
+
+        // layer.msg('hello');
+        $("#collect").click(function () {
+            if (userid != 0) {
+                layer.open({
+                    area: ["300px"],
+                    title: "添加收藏",
+                    type: 1,
+                    content: $('#collect_frame'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                    cancel: function () {
+                        $("#collect_frame").css("display", "none");
+                    }
+                });
+            } else {
+                alert("您还没有登录，请先登录！")
+            }
+
+        })
+        $("#phone_look").click(function () {
+            layer.open({
+                area: ["260px", "300px"],
+                title: "分享到微信朋友圈",
+                type: 1,
+                content: $('#phone_look_frame'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                cancel: function () {
+                    $("#phone_look_frame").css("display", "none");
+                }
+            });
+        })
+
+        //添加收藏夹绑定事件
+        $("#newCollect").click(function () {
+            layer.open({
+                area: ["350px"],
+                title: "新建收藏夹",
+                type: 1,
+                content: $("#new_collect"),//这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                cancel: function () {
+                    $("#new_collect").css("display", "none");
+                }
+            });
+        })
+
+
+        //发表评论
+        $("#submit_replay").click(function () {
+            if (userid != 0) {
+                var replay_value = $("#licenseother").val()
+                if (replay_value != "") {
+                    // //////console.log(replay_value)
+                    $.ajax({
+                        url: "/addBlogReplay",
+                        data: {"comment": replay_value, "blogid": blog_id},
+                        dataType: "json",
+                        type: "get",
+                        success: function (json) {
+                            // //////console.log(json)
+                            if (json.success == 1) {
+                                alert("发表评论成功")
+                                $("#licenseother").val("")
+                                window.location.href = "/details.html?blog_id=" + blog_id
+                            }
+                        },
+                        error: function () {
+
+                        }
+                    })
+                } else {
+                    alert("请输入评论内容！")
+                }
+
+            } else {
+                alert("您还没有登录，请先登录！")
+                window.location.href = "/login.html"
+            }
+
+        })
+        //给新建收藏夹确定按钮绑定事件
+        $("#new_collect_submit").click(function () {
+            var new_collect__title_value = $("#new_collect_tilte_value").val()
+            //////console.log(new_collect__title_value)
+            if (new_collect__title_value != "") {
+                $.ajax({
+                    url: "/addCollect",
+                    data: {"name": new_collect__title_value, "userid": userid},
+                    dataType: "json",
+                    type: "get",
+                    success: function (json) {
+                        // //////console.log(json)
+                        parent.layer.close(parent.layer.index);
+                        alert("新建收藏夹成功")
+                        window.location.href = "/details.html?blog_id=" + blog_id
+                    },
+                    error: function () {
+
+                    }
+                })
+            } else {
+                alert("收藏夹名称不能为空")
+            }
+
+        })
+
+    // });
+
+
+</script>
+</html>

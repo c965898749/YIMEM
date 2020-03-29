@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
+        <script src="js/jquery.js"></script>
+    </head>
+    <body>
+        <div id="test1"></div>
+        <script>
+            $(function () {
+                ajaxGetCategory()
+            })
+            // ajax获取资源方法
+            function ajaxGetCategory() {
+                // $.ajax({
+                //     url: baseUrl + '/api/Category',
+                //     data: {"method": "queryAllCategory"},
+                //     type: "get",
+                //     dataType: "json",
+                //     success: function (jsonData) {
+                //         Category = jsonData.data;
+                //         insetCategory(Category);
+                //     }
+                // })
+
+                var Category=[{
+                    title: '江西' //一级菜单
+                    ,children: [{
+                        title: '南昌' //二级菜单
+                        ,children: [{
+                            title: '高新区' //三级菜单
+                            //…… //以此类推，可无限层级
+                        }]
+                    }]
+                },{
+                    title: '陕西' //一级菜单
+                    ,children: [{
+                        title: '西安' //二级菜单
+                    }]
+                }];
+                insetCategory(Category)
+
+            }
+            function  insetCategory(Category) {
+                // var data=[{title:"总大类",children:Category}];
+                var data=Category;
+                var inst1 = tree.render({
+                    elem: '#test1'  //绑定元素
+                    , data:data
+                });
+            }
+        </script>
+        <script src="layui/layui.all.js"></script>
+        <script>
+            var tree;
+            layui.use("tree", function () {
+                tree = layui.tree;
+            });
+        </script>
+    </body>
+</html>

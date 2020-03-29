@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.UploadMapper">
+    <resultMap id="baseResultMap" type="com.sy.model.Upload">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="createtime" column="createtime"/>
+        <result property="appraise" column="appraise"/>
+        <result property="userid" column="userid"/>
+        <result property="size" column="size"/>
+        <result property="price" column="price"/>
+        <result property="status" column="status"/>
+        <result property="categoryid" column="categoryid"/>
+        <result property="categoryid2" column="categoryid2"/>
+        <result property="downloadCount" column="downloadCount"/>
+        <result property="leixin" column="leixin"/>
+        <result property="src" column="src"/>
+        <result property="intro" column="intro"/>
+        <result property="replyCount" column="replyCount"/>
+        <result property="name" column="name"/>
+        <result property="leixin2" column="leixin2"/>
+        <association property="user" javaType="com.sy.model.User">
+            <id property="userId" column="userId"/>
+            <result property="username" column="username"/>
+            <result property="headImg" column="headImg"/>
+        </association>
+    </resultMap>
+    <!--查询所有(条件)-->
+    <select id="selectAll" resultMap="baseResultMap">
+        select `upload`.*,`user`.username,`user`.headImg from `csdn`.`upload`
+        LEFT JOIN `csdn`.`user` on `upload`.userid=`user`.userid
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="userid !=null and userid !=''">
+                and upload.userid=#{userid}
+            </if>
+            <if test="title !=null and title !=''">
+                and title like concat('%',#{title},'%')
+            </if>
+            <if test="categoryid !=null and categoryid !=''">
+                and categoryid = #{categoryid}
+            </if>
+            <if test="categoryid2 !=null and categoryid2 !=''">
+                and categoryid2 = #{categoryid2}
+            </if>
+            <if test="leixin !=null and leixin !=''">
+                and leixin like concat('%',#{leixin},'%')
+            </if>
+            <if test="status !=null and status !=''">
+                and status =#{status}
+            </if>
+        </trim>
+        ORDER BY createtime DESC
+
+    </select>
+    <!--按id查询-->
+    <select id="selectById" resultMap="baseResultMap">
+        select `upload`.*,`user`.username,`user`.headImg from `csdn`.`upload`
+         LEFT JOIN `csdn`.`user` on `upload`.userid=`user`.userid
+         where id=#{id}
+    </select>
+    <!--&lt;!&ndash;查找资源数&ndash;&gt;-->
+    <!--<select id="selectAllCount" resultType="java.lang.Integer">-->
+        <!--select COUNT(*) from `csdn`.`upload`-->
+        <!--<trim prefix="where" prefixOverrides="and | or">-->
+            <!--<if test="userid !=null and userid !=''">-->
+                <!--and userid=#{userid}-->
+            <!--</if>-->
+            <!--<if test="title !=null and title !=''">-->
+                <!--and title like concat('%',#{title},'%')-->
+            <!--</if>-->
+            <!--<if test="categoryid !=null and categoryid !=''">-->
+                <!--and categoryid = #{categoryid}-->
+            <!--</if>-->
+            <!--<if test="categoryid2 !=null and categoryid2 !=''">-->
+                <!--and categoryid2 = #{categoryid2}-->
+            <!--</if>-->
+            <!--<if test="leixin !=null and leixin !=''">-->
+                <!--and leixin like concat('%',#{leixin},'%')-->
+            <!--</if>-->
+            <!--<if test="status !=null and status !=''">-->
+                <!--and status =#{status}-->
+            <!--</if>-->
+        <!--</trim>-->
+    <!--</select>-->
+    <!--新增资源-->
+    <insert id="insert" parameterType="com.sy.model.Upload">
+       INSERT INTO `csdn`.`upload` (`userid`, `title`, `createtime`, `appraise`, `size`, `price`, `status`, `categoryid`, `categoryid2`, `downloadCount`, `leixin`, `src`,`intro`,`name`,`leixin2`) VALUES
+(#{userid}, #{title}, NOW(), #{appraise}, #{size}, #{price}, 1,#{categoryid},#{categoryid2}, #{downloadCount}, #{leixin},#{src},#{intro},#{name},#{leixin2});
+    </insert>
+    <!--更新回复数-->
+    <update id="updataReplyCount" parameterType="java.lang.Integer">
+    UPDATE upload
+    <set>
+        <if test="replyCount !=null and replyCount !=''">
+            replyCount=#{replyCount},
+        </if>
+        <if test="appraise !=null and appraise !=''">
+            appraise=#{appraise}
+        </if>
+    </set>
+     where id=#{id}
+    </update>
+
+</mapper>

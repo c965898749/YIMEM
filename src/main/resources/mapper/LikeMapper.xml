@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.LikeMapper">
+    <select id="queryByBlog_idAndUser_Id" resultType="com.sy.model.Like">
+      SELECT * FROM lIKES WHERE userid=#{userId} AND blog_id =#{blogId}
+   </select>
+    <update id="addLike" >
+       INSERT INTO `csdn`.`likes` ( `blog_id`, `userid`) VALUES ( #{blogId},#{userId});
+
+    </update>
+
+    <update id="deleteLike">
+        delete from likes where blog_id=#{blogId} and userid=#{userId}
+    </update>
+    <select id="queryByBlogId" resultType="com.sy.model.Like">
+        select * from likes where blog_id = #{blogId}
+    </select>
+
+    <!--已回复-->
+
+    <update id="removequeryLikeId" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update likes set status=0 where blog_id=#{item}
+        </foreach>
+    </update>
+
+    <update id="readqueryLikeId" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update likes set status=3 where blog_id=#{item} and status=1
+        </foreach>
+    </update>
+
+    <update id="onclickqueryLikeId" parameterType="java.lang.Integer">
+            update likes set status=3 where id=#{blog_id}
+    </update>
+
+    <!--查看点赞是否未读-->
+    <select id="queryStatusByUserId" resultType="java.lang.Integer">
+     SELECT count(*) FROM lIKES WHERE userid=#{userId} AND blog_id=#{blogId} AND status =1
+   </select>
+
+    <!--查看文章点赞数-->
+    <select id="queryCountByBlogId" resultType="java.lang.Integer">
+     SELECT count(*) FROM lIKES WHERE  blog_id=#{blogId}
+   </select>
+</mapper>
