@@ -42,6 +42,9 @@ public class UserServicImpl implements UserServic {
     private LikeMapper likeMapper;
     @Autowired
     private FansMapper fansMapper;
+    @Autowired
+    private InformationMapper informationMapper;
+
     @Override
     public BaseResp loginVerification(String username, String userpassword) throws Exception {
 
@@ -225,7 +228,7 @@ public class UserServicImpl implements UserServic {
         List<User> users = new ArrayList<>();
         if (fans.size() > 0) {
             for (Fans fans1 : fans) {
-                User user1=new User();
+                User user1 = new User();
                 User user = userMapper.selectUserByUserId(fans1.getFansid());
                 user1.setHeadImg(user.getHeadImg());
                 user1.setUserId(user.getUserId());
@@ -251,7 +254,7 @@ public class UserServicImpl implements UserServic {
         List<Fans> fans = userMapper.selectAllreFansByUserId(userId);
         if (fans.size() > 0) {
             for (Fans fans1 : fans) {
-                User user1=new User();
+                User user1 = new User();
                 User user = userMapper.selectUserByUserId(fans1.getFansedid());
                 user1.setNickname(user.getNickname());
                 user1.setUserId(user.getUserId());
@@ -301,34 +304,34 @@ public class UserServicImpl implements UserServic {
 
     //个人主页细节数据
     @Override
-    public BaseResp perInforDetailData(Integer userId, String type,Integer pageNum) throws Exception {
-        Integer pageSize=4;
-        PageHelper.startPage(pageNum,pageSize);
+    public BaseResp perInforDetailData(Integer userId, String type, Integer pageNum) throws Exception {
+        Integer pageSize = 4;
+        PageHelper.startPage(pageNum, pageSize);
         BaseResp baseResp = new BaseResp();
         if (type.equals("blog")) {
             List<Blog> blogList = userMapper.selectAllBlogByUserid(userId);
-            Page<Blog> blogPage = (Page<Blog>)blogList;
+            Page<Blog> blogPage = (Page<Blog>) blogList;
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("获取博客列表成功");
             baseResp.setData(blogList);
             baseResp.setCount(blogPage.getPages());
         } else if (type.equals("upload")) {
             List<Upload> uploadList = userMapper.selectAllUploadByUserid(userId);
-            Page<Upload> blogPage = (Page<Upload>)uploadList;
+            Page<Upload> blogPage = (Page<Upload>) uploadList;
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("获取资源列表成功");
             baseResp.setData(uploadList);
             baseResp.setCount(blogPage.getPages());
         } else if (type.equals("forum")) {
             List<Forum> forumList = userMapper.selectAllForumByUserid(userId);
-            Page<Forum> blogPage = (Page<Forum>)forumList;
+            Page<Forum> blogPage = (Page<Forum>) forumList;
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("获取论坛列表成功");
             baseResp.setData(forumList);
             baseResp.setCount(blogPage.getPages());
         } else if (type.equals("ask")) {
             List<Ask> askList = userMapper.selectAllAskByUserid(userId);
-            Page<Ask> blogPage = (Page<Ask>)askList;
+            Page<Ask> blogPage = (Page<Ask>) askList;
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("获取问答列表成功");
             baseResp.setData(askList);
@@ -447,13 +450,7 @@ public class UserServicImpl implements UserServic {
     @Override
     @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public void readcommentreq(Integer userId) {
-//        Integer cout= userMapper.readcommentreq(userId);
-//        List<Integer> list = blogMapper.queryBlogIdByUserId(userId);
-//        if (Xtool.isNotNull(list)){
-//            blogReplayMapper.readcommentreq(list);
-//        }
-                    blogReplayMapper.readcommentreq(userId);
-
+        informationMapper.readcommentreq(userId);
     }
 
     @RedisCache(Constants.LIKE_INFORMATION)
@@ -462,7 +459,6 @@ public class UserServicImpl implements UserServic {
     public void readqueryLikeId(Integer userId) {
         userMapper.readqueryLikeId(userId);
         List<Integer> list = blogMapper.queryBlogIdByUserId(userId);
-//        blogReplayMapper.readcommentreq(list);
         likeMapper.readqueryLikeId(list);
     }
 

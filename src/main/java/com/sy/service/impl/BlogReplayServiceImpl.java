@@ -8,9 +8,11 @@ import com.github.pagehelper.PageHelper;
 
 import com.sy.mapper.BlogMapper;
 import com.sy.mapper.BlogReplayMapper;
+import com.sy.mapper.InformationMapper;
 import com.sy.mapper.UserMapper;
 import com.sy.model.Blog;
 import com.sy.model.BlogReplay;
+import com.sy.model.Information;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.BlogReplayService;
@@ -39,24 +41,32 @@ public class BlogReplayServiceImpl implements BlogReplayService {
     private BlogMapper blogMapper;
     @Autowired
     private AmqpTemplate amqpTemplate;
+    @Autowired
+    private InformationMapper informationMapper;
 //    private MessageSender messageSender;
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public BaseResp addReplay(BlogReplay blogReplay) {
-        Integer status=0;
+        Integer status = 0;
         BaseResp baseResp = new BaseResp();
         Integer replayUserId = blogMapper.queryUserIdById(blogReplay.getBlogid());
         Integer userid = blogMapper.queryUserIdById(blogReplay.getBlogid());
         User user = userMapper.selectUserByUserId(userid);
-        if (blogReplay.getCommentuserid()!=replayUserId){
+        if (blogReplay.getCommentuserid() != replayUserId) {
             Integer unreadreplaycount = user.getUnreadreplaycount() + 1;
             user.setUnreadreplaycount(unreadreplaycount);
             blogReplay.setReplayUserId(replayUserId);
-            status=1;
+            status = 1;
         }
         blogReplay.setStatus(status);
         int result = blogReplayMapper.addReplay(blogReplay);
+        Information information = new Information();
+        information.setBlogId(blogReplay.getBlogid());
+        information.setContent(blogReplay.getComment());
+        information.setReplayUserId(blogReplay.getCommentuserid());
+        information.setUserId(blogReplay.getReplayUserId());
+        Integer c = informationMapper.insert(information);
         if (result != 0) {
             System.out.println(userid);
             Integer commentCount = user.getCommentCount() + 1;
@@ -118,25 +128,25 @@ public class BlogReplayServiceImpl implements BlogReplayService {
             System.out.println("进入数据库");
             List<String> lists = new ArrayList<>();
             //通过userId查找评论表
-            List<BlogReplay> blog_replays = blogReplayMapper.queryreplayByUserId(userId);
-            if (blog_replays.size() != 0) {
-                for (BlogReplay blog_replay : blog_replays) {
-                    int commentUserId = blog_replay.getCommentuserid();
+            List<Information> informations = informationMapper.select(userId);
+            if (informations.size() != 0) {
+                for (Information information : informations) {
+                    int commentUserId = information.getReplayUserId();
                     User user = userMapper.selectUserByUserId(commentUserId);
                     String name = user.getNickname();
                     List<String> list = new ArrayList<>();
                     list.add(name);
-                    list.add(blog_replay.getComment());
-                    list.add(blog_replay.getBlogid() + "");
+                    list.add(information.getContent());
+                    list.add(information.getBlogId() + "");
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
-                    list.add(simpleDateFormat.format(blog_replay.getTime()));
-                    if (blog_replay.getStatus() == 0) {
+                    list.add(simpleDateFormat.format(information.getTime()));
+                    if (information.getStatus() == 0) {
                         continue;
                     }
-                    list.add(blog_replay.getStatus() + "");
+                    list.add(information.getStatus() + "");
                     list.add(user.getUserId() + "");
-                    list.add(blog_replay.getId() + "");
-                    list.add(blog_replay.getBlogid() + "");
+                    list.add(information.getId() + "");
+                    list.add(information.getBlogId() + "");
                     String json = JSONObject.toJSONString(list);
                     RedisUtil.getJedisInstance().rpush(key, json);
                     lists.add(json);
@@ -171,21 +181,24 @@ public class BlogReplayServiceImpl implements BlogReplayService {
     @Override
     @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public void removecommentreq(int userId) {
-        List<Integer> list = blogMapper.queryBlogIdByUserId(userId);
-        blogReplayMapper.removecommentreq(list);
+        informationMapper.removecommentreq(userId);
         userMapper.readcommentreq(userId);
     }
+
 
     @RedisCache(Constants.REPLAY_INFORMATION)
     @Override
     @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public void onclickcommentreq(int blog_id, int userId) {
-        blogReplayMapper.onclickcommentreq(blog_id);
-        User user = userMapper.selectUserByUserId(userId);
-        Integer unreadreplaycount = user.getUnreadreplaycount() - 1;
-        if (unreadreplaycount >= 0) {
-            user.setUnreadreplaycount(unreadreplaycount);
-            userMapper.updateuser(user);
-        }
+    public void onclickcommentreq(int id, int userId) {
+        Integer a= informationMapper.selectStatus(id);
+        informationMapper.onclickcommentreq(userId, id);
+       if (a==1){
+           User user = userMapper.selectUserByUserId(userId);
+           Integer unreadreplaycount = user.getUnreadreplaycount() - 1;
+           if (unreadreplaycount >= 0) {
+               user.setUnreadreplaycount(unreadreplaycount);
+               userMapper.updateuser(user);
+           }
+       }
     }
 }

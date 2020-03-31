@@ -21,4 +21,5 @@ public interface BlogReplayMapper {
     List<BlogReplay> queryreplayByUserId(@Param("userId") Integer userId);
     Integer insert(BlogReplay blogReplaySon);
     List<BlogReplay> queryBlogReplaySonByReplayId(@Param("blogReplayId")Integer blogReplayId);
+    Integer queryUserIdById(@Param("id")Integer id);
 }

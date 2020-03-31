@@ -25,7 +25,7 @@
        select * from blog where category=#{category} limit #{initNum},#{pageSize}
    </select>
     <select id="queryByUserId" resultType="com.sy.model.Blog">
-        select * from blog where userid=#{userId}
+        select * from blog where userid=#{userid}
         <if test="createtime == 1 and stick==1 and readCount!=1">
            and title like concat('%',#{serachblog},'%')
         </if>

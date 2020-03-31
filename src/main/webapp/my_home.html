@@ -615,7 +615,7 @@
         $.ajax({
             url: "/blog/queryByUserId",
             data: {
-                "userId": bloguserid,
+                "userid": bloguserid,
                 "pageNum": pageNum,
                 "createtime": createtime,
                 "stick": 1,
@@ -927,7 +927,7 @@
         //渲染博主的最新文章
         $.ajax({
             url: "/blog/queryByUserId",
-            data: {"userId": bloguserid, "pageNum": 1},
+            data: {"userid": bloguserid, "pageNum": 1},
             type: "GET"
             , dataType: "json"
             , success: function (json) {

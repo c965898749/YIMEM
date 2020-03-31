@@ -57,5 +57,9 @@
        select blog_replay_id as blogReplayId, comment, commentuserid,time,status,replay_userid as replayUserId
          from blog_replay where blog_replay_id=#{blogReplayId}
    </select>
+    <!--查询评论的评论对象id-->
+    <select id="queryUserIdById" resultType="java.lang.Integer">
+select commentuserid from blog_replay where id =#{id}
+    </select>
 </mapper>
 
