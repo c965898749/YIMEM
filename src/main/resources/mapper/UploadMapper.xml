@@ -53,6 +53,9 @@
         ORDER BY createtime DESC
 
     </select>
+    <select id="selectCountByUserId" resultType="java.lang.Integer">
+select count(*) from upload where userid=#{userid} and leixin =#{leixin}
+    </select>
     <!--按id查询-->
     <select id="selectById" resultMap="baseResultMap">
         select `upload`.*,`user`.username,`user`.headImg from `csdn`.`upload`
@@ -61,27 +64,27 @@
     </select>
     <!--&lt;!&ndash;查找资源数&ndash;&gt;-->
     <!--<select id="selectAllCount" resultType="java.lang.Integer">-->
-        <!--select COUNT(*) from `csdn`.`upload`-->
-        <!--<trim prefix="where" prefixOverrides="and | or">-->
-            <!--<if test="userid !=null and userid !=''">-->
-                <!--and userid=#{userid}-->
-            <!--</if>-->
-            <!--<if test="title !=null and title !=''">-->
-                <!--and title like concat('%',#{title},'%')-->
-            <!--</if>-->
-            <!--<if test="categoryid !=null and categoryid !=''">-->
-                <!--and categoryid = #{categoryid}-->
-            <!--</if>-->
-            <!--<if test="categoryid2 !=null and categoryid2 !=''">-->
-                <!--and categoryid2 = #{categoryid2}-->
-            <!--</if>-->
-            <!--<if test="leixin !=null and leixin !=''">-->
-                <!--and leixin like concat('%',#{leixin},'%')-->
-            <!--</if>-->
-            <!--<if test="status !=null and status !=''">-->
-                <!--and status =#{status}-->
-            <!--</if>-->
-        <!--</trim>-->
+    <!--select COUNT(*) from `csdn`.`upload`-->
+    <!--<trim prefix="where" prefixOverrides="and | or">-->
+    <!--<if test="userid !=null and userid !=''">-->
+    <!--and userid=#{userid}-->
+    <!--</if>-->
+    <!--<if test="title !=null and title !=''">-->
+    <!--and title like concat('%',#{title},'%')-->
+    <!--</if>-->
+    <!--<if test="categoryid !=null and categoryid !=''">-->
+    <!--and categoryid = #{categoryid}-->
+    <!--</if>-->
+    <!--<if test="categoryid2 !=null and categoryid2 !=''">-->
+    <!--and categoryid2 = #{categoryid2}-->
+    <!--</if>-->
+    <!--<if test="leixin !=null and leixin !=''">-->
+    <!--and leixin like concat('%',#{leixin},'%')-->
+    <!--</if>-->
+    <!--<if test="status !=null and status !=''">-->
+    <!--and status =#{status}-->
+    <!--</if>-->
+    <!--</trim>-->
     <!--</select>-->
     <!--新增资源-->
     <insert id="insert" parameterType="com.sy.model.Upload">
@@ -90,16 +93,16 @@
     </insert>
     <!--更新回复数-->
     <update id="updataReplyCount" parameterType="java.lang.Integer">
-    UPDATE upload
-    <set>
-        <if test="replyCount !=null and replyCount !=''">
-            replyCount=#{replyCount},
-        </if>
-        <if test="appraise !=null and appraise !=''">
-            appraise=#{appraise}
-        </if>
-    </set>
-     where id=#{id}
+        UPDATE upload
+        <set>
+            <if test="replyCount !=null and replyCount !=''">
+                replyCount=#{replyCount},
+            </if>
+            <if test="appraise !=null and appraise !=''">
+                appraise=#{appraise}
+            </if>
+        </set>
+        where id=#{id}
     </update>
 
 </mapper>

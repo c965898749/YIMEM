@@ -106,59 +106,6 @@
         <div class="top-rig">
             <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
             <div id="main" style="width: 500px;height:250px;"></div>
-            <script type="text/javascript">
-                // 基于准备好的dom，初始化echarts实例
-                var myChart = echarts.init(document.getElementById('main'));
-
-                // 指定图表的配置项和数据
-                var app = {};
-                option = null;
-                option = {
-                    title: {
-                        text: '个人资源情况',
-                        subtext: '纯属虚构',
-                        left: 'center'
-                    },
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: '{a} <br/>{b} : {c} ({d}%)'
-                    },
-                    legend: {
-                        orient: 'vertical',
-                        left: 'left',
-                        data: ['图片资源', '视频资源', '压缩文件', '文档文件', '音频资源']
-                    },
-                    series: [
-                        {
-                            name: '访问来源',
-                            type: 'pie',
-                            radius: '55%',
-                            center: ['50%', '60%'],
-                            data: [
-                                {value: 335, name: '图片资源'},
-                                {value: 310, name: '视频资源'},
-                                {value: 234, name: '压缩文件'},
-                                {value: 135, name: '文档文件'},
-                                {value: 1548, name: '音频资源'}
-                            ],
-                            emphasis: {
-                                itemStyle: {
-                                    shadowBlur: 10,
-                                    shadowOffsetX: 0,
-                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                }
-                            }
-                        }
-                    ]
-                };
-                ;
-                if (option && typeof option === "object") {
-                    myChart.setOption(option, true);
-                }
-            </script>
-            <!--<input type="button" title="会员可以提升上传权限并免费下载资源"-->
-                   <!--style="background-color: red;margin-left: 800px;color: white;width: 250px;height: 40px;border-radius: 5px;border: none"-->
-                   <!--value="申请会员" class="memberbtn" onclick="vipbtn()">-->
         </div>
     </div>
     <div class="NAV-myresouces-mian">
@@ -183,7 +130,7 @@
             </div>
             <div class="myintegrals">
                 <div class="lists">
-                    <table   class="layui-table">
+                    <table class="layui-table">
                         <colgroup>
                             <col width="180">
                             <col width="180">
@@ -249,14 +196,10 @@
                            id="progress">
                         <tr>
                             <td id="neirong" style="height: 99px"></td>
-                            <!--<td></td>-->
                         </tr>
                     </table>
                 </td>
             </tr>
-            <!--<tr>-->
-            <!--<td align="center" id="complete">completed</td>-->
-            <!--</tr>-->
         </table>
         <form class="layui-form" action="" onSubmit="return false;" style="margin-left: 150px">
             <div>
@@ -335,7 +278,6 @@
     </div>
 </div>
 <div class="siderBar">
-    <!--<div class="siderBar-bg" ></div>-->
     <ul>
         <li>返回</li>
         <li>顶部</li>
@@ -348,22 +290,8 @@
 
 </body>
 <script src="layui/layui.all.js"></script>
-<!--<script src="jquery/jquery-form.js"></script>-->
-
 <script>
-    var timer = null;
-    document.getElementById("btn").onclick = function () {
-        cancelAnimationFrame(timer);
-        timer = requestAnimationFrame(function fn() {
-            var oTop = document.body.scrollTop || document.documentElement.scrollTop;
-            if (oTop > 0) {
-                scrollBy(0, -50);
-                timer = requestAnimationFrame(fn);
-            } else {
-                cancelAnimationFrame(timer);
-            }
-        });
-    }
+
     var page = 1;
     var pageSize = 4;
     var status = 1;
@@ -382,14 +310,19 @@
     if (user) {
         userid = user.userId
     }
+    var a = 0;
+    var b = 0;
+    var c = 0;
+    var d = 0;
 
     //引用表头
     // $("#titleContai").load("title.html")
     $(function () {
+        resourceProp()
         $(".myintegrals").hide()
         taplan(getQueryString("type"))
         // $("header").load('title.html')
-        ajaxGetInvitation(1,4)
+        ajaxGetInvitation(1, 4)
         getResources();
         getMenu();
         jinpin();
@@ -433,6 +366,104 @@
         }
     });
 
+    //获取占比
+    function resourceProp() {
+        $.ajax({
+            url: "resourceProp"
+            , type: "get"
+            , dataType: "json"
+            , success: function (jsonData) {
+                //////////////////////////console.log(jsonData)
+                if (jsonData.success == 1) {
+                    var data = jsonData.data;
+                    bandin(data)
+                }
+            }
+            , error: function (res) {
+                //////////////////////////console.log("ajax提交错误")
+            }
+        })
+    }
+
+
+    function bandin(data) {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var app = {};
+        option = null;
+        option = {
+            title: {
+                text: '个人资源情况',
+                subtext: '资源占比',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c} ({d}%)'
+            },
+            // 文档类 工具类 代码类 其他
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['文档类', '工具类', '代码类', '其他类']
+            },
+            series: [
+                {
+                    name: '资源占比',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: (function () {
+                        var res = [];
+                        res.push({
+                            name: '文档类',
+                            value: data["文档类"]
+                        })
+                        res.push({
+                            name: '工具类',
+                            value: data["工具类"]
+                        })
+                        res.push({
+                            name: '代码类',
+                            value: data["代码类"]
+                        })
+                        res.push({
+                            name: '其他类',
+                            value: data["其他"]
+                        })
+                        return res;
+                    })(),
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        ;
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    }
+
+    var timer = null;
+    document.getElementById("btn").onclick = function () {
+        cancelAnimationFrame(timer);
+        timer = requestAnimationFrame(function fn() {
+            var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+            if (oTop > 0) {
+                scrollBy(0, -50);
+                timer = requestAnimationFrame(fn);
+            } else {
+                cancelAnimationFrame(timer);
+            }
+        });
+    }
 
     //精品渲染
     function jinpin() {
@@ -618,7 +649,7 @@
             if (xhr.readyState == 4 && xhr.status == 200) {
                 // 获取json数据
                 var jsoncontent = JSON.parse(xhr.responseText)
-                //////console.log(jsoncontent)
+                ////////console.log(jsoncontent)
                 // if(xhr.responseText == "succes"){
                 if (jsoncontent.success == 1) {
                     document.getElementById("progress").style.width = "100%";
@@ -627,7 +658,7 @@
                     Date.src = jsoncontent.data.url;
                     Date.leixin2 = jsoncontent.data.type;
                     Date.size = jsoncontent.data.size;
-                    //////console.log(Date)
+                    ////////console.log(Date)
                     ajaxCreateComment(Date)
                 } else {
 
@@ -652,21 +683,21 @@
         // var filePath=$(this).val();
         var path = "imgs/filetype/zip .svg";
         var picFileList = document.getElementById("pic").files;
-        ////////console.log(picFileList[0].size)
+        //////////console.log(picFileList[0].size)
         // if (picFileList[0].size > 23068672) {
-        //     ////////console.log("文件过大")
+        //     //////////console.log("文件过大")
         //     $(this).val("")
         //     $("#progressPersent").text("文件过大,请重新上传")
         //     return false;
         // }
-        ////////console.log(picFileList[0])
-        ////////console.log( picFileList[0].type)
+        //////////console.log(picFileList[0])
+        //////////console.log( picFileList[0].type)
         var types = picFileList[0].name.split(".")
-        ////////console.log(types)
+        //////////console.log(types)
         var i = types.length
-        ////////console.log(i)
+        //////////console.log(i)
         var type = types[types.length - 1];
-        ////////console.log(name)
+        //////////console.log(name)
         if (type == "zip") {
             path = "zip";
         } else if (type == "pdf") {
@@ -692,29 +723,28 @@
     })
 
 
-
     layui.use(['form', 'laypage'], function () {
         laypage = layui.laypage;
         form = layui.form;
-        ////////////console.log("表单、。。。。。。")
+        //////////////console.log("表单、。。。。。。")
         // form表单提交   ---  onsubmit事件阻断方案
-        //////////////console.log(form.on)
+        ////////////////console.log(form.on)
         //此处去获取2级列表数据
 
         form.on('select(cate1)', function (data) {
-            ////////////console.log(data.elem); //得到select原始DOM对象
-            ////////////console.log(data.value); //得到被选中的值
-            ////////////console.log(data.othis); //得到美化后的DOM对象
+            //////////////console.log(data.elem); //得到select原始DOM对象
+            //////////////console.log(data.value); //得到被选中的值
+            //////////////console.log(data.othis); //得到美化后的DOM对象
 
             //此处去获取2级列表数据
-            ////////////console.log(data.value)
+            //////////////console.log(data.value)
             ajaxGetCategory2(data.value);
         });
 
         form.on('submit(createComment)', function (data) {
-            ////////////console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-            ////////////console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-            ////////////console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            //////////////console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            //////////////console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            //////////////console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
             //  先进行上传
             //  uploadFile(data.field)
             if (userid == 0) {
@@ -753,8 +783,8 @@
         var size = data.size;
         var categoryid = data.categoryid;
         var categoryid2 = data.categoryid2;
-        ////////////////////console.log(categoryid)
-        ////////////////////console.log(categoryid2)
+        //////////////////////console.log(categoryid)
+        //////////////////////console.log(categoryid2)
         $.ajax({
             url: "saveUploadResource",
             data: {
@@ -844,12 +874,12 @@
                             type: "POST",
                             dataType: "json",
                             success: function (res) {
-                                ////////////console.log(res)
+                                //////////////console.log(res)
                                 // var data=jsonData.data;
                                 layui.each(res.data, function (index, item) {
                                     var path = "imgs/filetype/zip .svg";
                                     var daxiao = 0;
-                                    ////////////////////////console.log(item.leixin2)
+                                    //////////////////////////console.log(item.leixin2)
                                     if (item.leixin2 == "zip") {
                                         path = "zip";
                                     } else if (item.leixin2 == "pdf") {
@@ -899,7 +929,7 @@
                                 });
                                 //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
                                 //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
-                                ////////////console.log(res.count)
+                                //////////////console.log(res.count)
                                 next(lis.join(''), page < res.count); //假设总页数为 10
                                 // clik()
                             },
@@ -918,7 +948,7 @@
             // function clik() {
             //     $("#downloadlist").on("click", ".title", function () {
             //         var id = $(this).parents(".list").attr("data-id");
-            //        ////////////////////////console.log(id)
+            //        //////////////////////////console.log(id)
             //         location.href = "detailpage.html?id=" + id;
             //     })
             // }
@@ -934,7 +964,7 @@
             , type: "get"
             , dataType: "json"
             , success: function (jsonData) {
-                //////////////////////console.log(jsonData)
+                ////////////////////////console.log(jsonData)
                 var data = jsonData.data;
                 // if (jsonData.success == 1) {
                 //     data = jsonData.data;
@@ -951,7 +981,7 @@
                 form.render("select");
             }
             , error: function (res) {
-                ////////////////////////console.log("ajax提交错误")
+                //////////////////////////console.log("ajax提交错误")
             }
         })
     }
@@ -965,11 +995,11 @@
             , dataType: "json"
             // , async: false
             , success: function (jsonData) {
-                ////////////////////console.log(jsonData)
+                //////////////////////console.log(jsonData)
                 var data = jsonData.data;
                 var html = '<option value="">资源类型</option>';
                 $.each(data, function (k, v) {
-                    ////////////////////console.log(v)
+                    //////////////////////console.log(v)
                     html += ` <option value="` + v.id + `">` + v.categoryname + `</option>`;
 
                 });
@@ -977,7 +1007,7 @@
                 form.render("select");
             }
             , error: function (res) {
-                ////////////////////////console.log("ajax提交错误")
+                //////////////////////////console.log("ajax提交错误")
             }
         })
 
@@ -990,7 +1020,7 @@
         $(this).css("color", "red")
         $(this).siblings().css("color", "black")
         $("#cldtop-rig").show()
-        //////////////////////////console.log(category)
+        ////////////////////////////console.log(category)
         getResources();
         ppid = categoryid
         zicaidan(ppid)
@@ -1001,7 +1031,7 @@
         categoryid2 = $(this).find(".feilei").val()
         $(this).css("color", "red")
         $(this).siblings().css("color", "black")
-        //////////////////////////console.log(category)
+        ////////////////////////////console.log(category)
         getResources();
     })
 
@@ -1015,18 +1045,18 @@
                 , dataType: "json"
                 // , async: false
                 , success: function (jsonData) {
-                    ////////////////////console.log(jsonData)
+                    //////////////////////console.log(jsonData)
                     var data = jsonData.data;
                     var html = '';
                     $.each(data, function (k, v) {
-                        ////////////////////console.log(v)
+                        //////////////////////console.log(v)
                         html += `<a href="javascript:void(0)" style="margin-left: 10px"> <input class="feilei" type="hidden" value="` + v.id + `">` + v.categoryname + `</a>`;
                     });
                     $("#cldtop-rig").html(html)
 
                 }
                 , error: function (res) {
-                    ////////////////////////console.log("ajax提交错误")
+                    //////////////////////////console.log("ajax提交错误")
                 }
             })
         }
@@ -1048,7 +1078,7 @@
         if (value == "其他") {
             leixin = "其他"
         }
-        //////////////////////////console.log(leixin)
+        ////////////////////////////console.log(leixin)
         $(this).css("color", "red")
         $(this).siblings().css("color", "black")
         getResources();
@@ -1057,13 +1087,13 @@
     // 搜索
     function searchbtn() {
         title = $("input[name='search']").val()
-        //////////////////////console.log(title)
+        ////////////////////////console.log(title)
         getResources();
     }
 
     // vip
     function vipbtn() {
-        ////////////////////////console.log("vip")
+        //////////////////////////console.log("vip")
         location.href = "vip.html"
     }
 
@@ -1078,13 +1108,13 @@
             , dataType: "json"
             , async: false
             , success: function (jsonData) {
-                ////////////////////////console.log(jsonData)
+                //////////////////////////console.log(jsonData)
                 if (jsonData.success == 1) {
                     data = jsonData.data;
                 }
             }
             , error: function (res) {
-                ////////////////////////console.log("ajax提交错误")
+                //////////////////////////console.log("ajax提交错误")
             }
         })
         return data;
@@ -1166,43 +1196,43 @@
     }
 
 
-
     var page2 = 1;
-    var pageSize2=4
+    var pageSize2 = 4
+
     // 上传明细
 
     function allupload() {
         status = ""
-        ajaxGetInvitation(1,4)
+        ajaxGetInvitation(1, 4)
     }
 
     function waitpassupload() {
         status = 2
-        ajaxGetInvitation(1,4)
+        ajaxGetInvitation(1, 4)
     }
 
     function passupload() {
         status = 1
-        ajaxGetInvitation(1,4)
+        ajaxGetInvitation(1, 4)
     }
 
     function nopassupload() {
         status = 4
-        ajaxGetInvitation(1,4)
+        ajaxGetInvitation(1, 4)
     }
 
     $("#uploadcld").click(function () {
         $(".NAV-myresouces .NAV-myresouces-mian .main-lf .nav").show()
         mokuai = 1
-        page2=1
-        pageSize2=4
+        page2 = 1
+        pageSize2 = 4
         ajaxGetInvitation(1, 4)
     })
     // 积分明细
     $("#integralcld").click(function () {
         mokuai = 2
-        page2=1
-        pageSize2=10
+        page2 = 1
+        pageSize2 = 10
         integralcld(1, 10)
     })
 
@@ -1210,8 +1240,8 @@
     $("#downcld").click(function () {
         $(".NAV-myresouces .NAV-myresouces-mian .main-lf .nav").hide()
         mokuai = 3
-        page2=1
-        pageSize2=4
+        page2 = 1
+        pageSize2 = 4
         downcld(1, 4)
     })
 
@@ -1220,8 +1250,8 @@
         $(".NAV-myresouces .NAV-myresouces-mian .main-lf .nav").hide()
         $("#myresouces").hide()
         mokuai = 4
-        page2=1
-        pageSize2=4
+        page2 = 1
+        pageSize2 = 4
         Resocollect(1, 4)
     })
 
@@ -1236,15 +1266,15 @@
             , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
             , jump: function (obj, first) {
                 //obj包含了当前分页的所有参数，比如：
-                ////////////////////console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                ////////////////////console.log(obj.limit); //得到每页显示的条数
+                //////////////////////console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                //////////////////////console.log(obj.limit); //得到每页显示的条数
 
                 //首次不执行
                 if (!first) {
 
                     //把分页值，和分页量（分页量可能会变化）
                     page2 = obj.curr;
-                    pageSize2= obj.limit;
+                    pageSize2 = obj.limit;
                     if (mokuai == 1) {
                         ajaxGetInvitation(page2, pageSize2);
                     } else if (mokuai == 2) {
@@ -1261,7 +1291,7 @@
     }
 
     function ajaxGetInvitation(page2, pageSize2) {
-        console.log(status)
+        //console.log(status)
         $.ajax({
             url: "findAllResourcess",
             data: {"page": page2, "pageSize": pageSize2, "status": status, "userid": userid},
@@ -1269,16 +1299,16 @@
             dataType: "json",
             success: function (jsonData) {
                 var item = jsonData.data;
-                //////console.log(jsonData)
-                //////////////////console.log(jsonData.count)
+                ////////console.log(jsonData)
+                ////////////////////console.log(jsonData.count)
 
                 var path = "imgs/filetype/zip.svg";
                 var daxiao = 0;
                 var filesize = 0
-                ////////////////////////console.log(item.leixin2)
+                //////////////////////////console.log(item.leixin2)
 
-                ////////////console.log(filesize)
-                ////////////console.log(item)
+                //////////////console.log(filesize)
+                //////////////console.log(item)
 
                 $("#Invitation").empty()
                 $.each(item, function (i, v) {
@@ -1331,7 +1361,7 @@
                 </div>`;
                     $("#Invitation").append(html);
                 })
-                renderPager(jsonData.count,1)
+                renderPager(jsonData.count, 1)
             },
             error: function (jsonData) {
 
@@ -1348,9 +1378,9 @@
             , dataType: "json"
             , data: {"userid": userid, "page": page2, "pageSize": pageSize2}
             , success: function (jsonData) {
-                //////////////console.log(jsonData)
+                ////////////////console.log(jsonData)
                 var data = jsonData.data;
-                var html =""
+                var html = ""
                 $("#mixi").append(html)
                 $.each(data, function (k, v) {
                     html = ` <tr >
@@ -1366,10 +1396,10 @@
                             </tr>`
                     $("#mixi").append(html)
                 })
-                renderPager(jsonData.count,2)
+                renderPager(jsonData.count, 2)
             }
             , error: function (res) {
-                ////////////////////////console.log("ajax提交错误")
+                //////////////////////////console.log("ajax提交错误")
             }
         })
     }
@@ -1384,13 +1414,13 @@
             dataType: "json",
             success: function (jsonData) {
                 var item = jsonData.data;
-                //////console.log(item)
-                //////////////////console.log(item)
-                //////////////////console.log(jsonData.count)
+                ////////console.log(item)
+                ////////////////////console.log(item)
+                ////////////////////console.log(jsonData.count)
 
                 var path = "imgs/filetype/zip .svg";
                 var daxiao = 0;
-                ////////////////////////console.log(item.leixin2)
+                //////////////////////////console.log(item.leixin2)
                 var filesize = 0
                 $("#Invitation").empty()
                 $.each(item, function (i, v) {
@@ -1417,8 +1447,8 @@
                         path = "unkonw";
                     }
                     filesize = v.size;
-                    ////////////console.log(v)
-                    ////////////console.log(filesize)
+                    //////////////console.log(v)
+                    //////////////console.log(filesize)
                     daxiao = renderSize(filesize);
                     var html = `<div class="list"  data-id="` + v.id + `">
                     <div class="img-left">
@@ -1442,7 +1472,7 @@
                 </div>`;
                     $("#Invitation").append(html);
                 })
-                renderPager(jsonData.count,3)
+                renderPager(jsonData.count, 3)
             },
             error: function (jsonData) {
 
@@ -1461,13 +1491,13 @@
             dataType: "json",
             success: function (jsonData) {
                 var item = jsonData.data;
-                ////console.log(item)
-                //////////////////console.log(item)
-                //////////////////console.log(jsonData.count)
+                //////console.log(item)
+                ////////////////////console.log(item)
+                ////////////////////console.log(jsonData.count)
 
                 var path = "imgs/filetype/zip .svg";
                 var daxiao = 0;
-                ////////////////////////console.log(item.leixin2)
+                //////////////////////////console.log(item.leixin2)
                 var filesize = 0
                 $("#Invitation").empty()
                 $.each(item, function (i, v) {
@@ -1494,8 +1524,8 @@
                         path = "unkonw";
                     }
                     filesize = v.size;
-                    //////console.log(v)
-                    ////////////console.log(filesize)
+                    ////////console.log(v)
+                    //////////////console.log(filesize)
                     daxiao = renderSize(filesize);
                     var html = `<div class="list"  data-id="` + v.id + `">
                     <div class="img-left">
@@ -1517,7 +1547,7 @@
                     $("#Invitation").append(html);
                 })
                 $(".ResocollectBt").click(function () {
-                    var tt=$(this)
+                    var tt = $(this)
                     var dowid = $(this).attr('data-dowid');
                     layer.open({
                         content: '确定取消收藏'
@@ -1534,12 +1564,12 @@
                                     if (jsonData.success == 200) {
                                         layer.msg("取消成功")
                                         tt.parents(".list").remove()
-                                    }else {
+                                    } else {
                                         layer.msg("取消失败")
                                     }
                                 }
                                 , error: function (res) {
-                                    //////////////////console.log("ajax提交错误")
+                                    ////////////////////console.log("ajax提交错误")
                                 }
                             })
                             layer.close(index);
@@ -1551,7 +1581,7 @@
 
 
                 })
-                renderPager(jsonData.count,4)
+                renderPager(jsonData.count, 4)
             },
             error: function (jsonData) {
 
@@ -1560,8 +1590,8 @@
     }
 
     function ResocollectBt(dowid) {
-        ////////////console.log("按钮")
-        ////////////console.log(dowid, userid)
+        //////////////console.log("按钮")
+        //////////////console.log(dowid, userid)
 
     }
 

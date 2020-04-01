@@ -9,13 +9,17 @@ import com.sy.model.Downloadreply;
 import com.sy.model.Upload;
 import com.sy.model.User;
 import com.sy.service.UploadService;
+import com.sy.tool.Xtool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class UploadServiceImpl implements UploadService {
     @Autowired
@@ -24,60 +28,63 @@ public class UploadServiceImpl implements UploadService {
     private UploadMapper mapper;
     @Autowired
     private DownloadreplyMapper downloadreplyMapper;
-    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+
+    @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     @Override
-    public Integer save(Upload download) throws CsdnExpection{
+    public Integer save(Upload download) throws CsdnExpection {
         if (download.getTitle() == null || "".equals(download.getTitle().trim())) {
             throw new CsdnExpection("标题不能为空");
         }
         if (download.getSize() == null) {
             throw new CsdnExpection("大小异常");
         }
-        if (download.getPrice() == null ) {
+        if (download.getPrice() == null) {
             throw new CsdnExpection("用户名不能为空");
         }
-        if (download.getCategoryid() == null ) {
+        if (download.getCategoryid() == null) {
             throw new CsdnExpection("类别不能为空");
         }
-        if (download.getCategoryid2() == null ) {
+        if (download.getCategoryid2() == null) {
             throw new CsdnExpection("类别不能为空");
         }
-        if (download.getLeixin() == null ) {
+        if (download.getLeixin() == null) {
             throw new CsdnExpection("类型不能为空");
         }
 //        更新用户上传量
-        User user=userMapper.selectUserByUserId(download.getUserid());
-        Integer resourceCount=user.getResourceCount();
-        userMapper.resourceCount((resourceCount+1),download.getUserid());
+        User user = userMapper.selectUserByUserId(download.getUserid());
+        Integer resourceCount = user.getResourceCount();
+        userMapper.resourceCount((resourceCount + 1), download.getUserid());
         return mapper.insert(download);
     }
 
     @Override
-    public Integer remove(Integer userid, Integer id) throws CsdnExpection{
+    public Integer remove(Integer userid, Integer id) throws CsdnExpection {
         return null;
     }
 
     @Override
-    public List<Upload> findByUserid(Integer userid) throws CsdnExpection{
+    public List<Upload> findByUserid(Integer userid) throws CsdnExpection {
         return null;
     }
 
     @Override
-    public List<Upload> findByLike(String keyword) throws CsdnExpection{
+    public List<Upload> findByLike(String keyword) throws CsdnExpection {
         return null;
     }
 
     @Override
-    public Upload findById(Integer id) throws CsdnExpection{
+    public Upload findById(Integer id) throws CsdnExpection {
         return mapper.selectById(id);
     }
 
     @Override
-    public List<Upload> findAll(Upload upload) throws CsdnExpection{
+    public List<Upload> findAll(Upload upload) throws CsdnExpection {
 //更新数据评分
 
         return mapper.selectAll(upload);
     }
+
+//    获取资源数
 
 //    @Override
 //    public Integer findAllCount(Upload download) throws CsdnExpection{
@@ -85,8 +92,29 @@ public class UploadServiceImpl implements UploadService {
 //    }
 
     @Override
-    public Integer modifReplyCount( Integer id,Integer replyCount) {
-        Integer appraise=null;
-        return mapper.updataReplyCount(id,replyCount,appraise);
+    public Integer modifReplyCount(Integer id, Integer replyCount) {
+        Integer appraise = null;
+        return mapper.updataReplyCount(id, replyCount, appraise);
+    }
+
+    @Override
+    public Map<String, Integer> resourceProp(Integer userId) {
+        Map<String,Integer> map=new HashMap<>();
+        Upload upload = new Upload();
+        upload.setUserid(userId);
+        Integer count=0;
+        upload.setLeixin("其他");
+        count=mapper.selectCountByUserId(upload);
+        map.put("其他",count);
+        upload.setLeixin("代码类");
+        count=mapper.selectCountByUserId(upload);
+        map.put("代码类",count);
+        upload.setLeixin("工具类");
+        count=mapper.selectCountByUserId(upload);
+        map.put("工具类",count);
+        upload.setLeixin("文档类");
+        count=mapper.selectCountByUserId(upload);
+        map.put("文档类",count);
+        return map;
     }
 }

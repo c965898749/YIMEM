@@ -4,6 +4,7 @@ import com.sy.expection.CsdnExpection;
 import com.sy.model.Upload;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UploadService {
     Integer save(Upload download) throws CsdnExpection;
@@ -14,4 +15,6 @@ public interface UploadService {
     List<Upload> findAll(Upload upload)throws CsdnExpection;
 //    Integer findAllCount(Upload download)throws CsdnExpection;
     Integer modifReplyCount(Integer id, Integer replyCount);
+
+    Map<String,Integer>  resourceProp(Integer userId);
 }

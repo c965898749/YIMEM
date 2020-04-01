@@ -9,6 +9,7 @@ public interface UploadMapper {
     Integer insert(Upload download);
     Integer delete(Integer userid, Integer id);
     List<Upload> selectAll(Upload upload);
+    Integer selectCountByUserId(Upload upload);
     List<Upload>  selectByUserid(Integer userid);
     List<Upload> selectByLike(String keyword);
     Upload selectById(@Param("id") Integer id);

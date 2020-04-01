@@ -11,16 +11,14 @@ import com.sy.service.UserServic;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class DownloadController {
@@ -85,4 +83,29 @@ public class DownloadController {
         //        开始下载
     }
 
+//    资源占比
+
+    @RequestMapping(value = "resourceProp", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResp resourceProp(HttpServletRequest request){
+        BaseResp baseResp=new BaseResp();
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("未登入");
+            return baseResp;
+        }else {
+
+            try {
+                Map<String,Integer> map=service.resourceProp(user.getUserId());
+                baseResp.setData(map);
+                baseResp.setSuccess(1);
+            } catch (Exception e) {
+                e.printStackTrace();
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("服务器异常");
+            }
+            return baseResp;
+        }
+    }
 }
