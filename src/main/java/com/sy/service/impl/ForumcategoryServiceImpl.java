@@ -26,4 +26,9 @@ public class ForumcategoryServiceImpl implements ForumcategoryService {
     public Forumcategory findByid(Integer id) throws CsdnExpection {
         return mapper.selectByid(id);
     }
+
+    @Override
+    public List<Forumcategory> selcetRoot() {
+        return mapper.selcetRoot(2);
+    }
 }

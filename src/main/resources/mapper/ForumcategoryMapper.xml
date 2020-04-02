@@ -6,16 +6,22 @@
         <id property="id" column="id"/>
         <result property="title" column="title"/>
         <result property="pid" column="pid"/>
+        <result property="status" column="pid"/>
         <collection property="children" ofType="com.sy.model.Forumcategory"
                     select="selectByPid" column="id"></collection>
     </resultMap>
     <select id="selcetRoot" resultMap="baseResultMap">
-         SELECT *FROM forumcategory where pid=0
+        SELECT *FROM forumcategory where pid=0
+        and status!=0
+        <if test="status!=null  and status!=''">
+            and status =#{status}
+        </if>
     </select>
     <select id="selectByPid" resultMap="baseResultMap">
-        SELECT *FROM forumcategory where pid=#{pid}
+        SELECT *FROM forumcategory where pid=#{pid} and status!=0
     </select>
     <select id="selectByid" resultMap="baseResultMap">
-         SELECT *FROM forumcategory where id=#{id}
+         SELECT *FROM forumcategory where id=#{id} and status!=0
     </select>
+
 </mapper>

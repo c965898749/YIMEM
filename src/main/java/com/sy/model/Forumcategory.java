@@ -6,6 +6,7 @@ public class Forumcategory {
     private Integer id;
     private String title;
     private Integer pid;
+    private Integer status;
     private List<Forumcategory> children;
 
     public Integer getId() {

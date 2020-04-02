@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface ForumcategoryMapper {
-    Forumcategory selcetRoot();
+    List<Forumcategory> selcetRoot(@Param("status") Integer status);
     List<Forumcategory> selectByPid(@Param("pid") Integer pid);
     Forumcategory selectByid(@Param("id") Integer id);
 }

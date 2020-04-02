@@ -11,4 +11,5 @@ public interface ForumcategoryService {
     List<Forumcategory> findAll() throws CsdnExpection;
     List<Forumcategory> findByPid(@Param("pid") Integer pid)throws CsdnExpection;
     Forumcategory findByid(@Param("id") Integer id) throws CsdnExpection;
+    List<Forumcategory> selcetRoot();
 }
