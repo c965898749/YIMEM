@@ -471,4 +471,87 @@ public class UserServicImpl implements UserServic {
     }
 
 
+    @Override
+    public List<User> getUserList(User user) throws Exception {
+        return userMapper.getUserList(user);
+    }
+
+    @Override
+    public List<User> getUserListBySearch(User user) throws Exception {
+        return userMapper.getUserListBySearch(user);
+    }
+
+    @Override
+    public User getLoginUser(User user) throws Exception {
+        return userMapper.getLoginUser(user);
+    }
+
+    @Override
+    public User getUserById(User user) throws Exception {
+        return userMapper.getUserById(user);
+    }
+
+    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+    @Override
+    public int addUser(User user) throws Exception {
+        return userMapper.addUser(user);
+    }
+
+    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+    @Override
+    public int modifyUser(User user) {
+        return userMapper.modifyUser(user);
+    }
+
+    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+    @Override
+    public int modifyUserRole(User user) {
+        return userMapper.modifyUserRole(user);
+    }
+
+    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+    @Override
+    public int delUserPic(User user) {
+        return userMapper.delUserPic(user);
+    }
+
+    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+    @Override
+    public int deleteUser(User user) {
+        return userMapper.deleteUser(user);
+    }
+
+    @Override
+    public int count(User user) throws Exception {
+        return userMapper.count(user);
+    }
+
+    @Override
+    public int loginCodeIsExit(User user) throws Exception {
+        return userMapper.loginCodeIsExit(user);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+    public BaseResp modifyUserStatus(Integer status, Integer id) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        Integer result = userMapper.madifyUserStatus(status,id);
+        if (result!=0){
+            baseResp.setSuccess(1);
+        }else {
+            baseResp.setSuccess(0);
+        }
+        return baseResp;
+    }
+
+    @Override
+    public User getUserByLoginCode(User user) throws Exception {
+        return userMapper.getUserByLoginCode(user);
+    }
+
+    @Override
+    public User findUserByName(User user) {
+        return userMapper.getUserByloginCode(user);
+    }
+
 }

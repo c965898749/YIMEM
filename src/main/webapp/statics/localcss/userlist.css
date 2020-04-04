@@ -1,0 +1,115 @@
+.modal-body .topul,.member-modal-body .topul{list-style: none;margin-left:-10px;}
+.modal-body .topul li,.member-modal-body .topul li{width:250px;float: left;}
+.modal-body .topul li input,.member-modal-body .topul li input{width:150px;}
+.modal-body .topul li label,.member-modal-body .topul li label{width:80px;float:left;text-align: right;}
+.modal-body .topul .lastli,.member-modal-body .topul .lastli{position: relative;height: 80px;}
+.modal-body .topul li textarea,.member-modal-body .topul li textarea{margin-left:80px;height:60px;width:400px;position: absolute;left:-1px;}
+
+
+.box-content .searcharea{
+	padding:5px;
+}
+.box-content .searcharea input,.box-content .searcharea select{
+	width:150px;
+	margin-right: 10px;
+}
+.box-content .searcharea button{
+	position:relative;
+	top:-5px;
+}
+
+.modal-body .downul,.member-modal-body .downul{list-style: none;margin-left:-10px;width:98%;}
+.modal-body .downul li{width:500px;float: left;}
+.modal-body .downul li input,.member-modal-body .downul li input{width:50px;}
+.modal-body .downul li label,.member-modal-body .downul li label{width:110px;float: left;text-align: right;}
+
+.member-modal-body .downul li{width:800px;float: left;}
+
+#a_idPic,#a_bankPic,#m_idPic,#m_bankPic{
+	height:125px;
+	overflow: hidden;
+}
+#a_idPic img, #a_bankPic img,#m_idPic img, #m_bankPic img,#v_idPic img, #v_bankPic img{margin:5px;border:1px solid #ccc;}
+#a_idPic,#a_bankPic,#m_idPic,#m_bankPic,#v_idPic, #v_bankPic p{
+	width:200px;
+	float: left;
+	height:125px;
+	overflow:hidden;
+	position: relative;
+}
+#a_idPic p span,#a_bankPic p span,#m_idPic p span,#m_bankPic p span {
+	position: absolute;
+	color:red;
+	z-index: 999;
+	left:190px;
+	top:3px;
+	font-weight: bold;
+	font-size:14px;
+	cursor: pointer;
+}
+
+.modifymemberinfo{
+	padding:5px;
+	padding-right:100px;
+	text-align:right;
+}
+
+
+/**
+.modal-body .topul{list-style: none;margin-left:-10px;}
+.modal-body .topul li{width:250px;float: left;}
+.modal-body .topul li input{width:150px;}
+.modal-body .topul li label{width:80px;float: left;text-align: right;}
+.box-content .searcharea{
+	padding:5px;
+}
+.box-content .searcharea input,.box-content .searcharea select{
+	width:150px;
+	margin-right: 10px;
+}
+.box-content .searcharea button{
+	position:relative;
+	top:-5px;
+}
+
+.modal-body .downul{list-style: none;margin-left:-10px;width:98%;}
+.modal-body .downul li{width:500px;float: left;}
+.modal-body .downul li input{width:50px;}
+.modal-body .downul li label{width:160px;float: left;text-align: right;}
+
+#idCards img{margin:5px;}
+#idCards p{
+	width:300px;
+	float: left;
+	position: relative;
+}
+#idCards p img{border:1px solid #ccc;width:300px;}
+#idCards p span{
+	position: absolute;
+	color:red;
+	z-index: 999;
+	right:0px;
+	top:3px;
+	font-weight: bold;
+	font-size:14px;
+	cursor: pointer;
+}
+
+
+*/
+/*
+.showmsgBox{
+	padding:5px; 
+	heigt:30px; 
+	line-heiht:30px;
+	background-color:#6AB30C;
+	border-left-bottom:5px;
+	border-right-bottom:5px; 
+	position:fixed;
+	top:0px;
+	left:300px;
+	color:#fff;
+}
+*/
+
+

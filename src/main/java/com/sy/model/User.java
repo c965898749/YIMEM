@@ -50,8 +50,6 @@ public class User {
     private Integer unreadreplaycount;
     private Integer readquerylikecount;
     private Integer unreadfanscount;
-//    private Integer replayCount;
-
 
     public void setUnreadfanscount(Integer unreadfanscount) {
         this.unreadfanscount = unreadfanscount;

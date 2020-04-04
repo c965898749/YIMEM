@@ -175,4 +175,196 @@
        update user set unreadfanscount=0 where userId=#{userId}
     </insert>
 
+
+    <!-- 分页 按条件搜索 -->
+    <select id="getUserList" resultType="com.sy.model.User" parameterType="com.sy.model.User">
+        select * from user
+        <trim prefix="where" prefixOverrides="and | or">
+
+            <if test="username != null">
+                and username like #{username}
+            </if>
+            <if test="roleId != null">
+                and roleId = #{roleId}
+            </if>
+            <if test="isStart != null">
+                and isStart = #{isStart}
+            </if>
+            <if test="referCode != null">
+                and referCode like #{referCode}
+            </if>
+            <if test="referId != null">
+                and referId = #{referId}
+            </if>
+            <if test="userType != null">
+                and userType = #{userType}
+            </if>
+        </trim>
+        order by createTime desc limit #{starNum},#{pageSize}
+    </select>
+
+    <!--分页:按条件查询用户记录数-->
+    <select id="count" resultType="int" parameterType="com.sy.model.User">
+        select count(1) from user
+        <trim prefix="where" prefixOverrides="and | or">
+
+            <if test="username != null">
+                and username like  CONCAT('%',#{username},'%')
+            </if>
+            <if test="roleId != null">
+                and roleId = #{roleId}
+            </if>
+            <if test="isStart != null">
+                and isStart = #{isStart}
+            </if>
+            <if test="referCode != null">
+                and referCode like  CONCAT('%',#{referCode},'%')
+            </if>
+            <if test="referId != null">
+                and referId = #{referId}
+            </if>
+            <if test="userType != null">
+                and userType = #{userType}
+            </if>
+        </trim>
+    </select>
+
+
+
+    <!-- 根据用户名和密码查询合法用户 -->
+    <select id="getLoginUser" resultType="com.sy.model.User" parameterType="com.sy.model.User">
+		select * from user where username = #{username} and userpassword = #{userpassword}
+    </select>
+
+
+    <!-- 根据用户名查询用户 -->
+    <select id="getUserByLoginCode" resultType="com.sy.model.User" parameterType="com.sy.model.User">
+		select * from user where username = #{username}
+    </select>
+
+    <!-- 根据主键查询用户 -->
+    <select id="getUserById" resultType="com.sy.model.User" parameterType="com.sy.model.User">
+		select * from user where id = #{id}
+    </select>
+
+    <!-- 增加用户 -->
+    <insert id="addUser" parameterType="com.sy.model.User">
+		insert into user (username,userpassword,userpassword2,sex,birthday,cardType,
+							 cardTypeName,idCard,country,mobile,email,userAddress,postCode,
+							 createTime,referId,referCode,roleId,roleName,userType,userTypeName,
+							 isStart,lastUpdateTime,lastLoginTime,bankName,accountHolder,bankAccount,idCardPicPath,bankPicPath) values
+							 (#{username},#{userpassword},#{userpassword2},#{sex},#{birthday},
+							 #{cardType},#{cardTypeName},#{idCard},#{country},#{mobile},#{email},#{userAddress},
+							 #{postCode},#{createTime},#{referId},#{referCode},#{roleId},#{roleName},#{userType},
+							 #{userTypeName},#{isStart},#{lastUpdateTime},#{lastLoginTime},#{bankName},#{accountHolder},#{bankAccount},#{idCardPicPath},#{bankPicPath})
+	</insert>
+
+    <!-- 根据Id删除用户 -->
+    <delete id="deleteUser" parameterType="com.sy.model.User">
+		delete from user where id = #{id}
+	</delete>
+
+
+    <!-- 修改用户 -->
+    <update id="modifyUser" parameterType="com.sy.model.User">
+        update user
+        <set>
+            <if test="username != null"> username = #{username},</if>
+            <if test="userpassword != null"> userpassword = #{userpassword},</if>
+            <if test="userpassword2 != null"> userpassword2 = #{userpassword2},</if>
+            <if test="sex != null"> sex = #{sex},</if>
+            <if test="birthday != null"> birthday = #{birthday},</if>
+            <if test="cardType != null"> cardType = #{cardType},</if>
+            <if test="cardTypeName != null"> cardTypeName = #{cardTypeName},</if>
+            <if test="idCard != null"> idCard = #{idCard},</if>
+            <if test="country != null"> country = #{country},</if>
+            <if test="mobile != null"> mobile = #{mobile},</if>
+            <if test="email != null"> email = #{email},</if>
+            <if test="userAddress != null"> userAddress = #{userAddress},</if>
+            <if test="postCode != null"> postCode = #{postCode},</if>
+            <if test="createTime != null"> createTime = #{createTime},</if>
+            <if test="referId != null"> referId = #{referId},</if>
+            <if test="referCode != null"> referCode = #{referCode},</if>
+            <if test="roleId != null"> roleId = #{roleId},</if>
+            <if test="roleName != null"> roleName = #{roleName},</if>
+            <if test="userType != null"> userType = #{userType},</if>
+            <if test="userTypeName != null"> userTypeName = #{userTypeName},</if>
+            <if test="isStart != null"> isStart = #{isStart},</if>
+            <if test="lastUpdateTime != null"> lastUpdateTime = #{lastUpdateTime},</if>
+            <if test="lastLoginTime != null"> lastLoginTime = #{lastLoginTime},</if>
+            <if test="bankName != null"> bankName = #{bankName},</if>
+            <if test="accountHolder != null"> accountHolder = #{accountHolder},</if>
+            <if test="bankAccount != null"> bankAccount = #{bankAccount},</if>
+            <if test="idCardPicPath != null"> idCardPicPath = #{idCardPicPath},</if>
+            <if test="bankPicPath != null"> bankPicPath = #{bankPicPath}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 更改用户的角色名称 -->
+    <update id="modifyUserRole" parameterType="com.sy.model.User">
+		update user set roleName = #{roleName} where roleId = #{roleId}
+	</update>
+
+
+    <!-- 更新用户的图片信息 -->
+    <update id="delUserPic" parameterType="com.sy.model.User">
+        update user
+        <set>
+            <if test="idCardPicPath != null"> idCardPicPath = null,</if>
+            <if test="bankPicPath != null"> bankPicPath = null</if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <!--根据用户名或Id查询用户是否存在-->
+    <select id="loginCodeIsExit" resultType="int" parameterType="com.sy.model.User">
+        select count(1) from user
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="username != null">
+                and username = #{username}
+            </if>
+            <if test="id != null">
+                and id != #{id}
+            </if>
+            <if test="isStart != null">
+                and isStart = 1
+            </if>
+        </trim>
+    </select>
+
+    <!-- 搜索框的支持 -->
+    <select id="getUserListBySearch" resultType="com.sy.model.User" parameterType="com.sy.model.User">
+        select * from user
+        <trim prefix="where" prefixOverrides="and | or">
+
+            <if test="username != null">
+                and username like #{username}
+            </if>
+            <if test="roleId != null">
+                and roleId = #{roleId}
+            </if>
+            <if test="isStart != null">
+                and isStart = #{isStart}
+            </if>
+            <if test="referCode != null">
+                and referCode like #{referCode}
+            </if>
+            <if test="referId != null">
+                and referId = #{referId}
+            </if>
+            <if test="userType != null">
+                and userType = #{userType}
+            </if>
+        </trim>
+    </select>
+
+    <update id="madifyUserStatus">
+		update user set isstart = #{status} where id=#{id}
+	</update>
+    <select id="getUserByloginCode" resultType="com.sy.model.User" parameterType="com.sy.model.User">
+   select * from user where username = #{username}
+   </select>
+
 </mapper>

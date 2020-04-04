@@ -120,12 +120,11 @@
       <version>1.2.2</version>
     </dependency>
     <!-- JSTL标签类 -->
-    <!--<dependency>-->
-      <!--<groupId>jstl</groupId>-->
-      <!--<artifactId>jstl</artifactId>-->
-      <!--<version>1.2</version>-->
-      <!--<scope>provided</scope>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
     <!-- 日志文件管理包 -->
     <!-- log start -->
     <dependency>
