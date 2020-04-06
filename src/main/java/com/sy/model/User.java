@@ -50,6 +50,25 @@ public class User {
     private Integer unreadreplaycount;
     private Integer readquerylikecount;
     private Integer unreadfanscount;
+    private Integer roleId;
+
+    private String menus;
+
+    public String getMenus() {
+        return menus;
+    }
+
+    public void setMenus(String menus) {
+        this.menus = menus;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
 
     public void setUnreadfanscount(Integer unreadfanscount) {
         this.unreadfanscount = unreadfanscount;
@@ -65,42 +84,6 @@ public class User {
 
     public Integer getReadquerylikecount() {
         return readquerylikecount;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", userpassword='" + userpassword + '\'' +
-                ", sex='" + sex + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", birthday=" + birthday +
-                ", provinces='" + provinces + '\'' +
-                ", city='" + city + '\'' +
-                ", county='" + county + '\'' +
-                ", industry='" + industry + '\'' +
-                ", job='" + job + '\'' +
-                ", askmoney=" + askmoney +
-                ", askSuminter=" + askSuminter +
-                ", headImg='" + headImg + '\'' +
-                ", blogCount=" + blogCount +
-                ", description='" + description + '\'' +
-                ", attentionCount=" + attentionCount +
-                ", fansCount=" + fansCount +
-                ", resourceCount=" + resourceCount +
-                ", forumCount=" + forumCount +
-                ", askCount=" + askCount +
-                ", collectCount=" + collectCount +
-                ", downloadmoney=" + downloadmoney +
-                ", visitorCount=" + visitorCount +
-                ", ranking=" + ranking +
-                ", likeCount=" + likeCount +
-                ", commentCount=" + commentCount +
-                ", level=" + level +
-                ", downCount=" + downCount +
-                ", unreadreplaycount=" + unreadreplaycount +
-                '}';
     }
 
     public Integer getUnreadreplaycount() {

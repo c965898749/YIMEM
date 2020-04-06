@@ -4,7 +4,7 @@ package com.sy.controller;
 import com.alibaba.fastjson.JSON;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
-//import com.sy.service.common.MenuService;
+import com.sy.service.MenuService;
 //import com.sy.service.common.UserService;
 
 import com.sy.service.UserServic;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -27,9 +28,9 @@ public class LoginController {
 
     @Autowired
     private UserServic userService;
-//    @Autowired
-//    private MenuService menuService;
-    BaseResp baseResp = new BaseResp();
+    @Autowired
+    private MenuService menuService;
+
     //2.织入公告service
     //3.织入资讯service
 
@@ -57,7 +58,7 @@ public class LoginController {
      * 用户登录
      * @return
      */
-    @RequestMapping("/login.html")
+    @RequestMapping("/login.do")
     @ResponseBody
     public String doLogin(User user, HttpSession session){
 
@@ -66,8 +67,8 @@ public class LoginController {
             if(null!=currentUser){
                 //跳转到main.jsp
                 //把List<Menu>转化为json,前端通过JS解析该数据
-//                String menus= menuService.makeMenus(currentUser.getRoleId());
-//                session.setAttribute("menus", menus);
+                String menus= menuService.makeMenus(currentUser.getRoleId());
+                session.setAttribute("menus", menus);
                 session.setAttribute(Constants.SESSION_USER, currentUser);
                 return Constants.LOGIN_SUCCESS;
             }
@@ -79,30 +80,33 @@ public class LoginController {
         return Constants.LOGIN_FAILED;
 
     }
-    @RequestMapping(value = "/isLogin.html",method = RequestMethod.GET)
+    @RequestMapping(value = "isLogin",method = RequestMethod.POST)
     @ResponseBody
-    public String isLogin(HttpServletRequest request){
+    public BaseResp isLogin(HttpServletResponse response, HttpServletRequest request){
+
+        BaseResp baseResp = new BaseResp();
+        baseResp.setErrorMsg("你好");
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
 //        String menus=(String) request.getSession().getAttribute("menus");
         if (user == null) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("未登入");
-            return JSON.toJSONString(baseResp);
+            return baseResp;
         } else {
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("已登入");
             try {
-//                String menus= menuService.makeMenus(user.getRoleId());
-//                System.out.println(menus);
+                String menus= menuService.makeMenus(user.getRoleId());
+                System.out.println(menus);
 //                实时更新用户
                 User user1=userService.getLoginUser(user);
-//                user1.setMenus(menus);
+                user1.setMenus(menus);
                 baseResp.setData(user1);
             } catch (Exception e) {
                 e.printStackTrace();
                 baseResp.setData(user);
             }
-         return JSON.toJSONString(baseResp);
+            return baseResp;
         }
     }
     @RequestMapping(value = "/logout.html")

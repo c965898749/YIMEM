@@ -16,7 +16,7 @@ $("#loginBtn").click(function(){
 		$("#formtip").html("");
 
 		$.ajax({
-			url: '/login.html',
+			url: '/login.do',
 			type: 'POST',
 			data:{"username":user.username,"userpassword":user.userpassword},
 			dataType: 'text',
