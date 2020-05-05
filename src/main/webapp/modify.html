@@ -215,7 +215,7 @@
                 if(jsonData.success==0){
                     errorObj.text(jsonData.errorMsg)
                 }else {
-                    alert(username+"您已修改成功！")
+                    layer.msg(username+"您已修改成功！")
                     if(document.referrer=== ''){
                         location.href="userHomepage.html"
                     }else {

@@ -425,7 +425,7 @@
         $(".sub button").click(function () {
             if (user) {
                 if (!editor.html()) {
-                    alert("回复内容不能为空！")
+                    layer.msg("回复内容不能为空！")
                     return false;
                 }
                 $.ajax({
@@ -437,10 +437,10 @@
                     , success: function (jsonData) {
                         console.log(jsonData)
                         if (jsonData.success == 1) {
-                            alert("回复成功")
+                            layer.msg("回复成功")
                             location.href = window.location.href
                         }else {
-                            alert(jsonData.errorMsg)
+                            layer.msg(jsonData.errorMsg)
                         }
                     }
                     , error: function (res) {
@@ -450,7 +450,7 @@
 
 
             } else {
-                alert("登录后才能回答问题")
+                layer.msg("登录后才能回答问题")
             }
         })
 
@@ -629,7 +629,7 @@
             var collectDescribe=$(".collecdiscr").val()
             console.log(name)
             if(!name){
-                alert("收藏夹名不能为空！")
+                layer.msg("收藏夹名不能为空！")
                 return false
             }
             $.ajax({
@@ -641,9 +641,9 @@
                     console.log(jsonData)
                     if (jsonData.success == 1) {
                         setCollect(userID)
-                        alert("添加成功")
+                        layer.msg("添加成功")
                     } else {
-                        alert(jsonData.errorMsg)
+                        layer.msg(jsonData.errorMsg)
                     }
                 }
                 , error: function (res) {
@@ -659,7 +659,7 @@
             setCollect(userID)
             $(".collectContain").css("display","block")
         } else {
-            alert("登录后收藏！")
+            layer.msg("登录后收藏！")
         }
 
     })
@@ -681,9 +681,9 @@
                 $(".collectContain").css("display","none")
                 if (jsonData.success == 1) {
 
-                     alert("添加成功")
+                     layer.msg("添加成功")
                 } else {
-                    alert(jsonData.errorMsg)
+                    layer.msg(jsonData.errorMsg)
                 }
             }
             , error: function (res) {
@@ -702,10 +702,10 @@
                 , success: function (jsonData) {
                     console.log(jsonData)
                     if (jsonData.success == 1) {
-                        alert("同问成功")
+                        layer.msg("同问成功")
                         location.href=window.location.href
                     } else {
-                        alert(jsonData.errorMsg)
+                        layer.msg(jsonData.errorMsg)
                     }
                 }
                 , error: function (res) {
@@ -713,7 +713,7 @@
                 }
             })
         }else {
-            alert("请先登录！")
+            layer.msg("请先登录！")
         }
 
     })

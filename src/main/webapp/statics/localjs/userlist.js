@@ -54,19 +54,20 @@ $('.viewuser').click(function(e){
 		url: '/backend/getuser.html',
 		type: 'POST',
 		data:{id:m_id},
-		dataType: 'html',
+		dataType: 'json',
 		timeout: 1000,
 		error: function(){
 			alert("error");
 		},
 		success: function(result){
-			if("failed" == result){
-				alert("操作超时！");
-			}else if("nodata" == result){
-				alert("没有数据！");
-			}else{
+		    console.log(result)
+			// if("failed" == result){
+			// 	alert("操作超时！");
+			// }else if("nodata" == result){
+			// 	alert("没有数据！");
+			// }else{
 				m = eval('(' + result + ')');
-				$("#v_id").val(m.id);
+				$("#v_id").val(m.userId);
 				$("#v_logincode").val(m.loginCode);
 				$("#v_username").val(m.userName);
 				$("#v_birthday").val(m.birthday);
@@ -89,10 +90,10 @@ $('.viewuser').click(function(e){
 				}else{
 					$("#v_isstart").append("<option value=\"1\">启用</option><option value=\"2\" selected=\"selected\">不启用</option>");
 				}
-				
+
 				$("#v_useraddress").val(m.userAddress);
 				$("#v_refercode").val(m.referCode);
-				
+
 				$("#v_fileInputIDPath").val(m.idCardPicPath);
 				var v_idcardpicpath = m.idCardPicPath;
 				if(v_idcardpicpath == null || v_idcardpicpath == "" ){
@@ -100,7 +101,7 @@ $('.viewuser').click(function(e){
 				}else{
 					$("#v_idPic").append("<p><img src=\""+v_idcardpicpath+"?m="+Math.random()+"\" /></p>");
 				}
-				
+
 				$("#v_fileInputBankPath").val(m.bankPicPath);
 				var v_bankpicpath = m.bankPicPath;
 				if(v_bankpicpath == null || v_bankpicpath == "" ){
@@ -110,7 +111,7 @@ $('.viewuser').click(function(e){
 				}
 				e.preventDefault();
 				$('#viewUserDiv').modal('show');
-			}
+			// }
 		}
 		});
 });
@@ -184,7 +185,7 @@ $('.modifyuser').click(function(e){
 							alert("用户类型加载失败！");
 						}
 					},'json');
-					
+
 				}else if(roleId == "1"){
 					$("#m_selectusertype").append("<option value=\"\" selected=\"selected\">--请选择--</option>");
 				}
@@ -197,7 +198,7 @@ $('.modifyuser').click(function(e){
 				}else if(sex == "女"){
 					$("#m_sex").append("<option value=\"男\">男</option><option value=\"女\" selected=\"selected\">女</option>");
 				}
-					
+
 				$("#m_idcard").val(m.idCard);
 				$("#m_country").val(m.country);
 				$("#m_mobile").val(m.mobile);
@@ -215,22 +216,22 @@ $('.modifyuser').click(function(e){
 				}
 				$("#m_useraddress").val(m.userAddress);
 				$("#m_refercode").val(m.referCode);
-				
+
 				$("#m_fileInputIDPath").val(m.idCardPicPath);
 				var m_idcardpicpath = m.idCardPicPath;
 				if(m_idcardpicpath == null || m_idcardpicpath == "" ){
 					$("#m_uploadbtnID").show();
-					
+
 				}else{
 					$("#m_idPic").append("<p><span onclick=\"delpic('"+m.id+"','m_idPic','m_uploadbtnID',this,'"+m_idcardpicpath+"','m_fileInputIDPath','m_fileInputID');\">x</span><img src=\""+m_idcardpicpath+"?m="+Math.random()+"\" /></p>");
 					$("#m_uploadbtnID").hide();
 				}
-				
+
 				$("#m_fileInputBankPath").val(m.bankPicPath);
 				var m_bankpicpath = m.bankPicPath;
 				if(m_bankpicpath == null || m_bankpicpath == "" ){
 					$("#m_uploadbtnBank").show();
-					
+
 				}else{
 					$("#m_bankPic").append("<p><span onclick=\"delpic('"+m.id+"','m_bankPic','m_uploadbtnBank',this,'"+m_bankpicpath+"','m_fileInputBankPath','m_fileInputBank');\">x</span><img src=\""+m_bankpicpath+"?m="+Math.random()+"\" /></p>");
 					$("#m_uploadbtnBank").hide();
@@ -296,7 +297,7 @@ $("#m_roleId").change(function(){
 			}else{
 				alert("用户类型加载失败！");
 			}
-		},'json');	
+		},'json');
 	}
 });
 
@@ -333,7 +334,7 @@ $("#selectrole").change(function(){
 			}else{
 				alert("用户类型加载失败！");
 			}
-		},'json');	
+		},'json');
 	}
 });
 $("#a_logincode").blur(function(){
@@ -399,7 +400,7 @@ $("#m_email").blur(function(){
 		$("#modify_formtip").html("");
 		$("#modify_formtip").attr("email","0");
 	}
-		
+
 });
 
 
@@ -552,27 +553,27 @@ function delpic(id,closeSpan,uploadBtn,obj,picpath,picText,fileinputid){
 		}else
 			alert("删除失败！");
 	},'html');
-	
+
 }
 
 function TajaxFileUpload(flag,t1,t2,t3,t4)
-{   
+{
 	if($("#"+t1+"").val() == '' || $("#"+t1+"").val() == null){
 		alert("请选择上传文件！");
 	}else{
 		$.ajaxFileUpload
-	    ({ 
+	    ({
 	           url:'/backend/upload.html', //处理上传文件的服务端
 	           secureuri:false,
 	           fileElementId:t1,
 	           dataType: 'json',
-	           success: function(data) { 
+	           success: function(data) {
 	        	   data = data.replace(/(^\s*)|(\s*$)/g, "");
 	        	   if(data == "1"){
 	        		   alert("上传图片大小不得超过50K！");
 	        		   $("#uniform-"+t1+" span:first").html('无文件');
 	        		   $("input[name='"+t1+"']").change(function(){
-	        			   var fn = $("input[name='"+t1+"']").val(); 
+	        			   var fn = $("input[name='"+t1+"']").val();
 	        			   if($.browser.msie){
 	        				   fn = fn.substring(fn.lastIndexOf("\\")+1);
 	        			   }
@@ -582,7 +583,7 @@ function TajaxFileUpload(flag,t1,t2,t3,t4)
 	        		   alert("上传图片格式不正确！");
 	        		   $("#uniform-"+t1+" span:first").html('无文件');
 	        		   $("input[name='"+t1+"']").change(function(){
-	        			   var fn = $("input[name='"+t1+"']").val(); 
+	        			   var fn = $("input[name='"+t1+"']").val();
 	        			   if($.browser.msie){
 	        				   fn = fn.substring(fn.lastIndexOf("\\")+1);
 	        			   }
@@ -596,17 +597,17 @@ function TajaxFileUpload(flag,t1,t2,t3,t4)
 	        		   $("#"+t2+"").hide();
 	        		   $("#"+t4+"").val(data);
 	        		   $("input[name='"+t1+"']").change(function(){
-	        			   var fn = $("input[name='"+t1+"']").val(); 
+	        			   var fn = $("input[name='"+t1+"']").val();
 	        			   if($.browser.msie){
 	        				   fn = fn.substring(fn.lastIndexOf("\\")+1);
 	        			   }
 	        			   $("#uniform-"+t1+" span:first").html(fn);
 	        		   });
 	        	   }
-	           },  
-	           error: function() {  
+	           },
+	           error: function() {
 	              alert("上传失败！");
-	           } 
+	           }
 	        });
 	}
 }

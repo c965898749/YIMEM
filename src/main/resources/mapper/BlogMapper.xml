@@ -26,16 +26,16 @@
    </select>
     <select id="queryByUserId" resultType="com.sy.model.Blog">
         select * from blog where userid=#{userid}
-        <if test="createtime == 1 and stick==1 and readCount!=1">
+        <if test="timeCount == 1 and stick==1 and readCount!=1">
            and title like concat('%',#{serachblog},'%')
         </if>
-        <if test="createtime == 1 and stick==1 and readCount!=1">
+        <if test="timeCount == 1 and stick==1 and readCount!=1">
             order by stick desc,createtime desc
         </if>
-        <if test="createtime != 1 and stick==1 and readCount==1">
+        <if test="timeCount != 1 and stick==1 and readCount==1">
             order by stick desc,readCount desc
         </if>
-        <if test="createtime != 1 and stick!=1 and readCount!=1">
+        <if test="timeCount != 1 and stick!=1 and readCount!=1">
             order by createtime desc
         </if>
     </select>

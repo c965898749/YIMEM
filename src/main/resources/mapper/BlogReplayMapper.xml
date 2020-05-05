@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sy.mapper.BlogReplayMapper">
     <update id="addReplay">
-        INSERT INTO `csdn`.`blog_replay` ( `blog_id`, `comment`, `commentuserid`, `time`, `status`,  `replay_userid` ) VALUES
+        INSERT INTO blog_replay ( `blog_id`, `comment`, `commentuserid`, `time`, `status`,  `replay_userid` ) VALUES
          ( #{blogid}, #{comment}, #{commentuserid}, NOW(), #{status}, #{replayUserId});
             </update>
     <select id="queryByBlogId" resultType="com.sy.model.BlogReplay">
@@ -50,7 +50,7 @@
 
     <!--评论的评论-->
     <update id="insert">
-        INSERT INTO `csdn`.`blog_replay` ( `blog_replay_id`, `comment`, `commentuserid`, `time`, `replay_userid`,`blog_id`,status)
+        INSERT INTO blog_replay ( `blog_replay_id`, `comment`, `commentuserid`, `time`, `replay_userid`,`blog_id`,status)
         VALUES ( #{blogReplayId}, #{comment}, #{commentuserid}, now(), #{replayUserId},#{blogid},#{status});
     </update>
     <select id="queryBlogReplaySonByReplayId" resultType="com.sy.model.BlogReplay">

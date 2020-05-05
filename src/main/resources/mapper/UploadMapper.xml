@@ -28,8 +28,8 @@
     </resultMap>
     <!--查询所有(条件)-->
     <select id="selectAll" resultMap="baseResultMap">
-        select `upload`.*,`user`.username,`user`.headImg from `csdn`.`upload`
-        LEFT JOIN `csdn`.`user` on `upload`.userid=`user`.userid
+        select `upload`.*,`user`.username,`user`.headImg from upload
+        LEFT JOIN user on `upload`.userid=`user`.userid
         <trim prefix="where" prefixOverrides="and | or">
             <if test="userid !=null and userid !=''">
                 and upload.userid=#{userid}
@@ -58,8 +58,8 @@ select count(*) from upload where userid=#{userid} and leixin =#{leixin}
     </select>
     <!--按id查询-->
     <select id="selectById" resultMap="baseResultMap">
-        select `upload`.*,`user`.username,`user`.headImg from `csdn`.`upload`
-         LEFT JOIN `csdn`.`user` on `upload`.userid=`user`.userid
+        select `upload`.*,`user`.username,`user`.headImg from upload
+         LEFT JOIN user on `upload`.userid=`user`.userid
          where id=#{id}
     </select>
     <!--&lt;!&ndash;查找资源数&ndash;&gt;-->
@@ -88,7 +88,7 @@ select count(*) from upload where userid=#{userid} and leixin =#{leixin}
     <!--</select>-->
     <!--新增资源-->
     <insert id="insert" parameterType="com.sy.model.Upload">
-       INSERT INTO `csdn`.`upload` (`userid`, `title`, `createtime`, `appraise`, `size`, `price`, `status`, `categoryid`, `categoryid2`, `downloadCount`, `leixin`, `src`,`intro`,`name`,`leixin2`) VALUES
+       INSERT INTO upload (`userid`, `title`, `createtime`, `appraise`, `size`, `price`, `status`, `categoryid`, `categoryid2`, `downloadCount`, `leixin`, `src`,`intro`,`name`,`leixin2`) VALUES
 (#{userid}, #{title}, NOW(), #{appraise}, #{size}, #{price}, 1,#{categoryid},#{categoryid2}, #{downloadCount}, #{leixin},#{src},#{intro},#{name},#{leixin2});
     </insert>
     <!--更新回复数-->

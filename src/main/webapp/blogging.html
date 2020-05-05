@@ -151,7 +151,7 @@
 <body>
 <div class="title">
     <input type="text" placeholder="输入文章标题">
-    <span>0</span>/100
+    <span>0</span>/23
     <button>发布文章</button>
     <div class="headImg">
 
@@ -291,20 +291,20 @@
              var title=$(".title input").val()
              var content=editor.html();
              if(!user){
-                 alert("请登录后再发布！")
+                 layer.msg("请登录后再发布！")
                  location.href="login.html"
                  return false
              }
              if(!title){
-                 alert("请输入文章标题再发布！")
+                 layer.msg("请输入文章标题再发布！")
                  return false
              }
-             if(title.length>100){
-                 alert("标题长度不能超过100！")
+             if(title.length>23){
+                 layer.msg("标题长度不能超过23！")
                  return false
              }
              if(!editor.html()){
-                 alert("请输入文章正文后再发布！")
+                 layer.msg("请输入文章正文后再发布！")
                  return false
              }
              $.ajax({
@@ -316,7 +316,7 @@
                  , success: function (jsonData) {
                      console.log(jsonData.data)
                      if (jsonData.success == 1) {
-                         alert("发布成功！")
+                         layer.msg("发布成功！")
                          location.href="details.html?blog_id="+jsonData.data
                      }
                  }

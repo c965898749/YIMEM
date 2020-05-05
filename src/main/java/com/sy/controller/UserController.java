@@ -45,7 +45,6 @@ public class UserController {
     public BaseResp registerServlet(String username, String userpassword, HttpServletRequest request) {
         try {
             baseResp = servic.addUser(username, userpassword);
-
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();

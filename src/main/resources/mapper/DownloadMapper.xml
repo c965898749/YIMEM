@@ -8,11 +8,11 @@
 </select>
     <!--&lt;!&ndash;查询所有条数&ndash;&gt;-->
     <select id="selectAllCount" resultType="java.lang.Integer">
-         SELECT COUNT(*) FROM `csdn`.`download` where userid=#{userid}
+         SELECT COUNT(*) FROM download where userid=#{userid}
     </select>
     <!--&lt;!&ndash;新增资源&ndash;&gt;-->
     <update id="insert" parameterType="com.sy.model.Download">
-     INSERT INTO `csdn`.`download` (`userid`, `dowid`, `createtime`, `replystate`, `title`,`price`,`size`,`leixin2`) VALUES (#{userid}, #{dowid}, NOW(), #{replystate}, #{title},#{price},#{size},#{leixin2});
+     INSERT INTO download (`userid`, `dowid`, `createtime`, `replystate`, `title`,`price`,`size`,`leixin2`) VALUES (#{userid}, #{dowid}, NOW(), #{replystate}, #{title},#{price},#{size},#{leixin2});
     </update>
 
 

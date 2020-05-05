@@ -7,7 +7,7 @@
         select * from collect where userid = #{userid}
     </select>
     <update id="add">
-        INSERT INTO `csdn`.`collect` (`name`, `userid`) VALUES (#{name},#{userid} );
+        INSERT INTO collect (`name`, `userid`) VALUES (#{name},#{userid} );
     </update>
 
     <!--根据收藏夹ID统计收藏夹内的数据数量-->

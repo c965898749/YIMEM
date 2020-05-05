@@ -37,11 +37,13 @@ header
 /*导航*/
 
 .TOP {
+	margin-top: 2px;
 	background-color: #E4E9EC;
 	height: 40px;
 }
 
 .TOP-nav {
+
 	width: 1200px;
 	margin: 0 auto;
 	display: flex;
@@ -587,7 +589,6 @@ header
 .flooter {
 	margin: 20px auto;
 	text-align: center;
-	background-color: white;
 }
 
 /*论坛模块*/

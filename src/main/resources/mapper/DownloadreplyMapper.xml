@@ -17,22 +17,22 @@
     </resultMap>
     <!--查询所有评论-->
     <select id="selectByDowid" resultMap="baseResultMap">
-        select `downloadreply`.*,`user`.username ,`user`.headImg from `csdn`.`downloadreply`
-         LEFT JOIN `csdn`.`user` on `downloadreply`.userid=`user`.userid
+        select `downloadreply`.*,`user`.username ,`user`.headImg from downloadreply
+         LEFT JOIN user on `downloadreply`.userid=`user`.userid
          where dowid=#{dowid}
          ORDER BY createtime DESC
     </select>
     <!--添加评论-->
     <insert id="insert" parameterType="com.sy.model.Downloadreply">
-        INSERT INTO `csdn`.`downloadreply` ( `userid`, `content`, `createtime`, `appraise`, `dowid`) VALUES ( #{userid}, #{content}, NOW(), #{appraise}, #{dowid});
+        INSERT INTO downloadreply ( `userid`, `content`, `createtime`, `appraise`, `dowid`) VALUES ( #{userid}, #{content}, NOW(), #{appraise}, #{dowid});
     </insert>
     <!--查询评论数-->
     <select id="selectcountByDowid" resultType="java.lang.Integer">
-        select count(*) from `csdn`.`downloadreply`
+        select count(*) from downloadreply
          where dowid=#{dowid}
     </select>
     <select id="selectAllByDowid" resultType="com.sy.model.Downloadreply">
-        select *from `csdn`.`downloadreply`
+        select *from downloadreply
          where dowid=#{dowid}
     </select>
 

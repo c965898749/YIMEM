@@ -3,10 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sy.mapper.LikeMapper">
     <select id="queryByBlog_idAndUser_Id" resultType="com.sy.model.Like">
-      SELECT * FROM lIKES WHERE userid=#{userId} AND blog_id =#{blogId}
+      SELECT * FROM likes WHERE userid=#{userId} AND blog_id =#{blogId}
    </select>
     <update id="addLike" >
-       INSERT INTO `csdn`.`likes` ( `blog_id`, `userid`) VALUES ( #{blogId},#{userId});
+       INSERT INTO likes ( `blog_id`, `userid`) VALUES ( #{blogId},#{userId});
 
     </update>
 
@@ -37,11 +37,11 @@
 
     <!--查看点赞是否未读-->
     <select id="queryStatusByUserId" resultType="java.lang.Integer">
-     SELECT count(*) FROM lIKES WHERE userid=#{userId} AND blog_id=#{blogId} AND status =1
+     SELECT count(*) FROM likes WHERE userid=#{userId} AND blog_id=#{blogId} AND status =1
    </select>
 
     <!--查看文章点赞数-->
     <select id="queryCountByBlogId" resultType="java.lang.Integer">
-     SELECT count(*) FROM lIKES WHERE  blog_id=#{blogId}
+     SELECT count(*) FROM likes WHERE  blog_id=#{blogId}
    </select>
 </mapper>

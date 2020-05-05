@@ -59,7 +59,7 @@ public class UserServicImpl implements UserServic {
         }
         if (!usernamelist.contains(user.getUsername())) {
             baseResp.setSuccess(0);
-            baseResp.setErrorMsg("您输入的账号有误");
+            baseResp.setErrorMsg("用户名或密码错误!请重试。");
             return baseResp;
         } else {
             for (User user1 : userList) {
@@ -171,9 +171,11 @@ public class UserServicImpl implements UserServic {
     public BaseResp findUserByUserId(Integer userId) throws Exception {
         BaseResp baseResp = new BaseResp();
         User user = userMapper.selectUserByUserId(userId);
+        Integer fansCount=userMapper.selectFansCountbyUserId(userId);
         if (user != null) {
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("获取成功");
+            user.setFansCount(fansCount);
             baseResp.setData(user);
         } else {
             baseResp.setSuccess(0);

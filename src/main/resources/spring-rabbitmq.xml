@@ -13,9 +13,13 @@
     <!--<rabbit:admin connection-factory="connectionFactory" />-->
 
     <rabbit:connection-factory id="connectionFactory" virtual-host="/"
-                               host="XXX.XXX.XXX.XXX" username="admin"
+                               host="192.168.1.4" username="admin"
                                password="123456"
                                port="5672" />
+    <!--<rabbit:connection-factory id="connectionFactory" virtual-host="/"-->
+                               <!--host="192.168.174.101" username="admin"-->
+                               <!--password="123456"-->
+                               <!--port="5672" />-->
     <rabbit:admin connection-factory="connectionFactory" />
     <!-- 声明消息队列，消息系统监听队列 -->
     <!-- messageQueue 是在（1）中创建的队列 -->

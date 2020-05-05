@@ -6,7 +6,7 @@
 		<li><a href="/backend/userlist.html">用户管理</a></li>
 	</ul>
 </div>
-			<div class="row-fluid sortable">		
+			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header well" data-original-title>
 						<h2><i class="icon-user"></i> 用户列表</h2>
@@ -14,12 +14,12 @@
 							<span class="icon32 icon-color icon-add custom-setting adduser"/>
 						</div>
 					</div>
-					
+
 					<div class="box-content">
 						<form action="/backend/userlist.html" method="post">
 							<div class="searcharea">
 							用户名称:
-							<input type="text" name="s_loginCode" value="${s_loginCode}" />
+							<input type="text" name="s_username" value="${s_username}" />
 							推荐人：
 							<input type="text" name="s_referCode" value="${s_referCode}" />
 							角色：
@@ -35,15 +35,15 @@
 							是否启用：
 							 <select name="s_isStart" style="width:100px;">
 								<option value="" selected="selected">--请选择--</option>
-								　　 <c:if test="${s_isStart == 1}">  
+								　　 <c:if test="${s_isStart == 1}">
 									　　<option value="1" selected="selected">启用</option>
 										<option value="2">未启用</option>
-								　　 </c:if>  
-								　　 <c:if test="${s_isStart == 2}">  
+								　　 </c:if>
+								　　 <c:if test="${s_isStart == 2}">
 									　    <option value="2" selected="selected">未启用</option>
 										<option value="1">启用</option>
 								 	 </c:if>
-								　　  <c:if test="${s_isStart == null || s_isStart == ''}">  
+								　　  <c:if test="${s_isStart == null || s_isStart == ''}">
 									　    <option value="2">未启用</option>
 										<option value="1">启用</option>
 								 	</c:if>
@@ -51,7 +51,7 @@
 							<button type="submit" class="btn btn-primary"><i class="icon-search icon-white"></i> 查询 </button>
 						</div>
 						</form>
-					
+
 						<table class="table table-striped table-bordered bootstrap-datatable datatable">
 						  <thead>
 							  <tr>
@@ -63,13 +63,13 @@
 								  <th>注册时间</th>
 								  <th>操作</th>
 							  </tr>
-						  </thead>   
+						  </thead>
 						  <tbody>
-						  
+
 						  <c:if test="${page.items != null}">
 						  <c:forEach items="${page.items}" var="user">
 							<tr>
-								<td class="center">${user.loginCode}</td>
+								<td class="center">${user.username}</td>
 								<td class="center">${user.roleName}</td>
 								<td class="center">${user.userTypeName}</td>
 								<td class="center">${user.referCode}</td>
@@ -81,16 +81,16 @@
 								<fmt:formatDate value="${user.createTime}" pattern="yyyy-MM-dd"/>
 								</td>
 								<td class="center">
-									<a class="btn btn-success viewuser" href="#" id="${user.id}">
-										<i class="icon-zoom-in icon-white"></i>  
-										查看                                           
+									<a class="btn btn-success viewuser" href="#" id="${user.userId}">
+										<i class="icon-zoom-in icon-white"></i>
+										查看
 									</a>
-									<a class="btn btn-info modifyuser" href="#" id="${user.id}">
-										<i class="icon-edit icon-white"></i>  
-										修改                                            
+									<a class="btn btn-info modifyuser" href="#" id="${user.userId}">
+										<i class="icon-edit icon-white"></i>
+										修改
 									</a>
-									<a class="btn btn-danger deluser" href="#" usertype="${user.userType}" usertypename="${user.userTypeName}" logincode="${user.loginCode}" id="${user.id}" idcardpicpath="${user.idCardPicPath}" bankpicpath="${user.bankPicPath}">
-										<i class="icon-trash icon-white"></i> 
+									<a class="btn btn-danger deluser" href="#" usertype="${user.userType}" usertypename="${user.userTypeName}" username="${user.username}" id="${user.userId}" >
+										<i class="icon-trash icon-white"></i>
 										删除
 									</a>
 								</td>
@@ -98,20 +98,20 @@
 						  </c:forEach>
 						 </c:if>
 						  </tbody>
-					  </table>   
+					  </table>
 					<div class="pagination pagination-centered">
 					  <ul>
 					  <c:choose>
 					  	<c:when test="${page.page == 1}">
-					  	<li class="active"><a href="javascript:void();" title="首页">首页</a></li>
+					  	<li class="active"><a href="javascript:void(0);" title="首页">首页</a></li>
 					  	</c:when>
 					  	<c:otherwise>
-					  	<li><a href="/backend/userlist.html?currentpage=1&s_loginCode=${s_loginCode}&s_referCode=${s_referCode}&s_roleId=${s_roleId}&s_isStart=${s_isStart}" title="首页">首页</a></li>
+					  	<li><a href="/backend/userlist.html?currentpage=1&s_username=${s_username}&s_referCode=${s_referCode}&s_roleId=${s_roleId}&s_isStart=${s_isStart}" title="首页">首页</a></li>
 					  	</c:otherwise>
 					  </c:choose>
 						<c:if test="${page.prevPages!=null}">
 							<c:forEach items="${page.prevPages}" var="num">
-								<li><a href="/backend/userlist.html?currentpage=${num}&s_loginCode=${s_loginCode}&s_referCode=${s_referCode}&s_roleId=${s_roleId}&s_isStart=${s_isStart}"
+								<li><a href="/backend/userlist.html?currentpage=${num}&s_username=${s_username}&s_referCode=${s_referCode}&s_roleId=${s_roleId}&s_isStart=${s_isStart}"
 									class="number" title="${num}">${num}</a></li>
 							</c:forEach>
 						</c:if>
@@ -120,24 +120,24 @@
 						</li>
 						<c:if test="${page.nextPages!=null}">
 							<c:forEach items="${page.nextPages}" var="num">
-								<li><a href="/backend/userlist.html?currentpage=${num}&s_loginCode=${s_loginCode}&s_referCode=${s_referCode}&s_roleId=${s_roleId}&s_isStart=${s_isStart}" title="${num}">
+								<li><a href="/backend/userlist.html?currentpage=${num}&s_username=${s_username}&s_referCode=${s_referCode}&s_roleId=${s_roleId}&s_isStart=${s_isStart}" title="${num}">
 								${num} </a></li>
 							</c:forEach>
 						</c:if>
 						<c:if test="${page.pageCount !=null}">
 							<c:choose>
 						  	<c:when test="${page.page == page.pageCount}">
-						  	<li class="active"><a href="javascript:void();" title="尾页">尾页</a></li>
+						  	<li class="active"><a href="javascript:void(0);" title="尾页">尾页</a></li>
 						  	</c:when>
 						  	<c:otherwise>
-						  	<li><a href="/backend/userlist.html?currentpage=${page.pageCount}&s_loginCode=${s_loginCode}&s_referCode=${s_referCode}&s_roleId=${s_roleId}&s_isStart=${s_isStart}" title="尾页">尾页</a></li>
+						  	<li><a href="/backend/userlist.html?currentpage=${page.pageCount}&s_username=${s_username}&s_referCode=${s_referCode}&s_roleId=${s_roleId}&s_isStart=${s_isStart}" title="尾页">尾页</a></li>
 						  	</c:otherwise>
 						    </c:choose>
 					    </c:if>
 						<c:if test="${page.pageCount == null}">
-						<li class="active"><a href="javascript:void();" title="尾页">尾页</a></li>
+						<li class="active"><a href="javascript:void(0);" title="尾页">尾页</a></li>
 					  	</c:if>
-						
+
 					  </ul>
 				  </div>
 				</div>
@@ -174,21 +174,21 @@
 			 		 </select>
 					</li>
 					<li>
-					  <label>用户名：</label><input type="text" id="a_logincode" name="loginCode" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"/>
+					  <label>用户名：</label><input type="text" id="a_username" name="username" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"/>
 					  <span style="color:red;font-weight: bold;">*</span>
 					</li>
 					<li>
-					  <label>姓名：</label><input type="text" id="a_username" name="userName" />
+					  <label>姓名：</label><input type="text" id="a_username2" name="userName" />
 					  <span style="color:red;font-weight: bold;">*</span>
-					</li> 
+					</li>
 					<li>
 					  <label>性别：</label>
 		 			  <select name="sex" style="width:100px;">
 		 			    <option value="" selected="selected">--请选择--</option>
 		 				<option value="男">男</option>
 		 				<option value="女">女</option>
-		 			  </select> 
-					</li> 
+		 			  </select>
+					</li>
 					<li>
 					  <label>证件类型：</label>
 					  <input id="selectcardtypename" type="hidden" name="cardTypeName" value=""/>
@@ -237,7 +237,7 @@
 					  <span style="color:red;font-weight: bold;">*</span>
 					</li>
 					<li>
-					  <label>推荐人：</label><input type="text" name="referCode" value="${user.loginCode}" readonly="readonly"/>
+					  <label>推荐人：</label><input type="text" name="referCode" value="${user.username}" readonly="readonly"/>
 					</li>
 					<li>
 					  <label>注册时间：</label>
@@ -253,7 +253,7 @@
 					<li class="lastli">
 					  <label>收货地址：</label><textarea id="a_useraddress" name="userAddress"></textarea>
 					</li>
-					
+
 				</ul>
 				<div class="clear"></div>
 				<ul class="downul">
@@ -277,15 +277,15 @@
 					 </li>
 				</ul>
 			</div>
-			
+
 			<div class="modal-footer">
 				<a href="#" class="btn addusercancel" data-dismiss="modal">取消</a>
 				<input type="submit"  class="btn btn-primary" value="保存" />
 			</div>
 		</form>
 	 </div>
-	 
-	 
+
+
 	 <div class="modal hide fade" id="modifyUserDiv">
 		<form action="/backend/modifyuser.html" enctype="multipart/form-data" method="post" onsubmit="return modifyUserFunction();">
 			<div class="modal-header">
@@ -310,18 +310,18 @@
 			 		  </select>
 					</li>
 					<li>
-					  <label>用户名：</label><input type="text" id="m_logincode" name="loginCode" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"/>
+					  <label>用户名：</label><input type="text" id="m_username3" name="username" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"/>
 					  <span style="color:red;font-weight: bold;">*</span>
 					</li>
 					<li>
-					  <label>姓名：</label><input type="text" id="m_username" name="userName" />
+					  <label>姓名：</label><input type="text" id="m_username4" name="userName" />
 					  <span style="color:red;font-weight: bold;">*</span>
-					</li> 
+					</li>
 					<li>
 					  <label>性别：</label>
 		 			  <select id="m_sex" name="sex" style="width:100px;">
 					  </select>
-					</li> 
+					</li>
 					<li>
 					  <label>证件类型：</label>
 					  <input id="m_cardtypename" type="hidden" name="cardTypeName" value=""/>
@@ -379,7 +379,7 @@
 					<li class="lastli">
 					  <label>收货地址：</label><textarea id="m_useraddress" name="userAddress"></textarea>
 					</li>
-					
+
 				</ul>
 				<div class="clear"></div>
 				<ul class="downul">
@@ -403,14 +403,14 @@
 					 </li>
 				</ul>
 			</div>
-			
+
 			<div class="modal-footer">
 				<a href="#" class="btn modifyusercancel" data-dismiss="modal">取消</a>
 				<input type="submit"  class="btn btn-primary" value="保存" />
 			</div>
 		</form>
 	 </div>
-	 
+
 	 <div class="modal hide fade" id="viewUserDiv">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">×</button>
@@ -428,15 +428,15 @@
 					  <input id="v_usertypename" type="text" value=""/>
 					</li>
 					<li>
-					  <label>用户名：</label><input type="text" id="v_logincode" value="" />
+					  <label>用户名：</label><input type="text" id="v_username1" value="" />
 					</li>
 					<li>
-					  <label>姓名：</label><input type="text" id="v_username" value="" />
-					</li> 
+					  <label>姓名：</label><input type="text" id="v_username2" value="" />
+					</li>
 					<li>
 					  <label>性别：</label>
 					  <input type="text" id="v_sex" value="" />
-					</li> 
+					</li>
 					<li>
 					  <label>证件类型：</label>
 					  <input id="v_cardtypename" type="text" value=""/>
@@ -485,7 +485,7 @@
 					  <label>收货地址：</label>
 					  <textarea id="v_useraddress" name="userAddress"></textarea>
 					</li>
-					
+
 				</ul>
 				<div class="clear"></div>
 				<ul class="downul">
@@ -504,19 +504,19 @@
 					 </li>
 				</ul>
 			</div>
-			
+
 			<div class="modal-footer">
 				<a href="#" class="btn viewusercancel" data-dismiss="modal">关闭</a>
 			</div>
 	 </div>
-	 
+
 <%@include file="/WEB-INF/pages/common/foot.jsp"%>
 <script type="text/javascript">
-    var cartTypeListJson =	[<c:forEach  items="${cardTypeList}" var="cardType"> 
+    var cartTypeListJson =	[<c:forEach  items="${cardTypeList}" var="cardType">
 							{"valueId":"${cardType.valueId}","valueName":"${cardType.valueName}"},
 							</c:forEach>{"valueId":"over","valueName":"over"}];
-    var roleListJson =	[<c:forEach  items="${roleList}" var="role"> 
+    var roleListJson =	[<c:forEach  items="${roleList}" var="role">
 						{"id":"${role.id}","roleName":"${role.roleName}"},
 						</c:forEach>{"id":"over","roleName":"over"}];
 </script>
-<script type="text/javascript" src="/statics/localjs/userlist.js"></script> 
+<script type="text/javascript" src="/statics/localjs/userlist.js"></script>

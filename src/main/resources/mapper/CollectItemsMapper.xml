@@ -5,7 +5,7 @@
 
 
 <update id="addToCollect">
-    INSERT INTO `csdn`.`collectitems` (`blogid`, `collectid`) VALUES (#{blogId},#{collectId});
+    INSERT INTO collectitems (`blogid`, `collectid`) VALUES (#{blogId},#{collectId});
 </update>
 
  <select id="queryCollect" resultType="com.sy.model.Collectitems">

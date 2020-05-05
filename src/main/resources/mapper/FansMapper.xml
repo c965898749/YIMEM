@@ -11,7 +11,7 @@
    </select>
 
     <insert id="addFocus">
-        INSERT INTO `csdn`.`fans` (`fansedid`, `fansid`) VALUES (#{fansedid},#{fansid});
+        INSERT INTO fans (`fansedid`, `fansid`) VALUES (#{fansedid},#{fansid});
 
     </insert>
     <delete id="deleteFocus">

@@ -509,7 +509,30 @@
             </div>
         </div>
 
-        <img src="imgs/introduce/csdn.png" style="margin-top: 10px;">
+        <div class="yimem_gg" style="margin: 10px;margin-left: -5px">
+            <img src="imgs/ad/blog/cd17.png">
+        </div>
+        <div class="yimem_bz" style="background-color: white;margin-top: 10px;">
+            <div style="width:300px;margin:0 auto">
+                <img src="imgs/gz/gz.jpg" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px" alt="">
+                <img src="imgs/gz/eduwxfix.png" style="margin-top: 5px;margin-left: 30px;height: 88px;width: 88px"
+                     alt="">
+            </div>
+            <div style="padding-bottom: 5px;margin: 0 auto;width: 250px ;border-bottom: 1px #E0E0E0 solid"><span style="color:#8B8B8B;margin-left: 15px">YIMEM公众号</span><span
+                    style="color:#8B8B8B;margin-left: 60px">IT学院</span></div>
+            <div style="padding-top: 5px;margin: 0 auto;width: 250px"><span style="color:#3D3D3D;font-weight: bold;margin-left: 20px">关于我们</span>
+                <span
+                        style="color:#3D3D3D;margin-left: 20px">网站地图</span><span
+                        style="color:#3D3D3D;margin-left: 20px">广告服务</span></div>
+            <div style="width:300px;margin:0 auto; padding:20px 0;">
+                <img src="imgs/jh/jh.png" style="margin-left: 30px;margin-top: -15px" alt=""> <a target="_blank"
+                                                                                                 href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32061202001097"
+                                                                                                 style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
+                    src="" style="float:left;"/>
+                <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
+                    32061202001097号</p></a>
+            </div>
+        </div>
 
     </div>
     <!--<div class="content_left_and_right">-->
@@ -554,6 +577,7 @@
 
 <script src="layui/layui.all.js"></script>
 <script>
+    var navH = $(".yimem_gg").offset().top;
     var serachblog=null;
     var createtime = 1;
     var readCount = null
@@ -617,7 +641,7 @@
             data: {
                 "userid": bloguserid,
                 "pageNum": pageNum,
-                "createtime": createtime,
+                "timeCount": createtime,
                 "stick": 1,
                 "readCount": readCount,
                 "serachblog":serachblog
@@ -790,6 +814,14 @@
             $("#content_right").css("top", "60px")
             $(".content_left").css("top", "60px")
         }
+        var scroH = $(this).scrollTop();
+        if(scroH-600>=navH){
+            $(".yimem_gg").css({"position":"fixed","top":0});
+            $(".yimem_bz").css({"position":"fixed","top":260});
+        }else {
+            $(".yimem_gg").css({"position":"static"});
+            $(".yimem_bz").css({"position":"static"});
+        }
     }
     var register_Status = 0;
     //0为未关注，1为关注
@@ -900,7 +932,7 @@
                     })
                 }
             } else {
-                alert("请先登录！")
+                layer.msg("请先登录！")
                 window.location.href = "/login.html"
             }
 
@@ -933,7 +965,7 @@
             , success: function (json) {
                 $(".new_article_content").html("")
                 $.each(json.data, function (index, eachobj) {
-                    var html = `  <p class="new_article_items" blog_id="${eachobj.id}" >${eachobj.title}</p>`
+                    var html = `  <p class="new_article_items" blog_id="${eachobj.id}" style="font-size: 14px;color: #555666;font-family:'Microsoft YaHei' ">${eachobj.title}</p>`
                     $(".new_article_content").append(html)
                     if (index == 4) {
                         return false
@@ -959,7 +991,7 @@
                 //////console.log(json)
                 $(".aside-box2-content").html("")
                 $.each(json.data, function (index, eachobj) {
-                    var html = `<p class="new_article_items" blog_id="${eachobj.id}" >${eachobj.title}</p><p style="color: #858585;font-size: 12px;margin-left: 10px;margin-top: -5px">阅读数：${eachobj.readCount}</p>`
+                    var html = `<p class="new_article_items" blog_id="${eachobj.id}" style="font-size: 14px;color: #555666;font-family:'Microsoft YaHei' ">${eachobj.title}</p><p style="color: #999aaa;font-size: 12px;margin-left: 10px;">阅读数：${eachobj.readCount}</p>`
                     $(".aside-box2-content").append(html)
                     if (index == 4) {
                         return false

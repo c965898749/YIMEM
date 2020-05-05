@@ -21,7 +21,7 @@ public class Blog {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Shanghai")
     private Date createtime;
-
+    private Integer timeCount;
     private Integer recomment;
 
     private String resource;
@@ -52,6 +52,8 @@ public class Blog {
     private String userDescr;
 
     private Integer userFansCount;
+
+    private String serachblog;
 
 
 

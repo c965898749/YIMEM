@@ -6,9 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SpringMVC_0315" />
         <module name="YIMEM" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="YIMEM" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

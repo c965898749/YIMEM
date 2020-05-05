@@ -443,10 +443,10 @@
                 // //console.log(jsonData)
                 if (jsonData.success == 1) {
                     if (type == "attention") {
-                        alert("关注成功")
+                        layer.msg("关注成功")
                         $(".lt_button").text("取消关注")
                     } else if (type == "unfollow") {
-                        alert("取消关注成功")
+                        layer.msg("取消关注成功")
                         $(".lt_button").text("关注")
                     }
                 }
@@ -737,7 +737,7 @@
             , dataType: "json"
             , success: function (jsonData) {
                 // //console.log(jsonData)
-                alert(jsonData.errorMsg)
+                layer.msg(jsonData.errorMsg)
             }
             , error: function (res) {
                 //console.log("详情数据获取ajax提交错误")

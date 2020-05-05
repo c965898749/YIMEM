@@ -76,18 +76,24 @@ public class FansServiceImpl implements FansService {
     @Override
     public BaseResp addFocus(int fansedid, int fansid) {
         BaseResp baseResp = new BaseResp();
-        int result = fansMapper.addFocus(fansedid, fansid);
-        if (result != 0) {
-            User user = userMapper.selectUserByUserId(fansedid);
-            Integer unreadfanscount = user.getUnreadfanscount() + 1;
-            Integer FansCount= user.getFansCount()+1;
-            user.setUnreadfanscount(unreadfanscount);
-            user.setFansCount(FansCount);
-            userMapper.updateuser(user);
-            baseResp.setSuccess(1);
-            baseResp.setErrorMsg("关注成功");
-        } else {
+        Integer flag=userMapper.selectFansByFansedidAndFansid(fansedid,fansid);
+        if (flag>0){
             baseResp.setSuccess(0);
+            baseResp.setErrorMsg("已关注过");
+        }else {
+            int result = fansMapper.addFocus(fansedid, fansid);
+            if (result != 0) {
+                User user = userMapper.selectUserByUserId(fansedid);
+                Integer unreadfanscount = user.getUnreadfanscount() + 1;
+//            Integer FansCount= user.getFansCount()+1;
+                user.setUnreadfanscount(unreadfanscount);
+//            user.setFansCount(FansCount);
+                userMapper.updateuser(user);
+                baseResp.setSuccess(1);
+                baseResp.setErrorMsg("关注成功");
+            } else {
+                baseResp.setSuccess(0);
+            }
         }
         return baseResp;
     }
@@ -95,17 +101,17 @@ public class FansServiceImpl implements FansService {
     @Override
     public BaseResp deleteFocus(int fansedid, int fansid) {
         BaseResp baseResp = new BaseResp();
-        Integer count=fansMapper.queryStatusByFocus(fansedid,fansid);
-        System.out.println(count);
-        if (count>0){
-            User user=userMapper.selectUserByUserId(fansedid);
-            Integer unreadfanscount = user.getUnreadfanscount() - 1;
-            Integer FansCount= user.getFansCount()-1;
-            user.setUnreadfanscount(unreadfanscount);
-            user.setFansCount(FansCount);
-            user.setUnreadfanscount(unreadfanscount);
-            userMapper.updateuser(user);
-        }
+//        Integer count=fansMapper.queryStatusByFocus(fansedid,fansid);
+//        System.out.println(count);
+//        if (count>0){
+//            User user=userMapper.selectUserByUserId(fansedid);
+//            Integer unreadfanscount = user.getUnreadfanscount() - 1;
+//            Integer FansCount= user.getFansCount()-1;
+//            user.setUnreadfanscount(unreadfanscount);
+//            user.setFansCount(FansCount);
+//            user.setUnreadfanscount(unreadfanscount);
+//            userMapper.updateuser(user);
+//        }
         int result = fansMapper.deleteFocus(fansedid, fansid);
         if (result != 0) {
             baseResp.setSuccess(1);
@@ -215,14 +221,15 @@ public class FansServiceImpl implements FansService {
                 User user = userMapper.selectUserByUserId(blog.getUserid());
                 Integer likeCount = likeMapper.queryCountByBlogId(blog.getId());
                 Integer replayCount = blogReplayMapper.queryReplayCountByBlogId(blog.getId());
+                Integer fansCount=userMapper.selectFansCountbyUserId(blog.getUserid());
                 if (user != null) {
                     blog.setLikeCount(likeCount);
                     blog.setUsername(user.getNickname());
                     blog.setHeadimg(user.getHeadImg());
+                    blog.setUserFansCount(fansCount);
                     blog.setReplayCount(replayCount);
                     blog.setUserIndustry(user.getIndustry());
                     blog.setUserDescr(user.getDescription());
-                    blog.setUserFansCount(user.getFansCount());
                 }
                 blogList.set(i, blog);
             }

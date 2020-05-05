@@ -25,7 +25,7 @@
             width: 100%;
             height: 40px;
             background: #E4E9EC;
-            margin-top: -10px;
+            /*margin-top: -10px;*/
         }
 
         .secondTitleContian {
@@ -506,7 +506,7 @@
             if(user){
                 location.href = "asking.html"
             }else {
-                alert("未登入，请先登录！")
+                layer.msg("未登入，请先登录！")
                 location.href = "login.html"
             }
 

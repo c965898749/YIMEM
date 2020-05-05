@@ -1165,7 +1165,7 @@
             , data: {"blogUserId": fansId}
             , success: function (jsonData) {
                 if(jsonData.success==1){
-                    alert("取消成功")
+                    layer.msg("取消成功")
                     location.href="userHomepage.html?type=我的关注"
                 }
             }
@@ -1388,7 +1388,7 @@
            //////console.log(name)
            //////console.log(collectId)
             if(!name){
-                alert("收藏夹名不能为空！")
+                layer.msg("收藏夹名不能为空！")
                 return false
             }
             $.ajax({
@@ -1400,9 +1400,9 @@
                     if (jsonData.success == 1) {
                         $(".modcollectContain").css("display","none")
                         setCollectInfor(collectId)
-                        alert("添加成功")
+                        layer.msg("添加成功")
                     } else {
-                        alert(jsonData.errorMsg)
+                        layer.msg(jsonData.errorMsg)
                     }
                 }
                 , error: function (res) {
@@ -1428,7 +1428,7 @@
         var collectDescribe=$(".collecdiscr").val()
        //////console.log(name)
         if(!name){
-            alert("收藏夹名不能为空！")
+            layer.msg("收藏夹名不能为空！")
             return false
         }
         $.ajax({
@@ -1441,9 +1441,9 @@
                 if (jsonData.success == 1) {
                     $(".collectContain").css("display","none")
                     $(".showContain").html(setPersonalData("我的收藏", getJsondata("我的收藏")))
-                    alert("添加成功")
+                    layer.msg("添加成功")
                 } else {
-                    alert(jsonData.errorMsg)
+                    layer.msg(jsonData.errorMsg)
                 }
             }
             , error: function (res) {
@@ -1578,7 +1578,7 @@
                     , success: function (jsonData) {
                        //////console.log(jsonData)
                         if (jsonData.success == 1) {
-                            alert("取消成功！")
+                            layer.msg("取消成功！")
                         }
                     }
                     , error: function (res) {
@@ -1605,7 +1605,7 @@
                     , success: function (jsonData) {
                        //////console.log(jsonData)
                         if (jsonData.success == 1) {
-                            alert("取消成功！")
+                            layer.msg("取消成功！")
                         }
                     }
                     , error: function (res) {
@@ -1630,7 +1630,7 @@
                     , success: function (jsonData) {
                        //////console.log(jsonData)
                         if (jsonData.success == 1) {
-                            alert("删除成功！")
+                            layer.msg("删除成功！")
                         }
                     }
                     , error: function (res) {

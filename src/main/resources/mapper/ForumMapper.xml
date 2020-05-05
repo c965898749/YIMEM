@@ -9,7 +9,7 @@
        select * from invitationreply where invitation_id= #{invocationId}
    </select>
     <insert id="addReplay">
-        INSERT INTO `csdn`.`invitationreply` (`Invitation_id`, `comment`, `commentuserid`, `time`) VALUES (#{Invitation_id},#{comment},#{commentuserid},#{time});
+        INSERT INTO invitationreply (`Invitation_id`, `comment`, `commentuserid`, `time`) VALUES (#{Invitation_id},#{comment},#{commentuserid},#{time});
     </insert>
     <select id="queryallInvitationByUserId" resultType="com.sy.model.Invitation">
         select * from invitation where userid=#{userId} order by createtime desc

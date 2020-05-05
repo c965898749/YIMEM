@@ -27,8 +27,8 @@
     <!--List<Invitation> selectAll(Invitation invitation);-->
     <!--查询所有(条件)-->
     <select id="selectAll" resultMap="baseResultMap">
-        select `invitation`.*,`user`.username,`user`.headImg from `csdn`.`invitation`
-        LEFT JOIN `csdn`.`user` on `invitation`.userid=`user`.userid
+        select `invitation`.*,`user`.username,`user`.headImg from invitation
+        LEFT JOIN user on `invitation`.userid=`user`.userid
         <trim prefix="where" prefixOverrides="and | or">
             <if test="userid !=null and userid !=''">
                 and invitation.userid=#{userid}
@@ -55,7 +55,7 @@
     </select>
     <!--查找资源数-->
     <select id="selectAllCount" resultType="java.lang.Integer">
-    select COUNT(*) from `csdn`.`invitation`
+    select COUNT(*) from invitation
         <trim prefix="where" prefixOverrides="and | or">
             <if test="userid !=null and userid !=''">
                 and invitation.userid=#{userid}
@@ -76,7 +76,7 @@
     </select>
     <!--&lt;!&ndash;新增资源&ndash;&gt;-->
     <insert id="insert" parameterType="com.sy.model.Invitation">
- INSERT INTO `csdn`.`invitation` (`userid`, `title`, `content`, `status`, `readCount`, `createtime`, `recomment`, `resource`, `lable`, `publishForm`, `categoryid`,`categoryid2`, `img`, `type`) VALUES
+ INSERT INTO invitation (`userid`, `title`, `content`, `status`, `readCount`, `createtime`, `recomment`, `resource`, `lable`, `publishForm`, `categoryid`,`categoryid2`, `img`, `type`) VALUES
  (#{userid}, #{title},#{content},
 '1', '0',NOW(), '1', '1', '程序人生', '原创',#{categoryid},#{categoryid2}, NULL, 'BLOG');
     </insert>
@@ -96,17 +96,17 @@
 
     <!--找所在分类中访问数最大的贴-->
     <select id="selectMaxreadCount" resultMap="baseResultMap">
-     SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN `csdn`.`user` on invitation.userid=`user`.userid  where readCount in (SELECT MAX(readCount) FROM invitation  GROUP BY categoryid,categoryid2) ORDER BY readCount DESC LIMIT #{page},#{pageSize}
+     SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN user on invitation.userid=`user`.userid  where readCount in (SELECT MAX(readCount) FROM invitation  GROUP BY categoryid,categoryid2) ORDER BY readCount DESC LIMIT #{page},#{pageSize}
     </select>
 
     <select id="selectMaxreadCountCount" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM (SELECT MAX(readCount),invitation.* FROM invitation  GROUP BY categoryid,categoryid2) m
     </select>
     <select id="selectAspam" resultMap="baseResultMap">
-        SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN `csdn`.`user` on invitation.userid=`user`.userid  where categoryid=20 and categoryid2=182 ORDER BY readCount  DESC LIMIT #{page},#{pageSize}
+        SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN user on invitation.userid=`user`.userid  where categoryid=20 and categoryid2=182 ORDER BY readCount  DESC LIMIT #{page},#{pageSize}
     </select>
     <select id="selectNotice" resultMap="baseResultMap">
-        SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN `csdn`.`user` on invitation.userid=`user`.userid  where categoryid=24 and categoryid2=226 ORDER BY readCount  DESC LIMIT #{page},#{pageSize}
+        SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN user on invitation.userid=`user`.userid  where categoryid=24 and categoryid2=226 ORDER BY readCount  DESC LIMIT #{page},#{pageSize}
     </select>
 
 </mapper>

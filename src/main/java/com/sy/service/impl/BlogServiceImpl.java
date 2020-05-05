@@ -298,14 +298,15 @@ public class BlogServiceImpl implements BlogService {
                 User user = userMapper.selectUserByUserId(blog.getUserid());
                 Integer likeCount = likeMapper.queryCountByBlogId(blog.getId());
                 Integer replayCount = blogReplayMapper.queryReplayCountByBlogId(blog.getId());
+                Integer fansCount=userMapper.selectFansCountbyUserId(blog.getUserid());
                 if (user != null) {
                     blog.setLikeCount(likeCount);
+                    blog.setUserFansCount(fansCount);
                     blog.setUsername(user.getNickname());
                     blog.setHeadimg(user.getHeadImg());
                     blog.setReplayCount(replayCount);
                     blog.setUserIndustry(user.getIndustry());
                     blog.setUserDescr(user.getDescription());
-                    blog.setUserFansCount(user.getFansCount());
                 }
                 blogList.set(i, blog);
             }

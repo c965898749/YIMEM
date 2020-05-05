@@ -51,8 +51,71 @@ public class User {
     private Integer readquerylikecount;
     private Integer unreadfanscount;
     private Integer roleId;
-
     private String menus;
+//    后天字段
+    private Integer isStart;
+    private Integer referCode;
+    private Integer referId;
+    private String userType;
+    private Date createTime;
+    private String roleName;
+    private String userTypeName;
+
+    public String getUserTypeName() {
+        return userTypeName;
+    }
+
+    public void setUserTypeName(String userTypeName) {
+        this.userTypeName = userTypeName;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getReferId() {
+        return referId;
+    }
+
+    public void setReferId(Integer referId) {
+        this.referId = referId;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public Integer getIsStart() {
+        return isStart;
+    }
+
+    public void setIsStart(Integer isStart) {
+        this.isStart = isStart;
+    }
+
+    public Integer getReferCode() {
+        return referCode;
+    }
+
+    public void setReferCode(Integer referCode) {
+        this.referCode = referCode;
+    }
 
     public String getMenus() {
         return menus;
