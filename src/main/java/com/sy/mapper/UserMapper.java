@@ -168,4 +168,9 @@ public interface UserMapper {
     public Integer madifyUserStatus(@Param("status") Integer status,@Param("id") Integer id) throws Exception;
 
     User getUserByloginCode(User user);
+
+//    微信直接登录
+    User getUserByopenid(@Param("openid") String openid);
+//    解除微信绑定
+    Integer delUserByopenid(@Param("openid")String openid);
 }

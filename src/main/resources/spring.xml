@@ -23,22 +23,7 @@
         <property name="username" value="${db_username}"></property>
         <property name="password" value="${db_password}"></property>
     </bean>
-    <!--2.JdbcTemplate模板-->
-    <!--<bean id="jdbctemp" class="org.springframework.jdbc.core.JdbcTemplate">-->
-    <!--<property name="dataSource" ref="dataSource"></property>-->
-    <!--</bean>-->
-    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
-    <!--指定数据源对象-->
-    <!--<property name="dataSource" ref="dataSource"></property>-->
 
-    <!--</bean>-->
-
-    <!--创建数据映射器，数据映射器必须为接口-->
-    <!--<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
-    <!--<property name="mapperInterface" value="com.sy.mapper.UserMapper" />-->
-    <!--<property name="sqlSessionFactory" ref="sqlSessionFactory" />-->
-    <!--</bean>-->
-    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!--指定数据源对象-->
         <property name="dataSource" ref="dataSource"></property>
@@ -83,6 +68,34 @@
           -->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
+    <bean id="javaMailSender"
+          class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="protocol" value="${email.protocol}"/>
+        <property name="host" value="${email.host}"/>
+        <property name="port" value="${email.port}"/>
+        <property name="username" value="${email.username}"/>
+        <property name="password" value="${email.password}"/>
+        <property name="defaultEncoding" value="UTF-8"></property>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.auth">${email.auth}</prop>
+                <prop key="mail.smtp.timeout">${email.timout}</prop>
+            </props>
+        </property>
 
+    </bean>
+
+    <bean id="simpleMailMessage" class="org.springframework.mail.SimpleMailMessage">
+        <!-- 发件人email -->
+        <property name="from" value="${email.username}" />
+        <!--收件人email-->
+        <property name="to" value="${email.default.to}" />
+        <!--email主题(标题)-->
+        <property name="subject" value="${email.default.subject}" />
+        <!--email主题内容-->
+        <property name="text">
+            <value>${email.default.text}</value>
+        </property>
+    </bean>
 
 </beans>

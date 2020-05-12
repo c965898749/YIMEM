@@ -107,15 +107,26 @@ public class UserController {
 
     //修改用户信息
     @RequestMapping(value = "modifyUserInfor", method = RequestMethod.POST)
-    public BaseResp modifyUserInfor(User user) {
-        try {
-            baseResp = servic.modifyUserInfor(user);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public BaseResp modifyUserInfor(User user,HttpServletRequest request) {
+        User user2 = (User) request.getSession().getAttribute("user");
+        if (user2 == null) {
             baseResp.setSuccess(0);
-            baseResp.setErrorMsg("服务器异常");
+            baseResp.setErrorMsg("未登入");
+            return baseResp;
+        } else {
+            try {
+                user.setUserId(user2.getUserId());
+                baseResp = servic.modifyUserInfor(user);
+//                System.out.println(baseResp);
+            } catch (Exception e) {
+                e.printStackTrace();
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("服务器异常");
+            }
+            return baseResp;
         }
-        return baseResp;
+
+
     }
 
     //个人资料渲染接口

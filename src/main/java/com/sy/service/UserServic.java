@@ -132,4 +132,10 @@ public interface UserServic {
 
     public User getUserByLoginCode(User user) throws Exception;
     User findUserByName(User user);
+
+    User getUserByopenid(String openid);
+
+    Integer delUserByopenid(String openid);
+
+    Integer updateuser(User user);
 }

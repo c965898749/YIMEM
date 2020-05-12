@@ -47,6 +47,7 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:spring.xml,classpath:spring-rabbitmq.xml</param-value>
   </context-param>
+
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
@@ -54,5 +55,10 @@
   <!--Log4j监听器-->
   <listener>
     <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+  </listener>
+
+  <!--session监听-->
+  <listener>
+    <listener-class>com.sy.tool.MySessionListener</listener-class>
   </listener>
 </web-app>

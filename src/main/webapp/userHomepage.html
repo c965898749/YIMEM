@@ -27,7 +27,7 @@
 
         .navigationContain {
             width: 200px;
-            height: 250px;
+            height: 320px;
             background-color: white;
             float: left;
         }
@@ -48,6 +48,11 @@
         .navigationContain li:hover {
             cursor: pointer;
             background-color: #FDE3E4;
+        }
+
+        .navigationContain li:nth-child(1) {
+            background-color:#B20B13;
+            color:white;
         }
 
         .showContain {
@@ -148,6 +153,7 @@
         }
 
         .recharge {
+            cursor: pointer;
             width: 70px;
             float: left;
             color: #33B5F2;
@@ -167,6 +173,7 @@
 
         .modified_data {
             text-align: right;
+
             float: right;
             color: #33B5F2;
             cursor: pointer;
@@ -671,7 +678,105 @@
         .colT{
             cursor: pointer;
         }
-
+        /*.adContain{*/
+            /*width: 575px;*/
+            /*height: 100%;*/
+            /*!*border: 1px solid #D4D4D4;*!*/
+            /*box-sizing: border-box;*/
+            /*float: left;*/
+            /*background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566570075499&di=7afe3752f5a694c99180ccb0ef41ef6c&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1006%2F29%2Fc0%2F4360995_1277779565170_1024x1024.gif");*/
+            /*background-size: 100% 100%;*/
+            /*background-repeat: no-repeat;*/
+            /*color: red;*/
+            /*font-size: 20px;*/
+        /*}*/
+        .formContain{
+            width: 575px;
+            height: 85%;
+            border: 1px solid #D4D4D4;
+            box-sizing: border-box;
+            /*float: left;*/
+            /*margin: 0 auto;*/
+            margin-left: 200px;
+            background: white;
+        }
+        /*.downloadImgContain{*/
+            /*width: 575px;*/
+            /*height: 424px;*/
+            /*position: absolute;*/
+            /*top: 50px;*/
+            /*background-image: url("imgs/saoma/download.png");*/
+            /*background-size: 100% 100%;*/
+            /*background-repeat: no-repeat;*/
+            /*display: none;*/
+        /*}*/
+        /*.downloadContain{*/
+            /*width: 575px;*/
+            /*height: 10%;*/
+            /*float: right;*/
+            /*margin-top: 25px;*/
+        /*}*/
+        /*.downloadContain button{*/
+            /*width: 100%;*/
+            /*height: 100%;*/
+            /*border: none;*/
+            /*outline: none;*/
+            /*background: red;*/
+            /*border-radius:10px;*/
+            /*font-size: 20px;*/
+            /*cursor: pointer;*/
+            /*color: white;*/
+        /*}*/
+        .fromAlign{
+            width: 70%;
+            height: 70%;
+            margin: 40px auto;
+        }
+        .fromAlign input{
+            width: 100%;
+            height: 50px;
+            border:1px solid  #D4D4D4 ;
+            outline: none;
+            font-size:15px;
+            padding-left: 15px;
+            box-sizing: border-box;
+        }
+        .fromAlign button{
+            width: 100%;
+            height: 50px;
+            border:none;
+            outline: none;
+            font-size: 20px;
+            background: #D4D4D4;
+            cursor: pointer;
+        }
+        .loginText{
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+        }
+        .acountContain{
+            width: 100%;
+            margin: 15px auto;
+        }
+        .pawContain{
+            width: 100%;
+            margin: 15px auto;
+        }
+        .submitContain{
+            width: 100%;
+            text-align: center;
+            margin: 30px auto;
+        }
+        .errorContain{
+            width: 100%;
+            color: red;
+        }
+        /*.regist{*/
+            /*float: right;*/
+        /*}*/
     </style>
 </head>
 <body>
@@ -693,9 +798,10 @@
             <li>我的收藏</li>
             <li>我的关注</li>
             <li>我的粉丝</li>
-            <!--<li>我的博客</li>-->
+            <li>我的博客</li>
             <li>我的下载</li>
             <li>我的论坛</li>
+            <li>安全设置</li>
         </ul>
     </div>
     <div class="showContain">
@@ -775,7 +881,7 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label ">行业</label>
-            <div class="layui-input-block inputWid">
+            <div class="layui-input-inline">
                 <select name="industry" id="hh">
                     <option value=""></option>
                     <option value="电子·微电子">电子·微电子</option>
@@ -825,9 +931,9 @@
                 <textarea placeholder="请输入内容" class="layui-textarea" name="description"></textarea>
             </div>
         </div>
-        <input hidden class="layui-input hidden" type="text" name="userId">
+        <input  class="layui-input" type="hidden" name="userId">
         <div class="layui-form-item">
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="margin-left: 200px">
                 <button class="layui-btn" lay-submit lay-filter="formDemo">保存</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
@@ -888,7 +994,7 @@
                 });
                 layer.open({
                     type: 1,
-                    area: ['500px', '580px'],
+                    area: ['500px', '620px'],
                     offset: 'auto',
                     closeBtn: 2,
                     title: ['修改个人资料', 'font-size:18px;'],
@@ -960,6 +1066,12 @@
         if(type == "我的下载"){
             location.href="download.html?type=2"
         }
+        if(type == "我的博客"){
+            location.href="my_home.html"
+        }
+        if(type == "我的论坛"){
+            location.href="forum.html?type=2"
+        }
         $(".showContain").html(setPersonalData(type, getJsondata(type)))
         $(".navigationContain li").css("background-color", "white ").css("color", "black ")
         $(this).css("background-color", "#B20B13").css("color", "white ")
@@ -1027,6 +1139,7 @@
                                 <div class="wire">|</div>
                                 <div class="Cbi">C币<span>${jsondata.downloadmoney}</span></div>
                                 <div class="recharge">捐赠</div>
+                                <div id=${jsondata.isEmil == 0 ? "ValidationEmail" : "none"} style="float: right;color: #33B5F2;cursor: pointer">${jsondata.isEmil == 0 ? "邮箱认证" : "邮箱已认证"}</div>
                             </div>
                             <div class="personal_data">
                                 <ul>
@@ -1085,75 +1198,184 @@
                     <div class="myfans">我的粉丝</div>
                     <div class="myFansNum">共<span>${jsondata.length}</span>人</div>
                 </div>`
-                    $.each(jsondata,function (index,obj) {
-                       html=html+`<div class="myFanslistContain">
+            $.each(jsondata, function (index, obj) {
+                html = html + `<div class="myFanslistContain">
                                     <div class="myFanslistHeadImg">
                                      <img src="${obj.headImg}" width="50px" height="50px" style="border-radius: 25px;">
                                      </div>
                                     <div class="myFansName"><a style="color: blue" href="perInfor.html?viewUserId=${obj.userId}&type=blog">${obj.nickname}</a></div>
                                 </div>`
-                    })
+            })
 
-        } else if (type == "我的博客") {
-            html = `<div class="myBlogTitle">
-                        <ul>
-                            <li>全部(<span>1</span>)</li>
-                            <li>公开(<span>1</span>)</li>
-                            <li>私密(<span>1</span>)</li>
-                            <li>草稿箱(<span>1</span>)</li>
-                            <li>回收站(<span>1</span>)</li>
-                        </ul>
-                    </div>
-                    <div class="myBlogSerch">
-                        <div class="myBlogSerchList">筛选：</div>
-                        <div class="myBlogSerchList ">
-                            <select name="year">
-                                <option value="不限">不限</option>
-                                <option value="2019">2019</option>
-                            </select>
-                        </div>
-                        <div class="myBlogSerchList ">
-                            <select name="month">
-                                <option value="不限">不限</option>
-                                <option value="9">九月</option>
-                            </select>
-                        </div>
-                        <div class="myBlogSerchList ">
-                            <select name="textType">
-                                <option value="不限类型">不限类型</option>
-                                <option value="原创">原创</option>
-                                <option value="转载">转载</option>
-                                <option value="翻译">翻译</option>
-                            </select>
-                        </div>
-                        <div class="myBlogSerchList ">
-                            <input type="text" placeholder="请输入标题关键词">
-                        </div>
-                        <div class="myBlogSerchList ">
-                            <button>搜索</button>
-                        </div>
-                    </div>
-                    <div class="myBlogInfoContain">
-                        <div class="myBlogInfoTitle">
-                            <div class="myBlogInfoTitleType">私密</div>
-                            <div class="myBlogInfoTitleText">房管局目的港房管局目的港房管局目的港房管局目的港房管局ddd目的港房管局目的港房管局目的港房管局目的港</div>
-                        </div>
-                        <div class="myBlogInfoProperty">
-                            <span>原创</span>
-                            &nbsp;&nbsp;
-                            <span>2019-08-14 09:53:03</span>
-                            &nbsp;&nbsp;
-                            <span>回复5</span>
-                        </div>
-                        <div class="myBlogDelete">删除</div>
-                        <div class="myBlogMotify">修改</div>
-                        <div class="myBlogView">查看</div>
-                    </div>`;
+        } else if (type == "安全设置") {
+            html = `<div id="usetitle"></div>
+<div class="contain">
+    <div class="adContain"></div>
+    <div class="formContain">
+        <div class="fromAlign">
+            <form onsubmit="return false">
+                <div class="loginText">密码修改</div>
+                <div class="acountContain">
+                    <input type="text" name="username" placeholder="请输入用户名">
+                </div>
+                <div class="pawContain">
+                    <input type="password" name="newpassword" placeholder="请输入新密码">
+                </div>
+                <div class="pawContain">
+                    <input type="password" name="senewpassword" placeholder="请再次输入新密码">
+                </div>
+                <div class="pawContain">
+                    <input type="text" name="emilcode" placeholder="邮箱验证码">
+                    <input type="button" id="btn" value="发送邮箱验证" />
+                </div>
+                <div class="errorContain"></div>
+                <div class="submitContain">
+                    <button type="button" id="submit">确认修改</button>
+                </div>
+            </form>
+            <!--<div class="regist"><a href="userHomepage.html">放弃修改</a></div>-->
+        </div>
+        <!--<div class="downloadImgContain"></div>-->
+    </div>
+
+</div>`;
         }
+        // } else if (type == "我的博客") {
+        //     html = `<div class="myBlogTitle">
+        //                 <ul>
+        //                     <li>全部(<span>1</span>)</li>
+        //                     <li>公开(<span>1</span>)</li>
+        //                     <li>私密(<span>1</span>)</li>
+        //                     <li>草稿箱(<span>1</span>)</li>
+        //                     <li>回收站(<span>1</span>)</li>
+        //                 </ul>
+        //             </div>
+        //             <div class="myBlogSerch">
+        //                 <div class="myBlogSerchList">筛选：</div>
+        //                 <div class="myBlogSerchList ">
+        //                     <select name="year">
+        //                         <option value="不限">不限</option>
+        //                         <option value="2019">2019</option>
+        //                     </select>
+        //                 </div>
+        //                 <div class="myBlogSerchList ">
+        //                     <select name="month">
+        //                         <option value="不限">不限</option>
+        //                         <option value="9">九月</option>
+        //                     </select>
+        //                 </div>
+        //                 <div class="myBlogSerchList ">
+        //                     <select name="textType">
+        //                         <option value="不限类型">不限类型</option>
+        //                         <option value="原创">原创</option>
+        //                         <option value="转载">转载</option>
+        //                         <option value="翻译">翻译</option>
+        //                     </select>
+        //                 </div>
+        //                 <div class="myBlogSerchList ">
+        //                     <input type="text" placeholder="请输入标题关键词">
+        //                 </div>
+        //                 <div class="myBlogSerchList ">
+        //                     <button>搜索</button>
+        //                 </div>
+        //             </div>
+        //             <div class="myBlogInfoContain">
+        //                 <div class="myBlogInfoTitle">
+        //                     <div class="myBlogInfoTitleType">私密</div>
+        //                     <div class="myBlogInfoTitleText">房管局目的港房管局目的港房管局目的港房管局目的港房管局ddd目的港房管局目的港房管局目的港房管局目的港</div>
+        //                 </div>
+        //                 <div class="myBlogInfoProperty">
+        //                     <span>原创</span>
+        //                     &nbsp;&nbsp;
+        //                     <span>2019-08-14 09:53:03</span>
+        //                     &nbsp;&nbsp;
+        //                     <span>回复5</span>
+        //                 </div>
+        //                 <div class="myBlogDelete">删除</div>
+        //                 <div class="myBlogMotify">修改</div>
+        //                 <div class="myBlogView">查看</div>
+        //             </div>`;
+        // }
+
 
         return html;
     }
+    var wait = 60;
+    function time(object){
+        if(wait==0){
+            object.removeAttribute("disabled");
+            wait = 60;
+            object.value = "发送邮箱验证";
+        }else{
+            object.setAttribute("disabled",true);
+            wait--;
+            object.value = wait + "秒后重新发送";
+            setTimeout(function(){time(object)},1000);
+        }
+    }
+    //修改点击事件
+    $(".showContain").on("click","#submit",function () {
+        console.log(222)
+        var errorObj=$(".errorContain")
+        var username=$("input[name='username']").val()
+        var newpassword=$("input[name='newpassword']").val()
+        var senewpassword=$("input[name='senewpassword']").val()
+        var emilcode=$("input[name='emilcode']").val()
+        if(!username){
+            errorObj.text("用户名不能为空")
+            return false
+        }
+        if(!newpassword){
+            errorObj.text("新密码密码不能为空")
+            return false
+        }
+        if(!senewpassword){
+            errorObj.text("确认密码不能为空")
+            return false
+        }
 
+        if(!emilcode){
+            errorObj.text("验证码不能为空")
+            return false
+        }
+        if(senewpassword!=newpassword){
+            errorObj.text("两次密码不一样重新输入")
+            return false
+        }
+        $.ajax({
+            url:"midifyUser"
+            ,type:"post"
+            ,data:{"username":username,"userpassword":senewpassword,"userId":userID}
+            ,dataType:"json"
+            ,success:function (jsonData) {
+                if(jsonData.success==0){
+                    errorObj.text(jsonData.errorMsg)
+                }else {
+                    layer.msg(username+"您已修改成功！")
+                    if(document.referrer=== ''){
+                        location.href="userHomepage.html"
+                    }else {
+                        location.href=document.referrer;
+                    }
+                }
+            }
+            ,error:function (res) {
+                console.log("ajax提交错误")
+            }
+        })
+    })
+    $(".showContain").on("click", "#ValidationEmail", function () {
+        layer.open({
+            type: 2,
+            area: ['610px', '270px'],
+            scrollbar: false,
+            content: ['ValidationEmail.html']
+        })
+    })
+
+    $(".showContain").on("click","#btn",function () {
+        time(this);
+    })
     //取消关注事件
     $(".showContain").on("click",".myAttentionButton",function () {
         var fansId=$(this).attr("data-value")

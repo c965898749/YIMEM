@@ -73,7 +73,9 @@ public class DownloadController {
 
             if (count>0) {
                 path = upload.getSrc();
-                return "redirect:"+path+"?attname="+upload.getName();
+
+//                return "redirect:"+path+"?attname="+upload.getName();
+                return "redirect:"+path+"?attname="+URLEncoder.encode(upload.getName(),"UTF-8");
             }
         } catch (CsdnExpection e) {
             e.printStackTrace();

@@ -556,4 +556,20 @@ public class UserServicImpl implements UserServic {
         return userMapper.getUserByloginCode(user);
     }
 
+    @Override
+    public User getUserByopenid(String openid) {
+        return userMapper.getUserByopenid(openid);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Integer delUserByopenid(String openid) {
+        return userMapper.delUserByopenid(openid);
+    }
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Integer updateuser(User user){
+     return userMapper.updateuser(user);
+    }
+
 }

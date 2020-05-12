@@ -60,6 +60,24 @@ public class User {
     private Date createTime;
     private String roleName;
     private String userTypeName;
+    private String isEmil;
+    private String openid;
+
+    public String getOpenid() {
+        return openid;
+    }
+
+    public void setOpenid(String openid) {
+        this.openid = openid;
+    }
+
+    public String getIsEmil() {
+        return isEmil;
+    }
+
+    public void setIsEmil(String isEmil) {
+        this.isEmil = isEmil;
+    }
 
     public String getUserTypeName() {
         return userTypeName;

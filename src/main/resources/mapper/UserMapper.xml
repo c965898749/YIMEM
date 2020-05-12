@@ -139,6 +139,12 @@
             <if test="commentCount!=null ">
                 commentCount=#{commentCount},
             </if>
+            <if test="isEmil!=null ">
+                isEmil=#{isEmil},
+            </if>
+            <if test="openid!=null ">
+                openid=#{openid},
+            </if>
         </set>
         where userId=#{userId}
     </update>
@@ -209,7 +215,7 @@
         <trim prefix="where" prefixOverrides="and | or">
 
             <if test="username != null">
-                and username like  CONCAT('%',#{username},'%')
+                and username like CONCAT('%',#{username},'%')
             </if>
             <if test="roleId != null">
                 and roleId = #{roleId}
@@ -218,7 +224,7 @@
                 and isStart = #{isStart}
             </if>
             <if test="referCode != null">
-                and referCode like  CONCAT('%',#{referCode},'%')
+                and referCode like CONCAT('%',#{referCode},'%')
             </if>
             <if test="referId != null">
                 and referId = #{referId}
@@ -228,7 +234,6 @@
             </if>
         </trim>
     </select>
-
 
 
     <!-- 根据用户名和密码查询合法用户 -->
@@ -269,34 +274,34 @@
     <update id="modifyUser" parameterType="com.sy.model.User">
         update user
         <set>
-            <if test="username != null"> username = #{username},</if>
-            <if test="userpassword != null"> userpassword = #{userpassword},</if>
-            <if test="userpassword2 != null"> userpassword2 = #{userpassword2},</if>
-            <if test="sex != null"> sex = #{sex},</if>
-            <if test="birthday != null"> birthday = #{birthday},</if>
-            <if test="cardType != null"> cardType = #{cardType},</if>
-            <if test="cardTypeName != null"> cardTypeName = #{cardTypeName},</if>
-            <if test="idCard != null"> idCard = #{idCard},</if>
-            <if test="country != null"> country = #{country},</if>
-            <if test="mobile != null"> mobile = #{mobile},</if>
-            <if test="email != null"> email = #{email},</if>
-            <if test="userAddress != null"> userAddress = #{userAddress},</if>
-            <if test="postCode != null"> postCode = #{postCode},</if>
-            <if test="createTime != null"> createTime = #{createTime},</if>
-            <if test="referId != null"> referId = #{referId},</if>
-            <if test="referCode != null"> referCode = #{referCode},</if>
-            <if test="roleId != null"> roleId = #{roleId},</if>
-            <if test="roleName != null"> roleName = #{roleName},</if>
-            <if test="userType != null"> userType = #{userType},</if>
-            <if test="userTypeName != null"> userTypeName = #{userTypeName},</if>
-            <if test="isStart != null"> isStart = #{isStart},</if>
-            <if test="lastUpdateTime != null"> lastUpdateTime = #{lastUpdateTime},</if>
-            <if test="lastLoginTime != null"> lastLoginTime = #{lastLoginTime},</if>
-            <if test="bankName != null"> bankName = #{bankName},</if>
-            <if test="accountHolder != null"> accountHolder = #{accountHolder},</if>
-            <if test="bankAccount != null"> bankAccount = #{bankAccount},</if>
-            <if test="idCardPicPath != null"> idCardPicPath = #{idCardPicPath},</if>
-            <if test="bankPicPath != null"> bankPicPath = #{bankPicPath}</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="userpassword != null">userpassword = #{userpassword},</if>
+            <if test="userpassword2 != null">userpassword2 = #{userpassword2},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="cardType != null">cardType = #{cardType},</if>
+            <if test="cardTypeName != null">cardTypeName = #{cardTypeName},</if>
+            <if test="idCard != null">idCard = #{idCard},</if>
+            <if test="country != null">country = #{country},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="userAddress != null">userAddress = #{userAddress},</if>
+            <if test="postCode != null">postCode = #{postCode},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="referId != null">referId = #{referId},</if>
+            <if test="referCode != null">referCode = #{referCode},</if>
+            <if test="roleId != null">roleId = #{roleId},</if>
+            <if test="roleName != null">roleName = #{roleName},</if>
+            <if test="userType != null">userType = #{userType},</if>
+            <if test="userTypeName != null">userTypeName = #{userTypeName},</if>
+            <if test="isStart != null">isStart = #{isStart},</if>
+            <if test="lastUpdateTime != null">lastUpdateTime = #{lastUpdateTime},</if>
+            <if test="lastLoginTime != null">lastLoginTime = #{lastLoginTime},</if>
+            <if test="bankName != null">bankName = #{bankName},</if>
+            <if test="accountHolder != null">accountHolder = #{accountHolder},</if>
+            <if test="bankAccount != null">bankAccount = #{bankAccount},</if>
+            <if test="idCardPicPath != null">idCardPicPath = #{idCardPicPath},</if>
+            <if test="bankPicPath != null">bankPicPath = #{bankPicPath}</if>
         </set>
         where id = #{id}
     </update>
@@ -311,8 +316,8 @@
     <update id="delUserPic" parameterType="com.sy.model.User">
         update user
         <set>
-            <if test="idCardPicPath != null"> idCardPicPath = null,</if>
-            <if test="bankPicPath != null"> bankPicPath = null</if>
+            <if test="idCardPicPath != null">idCardPicPath = null,</if>
+            <if test="bankPicPath != null">bankPicPath = null</if>
         </set>
         where userId = #{userId}
     </update>
@@ -338,7 +343,7 @@
     <select id="getUserListBySearch" resultType="com.sy.model.User" parameterType="com.sy.model.User">
         select * from user
         <trim prefix="where" prefixOverrides="and | or">
-
+            c
             <if test="username != null">
                 and username like #{username}
             </if>
@@ -367,4 +372,12 @@
    select * from user where username = #{username}
    </select>
 
+    <!--微信直接登录-->
+    <select id="getUserByopenid" resultType="com.sy.model.User" parameterType="java.lang.String">
+  select * from user where openid = #{openid}
+    </select>
+  <!--解除微信绑定-->
+    <update id="delUserByopenid" parameterType="com.sy.model.User">
+		update user set openid = '0' where openid = #{openid}
+	</update>
 </mapper>
