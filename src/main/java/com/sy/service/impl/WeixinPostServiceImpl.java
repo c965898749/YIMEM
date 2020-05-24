@@ -2,6 +2,9 @@ package com.sy.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sy.model.*;
+import com.sy.model.weixin.Image;
+import com.sy.model.weixin.ImageMessage;
+import com.sy.model.weixin.TextMessage;
 import com.sy.service.UserServic;
 import com.sy.service.WeixinPostService;
 import com.sy.tool.Constants;
@@ -17,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;

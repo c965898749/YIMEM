@@ -1,8 +1,8 @@
-package com.sy.model;
+package com.sy.model.weixin;
 
 import lombok.Data;
 
 @Data
 public class ImageMessage extends TextMessage {
-    private Image Image;
+    private com.sy.model.weixin.Image Image;
 }

@@ -2,13 +2,11 @@ package com.sy.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sy.model.User;
-import com.sy.model.WeiXin;
-import com.sy.model.resp.BaseResp;
+import com.sy.model.weixin.WeiXin;
 import com.sy.service.UserServic;
 import com.sy.service.WeixinPostService;
 import com.sy.tool.Constants;
 import com.sy.tool.MySessionContext;
-import com.sy.tool.SignUtil;
 import com.sy.tool.WxUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;

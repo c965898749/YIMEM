@@ -1,6 +1,6 @@
 package com.sy.tool;
 
-import com.sy.model.TextMessage;
+import com.sy.model.weixin.TextMessage;
 import com.thoughtworks.xstream.XStream;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;

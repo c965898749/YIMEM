@@ -1,4 +1,4 @@
-package com.sy.model;
+package com.sy.model.weixin;
 
 import lombok.Data;
 
