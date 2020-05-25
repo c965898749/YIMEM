@@ -32,7 +32,7 @@ public class RedisUtil {
         // 集群
 //        JedisShardInfo jedisShardInfo1 = new JedisShardInfo("192.168.174.101", 6379);
 //                jedisShardInfo1.setPassword("c866971331");
-        JedisShardInfo jedisShardInfo1 = new JedisShardInfo("192.168.1.3", 6379);
+        JedisShardInfo jedisShardInfo1 = new JedisShardInfo("www.yimem.com", 6379);
         jedisShardInfo1.setPassword("123456");
         List<JedisShardInfo> list = new LinkedList<>();
         list.add(jedisShardInfo1);
