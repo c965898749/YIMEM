@@ -380,4 +380,5 @@
     <update id="delUserByopenid" parameterType="com.sy.model.User">
 		update user set openid = '0' where openid = #{openid}
 	</update>
+
 </mapper>

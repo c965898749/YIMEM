@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
-    <link rel="shortcut icon" href="#"/>
+    <link rel="shortcut icon" href="statics/img/favicon.ico">
     <script src="jquery/jquery.js"></script>
     <link rel="stylesheet" href="layui/css/layui.css">
     <link rel="stylesheet" href="css/tangkun.css">
@@ -265,7 +265,14 @@
         .none {
             display: none;
         }
-
+        .middle {
+            margin-top: 10px;
+            max-height: 70px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
 
     </style>
 </head>
@@ -364,8 +371,9 @@
                                                                                                      href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32061202001097"
                                                                                                      style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
                         src="" style="float:left;"/>
-                    <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
-                        32061202001097号</p></a>
+                    <!--苏公网安备</a>-->
+                    <span style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
+                        32061202001097号</span></a>
                 </div>
             </div>
 
@@ -489,7 +497,7 @@
         }
 
         var scroH = $(this).scrollTop();
-        if (scroH - 300 >= navH) {
+        if (scroH - 600 >= navH) {
             $(".yimem_gg").css({"position": "fixed", "top": 10});
             $(".yimem_bz").css({"position": "fixed", "top": 260});
         } else {
@@ -541,12 +549,16 @@
                             //假设你的列表返回在data集合中
                             layui.each(res.data, function (index, item) {
                                 //console.log(res.data)
-                                var text = (item.content).replace(/[^\u4e00-\u9fa5]/gi, "")
+                                // var text = (item.content).replace(/[^\u4e00-\u9fa5]/gi, "")
                                 var html = `<div  class="contents_middle_sub2_content" blog_id="${item.id}">
                                             <span style="float: right;font-size: 20px;color:#ECE7E7;cursor: pointer" class="delete_blog">x</span>
                                             <h4  style="display: flex"><span class=${item.recomment > 0 ? "jian" : "none"}>荐</span><span class=${item.userid == 1 ? "jian" : "none"}>官</span><span class=${item.readCount > 50 ? "jian" : "none"}>热</span><b style="margin-top: 3px">${item.title}</b></h4>
-                                            <p  style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${text}</p>
-                                            <p style="margin-top: 30px">
+
+                                           <!--<p  style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden -webkit-line-clamp: 2;"></p>-->
+                                            <div class="middle" style="color: #6B6B6B;cursor: pointer" >
+                                              ${item.content}
+                                            </div>
+                                            <p style="margin-top: 10px">
                                             <span style="position: relative" >
                                             <div class="userTanChuan"  id="userTanChuan"><div class="userImg" ><img src="${item.headimg}" ><div class="userIntroduce"><div class="userName">${item.username}</div><div class="userDescription">${item.userDescr != null ? item.userDescr : "博主很懒什么都没留下……"}</div></div></div><div class="bntt"><input type="button" class="focus"></input><div>粉丝数 ${item.userFansCount}</div><div style="margin-left: 50px"><a style="color: #3399ea" href="perInfor.html?viewUserId=${item.userid}&type=blog">访问他的主页</a></div></div></div>
                                             <input type="hidden" name="hheyuserid" value="${item.userid}">
@@ -801,8 +813,10 @@
                     var html = `<div class="contents_middle_sub2_content" blog_id="${item.id}">
                                             <span style="float: right;font-size: 20px;color:#ECE7E7;cursor: pointer" class="delete_blog">x</span>
                                             <h4 style="display: flex"><span class=${item.recomment > 0 ? "jian" : "none"}>荐</span><span class=${item.userid == 1 ? "jian" : "none"}>官</span><span class=${item.readCount > 50 ? "jian" : "none"}>热</span><b style="margin-top: 3px">${item.title}</b></h4>
-                                            <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${text}</p>
-                                            <p style="margin-top: 30px">
+                                            <div class="middle" style="color: #6B6B6B;cursor: pointer" >
+                                              ${item.content}
+                                            </div>
+                                            <p style="margin-top: 10px">
                                             <span><img src="${item.headimg}" style="width: 25px;height: 25px;border-radius:12px;margin-right: 6px" alt="">${item.username}</span>
                                             <span style="margin-left: 30px;color: #8a8a8a">${item.createtime}</span>
                                             <span style="float: right;margin-right: 40px"><span style="color: #157dcf;"><img src="imgs/icons/blog/likeCount.png" style="margin-right: 5px;margin-top:-5px;width: 18px;height: 18px" alt="">${item.likeCount}<img src="imgs/icons/blog/readCount.png" style="margin-top: -4px;margin-right: 5px;margin-left: 15px;width: 25px;height: 25px" alt="">${item.readCount}<img src="imgs/icons/blog/replayCount.png" style="margin-right: 5px;margin-left: 15px;width: 20px;height: 20px;margin-top:-5px" alt="">${item.replayCount}</span></span></p>

@@ -9,6 +9,7 @@ import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.FansService;
 import com.sy.tool.Constants;
+import com.sy.tool.HTMLSpirit;
 import com.sy.tool.RedisCache;
 import com.sy.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -223,6 +224,7 @@ public class FansServiceImpl implements FansService {
                 Integer replayCount = blogReplayMapper.queryReplayCountByBlogId(blog.getId());
                 Integer fansCount=userMapper.selectFansCountbyUserId(blog.getUserid());
                 if (user != null) {
+                    blog.setContent(HTMLSpirit.delHTMLTag(blogList.get(i).getContent()));
                     blog.setLikeCount(likeCount);
                     blog.setUsername(user.getNickname());
                     blog.setHeadimg(user.getHeadImg());

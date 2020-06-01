@@ -26,6 +26,7 @@
             display: none;
         }
     </style>
+    <!--<link rel="stylesheet" href="js/setCookie.js">-->
     <link href="statics/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="statics/css/charisma-app.css" rel="stylesheet">
     <link href="statics/css/jquery-ui-1.8.21.custom.css" rel="stylesheet">
@@ -67,7 +68,7 @@
             <div class="well span5 center login-box">
 
                 <div class="alert alert-info">
-                    <div class="form-horizontal2">请输入登陆账号和密码... <a href="register.html">忘记密码？</a><img class="erwei"
+                    <div class="form-horizontal2">请输入登陆账号和密码... <a href="resetPw.html">忘记密码？</a><img class="erwei"
                                                                                                       src="imgs/btn/blog/erwei.png" title="点击扫码快速登录"
                                                                                                       style="width: 20px;height: 20px;float: right;cursor: pointer"
                                                                                                       alt=""></div>
@@ -120,7 +121,7 @@
 <!-- external javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-
+<script src="js/setCookie.js"></script>
 <!-- jQuery -->
 <script src="statics/js/jquery-1.7.2.min.js"></script>
 <!-- jQuery UI -->
@@ -232,7 +233,15 @@
             , success: function (jsonData) {
                 ////////////////console.log(jsonData)
                 if (jsonData.success == 1) {
-                    location.href="index.html"
+                    if (document.referrer === '') {
+                        location.href = "userHomepage.html"
+                    } else if (document.referrer.indexOf('register.html') != -1) {
+                        location.href = "index.html"
+                    }else if(document.referrer.indexOf('resetPw.html') != -1){
+                        location.href = "index.html"
+                    }else {
+                        location.href = document.referrer;
+                    }
                 }
             }
             , error: function (res) {
@@ -297,11 +306,18 @@
                     } else {
                         $("#formtip").css("color", "green");
                         $("#formtip").html("您已登录成功!");
+                       if ($("#remember").prop("checked")) {
+                           var  token = jsonData.errorMsg;
+                           // 写入Cookie
+                           setCookie('token',token,30)
+                       }
                         if (document.referrer === '') {
                             location.href = "userHomepage.html"
                         } else if (document.referrer.indexOf('register.html') != -1) {
                             location.href = "index.html"
-                        } else {
+                        }else if(document.referrer.indexOf('resetPw.html') != -1){
+                            location.href = "index.html"
+                        }else {
                             location.href = document.referrer;
                         }
                     }

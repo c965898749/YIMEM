@@ -13,6 +13,7 @@ import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.BlogService;
 //import org.junit.internal.Classes;
+import com.sy.tool.HTMLSpirit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -300,6 +301,7 @@ public class BlogServiceImpl implements BlogService {
                 Integer replayCount = blogReplayMapper.queryReplayCountByBlogId(blog.getId());
                 Integer fansCount=userMapper.selectFansCountbyUserId(blog.getUserid());
                 if (user != null) {
+                    blog.setContent(HTMLSpirit.delHTMLTag(blogList.get(i).getContent()));
                     blog.setLikeCount(likeCount);
                     blog.setUserFansCount(fansCount);
                     blog.setUsername(user.getNickname());

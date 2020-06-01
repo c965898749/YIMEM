@@ -228,6 +228,7 @@
     </div>
 </div>
 </body>
+<script src="js/setCookie.js"></script>
 <script src="js/jquery.js"></script>
 <script src="layui/layui.all.js"></script>
 <script>
@@ -418,6 +419,8 @@
         })
         //退出点击事件
         $("#Tout").click(function () {
+            // 清除cookie
+            setCookie('token',"",0)
             //注销当前用户
             $.ajax({
                 url:"logout"

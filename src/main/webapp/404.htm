@@ -12,14 +12,14 @@
     body{
         background-image: url("imgs/404.png");
         background-repeat:no-repeat;
+        background-size:100% 100%;
     }
 </style>
 <body>
 <div style="width: 1200px;margin: 0 auto">
-    <div style="text-align: center;line-height: 900px;color: red">
-        无法访问本页：
+    <div style="height: 800px;text-align: center;color: #CCCCCC;margin-top: 50px;font-size: 20px;font-weight: bolder">
         <span id="sp"></span>
-        秒后自动返回网站首页
+        秒后页面被钓上来……
     </div>
 </div>
 
@@ -27,7 +27,7 @@
     onload=function(){
         setInterval(go, 1000);
     };
-    var x=3; //利用了全局变量来执行
+    var x=5; //利用了全局变量来执行
     function go(){
         x--;
         if(x>0){

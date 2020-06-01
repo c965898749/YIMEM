@@ -59,22 +59,9 @@ public class EmailServiceImpl implements EmailService {
      */
 
     @Override
-    public ResultVO emailManage(String to, HttpServletResponse response, HttpServletRequest request) {
+    public ResultVO emailManage(String to, User user, HttpServletRequest request) {
         ResultVO resultVO = new ResultVO();
         MailModel mail = new MailModel();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            resultVO.setError(0);
-            resultVO.setMessage("你还未登录！");
-            return resultVO;
-        }
-        Emil emil = emilMapper.selectByPrimaryKey(user.getUserId());
-        if (emil != null) {
-            resultVO.setError(0);
-            resultVO.setMessage("该邮箱已注册过！");
-            return resultVO;
-        }
-
         int idcode = (int) (Math.random() * 100000);
         //附件
 //        Map<String, String> attachments = new HashMap<String, String>();
@@ -92,7 +79,7 @@ public class EmailServiceImpl implements EmailService {
                 "                <h1>YIMEM网技术平台</h1>\n" +
                 "                <div class=\"mail_msg\">\n" +
                 "                    <p>\n" +
-                "                        HI，" + user.getNickname() + " 你好!<br>\n" +
+                "                        HI，" + user.getUsername() + " 你好!<br>\n" +
                 "                        感谢您对本站的支持与信赖，下面是您个人账号的激活码。\n" +
                 "                    </p>\n" +
                 "                    <p>\n" +
