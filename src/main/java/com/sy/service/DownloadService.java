@@ -1,6 +1,7 @@
 package com.sy.service;
 
 import com.sy.model.Download;
+import com.sy.model.Video;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface DownloadService {
     List<Download> findAll(Integer page, Integer pageSize);
     List<Download>  findByUserid(Integer userid, Integer page, Integer pageSize);
     Integer findAllCount(Integer userid);
+    Integer VideoMapper(Video video);
 }

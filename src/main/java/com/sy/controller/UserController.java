@@ -39,6 +39,8 @@ public class UserController {
     @Autowired
     private DownloadService downloadService;
 
+
+
     //登录接口
     @RequestMapping(value = "loginVerification", method = RequestMethod.POST)
     public BaseResp loginVerification(String username, String userpassword, HttpServletRequest request) {

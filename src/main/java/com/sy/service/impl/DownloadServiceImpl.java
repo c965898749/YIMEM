@@ -1,7 +1,9 @@
 package com.sy.service.impl;
 
 import com.sy.mapper.DownloadMapper;
+import com.sy.mapper.VideoMapper;
 import com.sy.model.Download;
+import com.sy.model.Video;
 import com.sy.service.DownloadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +12,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-@Service
+@Service("DownloadService")
 public class DownloadServiceImpl implements DownloadService {
     @Autowired
     private DownloadMapper mapper;
+    @Autowired
+    private VideoMapper videoMapper;
     @Override
     @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
     public Integer save(Download download) {
@@ -38,5 +42,11 @@ public class DownloadServiceImpl implements DownloadService {
     @Override
     public Integer findAllCount(Integer userid) {
         return mapper.selectAllCount(userid);
+    }
+
+    @Override
+    public Integer VideoMapper(Video video) {
+
+        return videoMapper.insertSelective(video);
     }
 }
