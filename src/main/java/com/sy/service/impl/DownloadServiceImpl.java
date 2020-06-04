@@ -49,4 +49,14 @@ public class DownloadServiceImpl implements DownloadService {
 
         return videoMapper.insertSelective(video);
     }
+
+    @Override
+    public Integer selectBytitle(String title) {
+        return videoMapper.selectBytitle(title);
+    }
+
+    @Override
+    public Integer updateByPrimaryKeySelective(Video video) {
+        return videoMapper.updateByPrimaryKeySelective(video);
+    }
 }

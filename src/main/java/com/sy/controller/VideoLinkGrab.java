@@ -45,19 +45,20 @@ public class VideoLinkGrab {
 //        videoLinkGrab.saveData("http://www.y80s.com/movie/40606");
 //    }
 
-    @Scheduled(cron = "0 */1 * * * ? ")
+    @Scheduled(cron = "0 27 4 ? * *")
     public void Reptilia() {
         System.out.println("执行");
         VideoLinkGrab videoLinkGrab = new VideoLinkGrab();
-        videoLinkGrab.saveData("http://www.y80s.com/movie/40606");
+        videoLinkGrab.saveData("http://www.y80s.com/movie/");
     }
 
-    //登录接口
+
     @RequestMapping(value = "getVideo", method = RequestMethod.GET)
     @ResponseBody
     public BaseResp getVideo(Integer pageNum) {
+        System.out.println(pageNum);
         BaseResp resultVO = new BaseResp();
-        Integer pageSize = 5;
+        Integer pageSize = 18;
         PageHelper.startPage(pageNum, pageSize);
         List<Video> videos = null;
         try {
@@ -65,6 +66,26 @@ public class VideoLinkGrab {
             Page<Video> blogPage = (Page<Video>) videos;
             resultVO.setData(videos);
             resultVO.setCount(blogPage.getTotal());
+            resultVO.setSuccess(1);
+            return resultVO;
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO.setErrorMsg(e.getMessage());
+            resultVO.setSuccess(0);
+            return resultVO;
+        }
+
+    }
+
+    @RequestMapping(value = "getVideoById", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResp getVideoById(Integer videoid) {
+        BaseResp resultVO = new BaseResp();
+        System.out.println(videoid);
+        Video videos = null;
+        try {
+            videos = videoMapper.selectByPrimaryKey(videoid);
+            resultVO.setData(videos);
             resultVO.setSuccess(1);
             return resultVO;
         } catch (Exception e) {
@@ -102,9 +123,21 @@ public class VideoLinkGrab {
         for (Map.Entry<String, String> mapping : videoLinkMap.entrySet()) {
             Video video = new Video();
             video.setTitle(mapping.getKey());
-            video.setVideourl(mapping.getValue());
+            String VideoContent = mapping.getValue();
+            String[] str = VideoContent.split(";");
+
             try {
-                downloadService.VideoMapper(video);
+                if (str != null) {
+                    video.setCoverurl("http://" + str[0]);
+                    video.setVideourl(str[1]);
+                }
+                Integer videoId = downloadService.selectBytitle(video.getTitle());
+                if (Xtool.isNotNull(videoId)) {
+                    video.setVideoid(videoId);
+                    downloadService.updateByPrimaryKeySelective(video);
+                } else {
+                    downloadService.VideoMapper(video);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -131,6 +164,7 @@ public class VideoLinkGrab {
         for (Map.Entry<String, Boolean> mapping : oldMap.entrySet()) {
 //             System.out.println("link:" + mapping.getKey() + "--------check:"
 //             + mapping.getValue());
+            String VideoContent = "";
             // 如果没有被遍历过
             if (!mapping.getValue()) {
                 oldLink = mapping.getKey();
@@ -180,6 +214,7 @@ public class VideoLinkGrab {
                                 pattern = Pattern.compile("img\\.mimiming\\.com[\\s\\S]*\\.jpg");
                                 matcher = pattern.matcher(line);
                                 if (matcher.find()) {
+                                    VideoContent = matcher.group(0);
 //                                    System.out.println("图片"+matcher.group(0));
                                     continue;
                                 }
@@ -206,13 +241,14 @@ public class VideoLinkGrab {
                                             matcher = pattern.matcher(ne);
                                             if (matcher.find()) {
 //                                                System.out.println("在线2" + matcher.group(1));
-                                                videoLinkMap.put(title, matcher.group(1));
+//                                                videoLinkMap.put(title, matcher.group(1));
+                                                VideoContent = VideoContent + ";" + matcher.group(1);
+                                                videoLinkMap.put(title, VideoContent);
                                                 break;
                                             }
                                         }
                                         der.close();
                                         stream.close();
-
                                     }
                                     break;
                                 }

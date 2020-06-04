@@ -13,4 +13,6 @@ public interface DownloadService {
     List<Download>  findByUserid(Integer userid, Integer page, Integer pageSize);
     Integer findAllCount(Integer userid);
     Integer VideoMapper(Video video);
+    Integer selectBytitle(String title);
+    Integer updateByPrimaryKeySelective(Video video);
 }

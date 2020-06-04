@@ -5,20 +5,19 @@
     <title>qrcode</title>
 </head>
 <body>
-<div id="qrcode" style="width:1000px; height:800px; margin-top:15px;">
-    <div class="video">
-
-    </div>
-</div>
-<script src="jquery/jquery.js">
+<div class="Top">1</div>
+<div class="main">2</div>
+<div class="flooter">3</div>
+<script src="jquery/jquery.js"></script>
+<script>
     $(function () {
         ajaxGetCategory2()
     })
 
     function ajaxGetCategory2() {
-        console.log(1111111)
+        // console.log(1111111)
         // var data=getsecMenu(pid);
-        var pageNum = 0;
+        var pageNum = 1;
         $.ajax({
             url: "getVideo"
             , type: "GET"
@@ -33,7 +32,8 @@
                     //////////////////////console.log(v)
                     html += ` <ul style="list-style-type:none">
        <li >${v.title}</li>
-       <li>${v.videourl}</li>
+       <li><div><img src="${v.coverurl}" alt=""></div></li>
+       <li><a href="${v.videourl}">点击播放</a></li>
    </ul>`;
 
                 });
@@ -46,6 +46,5 @@
 
     }
 </script>
-
 </body>
 </html>

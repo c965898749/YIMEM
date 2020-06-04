@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>视频</title>
+    <link rel="shortcut icon" href="statics/img/favicon.ico">
+
+    <script src="jquery/jquery.js"></script>
+    <link rel="stylesheet" href="css/siderBar2.css">
+    <link rel="stylesheet" type="text/css" href="css/css.css"/>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="css/DPlayer.min.css">
+    <link rel="stylesheet" href="css/video_detail.css">
+    <script src="js/include.js"></script>
+    <!--<script src="js/download.js"></script>-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <style>
+
+        #app_html {
+            border-bottom: 2px red solid;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div id="titleContai">
+    <include src="title.html"></include>
+</div>
+<div class="TOP">
+    <div class="TOP-nav">
+        <div id="home" style="cursor:pointer;width: 200px;margin-left: -50px">返回视频首页</div>
+    </div>
+</div>
+<div class="NAV">
+    <div class="bodyz">
+        <div class="left">
+            <div class="title">
+                <div class="bigtitle">
+                    这里是标题 Shape of you
+
+                </div>
+                <div class="classify">
+                    <!--分类-->
+                    <span id="classify1">分类1</span>
+                    <span id="classify2">分类2</span>
+                    <span id="time">时间</span>
+                </div>
+                <div class="smallTitle">
+                    <span id="clickCount"></span>次播放
+                    <span id="bulletCount">0</span>个弹幕
+                </div>
+                <!--点击按钮-->
+                <div class="buttonKuang">
+                    <div class="wrapper">
+                        <span class="button1">关注</span>
+                    </div>
+                </div>
+                <!--======================-->
+            </div>
+
+
+            <div class="video">
+                <div id="Dplayer"></div>
+            </div>
+            <div class="tools" style="margin-top: 50px">
+                <div class="smallkuang" id="videoLike">
+                    <i id="likeLike" class="layui-icon layui-icon-praise " style="font-size: 50px; color: grey;"></i>
+                    点赞数 <span id="likeCount"></span>
+                </div>
+                <div class="smallkuang smallkuang2" style="margin-left: 40px">
+                    <i id="collectCollect" class="layui-icon layui-icon-star-fill"
+                       style="font-size: 50px; color: grey;"></i>
+                    收藏数 <span id="collectCount"></span>
+                </div>
+                <div class="smallkuang" style="margin-top: 4px;margin-left: -10px">
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">弹幕</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" id="zzz" name="zzz" lay-skin="switch" lay-text="开启|关闭" checked>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <hr>
+            <div class="jianjie">
+                这里是简介
+            </div>
+            <hr>
+            <!--以下是评论页面-->
+            <!--发表我的评论-->
+            <div>
+                <div class="talkNum">
+                    共（<span id="commentsCount">0</span>）条评论
+                </div>
+                <!--评论发表框--->
+                <div class="ImTalk">
+                    <img class="icon userInfoIcon" src="../upload/iconImgs/akari.jpg"/>
+                    <!--这里是头像-->
+
+                    <div class="talkMess">
+                    <textarea id="newCommMsg" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论" class="layui-textarea"
+                              name="desc"></textarea>
+                    </div>
+                    <div class="button">
+                        <button id="addComm" type="button" class="layui-btn layui-btn-primary layui-btn-lg"
+                                style="background-color: #F44444;color: white">发表评论
+                        </button>
+                    </div>
+                </div>
+
+                <!--别人的评论-->
+                <div class="otherTalk">
+                    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="height: 757px">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">按热度排序</li>
+                            <!--<li>按时间排序</li>-->
+                        </ul>
+                        <!--<div class="layui-tab-content" style="height: 100px;">-->
+                        <div class="layui-tab-content" id="hotContent">
+
+                        </div>
+                        <div class="layui-tab-content" id="timeContent">
+                            <!--按时间-->
+                            <div class="layui-tab-item">
+                                <div class="otherKuang">
+                                    <img class="icon" src="../upload/iconImgs/akari.jpg">
+                                    这里是头像
+                                    </img>
+                                    <div class="talkMess2">
+                                        这里是评论
+                                    </div>
+                                    <div class="talkTime">
+                                        这里是时间
+                                    </div>
+                                    <div class="commLike">
+                                        <i class="layui-icon layui-icon-praise"
+                                           style="font-size: 20px; color: grey;"></i>
+                                        点赞数
+                                    </div>
+                                    <div class="reply">
+                                        回复
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--分页-->
+                    <div id="demo7"></div>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="Im">
+                <img class="icon" src="">
+                <!--这是头像-->
+                <div class="name">
+                    这是用户名
+                </div>
+                <div class="remark">
+                    这里是个签
+                </div>
+
+            </div>
+
+            <!--以下是弹幕列表-->
+            <div class="bullet">
+                <div class="danmuTitle">
+                    弹幕列表:
+                </div>
+                <div class="danmuList">
+                    <!--<ul class="danmuLi">-->
+                    <li>
+                        <div class="currentTime">时间</div>
+                        <div class="msg">弹幕内容</div>
+                        <div class="createTime">发送时间</div>
+                    </li>
+                    <!--</ul>-->
+                </div>
+
+            </div>
+            <div class="yimem_bz" style="background-color: white;margin-top: 10px;">
+                <div style="width:300px;margin:0 auto">
+                    <img src="imgs/gz/gz.jpg" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
+                         alt="">
+                    <img src="imgs/gz/eduwxfix.png" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
+                         alt="">
+                </div>
+                <div style="padding-bottom: 5px;margin: 0 auto;width: 250px ;border-bottom: 1px #E0E0E0 solid"><span
+                        style="color:#8B8B8B;margin-left: 15px">YIMEM公众号</span><span
+                        style="color:#8B8B8B;margin-left: 60px">IT学院</span></div>
+                <div style="padding-top: 5px;margin: 0 auto;width: 250px"><span
+                        style="color:#3D3D3D;font-weight: bold;margin-left: 20px">关于我们</span>
+                    <span
+                            style="color:#3D3D3D;margin-left: 20px">网站地图</span><span
+                            style="color:#3D3D3D;margin-left: 20px">广告服务</span></div>
+                <div style="width:300px;margin:0 auto; padding:20px 0;">
+                    <img src="imgs/jh/jh.png" style="margin-left: 30px;margin-top: -15px" alt=""> <a target="_blank"
+                                                                                                     href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32061202001097"
+                                                                                                     style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
+                        src="" style="float:left;"/>
+                    <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
+                        32061202001097号</p></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/loginCheck.js"></script>
+<script src="layui/layui.all.js"></script>
+<script src="js/DPlayer.min.js"></script>
+<!--渲染视频-->
+<script src="js/videoDetail/renderVideo.js"></script>
+<!--渲染弹幕列表-->
+<script src="js/videoDetail/renderBullets.js"></script>
+<!--渲染评论列表-->
+<script src="js/videoDetail/renderComments.js"></script>
+<!--渲染视频信息-->
+<script src="js/videoDetail/renderVideoInfo.js"></script>
+<!--点赞，收藏时间-->
+<script src="js/videoDetail/updateCounts.js"></script>
+<!--js主入口-->
+<script src="js/videoDetail/renderMain.js"></script>
+
+<script>
+
+    $(function () {
+        getDplayer()
+        danmuList()
+        ss()
+    })
+
+    $(".layui-input-block").on("click", function () {
+
+        if ($("#zzz").prop("checked")) {
+            dp.danmaku.show()
+        } else {
+            dp.danmaku.hide()
+        }
+    })
+
+    $("#likeLike").on("click", function () {
+
+
+        alert("功能建设中……敬请期待");
+
+
+    })
+    $("#collectCollect").on("click", function () {
+
+
+        alert("功能建设中……敬请期待");
+
+
+    })
+
+
+    // $("#zzz").onclick("checked",function () {
+    //     console.log("!!!!!!!!!!!!!!!!!!!!!")
+    // })
+    var arrayObj = new Array();
+    //开启点击蓝图标。。。
+    // const danmaku = {
+    //     text: 'Get a danamku via WebSocket',
+    //     color: '#fff',
+    //     type: 'right'
+    // };
+    // dp.danmaku.draw(data.data); //发送后自动显示，不需要。
+    function ss() {
+        let intervalIndex
+        dp.on("play", function () {
+            // let danmaku = {
+            //     text: "开启海量弹幕模式。。。",
+            //     color: "yellow",
+            //     size: "200px",
+            //     type: "right",
+            // }
+            // dp.danmaku.draw(danmaku);
+             intervalIndex = setInterval(function () {
+                        let danmaku = {
+                            text: arrayObj[Math.floor(Math.random() * arrayObj.length)],
+                            color: color[Math.floor((Math.random() * color.length))],
+                            type: type[Math.floor(Math.random() * type.length)]
+                        }
+                        dp.danmaku.draw(danmaku);
+                    }, 200);
+            // setTimeout(function () {
+            //     let intervalIndex = setInterval(function () {
+            //         let danmaku = {
+            //             text: arrayObj[Math.floor(Math.random() * arrayObj.length)],
+            //             color: color[Math.floor((Math.random() * color.length))],
+            //             type: type[Math.floor(Math.random() * type.length)]
+            //         }
+            //         dp.danmaku.draw(danmaku);
+            //     }, 500);
+            //
+            // }, 2000);
+
+
+            console.log("点击了");
+            console.log(arrayObj);
+        });
+        dp.on("pause", function () {
+            clearInterval(intervalIndex)
+        });
+        dp.on("ended", function () {
+            clearInterval(intervalIndex)
+        });
+    }
+
+    $(".button1").on("click", function () {
+        alert("功能建设中……敬请期待");
+
+    });
+
+    let type = [
+        "right",
+        "top",
+        "bottom",
+    ]
+    let color = [
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "blue",
+        "purple",
+        "white"
+    ]
+    arrayObj[0] = "你不觉得累吗？你已经在我的世界里跑了好几圈了";
+    arrayObj[1] = "我想问一条路 到你心里的路";
+    arrayObj[2] = "你知道你和猴子什么区别吗? 一个住在山洞，一个住在我心里";
+    arrayObj[3] = "你会弹吉他吗？为什么拨动了我的心弦";
+    arrayObj[4] = "你忙归忙，什么时候有空娶我啊";
+    arrayObj[5] = "你这种人！我除了恋爱没什么和你好谈的";
+    arrayObj[6] = "你知道我喜欢喝什么吗？ 呵护你";
+    arrayObj[7] = "你知道你和星星的区别吗？星星点亮了黑夜，而你点亮了我的心";
+    arrayObj[8] = "你的嘴真好看，特别适合说我爱你";
+    arrayObj[9] = "见什么世面，见见你就好了";
+    arrayObj[10] = "糟糕，是心动的感觉";
+    arrayObj[11] = "我是九你是三，除了你还是你";
+    arrayObj[12] = "我的床不大不小，用来睡你刚刚好";
+    arrayObj[13] = "如果你不怕麻烦的话，可以麻烦喜欢我一下吗？";
+    arrayObj[14] = "我发觉你今天有点怪，怪好看的。";
+    arrayObj[15] = "想试试我的草莓味唇膏吗？";
+    arrayObj[16] = "我一点也不想你，一点半再想。";
+    arrayObj[17] = "你的脸上有点东西，有什么？有点漂亮";
+    arrayObj[18] = "我觉得你特像一款游戏，我的世界";
+
+    function danmuList() {
+
+        for (a = 0; a < arrayObj.length; a++) {
+            var time = new Date();
+            var html = ` <li>
+                        <div class="currentTime">${time.toLocaleDateString()}</div>
+                        <div class="msg">${arrayObj[a]}</div>
+                        <div class="createTime">${time.toLocaleTimeString()}</div>
+                    </li>`;
+            $(".danmuList").append(html)
+        }
+
+    }
+
+    $(".reply").on("click", function () {
+        alert("功能建设中……敬请期待");
+        // const danmaku = {
+        //     text: '你不觉得累吗？你已经在我的世界里跑了好几圈了',
+        //     color: '#fff',
+        //     type: 'right'
+        // };
+        // dp.danmaku.draw(danmaku); //发送后自动显示，不需要。
+
+    })
+
+</script>
+</body>
+
+</html>
