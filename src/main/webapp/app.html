@@ -35,8 +35,8 @@
 <div class="TOP">
     <div class="TOP-nav">
         <div id="home" style="cursor:pointer;">视频首页</div>
-        <div id="myresources" style="cursor:pointer;">我的视频</div>
-        <div id="upload" style="cursor:pointer;">上传视频</div>
+        <div id="myresources" style="pointer-events: none;cursor: not-allowed;">我的视频</div>
+        <div id="upload" style="pointer-events: none;cursor: not-allowed;">上传视频</div>
     </div>
 </div>
 <div class="NAV">
@@ -180,7 +180,46 @@
 
         </div>
         <div class="recommend">
-
+            <div class="top" style="display: flex;justify-content : space-between;">
+                <div class="left">
+                    <span style="font-size: 16px;">精品推荐</span>
+                </div>
+                <div class="right">
+								<span style="color: #888;font-size: 14px;">
+								更多
+							     </span>
+                </div>
+            </div>
+            <div class="list">
+                <div class="title">
+                    机器学习极简入门课
+                </div>
+                <div class="author" style="border-bottom: 1px #E6E6E6 solid;height: 30px;margin-top: 10px;">
+							<span style="color: #888;font-size: 14px;">
+									作者/分享人：李烨 · 微软高级软件工程师
+							     </span>
+                </div>
+            </div>
+            <div class="list">
+                <div class="title">
+                    机器学习极简入门课
+                </div>
+                <div class="author" style="border-bottom: 1px #E6E6E6 solid;height: 30px;margin-top: 10px;">
+							<span style="color: #888;font-size: 14px;">
+									作者/分享人：李烨 · 微软高级软件工程师
+							     </span>
+                </div>
+            </div>
+            <div class="list">
+                <div class="title">
+                    机器学习极简入门课
+                </div>
+                <div class="author" style="border-bottom: 1px #E6E6E6 solid;height: 30px;margin-top: 10px;">
+							<span style="color: #888;font-size: 14px;">
+									作者/分享人：李烨 · 微软高级软件工程师
+							     </span>
+                </div>
+            </div>
         </div>
         <div class="yimem_gg">
             <img src="imgs/ad/blog/cd17.png">
@@ -508,7 +547,8 @@
                     //////////////////////console.log(v)
                     html += ` <div class="videolist" style="margin: 5px;width: 135px;height: 245px;">
                 <a href="appDetail.html?videoid=${v.videoid}">
-                    <div class="img" style="width: 135px;height: 170px;">
+                    <div class="img" style="width: 135px;height: 170px;position: relative">
+                    <div style="position: absolute;background: #F57C00;padding: 5px;color: white">${v.douban}</div>
                         <img src="${v.coverurl}" style="width: 100%;height: 100%" alt="">
                     </div>
                     <div class="videotile" style="width: 135px;height: 35px;margin-top: 5px;text-align: center;">

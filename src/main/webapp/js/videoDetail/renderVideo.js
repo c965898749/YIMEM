@@ -8,8 +8,8 @@ function getDplayer() {
             // url: 'http://media.w3.org/2010/05/sintel/trailer.mp4',
             // url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
             // url: videoUrl,
-            // url: 'imgs/Shapeofyou.mp4',
-            url: 'dpplay.zuidajiexi.com/?url=https://xigua-cdn.haima-zuida.com/20200528/7617_d15ce169/index.m3u8',
+            url: 'imgs/Shapeofyou.mp4',
+            // url: 'dpplay.zuidajiexi.com/?url=https://xigua-cdn.haima-zuida.com/20200528/7617_d15ce169/index.m3u8',
             // url: 'https://vd1.bdstatic.com/mda-hgu96tg1ddv2gie2/hd/mda-hgu96tg1ddv2gie2.mp4?auth_key=1566017205-0-0-25ba1683b1aca9cae40098f98022fcbc&bcevod_channel=searchbox_feed&pd=wisenatural&abtest=all',
             // url: 'C:/Users/Administrator.USER-20190521DJ/Desktop',
             pic: coverUrl

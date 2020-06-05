@@ -17,8 +17,6 @@ public class Video {
 
     private String videourl;
 
-    private String info;
-
     private Integer state;
 
     private Integer likecount;
@@ -29,7 +27,20 @@ public class Video {
 
     private Integer collectcount;
 
-    public Video(Integer videoid, Integer userid, String title, String subtitle, Integer clickcount, String coverurl, String videourl, String info, Integer state, Integer likecount, Integer classifyid, Date createtime, Integer collectcount) {
+    private String actor;
+
+    private String type;
+
+    private String region;
+
+    private String director;
+
+    private String douban;
+
+    private String info;
+
+    public Video(Integer videoid, Integer userid, String title, String subtitle, Integer clickcount, String coverurl, String videourl, Integer state, Integer likecount, Integer classifyid, Date createtime, Integer collectcount, String actor, String type, String region, String director, String
+            douban) {
         this.videoid = videoid;
         this.userid = userid;
         this.title = title;
@@ -37,12 +48,38 @@ public class Video {
         this.clickcount = clickcount;
         this.coverurl = coverurl;
         this.videourl = videourl;
-        this.info = info;
         this.state = state;
         this.likecount = likecount;
         this.classifyid = classifyid;
         this.createtime = createtime;
         this.collectcount = collectcount;
+        this.actor = actor;
+        this.type = type;
+        this.region = region;
+        this.director = director;
+        this.douban = douban;
+    }
+
+    public Video(Integer videoid, Integer userid, String title, String subtitle, Integer clickcount, String coverurl, String videourl, Integer state, Integer likecount, Integer classifyid, Date createtime, Integer collectcount, String actor, String type, String region, String director, String
+            douban, String info) {
+        this.videoid = videoid;
+        this.userid = userid;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.clickcount = clickcount;
+        this.coverurl = coverurl;
+        this.videourl = videourl;
+        this.state = state;
+        this.likecount = likecount;
+        this.classifyid = classifyid;
+        this.createtime = createtime;
+        this.collectcount = collectcount;
+        this.actor = actor;
+        this.type = type;
+        this.region = region;
+        this.director = director;
+        this.douban = douban;
+        this.info = info;
     }
 
     public Video() {
@@ -105,14 +142,6 @@ public class Video {
         this.videourl = videourl == null ? null : videourl.trim();
     }
 
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info == null ? null : info.trim();
-    }
-
     public Integer getState() {
         return state;
     }
@@ -151,5 +180,53 @@ public class Video {
 
     public void setCollectcount(Integer collectcount) {
         this.collectcount = collectcount;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor == null ? null : actor.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region == null ? null : region.trim();
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director == null ? null : director.trim();
+    }
+
+    public String getDouban() {
+        return douban;
+    }
+
+    public void setDouban(String douban) {
+        this.douban = douban;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info == null ? null : info.trim();
     }
 }

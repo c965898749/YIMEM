@@ -10,49 +10,87 @@
       <arg column="clickCount" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="coverUrl" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="videoUrl" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="info" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="state" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="likeCount" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="classifyId" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="collectCount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="actor" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="region" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="director" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="
+douban" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.sy.model.Video">
+    <constructor>
+      <idArg column="videoId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="userId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="subtitle" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="clickCount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="coverUrl" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="videoUrl" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="state" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="likeCount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="classifyId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="collectCount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="actor" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="region" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="director" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="douban" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="info" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    videoId, userId, title, subtitle, clickCount, coverUrl, videoUrl, info, state, likeCount, 
-    classifyId, createTime, collectCount
+    videoId, userId, title, subtitle, clickCount, coverUrl, videoUrl, state, likeCount, 
+    classifyId, createTime, collectCount, actor, type, region, director, douban
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <sql id="Blob_Column_List">
+    info
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from video
     where videoId = #{videoid,jdbcType=INTEGER}
   </select>
-  <select id="select"  resultMap="BaseResultMap">
+  <select id="select"  resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from video
-  </select>
-  <select id="selectBytitle"  resultType="java.lang.Integer">
-    select
-    videoId
-    from video   where title = #{title,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from video
     where videoId = #{videoid,jdbcType=INTEGER}
   </delete>
+  <select id="selectBytitle"  resultType="java.lang.Integer">
+    select
+    videoId
+    from video   where title = #{title,jdbcType=INTEGER}
+  </select>
   <insert id="insert" parameterType="com.sy.model.Video">
     insert into video ( userId, title,
       subtitle, clickCount, coverUrl, 
-      videoUrl, info, state, 
-      likeCount, classifyId, createTime, 
-      collectCount)
-    values (#{userid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+      videoUrl, state, likeCount, 
+      classifyId, createTime, collectCount, 
+      actor, type, region, 
+      director, douban, info
+      )
+    values ( #{userid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
       #{subtitle,jdbcType=VARCHAR}, #{clickcount,jdbcType=INTEGER}, #{coverurl,jdbcType=VARCHAR}, 
-      #{videourl,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
-      #{likecount,jdbcType=INTEGER}, #{classifyid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{collectcount,jdbcType=INTEGER})
+      #{videourl,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{likecount,jdbcType=INTEGER}, 
+      #{classifyid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{collectcount,jdbcType=INTEGER}, 
+      #{actor,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, 
+      #{director,jdbcType=VARCHAR}, #{douban,jdbcType=VARCHAR}, #{info,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sy.model.Video">
     insert into video
@@ -76,9 +114,6 @@
       <if test="videourl != null">
         videoUrl,
       </if>
-      <if test="info != null">
-        info,
-      </if>
       <if test="state != null">
         state,
       </if>
@@ -93,6 +128,24 @@
       </if>
       <if test="collectcount != null">
         collectCount,
+      </if>
+      <if test="actor != null">
+        actor,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="director != null">
+        director,
+      </if>
+      <if test="douban != null">
+        douban,
+      </if>
+      <if test="info != null">
+        info,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -115,9 +168,6 @@
       <if test="videourl != null">
         #{videourl,jdbcType=VARCHAR},
       </if>
-      <if test="info != null">
-        #{info,jdbcType=VARCHAR},
-      </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
       </if>
@@ -132,6 +182,24 @@
       </if>
       <if test="collectcount != null">
         #{collectcount,jdbcType=INTEGER},
+      </if>
+      <if test="actor != null">
+        #{actor,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null">
+        #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="douban != null">
+        #{douban,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        #{info,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -156,9 +224,6 @@
       <if test="videourl != null">
         videoUrl = #{videourl,jdbcType=VARCHAR},
       </if>
-      <if test="info != null">
-        info = #{info,jdbcType=VARCHAR},
-      </if>
       <if test="state != null">
         state = #{state,jdbcType=INTEGER},
       </if>
@@ -174,7 +239,46 @@
       <if test="collectcount != null">
         collectCount = #{collectcount,jdbcType=INTEGER},
       </if>
+      <if test="actor != null">
+        actor = #{actor,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null">
+        director = #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="douban != null">
+        douban = #{douban,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where videoId = #{videoid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sy.model.Video">
+    update video
+    set userId = #{userid,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      subtitle = #{subtitle,jdbcType=VARCHAR},
+      clickCount = #{clickcount,jdbcType=INTEGER},
+      coverUrl = #{coverurl,jdbcType=VARCHAR},
+      videoUrl = #{videourl,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      likeCount = #{likecount,jdbcType=INTEGER},
+      classifyId = #{classifyid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      collectCount = #{collectcount,jdbcType=INTEGER},
+      actor = #{actor,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      director = #{director,jdbcType=VARCHAR},
+      douban = #{douban,jdbcType=VARCHAR},
+      info = #{info,jdbcType=LONGVARCHAR}
     where videoId = #{videoid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sy.model.Video">
@@ -185,12 +289,16 @@
       clickCount = #{clickcount,jdbcType=INTEGER},
       coverUrl = #{coverurl,jdbcType=VARCHAR},
       videoUrl = #{videourl,jdbcType=VARCHAR},
-      info = #{info,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       likeCount = #{likecount,jdbcType=INTEGER},
       classifyId = #{classifyid,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=TIMESTAMP},
-      collectCount = #{collectcount,jdbcType=INTEGER}
+      collectCount = #{collectcount,jdbcType=INTEGER},
+      actor = #{actor,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      director = #{director,jdbcType=VARCHAR},
+      douban = #{douban,jdbcType=VARCHAR}
     where videoId = #{videoid,jdbcType=INTEGER}
   </update>
 </mapper>

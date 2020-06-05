@@ -31,33 +31,33 @@
 </div>
 <div class="TOP">
     <div class="TOP-nav">
-        <div id="home" style="cursor:pointer;width: 200px;margin-left: -50px">返回视频首页</div>
+        <div id="home" style="cursor:pointer;width: 200px;margin-left: -50px"><a href="app.html">返回视频首页</a></div>
     </div>
 </div>
 <div class="NAV">
     <div class="bodyz">
         <div class="left">
-            <div class="title">
-                <div class="bigtitle">
-                    这里是标题 Shape of you
+            <div class="title" style="height: 50px">
+                <div class="bigtitle" style="font-size: 14px">
+
 
                 </div>
-                <div class="classify">
-                    <!--分类-->
-                    <span id="classify1">分类1</span>
-                    <span id="classify2">分类2</span>
-                    <span id="time">时间</span>
-                </div>
-                <div class="smallTitle">
-                    <span id="clickCount"></span>次播放
-                    <span id="bulletCount">0</span>个弹幕
-                </div>
-                <!--点击按钮-->
-                <div class="buttonKuang">
-                    <div class="wrapper">
-                        <span class="button1">关注</span>
-                    </div>
-                </div>
+                <!--<div class="classify">-->
+                <!--&lt;!&ndash;分类&ndash;&gt;-->
+                <!--<span id="classify1">分类1</span>-->
+                <!--<span id="classify2">分类2</span>-->
+                <!--<span id="time">时间</span>-->
+                <!--</div>-->
+                <!--<div class="smallTitle">-->
+                <!--<span id="clickCount"></span>次播放-->
+                <!--<span id="bulletCount">0</span>个弹幕-->
+                <!--</div>-->
+                <!--&lt;!&ndash;点击按钮&ndash;&gt;-->
+                <!--<div class="buttonKuang">-->
+                <!--<div class="wrapper">-->
+                <!--<span class="button1">关注</span>-->
+                <!--</div>-->
+                <!--</div>-->
                 <!--======================-->
             </div>
 
@@ -88,7 +88,11 @@
                         </div>
                     </form>
                 </div>
-
+                <div class="smallkuang" style="margin-left: 40px;display: flex">
+                    豆瓣分
+                    <div id="test9" style="margin-top: -10px"></div>
+                    <div class="douban" style="margin-top: 5px"></div>
+                </div>
             </div>
             <hr>
             <div class="jianjie">
@@ -103,7 +107,10 @@
                 </div>
                 <!--评论发表框--->
                 <div class="ImTalk">
-                    <img class="icon userInfoIcon" src="../upload/iconImgs/akari.jpg"/>
+                    <!--<img class="icon userInfoIcon" src="imgs/icons/blog/moren.png"/>-->
+                    <div class="head">
+
+                    </div>
                     <!--这里是头像-->
 
                     <div class="talkMess">
@@ -132,7 +139,7 @@
                             <!--按时间-->
                             <div class="layui-tab-item">
                                 <div class="otherKuang">
-                                    <img class="icon" src="../upload/iconImgs/akari.jpg">
+                                    <img class="icon" src="imgs/icons/blog/moren.png">
                                     这里是头像
                                     </img>
                                     <div class="talkMess2">
@@ -159,31 +166,57 @@
             </div>
         </div>
         <div class="right">
-            <div class="Im">
-                <img class="icon" src="">
+            <div class="Im" style="height: 40px">
+                <!--<img class="icon" src="">-->
                 <!--这是头像-->
-                <div class="name">
-                    这是用户名
-                </div>
-                <div class="remark">
-                    这里是个签
-                </div>
+                <!--<div class="name">-->
+                <!--&lt;!&ndash;这是用户名&ndash;&gt;-->
+                <!--</div>-->
+                <!--<div class="remark">-->
+                <!--&lt;!&ndash;这里是个签&ndash;&gt;-->
+                <!--</div>-->
 
             </div>
 
             <!--以下是弹幕列表-->
-            <div class="bullet">
+            <div class="bullet" style="background: white;border: none">
                 <div class="danmuTitle">
-                    弹幕列表:
+                    相关影片:
                 </div>
                 <div class="danmuList">
-                    <!--<ul class="danmuLi">-->
-                    <li>
-                        <div class="currentTime">时间</div>
-                        <div class="msg">弹幕内容</div>
-                        <div class="createTime">发送时间</div>
-                    </li>
-                    <!--</ul>-->
+                    <ul class="danmuLi" style="height: 25px;margin-top: 15px">
+                        <li>
+                            <div class="currentTime" style="color: #888888 ">[科幻]</div>
+                            <div class="msg" style="color: #888888 ">异形</div>
+                            <div class="createTime" style="color: #888888 ">(1979)</div>
+                            <hr style="margin-top: 0px"/>
+                        </li>
+                    </ul>
+
+                    <ul class="danmuLi" style="height: 25px;margin-top: 15px">
+                        <li>
+                            <div class="currentTime" style="color: #888888 ">[科幻]</div>
+                            <div class="msg" style="color: #888888 ">异形</div>
+                            <div class="createTime" style="color: #888888 ">(1979)</div>
+                            <hr style="margin-top: 0px"/>
+                        </li>
+                    </ul>
+                    <ul class="danmuLi" style="height: 25px;margin-top: 15px">
+                        <li>
+                            <div class="currentTime" style="color: #888888 ">[科幻]</div>
+                            <div class="msg" style="color: #888888 ">异形</div>
+                            <div class="createTime" style="color: #888888 ">(1979)</div>
+                            <hr style="margin-top: 0px"/>
+                        </li>
+                    </ul>
+                    <ul class="danmuLi" style="height: 25px;margin-top: 15px">
+                        <li>
+                            <div class="currentTime" style="color: #888888 ">[科幻]</div>
+                            <div class="msg" style="color: #888888 ">异形</div>
+                            <div class="createTime" style="color: #888888 ">(1979)</div>
+                            <hr style="margin-top: 0px"/>
+                        </li>
+                    </ul>
                 </div>
 
             </div>
@@ -214,9 +247,9 @@
         </div>
     </div>
 </div>
-<script src="js/loginCheck.js"></script>
+<!--<script src="js/loginCheck.js"></script>-->
 <script src="layui/layui.all.js"></script>
-<script src="js/DPlayer.min.js"></script>
+<!--<script src="js/DPlayer.min.js"></script>-->
 <!--渲染视频-->
 <!--<script src="js/videoDetail/renderVideo.js"></script>-->
 <!--&lt;!&ndash;渲染弹幕列表&ndash;&gt;-->
@@ -231,8 +264,17 @@
 <!--<script src="js/videoDetail/renderMain.js"></script>-->
 
 <script>
-
+    var rate = layui.rate;
     var videoid = getQueryString("videoid")
+    var user = getUser();
+    var userissd = 1;
+    if (user) {
+        userissd = user.userId
+        $(".head").html(`<img class="icon userInfoIcon" src="${user.headImg}"/>`)
+
+    }else {
+        $(".head").html(`<img class="icon userInfoIcon" src="imgs/icons/blog/moren.png"/>`)
+    }
 
     function getvideo(videoid) {
         $.ajax({
@@ -245,10 +287,12 @@
                 if (jsonData.success == 1) {
                     var v = jsonData.data;
                     //////////////////////console.log(v)
-                    var html = `<iframe width="100%" height="100%" src="${v.videourl}" frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen="true"></iframe>
-`;
-
+                    var html = `<iframe width="100%" height="100%" src="${v.videourl}" frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen="true"></iframe>`;
+                    $(".bigtitle").html("前位置首页 > 电影 > 科幻 >" + v.title);
+                    $(".jianjie").html("<span style='font-weight: bolder;margin-right: 5px'>剧情介绍:</span>" + v.info);
                     $(".video").append(html);
+                    $(".douban").append(v.douban);
+                    douban(v.douban / 2);
                 }
             }
             , error: function (res) {
@@ -259,10 +303,20 @@
 
     $(function () {
         getvideo(videoid)
-        // getDplayer()
-        // danmuList()
-        // ss()
     })
+
+    function douban(nub) {
+        //只读
+        rate.render({
+            elem: '#test9'
+            , value: nub
+            , readonly: true
+        });
+    }
+
+    function usr() {
+
+    }
 
     function getQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -295,123 +349,27 @@
 
     })
 
-
-    // $("#zzz").onclick("checked",function () {
-    //     console.log("!!!!!!!!!!!!!!!!!!!!!")
-    // })
-    var arrayObj = new Array();
-    //开启点击蓝图标。。。
-    // const danmaku = {
-    //     text: 'Get a danamku via WebSocket',
-    //     color: '#fff',
-    //     type: 'right'
-    // };
-    // dp.danmaku.draw(data.data); //发送后自动显示，不需要。
-    function ss() {
-        let intervalIndex
-        dp.on("play", function () {
-            // let danmaku = {
-            //     text: "开启海量弹幕模式。。。",
-            //     color: "yellow",
-            //     size: "200px",
-            //     type: "right",
-            // }
-            // dp.danmaku.draw(danmaku);
-            intervalIndex = setInterval(function () {
-                let danmaku = {
-                    text: arrayObj[Math.floor(Math.random() * arrayObj.length)],
-                    color: color[Math.floor((Math.random() * color.length))],
-                    type: type[Math.floor(Math.random() * type.length)]
+    //获取当前用户
+    function getUser() {
+        var data;
+        $.ajax({
+            url: "isEnter"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                ////////////////console.log(jsonData)
+                if (jsonData.success == 1) {
+                    data = jsonData.data;
                 }
-                dp.danmaku.draw(danmaku);
-            }, 200);
-            // setTimeout(function () {
-            //     let intervalIndex = setInterval(function () {
-            //         let danmaku = {
-            //             text: arrayObj[Math.floor(Math.random() * arrayObj.length)],
-            //             color: color[Math.floor((Math.random() * color.length))],
-            //             type: type[Math.floor(Math.random() * type.length)]
-            //         }
-            //         dp.danmaku.draw(danmaku);
-            //     }, 500);
-            //
-            // }, 2000);
-
-
-            console.log("点击了");
-            console.log(arrayObj);
-        });
-        dp.on("pause", function () {
-            clearInterval(intervalIndex)
-        });
-        dp.on("ended", function () {
-            clearInterval(intervalIndex)
-        });
+            }
+            , error: function (res) {
+                ////////////////console.log("ajax提交错误")
+            }
+        })
+        return data;
     }
 
-    $(".button1").on("click", function () {
-        alert("功能建设中……敬请期待");
-
-    });
-
-    let type = [
-        "right",
-        "top",
-        "bottom",
-    ]
-    let color = [
-        "red",
-        "orange",
-        "yellow",
-        "green",
-        "blue",
-        "purple",
-        "white"
-    ]
-    arrayObj[0] = "你不觉得累吗？你已经在我的世界里跑了好几圈了";
-    arrayObj[1] = "我想问一条路 到你心里的路";
-    arrayObj[2] = "你知道你和猴子什么区别吗? 一个住在山洞，一个住在我心里";
-    arrayObj[3] = "你会弹吉他吗？为什么拨动了我的心弦";
-    arrayObj[4] = "你忙归忙，什么时候有空娶我啊";
-    arrayObj[5] = "你这种人！我除了恋爱没什么和你好谈的";
-    arrayObj[6] = "你知道我喜欢喝什么吗？ 呵护你";
-    arrayObj[7] = "你知道你和星星的区别吗？星星点亮了黑夜，而你点亮了我的心";
-    arrayObj[8] = "你的嘴真好看，特别适合说我爱你";
-    arrayObj[9] = "见什么世面，见见你就好了";
-    arrayObj[10] = "糟糕，是心动的感觉";
-    arrayObj[11] = "我是九你是三，除了你还是你";
-    arrayObj[12] = "我的床不大不小，用来睡你刚刚好";
-    arrayObj[13] = "如果你不怕麻烦的话，可以麻烦喜欢我一下吗？";
-    arrayObj[14] = "我发觉你今天有点怪，怪好看的。";
-    arrayObj[15] = "想试试我的草莓味唇膏吗？";
-    arrayObj[16] = "我一点也不想你，一点半再想。";
-    arrayObj[17] = "你的脸上有点东西，有什么？有点漂亮";
-    arrayObj[18] = "我觉得你特像一款游戏，我的世界";
-
-    function danmuList() {
-
-        for (a = 0; a < arrayObj.length; a++) {
-            var time = new Date();
-            var html = ` <li>
-                        <div class="currentTime">${time.toLocaleDateString()}</div>
-                        <div class="msg">${arrayObj[a]}</div>
-                        <div class="createTime">${time.toLocaleTimeString()}</div>
-                    </li>`;
-            $(".danmuList").append(html)
-        }
-
-    }
-
-    $(".reply").on("click", function () {
-        alert("功能建设中……敬请期待");
-        // const danmaku = {
-        //     text: '你不觉得累吗？你已经在我的世界里跑了好几圈了',
-        //     color: '#fff',
-        //     type: 'right'
-        // };
-        // dp.danmaku.draw(danmaku); //发送后自动显示，不需要。
-
-    })
 
 </script>
 </body>

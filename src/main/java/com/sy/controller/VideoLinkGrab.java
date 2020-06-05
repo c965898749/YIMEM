@@ -39,17 +39,19 @@ import java.util.regex.Pattern;
 public class VideoLinkGrab {
     @Autowired
     private VideoMapper videoMapper;
-//    public static void main(String[] args) {
-//        VideoLinkGrab videoLinkGrab = new VideoLinkGrab();
-////        videoLinkGrab.saveData("http://www.y80s.com/movie/list/");
-//        videoLinkGrab.saveData("http://www.y80s.com/movie/40606");
-//    }
+    public static void main(String[] args) {
+        VideoLinkGrab videoLinkGrab = new VideoLinkGrab();
+//        videoLinkGrab.saveData("http://www.y80s.com/movie/list/");
+        videoLinkGrab.saveData("http://www.y80s.com/movie/40606");
+    }
 
-    @Scheduled(cron = "0 27 4 ? * *")
+    @Scheduled(cron = "0 35 6 ? * *")
+//    @Scheduled(cron = "0 */1 * * * ?")
     public void Reptilia() {
         System.out.println("执行");
         VideoLinkGrab videoLinkGrab = new VideoLinkGrab();
-        videoLinkGrab.saveData("http://www.y80s.com/movie/");
+        videoLinkGrab.saveData("http://www.y80s.com/movie/list/");
+//        videoLinkGrab.saveData("http://www.y80s.com/movie/40606");
     }
 
 
@@ -107,7 +109,7 @@ public class VideoLinkGrab {
         DownloadService downloadService = (DownloadService) ScheduledUtill.getBeans("DownloadService");
         Map<String, Boolean> oldMap = new LinkedHashMap<String, Boolean>(); // 存储链接-是否被遍历
 
-        Map<String, String> videoLinkMap = new LinkedHashMap<String, String>(); // 视频下载链接
+        Map<String, Video> videoLinkMap = new LinkedHashMap<String, Video>(); // 视频下载链接
         String oldLinkHost = ""; // host
 
         Pattern p = Pattern.compile("(https?://)?[^/\\s]*"); // 比如：http://www.zifangsky.cn
@@ -119,24 +121,20 @@ public class VideoLinkGrab {
 
         oldMap.put(baseUrl, false);
         videoLinkMap = crawlLinks(oldLinkHost, oldMap);
+        System.out.println("结束"+videoLinkMap.size());
         // 遍历，然后将数据保存在数据库中
-        for (Map.Entry<String, String> mapping : videoLinkMap.entrySet()) {
+        for (Map.Entry<String, Video> mapping : videoLinkMap.entrySet()) {
             Video video = new Video();
-            video.setTitle(mapping.getKey());
-            String VideoContent = mapping.getValue();
-            String[] str = VideoContent.split(";");
-
+            video=mapping.getValue();
             try {
-                if (str != null) {
-                    video.setCoverurl("http://" + str[0]);
-                    video.setVideourl(str[1]);
-                }
-                Integer videoId = downloadService.selectBytitle(video.getTitle());
-                if (Xtool.isNotNull(videoId)) {
-                    video.setVideoid(videoId);
-                    downloadService.updateByPrimaryKeySelective(video);
-                } else {
-                    downloadService.VideoMapper(video);
+                if (Xtool.isNotNull(mapping.getKey())){
+                    Integer videoId = downloadService.selectBytitle(video.getTitle());
+                    if (Xtool.isNotNull(videoId)) {
+                        video.setVideoid(videoId);
+                        downloadService.updateByPrimaryKeySelective(video);
+                    } else {
+                        downloadService.VideoMapper(video);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -155,13 +153,15 @@ public class VideoLinkGrab {
      * @param oldMap      待遍历的链接集合
      * @return 返回所有抓取到的视频下载链接集合
      */
-    private Map<String, String> crawlLinks(String oldLinkHost,
+    private Map<String, Video> crawlLinks(String oldLinkHost,
                                            Map<String, Boolean> oldMap) {
         Map<String, Boolean> newMap = new LinkedHashMap<String, Boolean>(); // 每次循环获取到的新链接
-        Map<String, String> videoLinkMap = new LinkedHashMap<String, String>(); // 视频下载链接
+        Map<String, Video> videoLinkMap = new LinkedHashMap<String, Video>(); // 视频下载链接
         String oldLink = "";
-
+//        System.out.println("大小"+oldMap.size());
         for (Map.Entry<String, Boolean> mapping : oldMap.entrySet()) {
+
+//            System.out.println("大小"+oldMap.size());
 //             System.out.println("link:" + mapping.getKey() + "--------check:"
 //             + mapping.getValue());
             String VideoContent = "";
@@ -193,29 +193,60 @@ public class VideoLinkGrab {
                         if (isMoviePage(oldLink)) {
                             boolean checkTitle = false;
                             String title = "";
+                            Video video=new Video();
                             while ((line = reader.readLine()) != null) {
-//                                try {
-//                                    System.out.printf("抓取地址"+line);
-//                                } catch (Exception e) {
-//                                    e.printStackTrace();
-//                                }
                                 //取出页面中的视频标题
                                 if (!checkTitle) {
                                     pattern = Pattern.compile("([^\\s]+).*?</title>");
                                     matcher = pattern.matcher(line);
                                     if (matcher.find()) {
-                                        title = matcher.group(1);
+                                        title=matcher.group(1);
+                                        video.setTitle(matcher.group(1));
                                         checkTitle = true;
                                         continue;
                                     }
                                 }
-
+                                //副标题
+//                                pattern = Pattern.compile("又名：</span>([\\s\\S]*)");
+//                                matcher = pattern.matcher(line);
+//                                if (matcher.find()) {
+//                                    video.setSubtitle(matcher.group(1));
+//                                    continue;
+//                                }
+                               //导演
+//                                pattern = Pattern.compile("导演：</span>([\\s\\S]*)");
+//                                matcher = pattern.matcher(line);
+//                                if (matcher.find()) {
+//                                    video.setActor( matcher.group(1));
+//                                    continue;
+//                                }
+                                //剧情介绍
+                                pattern = Pattern.compile("剧情介绍：</span>([^(</p>)]*)</p>");
+                                matcher = pattern.matcher(line);
+                                if (matcher.find()) {
+                                    video.setInfo( matcher.group(1));
+                                    continue;
+                                }
+                                //豆瓣
+                                pattern = Pattern.compile("<span class=\\\"score sc6\\\" ></span>([^(</div>)]*)</div>");
+                                matcher = pattern.matcher(line);
+                                if (matcher.find()) {
+                                    video.setDouban( matcher.group(1));
+                                    continue;
+                                }
                                 //图片抓取
                                 pattern = Pattern.compile("img\\.mimiming\\.com[\\s\\S]*\\.jpg");
                                 matcher = pattern.matcher(line);
                                 if (matcher.find()) {
-                                    VideoContent = matcher.group(0);
-//                                    System.out.println("图片"+matcher.group(0));
+                                    video.setCoverurl( "http://"+matcher.group(0));
+                                    continue;
+                                }
+                                //下载链接
+                                //图片抓取
+                                pattern = Pattern.compile("(thunder:[^\"]+).*thunder[rR]es[tT]itle=\"[^\"]*\"");
+                                matcher = pattern.matcher(line);
+                                if (matcher.find()) {
+                                    video.setSubtitle( matcher.group(0));
                                     continue;
                                 }
 
@@ -240,10 +271,8 @@ public class VideoLinkGrab {
                                             pattern = Pattern.compile("src=\"(https://dpplay\\.zuidajiexi\\.com[\\s\\S]*)\"\\s+frameborder=");
                                             matcher = pattern.matcher(ne);
                                             if (matcher.find()) {
-//                                                System.out.println("在线2" + matcher.group(1));
-//                                                videoLinkMap.put(title, matcher.group(1));
-                                                VideoContent = VideoContent + ";" + matcher.group(1);
-                                                videoLinkMap.put(title, VideoContent);
+                                                video.setVideourl( matcher.group(1));
+                                                videoLinkMap.put(title, video);
                                                 break;
                                             }
                                         }
