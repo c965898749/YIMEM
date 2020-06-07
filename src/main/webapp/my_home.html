@@ -756,6 +756,7 @@
         layer.open({
             content: '确认删除'
             , btn: ['确认', '取消']
+            ,title:['提示','background-color:#F44444;']
             , yes: function (index, layero) {
                 $.ajax({
                     url: "/blog/deleteBlog",

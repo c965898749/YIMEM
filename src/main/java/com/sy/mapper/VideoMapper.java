@@ -14,7 +14,7 @@ public interface VideoMapper {
     Video selectByPrimaryKey(Integer videoid);
     Integer selectBytitle(String title);
     int updateByPrimaryKeySelective(Video record);
-    List<Video> select();
+    List<Video> select(Video video);
     int updateByPrimaryKeyWithBLOBs(Video record);
 
     int updateByPrimaryKey(Video record);

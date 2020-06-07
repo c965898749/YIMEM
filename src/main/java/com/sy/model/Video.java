@@ -1,6 +1,6 @@
 package com.sy.model;
 
-import java.util.Date;
+
 
 public class Video {
     private Integer videoid;
@@ -23,7 +23,7 @@ public class Video {
 
     private Integer classifyid;
 
-    private Date createtime;
+    private String createtime;
 
     private Integer collectcount;
 
@@ -39,7 +39,18 @@ public class Video {
 
     private String info;
 
-    public Video(Integer videoid, Integer userid, String title, String subtitle, Integer clickcount, String coverurl, String videourl, Integer state, Integer likecount, Integer classifyid, Date createtime, Integer collectcount, String actor, String type, String region, String director, String
+    //后天字段
+    private Integer pageNum;
+
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Video(Integer videoid, Integer userid, String title, String subtitle, Integer clickcount, String coverurl, String videourl, Integer state, Integer likecount, Integer classifyid, String createtime, Integer collectcount, String actor, String type, String region, String director, String
             douban) {
         this.videoid = videoid;
         this.userid = userid;
@@ -60,7 +71,7 @@ public class Video {
         this.douban = douban;
     }
 
-    public Video(Integer videoid, Integer userid, String title, String subtitle, Integer clickcount, String coverurl, String videourl, Integer state, Integer likecount, Integer classifyid, Date createtime, Integer collectcount, String actor, String type, String region, String director, String
+    public Video(Integer videoid, Integer userid, String title, String subtitle, Integer clickcount, String coverurl, String videourl, Integer state, Integer likecount, Integer classifyid, String createtime, Integer collectcount, String actor, String type, String region, String director, String
             douban, String info) {
         this.videoid = videoid;
         this.userid = userid;
@@ -166,11 +177,11 @@ public class Video {
         this.classifyid = classifyid;
     }
 
-    public Date getCreatetime() {
+    public String getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(Date createtime) {
+    public void setCreatetime(String createtime) {
         this.createtime = createtime;
     }
 

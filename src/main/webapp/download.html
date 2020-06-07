@@ -542,11 +542,11 @@
 
                 var html = ` <div class="top" style="display: flex;justify-content : space-between;">
                 <div class="left">
-                    <span style="font-size: 16px;">精品推荐</span>
+                    <span style="font-size: 14px;color: #868B96">精品推荐</span>
                 </div>
                 <div class="right">
                     <span style="color: #888;font-size: 14px;">
-                    <a href="blog_page.html">更多</a>
+                    <a href="blog_page.html" style="font-size: 14px;color: #868B96">更多</a>
                     </span>
                 </div>
             </div>`;
@@ -625,6 +625,7 @@
                     layer.open({
                         content: '你还未登录'
                         , btn: ['登录', '退出']
+                        ,title:['提示']
                         , yes: function (index, layero) {
                             //按钮【按钮一】的回调
                             location.href = "login.html";
@@ -1618,6 +1619,7 @@
                     layer.open({
                         content: '确定取消收藏'
                         , btn: ['确定', '退出']
+                        ,title:['收藏']
                         , yes: function (index, layero) {
                             $.ajax({
                                 url: "saveResocollect"

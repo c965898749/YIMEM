@@ -8,6 +8,7 @@ import com.sy.model.Video;
 import com.sy.model.resp.BaseResp;
 import com.sy.model.resp.ResultVO;
 import com.sy.service.DownloadService;
+import com.sy.tool.Constants;
 import com.sy.tool.ScheduledUtill;
 import com.sy.tool.Xtool;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,13 +41,14 @@ import java.util.regex.Pattern;
 public class VideoLinkGrab {
     @Autowired
     private VideoMapper videoMapper;
+
     public static void main(String[] args) {
         VideoLinkGrab videoLinkGrab = new VideoLinkGrab();
 //        videoLinkGrab.saveData("http://www.y80s.com/movie/list/");
         videoLinkGrab.saveData("http://www.y80s.com/movie/40606");
     }
 
-    @Scheduled(cron = "0 35 6 ? * *")
+    @Scheduled(cron = "0 0 3 ? * *")
 //    @Scheduled(cron = "0 */1 * * * ?")
     public void Reptilia() {
         System.out.println("执行");
@@ -57,14 +60,14 @@ public class VideoLinkGrab {
 
     @RequestMapping(value = "getVideo", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResp getVideo(Integer pageNum) {
-        System.out.println(pageNum);
+    public BaseResp getVideo(Video video) {
+//        System.out.println(pageNum);
         BaseResp resultVO = new BaseResp();
-        Integer pageSize = 18;
-        PageHelper.startPage(pageNum, pageSize);
+        Integer pageSize = 24;
+        PageHelper.startPage(video.getPageNum(), pageSize);
         List<Video> videos = null;
         try {
-            videos = videoMapper.select();
+            videos = videoMapper.select(video);
             Page<Video> blogPage = (Page<Video>) videos;
             resultVO.setData(videos);
             resultVO.setCount(blogPage.getTotal());
@@ -106,7 +109,7 @@ public class VideoLinkGrab {
      * @return null
      */
     public void saveData(String baseUrl) {
-        DownloadService downloadService = (DownloadService) ScheduledUtill.getBeans("DownloadService");
+//        DownloadService downloadService = (DownloadService) ScheduledUtill.getBeans("DownloadService");
         Map<String, Boolean> oldMap = new LinkedHashMap<String, Boolean>(); // 存储链接-是否被遍历
 
         Map<String, Video> videoLinkMap = new LinkedHashMap<String, Video>(); // 视频下载链接
@@ -120,26 +123,27 @@ public class VideoLinkGrab {
 //        System.out.println(oldLinkHost);
 
         oldMap.put(baseUrl, false);
-        videoLinkMap = crawlLinks(oldLinkHost, oldMap);
-        System.out.println("结束"+videoLinkMap.size());
+//        videoLinkMap = crawlLinks(oldLinkHost, oldMap);
+        crawlLinks(oldLinkHost, oldMap);
+        System.out.println("结束" + videoLinkMap.size());
         // 遍历，然后将数据保存在数据库中
-        for (Map.Entry<String, Video> mapping : videoLinkMap.entrySet()) {
-            Video video = new Video();
-            video=mapping.getValue();
-            try {
-                if (Xtool.isNotNull(mapping.getKey())){
-                    Integer videoId = downloadService.selectBytitle(video.getTitle());
-                    if (Xtool.isNotNull(videoId)) {
-                        video.setVideoid(videoId);
-                        downloadService.updateByPrimaryKeySelective(video);
-                    } else {
-                        downloadService.VideoMapper(video);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+//        for (Map.Entry<String, Video> mapping : videoLinkMap.entrySet()) {
+//            Video video = new Video();
+//            video=mapping.getValue();
+//            try {
+//                if (Xtool.isNotNull(mapping.getKey())){
+//                    Integer videoId = downloadService.selectBytitle(video.getTitle());
+//                    if (Xtool.isNotNull(videoId)) {
+//                        video.setVideoid(videoId);
+//                        downloadService.updateByPrimaryKeySelective(video);
+//                    } else {
+//                        downloadService.VideoMapper(video);
+//                    }
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
 
     }
 
@@ -154,32 +158,32 @@ public class VideoLinkGrab {
      * @return 返回所有抓取到的视频下载链接集合
      */
     private Map<String, Video> crawlLinks(String oldLinkHost,
-                                           Map<String, Boolean> oldMap) {
+                                          Map<String, Boolean> oldMap) {
+        DownloadService downloadService = (DownloadService) ScheduledUtill.getBeans("DownloadService");
         Map<String, Boolean> newMap = new LinkedHashMap<String, Boolean>(); // 每次循环获取到的新链接
         Map<String, Video> videoLinkMap = new LinkedHashMap<String, Video>(); // 视频下载链接
         String oldLink = "";
 //        System.out.println("大小"+oldMap.size());
         for (Map.Entry<String, Boolean> mapping : oldMap.entrySet()) {
-
+            int i = 0;
 //            System.out.println("大小"+oldMap.size());
-//             System.out.println("link:" + mapping.getKey() + "--------check:"
-//             + mapping.getValue());
+            System.out.println("link:" + mapping.getKey() + "--------check:"
+                    + mapping.getValue());
             String VideoContent = "";
             // 如果没有被遍历过
             if (!mapping.getValue()) {
                 oldLink = mapping.getKey();
                 // 发起GET请求
                 try {
+                    System.out.println("开始链接第一");
                     URL url = new URL(oldLink);
-                    HttpURLConnection connection = (HttpURLConnection) url
-                            .openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(2500);
-                    connection.setReadTimeout(2500);
-
-
+                    HttpURLConnection connection= (HttpURLConnection) url.openConnection();
+                            connection.setRequestMethod("GET");
+                            connection.setConnectTimeout(2500);
+                            connection.setReadTimeout(2500);
+                            connection.setInstanceFollowRedirects(true);
                     if (connection.getResponseCode() == 200) {
-//                        System.out.println(connection.getResponseCode()+"11111111111");
+                        System.out.println(connection.getResponseCode() + "11111111111");
                         InputStream inputStream = connection.getInputStream();
                         BufferedReader reader = new BufferedReader(
                                 new InputStreamReader(inputStream, "UTF-8"));
@@ -193,75 +197,78 @@ public class VideoLinkGrab {
                         if (isMoviePage(oldLink)) {
                             boolean checkTitle = false;
                             String title = "";
-                            Video video=new Video();
+                            Video video = new Video();
+                            video.setRegion("");
+                            video.setDirector("");
+                            video.setType("");
                             while ((line = reader.readLine()) != null) {
                                 //取出页面中的视频标题
                                 if (!checkTitle) {
                                     pattern = Pattern.compile("([^\\s]+).*?</title>");
                                     matcher = pattern.matcher(line);
                                     if (matcher.find()) {
-                                        title=matcher.group(1);
+                                        title = matcher.group(1);
                                         video.setTitle(matcher.group(1));
+                                        System.out.println("取出页面中的视频标题" + video.getTitle());
                                         checkTitle = true;
                                         continue;
                                     }
                                 }
-                                //副标题
-//                                pattern = Pattern.compile("又名：</span>([\\s\\S]*)");
-//                                matcher = pattern.matcher(line);
-//                                if (matcher.find()) {
-//                                    video.setSubtitle(matcher.group(1));
-//                                    continue;
-//                                }
-                               //导演
-//                                pattern = Pattern.compile("导演：</span>([\\s\\S]*)");
-//                                matcher = pattern.matcher(line);
-//                                if (matcher.find()) {
-//                                    video.setActor( matcher.group(1));
-//                                    continue;
-//                                }
-                                //剧情介绍
+                                //时间 185
+                                pattern = Pattern.compile("上映日期：</span>([^(</span>)]*)</span>");
+                                matcher = pattern.matcher(line);
+                                if (matcher.find()) {
+                                    video.setCreatetime(matcher.group(1));
+                                    System.out.println("时间" + video.getCreatetime());
+                                    continue;
+                                }
+                                //剧情介绍 217
                                 pattern = Pattern.compile("剧情介绍：</span>([^(</p>)]*)</p>");
                                 matcher = pattern.matcher(line);
                                 if (matcher.find()) {
-                                    video.setInfo( matcher.group(1));
+                                    video.setInfo(matcher.group(1));
                                     continue;
                                 }
-                                //豆瓣
-                                pattern = Pattern.compile("<span class=\\\"score sc6\\\" ></span>([^(</div>)]*)</div>");
+                                //类型 165
+                                pattern = Pattern.compile("[^<li>]<a\\s+href=\\\"/movie/list/[^>]*>([^(</a>)]*)</a>");
                                 matcher = pattern.matcher(line);
                                 if (matcher.find()) {
-                                    video.setDouban( matcher.group(1));
+                                    if (Arrays.asList(Constants.type).contains(matcher.group(1))){
+                                        video.setType(video.getType()+":"+matcher.group(1));
+                                    }else if (Arrays.asList(Constants.language).contains(matcher.group(1))){
+                                        video.setDirector(video.getDirector()+":"+matcher.group(1));
+                                    }else if (Arrays.asList(Constants.region).contains(matcher.group(1))){
+                                        video.setRegion(video.getRegion()+":"+matcher.group(1));
+                                    }
+                                    System.out.println("类型" + video.getType());
                                     continue;
                                 }
-                                //图片抓取
+                                //豆瓣 201
+                                pattern = Pattern.compile("<span\\s+class=\\\"score\\s+sc6\\\"\\s+></span>([^(</div>)]*)</div>");
+                                matcher = pattern.matcher(line);
+                                if (matcher.find()) {
+                                    video.setDouban(matcher.group(1));
+                                    continue;
+                                }
+                                //图片抓取 118
                                 pattern = Pattern.compile("img\\.mimiming\\.com[\\s\\S]*\\.jpg");
                                 matcher = pattern.matcher(line);
                                 if (matcher.find()) {
-                                    video.setCoverurl( "http://"+matcher.group(0));
+                                    video.setCoverurl("http://" + matcher.group(0));
                                     continue;
                                 }
-                                //下载链接
-                                //图片抓取
-                                pattern = Pattern.compile("(thunder:[^\"]+).*thunder[rR]es[tT]itle=\"[^\"]*\"");
-                                matcher = pattern.matcher(line);
-                                if (matcher.find()) {
-                                    video.setSubtitle( matcher.group(0));
-                                    continue;
-                                }
-
-                                //在线播放抓取
-                                pattern = Pattern.compile("/movie/[\\s\\S]*/play");
+                                //在线播放抓取 226
+                                pattern = Pattern.compile("/movie/[\\S\\s]*/play");
                                 matcher = pattern.matcher(line);
                                 if (matcher.find()) {
                                     URL rl = new URL(oldLinkHost + matcher.group(0));
-//                                    System.out.println(rl);
-                                    HttpURLConnection tion = (HttpURLConnection) rl
-                                            .openConnection();
+                                    System.out.println("开始链接第二");
+                                    HttpURLConnection tion = (HttpURLConnection) rl.openConnection();
                                     tion.setRequestMethod("GET");
-                                    tion.setConnectTimeout(2500);
-                                    tion.setReadTimeout(2500);
-//                                    System.out.println(tion.getResponseCode());
+                                    tion.setConnectTimeout(30000);
+                                    tion.setReadTimeout(30000);
+                                    tion.setInstanceFollowRedirects(true);
+                                    System.out.println(tion.getResponseCode() + "22222222222222");
                                     if (tion.getResponseCode() == 200) {
                                         InputStream stream = tion.getInputStream();
                                         BufferedReader der = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
@@ -271,32 +278,40 @@ public class VideoLinkGrab {
                                             pattern = Pattern.compile("src=\"(https://dpplay\\.zuidajiexi\\.com[\\s\\S]*)\"\\s+frameborder=");
                                             matcher = pattern.matcher(ne);
                                             if (matcher.find()) {
-                                                video.setVideourl( matcher.group(1));
+                                                System.out.println("下载地址" + matcher.group(1));
+                                                video.setVideourl(matcher.group(1));
                                                 videoLinkMap.put(title, video);
+                                                if (Xtool.isNotNull(mapping.getKey())) {
+                                                    Integer videoId = downloadService.selectBytitle(video.getTitle());
+                                                    System.out.println("id"+videoId);
+                                                    if (Xtool.isNotNull(videoId)) {
+                                                        video.setVideoid(videoId);
+                                                        System.out.println("插入");
+                                                        downloadService.updateByPrimaryKeySelective(video);
+                                                    } else {
+                                                        downloadService.VideoMapper(video);
+                                                    }
+                                                }
                                                 break;
                                             }
                                         }
                                         der.close();
                                         stream.close();
+                                        tion.disconnect();
                                     }
                                     break;
                                 }
-
-
-                                // 取出页面中的视频下载链接
-//                                pattern = Pattern.compile("(thunder:[^\"]+).*thunder[rR]es[tT]itle=\"[^\"]*\"");
+//                                //下载链接 321
+//                                pattern = Pattern.compile("(thunder:[^\"]+).*thunder[rR]es[tT]itle=\"");
 //                                matcher = pattern.matcher(line);
 //                                if (matcher.find()) {
-//                                    videoLinkMap.put(title, matcher.group(1));
-////                                    System.out.println("视频名称： "
-////                                            + title + " ------ 视频链接："
-////                                            + matcher.group(1));
-//                                    break; //当前页面已经检测完毕
+//                                    video.setSubtitle(matcher.group(0));
+//                                    break;
 //                                }
+
                             }
-                        }
-                        //电影列表页面
-                        else if (checkUrl(oldLink)) {
+                        } else if (checkUrl(oldLink)) {
+                            //电影列表页面
                             while ((line = reader.readLine()) != null) {
 
                                 pattern = Pattern

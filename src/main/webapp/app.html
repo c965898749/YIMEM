@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>下载</title>
+    <title>视频</title>
     <link rel="shortcut icon" href="statics/img/favicon.ico">
 
     <script src="jquery/jquery.js"></script>
@@ -14,6 +14,18 @@
     <script src="js/download.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     <style>
+        #textarea {
+            font-family:Arial,Helvetica,sans-serif;
+            background:none repeat scroll 0 0 #F5F7FD;
+            border:1px solid #B8BFE9;
+            padding:5px 7px;
+            width:420px;
+            /*vertical-align:middle;*/
+            height:130px;
+            font-size:12px;
+            margin:0;
+            list-style:none outside none;
+        }
 
         #app_html {
             border-bottom: 2px red solid;
@@ -22,8 +34,12 @@
         .videotile {
 
             overflow: hidden;
-            text-overflow:ellipsis;
+            text-overflow: ellipsis;
             /*white-space: wrap;*/
+        }
+
+        .none {
+            display: none;
         }
     </style>
 </head>
@@ -35,8 +51,8 @@
 <div class="TOP">
     <div class="TOP-nav">
         <div id="home" style="cursor:pointer;">视频首页</div>
-        <div id="myresources" style="pointer-events: none;cursor: not-allowed;">我的视频</div>
-        <div id="upload" style="pointer-events: none;cursor: not-allowed;">上传视频</div>
+        <!--<div id="myresources" style="pointer-events: none;cursor: not-allowed;">我的视频</div>-->
+        <!--<div id="upload" style="pointer-events: none;cursor: not-allowed;">上传视频</div>-->
     </div>
 </div>
 <div class="NAV">
@@ -46,101 +62,100 @@
                 <div class="top-lef" style="width: 60px!important; ">
                     语言
                 </div>
-                <div class="top-rig">
-                    <a href="javascript:void(0)">全部</a>
-                    <a href="javascript:void(0)">国语</a>
-                    <a href="javascript:void(0)">粤语</a>
-                    <a href="javascript:void(0)">英语</a>
-                    <a href="javascript:void(0)">韩语</a>
-                    <a href="javascript:void(0)">日语</a>
-                    <a href="javascript:void(0)">法语</a>
-                    <a href="javascript:void(0)">其他</a>
+                <div class="top-rig" id="top-rig">
+                    <a href="javascript:void(0)" data-value="">全部</a>
+                    <a href="javascript:void(0)" data-value="国语">国语</a>
+                    <a href="javascript:void(0)" data-value="粤语">粤语</a>
+                    <a href="javascript:void(0)" data-value="英语">英语</a>
+                    <a href="javascript:void(0)" data-value="韩语">韩语</a>
+                    <a href="javascript:void(0)" data-value="日语">日语</a>
+                    <a href="javascript:void(0)" data-value="法语">法语</a>
+                    <a href="javascript:void(0)" data-value="其他">其他</a>
                 </div>
             </div>
             <div class="top" style="padding: 10px">
                 <div class="top-lef">
                     类型
                 </div>
-                <div class="top-rig" id="top-rig">
-                    <a href="javascript:void(0)">全部</a>
-                    <a href="javascript:void(0)">动作</a>
-                    <a href="javascript:void(0)">喜剧</a>
-                    <a href="javascript:void(0)">爱情</a>
-                    <a href="javascript:void(0)">科幻</a>
-                    <a href="javascript:void(0)">灾难</a>
-                    <a href="javascript:void(0)">恐怖</a>
-                    <a href="javascript:void(0)">悬疑</a>
-                    <a href="javascript:void(0)">奇幻</a>
-                    <a href="javascript:void(0)">战争</a>
-                    <a href="javascript:void(0)">悬疑</a>
-                    <a href="javascript:void(0)">犯罪</a>
-                    <a href="javascript:void(0)">惊悚</a>
-                    <a href="javascript:void(0)">动画</a>
-                    <a href="javascript:void(0)">伦理</a>
-                    <a href="javascript:void(0)">剧情</a>
-                    <a href="javascript:void(0)">冒险</a>
-                    <a href="javascript:void(0)">历史</a>
-                    <a href="javascript:void(0)">家庭</a>
-                    <a href="javascript:void(0)">歌舞</a>
-                    <a href="javascript:void(0)">传记</a>
-                    <a href="javascript:void(0)">音乐</a>
-                    <a href="javascript:void(0)">西部</a>
-                    <a href="javascript:void(0)">运动</a>
-                    <a href="javascript:void(0)">古装</a>
-                    <a href="javascript:void(0)">家庭</a>
-                    <a href="javascript:void(0)">情色</a>
-                    <a href="javascript:void(0)">同性</a>
-                    <a href="javascript:void(0)">武侠</a>
-                    <a href="javascript:void(0)">短片</a>
-                    <a href="javascript:void(0)">黑色电影</a>
-                    <a href="javascript:void(0)">儿童</a>
-                    <a href="javascript:void(0)">舞台艺术</a>
-                    <a href="javascript:void(0)">纪录片</a>
-                    <a href="javascript:void(0)">鬼怪</a>
+                <div class="top-rig" id="top-rig2">
+                    <a href="javascript:void(0)" data-value="">全部</a>
+                    <a href="javascript:void(0)" data-value="动作">动作</a>
+                    <a href="javascript:void(0)" data-value="喜剧">喜剧</a>
+                    <a href="javascript:void(0)" data-value="爱情">爱情</a>
+                    <a href="javascript:void(0)" data-value="科幻">科幻</a>
+                    <a href="javascript:void(0)" data-value="灾难">灾难</a>
+                    <a href="javascript:void(0)" data-value="恐怖">恐怖</a>
+                    <a href="javascript:void(0)" data-value="奇幻">奇幻</a>
+                    <a href="javascript:void(0)" data-value="战争">战争</a>
+                    <a href="javascript:void(0)" data-value="悬疑">悬疑</a>
+                    <a href="javascript:void(0)" data-value="犯罪">犯罪</a>
+                    <a href="javascript:void(0)" data-value="惊悚">惊悚</a>
+                    <a href="javascript:void(0)" data-value="动画">动画</a>
+                    <a href="javascript:void(0)" data-value="伦理">伦理</a>
+                    <a href="javascript:void(0)" data-value="剧情">剧情</a>
+                    <a href="javascript:void(0)" data-value="冒险">冒险</a>
+                    <a href="javascript:void(0)" data-value="历史">历史</a>
+                    <a href="javascript:void(0)" data-value="家庭">家庭</a>
+                    <a href="javascript:void(0)" data-value="歌舞">歌舞</a>
+                    <a href="javascript:void(0)" data-value="传记">传记</a>
+                    <a href="javascript:void(0)" data-value="音乐">音乐</a>
+                    <a href="javascript:void(0)" data-value="西部">西部</a>
+                    <a href="javascript:void(0)" data-value="运动">运动</a>
+                    <a href="javascript:void(0)" data-value="古装">古装</a>
+                    <a href="javascript:void(0)" data-value="家庭">家庭</a>
+                    <a href="javascript:void(0)" data-value="情色">情色</a>
+                    <a href="javascript:void(0)" data-value="同性">同性</a>
+                    <a href="javascript:void(0)" data-value="武侠">武侠</a>
+                    <a href="javascript:void(0)" data-value="短片">短片</a>
+                    <a href="javascript:void(0)" data-value="黑色电影">黑色电影</a>
+                    <a href="javascript:void(0)" data-value="儿童">儿童</a>
+                    <a href="javascript:void(0)" data-value="舞台艺术">舞台艺术</a>
+                    <a href="javascript:void(0)" data-value="纪录片">纪录片</a>
+                    <a href="javascript:void(0)" data-value="鬼怪">鬼怪</a>
                 </div>
             </div>
             <div class="top" style="padding: 10px">
                 <div class="top-lef" style="width: 60px!important; ">
                     年代
                 </div>
-                <div class="top-rig">
-                    <a href="javascript:void(0)">全部</a>
-                    <a href="javascript:void(0)">2020</a>
-                    <a href="javascript:void(0)">2019</a>
-                    <a href="javascript:void(0)">2018</a>
-                    <a href="javascript:void(0)">2017</a>
-                    <a href="javascript:void(0)">2016</a>
-                    <a href="javascript:void(0)">2015</a>
-                    <a href="javascript:void(0)">2014</a>
-                    <a href="javascript:void(0)">2013</a>
-                    <a href="javascript:void(0)">2012</a>
-                    <a href="javascript:void(0)">2011</a>
-                    <a href="javascript:void(0)">2010</a>
-                    <a href="javascript:void(0)">2009</a>
-                    <a href="javascript:void(0)">2008及以前</a>
+                <div class="top-rig" id="top-rig3">
+                    <a href="javascript:void(0)" data-value="">全部</a>
+                    <a href="javascript:void(0)" data-value="2020">2020</a>
+                    <a href="javascript:void(0)" data-value="2019">2019</a>
+                    <a href="javascript:void(0)" data-value="2018">2018</a>
+                    <a href="javascript:void(0)" data-value="2017">2017</a>
+                    <a href="javascript:void(0)" data-value="2016">2016</a>
+                    <a href="javascript:void(0)" data-value="2015">2015</a>
+                    <a href="javascript:void(0)" data-value="2015">2015</a>
+                    <a href="javascript:void(0)" data-value="2013">2013</a>
+                    <a href="javascript:void(0)" data-value="2012">2012</a>
+                    <a href="javascript:void(0)" data-value="2011">2011</a>
+                    <a href="javascript:void(0)" data-value="2010">2010</a>
+                    <a href="javascript:void(0)" data-value="2009">2009</a>
+                    <a href="javascript:void(0)" data-value="2008及以前">2008及以前</a>
                 </div>
             </div>
             <div class="top" style="padding: 10px">
                 <div class="top-lef" style="width: 60px!important; ">
                     地区
                 </div>
-                <div class="top-rig">
-                    <a href="javascript:void(0)">全部</a>
-                    <a href="javascript:void(0)">大陆</a>
-                    <a href="javascript:void(0)">香港</a>
-                    <a href="javascript:void(0)">台湾</a>
-                    <a href="javascript:void(0)">美国</a>
-                    <a href="javascript:void(0)">法国</a>
-                    <a href="javascript:void(0)">英国</a>
-                    <a href="javascript:void(0)">日本</a>
-                    <a href="javascript:void(0)">韩国</a>
-                    <a href="javascript:void(0)">德国</a>
-                    <a href="javascript:void(0)">泰国</a>
-                    <a href="javascript:void(0)">印度</a>
-                    <a href="javascript:void(0)">意大利</a>
-                    <a href="javascript:void(0)">西班牙</a>
-                    <a href="javascript:void(0)">加拿大</a>
-                    <a href="javascript:void(0)">其他</a>
+                <div class="top-rig" id="top-rig4">
+                    <a href="javascript:void(0)" data-value="">全部</a>
+                    <a href="javascript:void(0)" data-value="大陆">大陆</a>
+                    <a href="javascript:void(0)" data-value="香港">香港</a>
+                    <a href="javascript:void(0)" data-value="台湾">台湾</a>
+                    <a href="javascript:void(0)" data-value="美国">美国</a>
+                    <a href="javascript:void(0)" data-value="法国">法国</a>
+                    <a href="javascript:void(0)" data-value="英国">英国</a>
+                    <a href="javascript:void(0)" data-value="日本">日本</a>
+                    <a href="javascript:void(0)" data-value="韩国">韩国</a>
+                    <a href="javascript:void(0)" data-value="德国">德国</a>
+                    <a href="javascript:void(0)" data-value="泰国">泰国</a>
+                    <a href="javascript:void(0)" data-value="印度">印度</a>
+                    <a href="javascript:void(0)" data-value="意大利">意大利</a>
+                    <a href="javascript:void(0)" data-value="西班牙">西班牙</a>
+                    <a href="javascript:void(0)" data-value="加拿大">加拿大</a>
+                    <a href="javascript:void(0)" data-value="其他">其他</a>
                 </div>
             </div>
             <div class="snsearch">
@@ -156,13 +171,13 @@
 
         <!--</div>-->
         <div class="downloadlist" id="downloadlist" style="display: flex;background: #F5F6F7">
-            <div style="font-size: 14px;height: 30px;width:50px;text-align: center;line-height: 30px;border: #dedede 1px solid;border-bottom: none;background: white">
+            <div data-value="1" style="font-size: 14px;height: 30px;width:50px;text-align: center;line-height: 30px;border: #dedede 1px solid;border-bottom: none;background: white;cursor:pointer">
                 最新
             </div>
-            <div style="font-size: 14px;height: 30px;width:50px;text-align: center;line-height: 30px;border: #dedede 1px solid;background: white">
+            <div data-value="3" style="font-size: 14px;height: 30px;width:50px;text-align: center;line-height: 30px;border: #dedede 1px solid;background: white;cursor:pointer">
                 热门
             </div>
-            <div style="font-size: 14px;height: 30px;width:50px;text-align: center;line-height: 30px;border: #dedede 1px solid;background: white">
+            <div data-value="2" style="font-size: 14px;height: 30px;width:50px;text-align: center;line-height: 30px;border: #dedede 1px solid;background: white;cursor:pointer">
                 好评
             </div>
         </div>
@@ -170,56 +185,17 @@
 
 
         </div>
-        <div id="pageContainer" style="margin-left: 200px" ></div>
+        <div id="pageContainer" style="margin-left: 200px"></div>
     </div>
     <div class="NAV-mian-right">
         <div class="ad">
             <img src="imgs/ad/blog/cd18.png"/>
         </div>
-        <div class="upload" id="uploadIndex">
-
+        <div class="upload" id="uploadIndex" onclick="uploadIndex()" style="background: #EBEDF2;text-align: center;font-size: 14px;color: #868B96;border: 2px #E3E5EB solid;cursor: pointer ">
+            留言求片
         </div>
         <div class="recommend">
-            <div class="top" style="display: flex;justify-content : space-between;">
-                <div class="left">
-                    <span style="font-size: 16px;">精品推荐</span>
-                </div>
-                <div class="right">
-								<span style="color: #888;font-size: 14px;">
-								更多
-							     </span>
-                </div>
-            </div>
-            <div class="list">
-                <div class="title">
-                    机器学习极简入门课
-                </div>
-                <div class="author" style="border-bottom: 1px #E6E6E6 solid;height: 30px;margin-top: 10px;">
-							<span style="color: #888;font-size: 14px;">
-									作者/分享人：李烨 · 微软高级软件工程师
-							     </span>
-                </div>
-            </div>
-            <div class="list">
-                <div class="title">
-                    机器学习极简入门课
-                </div>
-                <div class="author" style="border-bottom: 1px #E6E6E6 solid;height: 30px;margin-top: 10px;">
-							<span style="color: #888;font-size: 14px;">
-									作者/分享人：李烨 · 微软高级软件工程师
-							     </span>
-                </div>
-            </div>
-            <div class="list">
-                <div class="title">
-                    机器学习极简入门课
-                </div>
-                <div class="author" style="border-bottom: 1px #E6E6E6 solid;height: 30px;margin-top: 10px;">
-							<span style="color: #888;font-size: 14px;">
-									作者/分享人：李烨 · 微软高级软件工程师
-							     </span>
-                </div>
-            </div>
+
         </div>
         <div class="yimem_gg">
             <img src="imgs/ad/blog/cd17.png">
@@ -250,227 +226,7 @@
         </div>
     </div>
 </div>
-<div class="NAV-myresouces">
-    <div class="top-user" style="display:flex;padding: 10px">
-        <div>
-            <div class="top" id="top" style="width: 500px;">
 
-
-            </div>
-            <div class="count" id="count" style="width:500px ">
-
-            </div>
-        </div>
-
-        <div class="top-rig">
-            <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-            <div id="main" style="width: 500px;height:250px;"></div>
-        </div>
-    </div>
-    <div class="NAV-myresouces-mian">
-        <div class="main-lf">
-            <div style="width: 890px;height: 42px;background-color:#EEF1F3;line-height: 42px;display: flex;">
-                <div id="uploadcld"
-                     style="font-size: 16px;color: red;background-color: white;padding-left: 20px;width: 120px;height: 42px;cursor: pointer;">
-                    上传资源
-                </div>
-                <div id="integralcld"
-                     style="font-size: 16px;color: red;padding-left: 20px;width: 120px;height: 42px; cursor: pointer;">
-                    积分明细
-                </div>
-                <div id="downcld"
-                     style="font-size: 16px;color: red;padding-left: 20px;width: 120px;height: 42px;cursor: pointer;">
-                    下载明细
-                </div>
-                <div id="collentcld"
-                     style="font-size: 16px;color: red;padding-left: 20px;width: 120px;height: 42px; cursor: pointer;">
-                    我的收藏夹
-                </div>
-            </div>
-            <div class="myintegrals">
-                <div class="lists">
-                    <table class="layui-table">
-                        <colgroup>
-                            <col width="180">
-                            <col width="180">
-                            <col width="180">
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>积分明细</th>
-                            <th>记录时间</th>
-                            <th>资源名称</th>
-                        </tr>
-                        </thead>
-                        <tbody id="mixi">
-
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-            <div class="myresouces" id="myresouces">
-                <div class="nav">
-                    <div id="allupload" onclick="allupload()" style="cursor: pointer;">全部</div>
-                    <div id="waitpassupload" onclick="waitpassupload()" style="cursor: pointer;">待审核</div>
-                    <div id="passupload" onclick="passupload()" style="cursor: pointer;">已通过</div>
-                    <div id="nopassupload" onclick="nopassupload()" style="cursor: pointer;">未通过</div>
-                </div>
-                <div class="lists" id="Invitation">
-
-
-                </div>
-            </div>
-
-        </div>
-        <div class="main-rt">
-            <div class="upload">
-                <input type="button" value="上传资源" class="uploadbtn">
-            </div>
-            <div class="weichat">
-                <div class="yimem_gg">
-                    <img src="imgs/ad/blog/cd17.png">
-                </div>
-                <!--<img src="imgs/introduce/csdn.png">-->
-                <div class="yimem_bz" style="background-color: white;margin-top: 10px;">
-                    <div style="width:300px;margin:0 auto">
-                        <img src="imgs/gz/gz.jpg" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
-                             alt="">
-                        <img src="imgs/gz/eduwxfix.png"
-                             style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
-                             alt="">
-                    </div>
-                    <div style="padding-bottom: 5px;margin: 0 auto;width: 250px ;border-bottom: 1px #E0E0E0 solid"><span
-                            style="color:#8B8B8B;margin-left: 15px">YIMEM公众号</span><span
-                            style="color:#8B8B8B;margin-left: 60px">IT学院</span></div>
-                    <div style="padding-top: 5px;margin: 0 auto;width: 250px"><span
-                            style="color:#3D3D3D;font-weight: bold;margin-left: 20px">关于我们</span>
-                        <span
-                                style="color:#3D3D3D;margin-left: 20px">网站地图</span><span
-                                style="color:#3D3D3D;margin-left: 20px">广告服务</span></div>
-                    <div style="width:300px;margin:0 auto; padding:20px 0;">
-                        <img src="imgs/jh/jh.png" style="margin-left: 30px;margin-top: -15px" alt=""> <a target="_blank"
-                                                                                                         href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32061202001097"
-                                                                                                         style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
-                            src="" style="float:left;"/>
-                        <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
-                            32061202001097号</p></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
-<div class="NAV-upload">
-
-    <div class="main">
-        <span style="float: left;margin-top: -20px;display: inline-block;border-left: 3px red solid;font-size: 16px;color: #4a4a4a;font-weight: bold">上传资源</span>
-        <input id="pic" type="file" style="opacity: 0;">
-        <table id="chooseImage"
-               style="cursor: pointer;margin-bottom: 20px;margin-left: 35px;margin-top: 10px;width: 1100px;height:100px;background-color: #F3F9FF"
-               border="0" cellspacing="0" cellpadding="0" align="center">
-            <tr>
-                <td align="center" style="position: absolute" id="">
-                    <div id="progressPersent" style="position: relative;left: 400px;top:30px">点击上传文件</div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <!-- 红色部分 -->
-                    <table width="0%" border="0" cellspacing="0" cellpadding="0" style="background-color: #9DD568"
-                           id="progress">
-                        <tr>
-                            <td id="neirong" style="height: 99px"></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-        <form class="layui-form" action="" onSubmit="return false;" style="margin-left: 150px">
-            <div>
-                <input type="hidden" name="username">
-            </div>
-            <div>
-                <input type="hidden" name="size">
-            </div>
-            <div>
-                <input type="hidden" name="src">
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">资源名称</label>
-                <div class="layui-input-block">
-                    <input style="width: 520px" type="text" name="title" lay-verify="required" lay-reqtext="资源名称不能为空？"
-                           placeholder="请输入资源名称" autocomplete="off" class="layui-input" maxlength="50">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">资源类型</label>
-                <div class="layui-input-inline">
-                    <select name="leixin" lay-verify="required">
-                        <option value="">资源类型</option>
-                        <option value="文档类" selected="">文档类</option>
-                        <option value="代码类">代码类</option>
-                        <option value="工具类">工具类</option>
-                        <option value="其他">其他</option>
-                    </select>
-                </div>
-                <label class="layui-form-label">设置金额</label>
-                <div class="layui-input-inline">
-                    <select name="price" lay-verify="required">
-                        <option value="">金额值</option>
-                        <option value="5" selected="">5积分</option>
-                        <option value="2">2积分</option>
-                        <option value="0">0积分</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">所属分类</label>
-                <div class="layui-input-inline">
-                    <select name="categoryid" lay-verify="required" id="category1" lay-filter="cate1">
-
-                    </select>
-                </div>
-                <div class="layui-input-inline">
-                    <select name="categoryid2" lay-verify="required" id="category2">
-
-                    </select>
-                </div>
-            </div>
-
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">资源描述</label>
-                <div class="layui-input-block">
-                            <textarea style="width: 520px" placeholder="请输入内容" name="intro" class="layui-textarea"
-                                      lay-verify="required" maxlength="200"></textarea>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="createComment"
-                            style="background-color: red;color: white;">提交
-                    </button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                </div>
-            </div>
-        </form>
-
-
-    </div>
-    <div class="flooter">
-        <div style="width:300px;margin:0 auto; padding:20px 0;">
-            <img src="imgs/jh/jh.png" style="margin-left: 30px;margin-top: -15px" alt=""> <a target="_blank"
-                                                                                             href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32061202001097"
-                                                                                             style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
-                src="" style="float:left;"/>
-            <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
-                32061202001097号</p></a>
-        </div>
-    </div>
-</div>
 <div class="siderBar">
     <ul>
         <li>返回</li>
@@ -487,23 +243,34 @@
 <script>
     var navH = $(".yimem_gg").offset().top;
     var page = 1;
-    var pageSize = 18;
-    var status = 1;
-    var ppid = null;
-    var title = null;
-    var mokuai = 1;
-    var categoryid = null;
-    var categoryid2 = null;
-    var leixin = null;
-    var form, laypage;
-    var colorpicker, upload, layer;
-    var type = 0;
+    var pageSize = 24;
+    var state = 1;
+    var laypage;
+    var layer;
+    var type = "";
+    var director = "";
+    var createtime = "";
+    var region = "";
+    var title = "";
     //获取登入者ID
     var user = getUser();
     var userid = 0;
     if (user) {
         userid = user.userId
     }
+    //引用表头
+    // $("#titleContai").load("title.html")
+    $(function () {
+        ajaxGetInvitation(1)
+        $(".myintegrals").hide()
+        taplan(getQueryString("type"))
+        jinpin();
+        $("#allupload").css("background-color", "red")
+        $("#allupload").css("color", "white")
+        $("#allupload").siblings().css("background-color", "")
+        $("#allupload").siblings().css("color", "black")
+
+    });
 
     function renderPager(totalCount) {
         laypage = layui.laypage;
@@ -513,7 +280,7 @@
             , limit: pageSize
             , curr: page
             , limits: [3, 5, 10, 20, 30, 40, 50]
-            , layout: [ 'prev', 'page', 'next', 'skip']
+            , layout: ['prev', 'page', 'next', 'skip']
             , jump: function (obj, first) {
                 //obj包含了当前分页的所有参数，比如：
                 //////////////////////console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
@@ -523,9 +290,9 @@
                 if (!first) {
 
                     //把分页值，和分页量（分页量可能会变化）
-                    page= obj.curr;
+                    page = obj.curr;
                     pageSize = obj.limit;
-
+                    ajaxGetInvitation(page)
                 }
             }
         });
@@ -535,20 +302,40 @@
     function ajaxGetInvitation(page) {
         $.ajax({
             url: "getVideo"
-            , type: "GET"
-            , data: {"pageNum": page}
-            , dataType: "json"
+            ,
+            type: "GET"
+            ,
+            data: {
+                "pageNum": page,
+                "state": state,
+                "createtime": createtime,
+                "director": director,
+                "region": region,
+                "type": type,
+                "title": title
+            }
+            ,
+            dataType: "json"
             // , async: false
-            , success: function (jsonData) {
-                console.log(jsonData)
+            ,
+            success: function (jsonData) {
+                // console.log(jsonData)
+                $(".contextlist").empty()
                 var data = jsonData.data;
                 var html = "";
                 $.each(data, function (k, v) {
+                    var guoyu = null;
+                    var y = v.director.replace(/:/g, " ")
+                    var reg = RegExp(/国语/);
+                    if (reg.test(y)) {
+                        guoyu = "国语";
+                    }
                     //////////////////////console.log(v)
                     html += ` <div class="videolist" style="margin: 5px;width: 135px;height: 245px;">
                 <a href="appDetail.html?videoid=${v.videoid}">
                     <div class="img" style="width: 135px;height: 170px;position: relative">
-                    <div style="position: absolute;background: #F57C00;padding: 5px;color: white">${v.douban}</div>
+                    <div class="${v.douban == null ? 'none' : ''}" style="position: absolute;background: #F57C00;padding: 5px;color: white">${v.douban}</div>
+                    <div class="${guoyu == null ? 'none' : ''}" style="position: absolute;background: #FFE600;border: 1px white solid;padding: 3px;color: black;left: 103px;font-size: 12px;top:147px">国语</div>
                         <img src="${v.coverurl}" style="width: 100%;height: 100%" alt="">
                     </div>
                     <div class="videotile" style="width: 135px;height: 35px;margin-top: 5px;text-align: center;">
@@ -561,81 +348,51 @@
                 $(".contextlist").append(html);
                 renderPager(jsonData.count)
             }
-            , error: function (res) {
+            ,
+            error: function (res) {
                 //////////////////////////console.log("ajax提交错误")
             }
         })
     }
-    //引用表头
-    // $("#titleContai").load("title.html")
-    $(function () {
+
+    // 点击变色
+    $(".downloadlist").on("click", "div", function () {
+        console.log(11111)
+        $(this).css("border-bottom", "none")
+        $(this).siblings().css("border-bottom", "#dedede 1px solid")
+        state = $(this).attr('data-value');
+        console.log(state)
         ajaxGetInvitation(1)
-        resourceProp()
-        $(".myintegrals").hide()
-        taplan(getQueryString("type"))
-        // $("header").load('title.html')
-        // ajaxGetInvitation(1, 4)
-        getResources();
-        getMenu();
-        jinpin();
-        $("#allupload").css("background-color", "red")
-        $("#allupload").css("color", "white")
-        $("#allupload").siblings().css("background-color", "")
-        $("#allupload").siblings().css("color", "black")
-        // 页面渲染
-        if (userid == 0) {
-            var html = ` <a href="login.html"><img src="imgs/btn/blog/_20190819134729.png" alt=""style="margin-left: -20px;margin-top: -20px"></a>`
-            $("#uploadIndex").append(html)
-        } else {
-            var html = ` <div class="top">
-                        <div class="top-lef"><a href="perInfor.html?viewUserId=` + userid + `&type=blog">
-                        <img class="headimg" style="width: 48px;height: 48px;border-radius: 24px;"
-                                 src="` + user.headImg + `"/>
-                            </a>
+    })
+    // 点击变色
+    $("#top-rig").on("click", "a", function () {
+        $(this).css("color", "red")
+        $(this).siblings().css("color", "black")
+        director = $(this).attr('data-value');
+    })
+    // 点击变色
+    $("#top-rig2").on("click", "a", function () {
+        $(this).css("color", "red")
+        $(this).siblings().css("color", "black")
+        type = $(this).attr('data-value');
+    })
+    // 点击变色
+    $("#top-rig3").on("click", "a", function () {
+        $(this).css("color", "red")
+        $(this).siblings().css("color", "black")
+        createtime = $(this).attr('data-value');
+    })
+    // 点击变色
+    $("#top-rig4").on("click", "a", function () {
+        $(this).css("color", "red")
+        $(this).siblings().css("color", "black")
+        region = $(this).attr('data-value');
+    })
 
-                        </div>
-                        <div class="top-rig">
-                            <div class="username">
-                                <a href="">` + user.username + `</a>
-                            </div>
-                            <div class="grade">
-                                <div class="img">
-                                    <img src="imgs/icons/blog/down1.png"/>
-                                </div>
-                                <div class=="context">
-									<span style="color: #888;font-size: 12px;">
-								下载积分：
-							     </span>
-                                    <span style="color: red;">` + user.downloadmoney + `</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="foolt">
-                        <input type="button" value="上传资源" class="uploadbtn" onclick="uploadclick()">
-                    </div>`;
-            $("#uploadIndex").append(html)
-        }
-    });
-
-
-    //获取占比
-    function resourceProp() {
-        $.ajax({
-            url: "resourceProp"
-            , type: "get"
-            , dataType: "json"
-            , success: function (jsonData) {
-                //////////////////////////console.log(jsonData)
-                if (jsonData.success == 1) {
-                    var data = jsonData.data;
-                    bandin(data)
-                }
-            }
-            , error: function (res) {
-                //////////////////////////console.log("ajax提交错误")
-            }
-        })
+    function searchbtn() {
+        title = $("input[name='search']").val()
+        console.log(director+";"+region+";"+createtime+";"+type)
+        ajaxGetInvitation(1)
     }
 
     window.onscroll = function () {
@@ -651,70 +408,6 @@
 
     }
 
-    function bandin(data) {
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
-
-        // 指定图表的配置项和数据
-        var app = {};
-        option = null;
-        option = {
-            title: {
-                text: '个人资源情况',
-                subtext: '资源占比',
-                left: 'center'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b} : {c} ({d}%)'
-            },
-            // 文档类 工具类 代码类 其他
-            legend: {
-                orient: 'vertical',
-                left: 'left',
-                data: ['文档类', '工具类', '代码类', '其他类']
-            },
-            series: [
-                {
-                    name: '资源占比',
-                    type: 'pie',
-                    radius: '55%',
-                    center: ['50%', '60%'],
-                    data: (function () {
-                        var res = [];
-                        res.push({
-                            name: '文档类',
-                            value: data["文档类"]
-                        })
-                        res.push({
-                            name: '工具类',
-                            value: data["工具类"]
-                        })
-                        res.push({
-                            name: '代码类',
-                            value: data["代码类"]
-                        })
-                        res.push({
-                            name: '其他类',
-                            value: data["其他"]
-                        })
-                        return res;
-                    })(),
-                    emphasis: {
-                        itemStyle: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }
-                }
-            ]
-        };
-        ;
-        if (option && typeof option === "object") {
-            myChart.setOption(option, true);
-        }
-    }
 
     var timer = null;
     document.getElementById("btn").onclick = function () {
@@ -730,6 +423,30 @@
         });
     }
 
+    function uploadIndex() {
+        layer.open({
+            type: 1,
+            area: ['440px', '250px'],
+            content: '<textarea id="textarea" rows="4" placeholder="留下你最想看的影视……#^_^#"></textarea>'
+            ,btn: ['发送', '取消']
+            ,title:['留言','color:white;background-color:#3BB9B6;']
+            ,yes: function(index, layero){
+                //按钮【按钮一】的回调
+                layer.closeAll()
+            }
+            ,btn2: function(index, layero){
+                //按钮【按钮二】的回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+            ,cancel: function(){
+                //右上角关闭回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
+    }
+    
     //精品渲染
     function jinpin() {
         $.ajax({
@@ -741,11 +458,11 @@
 
                 var html = ` <div class="top" style="display: flex;justify-content : space-between;">
                 <div class="left">
-                    <span style="font-size: 16px;">精品推荐</span>
+                    <span style="font-size: 14px;color: #868B96">精品推荐</span>
                 </div>
                 <div class="right">
                     <span style="color: #888;font-size: 14px;">
-                    <a href="blog_page.html">更多</a>
+                    <a href="blog_page.html" style="font-size: 14px;color: #868B96">更多</a>
                     </span>
                 </div>
             </div>`;
@@ -864,92 +581,6 @@
         return null;
     }
 
-
-    // 点击变色
-    $("#top-rig").on("click", "a", function () {
-        categoryid = $(this).find(".feilei").val()
-        categoryid2 = null
-        $(this).css("color", "red")
-        $(this).siblings().css("color", "black")
-        $("#cldtop-rig").show()
-        ////////////////////////////console.log(category)
-        getResources();
-        ppid = categoryid
-        zicaidan(ppid)
-    })
-
-    $("#cldtop-rig").on("click", "a", function () {
-        categoryid = null
-        categoryid2 = $(this).find(".feilei").val()
-        $(this).css("color", "red")
-        $(this).siblings().css("color", "black")
-        ////////////////////////////console.log(category)
-        getResources();
-    })
-
-    // 渲染子菜单
-    function zicaidan(ppid) {
-        if (ppid != null) {
-            $.ajax({
-                url: "findCategoryByPid"
-                , type: "GET"
-                , data: {"pid": ppid}
-                , dataType: "json"
-                // , async: false
-                , success: function (jsonData) {
-                    //////////////////////console.log(jsonData)
-                    var data = jsonData.data;
-                    var html = '';
-                    $.each(data, function (k, v) {
-                        //////////////////////console.log(v)
-                        html += `<a href="javascript:void(0)" style="margin-left: 10px"> <input class="feilei" type="hidden" value="` + v.id + `">` + v.categoryname + `</a>`;
-                    });
-                    $("#cldtop-rig").html(html)
-
-                }
-                , error: function (res) {
-                    //////////////////////////console.log("ajax提交错误")
-                }
-            })
-        }
-
-    }
-
-    // 类型分类
-    $(".foolt-rig").on("click", "a", function () {
-        value = $(this).text()
-        if (value == "文档类") {
-            leixin = "文档类"
-        }
-        if (value == "代码类") {
-            leixin = "代码类"
-        }
-        if (value == "工具类") {
-            leixin = "工具类"
-        }
-        if (value == "其他") {
-            leixin = "其他"
-        }
-        ////////////////////////////console.log(leixin)
-        $(this).css("color", "red")
-        $(this).siblings().css("color", "black")
-        getResources();
-    })
-
-    // 搜索
-    function searchbtn() {
-        title = $("input[name='search']").val()
-        ////////////////////////console.log(title)
-        getResources();
-    }
-
-    // vip
-    function vipbtn() {
-        //////////////////////////console.log("vip")
-        location.href = "vip.html"
-    }
-
-    // 用户详细
 
     //获取当前用户
     function getUser() {
