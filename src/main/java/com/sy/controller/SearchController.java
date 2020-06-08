@@ -65,5 +65,15 @@ public class SearchController {
         }
         return baseResp;
     }
+    @RequestMapping(value = "searchVideo",method = RequestMethod.GET)
+    public BaseResp queryVideo(String key,HttpServletResponse response){
+        BaseResp baseResp = searchService.queryVideo(key);
+        if (baseResp.getSuccess()==404){
+            response.setStatus(404);
+        }else {
+            response.setStatus(200);
+        }
+        return baseResp;
+    }
 
 }

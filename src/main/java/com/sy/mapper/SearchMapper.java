@@ -11,5 +11,7 @@ public interface SearchMapper {
     List<Invitation> queryForum(String key);
     //搜索问答
     List<Ask> queryAsk(String key);
+    //搜索视频
+    List<Video> queryVideo(String key);
 
 }

@@ -92,6 +92,22 @@ public class SearchServiceImpl implements SearchService {
         }
         return baseResp;
     }
+    @Override
+    public BaseResp queryVideo(String key) {
+        BaseResp baseResp = new BaseResp();
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("%");
+        stringBuffer.append(key);
+        stringBuffer.append("%");
+        List<Video> askList = searchMapper.queryVideo(stringBuffer.toString());
+        if (askList.size()!=0){
+            baseResp.setSuccess(200);
+            baseResp.setData(askList);
+        }else {
+            baseResp.setSuccess(404);
+        }
+        return baseResp;
+    }
 
     @Override
     public BaseResp queryAll(String key) {
@@ -105,11 +121,12 @@ public class SearchServiceImpl implements SearchService {
         List<Ask> askList = searchMapper.queryAsk(stringBuffer.toString());
         List<Invitation> forumList = searchMapper.queryForum(stringBuffer.toString());
         List<Upload> uploadList = searchMapper.queryDownload(stringBuffer.toString());
+        List<Video> videos = searchMapper.queryVideo(stringBuffer.toString());
         list.add(blogList);
         list.add(forumList);
         list.add(askList);
         list.add(uploadList);
-
+        list.add(videos);
         if (!CollectionUtils.isEmpty(list)){
             baseResp.setSuccess(200);
             baseResp.setData(list);

@@ -169,9 +169,9 @@
     width: 596px;
     height: 63px;
     display: inline;
-    float: left;
-    margin-left: 61px;
-    margin-top: 35px;
+    /*float: left;*/
+    margin-left: 10px;
+    /*margin-top: 35px;*/
     text-align: left;
 }
 
@@ -192,7 +192,7 @@
     margin-left: 154px;
     margin-top: 0px;
     display: inline;
-    float: left;
+    /*float: left;*/
 }
 
 .reply {
