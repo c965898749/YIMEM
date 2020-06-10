@@ -88,7 +88,8 @@ public class DESUtil {
             // 返回解密之后的信息
             return new String(doFinal, CHARSETNAME);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+           return null;
+        }finally {
         }
     }
 

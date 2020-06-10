@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <title>下载</title>
     <link rel="shortcut icon" href="statics/img/favicon.ico">
-
+    <script src="js/setCookie.js"></script>
     <script src="jquery/jquery.js"></script>
     <link rel="stylesheet" href="css/siderBar2.css">
     <link rel="stylesheet" type="text/css" href="css/css.css"/>
     <link rel="stylesheet" type="text/css" href="layui/css/layui.css" media="all"/>
     <script src="js/include.js"></script>
     <script src="js/download.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
     <style>
 
         #down_load {
@@ -1424,9 +1424,29 @@
                         </span> <span style="color: #ff9358;font-size: 32px;">
                             ` + v.price + `
                         </span>
+                        <i class="layui-icon layui-icon-delete"></i>
                     </div>
                 </div>`;
                     $("#Invitation").append(html);
+                })
+                $(".layui-icon-delete").click(function () {
+                    var id = $(this).parents(".list").attr("data-id")
+                    if (id!=null){
+                        $.ajax({
+                            url: "/upload/remove"
+                            , type: "get"
+                            , dataType: "json"
+                            , data: {"id": id}
+                            , success: function (jsonData) {
+                                ////////////////console.log(jsonData)
+                                layer.msg(jsonData.errorMsg);
+                                ajaxGetInvitation(page2, pageSize2)
+                                resourceProp()
+                            }
+                            , error: function (res) {
+                                //////////////////////////console.log("ajax提交错误")
+                            }
+                        })}
                 })
                 renderPager(jsonData.count, 1)
             },

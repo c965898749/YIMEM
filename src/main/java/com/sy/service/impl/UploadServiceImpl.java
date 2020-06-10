@@ -59,7 +59,7 @@ public class UploadServiceImpl implements UploadService {
 
     @Override
     public Integer remove(Integer userid, Integer id) throws CsdnExpection {
-        return null;
+        return mapper.delete(userid,id);
     }
 
     @Override
@@ -86,10 +86,10 @@ public class UploadServiceImpl implements UploadService {
 
 //    获取资源数
 
-//    @Override
-//    public Integer findAllCount(Upload download) throws CsdnExpection{
-//        return mapper.selectAllCount(download);
-//    }
+    @Override
+    public Integer findAllCount(Upload download) throws CsdnExpection{
+        return mapper.selectAllCount(download);
+    }
 
     @Override
     public Integer modifReplyCount(Integer id, Integer replyCount) {

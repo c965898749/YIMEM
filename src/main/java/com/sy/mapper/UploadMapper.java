@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UploadMapper {
     Integer insert(Upload download);
-    Integer delete(Integer userid, Integer id);
+    Integer delete(@Param("userid") Integer userid,@Param("id") Integer id);
     List<Upload> selectAll(Upload upload);
     Integer selectCountByUserId(Upload upload);
     List<Upload>  selectByUserid(Integer userid);

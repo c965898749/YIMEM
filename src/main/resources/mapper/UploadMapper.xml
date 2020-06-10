@@ -49,6 +49,9 @@
             <if test="status !=null and status !=''">
                 and status =#{status}
             </if>
+            <if test="id !=null and id !=''">
+                and id =#{id}
+            </if>
         </trim>
         ORDER BY createtime DESC
 
@@ -62,30 +65,33 @@ select count(*) from upload where userid=#{userid} and leixin =#{leixin}
          LEFT JOIN user on `upload`.userid=`user`.userid
          where id=#{id}
     </select>
-    <!--&lt;!&ndash;查找资源数&ndash;&gt;-->
-    <!--<select id="selectAllCount" resultType="java.lang.Integer">-->
-    <!--select COUNT(*) from `csdn`.`upload`-->
-    <!--<trim prefix="where" prefixOverrides="and | or">-->
-    <!--<if test="userid !=null and userid !=''">-->
-    <!--and userid=#{userid}-->
-    <!--</if>-->
-    <!--<if test="title !=null and title !=''">-->
-    <!--and title like concat('%',#{title},'%')-->
-    <!--</if>-->
-    <!--<if test="categoryid !=null and categoryid !=''">-->
-    <!--and categoryid = #{categoryid}-->
-    <!--</if>-->
-    <!--<if test="categoryid2 !=null and categoryid2 !=''">-->
-    <!--and categoryid2 = #{categoryid2}-->
-    <!--</if>-->
-    <!--<if test="leixin !=null and leixin !=''">-->
-    <!--and leixin like concat('%',#{leixin},'%')-->
-    <!--</if>-->
-    <!--<if test="status !=null and status !=''">-->
-    <!--and status =#{status}-->
-    <!--</if>-->
-    <!--</trim>-->
-    <!--</select>-->
+    <!--查找资源数-->
+    <select id="selectAllCount" resultType="java.lang.Integer">
+        select COUNT(*) from  upload
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="userid !=null and userid !=''">
+                and userid=#{userid}
+            </if>
+            <if test="title !=null and title !=''">
+                and title like concat('%',#{title},'%')
+            </if>
+            <if test="categoryid !=null and categoryid !=''">
+                and categoryid = #{categoryid}
+            </if>
+            <if test="categoryid2 !=null and categoryid2 !=''">
+                and categoryid2 = #{categoryid2}
+            </if>
+            <if test="leixin !=null and leixin !=''">
+                and leixin like concat('%',#{leixin},'%')
+            </if>
+            <if test="status !=null and status !=''">
+                and status =#{status}
+            </if>
+            <if test="id !=null and id !=''">
+                and id =#{id}
+            </if>
+        </trim>
+    </select>
     <!--新增资源-->
     <insert id="insert" parameterType="com.sy.model.Upload">
        INSERT INTO upload (`userid`, `title`, `createtime`, `appraise`, `size`, `price`, `status`, `categoryid`, `categoryid2`, `downloadCount`, `leixin`, `src`,`intro`,`name`,`leixin2`) VALUES
@@ -104,5 +110,7 @@ select count(*) from upload where userid=#{userid} and leixin =#{leixin}
         </set>
         where id=#{id}
     </update>
-
+    <delete id="delete">
+        delete from upload where  id=#{id} and userid=#{userid}
+    </delete>
 </mapper>

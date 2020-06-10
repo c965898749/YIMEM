@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,7 +43,6 @@ public class UserController {
     private DownloadService downloadService;
 
 
-
     //登录接口
     @RequestMapping(value = "loginVerification", method = RequestMethod.POST)
     public BaseResp loginVerification(String username, String userpassword, HttpServletRequest request) {
@@ -51,7 +53,7 @@ public class UserController {
                 //时间+账号+密码进行DES加密
                 String token = DESUtil.getEncryptString(date + ";" + username + ";" + userpassword);
                 baseResp.setErrorMsg(token);
-//                System.out.println("生成token:"+token);
+                System.out.println("生成token:    "+token);
                 request.getSession().setAttribute("user", baseResp.getData());
             }
             return baseResp;
@@ -77,7 +79,7 @@ public class UserController {
                 return baseResp;
             }
         }
-        System.out.println("发送");
+//        System.out.println("发送");
         User user = new User();
         user.setUsername(username);
         try {
@@ -113,8 +115,8 @@ public class UserController {
             baseResp.setErrorMsg("验证码不正确");
             return baseResp;
         }
-        System.out.println(idcode);
-        System.out.println(emilcode);
+//        System.out.println(idcode);
+//        System.out.println(emilcode);
         try {
             User user = new User();
             user.setUsername(username);
@@ -148,56 +150,67 @@ public class UserController {
         String token = "";
         if (cookies != null && cookies.length > 0) {
             for (Cookie cookie : cookies) {
+
                 switch (cookie.getName()) {
+                    //对cookie进行解码
                     case "token":
-                        token = cookie.getValue();
+                        token =cookie.getValue();
                         break;
                     default:
                         break;
                 }
             }
         }
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            if (Xtool.isNotNull(token)) {
-                String key=DESUtil.getDecryptString(token);
+        try {
+            token=URLEncoder.encode(token,"UTF-8");
+            token=URLDecoder.decode(token,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        System.out.println("token2   " + token);
+        if (Xtool.isNotNull(token)) {
+            String key = DESUtil.getDecryptString(token);
+            if (Xtool.isNotNull(key)){
+//                System.out.println(1111);
                 String[] str = key.split(";");
-//                SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
-//                try {
-                    Date ss=new Date(str[0]);
-//                    Date sdate=df.parse(ss);
-                    Date edate=new Date();
-                    long betweendays=(long) ((edate.getTime()-ss.getTime())/(1000 * 60 * 60 *24)+0.5);//天数间隔
-                    System.out.println(betweendays);
-                    if (betweendays>30){
-                        baseResp.setSuccess(0);
-                        baseResp.setErrorMsg("token已过期");
-                    }
+                Date ss = new Date(str[0]);
+                Date edate = new Date();
+                long betweendays = (long) ((edate.getTime() - ss.getTime()) / (1000 * 60 * 60 * 24) + 0.5);//天数间隔
+//            System.out.println(betweendays);
+                if (betweendays < 30) {
                     try {
+                        System.out.println(str[1]+"--------------"+str[2]);
                         baseResp = servic.loginVerification(str[1], str[2]);
+                        if (baseResp.getSuccess() == 1) {
+                            request.getSession().setAttribute("user", baseResp.getData());
+                            return baseResp;
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-            }else {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("未登入");
+                }
             }
-            return baseResp;
+        }
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("未登入");
         } else {
-            baseResp.setSuccess(1);
-            baseResp.setErrorMsg("已登入");
             try {
+//                获取最新客户信息
                 Integer userId = user.getUserId();
                 baseResp.setData(servic.findUserByUserId(userId).getData());
+                request.getSession().setAttribute("user", baseResp.getData());
+                baseResp.setSuccess(1);
+                baseResp.setErrorMsg("已登入");
+                return baseResp;
             } catch (Exception e) {
                 e.printStackTrace();
                 baseResp.setData(user);
             }
-            return baseResp;
+
         }
+        return baseResp;
     }
 
     //注销登入
@@ -207,6 +220,7 @@ public class UserController {
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("注销成功");
         return baseResp;
+
     }
 
     //修改用户头像
