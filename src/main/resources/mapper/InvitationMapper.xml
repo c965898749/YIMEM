@@ -103,10 +103,10 @@
         SELECT COUNT(*) FROM (SELECT MAX(readCount),invitation.* FROM invitation  GROUP BY categoryid,categoryid2) m
     </select>
     <select id="selectAspam" resultMap="baseResultMap">
-        SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN user on invitation.userid=`user`.userid  where categoryid=20 and categoryid2=182 ORDER BY readCount  DESC LIMIT #{page},#{pageSize}
+        SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN user on invitation.userid=`user`.userid  where categoryid=8 and categoryid2=44 ORDER BY readCount  DESC LIMIT #{page},#{pageSize}
     </select>
     <select id="selectNotice" resultMap="baseResultMap">
-        SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN user on invitation.userid=`user`.userid  where categoryid=24 and categoryid2=226 ORDER BY readCount  DESC LIMIT #{page},#{pageSize}
+        SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN user on invitation.userid=`user`.userid  where categoryid=8 and categoryid2=46 ORDER BY readCount  DESC LIMIT #{page},#{pageSize}
     </select>
 
 </mapper>

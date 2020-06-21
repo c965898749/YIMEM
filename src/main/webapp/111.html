@@ -1,50 +1,31 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>qrcode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
 </head>
-<body>
-<div class="Top">1</div>
-<div class="main">2</div>
-<div class="flooter">3</div>
-<script src="jquery/jquery.js"></script>
-<script>
-    $(function () {
-        ajaxGetCategory2()
-    })
 
-    function ajaxGetCategory2() {
-        // console.log(1111111)
-        // var data=getsecMenu(pid);
-        var pageNum = 1;
-        $.ajax({
-            url: "getVideo"
-            , type: "GET"
-            , data: {"pageNum": pageNum}
-            , dataType: "json"
-            // , async: false
-            , success: function (jsonData) {
-                console.log(jsonData)
-                var data = jsonData.data;
-                var html = "";
-                $.each(data, function (k, v) {
-                    //////////////////////console.log(v)
-                    html += ` <ul style="list-style-type:none">
-       <li >${v.title}</li>
-       <li><div><img src="${v.coverurl}" alt=""></div></li>
-       <li><a href="${v.videourl}">点击播放</a></li>
-   </ul>`;
+<body id="nv_forum" class="pg_viewthread" onkeydown="if(event.keyCode==27) return false;">
+<div style="width:700px;margin:10px auto 20px auto;padding:0 0 0 380px;overflow:hidden">
+    <!-- Baidu Button BEGIN -->
+    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" style="margin:10px 0 0 -4px">
+        <a class="bds_tsina"></a>
+        <a class="bds_tqq"></a>
+        <a class="bds_renren"></a>
+        <a class="bds_qzone"></a>
+        <a class="bds_douban"></a>
+        <a class="bds_xg"></a>
+        <span class="bds_more">更多</span>
+        <a class="shareCount"></a>
+    </div>
 
-                });
-                $(".video").append(html);
-            }
-            , error: function (res) {
-                //////////////////////////console.log("ajax提交错误")
-            }
-        })
-
-    }
+    <!-- Baidu Button END -->
+</div>
+<script type="text/javascript" id="bdshare_js" data="type=tools" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours
+    ();
 </script>
 </body>
 </html>

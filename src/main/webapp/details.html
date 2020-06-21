@@ -269,6 +269,9 @@
             overflow: hidden;
 
         }
+        .content_middle_content_content img{
+            max-width: 840px;
+        }
 
         .replay {
             text-align: center;
@@ -449,13 +452,7 @@
 
     <div class="content_middle">
         <div class="content_middle_content">
-            <div class="content_middle_content_title">
 
-            </div>
-            <hr>
-            <div class="content_middle_content_content">
-
-            </div>
         </div>
         <!--<hr style="border: 2px #E4E6CD solid">-->
         <div class="replay" id="replay_1">
@@ -554,8 +551,8 @@
     </ul>
 </div>
 </body>
-
-
+<script type="text/javascript" id="bdshare_js" data="type=tools" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
 <script src="layui/layui.all.js"></script>
 <script>
     //评论分页
@@ -869,7 +866,26 @@
                     <span>阅读数：${json.data.readCount}</span>
                 </p>
             </div>
-            <div class="content_middle_content_content">${json.data.content}</div>   `
+            <hr>
+            <div class="content_middle_content_content">${json.data.content}</div>
+              <div  style="display: flex">  <div style="    margin-top: 36px;margin-left: 25px;"><strong>分享到:</strong></div>
+            <div style="width:700px;margin:5px 117px 3px auto;overflow:hidden">
+                    <!-- Baidu Button BEGIN -->
+                            <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" style="margin:10px 0 0 -4px">
+                            <a class="bds_tsina"></a>
+                            <a class="bds_tqq"></a>
+                            <a class="bds_renren"></a>
+                            <a class="bds_qzone"></a>
+                            <a class="bds_douban"></a>
+                            <a class="bds_xg"></a>
+                            <span class="bds_more">更多</span>
+                            <a class="shareCount"></a>
+                            </div>
+
+                            <!-- Baidu Button END -->
+                            </div> </div>
+           `
+                        document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
                         $(".content_middle_content").append(html)
                     }
 
