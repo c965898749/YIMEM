@@ -390,26 +390,6 @@
         }
         function renderAllinvitation() {
 
-
-            // $.ajax({
-            //     url: "findMaxreadCountInvitation",
-            //     type: "get",
-            //     data:{"page":page,"pageSize":pageSize},
-            //     dataType: "json",
-            //     success: function (jsonData) {
-            //         var  data = jsonData.data;
-            //         ////console.log(data)
-            //         var html='';
-            //         $.each(data,function (k,v) {
-            //             html=`  <tr>
-            //                 <td style="display: flex"><div style="width: 40px;height: 20px;background-color:#FFBB66;color: white;margin-right: 10px;text-align: center">`+v.publishForm+`</div><a href="invitation_Details.html?invitationId=`+v.id+`">`+v.title+`</a></td>
-            //                 <td>`+v.user.username+`</td>
-            //                 <td>(`+v.readCount+`)人气</td>
-            //             </tr>`;
-            //             $(".tbHotSkill").append(html);
-            //         })
-            //     }
-            // })
             $.ajax({
                 url:"findMaxreadCountInvitation",
                 data:{"page":page,"pageSize":pageSize},

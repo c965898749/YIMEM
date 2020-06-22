@@ -1,5 +1,7 @@
 package com.sy.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sy.mapper.ForumMapper;
 import com.sy.mapper.InvitationMapper;
 import com.sy.model.Invitation;
@@ -23,15 +25,16 @@ public class InvitationServiceImpl implements InvitationService {
     @Override
     public BaseResp findAll(Invitation invitation) {
         BaseResp baseResp = new BaseResp();
-
+        PageHelper.startPage(invitation.getPage(),invitation.getPageSize());
         List<Invitation>  invitationList = mapper.selectAll(invitation);
-
+        Page<Invitation> invitationPage=(Page<Invitation>)invitationList;
         if (invitationList.size()!=0){
             for (Invitation invitation1 :invitationList){
                 int invitationId = invitation1.getId();
                 int count = forumMapper.queryReplayCount(invitationId);
                 invitation1.setReplaycount(count);
             }
+            baseResp.setCount(invitationPage.getTotal());
             baseResp.setSuccess(200);
             baseResp.setData(invitationList);
         }else {

@@ -1,5 +1,6 @@
 package com.sy.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.sy.model.Invitation;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
@@ -64,21 +65,9 @@ public class InvitationController {
     }
 
     @RequestMapping(value = "findAllInvitations", method = RequestMethod.GET)
-    public BaseResp findAllInvitations(Integer page, Integer pageSize, HttpServletResponse res) {
-        Invitation invitation = new Invitation();
-        invitation.setPage((page - 1) * pageSize);
-        invitation.setPageSize(pageSize);
+    public BaseResp findAllInvitations(Invitation invitation, HttpServletResponse res) {
         BaseResp resp = service.findAll(invitation);
-        Integer count = service.findAllCount(invitation);
-        if (resp.getData() != null) {
-            res.setStatus(200);
-            resp.setCount(count);
-            return resp;
-        } else {
-            res.setStatus(400);
-            resp.setErrorMsg("资源未找到");
-            return resp;
-        }
+        return resp;
     }
 
     @RequestMapping(value = "findAspam", method = RequestMethod.GET)

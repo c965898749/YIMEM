@@ -46,7 +46,7 @@
                 and status =#{status}
             </if>
         </trim>
-        ORDER BY createtime DESC LIMIT #{page},#{pageSize}
+        ORDER BY createtime,recomment DESC
 
     </select>
     <!--按id查询-->

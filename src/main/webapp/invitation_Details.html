@@ -140,7 +140,9 @@
             width: 100%;
             height: 500px;
         }
-
+        .pcb img{
+            max-width: 750px;
+        }
 
     </style>
 </head>
@@ -540,33 +542,6 @@
     }
 
 
-    function ajaxGetCategory2(pid) {
-        // var data=getsecMenu(pid);
-        $.ajax({
-            url: "findforumCategoryByPid"
-            , type: "GET"
-            , data: {"pid": pid}
-            , dataType: "json"
-            // , async: false
-            , success: function (jsonData) {
-                //////////////////console.log(jsonData)
-                var data = jsonData.data;
-                var html = '<option value="">选择小模块</option>';
-                $.each(data, function (k, v) {
-                    //////////////////console.log(v)
-                    html += ` <option value="` + v.id + `">` + v.title + `</option>`;
-
-                });
-                $("#category2").html(html);
-                form.render("select");
-            }
-            , error: function (res) {
-                //////////////////////console.log("ajax提交错误")
-            }
-        })
-
-    }
-
 
     // 编辑器
 
@@ -925,7 +900,6 @@
                                                     </div>
                                                     </td>
                                                     </tr>
-
                                                     </table>
                                                     </div>`;
         document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();

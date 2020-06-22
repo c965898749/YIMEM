@@ -590,18 +590,18 @@
                 , type: "get"
                 , dataType: "json"
                 , success: function (jsonData) {
-                    ////////////////////console.log(jsonData)
+                    //////////////////////console.log(jsonData)
                     if (jsonData.success == 200) {
                       var   data = jsonData.data;
-                        //console.log(data)
+                        console.log(data)
                         var html='';
                         var html2='';
                         var html3='';
                         var html4='';
                         $.each(data,function (k,v) {
-                            html2+=`<th><a href="/forumsubdivide.html?id=${v.id}&pid=0">${v.title}</a></th>`
+                            html2+=`<th><a href="/forumsubdivide.html?id=${v.id}&pid=${v.pid}">${v.title}</a></th>`
                             $.each(v.children,function (k,v) {
-                                html3+=`<p style="width: 280px"><a href="/forumsubdivide.html?id=${v.id}&pid=0">${v.title}</a></p>`
+                                html3+=`<p style="width: 280px"><a href="/forumsubdivide.html?id=${v.id}&pid=${v.pid}">${v.title}</a></p>`
                             })
                             html4+=`<td>`+html3+` </td>`
                             html3='';
@@ -624,7 +624,7 @@
                                  html3='';
                                  html4='';
                             }
-                            //console.log(data.length)
+                            ////console.log(data.length)
                             if (data.length%3!=0&&(data.length-k)==0){
                                 html=`<table>
                                     <thead>
@@ -647,7 +647,7 @@
                     }
                 }
                 , error: function (res) {
-                    ////////////////////console.log("ajax提交错误")
+                    //////////////////////console.log("ajax提交错误")
                 }
             })
 
@@ -764,13 +764,13 @@
                 , dataType: "json"
                 , async: false
                 , success: function (jsonData) {
-                    ////////////////////console.log(jsonData)
+                    //////////////////////console.log(jsonData)
                     if (jsonData.success == 1) {
                         data = jsonData.data;
                     }
                 }
                 , error: function (res) {
-                    ////////////////////console.log("ajax提交错误")
+                    //////////////////////console.log("ajax提交错误")
                 }
             })
             return data;
@@ -859,7 +859,7 @@
                 type: "get",
                 dataType: "json",
                 success: function (jsonData) {
-                    //////console.log(jsonData)
+                    ////////console.log(jsonData)
                     Category = jsonData.data;
                     insetCategory(Category);
                 }
@@ -878,7 +878,7 @@
                 dataType: "json",
                 success: function (jsonData) {
                     var  data = jsonData.data;
-               console.log(data)
+               //console.log(data)
                     var html='';
                     $.each(data,function (k,v) {
                         html=`  <tr>
@@ -897,7 +897,7 @@
                 dataType: "json",
                 success: function (jsonData) {
                     var  data = jsonData.data;
-                   //////////console.log(data)
+                   ////////////console.log(data)
                     var html='';
                     $.each(data,function (k,v) {
                         html=`  <tr>
@@ -915,7 +915,7 @@
                 dataType: "json",
                 success: function (jsonData) {
                     var  data = jsonData.data;
-                   ////////console.log(data)
+                   //////////console.log(data)
                     var html='';
                     $.each(data,function (k,v) {
                         html=`  <tr>
@@ -934,7 +934,7 @@
                 dataType: "json",
                 success: function (jsonData) {
                     var  data = jsonData.data;
-                    ////////console.log(data)
+                    //////////console.log(data)
                     var html='';
                     $.each(data,function (k,v) {
                         html=`  <tr>
@@ -960,10 +960,10 @@
                 elem: '#treemenu'  //绑定元素
                 , data: data
                 , click: function (obj) {
-                    //////////console.log(obj.data); //得到当前点击的节点数据
-                    //////////console.log(obj.state); //得到当前节点的展开状态：open、close、normal
-                    //////////console.log(obj.elem); //得到当前节点元素
-                    //////////console.log(obj.data.children); //当前节点下是否有子节点
+                    ////////////console.log(obj.data); //得到当前点击的节点数据
+                    ////////////console.log(obj.state); //得到当前节点的展开状态：open、close、normal
+                    ////////////console.log(obj.elem); //得到当前节点元素
+                    ////////////console.log(obj.data.children); //当前节点下是否有子节点
                     location.href = "forumsubdivide.html?id=" + obj.data.id + "&pid=" + obj.data.pid;
                 }
             });
@@ -973,13 +973,13 @@
 
         // 渲染二级菜单
         function getMenu() {
-            // //console(aaaaa)
+            // ////console(aaaaa)
             $.ajax({
                 url: "findAllforumCategory"
                 , type: "get"
                 , dataType: "json"
                 , success: function (jsonData) {
-                    //////////////////console.log(jsonData)
+                    ////////////////////console.log(jsonData)
                     var data = jsonData.data;
                     // if (jsonData.success == 1) {
                     //     data = jsonData.data;
@@ -996,7 +996,7 @@
                     form.render("select");
                 }
                 , error: function (res) {
-                    ////////////////////console.log("ajax提交错误")
+                    //////////////////////console.log("ajax提交错误")
                 }
             })
         }
@@ -1010,11 +1010,11 @@
                 , dataType: "json"
                 // , async: false
                 , success: function (jsonData) {
-                    ////////////////console.log(jsonData)
+                    //////////////////console.log(jsonData)
                     var data = jsonData.data;
                     var html = '<option value="">选择小模块</option>';
                     $.each(data, function (k, v) {
-                        ////////////////console.log(v)
+                        //////////////////console.log(v)
                         html += ` <option value="` + v.id + `">` + v.title + `</option>`;
 
                     });
@@ -1022,7 +1022,7 @@
                     form.render("select");
                 }
                 , error: function (res) {
-                    ////////////////////console.log("ajax提交错误")
+                    //////////////////////console.log("ajax提交错误")
                 }
             })
 
@@ -1044,7 +1044,7 @@
                 fileMangerJson: './kindeditor/jsp/file_manager_json.jsp',
                 allowUpload: true,
                 afterUpload: function (url) {
-                    // //////////console.log(url)   //上传图片的路径
+                    // ////////////console.log(url)   //上传图片的路径
                 }
             });
 
@@ -1064,13 +1064,13 @@
         layui.use(['form', 'laypage'], function () {
             laypage = layui.laypage;
             form = layui.form;
-            ////////////////////console.log("表单、。。。。。。")
+            //////////////////////console.log("表单、。。。。。。")
             // form表单提交   ---  onsubmit事件阻断方案
             //此处去获取2级列表数据
             form.on('select(cate1)', function (data) {
-                //////////////////console.log(data.elem); //得到select原始DOM对象
-                //////////////////console.log(data.value); //得到被选中的值
-                //////////////////console.log(data.othis); //得到美化后的DOM对象
+                ////////////////////console.log(data.elem); //得到select原始DOM对象
+                ////////////////////console.log(data.value); //得到被选中的值
+                ////////////////////console.log(data.othis); //得到美化后的DOM对象
 
                 //此处去获取2级列表数据
 
@@ -1078,9 +1078,9 @@
             });
 
             form.on('submit(createComment)', function (data) {
-                //////////////////////console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-                //////////////////////console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-                ////////////////////console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+                ////////////////////////console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+                ////////////////////////console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+                //////////////////////console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
 
 
                 ajaxCreateComment(data.field)
@@ -1111,7 +1111,7 @@
             var categoryid = data.categoryid;
             var categoryid2 = data.categoryid2;
             content=$("#editor_id").val()
-            //////console.log(content)
+            ////////console.log(content)
             $.ajax({
                 url: "saveInvitation",
                 data: {
