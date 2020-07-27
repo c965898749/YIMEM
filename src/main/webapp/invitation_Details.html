@@ -626,7 +626,7 @@
         console.log(categoryid + "___" + categoryid2 + "___" + title2)
         var html = ` <a href="index.html" class="nvhm" title="首页">YIMEM</a><em>&raquo;</em><a href="forum.html">论坛首页</a> <em>&rsaquo;</em>
                     <a href="forumsubdivide.html?id=${categoryid}&pid=0">` + gettitle(categoryid).title + `论坛</a> <em>&rsaquo;</em> <a
-                        href="forumsubdivide.html?id=${categoryid}&pid=${categoryid2}"><font color=red>` + gettitle(categoryid2).title + `区块</font></a>
+                        href="forumsubdivide.html?id=${categoryid2}&pid=${categoryid}"><font color=red>` + gettitle(categoryid2).title + `区块</font></a>
                     <em>&rsaquo;</em>
                     <a href="forum.php?mod=viewthread&amp;tid=184252">` + title2 + `</a>`;
 
@@ -902,6 +902,7 @@
                                                     </tr>
                                                     </table>
                                                     </div>`;
+
         document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
 
         var html2=` <div class="pgt"></div>

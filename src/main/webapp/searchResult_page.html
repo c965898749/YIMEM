@@ -131,7 +131,7 @@
     <div class="content_catolog" id="download">下载</div>
     <div class="content_catolog" id="forum">论坛</div>
     <div class="content_catolog" id="ask">问答</div>
-    <div class="content_catolog" id="video">视频</div>
+    <div class="content_catolog" id="video">默默</div>
     <input type="text" value="" id="search_all_value">
     <div class="search_all" id="search_all">搜一搜</div>
     <div class="search_result">
@@ -341,7 +341,7 @@
                     var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
 
                     var html = ` <div class="search_result_sub" video_id="${each.videoid}" t="video">
-            <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">播放</span></p>
+            <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">资源</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${each.info != null ? each.info : ""}</p>
               日期：<span style="color: #00A3D9">${each.createtime}</span>
         </div>`
@@ -380,7 +380,7 @@
                     var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
 
                     var html = ` <div class="search_result_sub" video_id="${each.videoid}" t="video">
-            <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">播放</span></p>
+            <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">资源</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${each.info != null ? each.info : ""}</p>
               日期：<span style="color: #00A3D9">${each.createtime}</span>
         </div>`

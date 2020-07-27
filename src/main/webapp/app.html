@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>视频</title>
+    <title>默默</title>
     <link rel="shortcut icon" href="statics/img/favicon.ico">
     <script src="js/setCookie.js"></script>
     <script src="jquery/jquery.js"></script>
@@ -15,16 +15,16 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     <style>
         #textarea {
-            font-family:Arial,Helvetica,sans-serif;
-            background:none repeat scroll 0 0 #F5F7FD;
-            border:1px solid #B8BFE9;
-            padding:5px 7px;
-            width:420px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: none repeat scroll 0 0 #F5F7FD;
+            border: 1px solid #B8BFE9;
+            padding: 5px 7px;
+            width: 420px;
             /*vertical-align:middle;*/
-            height:130px;
-            font-size:12px;
-            margin:0;
-            list-style:none outside none;
+            height: 130px;
+            font-size: 12px;
+            margin: 0;
+            list-style: none outside none;
         }
 
         #app_html {
@@ -50,9 +50,10 @@
 </div>
 <div class="TOP">
     <div class="TOP-nav">
-        <div id="home" style="cursor:pointer;">视频首页</div>
-        <!--<div id="myresources" style="pointer-events: none;cursor: not-allowed;">我的视频</div>-->
-        <!--<div id="upload" style="pointer-events: none;cursor: not-allowed;">上传视频</div>-->
+        <div id="home" style="cursor:pointer;">电影</div>
+        <div id="home2" style="cursor:pointer;">电视剧</div>
+        <div id="home3" style="cursor:pointer;width:56px ">动漫</div>
+        <div id="home4" style="cursor:pointer;">综艺</div>
     </div>
 </div>
 <div class="NAV">
@@ -171,13 +172,16 @@
 
         <!--</div>-->
         <div class="downloadlist" id="downloadlist" style="display: flex;background: #F5F6F7">
-            <div data-value="1" style="font-size: 14px;height: 30px;width:50px;text-align: center;line-height: 30px;border: #dedede 1px solid;border-bottom: none;background: white;cursor:pointer">
+            <div data-value="1"
+                 style="font-size: 14px;height: 30px;width:50px;text-align: center;line-height: 30px;border: #dedede 1px solid;border-bottom: none;background: white;cursor:pointer">
                 最新
             </div>
-            <div data-value="3" style="font-size: 14px;height: 30px;width:50px;text-align: center;line-height: 30px;border: #dedede 1px solid;background: white;cursor:pointer">
+            <div data-value="3"
+                 style="font-size: 14px;height: 30px;width:50px;text-align: center;line-height: 30px;border: #dedede 1px solid;background: white;cursor:pointer">
                 热门
             </div>
-            <div data-value="2" style="font-size: 14px;height: 30px;width:50px;text-align: center;line-height: 30px;border: #dedede 1px solid;background: white;cursor:pointer">
+            <div data-value="2"
+                 style="font-size: 14px;height: 30px;width:50px;text-align: center;line-height: 30px;border: #dedede 1px solid;background: white;cursor:pointer">
                 好评
             </div>
         </div>
@@ -191,7 +195,8 @@
         <div class="ad">
             <img src="imgs/ad/blog/cd18.png"/>
         </div>
-        <div class="upload" id="uploadIndex" onclick="uploadIndex()" style="background: #EBEDF2;text-align: center;font-size: 14px;color: #868B96;border: 2px #E3E5EB solid;cursor: pointer ">
+        <div class="upload" id="uploadIndex" onclick="uploadIndex()"
+             style="background: #EBEDF2;text-align: center;font-size: 14px;color: #868B96;border: 2px #E3E5EB solid;cursor: pointer ">
             留言求片
         </div>
         <div class="recommend">
@@ -226,7 +231,9 @@
         </div>
     </div>
 </div>
-
+<div class="NAV2">2</div>
+<div class="NAV3">3</div>
+<div class="NAV4">4</div>
 <div class="siderBar">
     <ul>
         <li>返回</li>
@@ -391,7 +398,7 @@
 
     function searchbtn() {
         title = $("input[name='search']").val()
-        console.log(director+";"+region+";"+createtime+";"+type)
+        console.log(director + ";" + region + ";" + createtime + ";" + type)
         ajaxGetInvitation(1)
     }
 
@@ -428,25 +435,25 @@
             type: 1,
             area: ['440px', '250px'],
             content: '<textarea id="textarea" rows="4" placeholder="留下你最想看的影视……#^_^#"></textarea>'
-            ,btn: ['发送', '取消']
-            ,title:['留言','color:white;background-color:#3BB9B6;']
-            ,yes: function(index, layero){
+            , btn: ['发送', '取消']
+            , title: ['留言', 'color:white;background-color:#3BB9B6;']
+            , yes: function (index, layero) {
                 //按钮【按钮一】的回调
                 layer.closeAll()
             }
-            ,btn2: function(index, layero){
+            , btn2: function (index, layero) {
                 //按钮【按钮二】的回调
 
                 //return false 开启该代码可禁止点击该按钮关闭
             }
-            ,cancel: function(){
+            , cancel: function () {
                 //右上角关闭回调
 
                 //return false 开启该代码可禁止点击该按钮关闭
             }
         });
     }
-    
+
     //精品渲染
     function jinpin() {
         $.ajax({
@@ -493,10 +500,8 @@
         })
     }
 
-    // 个人信息渲染
-    $("#myresources").click(function () {
-        $("#count").empty()
-        $("#top").empty()
+    // tap选项卡
+    $("#home2").click(function () {
         window.history.pushState({status: 0}, '', '?type=2')
         taplan(2)
 
@@ -506,69 +511,68 @@
         window.history.pushState({status: 0}, '', '?type=1')
     })
 
-    $("#upload").click(function () {
+    $("#home3").click(function () {
         taplan(3)
         window.history.pushState({status: 0}, '', '?type=3')
 
     })
+    $("#home4").click(function () {
+        taplan(4)
+        window.history.pushState({status: 0}, '', '?type=4')
 
-    function uploadclick() {
-        taplan(3)
-        window.history.pushState({status: 0}, '', '?type=3')
-    }
+    })
+
+
 
 
     function taplan(type) {
-        $("#cldtop-rig").hide()
-
+        // $("#cldtop-rig").hide()
         if (type == null) {
-            $(".NAV-myresouces").hide();
-            $(".NAV-upload").hide()
+            $(".NAV2").hide();
+            $(".NAV3").hide();
+            $(".NAV4").hide();
             $(".NAV").show()
             $("#home").css("border-bottom", "2px red solid")
-            $("#myresources").css("border-bottom", "none")
-            $("#upload").css("border-bottom", "none")
+            $("#home2").css("border-bottom", "none")
+            $("#home3").css("border-bottom", "none")
+            $("#home4").css("border-bottom", "none")
         } else {
             if (type == 1) {
-                $(".NAV-myresouces").hide();
-                $(".NAV-upload").hide()
+                $(".NAV2").hide();
+                $(".NAV3").hide();
+                $(".NAV4").hide();
                 $(".NAV").show()
                 $("#home").css("border-bottom", "2px red solid")
-                $("#myresources").css("border-bottom", "none")
-                $("#upload").css("border-bottom", "none")
+                $("#home2").css("border-bottom", "none")
+                $("#home3").css("border-bottom", "none")
+                $("#home4").css("border-bottom", "none")
             } else if (type == 2) {
-                if (userid == 0) {
-                    layer.open({
-                        content: '你还未登录'
-                        , btn: ['登录', '退出']
-                        , yes: function (index, layero) {
-                            //按钮【按钮一】的回调
-                            location.href = "login.html";
-                            layer.close(index);
-                        }
-                        , btn2: function (index, layero) {
-                            layer.close(index);
-                        }
-                    });
-                    return false;
-                } else {
-
-                    $(".NAV-upload").hide()
-                    $(".NAV-myresouces").show();
-                    $(".NAV").hide()
-                    $("#home").css("border-bottom", "none")
-                    $("#myresources").css("border-bottom", "2px red solid")
-                    $("#upload").css("border-bottom", "none")
-                    people()
-                }
-
-            } else if (type == 3) {
-                $(".NAV-upload").show();
-                $(".NAV-myresouces").hide();
-                $(".NAV").hide()
+                $(".NAV").hide();
+                $(".NAV3").hide();
+                $(".NAV4").hide();
+                $(".NAV2").show()
+                $("#home2").css("border-bottom", "2px red solid")
                 $("#home").css("border-bottom", "none")
-                $("#myresources").css("border-bottom", "none")
-                $("#upload").css("border-bottom", "2px red solid")
+                $("#home3").css("border-bottom", "none")
+                $("#home4").css("border-bottom", "none")
+            } else if (type == 3) {
+                $(".NAV2").hide();
+                $(".NAV").hide();
+                $(".NAV4").hide();
+                $(".NAV3").show()
+                $("#home3").css("border-bottom", "2px red solid")
+                $("#home2").css("border-bottom", "none")
+                $("#home").css("border-bottom", "none")
+                $("#home4").css("border-bottom", "none")
+            }else if (type == 4) {
+                $(".NAV2").hide();
+                $(".NAV3").hide();
+                $(".NAV").hide();
+                $(".NAV4").show()
+                $("#home4").css("border-bottom", "2px red solid")
+                $("#home2").css("border-bottom", "none")
+                $("#home3").css("border-bottom", "none")
+                $("#home").css("border-bottom", "none")
             }
         }
     }

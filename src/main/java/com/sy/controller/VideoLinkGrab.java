@@ -244,7 +244,7 @@ public class VideoLinkGrab {
                                     continue;
                                 }
                                 //豆瓣 201
-                                pattern = Pattern.compile("<span\\s+class=\\\"score\\s+sc6\\\"\\s+></span>([^(</div>)]*)</div>");
+                                pattern = Pattern.compile("<span\\s+class=\\\"score\\s+sc\\d+\\\"\\s+></span>([^(</div>)]*)</div>");
                                 matcher = pattern.matcher(line);
                                 if (matcher.find()) {
                                     video.setDouban(matcher.group(1));
