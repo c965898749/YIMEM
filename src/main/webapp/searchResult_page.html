@@ -275,14 +275,14 @@
     function render(data) {
         $(".search_result").html("")
         $.each(data, function (indexbig, dataeach) {
-            if (dataeach.length == 0){
-                var html=`<div class="video"
-                 style="text-align: center;margin-top: 40px;width: 800px;font-size: 16px;font-weight: bold">
-                 暂无资源
-            </div>`
-                $(".search_result").append(html)
-                return false;
-            }
+            // if (dataeach.length == 0){
+            //     var html=`<div class="video"
+            //      style="text-align: center;margin-top: 40px;width: 800px;font-size: 16px;font-weight: bold">
+            //      暂无资源
+            // </div>`
+            //     $(".search_result").append(html)
+            //     return false;
+            // }
             if (indexbig == 0) {
 
                 $.each(dataeach, function (index, each) {
@@ -348,7 +348,7 @@
                     var html = ` <div class="search_result_sub" video_id="${each.videoid}" t="video">
             <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">播放</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${each.info != null ? each.info : ""}</p>
-              日期：<span style="color: #00A3D9">${each.createtime}</span>
+              日期：<span style="color: #00A3D9">${each.createtime!=null?each.createtime:"未知"}</span>
         </div>`
                     $(".search_result").append(html)
                 })
@@ -387,7 +387,7 @@
                     var html = ` <div class="search_result_sub" video_id="${each.videoid}" t="video">
             <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">播放</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${each.info != null ? each.info : ""}</p>
-              日期：<span style="color: #00A3D9">${each.createtime}</span>
+              日期：<span style="color: #00A3D9">${each.createtime!=null?each.createtime:"未知"}</span>
         </div>`
                     $(".search_result").append(html)
                 })
