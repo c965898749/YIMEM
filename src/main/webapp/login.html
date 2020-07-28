@@ -96,7 +96,7 @@
                             <span class="add-on"><i class="icon-lock"></i></span><input class="input-large span10"
                                                                                         name="userpassword"
                                                                                         id="userpassword"
-                                                                                        type="password" value=""/>
+                                                                                        type="password" value="" onkeydown='test()'/>
                         </div>
                         <div class="clearfix"></div>
 
@@ -267,6 +267,73 @@
 
 
     })
+
+
+
+    function test(frm,event){
+        var event=window.event?window.event:event;
+        if(event.keyCode==13){
+            var user = new Object();
+            user.username = $.trim($("#username").val());
+            user.userpassword = $.trim($("#userpassword").val());
+            user.isStart = 1;
+
+            if (user.username == "" || user.username == null) {
+                $("#username").focus();
+                $("#formtip").css("color", "red");
+                $("#formtip").html("对不起，登录账号不能为空。");
+            } else if (user.userpassword == "" || user.userpassword == null) {
+                $("#userpassword").focus();
+                $("#formtip").css("color", "red");
+                $("#formtip").html("对不起，登录密码不能为空。");
+            } else {
+                $("#formtip").html("");
+
+                $.ajax({
+                    url: 'loginVerification',
+                    type: 'POST',
+                    data: {"username": user.username, "userpassword": user.userpassword},
+                    dataType: 'json',
+                    timeout: 1000,
+                    cache: false,
+                    error: function () {
+                        $("#formtip").css("color", "red");
+                        $("#formtip").html("服务器无响应！请重试。");
+                    },
+                    success: function (jsonData) {
+                        console.log(jsonData)
+                        console.log(jsonData.success)
+                        if (jsonData.success == 0) {
+                            $("#formtip").css("color", "red");
+                            $("#formtip").html(jsonData.errorMsg);
+                            $("#username").val('');
+                            $("#userpassword").val('');
+                        } else {
+                            $("#formtip").css("color", "green");
+                            $("#formtip").html("您已登录成功!");
+                            if ($("#remember").prop("checked")) {
+                                var  token = jsonData.errorMsg;
+                                // 写入Cookie
+                                setCookie('token',token,30)
+                            }
+                            if (document.referrer === '') {
+                                location.href = "userHomepage.html"
+                            } else if (document.referrer.indexOf('register.html') != -1) {
+                                location.href = "index.html"
+                            }else if(document.referrer.indexOf('resetPw.html') != -1){
+                                location.href = "index.html"
+                            }else {
+                                location.href = document.referrer;
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+
+
     $("#loginBtn").click(function () {
         var user = new Object();
         user.username = $.trim($("#username").val());

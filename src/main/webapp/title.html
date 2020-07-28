@@ -201,7 +201,7 @@
             <li title="默默"><a href="app.html" id="app_html" style="pointer-events: none;">默默</a></li>
             <li>
                 <div style="border:1px solid #CCCCCC;border-radius: 10px;width: 250px;height: 32px;margin-top: 5px;display: flex">
-                    <input type="text" placeholder="请输入搜索内容" id="searchValue">
+                    <input type="text" placeholder="请输入搜索内容" id="searchValue" onkeydown='test()'>
                     <div class="TsearchContain" id="QueryA">
                         <img src="imgs/btn/blog/serch.png" style="width: 25px;height: 25px;margin-top: -8px" alt="">
                     </div>
@@ -278,6 +278,19 @@
             alert("请输入搜索内容！")
         }
     })
+
+    function test(frm,event){
+        var event=window.event?window.event:event;
+        if(event.keyCode==13){
+            var key = $("#searchValue").val()
+            if (key!=""){
+                location.href="searchResult_page.html?key="+key
+                // alert(key)
+            } else {
+                alert("请输入搜索内容！")
+            }
+        }
+    }
 
 
     function getUser(){

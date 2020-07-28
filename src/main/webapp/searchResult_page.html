@@ -136,12 +136,9 @@
     <div class="search_all" id="search_all">搜一搜</div>
     <div class="search_result">
         <div class="search_result_sub">
-            <p style="font-size: 20px">Python 最常见的 120 道面试题解析：2019 最新 - CSDN图文课</p>
-            <p>Python 今年还是很火，不仅是编程语言排行榜前二，更成为互联网公司最火热的招聘职位之一
-            </p>
-            <p>作者：<span>996神</span> 日期：<span>2019-05-09</span><a
-                    href=" https://gitchat.csdn.net/activity/5cf08d87a09a577362af88b6">https://gitchat.csdn.net/activity/5cf08d87a09a577362af88b6</a>
-            </p>
+            <!--<div class="video"-->
+                 <!--style="text-align: center;width: 800px;height: 300px;background-image: url('imgs/loading/timg.gif');background-repeat:no-repeat;background-position:center">-->
+            <!--</div>-->
         </div>
     </div>
     <div class="content_right">
@@ -264,11 +261,11 @@
             data: {"key": key},
             dataType: "json",
             success: function (json) {
-                console.log(json)
+                //console.log(json)
                 render(json.data)
             },
             error: function (res) {
-                console.log(res)
+                //console.log(res)
             }
 
         })
@@ -278,8 +275,16 @@
     function render(data) {
         $(".search_result").html("")
         $.each(data, function (indexbig, dataeach) {
-
+            if (dataeach.length == 0){
+                var html=`<div class="video"
+                 style="text-align: center;margin-top: 40px;width: 800px;font-size: 16px;font-weight: bold">
+                 暂无资源
+            </div>`
+                $(".search_result").append(html)
+                return false;
+            }
             if (indexbig == 0) {
+
                 $.each(dataeach, function (index, each) {
                     var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
                     var html = ` <div class="search_result_sub" blog_id="${each.id}" t="blog">
@@ -341,7 +346,7 @@
                     var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
 
                     var html = ` <div class="search_result_sub" video_id="${each.videoid}" t="video">
-            <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">资源</span></p>
+            <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">播放</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${each.info != null ? each.info : ""}</p>
               日期：<span style="color: #00A3D9">${each.createtime}</span>
         </div>`
@@ -374,13 +379,13 @@
             data: {"key": key},
             dataType: "json",
             success: function (json) {
-                console.log(json)
+                //console.log(json)
 
                 $.each(json.data, function (index, each) {
                     var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
 
                     var html = ` <div class="search_result_sub" video_id="${each.videoid}" t="video">
-            <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">资源</span></p>
+            <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">播放</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${each.info != null ? each.info : ""}</p>
               日期：<span style="color: #00A3D9">${each.createtime}</span>
         </div>`
@@ -393,7 +398,7 @@
 
             },
             error: function (res) {
-                console.log(res)
+                //console.log(res)
             }
 
         })
@@ -416,7 +421,7 @@
             data: {"key": key},
             dataType: "json",
             success: function (json) {
-                console.log(json)
+                //console.log(json)
 
                 $.each(json.data, function (index, each) {
                     var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
@@ -435,7 +440,7 @@
 
             },
             error: function (res) {
-                console.log(res)
+                // console.log(res)
             }
 
         })
@@ -458,7 +463,7 @@
             data: {"key": key},
             dataType: "json",
             success: function (json) {
-                // console.log(json)
+                // //console.log(json)
 
                 $.each(json.data, function (index, each) {
                     var text = `${each.intro}`.replace(/[^\u4e00-\u9fa5]/gi, "")
@@ -476,7 +481,7 @@
 
             },
             error: function (res) {
-                console.log(res)
+                //console.log(res)
             }
 
         })
@@ -499,7 +504,7 @@
             data: {"key": key},
             dataType: "json",
             success: function (json) {
-                // console.log(json)
+                // //console.log(json)
 
                 $.each(json.data, function (index, each) {
                     var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
@@ -517,7 +522,7 @@
 
             },
             error: function (res) {
-                console.log(res)
+                //console.log(res)
             }
 
         })
@@ -540,7 +545,7 @@
             data: {"key": key},
             dataType: "json",
             success: function (json) {
-                console.log(json)
+                //console.log(json)
 
                 $.each(json.data, function (index, each) {
                     var text = `${each.askText}`.replace(/[^\u4e00-\u9fa5]/gi, "")
@@ -558,7 +563,7 @@
 
             },
             error: function (res) {
-                console.log(res)
+                //console.log(res)
             }
 
         })

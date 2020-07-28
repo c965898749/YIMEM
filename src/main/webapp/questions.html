@@ -392,7 +392,6 @@
             $(".order span").text("按时间排序▼")
         }
         return jsondata
-
     }
 
     //初始渲染
@@ -467,7 +466,6 @@
                 "page": page
             }
             , dataType: "json"
-            , async: false
             , success: function (jsonData) {
                 console.log(jsonData)
                 jsondata = jsonData;
@@ -479,13 +477,7 @@
         return jsondata;
     }
 
-    function tsest() {
-        var a = 1;
-        $(".secondTitleContian li").click(function (a) {
-            a = 2
-        })
-        return a;
-    }
+
 
     //分类点击切换事件
     $(".secondTitleContian li").click(function () {
@@ -592,7 +584,6 @@
             , type: "post"
             , data: {"userId": userID}
             , dataType: "json"
-            , async: false
             , success: function (jsonData) {
                 // console.log(jsonData)
                 var obj = jsonData.data;
