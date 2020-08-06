@@ -71,7 +71,7 @@
 
 .smallkuang {
     display: inline;
-    float: left;
+    /*float: right;*/
     /*text-align: center;*/
     margin-top: 10px;
     /*margin-top: 5px;*/

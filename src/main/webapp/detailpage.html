@@ -12,6 +12,8 @@
     <script src="js/jquery.js"></script>
     <script src="js/download.js"></script>
     <script src="js/include.js"></script>
+    <link rel="stylesheet" href="css/DPlayer.min.css">
+    <link rel="stylesheet" href="css/video_detail.css">
 </head>
 <style>
     #down_load {
@@ -22,7 +24,7 @@
 
 <body>
 <div id="titleContai">
-    <include src="title.html" ></include>
+    <include src="title.html"></include>
 </div>
 <div class="TOP">
     <div class="TOP-nav">
@@ -38,10 +40,29 @@
             <div class="nav" style="background-color: #F5F6F7;width:890px;height: 30px;">
 
             </div>
-            <div class="lists">
+            <div class="lists" >
 
             </div>
-            <div class="collect" id="Resocollect" style="cursor: pointer;margin-left: 700px;margin-top: -30px" onclick="ResocollectBt()">
+            <div class="video" style="display: none">
+                <div id="Dplayer"></div>
+                <div class="smallkuang">
+                    <form class="layui-form" action="" style="margin-top: 15px">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">弹幕</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" id="zzz" name="zzz" lay-skin="switch" lay-text="开启|关闭" checked>
+                            </div>
+                            <div class="layui-input-inline" style="margin-left: 100px;margin-top: -34px;">
+                                <label class="layui-form-label">返回预览</label>
+                                <img style="width: 20px;height: 20px;" src="/imgs/btn/blog/back.png" alt=""
+                                     onclick="bacak()">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="collect" id="Resocollect" style="cursor: pointer;margin-left: 700px;margin-top: -30px"
+                 onclick="ResocollectBt()">
 
             </div>
             <div class="replay">
@@ -64,11 +85,13 @@
                     </div>
                     <div class="context">
                         <!--rows="行教”cols="列数"-->
-                        <textarea name="mycontext" value="" id="licenseother" onkeypress="count()" onkeyup="count()" onblur="count();"
-                                  onChange="count();"  placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论"> </textarea>
+                        <textarea name="mycontext" value="" id="licenseother" onkeypress="count()" onkeyup="count()"
+                                  onblur="count();"
+                                  onChange="count();" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论"> </textarea>
                         <input onclick="sumbitReply()" type="button" value="提交"/>
                     </div>
-                    <span style="margin-left: 630px;font-size: 12px;margin-top: 10px;margin-bottom: 10px">还能输入 <span id="span_id">100</span> 个字符</span>
+                    <span style="margin-left: 630px;font-size: 12px;margin-top: 10px;margin-bottom: 10px">还能输入 <span
+                            id="span_id">100</span> 个字符</span>
                 </div>
                 <div class="replay-lists" id="replay-lists">
 
@@ -102,13 +125,17 @@
                 <!--<img src="imgs/introduce/csdn.png">-->
                 <div class="yimem_bz" style="background-color: white;margin-top: 10px;">
                     <div style="width:300px;margin:0 auto">
-                        <img src="imgs/gz/gz.jpg" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px" alt="">
-                        <img src="imgs/gz/eduwxfix.png" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
+                        <img src="imgs/gz/gz.jpg" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
+                             alt="">
+                        <img src="imgs/gz/eduwxfix.png"
+                             style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
                              alt="">
                     </div>
-                    <div style="padding-bottom: 5px;margin: 0 auto;width: 250px ;border-bottom: 1px #E0E0E0 solid"><span style="color:#8B8B8B;margin-left: 15px">YIMEM公众号</span><span
+                    <div style="padding-bottom: 5px;margin: 0 auto;width: 250px ;border-bottom: 1px #E0E0E0 solid"><span
+                            style="color:#8B8B8B;margin-left: 15px">YIMEM公众号</span><span
                             style="color:#8B8B8B;margin-left: 60px">IT学院</span></div>
-                    <div style="padding-top: 5px;margin: 0 auto;width: 250px"><span style="color:#3D3D3D;font-weight: bold;margin-left: 20px">关于我们</span>
+                    <div style="padding-top: 5px;margin: 0 auto;width: 250px"><span
+                            style="color:#3D3D3D;font-weight: bold;margin-left: 20px">关于我们</span>
                         <span
                                 style="color:#3D3D3D;margin-left: 20px">网站地图</span><span
                                 style="color:#3D3D3D;margin-left: 20px">广告服务</span></div>
@@ -141,7 +168,112 @@
 </div>
 </body>
 <script src="layui/layui.all.js"></script>
+<script src="js/DPlayer.min.js"></script>
+<!--渲染视频-->
+<script src="js/videoDetail/renderVideo.js"></script>
+<!--js主入口-->
+<!--<script src="js/videoDetail/renderMain.js"></script>-->
 <script>
+    var userBean;
+    var dataIndex = 0; //后台获取的弹幕列表的游标，用于实时渲染弹幕。
+    var danmakuList;
+    var coverUrl;  //封面地址
+    var videoUrl;   //视频地址
+    var arrayObj = new Array();
+    // 模拟字幕
+    var type = [
+        "right",
+        "top",
+        "bottom",
+    ]
+    var color = [
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "blue",
+        "purple",
+        "white"
+    ]
+    arrayObj[0] = "你不觉得累吗？你已经在我的世界里跑了好几圈了";
+    arrayObj[1] = "我想问一条路 到你心里的路";
+    arrayObj[2] = "你知道你和猴子什么区别吗? 一个住在山洞，一个住在我心里";
+    arrayObj[3] = "你会弹吉他吗？为什么拨动了我的心弦";
+    arrayObj[4] = "你忙归忙，什么时候有空娶我啊";
+    arrayObj[5] = "你这种人！我除了恋爱没什么和你好谈的";
+    arrayObj[6] = "你知道我喜欢喝什么吗？ 呵护你";
+    arrayObj[7] = "你知道你和星星的区别吗？星星点亮了黑夜，而你点亮了我的心";
+    arrayObj[8] = "你的嘴真好看，特别适合说我爱你";
+    arrayObj[9] = "见什么世面，见见你就好了";
+    arrayObj[10] = "糟糕，是心动的感觉";
+    arrayObj[11] = "我是九你是三，除了你还是你";
+    arrayObj[12] = "我的床不大不小，用来睡你刚刚好";
+    arrayObj[13] = "如果你不怕麻烦的话，可以麻烦喜欢我一下吗？";
+    arrayObj[14] = "我发觉你今天有点怪，怪好看的。";
+    arrayObj[15] = "想试试我的草莓味唇膏吗？";
+    arrayObj[16] = "我一点也不想你，一点半再想。";
+    arrayObj[17] = "你的脸上有点东西，有什么？有点漂亮";
+    arrayObj[18] = "我觉得你特像一款游戏，我的世界";
+
+    function ss() {
+        let intervalIndex
+        dp.on("play", function () {
+            // let danmaku = {
+            //     text: "开启海量弹幕模式。。。",
+            //     color: "yellow",
+            //     size: "200px",
+            //     type: "right",
+            // }
+            // dp.danmaku.draw(danmaku);
+            intervalIndex = setInterval(function () {
+                let danmaku = {
+                    text: arrayObj[Math.floor(Math.random() * arrayObj.length)],
+                    color: color[Math.floor((Math.random() * color.length))],
+                    type: type[Math.floor(Math.random() * type.length)]
+                }
+                dp.danmaku.draw(danmaku);
+            }, 200);
+            // setTimeout(function () {
+            //     let intervalIndex = setInterval(function () {
+            //         let danmaku = {
+            //             text: arrayObj[Math.floor(Math.random() * arrayObj.length)],
+            //             color: color[Math.floor((Math.random() * color.length))],
+            //             type: type[Math.floor(Math.random() * type.length)]
+            //         }
+            //         dp.danmaku.draw(danmaku);
+            //     }, 500);
+            //
+            // }, 2000);
+
+
+            console.log("点击了");
+            console.log(arrayObj);
+        });
+        dp.on("pause", function () {
+            clearInterval(intervalIndex)
+        });
+        dp.on("ended", function () {
+            clearInterval(intervalIndex)
+        });
+    }
+
+    $(".layui-input-block").on("click", function () {
+
+        if ($("#zzz").prop("checked")) {
+            dp.danmaku.show()
+        } else {
+            dp.danmaku.hide()
+        }
+    })
+
+    function bacak() {
+        $(".video").hide()
+        $(".lists").show()
+    }
+    function bacak2() {
+        $(".video").show()
+        $(".lists").hide()
+    }
     // 限制字符
     function getStringUTFLength(str) {
         var value = str.replace(/[\u4e00-\u9fa5]/g, " ");
@@ -168,6 +300,7 @@
         }
         document.getElementById("span_id").innerText = len - getStringUTFLength(document.getElementById("licenseother").value);
     }
+
     var timer = null;
     document.getElementById("btn").onclick = function () {
         cancelAnimationFrame(timer);
@@ -182,21 +315,22 @@
         });
     }
     var appraise = 5;
-    var basUrl = "http://localhost:8888/";
     var id = getQueryString("id");
     //获取登入者ID
     var user = getUser();
     var userid = 0;
     var price = 0;
     var ting = null;
-    var bloguserid=null;
-    var focus_status=0;
+    var bloguserid = null;
+    var focus_status = 0;
     if (user) {
         userid = user.userId
     }
     $(function () {
 
         yanzhenResocollect();
+        getDplayer()
+        ss()
         reply();
         if (userid != 0) {
             var html = ` <a href="perInfor.html?viewUserId=` + userid + `&type=blog"> <img src="` + user.headImg + `"
@@ -227,7 +361,7 @@
             success: function (Jsondata) {
                 console.log(Jsondata);
                 var item = Jsondata.data;
-                bloguserid=item.user.userId;
+                bloguserid = item.user.userId;
                 fucs(item.user.userId);
                 var path = "imgs/filetype/zip .svg";
                 var daxiao = 0;
@@ -262,8 +396,8 @@
                             <div class="img-left">
                                 <img src="imgs/filetype/` + path + `.svg" style="width: 42px;height: 48px;"/>
                             </div>
-                            <div class="context-model" style="width:550px ;">
-                                <div class="title" style="margin-top: 20px;">
+                            <div class="context-model" style="width:500px ;">
+                                <div class="title" style="margin-top: 20px;height: 30px">
                                     ` + item.title + `
                                 </div>
                                 <div class="main">
@@ -275,7 +409,8 @@
                                 <div class="grade">
                                     评分
                                     <div id="test1"></div>
-
+                                    <img style="width: 20px;height: 20px;" src="/imgs/btn/blog/yulang.png" alt="">
+                                    <span onclick="bacak2()">预览</span>
                                 </div>
                                 <div class="size" style="font-size: 14px;color: #666;margin-top: 20px;">
                                     上传：` + item.createtime + ` 大小：` + daxiao + `
@@ -382,8 +517,7 @@
     })
 
 
-
-    function fucs(bloguserid){
+    function fucs(bloguserid) {
         $.ajax({
             url: "/queryIsFocus",
             data: {"bloguserid": bloguserid},
@@ -559,8 +693,8 @@
                                          style="width: 30px;height: 30px;border-radius: 15px;"/></a>
 
                                 </div>
-                                <div class="name" style="margin-left: 10px;font-weight: bold;">
-                                <a style="text-decoration: none" href="perInfor.html?viewUserId=` + item.user.userId + `&type=blog">  `+ item.user.username + `:</a>
+                                <div class="name" style="margin-left: 10px;font-weight: bold;font-size: 14px">
+                                <a style="text-decoration: none" href="perInfor.html?viewUserId=` + item.user.userId + `&type=blog">  ` + item.user.username + `:</a>
                                 </div>
                                 <div class="context" style="width: 400px" >
                                     ` + item.content + `
@@ -579,7 +713,7 @@
 
                                 //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
                                 //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
-                                next(lis.join(''), page <res.count); //假设总页数为 10
+                                next(lis.join(''), page < res.count); //假设总页数为 10
                                 // clik()
                             },
                             error: function (xhr) {
@@ -721,7 +855,7 @@
         $.ajax({
             url: "selectAllResocollect"
             , type: "get"
-            ,data:{"userid":userid,"id":id}
+            , data: {"userid": userid, "id": id}
             , dataType: "json"
             , success: function (jsonData) {
                 $("#Resocollect").empty()
