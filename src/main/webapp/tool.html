@@ -36,9 +36,63 @@
 </div>
 <div class="NAV">
     <div class="NAV-mian-left">
+        <div class="classify">
+            <div class="snsearch">
+                <div class="search-left">
+                    关键词：
+                </div>
+                <input type="text" class="searchtext" name="search" value="">
+                <input type="button" value="搜 索" class="searchbtn" onclick="searchbtn()">
+            </div>
+        </div>
         <div class="downloadlist" id="downloadlist">
-            <div style="font-size: 16px;margin-left: 20px;height: 30px;line-height: 30px;">下载列表</div>
+            <div style="font-size: 16px;margin-left: 20px;height: 30px;line-height: 30px;">工具列表</div>
+            <div class="list" data-id="111">
+                <div class="img-left">
+                    <img src="https://f10.baidu.com/it/u=227139024,1919453324&fm=76" style="width: 42px;height: 48px;"/>
+                </div>
+                <div class="context-model"  style="width: 600px">
+                    <div class="title" >
+                        <a href="music_unlock.html">音乐解锁</a>
+                    </div>
+                    <div class="main" style="margin-bottom: 10px">
+                        音乐是一种艺术形式和文化活动，其媒介是按时组织的声音。一般音乐的定义包括共同元件，例如音调（其支配旋律和和声），节奏（及其相关联的概念节奏，米，和关节），动态（响度和柔软性），和的声波品质音色和纹理（这是有时称为音乐声的“颜色”）。不同样式或类型音乐可能会强调，不强调或忽略其中的某些元素。音乐是用各种各样的乐器和声乐技术演奏的，从唱歌到说唱 ; 仅存在器乐作品，仅存在声乐作品（例如不带乐器伴奏的歌曲）以及将唱歌和乐器结合在一起的作品。这个词源于希腊语 μουσική（mousike；“ 缪斯艺术”）。 参见音乐术语表。
+                    </div>
 
+                </div>
+                <div class="img-right" style="width: 200px">
+                    <a href="music_unlock.html" class="layui-btn layui-btn-radius layui-btn-normal" style="margin-left: 100px">使用</a>
+                    <p style="font-size: 14px;color: #999;margin: 5px">
+                        最新更新时间：2020/08/06
+                    </p>
+                    <p style="font-size: 14px;color: #999;margin-left: 5px">
+                        作者：依梦
+                    </p>
+                </div>
+            </div>
+            <div class="list" data-id="111">
+                <div class="img-left">
+                    <img src="https://f10.baidu.com/it/u=227139024,1919453324&fm=76" style="width: 42px;height: 48px;"/>
+                </div>
+                <div class="context-model"  style="width: 600px">
+                    <div class="title" >
+                        <a href="music_unlock.html">音乐解锁</a>
+                    </div>
+                    <div class="main" style="margin-bottom: 10px">
+                        音乐是一种艺术形式和文化活动，其媒介是按时组织的声音。一般音乐的定义包括共同元件，例如音调（其支配旋律和和声），节奏（及其相关联的概念节奏，米，和关节），动态（响度和柔软性），和的声波品质音色和纹理（这是有时称为音乐声的“颜色”）。不同样式或类型音乐可能会强调，不强调或忽略其中的某些元素。音乐是用各种各样的乐器和声乐技术演奏的，从唱歌到说唱 ; 仅存在器乐作品，仅存在声乐作品（例如不带乐器伴奏的歌曲）以及将唱歌和乐器结合在一起的作品。这个词源于希腊语 μουσική（mousike；“ 缪斯艺术”）。 参见音乐术语表。
+                    </div>
+
+                </div>
+                <div class="img-right" style="width: 200px">
+                    <a href="music_unlock.html" class="layui-btn layui-btn-radius layui-btn-normal" style="margin-left: 100px">使用</a>
+                    <p style="font-size: 14px;color: #999;margin: 5px">
+                        最新更新时间：2020/08/06
+                    </p>
+                    <p style="font-size: 14px;color: #999;margin-left: 5px">
+                        作者：依梦
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
     <div class="NAV-mian-right">
@@ -61,9 +115,11 @@
                 <img src="imgs/gz/eduwxfix.png" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
                      alt="">
             </div>
-            <div style="padding-bottom: 5px;margin: 0 auto;width: 250px ;border-bottom: 1px #E0E0E0 solid"><span style="color:#8B8B8B;margin-left: 15px">YIMEM公众号</span><span
+            <div style="padding-bottom: 5px;margin: 0 auto;width: 250px ;border-bottom: 1px #E0E0E0 solid"><span
+                    style="color:#8B8B8B;margin-left: 15px">YIMEM公众号</span><span
                     style="color:#8B8B8B;margin-left: 60px">IT学院</span></div>
-            <div style="padding-top: 5px;margin: 0 auto;width: 250px"><span style="color:#3D3D3D;font-weight: bold;margin-left: 20px">关于我们</span>
+            <div style="padding-top: 5px;margin: 0 auto;width: 250px"><span
+                    style="color:#3D3D3D;font-weight: bold;margin-left: 20px">关于我们</span>
                 <span
                         style="color:#3D3D3D;margin-left: 20px">网站地图</span><span
                         style="color:#3D3D3D;margin-left: 20px">广告服务</span></div>
@@ -93,42 +149,6 @@
 </body>
 <script src="layui/layui.all.js"></script>
 <script>
-
-    var user = getUser();
-    var userid = 0;
-    if (user) {
-        userid = user.userId
-    }
-
-    $(function () {
-
-    });
-
-
-    // 用户详细
-
-    //获取当前用户
-    function getUser() {
-        var data;
-        $.ajax({
-            url: "isEnter"
-            , type: "get"
-            , dataType: "json"
-            , async: false
-            , success: function (jsonData) {
-                //////////////////////////console.log(jsonData)
-                if (jsonData.success == 1) {
-                    data = jsonData.data;
-                }
-            }
-            , error: function (res) {
-                //////////////////////////console.log("ajax提交错误")
-            }
-        })
-        return data;
-    }
-
-
 
 </script>
 </html>

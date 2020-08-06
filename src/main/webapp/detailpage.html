@@ -53,7 +53,7 @@
                                 <input type="checkbox" id="zzz" name="zzz" lay-skin="switch" lay-text="开启|关闭" checked>
                             </div>
                             <div class="layui-input-inline" style="margin-left: 100px;margin-top: -34px;">
-                                <label class="layui-form-label">返回预览</label>
+                                <label class="layui-form-label" onclick="bacak()" style="cursor: pointer">返回预览</label>
                                 <img style="width: 20px;height: 20px;" src="/imgs/btn/blog/back.png" alt=""
                                      onclick="bacak()">
                             </div>
@@ -174,6 +174,7 @@
 <!--js主入口-->
 <!--<script src="js/videoDetail/renderMain.js"></script>-->
 <script>
+    var zleixin
     var userBean;
     var dataIndex = 0; //后台获取的弹幕列表的游标，用于实时渲染弹幕。
     var danmakuList;
@@ -267,12 +268,38 @@
     })
 
     function bacak() {
+        dp.pause()
         $(".video").hide()
         $(".lists").show()
     }
-    function bacak2() {
-        $(".video").show()
-        $(".lists").hide()
+    function bacak2(zleixin) {
+        // console.log(zleixin)
+        if (zleixin=="flac"||zleixin=="mp3"||zleixin=="mp4") {
+            $.ajax({
+                url: "upload/yulang",
+                data: {"id": id},
+                type: "get",
+                dataType: "json",
+                success: function (json) {
+                   if (json.success=200){
+                       videoUrl=json.data
+                       console.log(videoUrl)
+                       getDplayer()
+                       ss()
+                       $(".video").show()
+                       $(".lists").hide()
+                   } else {
+                       layer.msg(json.errorMsg)
+                   }
+                }, error: function (xhr) {
+
+                }
+            })
+
+        }else {
+            layer.msg("该文件格式暂时不支持预览。")
+        }
+
     }
     // 限制字符
     function getStringUTFLength(str) {
@@ -329,8 +356,7 @@
     $(function () {
 
         yanzhenResocollect();
-        getDplayer()
-        ss()
+
         reply();
         if (userid != 0) {
             var html = ` <a href="perInfor.html?viewUserId=` + userid + `&type=blog"> <img src="` + user.headImg + `"
@@ -391,7 +417,7 @@
                 price = item.price
                 var filesize = item.size;
                 daxiao = renderSize(filesize);
-
+console.log(item.leixin2)
                 var html = ` <div class="list"  data-id="` + item.id + `" style="border:none ;">
                             <div class="img-left">
                                 <img src="imgs/filetype/` + path + `.svg" style="width: 42px;height: 48px;"/>
@@ -409,8 +435,8 @@
                                 <div class="grade">
                                     评分
                                     <div id="test1"></div>
-                                    <img style="width: 20px;height: 20px;" src="/imgs/btn/blog/yulang.png" alt="">
-                                    <span onclick="bacak2()">预览</span>
+                                    <img style="width: 20px;height: 20px;" src="/imgs/btn/blog/yulang.png" alt="" onclick="bacak2('`+item.leixin2+`')">
+                                    <span onclick="bacak2('`+item.leixin2+`')">预览</span>
                                 </div>
                                 <div class="size" style="font-size: 14px;color: #666;margin-top: 20px;">
                                     上传：` + item.createtime + ` 大小：` + daxiao + `

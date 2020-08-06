@@ -1,5 +1,6 @@
 package com.sy.controller;
 
+import com.sy.expection.CsdnExpection;
 import com.sy.mapper.UploadMapper;
 import com.sy.mapper.UserMapper;
 import com.sy.model.Power;
@@ -8,6 +9,7 @@ import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.model.resp.ResultVO;
 import com.sy.service.PowerService;
+import com.sy.service.UploadService;
 import com.sy.tool.AllEnum;
 import com.sy.tool.Constants;
 import com.sy.tool.FastDFSClient;
@@ -35,6 +37,32 @@ public class UploadController {
     private UploadMapper uploadMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UploadService uploadService;
+    @RequestMapping("/upload/yulang")
+    @ResponseBody
+    public  BaseResp yulang(Integer id){
+        BaseResp baseResp = new BaseResp();
+        Upload upload = new Upload();
+        try {
+            upload = uploadService.findById(id);
+            if (upload == null) {
+               baseResp.setSuccess(0);
+               baseResp.setErrorMsg("资源不存在！");
+            }
+        } catch (CsdnExpection csdnExpection) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("资源查询异常");
+        }
+        if ("flac".equals(upload.getLeixin2())||"mp3".equals(upload.getLeixin2())||"mp4".equals(upload.getLeixin2())){
+            baseResp.setSuccess(200);
+            baseResp.setData(upload.getSrc());
+        }else {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("该文件格式暂不支持预览");
+        }
+        return baseResp;
+    }
 
     @RequestMapping("/upload/remove")
     @ResponseBody

@@ -1,6 +1,7 @@
 // console.log(" %c 该项目基于Dplayer.js", 'color:red')
 
 function getDplayer() {
+    console.log("这是"+videoUrl)
     dp = new DPlayer({
         element: document.getElementById('Dplayer'),
         video: {
@@ -8,7 +9,8 @@ function getDplayer() {
             // url: 'http://media.w3.org/2010/05/sintel/trailer.mp4',
             // url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
             // url: videoUrl,
-            url: 'imgs/Shapeofyou.mp4',
+            url: videoUrl,
+            // url: 'http://www.yimem.com/group1/M00/00/01/wKgBBV8rtdqALyYBAiZGVZwzj1s71.flac',
             // url: 'imgs/止战之殇 - 周杰伦.flac',
             // url: 'http://huo.hongjiaozuida.com/20200705/6585_9d441eb5/无声的证言第十一季-05.mp4',
             // url: 'dpplay.zuidajiexi.com/?url=https://xigua-cdn.haima-zuida.com/20200528/7617_d15ce169/index.m3u8',

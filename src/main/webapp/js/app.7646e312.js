@@ -202,33 +202,35 @@
                 }), r("x-preview", {
                     attrs: {"table-data": e.tableData, download_format: e.download_format},
                     on: {music_changed: e.changePlaying}
-                })], 1), r("el-footer", {attrs: {id: "app-footer"}}, [r("el-row", [e._v(" 音乐解锁：移除已购音乐的加密保护。 目前支持网易云音乐(ncm)、QQ音乐(qmc, mflac, tkm)以及 "), r("a", {
+                })], 1), r("el-footer", {attrs: {id: "app-footer"}}, [r("el-row", [e._v(" 音乐解锁：移除已购音乐的加密保护。 目前支持网易云音乐(ncm)、QQ音乐(qmc, mflac, tkm)以及其他格式 "),
+                    r("a", {
                     attrs: {
                         href: "https://github.com/ix64/unlock-music/blob/master/README.md",
                         target: "_blank"
                     }
-                }, [e._v("其他格式")]), e._v("。 "), r("a", {
-                    attrs: {
-                        href: "https://github.com/ix64/unlock-music/wiki/使用提示",
-                        target: "_blank"
-                    }
-                }, [e._v("使用提示")])]), r("el-row", [r("span", [e._v("Copyright © 2019")]), r("a", {
-                    attrs: {
-                        href: "https://github.com/ix64",
-                        target: "_blank"
-                    }
-                }, [e._v("MengYX")]), e._v(" 音乐解锁使用 "), r("a", {
-                    attrs: {
-                        href: "https://github.com/ix64/unlock-music/blob/master/LICENSE",
-                        target: "_blank"
-                    }
-                }, [e._v("MIT许可协议")]), e._v(" 开放 "), r("a", {
-                    attrs: {
-                        href: "https://github.com/ix64/unlock-music",
-                        target: "_blank"
-                    }
-                }, [e._v("源代码")])])], 1)], 1)
-            }, B = [], E = (r("4160"), r("159b"), function () {
+                // }, [e._v("其他格式")]), e._v("。 "), r("a", {
+                //     attrs: {
+                //         href: "https://github.com/ix64/unlock-music/wiki/使用提示",
+                //         target: "_blank"
+                //     }
+                //  }
+                //     , [e._v("使用提示")])]), r("el-row", [r("span", [e._v("")]), r("a", {
+                //     attrs: {
+                //         href: "https://github.com/ix64",
+                //         target: "_blank"
+                //     }
+            //     }, [e._v("MengYX")]), e._v(" 音乐解锁使用 "), r("a", {
+            //         attrs: {
+            //             href: "https://github.com/ix64/unlock-music/blob/master/LICENSE",
+            //             target: "_blank"
+            //         }
+            //     }, [e._v("MIT许可协议")]), e._v(" 开放 "), r("a", {
+            //         attrs: {
+            //             href: "https://github.com/ix64/unlock-music",
+            //             target: "_blank"
+            //         }
+                 }, [e._v("")])])], 1)], 1)
+             }, B = [], E = (r("4160"), r("159b"), function () {
                 var e = this, t = e.$createElement, r = e._self._c || t;
                 return r("el-upload", {
                     attrs: {
