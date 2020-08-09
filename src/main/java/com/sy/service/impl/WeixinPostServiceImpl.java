@@ -337,7 +337,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 for (Upload upload : uploadList) {
                     count++;
                     String tile = upload.getTitle();
-                    String src = "http://www.yimem.com/appDetail.html?videoid=" + upload.getId();
+                    String src = "http://www.yimem.com/detailpage.html?id=" + upload.getId();
                     stringBuffer.append("\n\n<a href='" + src + "'>" + tile + "</a>");
                     if (count >= 5) {
                         break;
