@@ -3,6 +3,7 @@ package com.sy.controller;
 import com.sy.mapper.SearchMapper;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.SearchService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,11 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class SearchController {
+//    private Logger log = Logger.getLogger(SearchController.class.getName());
     @Autowired
     private SearchService searchService;
     @RequestMapping(value = "searchAll",method = RequestMethod.GET)
     public BaseResp queryAll(String key,HttpServletResponse response){
         BaseResp baseResp = searchService.queryAll(key);
+//        log.info("测试日志");
         if (baseResp.getSuccess()==404){
               response.setStatus(404);
         }else {
