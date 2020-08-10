@@ -9,6 +9,7 @@ import com.sy.service.impl.WeixinPostServiceImpl;
 import com.sy.tool.Constants;
 import com.sy.tool.MySessionContext;
 import com.sy.tool.WxUtils;
+import com.sy.tool.Xtool;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,15 +39,14 @@ public class WechatController {
     private UserServic userServic;
 
     /**
-     * 2020/8/10 后不再使用的扫码登录方式
+     * 2020/8/10 后不再使用的扫码登录方式 改造成账号绑定机制
      * @param request
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/getURL", method = RequestMethod.GET)
-    @ResponseBody
+//    @ResponseBody
     public String getURL(HttpServletRequest request) throws Exception {
-
         String state = WxUtils.getURL(Constants.APPID, Constants.REDIRECT_URI, request.getSession().getId());
         return state;
     }
@@ -70,7 +70,7 @@ public class WechatController {
 
 
     /**
-     * 2020/8/10 后不再使用的扫码登录方式
+     * 2020/8/10 后不再使用的扫码登录方式 改造成账号绑定机制
      * @param code
      * @param state
      * @param request
@@ -83,18 +83,20 @@ public class WechatController {
     public String login(String code, String state, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
         request.setCharacterEncoding("UTF-8");  //微信服务器POST消息时用的是UTF-8编码，在接收时也要用同样的编码，否则中文会乱码；
         response.setCharacterEncoding("UTF-8"); //在响应消息（回复消息给用户）时，也将编码方式设置为UTF-8，原理同上；
-        HttpSession session = MySessionContext.getSession(state);
+//        HttpSession session = MySessionContext.getSession(state);
         String s = WxUtils.getLoginAcessToken(Constants.APPID, Constants.APPSECRET, code);
         WeiXin weiXin = JSONObject.parseObject(s, WeiXin.class);
         String openid = weiXin.getOpenid();
-        User user = userServic.getUserByopenid(openid);
-        if (user == null) {
-            return "no";
-        }
-
-        session.setAttribute("user", user);
-        model.addAttribute("user", user);
-        return "yes";
+//        User user = userServic.getUserByopenid(openid);
+//        if (user == null) {
+//            return "no";
+//        }
+//
+//        session.setAttribute("user", user);
+//        model.addAttribute("user", user);
+//        return "yes";
+        request.getSession().setAttribute("openid", openid);
+        return "banding";
     }
 
     @RequestMapping(value = "/connect", method = {RequestMethod.GET, RequestMethod.POST})
@@ -133,7 +135,9 @@ public class WechatController {
 
                 try {
                     respMessage = weixinPostService.weixinPost(request);
-                    out.write(respMessage);
+                    if (respMessage!=null){
+                        out.write(respMessage);
+                    }
                     System.out.println("The request completed successfully");
                     System.out.println("to weixin server " + respMessage);
                 } catch (Exception e) {

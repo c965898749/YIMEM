@@ -115,5 +115,12 @@ public class LoginController {
         return "index";
     }
 
-
+//    /**
+//     * 用户微信绑定
+//     */
+//    @RequestMapping(value = "bangding",method = RequestMethod.POST)
+//    @ResponseBody
+//    public BaseResp bangding(HttpServletResponse response, HttpServletRequest request){
+//
+//    }
 }

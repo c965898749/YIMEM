@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="/css/weui.min.css"/>
 </head>
 <body>
+
+<%--2020 8/10 不再使用微信扫界面--%>
+
 <div class="container" id="container">
     <div class="weui_msg">
         <div class="weui_icon_area"><i class="weui_icon_warn weui_icon_msg"></i></div>

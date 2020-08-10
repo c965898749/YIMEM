@@ -44,7 +44,7 @@ public class WxUtils {
     }
 
     /**
-     * 2020/8/10 后不再使用的扫码登录方式
+     * 2020/8/10 后不再使用的扫码登录方式 改造成账号绑定
      * @param appid
      * @param redirect_uri
      * @param state
@@ -52,7 +52,10 @@ public class WxUtils {
      * @throws Exception
      */
     public static String getURL(String appid, String redirect_uri, String state) throws Exception {
-        String smsUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + redirect_uri + "&response_type=code&scope=snsapi_base&state=" + state + "#wechat_redirect";
+//        静默获取用户id
+//        String smsUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + redirect_uri + "&response_type=code&scope=snsapi_base&state=" + state + "#wechat_redirect";
+//        因为用户绑定或注册涉及头像昵称
+        String smsUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + redirect_uri + "&response_type=code&scope=snsapi_userinfo&state=" + state + "#wechat_redirect";
         return smsUrl;
     }
 

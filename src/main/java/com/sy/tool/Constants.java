@@ -39,6 +39,10 @@ public class Constants {
 
     public static final String TICKET_URL="https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN";
 
+    public static final String TEMPLATE="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
+
+    public static final String TEMPLATE_ID="WiLx_78eh1yP9TQeBwCxh2mfZt8CXhN3xvHXCwODX4c";
+
     public static final String[] type={"动作","喜剧","爱情","科幻","灾难","恐怖","悬疑","奇幻","战争","悬疑","犯罪"," 惊悚","动画","伦理",
             "剧情","冒险","历史","家庭","歌舞","传记","音乐"," 西部","运动","古装","家庭","情色","同性","武侠","短片","黑色电影","儿童",
     "舞台艺术","纪录片","鬼怪"};

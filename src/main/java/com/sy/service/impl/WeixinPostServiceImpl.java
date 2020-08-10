@@ -78,60 +78,36 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 TextMessage text = new TextMessage();
                 text.setMsgType(msgType);
                 System.out.println(content);
-                String kk = "【账号绑定】";
-                int count = content.indexOf(kk);
-                System.out.println(count);
-                if (count > -1 && Constants.TO_USER_NAME.equals(toUserName)) {
-                    String er = "你好， 绑定格式有问题!\n\n请仔细参照一下格式定格式\n【账号绑定】+账号+，+密码\n例如：\n【账号绑定】123456,123456";
-                    User user3 = userServic.getUserByopenid(fromUserName);
-                    if (user3 == null) {
-                        int count2 = content.indexOf(",");
-                        if (count2 > -1) {
-                            String usrname = content.substring(kk.length(), count2);
-                            String password = content.substring(count2 + 1, content.length());
-                            User user2 = new User();
-                            user2.setUsername(usrname);
-                            user2.setUserpassword(password);
-                            User user = userServic.getLoginUser(user2);
-                            if (user != null) {
-                                System.out.println(user.getUsername());
-                                user.setOpenid(fromUserName);
-                                userServic.updateuser(user);
-                                text.setContent("你好， 绑定成功~");
-                            } else {
-                                text.setContent("你好， 这账号密码不正确~");
-                            }
-                        } else {
-                            text.setContent("你好， 该微信绑定过账号~");
-                        }
-                    } else {
-                        text.setContent(er);
-                    }
-
-                } else {
                     text.setContent(this.getTextMessage(content).toString());
                     if (content.equals("账号绑定") || content.equals("账号") || content.equals("绑定") || content.equals("绑账号") || content.equals("绑")) {
-                        String message = null;
-                        Image image = new Image();
-                        AccessToken token = this.getAccessToken(toUserName);
+                        if (Constants.TO_USER_NAME.equals(toUserName)){
+                            text.setContent("请点击下方菜单 绑定账号");
+                            text.setToUserName(fromUserName);
+                            text.setFromUserName(toUserName);
+                            text.setCreateTime(new Date().getTime() + "");
+                            text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                            respMessage = MessageUtil.textMessageToXml(text);
+                        }else {
+                            String message = null;
+                            Image image = new Image();
+                            AccessToken token = this.getAccessToken(toUserName);
 //                        log.info("access_token为---------"+token.getToken());
-                        String path = request.getSession().getServletContext().getRealPath("/imgs/gz/eduwxfix.png");
-                        image.setMediaId(this.upload(path, token.getToken(), "image"));
+                            String path = request.getSession().getServletContext().getRealPath("/imgs/gz/eduwxfix.png");
+                            image.setMediaId(this.upload(path, token.getToken(), "image"));
 //                        log.info("MediaId为---------"+image.getMediaId());
-                        ImageMessage imageMessage = new ImageMessage();
-                        imageMessage.setFromUserName(toUserName);
-                        imageMessage.setToUserName(fromUserName);
-                        imageMessage.setMsgType("image");
-                        imageMessage.setCreateTime(new Date().getTime() + "");
-                        imageMessage.setImage(image);
-                        message = MessageUtil.textMessageToXml(imageMessage);
-                        return message;
-
+                            ImageMessage imageMessage = new ImageMessage();
+                            imageMessage.setFromUserName(toUserName);
+                            imageMessage.setToUserName(fromUserName);
+                            imageMessage.setMsgType("image");
+                            imageMessage.setCreateTime(new Date().getTime() + "");
+                            imageMessage.setImage(image);
+                            message = MessageUtil.textMessageToXml(imageMessage);
+                            return message;
+                        }
                     } else if (content.equals("广告") || content.equals("广告租用")) {
                         String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:18932200163\n或加微信:c965898749";
                         text.setContent(tt);
                     }
-                }
                 text.setToUserName(fromUserName);
                 text.setFromUserName(toUserName);
                 text.setCreateTime(new Date().getTime() + "");
@@ -163,7 +139,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
 //                    respContent = TulingApiProcess.getTulingResult(recvMessage);
                     if (recvMessage.equals("账号绑定") || recvMessage.equals("账号") || recvMessage.equals("绑定") || recvMessage.equals("绑账号") || recvMessage.equals("绑")) {
                         if (Constants.TO_USER_NAME.equals(toUserName)) {
-                            String tt = "账号绑定格式\n【账号绑定】+账号+，+密码\n例如：\n【账号绑定】123456,123456";
+                            String tt = "请点击下方菜单 绑定账号";
                             text.setContent(tt);
                             text.setToUserName(fromUserName);
                             text.setFromUserName(toUserName);
@@ -245,7 +221,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     User user = userServic.getUserByopenid(fromUserName);
                     if (user == null) {
                         TextMessage text = new TextMessage();
-                        text.setContent("您的账号还未绑定\n\n点击绑定账号");
+                        text.setContent("您的账号还未绑定\n\n请点击下方菜单 绑定账号");
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
                         text.setCreateTime(new Date().getTime() + "");
@@ -253,17 +229,11 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         respMessage = MessageUtil.textMessageToXml(text);
                     }else {
                         session.setAttribute("user", user);
-                        TextMessage text = new TextMessage();
                         Date day = new Date();
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        text.setContent("您的 "+user.getNickname()+"账号\n于"+df.format(day) + "登录成功");
-                        text.setToUserName(fromUserName);
-                        text.setFromUserName(toUserName);
-                        text.setCreateTime(new Date().getTime() + "");
-                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-                        respMessage = MessageUtil.textMessageToXml(text);
+                        this.sendTemplate(fromUserName,user.getNickname(),df.format(day));
+                        return null;
                     }
-
                 }
                 // TODO 取消订阅后用户再收不到公众号发送的消息，因此不需要回复消息
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {// 取消订阅
@@ -565,4 +535,19 @@ public class WeixinPostServiceImpl implements WeixinPostService {
         return ticket;
     }
 
+
+    public void sendTemplate(String fromUserName,String nickName,String time)throws IOException{
+        AccessToken token = new AccessToken();
+        String src = Constants.ACCESS_TOKEN_URL.replace("APPID", Constants.APPID).replace("APPSECRET", Constants.APPSECRET);
+        JSONObject jsonObject = doGetStr(src);
+        if (jsonObject != null) {
+            token.setToken(jsonObject.getString("access_token"));
+            token.setExpiresIn(jsonObject.getString("expires_in"));
+        }
+        //调用消息模板url
+        String  url = Constants.TEMPLATE.replace("ACCESS_TOKEN",token.getToken());
+        //生成消息模板
+        String data ="{\"touser\":\""+fromUserName+"\",\"template_id\":\""+Constants.TEMPLATE_ID+"\",\"url\":\"http://weixin.qq.com/download\",\"topcolor\":\"#FF0000\",\"data\":{\"first\":{\"value\":\""+nickName+"\",\"color\":\"#173177\"},\"four\":{\"value\":\""+time+"\",\"color\":\"#173177\"}}}";
+        doPostStr(url,data);
+    }
 }
