@@ -11,7 +11,6 @@ function getDplayer() {
             // url: videoUrl,
             url: videoUrl,
             // url: 'http://www.yimem.com/group1/M00/00/01/wKgBBV8rtdqALyYBAiZGVZwzj1s71.flac',
-            // url: 'imgs/止战之殇 - 周杰伦.flac',
             // url: 'http://huo.hongjiaozuida.com/20200705/6585_9d441eb5/无声的证言第十一季-05.mp4',
             // url: 'dpplay.zuidajiexi.com/?url=https://xigua-cdn.haima-zuida.com/20200528/7617_d15ce169/index.m3u8',
             // url: 'https://vd1.bdstatic.com/mda-hgu96tg1ddv2gie2/hd/mda-hgu96tg1ddv2gie2.mp4?auth_key=1566017205-0-0-25ba1683b1aca9cae40098f98022fcbc&bcevod_channel=searchbox_feed&pd=wisenatural&abtest=all',

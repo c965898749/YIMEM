@@ -40,13 +40,21 @@ public class WxUtils {
             strResult = EntityUtils.toString(response
                     .getEntity(), "UTF-8");
         }
-
-        System.out.println(strResult);
         return strResult;
     }
 
+    /**
+     * 2020/8/10 后不再使用的扫码登录方式
+     * @param appid
+     * @param redirect_uri
+     * @param state
+     * @return
+     * @throws Exception
+     */
     public static String getURL(String appid, String redirect_uri, String state) throws Exception {
         String smsUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + redirect_uri + "&response_type=code&scope=snsapi_base&state=" + state + "#wechat_redirect";
         return smsUrl;
     }
+
+
 }

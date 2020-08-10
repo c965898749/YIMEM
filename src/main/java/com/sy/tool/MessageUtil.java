@@ -71,6 +71,11 @@ public class MessageUtil {
     public static final String EVENT_TYPE_UNSUBSCRIBE = "unsubscribe";
 
     /**
+     * 事件类型：SCAN（扫码登录验证）
+     */
+    public static final String SCAN="SCAN";
+
+    /**
      * 事件类型：CLICK(自定义菜单点击事件)
      */
     public static final String EVENT_TYPE_CLICK = "CLICK";

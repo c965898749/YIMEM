@@ -46,10 +46,17 @@
 //        System.out.println(baseResp.toString());
 //    }
 //    @Test
-//    public void AA3() throws Exception {
-//       String aa= weixinPostService.upload("D:\\VRMS-Workspace\\gz.jpg","","image");
+//    public void AA4() throws Exception {
+////        BaseResp baseResp=searchService.queryAll("生化危机");
+////        System.out.println(baseResp.toString());
+//        String aa=weixinPostService.getTicketData("abcd");
 //        System.out.println(aa);
 //    }
+////    @Test
+////    public void AA3() throws Exception {
+////       String aa= weixinPostService.upload("D:\\VRMS-Workspace\\gz.jpg","","image");
+////        System.out.println(aa);
+////    }
 ////@Test
 //////    public void addUserTest() throws Exception {
 //////    }

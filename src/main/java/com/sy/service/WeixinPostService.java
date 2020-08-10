@@ -6,4 +6,5 @@ import java.io.IOException;
 
 public interface WeixinPostService {
     String weixinPost(HttpServletRequest request);
+    String getTicketData(String SessionId)throws IOException;
 }

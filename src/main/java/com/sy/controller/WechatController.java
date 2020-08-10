@@ -5,9 +5,11 @@ import com.sy.model.User;
 import com.sy.model.weixin.WeiXin;
 import com.sy.service.UserServic;
 import com.sy.service.WeixinPostService;
+import com.sy.service.impl.WeixinPostServiceImpl;
 import com.sy.tool.Constants;
 import com.sy.tool.MySessionContext;
 import com.sy.tool.WxUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -29,12 +31,18 @@ import java.util.Arrays;
 public class WechatController {
     @Value("${DNBX_TOKEN}")
     private String DNBX_TOKEN;
-
+    private Logger log = Logger.getLogger(WechatController.class.getName());
     @Autowired
     private WeixinPostService weixinPostService;
     @Autowired
     private UserServic userServic;
 
+    /**
+     * 2020/8/10 后不再使用的扫码登录方式
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/getURL", method = RequestMethod.GET)
     @ResponseBody
     public String getURL(HttpServletRequest request) throws Exception {
@@ -43,6 +51,34 @@ public class WechatController {
         return state;
     }
 
+    /**
+     * 2020/8/10 使用微信官方自带二维码生成结构
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getURL2", method = RequestMethod.GET)
+    @ResponseBody
+    public String getURL2(HttpServletRequest request) throws Exception {
+        String state=weixinPostService.getTicketData(request.getSession().getId());
+        log.info("Ticket号是："+state+"---Sessionid是："+request.getSession().getId());
+        return  java.net.URLDecoder.decode(state, "UTF-8");
+
+//        String state = WxUtils.getURL(Constants.APPID, Constants.REDIRECT_URI, request.getSession().getId());
+//        return state;
+    }
+
+
+    /**
+     * 2020/8/10 后不再使用的扫码登录方式
+     * @param code
+     * @param state
+     * @param request
+     * @param response
+     * @param model
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(String code, String state, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
         request.setCharacterEncoding("UTF-8");  //微信服务器POST消息时用的是UTF-8编码，在接收时也要用同样的编码，否则中文会乱码；

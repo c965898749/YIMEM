@@ -196,24 +196,54 @@
 
 </body>
 <script>
+    // 2020 8/10不再使用的扫码登录方式
+    // $(function () {
+    //     runEvery10Sec()
+    //     $.ajax({
+    //         url: '/wechat/getURL',
+    //         type: 'GET',
+    //         dataType: 'text',
+    //         error: function(){
+    //
+    //         },
+    //         success: function(jsonData){
+    //             //初始化存放二维码的div
+    //             var qrcode = new QRCode(document.getElementById("qrcode"), {
+    //                 width : 200,
+    //                 height : 200
+    //             });
+    //             //window.location.href获取到URL
+    //             qrcode.makeCode(jsonData);
+    //             // qrcode.makeCode('https://www.baidu.com');
+    //         }
+    //     });
+    // })
+
+    // 2020 8/10 新的扫码登录方式
     $(function () {
         runEvery10Sec()
         $.ajax({
-            url: '/wechat/getURL',
+            url: '/wechat/getURL2',
             type: 'GET',
             dataType: 'text',
             error: function(){
 
             },
             success: function(jsonData){
-                //初始化存放二维码的div
-                var qrcode = new QRCode(document.getElementById("qrcode"), {
-                    width : 200,
-                    height : 200
-                });
-                //window.location.href获取到URL
-                qrcode.makeCode(jsonData);
-                // qrcode.makeCode('https://www.baidu.com');
+                var url_ticket = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=";
+                if (jsonData!=null){
+                    var html=`<img src="${url_ticket+jsonData}" alt=""></div>`;
+                // console.log(jsonData)
+                }
+                $("#qrcode").append(html)
+                // //初始化存放二维码的div
+                // var qrcode = new QRCode(document.getElementById("qrcode"), {
+                //     width : 200,
+                //     height : 200
+                // });
+                // //window.location.href获取到URL
+                // qrcode.makeCode(jsonData);
+                // // qrcode.makeCode('https://www.baidu.com');
             }
         });
     })

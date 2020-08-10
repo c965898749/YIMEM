@@ -11,6 +11,7 @@ import com.sy.service.UserServic;
 import com.sy.service.WeixinPostService;
 import com.sy.tool.Constants;
 import com.sy.tool.MessageUtil;
+import com.sy.tool.MySessionContext;
 import com.sy.tool.Xtool;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -25,9 +26,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -63,6 +66,8 @@ public class WeixinPostServiceImpl implements WeixinPostService {
             String msgType = requestMap.get("MsgType");
             // 消息内容
             String content = requestMap.get("Content");
+            // 事件KEY值，是一个32位无符号整数，即创建二维码时的二维码scene_id
+            String EventKey=requestMap.get("EventKey");
 
             log.info("FromUserName is:" + fromUserName + ", ToUserName is:" + toUserName + ", MsgType is:" + msgType);
 
@@ -122,6 +127,9 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         message = MessageUtil.textMessageToXml(imageMessage);
                         return message;
 
+                    } else if (content.equals("广告") || content.equals("广告租用")) {
+                        String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:18932200163\n或加微信:c965898749";
+                        text.setContent(tt);
                     }
                 }
                 text.setToUserName(fromUserName);
@@ -150,11 +158,11 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 TextMessage text = new TextMessage();
                 text.setMsgType(MessageUtil.REQ_MESSAGE_TYPE_TEXT);
                 if (Xtool.isNotNull(recvMessage)) {
-                    log.info("微信声音识别--------"+recvMessage);
-                    recvMessage = recvMessage.substring(0,recvMessage.length() - 1);
+                    log.info("微信声音识别--------" + recvMessage);
+                    recvMessage = recvMessage.substring(0, recvMessage.length() - 1);
 //                    respContent = TulingApiProcess.getTulingResult(recvMessage);
                     if (recvMessage.equals("账号绑定") || recvMessage.equals("账号") || recvMessage.equals("绑定") || recvMessage.equals("绑账号") || recvMessage.equals("绑")) {
-                        if (Constants.TO_USER_NAME.equals(toUserName)){
+                        if (Constants.TO_USER_NAME.equals(toUserName)) {
                             String tt = "账号绑定格式\n【账号绑定】+账号+，+密码\n例如：\n【账号绑定】123456,123456";
                             text.setContent(tt);
                             text.setToUserName(fromUserName);
@@ -162,7 +170,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                             text.setCreateTime(new Date().getTime() + "");
                             text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                             respMessage = MessageUtil.textMessageToXml(text);
-                        }else {
+                        } else {
                             String message = null;
                             Image image = new Image();
                             AccessToken token = this.getAccessToken(toUserName);
@@ -179,7 +187,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                             message = MessageUtil.textMessageToXml(imageMessage);
                             return message;
                         }
-                    }else if (recvMessage.equals("广告")){
+                    } else if (recvMessage.equals("广告") || recvMessage.equals("广告租用")) {
                         String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:18932200163\n或加微信:c965898749";
                         text.setContent(tt);
                         text.setToUserName(fromUserName);
@@ -188,8 +196,8 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                         respMessage = MessageUtil.textMessageToXml(text);
                     } else {
-                        StringBuffer stringBuffer=this.getTextMessage(recvMessage);
-                        log.info("微信输出信息-------------"+stringBuffer.toString());
+                        StringBuffer stringBuffer = this.getTextMessage(recvMessage);
+                        log.info("微信输出信息-------------" + stringBuffer.toString());
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
                         text.setCreateTime(new Date().getTime() + "");
@@ -217,16 +225,44 @@ public class WeixinPostServiceImpl implements WeixinPostService {
             // 事件推送
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
                 String eventType = requestMap.get("Event");// 事件类型
+                log.info("事件类型---"+eventType+"--EventKey值--"+EventKey);
                 // 订阅
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
 
                     TextMessage text = new TextMessage();
-                    text.setContent("欢迎关注，我是小梦\n\n您可以对我语音或者文字\n\n(>‿◠)✌我将为您查询本站相关内容\n\n如需微信号绑定登录请说 \n<span style=\"color: #0B90C4;font-weight: bolder\">绑定账号</span>\n\n如需网站广告租用请说 \n<span style=\"color: #0B90C4;font-weight: bolder\">广告</span>");
+                    text.setContent("欢迎关注，我是小梦\n\n您可以对我语音或者文字\n\n(>‿◠)✌我将为您查询本站相关内容\n\n如需微信号绑定登录请说 \n绑定账号\n\n如需网站广告租用请说 \n广告租用");
                     text.setToUserName(fromUserName);
                     text.setFromUserName(toUserName);
                     text.setCreateTime(new Date().getTime() + "");
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                     respMessage = MessageUtil.textMessageToXml(text);
+
+                }
+                // TODO 2020/8/10 扫码登录方案
+                else if (eventType.equals(MessageUtil.SCAN)) {
+                    HttpSession session = MySessionContext.getSession(EventKey);
+
+                    User user = userServic.getUserByopenid(fromUserName);
+                    if (user == null) {
+                        TextMessage text = new TextMessage();
+                        text.setContent("您的账号还未绑定\n\n点击绑定账号");
+                        text.setToUserName(fromUserName);
+                        text.setFromUserName(toUserName);
+                        text.setCreateTime(new Date().getTime() + "");
+                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                        respMessage = MessageUtil.textMessageToXml(text);
+                    }else {
+                        session.setAttribute("user", user);
+                        TextMessage text = new TextMessage();
+                        Date day = new Date();
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        text.setContent("您的 "+user.getNickname()+"账号\n于"+df.format(day) + "登录成功");
+                        text.setToUserName(fromUserName);
+                        text.setFromUserName(toUserName);
+                        text.setCreateTime(new Date().getTime() + "");
+                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                        respMessage = MessageUtil.textMessageToXml(text);
+                    }
 
                 }
                 // TODO 取消订阅后用户再收不到公众号发送的消息，因此不需要回复消息
@@ -284,15 +320,15 @@ public class WeixinPostServiceImpl implements WeixinPostService {
             }
         } catch (Exception e) {
             System.out.println("error......");
-            log.info("微信异常---------------"+e.getMessage());
+            log.info("微信异常---------------" + e.getMessage());
         }
         return respMessage;
     }
 
-    public StringBuffer getTextMessage(String recvMessage){
+    public StringBuffer getTextMessage(String recvMessage) {
         StringBuffer stringBuffer = new StringBuffer();
         BaseResp baseResp = new BaseResp();
-        stringBuffer.append("小梦，为您搜寻:"+"  "+recvMessage+"  相关资源");
+        stringBuffer.append("小梦，为您搜寻:" + "  " + recvMessage + "  相关资源");
         int count;
         baseResp = searchService.queryAll(recvMessage);
 //                    log.info("查询结果-------------"+baseResp.toString());
@@ -345,10 +381,10 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 }
                 stringBuffer.append("\n\n<a href='http://www.yimem.com/searchResult_page.html?key=" + recvMessage + "'>点击查询更多</a>");
             }
-            if (Xtool.isNull(blogList)&&Xtool.isNull(videos)&&Xtool.isNull(uploadList)){
+            if (Xtool.isNull(blogList) && Xtool.isNull(videos) && Xtool.isNull(uploadList)) {
                 stringBuffer.append("\n\n抱歉暂未找到你想要的资源T_T");
             }
-        }else {
+        } else {
             stringBuffer.append("\n\n抱歉暂未找到你想要的资源T_T");
         }
         return stringBuffer;
@@ -464,7 +500,6 @@ public class WeixinPostServiceImpl implements WeixinPostService {
             token.setToken(jsonObject.getString("access_token"));
             token.setExpiresIn(jsonObject.getString("expires_in"));
         }
-        System.out.println(token.getToken());
         return token;
     }
 
@@ -501,6 +536,33 @@ public class WeixinPostServiceImpl implements WeixinPostService {
         String result = EntityUtils.toString(response.getEntity(), "UTF-8");
         jsonObject = JSONObject.parseObject(result);
         return jsonObject;
+    }
+
+
+    /**
+     * 获取生成二维码Ticke值（临时二维码）
+     *
+     * @param SessionId
+     * @return
+     */
+    public String getTicketData(String SessionId) throws IOException {
+        AccessToken token = new AccessToken();
+        String src = Constants.ACCESS_TOKEN_URL.replace("APPID", Constants.APPID).replace("APPSECRET", Constants.APPSECRET);
+        JSONObject jsonObject = doGetStr(src);
+        if (jsonObject != null) {
+            token.setToken(jsonObject.getString("access_token"));
+            token.setExpiresIn(jsonObject.getString("expires_in"));
+        }
+        //临时字符二维码url
+        String  url = Constants.TICKET_URL.replace("ACCESS_TOKEN",token.getToken());
+        //二维码参数，以及过期时间
+        String data = "{\"expire_seconds\": 600000000, \"action_name\": \"QR_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\":\""+ SessionId +"\"}}}";
+        JSONObject object = doPostStr(url,data);
+        String ticket=null;
+        if (object != null) {
+            ticket=object.getString("ticket");
+        }
+        return ticket;
     }
 
 }
