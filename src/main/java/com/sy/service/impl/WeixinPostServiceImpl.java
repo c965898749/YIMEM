@@ -232,7 +232,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         session.setAttribute("user", user);
                         Date day = new Date();
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        this.sendTemplate(fromUserName,user.getNickname(),df.format(day));
+                        this.sendTemplate(fromUserName,user.getUsername(),df.format(day));
                         return null;
                     }
                 }
@@ -246,7 +246,8 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     String eventKey = requestMap.get("EventKey");// 事件KEY值，与创建自定义菜单时指定的KEY值对应
                     if (eventKey.equals("customer_telephone")) {
                         TextMessage text = new TextMessage();
-                        text.setContent("18932200163");
+                        String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:18932200163\n或加微信:c965898749";
+                        text.setContent(tt);
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
                         text.setCreateTime(new Date().getTime() + "");
@@ -270,16 +271,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         text.setCreateTime(new Date().getTime() + "");
                         text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                         respMessage = MessageUtil.textMessageToXml(text);
-                    } else if (eventKey.equals("bangding")) {
-                        TextMessage text = new TextMessage();
-                        String tt = "账号绑定格式\n【账号绑定】+账号+，+密码\n例如：\n【账号绑定】123456,123456";
-                        text.setContent(tt);
-                        text.setToUserName(fromUserName);
-                        text.setFromUserName(toUserName);
-                        text.setCreateTime(new Date().getTime() + "");
-                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-                        respMessage = MessageUtil.textMessageToXml(text);
-                    } else {
+                    }  else {
                         User user = userServic.getUserByopenid(fromUserName);
                         System.out.println(user);
                         if (user != null) {
@@ -548,7 +540,38 @@ public class WeixinPostServiceImpl implements WeixinPostService {
         //调用消息模板url
         String  url = Constants.TEMPLATE.replace("ACCESS_TOKEN",token.getToken());
         //生成消息模板
-        String data ="{\"touser\":\""+fromUserName+"\",\"template_id\":\""+Constants.TEMPLATE_ID+"\",\"url\":\"http://weixin.qq.com/download\",\"topcolor\":\"#FF0000\",\"data\":{\"first\":{\"value\":\""+nickName+"\",\"color\":\"#173177\"},\"four\":{\"value\":\""+time+"\",\"color\":\"#173177\"}}}";
+        String data ="{\"touser\":\""+fromUserName+"\",\"template_id\":\""+Constants.TEMPLATE_ID+"\",\"url\":\"http://www.yimem.com\",\"topcolor\":\"#FF0000\",\"data\":{\"first\":{\"value\":\""+nickName+"\",\"color\":\"#173177\"},\"four\":{\"value\":\""+time+"\",\"color\":\"#173177\"}}}";
+        doPostStr(url,data);
+    }
+
+    public void sendTemplate2(String fromUserName,String username,String nickname,String time)throws IOException{
+        AccessToken token = new AccessToken();
+        String src = Constants.ACCESS_TOKEN_URL.replace("APPID", Constants.APPID).replace("APPSECRET", Constants.APPSECRET);
+        JSONObject jsonObject = doGetStr(src);
+        if (jsonObject != null) {
+            token.setToken(jsonObject.getString("access_token"));
+            token.setExpiresIn(jsonObject.getString("expires_in"));
+        }
+        //调用消息模板url
+        String  url = Constants.TEMPLATE.replace("ACCESS_TOKEN",token.getToken());
+        //生成消息模板
+        String data ="{\"touser\":\""+fromUserName+"\",\"template_id\":\""+Constants.TEMPLATE_ID2+"\",\"url\":\"http://www.yimem.com\",\"topcolor\":\"#FF0000\",\"data\":{\"first\":{\"value\":\""+username+"\",\"color\":\"#173177\"},\"sec\":{\"value\":\""+time+"\",\"color\":\"#173177\"},\"four\":{\"value\":\""+nickname+"\",\"color\":\"#173177\"}}}";
+        doPostStr(url,data);
+    }
+
+
+    public void sendTemplate3(String fromUserName,String nickname,String username,String time)throws IOException{
+        AccessToken token = new AccessToken();
+        String src = Constants.ACCESS_TOKEN_URL.replace("APPID", Constants.APPID).replace("APPSECRET", Constants.APPSECRET);
+        JSONObject jsonObject = doGetStr(src);
+        if (jsonObject != null) {
+            token.setToken(jsonObject.getString("access_token"));
+            token.setExpiresIn(jsonObject.getString("expires_in"));
+        }
+        //调用消息模板url
+        String  url = Constants.TEMPLATE.replace("ACCESS_TOKEN",token.getToken());
+        //生成消息模板
+        String data ="{\"touser\":\""+fromUserName+"\",\"template_id\":\""+Constants.TEMPLATE_ID3+"\",\"url\":\"http://www.yimem.com\",\"topcolor\":\"#FF0000\",\"data\":{\"first\":{\"value\":\""+username+"\",\"color\":\"#173177\"},\"four\":{\"value\":\""+time+"\",\"color\":\"#173177\"},\"sec\":{\"value\":\""+nickname+"\",\"color\":\"#173177\"}}}";
         doPostStr(url,data);
     }
 }

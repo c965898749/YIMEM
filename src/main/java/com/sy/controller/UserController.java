@@ -11,6 +11,7 @@ import com.sy.model.weixin.WeiXinUser;
 import com.sy.service.DownloadService;
 import com.sy.service.EmailService;
 import com.sy.service.UserServic;
+import com.sy.service.WeixinPostService;
 import com.sy.tool.DESUtil;
 import com.sy.tool.Xtool;
 import org.apache.log4j.Logger;
@@ -45,20 +46,29 @@ public class UserController {
     BaseResp baseResp = new BaseResp();
     @Autowired
     private DownloadService downloadService;
+    @Autowired
+    private WeixinPostService weixinPostService;
 
     @Autowired
     private UserMapper userMapper;
+
     //登录接口
     @RequestMapping(value = "loginVerification", method = RequestMethod.POST)
     public BaseResp loginVerification(String username, String userpassword, HttpServletRequest request) {
         try {
+            Date day = new Date();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             baseResp = servic.loginVerification(username, userpassword);
             if (baseResp.getSuccess() == 1) {
+                User user=(User) baseResp.getData();
+                if (Xtool.isNotNull(user.getOpenid())){
+                    weixinPostService.sendTemplate(user.getOpenid(),user.getUsername(),df.format(day));
+                }
                 Date date = new Date();
                 //时间+账号+密码进行DES加密
                 String token = DESUtil.getEncryptString(date + ";" + username + ";" + userpassword);
                 baseResp.setErrorMsg(token);
-                System.out.println("生成token:    "+token);
+                System.out.println("生成token:    " + token);
                 request.getSession().setAttribute("user", baseResp.getData());
             }
             return baseResp;
@@ -69,39 +79,46 @@ public class UserController {
         }
     }
 
-//    绑定接口
-@RequestMapping(value = "bingding", method = RequestMethod.POST)
-public BaseResp bingding(String username, String userpassword, HttpServletRequest request) {
-        log.info("绑定用户账号---"+username+"---密码-----"+userpassword);
-    try {
-        baseResp = servic.loginVerification(username, userpassword);
-        if (baseResp.getSuccess() == 1) {
-            WeiXinUser weiXinUser = (WeiXinUser) request.getSession().getAttribute("weiXinUser");
-            if (weiXinUser==null){
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("暂未授权该公众号！");
-                return baseResp;
+    //    绑定接口
+    @RequestMapping(value = "bingding", method = RequestMethod.POST)
+    public BaseResp bingding(String username, String userpassword, HttpServletRequest request) {
+        log.info("绑定用户账号---" + username + "---密码-----" + userpassword);
+        try {
+            baseResp = servic.loginVerification(username, userpassword);
+            if (baseResp.getSuccess() == 1) {
+                WeiXinUser weiXinUser = (WeiXinUser) request.getSession().getAttribute("weiXinUser");
+                if (weiXinUser == null) {
+                    baseResp.setSuccess(0);
+                    baseResp.setErrorMsg("暂未授权该公众号！");
+                    return baseResp;
+                }
+                User xx = servic.getUserByopenid(weiXinUser.getOpenid());
+                if (xx != null) {
+                    baseResp.setSuccess(0);
+                    baseResp.setErrorMsg("该微信号已绑定过公众号！");
+                    return baseResp;
+                }
+                User user2 = new User();
+                user2.setUsername(username);
+                user2.setUserpassword(userpassword);
+                User user = servic.getLoginUser(user2);
+                if (user != null) {
+                    System.out.println(user.getUsername());
+                    user.setOpenid(weiXinUser.getOpenid());
+                    servic.updateuser(user);
+                } else {
+                    baseResp.setSuccess(0);
+                    baseResp.setErrorMsg("账号密码有误！");
+                }
             }
-            User user2=new User();
-            user2.setUsername(username);
-            user2.setUserpassword(userpassword);
-            User user = servic.getLoginUser(user2);
-            if (user != null) {
-                System.out.println(user.getUsername());
-                user.setOpenid(weiXinUser.getOpenid());
-                servic.updateuser(user);
-            } else {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("账号密码有误！");
-            }
+            return baseResp;
+        } catch (Exception e) {
+            baseResp.setErrorMsg("服务器异常！");
+            baseResp.setSuccess(0);
+            return baseResp;
         }
-        return baseResp;
-    } catch (Exception e) {
-        baseResp.setErrorMsg("服务器异常！");
-        baseResp.setSuccess(0);
-        return baseResp;
     }
-}
+
     //发送邮箱验证码
     @RequestMapping(value = "emilcode", method = RequestMethod.POST)
     public BaseResp emilcode(String username, HttpServletRequest request) {
@@ -183,16 +200,29 @@ public BaseResp bingding(String username, String userpassword, HttpServletReques
 
     /**
      * 微信注册接口
+     *
      * @param
      * @return
      */
     @RequestMapping(value = "weixinRegist", method = RequestMethod.POST)
-    public  BaseResp weixinRegist(String username, String userpassword, HttpServletRequest request){
+    public BaseResp weixinRegist(String username, String userpassword, HttpServletRequest request) {
         User user = new User();
         user.setUsername(username);
         user.setUserpassword(userpassword);
         List<User> userList = userMapper.SelectAllUser();
         List<String> usernamelist = new ArrayList<>();
+        WeiXinUser weiXinUser = (WeiXinUser) request.getSession().getAttribute("weiXinUser");
+        if (weiXinUser == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("暂未授权该公众号！");
+            return baseResp;
+        }
+        User xx = servic.getUserByopenid(weiXinUser.getOpenid());
+        if (xx != null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("该微信号已绑定过公众号！");
+            return baseResp;
+        }
         for (User user1 : userList) {
             usernamelist.add(user1.getUsername());
         }
@@ -201,12 +231,11 @@ public BaseResp bingding(String username, String userpassword, HttpServletReques
             baseResp.setErrorMsg("您输入的账号已存在，请重新输入");
             return baseResp;
         }
-        WeiXinUser weiXinUser = (WeiXinUser) request.getSession().getAttribute("weiXinUser");
         user.setNickname(weiXinUser.getNickname());
         user.setSex(weiXinUser.getSex());
         user.setHeadImg(weiXinUser.getHeadimgurl());
         user.setCity(weiXinUser.getCity());
-        user.setCounty(weiXinUser.getProvince());
+        user.setProvinces(weiXinUser.getProvince());
         user.setOpenid(weiXinUser.getOpenid());
         int result = userMapper.insertUser(user);
         if (result > 0) {
@@ -231,7 +260,7 @@ public BaseResp bingding(String username, String userpassword, HttpServletReques
                 switch (cookie.getName()) {
                     //对cookie进行解码
                     case "token":
-                        token =cookie.getValue();
+                        token = cookie.getValue();
                         break;
                     default:
                         break;
@@ -239,15 +268,15 @@ public BaseResp bingding(String username, String userpassword, HttpServletReques
             }
         }
         try {
-            token=URLEncoder.encode(token,"UTF-8");
-            token=URLDecoder.decode(token,"UTF-8");
+            token = URLEncoder.encode(token, "UTF-8");
+            token = URLDecoder.decode(token, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         System.out.println("token2   " + token);
         if (Xtool.isNotNull(token)) {
             String key = DESUtil.getDecryptString(token);
-            if (Xtool.isNotNull(key)){
+            if (Xtool.isNotNull(key)) {
 //                System.out.println(1111);
                 String[] str = key.split(";");
                 Date ss = new Date(str[0]);
@@ -256,7 +285,7 @@ public BaseResp bingding(String username, String userpassword, HttpServletReques
 //            System.out.println(betweendays);
                 if (betweendays < 30) {
                     try {
-                        System.out.println(str[1]+"--------------"+str[2]);
+                        System.out.println(str[1] + "--------------" + str[2]);
                         baseResp = servic.loginVerification(str[1], str[2]);
                         if (baseResp.getSuccess() == 1) {
                             request.getSession().setAttribute("user", baseResp.getData());

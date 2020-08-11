@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.sy.model.weixin.WeiXinUser" %>
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
 <head>
@@ -10,7 +11,6 @@
 </head>
 <body>
 <div class="container" id="container">
-
     <div class="hd">
         <h1 class="page_title">  </h1>
     </div>
@@ -79,6 +79,7 @@
                     setTimeout(function () {
                         $('#toast').hide();
                     }, 2000);
+                    sendmsg()
                     closePage()
                 } else {
                     $('#toast2').show();
@@ -109,6 +110,18 @@
             //ios手机
             WeixinJSBridge.call("closeWindow");
         }, 100);
+    }
+    function sendmsg() {
+        $.ajax({
+            url: "/wechat/sendMesg"
+            , type: "POST"
+            , data: {"Message":'banding'}
+            , dataType: "json"
+            , success: function (jsonData) {
+            }
+            , error: function (res) {
+            }
+        })
     }
 </script>
 </body>

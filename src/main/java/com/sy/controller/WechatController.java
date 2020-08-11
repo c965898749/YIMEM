@@ -2,15 +2,13 @@ package com.sy.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sy.model.User;
+import com.sy.model.weixin.TextMessage;
 import com.sy.model.weixin.WeiXin;
 import com.sy.model.weixin.WeiXinUser;
 import com.sy.service.UserServic;
 import com.sy.service.WeixinPostService;
 import com.sy.service.impl.WeixinPostServiceImpl;
-import com.sy.tool.Constants;
-import com.sy.tool.MySessionContext;
-import com.sy.tool.WxUtils;
-import com.sy.tool.Xtool;
+import com.sy.tool.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +24,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/wechat")
@@ -142,10 +142,8 @@ public class WechatController {
                     if (respMessage!=null){
                         out.write(respMessage);
                     }
-                    System.out.println("The request completed successfully");
-                    System.out.println("to weixin server " + respMessage);
                 } catch (Exception e) {
-                    System.out.println("Failed to convert the message from weixin!");
+                   log.info("Failed to convert the message from weixin!");
                 }
 
             }
@@ -154,6 +152,30 @@ public class WechatController {
         } finally {
             out.close();
         }
+    }
+
+    /**
+     * 主动触发消息
+     */
+    @RequestMapping(value = "/sendMesg", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void sendMesg(String Message,HttpServletRequest request, HttpServletResponse response) throws IOException {
+        log.info("主动触发消息------------------------");
+        Date day = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (Xtool.isNotNull(Message)){
+            WeiXinUser weiXinUser = (WeiXinUser) request.getSession().getAttribute("weiXinUser");
+            User xx=userServic.getUserByopenid(weiXinUser.getOpenid());
+            if (weiXinUser!=null&&xx!=null&&Xtool.isNotNull(xx.getOpenid())){
+                if ("banding".equals(Message)){
+                    weixinPostService.sendTemplate2(xx.getOpenid(),xx.getUsername(),weiXinUser.getNickname(),df.format(day));
+                }  else {
+                    weixinPostService.sendTemplate3(xx.getOpenid(),weiXinUser.getNickname(),xx.getUsername(),df.format(day));
+                }
+            }
+
+        }
+
     }
 
 }

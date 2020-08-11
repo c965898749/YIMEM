@@ -20,13 +20,13 @@
         <div class="weui_cells_title">注册账号</div>
         <div class="weui_cells weui_cells_form">
             <div class="weui_cell">
-                <div class="weui_cell_hd"><label class="weui_label">yimem账号</label></div>
+                <div class="weui_cell_hd"><label class="weui_label">注册账号</label></div>
                 <div class="weui_cell_bd weui_cell_primary">
                     <input class="weui_input" type="text" id="username"  placeholder="请输入账号"/>
                 </div>
             </div>
             <div class="weui_cell">
-                <div class="weui_cell_hd"><label class="weui_label">yimem密码</label></div>
+                <div class="weui_cell_hd"><label class="weui_label">注册密码</label></div>
                 <div class="weui_cell_bd weui_cell_primary">
                     <input class="weui_input" type="password"  id="userpassword" placeholder="请输入密码"/>
                 </div>
@@ -100,6 +100,7 @@
                     setTimeout(function () {
                         $('#toast').hide();
                     }, 2000);
+                    sendmsg()
                     closePage()
                 } else {
                     $('#toast2').show();
@@ -130,6 +131,18 @@
             //ios手机
             WeixinJSBridge.call("closeWindow");
         }, 100);
+    }
+    function sendmsg() {
+        $.ajax({
+            url: "/wechat/sendMesg"
+            , type: "POST"
+            , data: {"Message":'zhuce'}
+            , dataType: "json"
+            , success: function (jsonData) {
+            }
+            , error: function (res) {
+            }
+        })
     }
 </script>
 </body>
