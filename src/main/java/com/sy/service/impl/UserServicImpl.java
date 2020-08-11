@@ -127,8 +127,8 @@ public class UserServicImpl implements UserServic {
                 baseResp.setErrorMsg("注册成功！");
                 return baseResp;
             } else {
-                baseResp.setSuccess(1);
-                baseResp.setErrorMsg("注册成功！");
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("注册失败！");
                 return baseResp;
             }
         }

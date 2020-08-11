@@ -3,6 +3,7 @@ package com.sy.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.sy.model.User;
 import com.sy.model.weixin.WeiXin;
+import com.sy.model.weixin.WeiXinUser;
 import com.sy.service.UserServic;
 import com.sy.service.WeixinPostService;
 import com.sy.service.impl.WeixinPostServiceImpl;
@@ -45,7 +46,7 @@ public class WechatController {
      * @throws Exception
      */
     @RequestMapping(value = "/getURL", method = RequestMethod.GET)
-//    @ResponseBody
+    @ResponseBody
     public String getURL(HttpServletRequest request) throws Exception {
         String state = WxUtils.getURL(Constants.APPID, Constants.REDIRECT_URI, request.getSession().getId());
         return state;
@@ -83,20 +84,23 @@ public class WechatController {
     public String login(String code, String state, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
         request.setCharacterEncoding("UTF-8");  //微信服务器POST消息时用的是UTF-8编码，在接收时也要用同样的编码，否则中文会乱码；
         response.setCharacterEncoding("UTF-8"); //在响应消息（回复消息给用户）时，也将编码方式设置为UTF-8，原理同上；
+//       TODO 暂时切换session
 //        HttpSession session = MySessionContext.getSession(state);
         String s = WxUtils.getLoginAcessToken(Constants.APPID, Constants.APPSECRET, code);
         WeiXin weiXin = JSONObject.parseObject(s, WeiXin.class);
         String openid = weiXin.getOpenid();
-//        User user = userServic.getUserByopenid(openid);
-//        if (user == null) {
-//            return "no";
-//        }
-//
-//        session.setAttribute("user", user);
-//        model.addAttribute("user", user);
-//        return "yes";
-        request.getSession().setAttribute("openid", openid);
+        log.info("获取微信用户openid---"+openid);
+        String access_token=weiXin.getAccess_token();
+        String u=WxUtils.getWeiXinUser(access_token,openid);
+        WeiXinUser weiXinUser=JSONObject.parseObject(u,WeiXinUser.class);
+        log.info("获取微信用户————"+weiXinUser);
+        request.getSession().setAttribute("weiXinUser", weiXinUser);
         return "banding";
+    }
+
+    @RequestMapping(value = "/zhuce", method = RequestMethod.GET)
+    public String zhuce(){
+        return "zhuce";
     }
 
     @RequestMapping(value = "/connect", method = {RequestMethod.GET, RequestMethod.POST})

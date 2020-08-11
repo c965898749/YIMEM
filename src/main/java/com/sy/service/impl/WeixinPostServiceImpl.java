@@ -219,6 +219,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     HttpSession session = MySessionContext.getSession(EventKey);
 
                     User user = userServic.getUserByopenid(fromUserName);
+
                     if (user == null) {
                         TextMessage text = new TextMessage();
                         text.setContent("您的账号还未绑定\n\n请点击下方菜单 绑定账号");

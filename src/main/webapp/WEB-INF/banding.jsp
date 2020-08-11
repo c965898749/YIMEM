@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>WeUI</title>
-    <link rel="stylesheet" href="css/weui.min.css"/>
+    <link rel="stylesheet" href="/css/weui.min.css"/>
+    <link rel="stylesheet" href="http://res.wx.qq.com/open/js/jweixin-1.6.0.js">
 </head>
 <body>
 <div class="container" id="container">
@@ -29,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <div class="weui_cells_tips">若未注册账号可以先 <a style="color: blue" href="">注册</a></div>
+        <div class="weui_cells_tips">若未注册账号可以先 <a style="color: blue" href="/wechat/zhuce">注册</a></div>
         <div class="weui_btn_area">
             <p class="weui_btn_area">
                 <a href="javascript:;" class="weui_btn weui_btn_primary" id="showToast">确定</a>
@@ -41,30 +42,32 @@
             <div class="weui_mask_transparent"></div>
             <div class="weui_toast">
                 <i class="weui_icon_toast"></i>
-                <p class="weui_toast_content">已完成</p>
+                <p class="weui_toast_content">已完成绑定</p>
             </div>
         </div>
         <div id="toast2" style="display: none;">
             <div class="weui_mask_transparent"></div>
             <div class="weui_toast">
                 <i class="weui_icon_msg weui_icon_warn"></i>
-                <p class="weui_icon_msg weui_icon_warn_content">账号密码有误</p>
+                <p class="weui_icon_msg weui_icon_warn_content"></p>
             </div>
         </div>
 
     </div>
 </div>
-<script type="text/javascript" src="js/zepto.min.js"></script>
-<!--<script type="text/javascript" src="js/example.js"></script>-->
-<script src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/js/zepto.min.js"></script>
 <script>
+
+
+
+
     // toast
     $('#container').on('click', '#showToast', function () {
         var username=$("#username").val()
         var userpassword=$("#userpassword").val()
         console.log(username+"------------"+userpassword)
         $.ajax({
-            url: "bingding"
+            url: "/bingding"
             , type: "POST"
             , data: {"username": username,"userpassword":userpassword}
             , dataType: "json"
@@ -76,8 +79,10 @@
                     setTimeout(function () {
                         $('#toast').hide();
                     }, 2000);
+                    closePage()
                 } else {
                     $('#toast2').show();
+                    $('.weui_icon_warn_content').html(jsonData.errorMsg)
                     setTimeout(function () {
                         $('#toast2').hide();
                     }, 2000);
@@ -89,7 +94,21 @@
         })
 
     }).on('click', '#showLoadingToast', function () {
-
+        closePage()
     });
+    function closePage(){
+        setTimeout(function() {
+            //安卓手机
+            document.addEventListener(
+                "WeixinJSBridgeReady",
+                function() {
+                    WeixinJSBridge.call("closeWindow");
+                },
+                false
+            );
+            //ios手机
+            WeixinJSBridge.call("closeWindow");
+        }, 100);
+    }
 </script>
 </body>

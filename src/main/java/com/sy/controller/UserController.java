@@ -1,16 +1,19 @@
 package com.sy.controller;
 
 import com.sy.mapper.EmilMapper;
+import com.sy.mapper.UserMapper;
 import com.sy.model.Download;
 import com.sy.model.Emil;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.model.resp.ResultVO;
+import com.sy.model.weixin.WeiXinUser;
 import com.sy.service.DownloadService;
 import com.sy.service.EmailService;
 import com.sy.service.UserServic;
 import com.sy.tool.DESUtil;
 import com.sy.tool.Xtool;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.XMLFormatter;
@@ -37,12 +41,13 @@ public class UserController {
     private EmilMapper emilMapper;
     @Autowired
     private EmailService emailService;
-
+    private Logger log = Logger.getLogger(UserController.class.getName());
     BaseResp baseResp = new BaseResp();
     @Autowired
     private DownloadService downloadService;
 
-
+    @Autowired
+    private UserMapper userMapper;
     //登录接口
     @RequestMapping(value = "loginVerification", method = RequestMethod.POST)
     public BaseResp loginVerification(String username, String userpassword, HttpServletRequest request) {
@@ -67,13 +72,14 @@ public class UserController {
 //    绑定接口
 @RequestMapping(value = "bingding", method = RequestMethod.POST)
 public BaseResp bingding(String username, String userpassword, HttpServletRequest request) {
+        log.info("绑定用户账号---"+username+"---密码-----"+userpassword);
     try {
         baseResp = servic.loginVerification(username, userpassword);
         if (baseResp.getSuccess() == 1) {
-            String openid = (String) request.getSession().getAttribute("openid");
-            if (Xtool.isNull(openid)){
+            WeiXinUser weiXinUser = (WeiXinUser) request.getSession().getAttribute("weiXinUser");
+            if (weiXinUser==null){
                 baseResp.setSuccess(0);
-                baseResp.setErrorMsg("公众号状态异常！");
+                baseResp.setErrorMsg("暂未授权该公众号！");
                 return baseResp;
             }
             User user2=new User();
@@ -82,7 +88,7 @@ public BaseResp bingding(String username, String userpassword, HttpServletReques
             User user = servic.getLoginUser(user2);
             if (user != null) {
                 System.out.println(user.getUsername());
-                user.setOpenid(openid);
+                user.setOpenid(weiXinUser.getOpenid());
                 servic.updateuser(user);
             } else {
                 baseResp.setSuccess(0);
@@ -171,6 +177,45 @@ public BaseResp bingding(String username, String userpassword, HttpServletReques
         } catch (Exception e) {
             e.printStackTrace();
             baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
+     * 微信注册接口
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "weixinRegist", method = RequestMethod.POST)
+    public  BaseResp weixinRegist(String username, String userpassword, HttpServletRequest request){
+        User user = new User();
+        user.setUsername(username);
+        user.setUserpassword(userpassword);
+        List<User> userList = userMapper.SelectAllUser();
+        List<String> usernamelist = new ArrayList<>();
+        for (User user1 : userList) {
+            usernamelist.add(user1.getUsername());
+        }
+        if (usernamelist.contains(username)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("您输入的账号已存在，请重新输入");
+            return baseResp;
+        }
+        WeiXinUser weiXinUser = (WeiXinUser) request.getSession().getAttribute("weiXinUser");
+        user.setNickname(weiXinUser.getNickname());
+        user.setSex(weiXinUser.getSex());
+        user.setHeadImg(weiXinUser.getHeadimgurl());
+        user.setCity(weiXinUser.getCity());
+        user.setCounty(weiXinUser.getProvince());
+        user.setOpenid(weiXinUser.getOpenid());
+        int result = userMapper.insertUser(user);
+        if (result > 0) {
+            baseResp.setSuccess(1);
+            baseResp.setErrorMsg("注册成功！");
+            return baseResp;
+        } else {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("注册失败！");
             return baseResp;
         }
     }
