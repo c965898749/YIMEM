@@ -6,6 +6,9 @@ import com.sy.mapper.UploadMapper;
 import com.sy.model.Downloadreply;
 import com.sy.model.Upload;
 import com.sy.service.DownloadreplyService;
+import com.sy.tool.Constants;
+import com.sy.tool.HTMLSpirit;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -20,6 +23,7 @@ public class DownloadreplyServiceImpl implements DownloadreplyService {
     private DownloadreplyMapper mapper;
     @Autowired
     private UploadMapper mapper2;
+
 
     @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     @Override
@@ -36,7 +40,7 @@ public class DownloadreplyServiceImpl implements DownloadreplyService {
         if (downloadreply.getAppraise() == null||"".equals(downloadreply.getAppraise())) {
             downloadreply.setAppraise(5);
         }
-
+        downloadreply.setContent(StringEscapeUtils.escapeHtml4(downloadreply.getContent()));
         List<Downloadreply> lists=mapper.selectAllByDowid(downloadreply.getDowid());
         Integer totalAppraise=0;
         for(Downloadreply lit:lists){

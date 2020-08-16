@@ -17,9 +17,11 @@ import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.BlogReplayService;
 import com.sy.tool.Constants;
+import com.sy.tool.HTMLSpirit;
 import com.sy.tool.RedisCache;
 import com.sy.tool.RedisUtil;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,6 +62,8 @@ public class BlogReplayServiceImpl implements BlogReplayService {
             status = 1;
         }
         blogReplay.setStatus(status);
+//        StringEscapeUtils对html转义
+        blogReplay.setComment(StringEscapeUtils.escapeHtml4(blogReplay.getComment()));
         int result = blogReplayMapper.addReplay(blogReplay);
         Information information = new Information();
         information.setBlogId(blogReplay.getBlogid());
@@ -201,4 +205,6 @@ public class BlogReplayServiceImpl implements BlogReplayService {
            }
        }
     }
+
+
 }

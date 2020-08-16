@@ -10,6 +10,8 @@ import com.sy.model.Information;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.BlogReplaySonService;
+import com.sy.tool.HTMLSpirit;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,7 @@ public class BlogReplaySonServiceImpl implements BlogReplaySonService {
 
         BaseResp baseResp = new BaseResp();
         blogReplaySon.setStatus(1);
+        blogReplaySon.setComment(StringEscapeUtils.escapeHtml4(blogReplaySon.getComment()));
         blogReplayMapper.updateCount(blogReplaySon.getBlogReplayId());
         Integer count = blogReplayMapper.insert(blogReplaySon);
 

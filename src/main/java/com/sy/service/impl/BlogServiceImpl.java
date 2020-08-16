@@ -11,6 +11,7 @@ import com.sy.model.resp.BaseResp;
 import com.sy.service.BlogService;
 //import org.junit.internal.Classes;
 import com.sy.tool.HTMLSpirit;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -48,6 +49,7 @@ public class BlogServiceImpl implements BlogService {
             user.setBlogCount(BlogCount);
             userMapper.updateuser(user);
         }
+        blog.setTitle(StringEscapeUtils.escapeHtml4(blog.getTitle()));
         int result = blogMapper.insertNewBlog(blog);
         if (result > 0) {
             baseResp.setData(blog.getId());
@@ -254,12 +256,6 @@ public class BlogServiceImpl implements BlogService {
         blog.setPublishForm(publishForm);
         blog.setCategory(category);
         blog.setId(blogId);
-//        if ("原创".equals(publishForm)) {
-//            User user = userMapper.selectUserByUserId(userID);
-//            Integer BlogCount = user.getBlogCount() + 1;
-//            user.setBlogCount(BlogCount);
-//            userMapper.updateuser(user);
-//        }
         int result = blogMapper.modifierBlog(blog);
         if (result > 0) {
             baseResp.setData(blog.getId());
@@ -294,6 +290,7 @@ public class BlogServiceImpl implements BlogService {
         if (!blogList.isEmpty() && blogList != null) {
             for (int i = 0; i < blogList.size(); i++) {
                 Blog blog = blogList.get(i);
+                String s="<script[^>]*>[\\\\d\\\\D]*?</script>";
                 User user = userMapper.selectUserByUserId(blog.getUserid());
                 Integer likeCount = likeMapper.queryCountByBlogId(blog.getId());
                 Integer replayCount = blogReplayMapper.queryReplayCountByBlogId(blog.getId());

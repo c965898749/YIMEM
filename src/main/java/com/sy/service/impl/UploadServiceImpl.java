@@ -10,6 +10,7 @@ import com.sy.model.Upload;
 import com.sy.model.User;
 import com.sy.service.UploadService;
 import com.sy.tool.Xtool;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -50,6 +51,9 @@ public class UploadServiceImpl implements UploadService {
         if (download.getLeixin() == null) {
             throw new CsdnExpection("类型不能为空");
         }
+        download.setTitle(StringEscapeUtils.escapeHtml4(download.getTitle()));
+        download.setIntro(StringEscapeUtils.escapeHtml4(download.getIntro()));
+
 //        更新用户上传量
         User user = userMapper.selectUserByUserId(download.getUserid());
         Integer resourceCount = user.getResourceCount();

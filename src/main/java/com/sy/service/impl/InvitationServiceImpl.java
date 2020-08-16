@@ -7,6 +7,7 @@ import com.sy.mapper.InvitationMapper;
 import com.sy.model.Invitation;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.InvitationService;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ public class InvitationServiceImpl implements InvitationService {
     private InvitationMapper mapper;
     @Override
     public Integer save(Invitation invitation) {
+        invitation.setTitle(StringEscapeUtils.escapeHtml4(invitation.getTitle()));
         return mapper.insert(invitation);
     }
 
