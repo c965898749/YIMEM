@@ -218,6 +218,13 @@
         user.username = $.trim($("#username").val());
         user.userpassword = $.trim($("#userpassword").val());
         user.userpassword2 = $.trim($("#userpassword2").val());
+        if (user.username.indexOf("\'") != -1 || user.username.indexOf("\"") != -1 || user.username.indexOf("\\") != -1 || user.username.indexOf("/") != -1 || user.username.indexOf(";") != -1 || user.username.indexOf("%") != -1 || user.username.indexOf("#") != -1 || user.username.indexOf("(") != -1 || user.username.indexOf(")") != -1 || user.username.indexOf("*") != -1 || user.username.indexOf("&") != -1 || user.username.indexOf("|") != -1 || user.username.indexOf("<") != -1 || user.username.indexOf(">") != -1 || user.username.indexOf(",") != -1 || user.username.indexOf("$") != -1 || user.username.indexOf("^") != -1 || user.username.indexOf("{") != -1 || user.username.indexOf("}") != -1 || user.username.indexOf("[") != -1 || user.username.indexOf("]") != -1)
+        {
+            $("#username").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("用户名不能包含特殊字符！。");
+            return false;
+        }
         if (/^\s*$/.test(user.username)) {
             $("#username").focus();
             $("#formtip").css("color", "red");

@@ -178,7 +178,26 @@
 		user.userpassword = $.trim($("#userpassword").val());
 		user.userpassword2 = $.trim($("#userpassword2").val());
 		user.isStart = 1;
-
+		if (user.username.indexOf("\'") != -1 || user.username.indexOf("\"") != -1 || user.username.indexOf("\\") != -1 || user.username.indexOf("/") != -1 || user.username.indexOf(";") != -1 || user.username.indexOf("%") != -1 || user.username.indexOf("#") != -1 || user.username.indexOf("(") != -1 || user.username.indexOf(")") != -1 || user.username.indexOf("*") != -1 || user.username.indexOf("&") != -1 || user.username.indexOf("|") != -1 || user.username.indexOf("<") != -1 || user.username.indexOf(">") != -1 || user.username.indexOf(",") != -1 || user.username.indexOf("$") != -1 || user.username.indexOf("^") != -1 || user.username.indexOf("{") != -1 || user.username.indexOf("}") != -1 || user.username.indexOf("[") != -1 || user.username.indexOf("]") != -1)
+		{
+			$("#username").focus();
+			$("#formtip").css("color","red");
+			$("#formtip").html("用户名不能包含特殊字符。");
+			return false;
+		}
+		var ckupwd = /^[0-9a-zA-Z_-]+$/;
+		if ($("#userpassword").val().length < 6 || $("#userpassword").val().length > 16) {
+			$("#userpassword").focus();
+			$("#formtip").css("color","red");
+			$("#formtip").html("密码长度为6~16位字符。");
+			return false;
+		}
+		else if (!ckupwd.test($("#userpassword").val())) {
+			$("#userpassword").focus();
+			$("#formtip").css("color","red");
+			$("#formtip").html("密码请使用[数字/字母/中划线/下划线]！");
+			return false;
+		}
 		if(/^\s*$/.test(user.username)){
 			$("#username").focus();
 			$("#formtip").css("color","red");
@@ -203,10 +222,10 @@
 			$("#username").focus();
 			$("#formtip").css("color","red");
 			$("#formtip").html("用户名不能全为数字");
-		}else if (!/^[a-zA-Z]\w{5,17}$/.test(user.password)) {
+		}else if (!/^[a-zA-Z]\w{4,33}$/.test(user.password)) {
 			$("#userpassword").focus();
 			$("#formtip").css("color","red");
-			$("#formtip").html("以字母开头，长度在6~18之间，只能包含字母、数字和下划线");
+			$("#formtip").html("以字母开头，长度在5~32之间，只能包含字母、数字和下划线");
 		}else {
 			$("#formtip").html("");
 
