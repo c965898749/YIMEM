@@ -7,6 +7,31 @@
     <script src="js/setCookie.js"></script>
     <link rel="stylesheet" href="layui/css/layui.css" media="all">
     <style>
+        /* 提示框 */
+
+        .tip{
+            width:300px;
+            height:100px;
+            border:1px solid #000;
+            border-radius:8px;
+            margin-left: 350px;
+            margin-top: -150px
+        }
+
+        /* 提示框小角的小方块 */
+
+        .tip .inner{
+            background-color: #FFF;
+            width: 10px;
+            height: 10px;
+            border: 1px solid #000;
+            position: relative;
+            left: 28px;
+            top: 94px;
+            transform: rotate(45deg);
+            border-left: 0px;
+            border-top: 0px;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -1178,7 +1203,11 @@
                                 <div class="fans">粉丝<span>${jsondata.fansCount}</span></div>
                                 <div class="wire">|</div>
                                 <div class="Cbi">C币<span>${jsondata.downloadmoney}</span></div>
-                                <div class="recharge">捐赠</div>
+                                <div class="recharge" style="font-weight:bolder;font-size: 16px">捐 赠</div>
+                                <div class="tip">
+                                <div class="inner"></div>
+                                <div style="margin:4px;">提示信息写这里：）</div>
+                                </div>
                                 <div id=${jsondata.isEmil == 0 ? "ValidationEmail" : "none"} style="float: right;color: #33B5F2;cursor: pointer">${jsondata.isEmil == 0 ? "邮箱认证" : "邮箱已认证"}</div>
                             </div>
                             <div class="personal_data">
