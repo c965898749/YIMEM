@@ -15,4 +15,6 @@ public interface UploadMapper {
     Upload selectById(@Param("id") Integer id);
     Integer selectAllCount(Upload download);
     Integer updataReplyCount(@Param("id") Integer id, @Param("replyCount") Integer replyCount, @Param("appraise") Integer appraise);
+    Integer updatahot(@Param("hot") Integer hot);
+    List<Upload> selecthot();
 }

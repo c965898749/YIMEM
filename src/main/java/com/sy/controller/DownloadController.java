@@ -8,6 +8,7 @@ import com.sy.model.resp.BaseResp;
 import com.sy.service.DownloadService;
 import com.sy.service.UploadService;
 import com.sy.service.UserServic;
+import com.sy.tool.Xtool;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -81,8 +82,32 @@ public class DownloadController {
             e.printStackTrace();
             return "redirect:404.html";
         }
+        //记录下载次数
+        upload.setHot(upload.getHot()+1);
+        service.updatahot(upload.getHot());
         return "redirect:404.html";
         //        开始下载
+    }
+
+//    查询下载最多
+    @RequestMapping(value = "selecthot", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResp selecthot(HttpServletRequest request){
+        BaseResp baseResp=new BaseResp();
+        try {
+            List<Upload> list=service.selecthot();
+            if (Xtool.isNotNull(list)){
+                baseResp.setSuccess(1);
+                baseResp.setData(list);
+            }else {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("未查询到资源");
+            }
+        } catch (Exception e) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("服务器异常");
+        }
+        return baseResp;
     }
 
 //    资源占比

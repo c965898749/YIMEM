@@ -538,33 +538,33 @@
     //精品渲染
     function jinpin() {
         $.ajax({
-            url: "blog/requestOrderByReadCount",
-            data: {"page": 1},
+            url: "selecthot",
             type: "get",
             dataType: "json",
             success: function (json) {
 
                 var html = ` <div class="top" style="display: flex;justify-content : space-between;">
                 <div class="left">
-                    <span style="font-size: 14px;color: #868B96">精品推荐</span>
+                    <span style="font-size: 14px;color: #868B96">下载排行榜</span>
                 </div>
-                <div class="right">
-                    <span style="color: #888;font-size: 14px;">
-                    <a href="blog_page.html" style="font-size: 14px;color: #868B96">更多</a>
-                    </span>
-                </div>
+                <!--<div class="right">-->
+                    <!--<span style="color: #888;font-size: 14px;">-->
+                    <!--<a href="blog_page.html" style="font-size: 14px;color: #868B96">更多</a>-->
+                    <!--</span>-->
+                <!--</div>-->
             </div>`;
 
                 $(".recommend").html("")
                 $(".recommend").append(html)
                 $.each(json.data, function (index, eachobj) {
                     var html = `<div class="list">
-                <div class="title">
-                   <a href="details.html?blog_id=${eachobj.id}" style="text-decoration : none">${eachobj.title}</a>
+                <div class="title" style="display: flex;white-space:normal;overflow: hidden;">
+						<div style="width: 20px;height: 20px;background:${index<3?'#F25D8E':'#B8C0CC'};border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;margin-right: 8px;">${index+1}</div>
+                        <div style="width: 230px;"><a href="detailpage.html?id=${eachobj.id}" style="text-decoration : none">${eachobj.title}</a></div>
                 </div>
                 <div class="author" style="border-bottom: 1px #E6E6E6 solid;height: 30px;margin-top: 10px;">
                         <span style="color: #888;font-size: 14px;">
-                         作者/分享人：<a style="text-decoration : none" href="perInfor.html?viewUserId=${eachobj.userid}&type=blog">${eachobj.username}</a> · ${eachobj.userIndustry != null ? eachobj.userIndustry : ""}
+                         作者/分享人：<a style="text-decoration : none" href="perInfor.html?viewUserId=${eachobj.userid}&type=blog">${eachobj.user.nickname}</a> 下载数 ${eachobj.hot}
                           </span>
                 </div>
             </div>`
@@ -986,7 +986,7 @@
 													` + item.intro + `
 													</div>
 													<div class="size">
-														资源大小：` + daxiao + ` 上传时间：` + item.createtime + ` 上传者：` + item.user.username + `
+														资源大小：` + daxiao + ` 上传时间：` + item.createtime + ` 上传者：` + item.user.nickname + `
 													</div>
 												</div>
 												<div class="img-right">

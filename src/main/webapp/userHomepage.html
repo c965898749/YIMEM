@@ -9,29 +9,43 @@
     <style>
         /* 提示框 */
 
-        .tip{
-            width:300px;
-            height:100px;
-            border:1px solid #000;
-            border-radius:8px;
+        .tip {
+            background-color: white;
+            width: 300px;
+            height: 100px;
+            border: 1px solid #000;
+            border-radius: 8px;
             margin-left: 350px;
             margin-top: -150px
         }
 
         /* 提示框小角的小方块 */
 
-        .tip .inner{
+        .tip .inner {
             background-color: #FFF;
             width: 10px;
             height: 10px;
             border: 1px solid #000;
             position: relative;
             left: 28px;
-            top: 94px;
+            top: 95px;
             transform: rotate(45deg);
             border-left: 0px;
             border-top: 0px;
         }
+
+        .tip .text {
+            /*background-color: #FFF;*/
+            position: relative;
+            left: 28px;
+            /*top: 94px;*/
+
+        }
+
+        .tip .text p {
+            line-height: 20px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -824,7 +838,7 @@
             background: white;
         }
 
-        .formContain ul{
+        .formContain ul {
 
             height: 300px;
 
@@ -837,8 +851,7 @@
         }
 
 
-
-        .formContain ul li{
+        .formContain ul li {
 
             list-style: none;
 
@@ -1006,6 +1019,27 @@
     </form>
 </div>
 
+<div id="donate">
+    <form id="form3" class="layui-form" method="post" onsubmit="return false">
+       <div style="margin-left:55px;margin-top: 10px;margin-bottom: 10px">每赞助1元我们都将赠送你1000积分</div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px;">输入金额</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" value="1"  name="price_min" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" placeholder="￥" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid">元</div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px;">支付范式</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <select name="zfb">
+                    <option value="">支付宝</option>
+                </select>
+            </div>
+    </form>
+</div>
 <script src="jquery/jquery.js"></script>
 <script src="jquery/jquery-form.js"></script>
 
@@ -1019,6 +1053,50 @@
         userID = user.userId
     }
 
+//赞助
+    function donate() {
+        //prompt层
+        $(".recharge").click(function () {
+            layer.open({
+                type: 1,
+                area: ['350px', '250px'],
+                content: $('#donate')
+                ,shade: [0.8, '#393D49']
+                , btn: ['确认', '取消']
+                , title: ['感谢您的支持', 'color:white;background-color:#3399ea;']
+                , yes: function (index, layero) {
+                    var price=$("input[name='price_min']").val();
+
+                    if(price === "" || price ==null){
+                        layer.msg("不好意思，您还没输入金额");
+                        return false;
+                    }
+                    var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+                    var regPos2 = /^\d+(\.\d{0,2})?$/; //非负浮点数
+                    if(!regPos.test(price)){
+                        layer.msg("不好意思，请输入正确金额格式");
+                        return false;
+                    }
+                    if(!regPos2.test(price)){
+                        layer.msg("不好意思，金额不能低于0.01");
+                        return false;
+                    }
+                    layer.msg("输入价格"+price)
+                    // layer.closeAll()
+                }
+                , btn2: function (index, layero) {
+                    //按钮【按钮二】的回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+                , cancel: function () {
+                    //右上角关闭回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+        })
+    }
     //修改资料点击事件
     function modifyInfo() {
         $(".modified_data").click(function () {
@@ -1144,6 +1222,7 @@
         modifyhead()
         uploadHeadImg()
         modifyInfo()
+        donate()
         //我的收藏夹和关注的收藏夹点击切换事件
         setcollectHtml()
     })
@@ -1196,17 +1275,22 @@
                         <div class="rightContain">
                             <div class="id_card">
                                 <div class="id_name">用户名:<span>${jsondata.username}</span></div>
-                                <div class="user_home">个人主页＞</div>
+                                <!--<div class="user_home">个人主页＞</div>-->
                             </div>
                             <div class="csdn_info">
-                                <div class="attention">关注<span>${jsondata.attentionCount}</span></div>
+                                <div class="attention" style="margin-left: 10px">关注<span>${jsondata.attentionCount}</span></div>
                                 <div class="fans">粉丝<span>${jsondata.fansCount}</span></div>
                                 <div class="wire">|</div>
-                                <div class="Cbi">C币<span>${jsondata.downloadmoney}</span></div>
-                                <div class="recharge" style="font-weight:bolder;font-size: 16px">捐 赠</div>
+                                <div class="Cbi">积分<span>${jsondata.downloadmoney}</span></div>
+                                <div class="recharge" style="font-weight:bolder;font-size: 16px">赞 助</div>
                                 <div class="tip">
                                 <div class="inner"></div>
-                                <div style="margin:4px;">提示信息写这里：）</div>
+                                <div class="text">
+                                <p>有了你，梦网会走的更远。</p>
+                                <p>如果我们为您提供了方便或者帮助到您</p>
+                                <p>你可以自愿赞助我们</p>
+                                 <p>你的每一次赞助我们都将赠送相应积分</p>
+                                </div>
                                 </div>
                                 <div id=${jsondata.isEmil == 0 ? "ValidationEmail" : "none"} style="float: right;color: #33B5F2;cursor: pointer">${jsondata.isEmil == 0 ? "邮箱认证" : "邮箱已认证"}</div>
                             </div>
@@ -1220,11 +1304,12 @@
                                     <li>职位：<span class="job">${jsondata.job == null ? "" : jsondata.job}</spanclass></li>
                                     <li>简介：<span class="description">${jsondata.description == null ? "" : jsondata.description}</spanclass></li>
                                 </ul>
-                                <div class="modified_data">修改资料</div>
+                                <div class="modified_data" style="margin-left: 50px">修改资料</div>
                             </div>
 
                         </div>
                     </div>`
+
         } else if (type == "我的收藏") {
             html = `<div class="titleContain">
                         <div class="tab_tiltle" style=" border-bottom: 2px solid red;">我创建的收藏夹</div>
@@ -1478,6 +1563,7 @@
     modifyhead();
     uploadHeadImg();
     modifyInfo();
+    donate()
     setcollectHtml();
     collectInfor()
 

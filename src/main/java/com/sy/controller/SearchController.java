@@ -20,62 +20,31 @@ public class SearchController {
     @RequestMapping(value = "searchAll",method = RequestMethod.GET)
     public BaseResp queryAll(String key,HttpServletResponse response){
         BaseResp baseResp = searchService.queryAll(key);
-//        log.info("测试日志");
-        if (baseResp.getSuccess()==404){
-              response.setStatus(404);
-        }else {
-            response.setStatus(200);
-        }
         return baseResp;
     }
     @RequestMapping(value = "searchAsk",method = RequestMethod.GET)
     public BaseResp queryAsk(String key,HttpServletResponse response){
         BaseResp baseResp = searchService.queryAsk(key);
-        if (baseResp.getSuccess()==404){
-            response.setStatus(404);
-        }else {
-            response.setStatus(200);
-        }
         return baseResp;
     }
     @RequestMapping(value = "searchBlog",method = RequestMethod.GET)
     public BaseResp queryBlog(String key,HttpServletResponse response){
         BaseResp baseResp = searchService.queryBlog(key);
-        if (baseResp.getSuccess()==404){
-            response.setStatus(404);
-        }else {
-            response.setStatus(200);
-        }
         return baseResp;
     }
     @RequestMapping(value = "searchDownLoad",method = RequestMethod.GET)
     public BaseResp queryDownLoad(String key,HttpServletResponse response){
         BaseResp baseResp = searchService.queryDownload(key);
-        if (baseResp.getSuccess()==404){
-            response.setStatus(404);
-        }else {
-            response.setStatus(200);
-        }
         return baseResp;
     }
     @RequestMapping(value = "searchForum",method = RequestMethod.GET)
     public BaseResp queryForum(String key,HttpServletResponse response){
         BaseResp baseResp = searchService.queryForum(key);
-        if (baseResp.getSuccess()==404){
-            response.setStatus(404);
-        }else {
-            response.setStatus(200);
-        }
         return baseResp;
     }
     @RequestMapping(value = "searchVideo",method = RequestMethod.GET)
     public BaseResp queryVideo(String key,HttpServletResponse response){
         BaseResp baseResp = searchService.queryVideo(key);
-        if (baseResp.getSuccess()==404){
-            response.setStatus(404);
-        }else {
-            response.setStatus(200);
-        }
         return baseResp;
     }
 

@@ -112,5 +112,10 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-websocket:4.3.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.8.3" level="project" />
     <orderEntry type="library" name="Maven: com.alipay.sdk:alipay-sdk-java:3.7.4.ALL" level="project" />
+    <orderEntry type="library" name="alipay-sdk-java-3.3.0-source" level="project" />
+    <orderEntry type="library" name="alipay-sdk-java-3.3.0" level="project" />
+    <orderEntry type="library" name="alipay-trade-sdk-20161215-source" level="project" />
+    <orderEntry type="library" name="alipay-trade-sdk-20161215" level="project" />
+    <orderEntry type="library" name="commons-lang-2.6" level="project" />
   </component>
 </module>

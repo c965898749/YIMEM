@@ -255,17 +255,24 @@
 
     //渲染全部搜索内容
     function allReq() {
+        var index = layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
         $.ajax({
             url: "searchAll",
             type: "get",
             data: {"key": key},
             dataType: "json",
             success: function (json) {
-                console.log(json)
                 render(json.data)
+                layer.close(index)
+                if (json.success!=200){
+                    layer.msg("抱歉资源未找到")
+                }
             },
             error: function (res) {
-                ////console.log(res)
+                layer.close(index)
+                if (json.success!=200){
+                    layer.msg("服务器异常稍后再试")
+                }
             }
 
         })
@@ -275,16 +282,7 @@
     function render(data) {
         $(".search_result").html("")
         $.each(data, function (indexbig, dataeach) {
-            // if (dataeach.length == 0){
-            //     var html=`<div class="video"
-            //      style="text-align: center;margin-top: 40px;width: 800px;font-size: 16px;font-weight: bold">
-            //      暂无资源
-            // </div>`
-            //     $(".search_result").append(html)
-            //     return false;
-            // }
             if (indexbig == "Blog") {
-
                 $.each(dataeach, function (index, each) {
                     var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
                     var html = ` <div class="search_result_sub" blog_id="${each.id}" t="blog">
@@ -372,6 +370,7 @@
 
     //渲染视频搜索内容
     function video_req() {
+        var index = layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
         $(".search_result").html("")
         $.ajax({
             url: "searchVideo",
@@ -379,8 +378,6 @@
             data: {"key": key},
             dataType: "json",
             success: function (json) {
-                ////console.log(json)
-
                 $.each(json.data, function (index, each) {
                     var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
 
@@ -395,10 +392,14 @@
                     var video_id = $(this).attr("video_id")
                     window.location.href = "/appDetail.html?videoid=" + video_id
                 })
-
+                layer.close(index)
+                if (json.success!=200){
+                    layer.msg("抱歉资源未找到")
+                }
             },
             error: function (res) {
-                ////console.log(res)
+                layer.close(index)
+                layer.msg("抱歉资源未找到")
             }
 
         })
@@ -414,6 +415,7 @@
 
     //渲染博客搜索内容
     function blog_req() {
+        var index = layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
         $(".search_result").html("")
         $.ajax({
             url: "searchBlog",
@@ -437,16 +439,21 @@
                     var blog_id = $(this).attr("blog_id")
                     window.location.href = "/details.html?blog_id=" + blog_id
                 })
+                layer.close(index)
+                if (json.success!=200){
+                    layer.msg("抱歉资源未找到")
+                }
 
             },
             error: function (res) {
-                // //console.log(res)
+                layer.close(index)
+                layer.msg("抱歉资源未找到")
             }
 
         })
     }
 
-    //点击博客事件
+    //点击下载
     $("#download").click(function () {
         $(this).siblings().css("border-bottom", "none")
         $(this).css("border-bottom", "red 2px solid")
@@ -456,6 +463,7 @@
 
     //渲染下载搜索内容
     function download_req() {
+        var index = layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
         $(".search_result").html("")
         $.ajax({
             url: "searchDownLoad",
@@ -478,10 +486,15 @@
                     var down_id = $(this).attr("down_id")
                     window.location.href = "detailpage.html?id=" + down_id
                 })
+                layer.close(index)
+                if (json.success!=200){
+                    layer.msg("抱歉资源未找到")
+                }
 
             },
             error: function (res) {
-                ////console.log(res)
+                layer.close(index)
+                layer.msg("抱歉资源未找到")
             }
 
         })
@@ -497,6 +510,7 @@
 
     //渲染论坛搜索内容
     function forum_req() {
+        var index = layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
         $(".search_result").html("")
         $.ajax({
             url: "searchForum",
@@ -519,10 +533,14 @@
                     var invitationId = $(this).attr("forum_id")
                     window.location.href = "invitation_Details.html?invitationId=" + invitationId
                 })
-
+                layer.close(index)
+                if (json.success!=200){
+                    layer.msg("抱歉资源未找到")
+                }
             },
             error: function (res) {
-                ////console.log(res)
+                layer.close(index)
+                layer.msg("抱歉资源未找到")
             }
 
         })
@@ -538,6 +556,7 @@
 
     //渲染问答搜索内容
     function ask_req() {
+        var index = layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
         $(".search_result").html("")
         $.ajax({
             url: "searchAsk",
@@ -560,10 +579,14 @@
                     var ask_id = $(this).attr("ask_id")
                     window.location.href = "askInfor.html?askId=" + ask_id
                 })
-
+                layer.close(index)
+                if (json.success!=200){
+                    layer.msg("抱歉资源未找到")
+                }
             },
             error: function (res) {
-                ////console.log(res)
+                layer.close(index)
+                layer.msg("抱歉资源未找到")
             }
 
         })

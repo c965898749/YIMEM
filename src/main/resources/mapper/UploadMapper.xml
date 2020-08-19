@@ -20,15 +20,17 @@
         <result property="replyCount" column="replyCount"/>
         <result property="name" column="name"/>
         <result property="leixin2" column="leixin2"/>
+        <result property="hot" column="hot"/>
         <association property="user" javaType="com.sy.model.User">
             <id property="userId" column="userId"/>
             <result property="username" column="username"/>
+            <result property="nickname" column="nickname"/>
             <result property="headImg" column="headImg"/>
         </association>
     </resultMap>
     <!--查询所有(条件)-->
     <select id="selectAll" resultMap="baseResultMap">
-        select `upload`.*,`user`.username,`user`.headImg from upload
+        select `upload`.*,`user`.nickname,`user`.headImg from upload
         LEFT JOIN user on `upload`.userid=`user`.userid
         <trim prefix="where" prefixOverrides="and | or">
             <if test="userid !=null and userid !=''">
@@ -61,7 +63,7 @@ select count(*) from upload where userid=#{userid} and leixin =#{leixin}
     </select>
     <!--按id查询-->
     <select id="selectById" resultMap="baseResultMap">
-        select `upload`.*,`user`.username,`user`.headImg from upload
+        select `upload`.*,`user`.nickname,`user`.headImg from upload
          LEFT JOIN user on `upload`.userid=`user`.userid
          where id=#{id}
     </select>
@@ -110,7 +112,22 @@ select count(*) from upload where userid=#{userid} and leixin =#{leixin}
         </set>
         where id=#{id}
     </update>
+
+    <update id="updatahot" parameterType="java.lang.Integer">
+        UPDATE upload
+        <set>
+            <if test="hot !=null and hot !=''">
+                hot=#{hot}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
     <delete id="delete">
         delete from upload where  id=#{id} and userid=#{userid}
     </delete>
+
+    <select id="selecthot" resultMap="baseResultMap">
+        select `upload`.*,`user`.nickname,`user`.headImg from upload
+         LEFT JOIN user on `upload`.userid=`user`.userid order by  upload.hot desc limit 6
+    </select>
 </mapper>

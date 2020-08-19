@@ -29,6 +29,15 @@ public class Upload {
     private Integer pageSize;
     private String name;
     private String leixin2;
+    private Integer hot;
+
+    public Integer getHot() {
+        return hot;
+    }
+
+    public void setHot(Integer hot) {
+        this.hot = hot;
+    }
 
     public String getName() {
         return name;

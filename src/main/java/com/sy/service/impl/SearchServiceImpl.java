@@ -6,6 +6,7 @@ import com.sy.mapper.SearchMapper;
 import com.sy.model.*;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.SearchService;
+import com.sy.tool.Xtool;
 import jdk.nashorn.internal.runtime.linker.LinkerCallSite;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,16 +150,28 @@ public class SearchServiceImpl implements SearchService {
         List<Invitation> forumList = searchMapper.queryForum(stringBuffer.toString());
         List<Upload> uploadList = searchMapper.queryDownload(stringBuffer.toString());
         List<Video> videos = searchMapper.queryVideo(stringBuffer.toString());
-       map.put("Blog",blogList);
-       map.put("Ask",askList);
-       map.put("Invitation",forumList);
-       map.put("Upload",uploadList);
-       map.put("Video",videos);
+        if (Xtool.isNotNull(blogList)){
+            map.put("Blog",blogList);
+        }
+      if (Xtool.isNotNull(askList)){
+          map.put("Ask",askList);
+      }
+      if (Xtool.isNotNull(forumList)){
+          map.put("Invitation",forumList);
+      }
+      if (Xtool.isNotNull(uploadList))
+      {
+          map.put("Upload",uploadList);
+      }
+      if (Xtool.isNotNull(videos))
+      {
+          map.put("Video",videos);
+      }
         if (!CollectionUtils.isEmpty(map)) {
             baseResp.setSuccess(200);
             baseResp.setData(map);
         } else {
-            baseResp.setSuccess(404);
+            baseResp.setSuccess(300);
         }
 
         return baseResp;

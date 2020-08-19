@@ -102,6 +102,11 @@ public class UploadServiceImpl implements UploadService {
     }
 
     @Override
+    public Integer updatahot(Integer hot) {
+        return mapper.updatahot(hot);
+    }
+
+    @Override
     public Map<String, Integer> resourceProp(Integer userId) {
         Map<String,Integer> map=new HashMap<>();
         Upload upload = new Upload();
@@ -120,5 +125,14 @@ public class UploadServiceImpl implements UploadService {
         count=mapper.selectCountByUserId(upload);
         map.put("文档类",count);
         return map;
+    }
+
+    @Override
+    public List<Upload> selecthot() {
+        List<Upload> list=mapper.selecthot();
+        list.forEach(x->{
+            x.setSrc("");
+        });
+        return list;
     }
 }
