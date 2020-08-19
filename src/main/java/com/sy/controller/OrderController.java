@@ -1,8 +1,12 @@
 package com.sy.controller;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.sy.model.PaymentRecord;
 import com.sy.model.resp.BaseResp;
+import com.sy.service.PaymentRecordService;
 import com.sy.tool.Constants;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,10 +16,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import com.alipay.api.internal.util.AlipaySignature;
+
 @Controller
 @RequestMapping
 public class OrderController {
     private Logger log = Logger.getLogger(OrderController.class.getName());
+    @Autowired
+    private PaymentRecordService paymentRecordService;
     @RequestMapping("alipay_callback.do")
     @ResponseBody
     private BaseResp callBack(HttpServletRequest request) throws AlipayApiException {
@@ -40,6 +47,7 @@ public class OrderController {
         }
         // 去除sign_type
         requestParams.remove("sign_type");
+
         try {
             // 验证签名
 //            boolean result = AlipaySignature.rsaCheckV2(requestParams, Configs.getPublicKey(), "utf-8", Configs.getSignType());
@@ -55,12 +63,16 @@ public class OrderController {
             e.printStackTrace();
             throw e;
         }
+
+        JSONArray jArray2 = new JSONArray();
+        jArray2.add(requestParams);
+        log.info("requestParams支付传入参数："+jArray2.toString());
         // 调用Service 方法进行处理
-//        ServerResponse serverResponse = orderService.alipayCallBack(requestParams);
-//        if (!serverResponse.isSuccess()) {
-//            log.info("OrderController.callBack()数据操作失败");
-//            return ServerResponse.createBySuccess(Const.AlipayCallback.RESPONSE_FAILED);
-//        }
+        PaymentRecord record = JSON.parseObject(JSON.toJSONString(requestParams), PaymentRecord.class);
+        JSONArray jArray3 = new JSONArray();
+        jArray3.add(record);
+        log.info("record对象转换："+jArray3.toString());
+        paymentRecordService.insertSelective(record);
         log.info("支付宝支付回调完成，没有异常");
         baseResp.setSuccess(0);
         return baseResp;
