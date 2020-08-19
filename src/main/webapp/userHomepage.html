@@ -1082,7 +1082,16 @@
                         return false;
                     }
                     layer.msg("输入价格"+price)
-                    // layer.closeAll()
+                    $.ajax({
+                        url: 'trade_precreate.do',
+                        data:{"totalAmount":price},
+                        type: 'POST',
+                        dataType: 'text',
+                        error: function(){
+                        },
+                        success: function(jsonData){
+                        }
+                    });
                 }
                 , btn2: function (index, layero) {
                     //按钮【按钮二】的回调

@@ -117,5 +117,6 @@
     <orderEntry type="library" name="alipay-trade-sdk-20161215-source" level="project" />
     <orderEntry type="library" name="alipay-trade-sdk-20161215" level="project" />
     <orderEntry type="library" name="commons-lang-2.6" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

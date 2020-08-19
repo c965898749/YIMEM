@@ -1,5 +1,6 @@
 //package com.sy.test;
 //
+//import com.sy.controller.OrderController;
 //import com.sy.model.User;
 //import com.sy.model.resp.BaseResp;
 //import com.sy.service.AskService;
@@ -27,6 +28,8 @@
 //    private SearchService searchService;
 //    @Autowired
 //    private WeixinPostService weixinPostService;
+//    @Autowired
+//    private OrderController controller;
 //    @Test
 //    public void FindTest() throws Exception {
 //    }
@@ -47,6 +50,13 @@
 //    }
 //    @Test
 //    public void AA4() throws Exception {
+////        BaseResp baseResp=searchService.queryAll("生化危机");
+////        System.out.println(baseResp.toString());
+//        String aa=weixinPostService.getTicketData("abcd");
+//        System.out.println(aa);
+//    }
+//    @Test
+//    public void AA5() throws Exception {
 ////        BaseResp baseResp=searchService.queryAll("生化危机");
 ////        System.out.println(baseResp.toString());
 //        String aa=weixinPostService.getTicketData("abcd");
