@@ -7,65 +7,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ebe1449-5160-4a23-8580-d18d859be9da" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/commons_logging_1_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/core_2_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_fastjson_1_1_41.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alipay_sdk_alipay_sdk_java_3_7_4_ALL.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_fastjson_1_1_41.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alipay_sdk_alipay_sdk_java_3_7_4_ALL.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/alipay_sdk_java_3_3_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/alipay_sdk_java_3_3_0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/alipay_sdk_java_3_3_0_source.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/alipay_sdk_java_3_3_0_source.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/alipay_trade_sdk_20161215.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/alipay_trade_sdk_20161215.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/alipay_trade_sdk_20161215_source.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/alipay_trade_sdk_20161215_source.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/commons_codec_1_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/commons_codec_1_10.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/commons_configuration_1_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/commons_configuration_1_10.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/commons_lang_2_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/commons_lang_2_6.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/gson_2_3_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/gson_2_3_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/hamcrest_core_1_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/hamcrest_core_1_3.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YIMEM.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YIMEM.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/AjaxSendIdCodeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/AjaxSendIdCodeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/BlogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/BlogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/BlogReplayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/BlogReplayController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/CollectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/CollectController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/CollectItemsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/CollectItemsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/FansController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/FansController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/ForumcategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/ForumcategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/InvitationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/InvitationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/LikeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/LikeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/RoleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/SearchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/SpecialistController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/SpecialistController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/UploadCategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/UploadCategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/UploadReplyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/UploadReplyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/VerifyUploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/VerifyUploadController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/WechatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/WechatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/mapper/ScanRecordMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/model/ScanRecord.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogReplayServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogReplayServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogReplaySonServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogReplaySonServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/CollectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/CollectServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/DownloadCategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/DownloadCategoryServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/DownloadreplyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/DownloadreplyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/EmailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/EmailServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/FansServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/FansServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/ForumServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/ForumServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/LikeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/LikeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/ResocollectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/ResocollectServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/SearchServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/SearchServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/SpecialistServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/SpecialistServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/UpdateMessageImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/UpdateMessageImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/UploadServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/UploadServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/ScanRecordMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/111.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/111.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/111.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/zf.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/ScanRecordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/ScanRecordService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/UserServic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/UserServic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/ScanRecordServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/ScanRecordServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/UserServicImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/UserServicImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/userHomepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/userHomepage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zfbinfo.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com.sy.test/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.sy.test/UserTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -90,14 +43,58 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/OrderController.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/WechatController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="545" column="47" selection-start-line="545" selection-start-column="47" selection-end-line="545" selection-end-column="47" />
+            <state relative-caret-position="-1441">
+              <caret line="93" column="15" selection-start-line="93" selection-start-column="8" selection-end-line="93" selection-end-column="15" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/model/User.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1175">
+              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/UserController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2074">
+              <caret line="88" column="16" selection-start-line="88" selection-start-column="16" selection-end-line="88" selection-end-column="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/service/impl/ScanRecordServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="481">
+              <caret line="44" column="53" selection-start-line="44" selection-start-column="32" selection-end-line="44" selection-end-column="53" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1202#1203#0" expanded="true" />
+                <element signature="e#1267#1268#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/service/impl/WeixinPostServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-11316">
+              <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -114,19 +111,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>个人主页</find>
-      <find>searchAll</find>
-      <find>searchBlog</find>
-      <find>searchDownLoad</find>
-      <find>searchForum</find>
-      <find>searchAsk</find>
-      <find>render</find>
-      <find>layer.msg(&quot;服务器异常稍后再试</find>
-      <find>searchVideo</find>
       <find>recharge</find>
       <find>setPersonalData</find>
       <find>modifyInfo()</find>
-      <find>userINfomodifyContain</find>
       <find>留言</find>
       <find>layui-form</find>
       <find>formDemo</find>
@@ -144,6 +131,16 @@
       <find>trade_precreate.do</find>
       <find>&lt;%--充值5元-客服QQ:2371184609--%&gt;</find>
       <find>weiXinUser</find>
+      <find>getUserById</find>
+      <find>Downloadmoney</find>
+      <find>updateUserMoney</find>
+      <find>userINfomodifyContain</find>
+      <find>如果状态是已经支付成功</find>
+      <find>modifyTradeStatus</find>
+      <find>collectContain</find>
+      <find>outtradeno</find>
+      <find>支付传入参数</find>
+      <find>findOrderByOuttradeno</find>
     </findStrings>
     <replaceStrings>
       <replace>likes</replace>
@@ -170,11 +167,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/com.sy.test/UserTest.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/generatorConfig.xml" />
-        <option value="$PROJECT_DIR$/src/main/webapp/222.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/111.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/zhongzhuan.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/zhongzhuan.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/com/sy/controller/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sy/alipay/demo/trade/model/hb/Type.java" />
@@ -182,8 +174,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/LikeServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/SearchServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/CollectServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogReplayServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogReplaySonServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/DownloadCategoryServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/DownloadreplyServiceImpl.java" />
@@ -215,12 +205,19 @@
         <option value="$PROJECT_DIR$/src/main/java/com/sy/interceptor/SysConfig.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sy/controller/LoginController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/111.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/userHomepage.html" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/ScanRecordServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sy/service/ScanRecordService.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/zf.jsp" />
-        <option value="$PROJECT_DIR$/src/main/resources/db.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sy/service/ScanRecordService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/ScanRecordServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sy/service/UserServic.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/UserServicImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/userHomepage.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapper/ScanRecordMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/sy/controller/OrderController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sy/mapper/ScanRecordMapper.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com.sy.test/UserTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogReplayServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogReplaySonServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/db.properties" />
       </list>
     </option>
   </component>
@@ -278,9 +275,9 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="586" />
-    <option name="y" value="105" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="149" />
+    <option name="y" value="153" />
     <option name="width" value="719" />
     <option name="height" value="718" />
   </component>
@@ -292,6 +289,7 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -323,15 +321,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="YIMEM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="YIMEM" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="sy" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -340,7 +329,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="sy" type="462c0819:PsiDirectoryNode" />
               <item name="controller" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -350,7 +338,15 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="sy" type="462c0819:PsiDirectoryNode" />
+              <item name="mapper" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="YIMEM" type="b2602c69:ProjectViewProjectNode" />
+              <item name="YIMEM" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="sy" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -360,7 +356,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="sy" type="462c0819:PsiDirectoryNode" />
               <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -370,7 +365,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="sy" type="462c0819:PsiDirectoryNode" />
               <item name="service" type="462c0819:PsiDirectoryNode" />
               <item name="impl" type="462c0819:PsiDirectoryNode" />
@@ -401,15 +395,22 @@
               <item name="YIMEM" type="b2602c69:ProjectViewProjectNode" />
               <item name="YIMEM" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="YIMEM" type="b2602c69:ProjectViewProjectNode" />
               <item name="YIMEM" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="YIMEM" type="b2602c69:ProjectViewProjectNode" />
+              <item name="YIMEM" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com.sy.test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="YIMEM" type="b2602c69:ProjectViewProjectNode" />
@@ -420,14 +421,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1597927375004" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1597946893446" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../F2FPay_Demo_Java" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -471,7 +471,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.UserTest.AA6">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.sy.controller.Main" />
       <module name="YIMEM" />
@@ -522,6 +522,22 @@
       <option name="PACKAGE_NAME" value="com.sy.test" />
       <option name="MAIN_CLASS_NAME" value="com.sy.test.UserTest" />
       <option name="METHOD_NAME" value="AA2" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserTest.AA6" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="YIMEM" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sy.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.sy.test" />
+      <option name="MAIN_CLASS_NAME" value="com.sy.test.UserTest" />
+      <option name="METHOD_NAME" value="AA6" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -611,9 +627,11 @@
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.UserTest.AA2" />
       <item itemvalue="Tomcat Server.Tomcat 9.0.11" />
+      <item itemvalue="JUnit.UserTest.AA6" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.UserTest.AA6" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.OrderController" />
         <item itemvalue="JUnit.UserTest.AA2" />
@@ -727,6 +745,8 @@
       <workItem from="1597889009854" duration="2463000" />
       <workItem from="1597892974802" duration="1520000" />
       <workItem from="1597906402458" duration="16360000" />
+      <workItem from="1597929857907" duration="274000" />
+      <workItem from="1597935315898" duration="11064000" />
     </task>
     <servers />
   </component>
@@ -746,15 +766,29 @@
     <history-entry file="UserTest_AA2 - 2020.08.19 at 21h 50m 34s.xml">
       <configuration name="UserTest.AA2" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="UserTest_AA6 - 2020.08.21 at 02h 01m 10s.xml">
+      <configuration name="UserTest.AA6" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserTest_AA6 - 2020.08.21 at 02h 01m 28s.xml">
+      <configuration name="UserTest.AA6" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserTest_AA6 - 2020.08.21 at 02h 01m 48s.xml">
+      <configuration name="UserTest.AA6" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserTest_AA6 - 2020.08.21 at 02h 02m 03s.xml">
+      <configuration name="UserTest.AA6" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserTest_AA6 - 2020.08.21 at 02h 03m 54s.xml">
+      <configuration name="UserTest.AA6" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="724472000" />
+    <option name="totallyTimeSpent" value="735810000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="586" y="105" width="719" height="718" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="32" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49832776" weight="0.7341576" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49832776" visible="true" weight="0.25375536" />
       <window_info id="Image Layers" order="1" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Capture Tool" order="3" />
@@ -766,7 +800,7 @@
       <window_info anchor="bottom" id="Find" order="1" weight="0.7761989" />
       <window_info anchor="bottom" id="Docker" order="2" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.5003224" side_tool="true" weight="0.41271678" />
-      <window_info anchor="bottom" id="Messages" order="4" sideWeight="0.49967763" weight="0.43694493" />
+      <window_info anchor="bottom" id="Messages" order="4" sideWeight="0.49967763" weight="0.43583816" />
       <window_info anchor="bottom" id="Database Changes" order="5" />
       <window_info anchor="bottom" id="Version Control" order="6" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.32978722" />
@@ -777,9 +811,9 @@
       <window_info anchor="bottom" id="Cvs" order="12" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="13" weight="0.4" />
       <window_info anchor="bottom" id="Application Servers" order="14" weight="0.32601157" />
-      <window_info anchor="bottom" id="Run" order="15" weight="0.6127886" />
+      <window_info anchor="bottom" id="Run" order="15" weight="0.92354125" />
       <window_info anchor="right" id="Database" order="0" weight="0.32900763" />
-      <window_info anchor="right" id="Maven" order="1" sideWeight="0.49825174" weight="0.45440495" />
+      <window_info anchor="right" id="Maven" order="1" sideWeight="0.49825174" weight="0.6862442" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.24839056" />
       <window_info anchor="right" id="CDI" order="3" weight="0.32939914" />
       <window_info anchor="right" id="Bean Validation" order="4" weight="0.3299356" />
@@ -801,61 +835,61 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java</url>
-          <line>160</line>
+          <line>154</line>
           <properties />
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java</url>
-          <line>190</line>
+          <line>184</line>
           <properties />
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java</url>
-          <line>197</line>
+          <line>191</line>
           <properties />
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java</url>
-          <line>202</line>
+          <line>196</line>
           <properties />
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java</url>
-          <line>266</line>
+          <line>260</line>
           <properties />
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java</url>
-          <line>270</line>
+          <line>264</line>
           <properties />
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java</url>
-          <line>272</line>
+          <line>266</line>
           <properties />
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java</url>
-          <line>64</line>
+          <line>58</line>
           <properties />
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java</url>
-          <line>178</line>
+          <line>172</line>
           <properties />
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java</url>
-          <line>181</line>
+          <line>175</line>
           <properties />
           <option name="timeStamp" value="37" />
         </line-breakpoint>
@@ -867,118 +901,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/SpecialistController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/UploadCategoryController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/UploadController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/VerifyUploadController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/app.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="447" column="32" lean-forward="true" selection-start-line="447" selection-start-column="16" selection-end-line="447" selection-end-column="32" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/AjaxSendIdCodeController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-643">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/AskController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/BlogController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/CollectController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/CollectItemsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/DemoHbRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#805#806#0" expanded="true" />
-            <element signature="e#842#843#0" expanded="true" />
-            <element signature="e#1258#1273#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/DownloadController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="350">
@@ -1112,13 +1034,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/userHomepage.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="1083" column="38" lean-forward="true" selection-start-line="1083" selection-end-line="1084" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/banding.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1400">
@@ -1146,16 +1061,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="88" column="16" selection-start-line="88" selection-start-column="16" selection-end-line="88" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/111.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -1163,60 +1068,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/mapper/ScanRecordMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/generatorConfig.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1568" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/model/ScanRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/service/ScanRecordService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/service/impl/ScanRecordServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="27" column="13" lean-forward="true" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/model/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-500">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/zf.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="282">
           <caret line="861" column="42" selection-start-line="861" selection-start-column="42" selection-end-line="861" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/db.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="4" column="21" lean-forward="true" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -1230,16 +1085,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/WechatController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="47" column="107" selection-start-line="47" selection-start-column="79" selection-end-line="47" selection-end-column="107" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/model/PaymentRecord.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-475">
@@ -1247,10 +1092,176 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/generatorConfig.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/alipay-trade-sdk-20161215.jar!/com/alipay/demo/trade/config/Configs.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="48" column="35" selection-start-line="48" selection-start-column="35" selection-end-line="48" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Java/jdk1.8.0_77/src.zip!/java/util/Enumeration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="60" column="17" selection-start-line="60" selection-start-column="17" selection-end-line="60" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/service/UserServic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="452">
+          <caret line="64" column="17" selection-start-line="64" selection-start-column="17" selection-end-line="64" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="155" column="31" selection-start-line="155" selection-start-column="16" selection-end-line="155" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/mapper/UserMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="61" column="12" selection-start-line="61" selection-start-column="12" selection-end-line="61" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/userHomepage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="673" column="26" selection-start-line="673" selection-start-column="26" selection-end-line="673" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/service/ScanRecordService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/model/ScanRecord.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="10" column="29" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/ScanRecordMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="34" column="2" selection-start-line="34" selection-start-column="2" selection-end-line="34" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/mapper/ScanRecordMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="14" column="75" selection-start-line="14" selection-start-column="75" selection-end-line="14" selection-end-column="75" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com.sy.test/UserTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="66" selection-end-line="93" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogReplaySonServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="33" lean-forward="true" selection-end-line="194" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogReplayServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10">
+          <caret line="33" column="13" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/db.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/service/impl/UserServicImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="402">
+          <caret line="476" column="30" selection-start-line="476" selection-start-column="15" selection-end-line="476" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/OrderController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="545" column="47" selection-start-line="545" selection-start-column="47" selection-end-line="545" selection-end-column="47" />
+        <state relative-caret-position="-373">
+          <caret line="535" column="106" selection-start-line="535" selection-start-column="10" selection-end-line="535" selection-end-column="106" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/service/impl/ScanRecordServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="44" column="53" selection-start-line="44" selection-start-column="32" selection-end-line="44" selection-end-column="53" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1202#1203#0" expanded="true" />
+            <element signature="e#1267#1268#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/service/impl/WeixinPostServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-11316">
+          <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/WechatController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1441">
+          <caret line="93" column="15" selection-start-line="93" selection-start-column="8" selection-end-line="93" selection-end-column="15" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/model/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1175">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sy/controller/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2074">
+          <caret line="88" column="16" selection-start-line="88" selection-start-column="16" selection-end-line="88" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

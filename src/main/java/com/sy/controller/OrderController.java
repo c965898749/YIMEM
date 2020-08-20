@@ -1,5 +1,5 @@
 package com.sy.controller;
-import com.alibaba.fastjson.JSON;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alipay.api.AlipayResponse;
 import com.alipay.api.domain.TradeFundBill;
@@ -21,24 +21,25 @@ import com.alipay.demo.trade.service.impl.AlipayMonitorServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
 import com.alipay.demo.trade.utils.Utils;
-import com.sy.model.PaymentRecord;
 import com.sy.model.ScanRecord;
 import com.sy.model.User;
-import com.sy.model.resp.BaseResp;
 import com.sy.service.PaymentRecordService;
 import com.sy.service.ScanRecordService;
+import com.sy.service.UserServic;
 import com.sy.tool.Constants;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import com.alipay.api.AlipayApiException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.alipay.api.internal.util.AlipaySignature;
@@ -50,6 +51,8 @@ public class OrderController {
     private PaymentRecordService paymentRecordService;
     @Autowired
     private ScanRecordService scanRecordService;
+    @Autowired
+    private UserServic userServic;
 
 
     // 支付宝当面付2.0服务
@@ -94,26 +97,25 @@ public class OrderController {
     }
 
 
-
 //    public static void main(String[] args) {
 
-        // 系统商商测试交易保障接口api
-        //        main.test_monitor_sys();
+    // 系统商商测试交易保障接口api
+    //        main.test_monitor_sys();
 
-        // POS厂商测试交易保障接口api
-        //        main.test_monitor_pos();
+    // POS厂商测试交易保障接口api
+    //        main.test_monitor_pos();
 
-        // 测试交易保障接口调度
+    // 测试交易保障接口调度
 //                main.test_monitor_schedule_logic();
 
-        // 测试当面付2.0支付（使用未集成交易保障接口的当面付2.0服务）
-        //        main.test_trade_pay(tradeService);
+    // 测试当面付2.0支付（使用未集成交易保障接口的当面付2.0服务）
+    //        main.test_trade_pay(tradeService);
 
-        // 测试查询当面付2.0交易
+    // 测试查询当面付2.0交易
 //                main.test_trade_query();
 
-        // 测试当面付2.0退货
-        //        main.test_trade_refund();
+    // 测试当面付2.0退货
+    //        main.test_trade_refund();
 
 //         测试当面付2.0生成支付二维码
 //        main.test_trade_precreate();
@@ -387,7 +389,7 @@ public class OrderController {
     @RequestMapping("trade_precreate")
     public String trade_precreate(Double totalAmount, HttpServletRequest request, HttpServletResponse res) {
         User user = (User) request.getSession().getAttribute("user");
-        ScanRecord scanRecord=new ScanRecord();
+        ScanRecord scanRecord = new ScanRecord();
         if (user == null) {
             return "zhongzhuan";
         } else {
@@ -418,7 +420,7 @@ public class OrderController {
 
             // 订单描述，可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
 //            计算积分
-            String body = "充值"+scanRecord.getTotalamount()+"元 -赠送"+scanRecord.getTotalamount().multiply(new BigDecimal(1000))+"积分";
+            String body = "充值" + scanRecord.getTotalamount() + "元 -赠送" + scanRecord.getTotalamount().multiply(new BigDecimal(1000)) + "积分";
             scanRecord.setBody(body);
 //            Integer  loadmoney= user.getDownloadmoney()+Integer.parseInt(scanRecord.getTotalamount().multiply(new BigDecimal(1000)).toString());
 //           用户积分计算
@@ -451,7 +453,7 @@ public class OrderController {
 
             // 创建扫码支付请求builder，设置请求参数
             AlipayTradePrecreateRequestBuilder builder = new AlipayTradePrecreateRequestBuilder()
-                    .setSubject(subject).setTotalAmount(totalAmount+"").setOutTradeNo(outTradeNo)
+                    .setSubject(subject).setTotalAmount(totalAmount + "").setOutTradeNo(outTradeNo)
                     .setUndiscountableAmount(undiscountableAmount).setSellerId(sellerId).setBody(body)
                     .setOperatorId(operatorId).setStoreId(storeId).setExtendParams(extendParams)
                     .setTimeoutExpress(timeoutExpress)
@@ -495,15 +497,14 @@ public class OrderController {
 
 
     @RequestMapping("alipay_callback.do")
-    @ResponseBody
-    private BaseResp callBack(HttpServletRequest request) throws AlipayApiException {
-        log.info("进入支付接口");
-        BaseResp baseResp=new BaseResp();
+    private String callBack(HttpServletRequest request) throws AlipayApiException {
+        log.info("收到支付宝异步通知！");
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // 取出支付宝回调携带的所有参数并进行转换，数组转换为字符串
         Map<String, String[]> tempParams = request.getParameterMap();
         JSONArray jArray = new JSONArray();
         jArray.add(tempParams);
-        log.info("支付传入参数："+jArray.toString());
+        log.info("支付传入参数：" + jArray.toString());
         //  参数存放 Map
         Map<String, String> requestParams = new HashMap<>();
         for (Iterator<String> iterator = tempParams.keySet().iterator(); iterator.hasNext(); ) {
@@ -518,42 +519,82 @@ public class OrderController {
         }
         // 去除sign_type
         requestParams.remove("sign_type");
-
         try {
-            // 验证签名
-//            boolean result = AlipaySignature.rsaCheckV2(requestParams, Configs.getPublicKey(), "utf-8", Configs.getSignType());
             //公钥-对数据验签
             boolean result = AlipaySignature.rsaCheckV1(requestParams, Constants.PUBLIC_KEY, Constants.CHAR_SET, Constants.SIGN_TYPE);
             if (!result) {
-                baseResp.setSuccess(1);
                 log.info("未支付成功");
-                return baseResp;
+                return "failed";
             }
-        } catch (AlipayApiException e) {
-            log.error("支付宝回调验证异常", e);
-            e.printStackTrace();
-            throw e;
-        }
+            log.info("验证通过");
+            //若参数中的appid和填入的appid不相同，则为异常通知
+            if (!Configs.getAppid().equals(requestParams.get("app_id"))) {
+                log.info("与付款时的appid不同，此为异常通知，应忽略！");
+                return "failed";
+            }
+            //在数据库中查找订单号对应的订单，并将其金额与数据库中的金额对比，若对不上，也为异常通知
+            ScanRecord order = scanRecordService.findOrderByOuttradeno(requestParams.get("out_trade_no"));
+            log.info("实体类参数"+order.toString());
+            if (order == null) {
+                log.warn(requestParams.get("out_trade_no") + "查无此订单！");
+                return "failed";
+            }
+            if (order.getTotalamount().doubleValue() != Double.parseDouble(requestParams.get("total_amount"))) {
+                log.info("与付款时的金额不同，此为异常通知，应忽略！");
+                return "failed";
+            }
+            if ("TRADE_SUCCESS".equals(order.getStatus())) {
+                log.info("如果订单已经支付成功了，就直接忽略这次通知");
+                return "success"; //如果订单已经支付成功了，就直接忽略这次通知
+            }
+//            try {
+//                order.setGmtCreate(sdf.parse(requestParams.get("gmt_create")));
+//                order.setGmtPayment(sdf.parse(requestParams.get("gmt_payment")));
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+            order.setGmtPayment(new Date());
+            order.setNotifyId(requestParams.get("notify_id"));
+            order.setBuyerId(requestParams.get("buyer_id"));
+            order.setBuyerLogonId(requestParams.get("buyer_logon_id"));
+            String status = requestParams.get("trade_status");
+            order.setStatus(status);
+            if (status.equals("WAIT_BUYER_PAY")) { //如果状态是正在等待用户付款
+//                if ("WAIT_BUYER_PAY".equals(order.getStatus())) {
+                    log.info("如果状态是正在等待用户付款");
+                    scanRecordService.modifyTradeStatus(order);
+//                }
+            } else if (status.equals("TRADE_CLOSED")) { //如果状态是未付款交易超时关闭，或支付完成后全额退款
+//                if ("TRADE_CLOSED".equals(order.getStatus())) {
+                    log.info("如果状态是未付款交易超时关闭，或支付完成后全额退款");
+                    scanRecordService.modifyTradeStatus(order);
+//                }
+            } else if (status.equals("TRADE_SUCCESS") || status.equals("TRADE_FINISHED")) { //如果状态是已经支付成功
+//                if ("TRADE_SUCCESS".equals(order.getStatus())) {
+                    log.info("如果状态是已经支付成功");
+                    scanRecordService.modifyTradeStatus(order);
+                    User u=new User();
+                    u.setUserId(order.getUserid());
+                    User user= null;
+                    try {
+                        user = userServic.getUserById(u);
+                        log.info("用户积分"+user.getDownloadmoney());
+                        BigDecimal money = new BigDecimal(user.getDownloadmoney()).add(order.getTotalamount().multiply(new BigDecimal(1000)));
+                        log.info("增加后的积分"+money.doubleValue());
+                        user.setDownloadmoney(money.doubleValue());
+                        userServic.updateUserMoney(user);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-        JSONArray jArray2 = new JSONArray();
-        jArray2.add(requestParams);
-        log.info("requestParams支付传入参数："+jArray2.toString());
-        // 调用Service 方法进行处理
-//        低级错误map字段不一致无法直接转
-//        PaymentRecord record = JSON.parseObject(JSON.toJSONString(requestParams), PaymentRecord.class);
-        PaymentRecord record=new PaymentRecord();
-        record.setAppId(requestParams.get("app_id"));
-        record.setAuthAppId(requestParams.get("auth_app_id"));
-        record.setBody(requestParams.get("body"));
-        record.setBuyerId(requestParams.get("buyer_id"));
-        record.setBuyerLogonId(requestParams.get("buyer_logon_id"));
-        record.set
-        JSONArray jArray3 = new JSONArray();
-        jArray3.add(record);
-        log.info("record对象转换："+jArray3.toString());
-        paymentRecordService.insertSelective(record);
-        log.info("支付宝支付回调完成，没有异常");
-        baseResp.setSuccess(0);
-        return baseResp;
+//                }
+            } else {
+                scanRecordService.modifyTradeStatus(order);
+            }
+            return "success";
+        } catch (AlipayApiException e) {
+            log.info("支付宝回调验证异常", e);
+            return "failed";
+        }
     }
 }

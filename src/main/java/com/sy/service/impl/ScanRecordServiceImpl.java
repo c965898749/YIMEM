@@ -39,4 +39,14 @@ public class ScanRecordServiceImpl implements ScanRecordService {
     public int updateByPrimaryKey(ScanRecord record) {
         return 0;
     }
+
+    @Override
+    public ScanRecord findOrderByOuttradeno(String outTradeNo) {
+        return scanRecordMapper.findOrderByOuttradeno(outTradeNo);
+    }
+
+    @Override
+    public int modifyTradeStatus(ScanRecord record) {
+        return scanRecordMapper.modifyTradeStatus(record);
+    }
 }

@@ -472,6 +472,12 @@ public class UserServicImpl implements UserServic {
         fansMapper.readfansaa(userId);
     }
 
+    @Override
+    @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+    public int updateUserMoney(User user) {
+        return userMapper.updateUserMoney(user.getDownloadmoney(),user.getUserId());
+    }
+
 
     @Override
     public List<User> getUserList(User user) throws Exception {

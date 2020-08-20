@@ -1,8 +1,9 @@
-package com.sy.service;
+package com.sy.mapper;
 
 import com.sy.model.ScanRecord;
+import org.apache.ibatis.annotations.Param;
 
-public interface ScanRecordService {
+public interface ScanRecordMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(ScanRecord record);
@@ -11,12 +12,11 @@ public interface ScanRecordService {
 
     ScanRecord selectByPrimaryKey(Integer id);
 
+    ScanRecord findOrderByOuttradeno(@Param("outtradeno") String outtradeno);
+
     int updateByPrimaryKeySelective(ScanRecord record);
 
     int updateByPrimaryKey(ScanRecord record);
 
-    ScanRecord findOrderByOuttradeno( String outTradeNo);
-
     int modifyTradeStatus(ScanRecord record);
-
 }

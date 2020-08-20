@@ -1,12 +1,10 @@
 //package com.sy.test;
 //
 //import com.sy.controller.OrderController;
+//import com.sy.model.ScanRecord;
 //import com.sy.model.User;
 //import com.sy.model.resp.BaseResp;
-//import com.sy.service.AskService;
-//import com.sy.service.SearchService;
-//import com.sy.service.UserServic;
-//import com.sy.service.WeixinPostService;
+//import com.sy.service.*;
 //import com.sy.tool.RedisUtil;
 ////import org.junit.Test;
 ////import org.junit.runner.RunWith;
@@ -21,6 +19,8 @@
 //@ContextConfiguration(locations = "classpath:spring.xml")
 //public class UserTest {
 //    @Autowired
+//    private ScanRecordService scanRecordService;
+//    @Autowired
 //    private UserServic userServic;
 //    @Autowired
 //    private AskService askService;
@@ -28,8 +28,8 @@
 //    private SearchService searchService;
 //    @Autowired
 //    private WeixinPostService weixinPostService;
-//    @Autowired
-//    private OrderController controller;
+////    @Autowired
+////    private OrderController controller;
 //    @Test
 //    public void FindTest() throws Exception {
 //    }
@@ -61,6 +61,11 @@
 ////        System.out.println(baseResp.toString());
 //        String aa=weixinPostService.getTicketData("abcd");
 //        System.out.println(aa);
+//    }
+//    @Test
+//    public void AA6() throws Exception {
+//        ScanRecord order = scanRecordService.findOrderByOuttradeno("tradeprecreate15979462466847185369");
+//        System.out.println(order.toString());
 //    }
 ////    @Test
 ////    public void AA3() throws Exception {
