@@ -6,8 +6,6 @@ import com.sy.mapper.BlogMapper;
 import com.sy.mapper.BlogReplayMapper;
 import com.sy.mapper.InformationMapper;
 import com.sy.mapper.UserMapper;
-import com.sy.model.Blog;
-import com.sy.model.BlogReplay;
 import com.sy.model.Information;
 import com.sy.model.User;
 import com.sy.service.UpdateMessage;

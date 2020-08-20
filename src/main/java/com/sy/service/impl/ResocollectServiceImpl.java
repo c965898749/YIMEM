@@ -1,10 +1,7 @@
 package com.sy.service.impl;
 
-import com.sy.mapper.DownloadMapper;
 import com.sy.mapper.ResocollectMapper;
-import com.sy.model.Download;
 import com.sy.model.Resocollect;
-import com.sy.service.DownloadService;
 import com.sy.service.ResocollectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

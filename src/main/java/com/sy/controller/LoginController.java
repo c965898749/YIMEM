@@ -1,11 +1,8 @@
 package com.sy.controller;
 
-//import com.sy.model.common.Menu;
-import com.alibaba.fastjson.JSON;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.MenuService;
-//import com.sy.service.common.UserService;
 
 import com.sy.service.UserServic;
 import com.sy.tool.Constants;
@@ -18,8 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Method;
-import java.util.List;
+
 
 @Controller
 public class LoginController {
@@ -43,6 +39,12 @@ public class LoginController {
     public String toIndex(){
 
         return "index";
+    }
+
+    @RequestMapping("/kk")
+    public String kk(){
+
+        return "zf";
     }
 
     /**

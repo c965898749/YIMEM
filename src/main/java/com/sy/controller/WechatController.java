@@ -2,12 +2,10 @@ package com.sy.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sy.model.User;
-import com.sy.model.weixin.TextMessage;
 import com.sy.model.weixin.WeiXin;
 import com.sy.model.weixin.WeiXinUser;
 import com.sy.service.UserServic;
 import com.sy.service.WeixinPostService;
-import com.sy.service.impl.WeixinPostServiceImpl;
 import com.sy.tool.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;

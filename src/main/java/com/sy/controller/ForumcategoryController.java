@@ -1,10 +1,8 @@
 package com.sy.controller;
 
 import com.sy.expection.CsdnExpection;
-import com.sy.model.DownloadCategory;
 import com.sy.model.Forumcategory;
 import com.sy.model.resp.BaseResp;
-import com.sy.service.DownloadCategoryService;
 import com.sy.service.ForumcategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

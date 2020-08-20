@@ -12,14 +12,11 @@ import com.sy.service.LikeService;
 import com.sy.tool.Constants;
 import com.sy.tool.RedisCache;
 import com.sy.tool.RedisUtil;
-import jdk.nashorn.internal.runtime.linker.LinkerCallSite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="gson-2.3.1">
+  <library name="core-2.1">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/gson-2.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/core-2.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

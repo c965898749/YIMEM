@@ -1,6 +1,5 @@
 package com.sy.controller;
 
-import com.github.pagehelper.PageHelper;
 import com.sy.model.Invitation;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;

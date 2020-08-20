@@ -1,6 +1,5 @@
 package com.sy.controller;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.CollectService;

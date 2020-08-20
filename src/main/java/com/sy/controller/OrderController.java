@@ -21,7 +21,6 @@ import com.alipay.demo.trade.service.impl.AlipayMonitorServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
 import com.alipay.demo.trade.utils.Utils;
-import com.alipay.demo.trade.utils.ZxingUtils;
 import com.sy.model.PaymentRecord;
 import com.sy.model.ScanRecord;
 import com.sy.model.User;
@@ -34,22 +33,23 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alipay.api.AlipayApiException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import com.alipay.api.internal.util.AlipaySignature;
 
-//@Controller
+@Controller
 public class OrderController {
     private Logger log = Logger.getLogger(OrderController.class.getName());
-//    @Autowired
-//    private PaymentRecordService paymentRecordService;
-//    @Autowired
-//    private ScanRecordService scanRecordService;
+    @Autowired
+    private PaymentRecordService paymentRecordService;
+    @Autowired
+    private ScanRecordService scanRecordService;
 
 
     // 支付宝当面付2.0服务
@@ -95,7 +95,7 @@ public class OrderController {
 
 
 
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
 
         // 系统商商测试交易保障接口api
         //        main.test_monitor_sys();
@@ -117,7 +117,7 @@ public class OrderController {
 
 //         测试当面付2.0生成支付二维码
 //        main.test_trade_precreate();
-    }
+//    }
 
     // 测试系统商交易保障调度
     public void test_monitor_schedule_logic() {
@@ -384,15 +384,17 @@ public class OrderController {
     }
 
     // 测试当面付2.0生成支付二维码
-//    @RequestMapping(value = "trade_precreate.do", method = RequestMethod.POST)
-//////    public String trade_precreate(String totalAmount, HttpServletRequest request, HttpServletResponse res) {
-//////        User user = (User) request.getSession().getAttribute("user");
-//////        if (user == null) {
-//////            return "zhongzhuan";
-//////        } else {
-    public static String aa(){
-            ScanRecord scanRecord=new ScanRecord();
-//            scanRecord.setUserid(user.getUserId());
+    @RequestMapping("trade_precreate")
+    public String trade_precreate(Double totalAmount, HttpServletRequest request, HttpServletResponse res) {
+        User user = (User) request.getSession().getAttribute("user");
+        ScanRecord scanRecord=new ScanRecord();
+        if (user == null) {
+            return "zhongzhuan";
+        } else {
+            DecimalFormat df = new DecimalFormat("#.00");
+            scanRecord.setUserid(user.getUserId());
+//            植入sessionid
+            scanRecord.setSellerid(request.getSession().getId());
             // (必填) 商户网站订单系统中唯一订单号，64个字符以内，只能包含字母、数字、下划线，
             // 需保证商户系统端不能重复，建议通过数据库sequence生成，
             String outTradeNo = "tradeprecreate" + System.currentTimeMillis()
@@ -401,8 +403,9 @@ public class OrderController {
             // (必填) 订单标题，粗略描述用户的支付目的。如“xxx品牌xxx门店当面付扫码消费”
             String subject = "一梦工作室";
             scanRecord.setSubject(subject);
-
-            String totalAmount="8888";
+            scanRecord.setTotalamount(new BigDecimal(df.format(totalAmount)));
+            scanRecord.setCreateTime(new Date());
+//            String totalAmount="8888";
             // (必填) 订单总金额，单位为元，不能超过1亿元
             // 如果同时传入了【打折金额】,【不可打折金额】,【订单总金额】三者,则必须满足如下条件:【订单总金额】=【打折金额】+【不可打折金额】
 //         map.put("totalAmount",totalAmount);
@@ -414,8 +417,14 @@ public class OrderController {
             String sellerId = "";
 
             // 订单描述，可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
-            String body = "赞助一梦工作是共"+totalAmount+"元";
+//            计算积分
+            String body = "充值"+scanRecord.getTotalamount()+"元 -赠送"+scanRecord.getTotalamount().multiply(new BigDecimal(1000))+"积分";
             scanRecord.setBody(body);
+//            Integer  loadmoney= user.getDownloadmoney()+Integer.parseInt(scanRecord.getTotalamount().multiply(new BigDecimal(1000)).toString());
+//           用户积分计算
+//            BigDecimal money=new BigDecimal(user.getDownloadmoney()).add(scanRecord.getTotalamount().multiply(new BigDecimal(1000)));
+////            user.setDownloadmoney(money.doubleValue());
+
             // 商户操作员编号，添加此参数可以为商户操作员做销售统计
             String operatorId = "test_operator_id";
 
@@ -442,7 +451,7 @@ public class OrderController {
 
             // 创建扫码支付请求builder，设置请求参数
             AlipayTradePrecreateRequestBuilder builder = new AlipayTradePrecreateRequestBuilder()
-                    .setSubject(subject).setTotalAmount(totalAmount).setOutTradeNo(outTradeNo)
+                    .setSubject(subject).setTotalAmount(totalAmount+"").setOutTradeNo(outTradeNo)
                     .setUndiscountableAmount(undiscountableAmount).setSellerId(sellerId).setBody(body)
                     .setOperatorId(operatorId).setStoreId(storeId).setExtendParams(extendParams)
                     .setTimeoutExpress(timeoutExpress)
@@ -451,12 +460,12 @@ public class OrderController {
             AlipayF2FPrecreateResult result = tradeService.tradePrecreate(builder);
             switch (result.getTradeStatus()) {
                 case SUCCESS:
-//                    log.info("支付宝预下单成功: )");
+                    log.info("支付宝预下单成功: )");
 
                     AlipayTradePrecreateResponse response = result.getResponse();
-//                    dumpResponse(response);
+                    dumpResponse(response);
                     scanRecord.setQrcode(response.getQrCode());
-//                    scanRecordService.insertSelective(scanRecord);
+                    scanRecordService.insertSelective(scanRecord);
                     // 需要修改为运行机器上的路径
 //                String filePath = String.format("D:\\qr-%s.png",
 //                        response.getOutTradeNo());
@@ -466,19 +475,22 @@ public class OrderController {
                     break;
 
                 case FAILED:
-//                    log.error("支付宝预下单失败!!!");
+                    log.error("支付宝预下单失败!!!");
                     break;
 
                 case UNKNOWN:
-//                    log.error("系统异常，预下单状态未知!!!");
+                    log.error("系统异常，预下单状态未知!!!");
                     break;
 
                 default:
-//                    log.error("不支持的交易状态，交易返回异常!!!");
+                    log.error("不支持的交易状态，交易返回异常!!!");
                     break;
             }
-//        }
-        return "111";
+            System.out.println("进行转操作！！！");
+            request.getSession().setAttribute("scanRecord", scanRecord);
+            return "zf";
+        }
+
     }
 
 
@@ -527,11 +539,19 @@ public class OrderController {
         jArray2.add(requestParams);
         log.info("requestParams支付传入参数："+jArray2.toString());
         // 调用Service 方法进行处理
-        PaymentRecord record = JSON.parseObject(JSON.toJSONString(requestParams), PaymentRecord.class);
+//        低级错误map字段不一致无法直接转
+//        PaymentRecord record = JSON.parseObject(JSON.toJSONString(requestParams), PaymentRecord.class);
+        PaymentRecord record=new PaymentRecord();
+        record.setAppId(requestParams.get("app_id"));
+        record.setAuthAppId(requestParams.get("auth_app_id"));
+        record.setBody(requestParams.get("body"));
+        record.setBuyerId(requestParams.get("buyer_id"));
+        record.setBuyerLogonId(requestParams.get("buyer_logon_id"));
+        record.set
         JSONArray jArray3 = new JSONArray();
         jArray3.add(record);
         log.info("record对象转换："+jArray3.toString());
-//        paymentRecordService.insertSelective(record);
+        paymentRecordService.insertSelective(record);
         log.info("支付宝支付回调完成，没有异常");
         baseResp.setSuccess(0);
         return baseResp;

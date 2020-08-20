@@ -6,8 +6,6 @@ import com.sy.mapper.UploadMapper;
 import com.sy.model.Downloadreply;
 import com.sy.model.Upload;
 import com.sy.service.DownloadreplyService;
-import com.sy.tool.Constants;
-import com.sy.tool.HTMLSpirit;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

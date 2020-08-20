@@ -7,7 +7,6 @@ import com.sy.model.Upload;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.UploadService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

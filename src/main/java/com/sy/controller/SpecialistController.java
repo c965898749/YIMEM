@@ -1,8 +1,6 @@
 package com.sy.controller;
 
-import com.sy.mapper.SpecialistMapper;
 import com.sy.model.resp.BaseResp;
-import com.sy.service.BlogService;
 import com.sy.service.SpecialistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

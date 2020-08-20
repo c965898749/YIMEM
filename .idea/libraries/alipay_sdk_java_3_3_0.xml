@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="alipay-sdk-java-3.3.0">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/zf/alipay-sdk-java-3.3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/alipay-sdk-java-3.3.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

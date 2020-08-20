@@ -3,7 +3,6 @@ package com.sy.service.impl;
 import com.sy.expection.CsdnExpection;
 import com.sy.mapper.DownloadCategoryMapper;
 import com.sy.model.DownloadCategory;
-import com.sy.model.Downloadreply;
 import com.sy.service.DownloadCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -4,7 +4,6 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sy.mapper.ForumMapper;
 import com.sy.mapper.UserMapper;
-import com.sy.model.Forum;
 import com.sy.model.Invitation;
 import com.sy.model.Invitation_Replay;
 import com.sy.model.User;

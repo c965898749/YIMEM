@@ -2,7 +2,6 @@ package com.sy.controller;
 
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
-import com.sy.service.FansService;
 import com.sy.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

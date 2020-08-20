@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.sy.model.ScanRecord" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -841,9 +842,10 @@
 
 </span>
 
-
+    <%  ScanRecord scanRecord = (ScanRecord) session.getAttribute("scanRecord");%>
     <!-- 页面主体 -->
     <div id="content" class="fn-clear">
+
         <div id="J_order" class="order-area" data-module="excashier/login/2015.08.01/orderDetail" >
             <div id="order" data-role="order" class="order order-bow">
                 <div class="orderDetail-base" data-role="J_orderDetailBase">
@@ -857,14 +859,14 @@
                     </div>
                     <div class="commodity-message-row">
             <span class="first long-content">
-                充值5元-客服QQ:2371184609
+               <%= scanRecord.getBody() %>
             </span>
                         <span class="second short-content">
-                                                                    收款方：深圳雅科网络科技有限公司
+                                                                    收款方：一梦工作室
                             </span>
                     </div>
                     <span class="payAmount-area" id="J_basePriceArea">
-                                                     <strong class=" amount-font-22 ">5.00</strong> 元
+                                                     <strong class=" amount-font-22 "><%= scanRecord.getTotalamount()%></strong> 元
 
         </span>
                 </div>
@@ -893,7 +895,7 @@
 
                 <div class="ui-detail fn-hide" data-role="J_orderDetailCnt" id="J-orderDetail">
                     <div class="ajax-Account od-more-cnt fn-clear">
-                        <div class="first  long-content">充值5元-客服QQ:2371184609</div>
+                        <div class="first  long-content"> <%= scanRecord.getBody()%></div>
                         <ul class="order-detail-container">
                             <li class="order-item">
                                 <table>
@@ -901,26 +903,26 @@
                                     <tr>
                                         <th class="sub-th">收款方：</th>
                                         <td>
-                                            深圳雅科网络科技有限公司
+                                            一梦工作室
                                         </td>
                                     </tr>
                                     <tr>
                                         <th class="sub-th">订单号：</th>
-                                        <td>18625_2020081818440256253381</td>
+                                        <td><%= scanRecord.getOuttradeno()%></td>
                                     </tr>
                                     <tr>
                                         <th class="sub-th">商品名称：</th>
                                         <td>
-                                            充值5元-客服QQ:2371184609
+                                            <%= scanRecord.getBody()%>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th class="sub-th">商品描述：</th>
-                                        <td>充值-5</td>
+                                        <td>充值-<%= scanRecord.getTotalamount()%></td>
                                     </tr>
                                     <tr>
                                         <th class="sub-th">交易金额：</th>
-                                        <td>5.00</td>
+                                        <td><%= scanRecord.getTotalamount()%></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -930,7 +932,7 @@
                         </ul>
                     </div>
                     <span class="payAmount-area payAmount-area-expand">
-                <strong class=" amount-font-22 ">5.00</strong> 元
+                <strong class=" amount-font-22 "><%= scanRecord.getTotalamount()%></strong> 元
         </span>
                     <iframe src="javascript:''" class="ui-detail-iframe-fix" data-role="J_orderDetailFrameFix"></iframe>
                 </div>
@@ -958,7 +960,7 @@
                                             <div data-role="qrPayArea" class="qrcode-integration qrcode-area" id="J_qrPayArea">
                                                 <div class="qrcode-header">
                                                     <div class="ft-center">扫一扫付款（元）</div>
-                                                    <div class="ft-center qrcode-header-money">5.00</div>
+                                                    <div class="ft-center qrcode-header-money"><%= scanRecord.getTotalamount()%></div>
                                                 </div>
 
 
@@ -967,15 +969,16 @@
                                                     <div id="qrcode" style="position: absolute;top: 18px;left: 14px;"></div>
                                                    <div class="ma"><img src="../imgs/gz/ma.png" alt=""></div>
                                                 </div>
+                                                <input type = "hidden" id="ma" name = "#" value = "<%= scanRecord.getQrcode()%>">
+                                                <script src="js/jquery-3.3.1.min.js"></script>
                                                 <script>
+                                                    var url =$("#ma").val()
                                                     //初始化存放二维码的div
                                                     var qrcode = new QRCode(document.getElementById("qrcode"), {
                                                         width : 160,
                                                         height : 160
                                                     });
-                                                    //window.location.href获取到URL
-                                                    qrcode.makeCode("https://qr.alipay.com/bax08694opypkexsylij0037");
-                                                    // qrcode.makeCode('https://www.baidu.com');
+                                                    qrcode.makeCode(url);
                                                 </script>
                                                 <div class="qrcode-img-wrapper" data-role="qrPayImgWrapper">
                                                     <div data-role="qrPayImg" class="qrcode-img-area">

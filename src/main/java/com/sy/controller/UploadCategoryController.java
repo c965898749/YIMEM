@@ -2,7 +2,6 @@ package com.sy.controller;
 
 import com.sy.expection.CsdnExpection;
 import com.sy.model.DownloadCategory;
-import com.sy.model.Upload;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.DownloadCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
