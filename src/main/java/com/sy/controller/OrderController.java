@@ -27,6 +27,7 @@ import com.sy.service.PaymentRecordService;
 import com.sy.service.ScanRecordService;
 import com.sy.service.UserServic;
 import com.sy.tool.Constants;
+import com.sy.tool.MySessionContext;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import com.alipay.api.AlipayApiException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -583,6 +585,9 @@ public class OrderController {
                         log.info("增加后的积分"+money.doubleValue());
                         user.setDownloadmoney(money.doubleValue());
                         userServic.updateUserMoney(user);
+//                        通知前端他跳转
+                        HttpSession session = MySessionContext.getSession(order.getSellerid());
+                        session.setAttribute("trade_status",status);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -843,6 +843,7 @@
 </span>
 
     <%  ScanRecord scanRecord = (ScanRecord) session.getAttribute("scanRecord");%>
+    <%  String status = (String) session.getAttribute("trade_status");%>
     <!-- 页面主体 -->
     <div id="content" class="fn-clear">
 
@@ -970,15 +971,27 @@
                                                    <div class="ma"><img src="../imgs/gz/ma.png" alt=""></div>
                                                 </div>
                                                 <input type = "hidden" id="ma" name = "#" value = "<%= scanRecord.getQrcode()%>">
+                                                <input type = "hidden" id="status" name = "#" value = "<%= status%>">
                                                 <script src="js/jquery-3.3.1.min.js"></script>
                                                 <script>
                                                     var url =$("#ma").val()
+                                                    var status =$("#status").val()
                                                     //初始化存放二维码的div
                                                     var qrcode = new QRCode(document.getElementById("qrcode"), {
                                                         width : 160,
                                                         height : 160
                                                     });
                                                     qrcode.makeCode(url);
+
+                                                    var t2 = window.setInterval(function() {
+
+                                                        if (status=="TRADE_SUCCESS") {
+                                                            window.location.href="http://www.yimem.com/userHomepage.html"
+                                                        }
+
+                                                    },1000)
+
+                                                    window.clearInterval(t2)  // 去除定时器
                                                 </script>
                                                 <div class="qrcode-img-wrapper" data-role="qrPayImgWrapper">
                                                     <div data-role="qrPayImg" class="qrcode-img-area">
