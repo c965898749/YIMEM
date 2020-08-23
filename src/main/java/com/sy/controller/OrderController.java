@@ -23,6 +23,7 @@ import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
 import com.alipay.demo.trade.utils.Utils;
 import com.sy.model.ScanRecord;
 import com.sy.model.User;
+import com.sy.model.resp.BaseResp;
 import com.sy.service.PaymentRecordService;
 import com.sy.service.ScanRecordService;
 import com.sy.service.UserServic;
@@ -45,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.alipay.api.internal.util.AlipaySignature;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class OrderController {
@@ -388,12 +390,16 @@ public class OrderController {
     }
 
     // 测试当面付2.0生成支付二维码
-    @RequestMapping("trade_precreate")
-    public String trade_precreate(Double totalAmount, HttpServletRequest request, HttpServletResponse res) {
+    @RequestMapping("trade_precreate.do")
+    @ResponseBody
+    public BaseResp trade_precreate(Double totalAmount, HttpServletRequest request, HttpServletResponse res) {
+        BaseResp baseResp=new BaseResp();
         User user = (User) request.getSession().getAttribute("user");
         ScanRecord scanRecord = new ScanRecord();
         if (user == null) {
-            return "zhongzhuan";
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("用户未登录");
+            return baseResp;
         } else {
             DecimalFormat df = new DecimalFormat("#.00");
             scanRecord.setUserid(user.getUserId());
@@ -490,9 +496,10 @@ public class OrderController {
                     log.error("不支持的交易状态，交易返回异常!!!");
                     break;
             }
-            System.out.println("进行转操作！！！");
-            request.getSession().setAttribute("scanRecord", scanRecord);
-            return "zf";
+//            request.getSession().setAttribute("scanRecord", scanRecord);
+            baseResp.setSuccess(1);
+            baseResp.setData(scanRecord);
+            return baseResp;
         }
 
     }
@@ -587,7 +594,7 @@ public class OrderController {
                         userServic.updateUserMoney(user);
 //                        通知前端他跳转
                         HttpSession session = MySessionContext.getSession(order.getSellerid());
-                        session.setAttribute("trade_status",status);
+                        session.setAttribute(order.getOuttradeno(),status);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

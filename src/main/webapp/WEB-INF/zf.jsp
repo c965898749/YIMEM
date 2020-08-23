@@ -1,28 +1,31 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@ page import="com.sy.model.ScanRecord" %>
 <!DOCTYPE HTML>
 <html>
 <head>
-    <meta charset="gb2312" />
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="gb2312"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>支付宝 - 网上支付 安全快速！</title>
-    <link rel="icon" href="https://i.alipayobjects.com/common/favicon/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="https://i.alipayobjects.com/common/favicon/favicon.ico" type="image/x-icon" />
-    <link href="https://a.alipayobjects.com" rel="dns-prefetch" />
-    <link href="https://app.alipay.com" rel="dns-prefetch" />
-    <link href="https://my.alipay.com" rel="dns-prefetch" />
-    <link href="https://lab.alipay.com" rel="dns-prefetch" />
-    <link href="https://cashier.alipay.com" rel="dns-prefetch" />
-    <link href="https://financeprod.alipay.com" rel="dns-prefetch" />
-    <link href="https://shenghuo.alipay.com" rel="dns-prefetch" />
+    <link rel="icon" href="https://i.alipayobjects.com/common/favicon/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="https://i.alipayobjects.com/common/favicon/favicon.ico" type="image/x-icon"/>
+    <link href="https://a.alipayobjects.com" rel="dns-prefetch"/>
+    <link href="https://app.alipay.com" rel="dns-prefetch"/>
+    <link href="https://my.alipay.com" rel="dns-prefetch"/>
+    <link href="https://lab.alipay.com" rel="dns-prefetch"/>
+    <link href="https://cashier.alipay.com" rel="dns-prefetch"/>
+    <link href="https://financeprod.alipay.com" rel="dns-prefetch"/>
+    <link href="https://shenghuo.alipay.com" rel="dns-prefetch"/>
     <script src="../js/qrcode.min.js"></script>
     <!-- seajs以及插件 -->
-    <script charset="utf-8" crossorigin="anonymous" id="seajsnode" onerror="window.monitor && monitor.lost && monitor.lost(this.src)" src="https://a.alipayobjects.com:443/??seajs/seajs/2.2.3/sea.js,seajs/seajs-combo/1.0.0/seajs-combo.js,seajs/seajs-style/1.0.2/seajs-style.js,seajs/seajs-log/1.0.0/seajs-log.js,jquery/jquery/1.7.2/jquery.js,gallery/json/1.0.3/json.js,alipay-request/3.0.3/index.js"></script>
+    <script charset="utf-8" crossorigin="anonymous" id="seajsnode"
+            onerror="window.monitor && monitor.lost && monitor.lost(this.src)"
+            src="https://a.alipayobjects.com:443/??seajs/seajs/2.2.3/sea.js,seajs/seajs-combo/1.0.0/seajs-combo.js,seajs/seajs-style/1.0.2/seajs-style.js,seajs/seajs-log/1.0.0/seajs-log.js,jquery/jquery/1.7.2/jquery.js,gallery/json/1.0.3/json.js,alipay-request/3.0.3/index.js"></script>
 
     <!-- seajs config 配置 -->
-    <script>
+    <
+    script >
     seajs.config({
         alias: {
             '$': 'jquery/jquery/1.7.2/jquery',
@@ -31,13 +34,14 @@
             'jquery-debug': 'jquery/jquery/1.7.2/jquery-debug',
             'seajs-debug': 'seajs/seajs-debug/1.1.1/seajs-debug'
         },
-        crossorigin: function(uri){
+        crossorigin: function (uri) {
 
-            function typeOf(type){
-                return function(object){
+            function typeOf(type) {
+                return function (object) {
                     return Object.prototype.toString.call(object) === '[object ' + type + ']';
                 }
             }
+
             var isString = typeOf("String");
             var isRegExp = typeOf("RegExp");
 
@@ -45,7 +49,7 @@
 
             whitelist.push('https://a.alipayobjects.com/');
 
-            for (var i=0, rule, l=whitelist.length; i<l; i++){
+            for (var i = 0, rule, l = whitelist.length; i < l; i++) {
                 rule = whitelist[i];
                 if (
                     (isString(rule) && uri.indexOf(rule) === 0) ||
@@ -61,7 +65,8 @@
         }
     });
     </script>
-    <link charset="utf-8" rel="stylesheet" href="https://a.alipayobjects.com:443/excashier/front/1.0.0/front-old.css" media="all" />
+    <link charset="utf-8" rel="stylesheet" href="https://a.alipayobjects.com:443/excashier/front/1.0.0/front-old.css"
+          media="all"/>
     <style>
         #header {
             height: 60px;
@@ -69,23 +74,27 @@
             border-bottom: 1px solid #d9d9d9;
             margin-top: 0px;
         }
+
         #header .header-title {
             width: 250px;
             height: 60px;
             float: left;
         }
+
         #header .logo {
             float: left;
             height: 31px;
             width: 95px;
             margin-top: 14px;
             text-indent: -9999px;
-            background: none; !important
+            background: none;
+        !important
         }
+
         #header .logo-title {
             font-size: 16px;
             font-weight: normal;
-            font-family: "Microsoft YaHei",微软雅黑,"宋体";
+            font-family: "Microsoft YaHei", 微软雅黑, "宋体";
             border-left: 1px solid #676d70;
             color: #676d70;
             height: 20px;
@@ -95,19 +104,21 @@
             padding-top: 10px;
             padding-left: 10px;
         }
+
         .header-container {
             width: 950px;
             margin: 0 auto;
         }
 
         body,
-        #footer{
+        #footer {
             background-color: #eff0f1;
         }
 
         #footer #ServerNum {
             color: #eff0f1;
         }
+
         .login-switchable-container {
             background-color: #fff;
         }
@@ -169,7 +180,7 @@
             margin: 0;
             width: auto;
             float: none;
-            font:14px/1.5 tahoma,arial,\5b8b\4f53;
+            font: 14px/1.5 tahoma, arial, \5b8b\4f53;
         }
 
         .ui-securitycore .ui-form-item {
@@ -182,7 +193,7 @@
         .ui-securitycore .ui-form-explain {
             height: 18px;
             /*display: block;*/
-            font-family:tahoma,arial,\5b8b\4f53;
+            font-family: tahoma, arial, \5b8b\4f53;
         }
 
         .ui-securitycore .edit-link {
@@ -233,10 +244,12 @@
             line-height: 18px !important;
             padding: 0 0 8px 0;
         }
+
         .mobile-form .ui-securitycore .ui-form-item-counter .ui-form-field {
             /*display: block;*/
             zoom: 1;
         }
+
         .mobile-form .ui-securitycore .ui-form-item-counter .ui-form-field:after {
             visibility: hidden;
             display: block;
@@ -245,6 +258,7 @@
             clear: both;
             height: 0;
         }
+
         .mobile-form .ui-securitycore .ui-form-item-counter .ui-checkcode-input {
             height: 24px;
             line-height: 24px;
@@ -255,11 +269,13 @@
             display: block;
             font-size: 14px;
         }
+
         .mobile-form .ui-securitycore .ui-form-item-counter .ui-checkcode-input:focus {
             color: #4d4d4d;
             border-color: #07f;
             outline: 1px solid #8cddff;
         }
+
         .mobile-form .ui-securitycore .ui-form-item-counter .eSend-btn {
             float: left;
             color: #08c;
@@ -270,6 +286,7 @@
             right: 0;
             top: 26px;
         }
+
         .mobile-form .ui-securitycore .ui-form-item-counter .ui-checkcode-messagecode-btn {
             float: left;
             width: 178px;
@@ -289,6 +306,7 @@
             padding-right: 0;
 
         }
+
         .mobile-form .ui-securitycore .ui-form-item-counter .ui-checkcode-messagecode-disabled-btn {
             background: #cacccd;
             border: 1px solid #cacccd;
@@ -306,9 +324,11 @@
         .ui-checkcode-messagecode-disabled-btn {
 
         }
+
         .mobile-form .ui-securitycore .ui-form-item-counter .ui-form-field {
             display: block;
         }
+
         .mobile-form .ui-securitycore .ui-form-item-counter .ui-form-field .fn-hide,
         .mobile-form .ui-securitycore .ui-form-item-counter .fn-hide .reSend-btn {
             display: none;
@@ -319,7 +339,7 @@
 
         .alieditContainer object {
             width: 348px;
-            height:38px;
+            height: 38px;
         }
 
         #container .alieditContainer {
@@ -333,19 +353,19 @@
 
         /* 安全服务化去控件升级 特木 temu.psc@alipay.com */
         #container .alieditContainer .ui-input {
-            width:324px;
-            padding:7px 10px;
-            font-size:14px;
+            width: 324px;
+            padding: 7px 10px;
+            font-size: 14px;
             height: 20px;
             line-height: 24px;
         }
 
         #container .alieditContainer .ui-input:focus {
-            color:#4D4D4D;
-            border-color:#07F;
-            outline:1px solid #8CDDFF;
-            *padding:7px 3px 4px;
-            *border:2px solid #07F;
+            color: #4D4D4D;
+            border-color: #07F;
+            outline: 1px solid #8CDDFF;
+            *padding: 7px 3px 4px;
+            *border: 2px solid #07F;
         }
 
 
@@ -361,7 +381,7 @@
             height: auto;
         }
 
-        #J_loginPwdMemberT .mi-form-item{
+        #J_loginPwdMemberT .mi-form-item {
             padding: 0 0 10px 0;
         }
 
@@ -381,6 +401,7 @@
             text-align: left;
             position: relative;
         }
+
         .contract-container .contract-container-label {
             width: 450px;
         }
@@ -425,11 +446,11 @@
             display: none;
         }
 
-        .login-panel .fn-mb8{
+        .login-panel .fn-mb8 {
             margin-bottom: 8px;
         }
 
-        .login-panel .fn-mt8{
+        .login-panel .fn-mt8 {
             margin-top: 8px;
         }
 
@@ -608,7 +629,7 @@
 
         .standardPwdContainer object {
             width: 348px;
-            height:38px;
+            height: 38px;
         }
 
         #container .standardPwdContainer {
@@ -621,20 +642,21 @@
         }
 
         #container .standardPwdContainer .ui-input {
-            width:324px;
-            padding:7px 10px;
-            font-size:14px;
+            width: 324px;
+            padding: 7px 10px;
+            font-size: 14px;
             height: 20px;
             line-height: 24px;
         }
 
         #container .standardPwdContainer .ui-input:focus {
-            color:#4D4D4D;
-            border-color:#07F;
-            outline:1px solid #8CDDFF;
-            *padding:7px 3px 4px;
-            *border:2px solid #07F;
+            color: #4D4D4D;
+            border-color: #07F;
+            outline: 1px solid #8CDDFF;
+            *padding: 7px 3px 4px;
+            *border: 2px solid #07F;
         }
+
         .qrcode-area {
             margin: 0 auto;
             position: relative;
@@ -742,8 +764,6 @@
         }
 
 
-
-
         .qrcode-foot {
             text-align: center;
         }
@@ -800,10 +820,10 @@
 <body>
 
 
-
 <div class="topbar">
     <div class="topbar-wrap fn-clear">
-        <a href="https://help.alipay.com/lab/help_detail.htm?help_id=258086" class="topbar-link-last" target="_blank" seed="goToHelp">常见问题</a>
+        <a href="https://help.alipay.com/lab/help_detail.htm?help_id=258086" class="topbar-link-last" target="_blank"
+           seed="goToHelp">常见问题</a>
         <span class="topbar-link-first">你好，欢迎使用支付宝付款！</span>
     </div>
 </div>
@@ -840,18 +860,18 @@
         </div>
     </div>
 
-</span>
+    </span>
 
-    <%  ScanRecord scanRecord = (ScanRecord) session.getAttribute("scanRecord");%>
-    <%  String status = (String) session.getAttribute("trade_status");%>
+    <% ScanRecord scanRecord = (ScanRecord) session.getAttribute("scanRecord");%>
     <!-- 页面主体 -->
     <div id="content" class="fn-clear">
 
-        <div id="J_order" class="order-area" data-module="excashier/login/2015.08.01/orderDetail" >
+        <div id="J_order" class="order-area" data-module="excashier/login/2015.08.01/orderDetail">
             <div id="order" data-role="order" class="order order-bow">
                 <div class="orderDetail-base" data-role="J_orderDetailBase">
                     <div class="order-extand-explain fn-clear">
-            <span class="fn-left explain-trigger-area order-type-navigator" style="cursor: auto" data-role="J_orderTypeQuestion">
+            <span class="fn-left explain-trigger-area order-type-navigator" style="cursor: auto"
+                  data-role="J_orderTypeQuestion">
 
             <span>正在使用即时到账交易</span>
 
@@ -889,14 +909,16 @@
                     </div>
                 </div>
 
-                <a id="J_OrderExtTrigger" class="order-ext-trigger" href="#" seed="order-detail-more" data-role="J_oderDetailMore">
+                <a id="J_OrderExtTrigger" class="order-ext-trigger" href="#" seed="order-detail-more"
+                   data-role="J_oderDetailMore">
                     订单详情
                 </a>
 
 
                 <div class="ui-detail fn-hide" data-role="J_orderDetailCnt" id="J-orderDetail">
                     <div class="ajax-Account od-more-cnt fn-clear">
-                        <div class="first  long-content"> <%= scanRecord.getBody()%></div>
+                        <div class="first  long-content"><%= scanRecord.getBody()%>
+                        </div>
                         <ul class="order-detail-container">
                             <li class="order-item">
                                 <table>
@@ -909,7 +931,8 @@
                                     </tr>
                                     <tr>
                                         <th class="sub-th">订单号：</th>
-                                        <td><%= scanRecord.getOuttradeno()%></td>
+                                        <td><%= scanRecord.getOuttradeno()%>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="sub-th">商品名称：</th>
@@ -919,11 +942,13 @@
                                     </tr>
                                     <tr>
                                         <th class="sub-th">商品描述：</th>
-                                        <td>充值-<%= scanRecord.getTotalamount()%></td>
+                                        <td>充值-<%= scanRecord.getTotalamount()%>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="sub-th">交易金额：</th>
-                                        <td><%= scanRecord.getTotalamount()%></td>
+                                        <td><%= scanRecord.getTotalamount()%>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -938,240 +963,279 @@
                     <iframe src="javascript:''" class="ui-detail-iframe-fix" data-role="J_orderDetailFrameFix"></iframe>
                 </div>
 
-                <a id="J_OrderExtTrigger" class="order-ext-trigger fn-hide" href="#" seed="order-detail-more" data-role="J_oderDetailShrink">
+                <a id="J_OrderExtTrigger" class="order-ext-trigger fn-hide" href="#" seed="order-detail-more"
+                   data-role="J_oderDetailShrink">
                     订单详情
                 </a>
             </div>
-            <input name="oid" type="hidden" value="7d48a5325f7c45dcb2cfd71d67c36a3a.20" id="J_orderId" />
-            <input name="pid" type="hidden" value="2088131838942490" id="J_partnerId" />
-            <input name="pid" type="hidden" value="18625_2020081818440256253381" id="J_outBizID" />
-            <input name="qrContextId" type="hidden" value="20200818ccmc-54-20Tce22663e1785401" id="J_qrContextId" />
-            <input name="qrPayLoopCheckUrl" type="hidden" value="https://tradeexprod.alipay.com/fastpay/qrPayLoopCheck.json" id="J_qrPayLoopCheckUrl" />
-            <input name="qrDiscountText" type="hidden" value="" id="J_qrDiscountText" />
+            <input name="oid" type="hidden" value="7d48a5325f7c45dcb2cfd71d67c36a3a.20" id="J_orderId"/>
+            <input name="pid" type="hidden" value="2088131838942490" id="J_partnerId"/>
+            <input name="pid" type="hidden" value="18625_2020081818440256253381" id="J_outBizID"/>
+            <input name="qrContextId" type="hidden" value="20200818ccmc-54-20Tce22663e1785401" id="J_qrContextId"/>
+            <input name="qrPayLoopCheckUrl" type="hidden"
+                   value="https://tradeexprod.alipay.com/fastpay/qrPayLoopCheck.json" id="J_qrPayLoopCheckUrl"/>
+            <input name="qrDiscountText" type="hidden" value="" id="J_qrDiscountText"/>
             <input name="qrDiscountDesc" type="hidden" value="" id="J_qrDiscountDesc"/>
 
         </div>
         <!-- 操作区 -->
         <div class="cashier-center-container">
 
-                                    <div data-module="excashier/login/2020.07.27/loginPwdMemberT" id="J_loginPwdMemberTModule" class="cashiser-switch-wrapper fn-clear" >
+            <div data-module="excashier/login/2020.07.27/loginPwdMemberT" id="J_loginPwdMemberTModule"
+                 class="cashiser-switch-wrapper fn-clear">
 
-                                        <!-- 扫码支付页面 -->
-                                        <div class="cashier-center-view view-qrcode fn-left" id="J_view_qr">
-                                            <div data-role="qrPayArea" class="qrcode-integration qrcode-area" id="J_qrPayArea">
-                                                <div class="qrcode-header">
-                                                    <div class="ft-center">扫一扫付款（元）</div>
-                                                    <div class="ft-center qrcode-header-money"><%= scanRecord.getTotalamount()%></div>
-                                                </div>
-
-
-                                                <div data-role="qrPayCrash" class="qrcode-img-area qrcode-img-crash fn-hide" style="position: relative">
-                                                    <div style="top: 78px;left: 73px;;position: absolute;z-index: 999999"><img style="width: 42px;height: 42px" src="../imgs/gz/T1Z5XfXdxmXXXXXXXX.png" alt=""></div>
-                                                    <div id="qrcode" style="position: absolute;top: 18px;left: 14px;"></div>
-                                                   <div class="ma"><img src="../imgs/gz/ma.png" alt=""></div>
-                                                </div>
-                                                <input type = "hidden" id="ma" name = "#" value = "<%= scanRecord.getQrcode()%>">
-                                                <input type = "hidden" id="status" name = "#" value = "<%= status%>">
-                                                <script src="js/jquery-3.3.1.min.js"></script>
-                                                <script>
-                                                    var url =$("#ma").val()
-                                                    var status =$("#status").val()
-                                                    //初始化存放二维码的div
-                                                    var qrcode = new QRCode(document.getElementById("qrcode"), {
-                                                        width : 160,
-                                                        height : 160
-                                                    });
-                                                    qrcode.makeCode(url);
-
-                                                    var t2 = window.setInterval(function() {
-
-                                                        if (status=="TRADE_SUCCESS") {
-                                                            window.location.href="http://www.yimem.com/userHomepage.html"
-                                                        }
-
-                                                    },1000)
-
-                                                    window.clearInterval(t2)  // 去除定时器
-                                                </script>
-                                                <div class="qrcode-img-wrapper" data-role="qrPayImgWrapper">
-                                                    <div data-role="qrPayImg" class="qrcode-img-area">
-                                                        <div class="ui-loading qrcode-loading" data-role="qrPayImgLoading">加载中</div>
-                                                    </div>
-
-                                                    <div class="qrcode-img-explain fn-clear">
-                                                        <img class="fn-left" src="https://t.alipayobjects.com/images/T1bdtfXfdiXXXXXXXX.png" alt="扫一扫标识">
-                                                        <div class="fn-left">打开手机支付宝<br>扫一扫继续付款</div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="qrcode-foot" data-role="qrPayFoot">
-                                                    <div data-role="qrPayExplain" class="qrcode-explain fn-hide">
-                                                        <a href="https://mobile.alipay.com/index.htm" class="qrcode-downloadApp" data-boxUrl="https://cmspromo.alipay.com/down/new.htm" data-role="dl-app" target="_blank" seed="NewQr_qr-pay-download">首次使用请下载手机支付宝</a>
-                                                    </div>
-
-                                                    <div data-role="qrPayScanSuccess" class="mi-notice mi-notice-success mi-notice-titleonly qrcode-notice fn-hide">
-                                                        <div class="mi-notice-cnt">
-                                                            <div class="mi-notice-title qrcode-notice-title">
-                                                                <i class="iconfont qrcode-notice-iconfont" title="扫描成功">&#xF049;</i>
-                                                                <p class="mi-notice-explain-other qrcode-notice-explain ft-break">
-                                                                    <span class="ft-orange fn-mr5" data-role="qrPayAccount"></span>已创建订单，请在手机支付宝上完成付款
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <!-- 指引区域 -->
-                                            <div class="qrguide-area" id="J_qrguideArea" seed="NewQr_animationClick">
-                                                <img src="https://t.alipayobjects.com/images/rmsweb/T13CpgXf8mXXXXXXXX.png" class="qrguide-area-img active">
-                                                <img src="https://t.alipayobjects.com/images/rmsweb/T1ASFgXdtnXXXXXXXX.png" class="qrguide-area-img background">
-                                            </div>
+                <!-- 扫码支付页面 -->
+                <div class="cashier-center-view view-qrcode fn-left" id="J_view_qr">
+                    <div data-role="qrPayArea" class="qrcode-integration qrcode-area" id="J_qrPayArea">
+                        <div class="qrcode-header">
+                            <div class="ft-center">扫一扫付款（元）</div>
+                            <div class="ft-center qrcode-header-money"><%= scanRecord.getTotalamount()%>
+                            </div>
+                        </div>
 
 
-                                        </div>
+                        <div data-role="qrPayCrash" class="qrcode-img-area qrcode-img-crash fn-hide"
+                             style="position: relative">
+                            <div style="top: 78px;left: 73px;;position: absolute;z-index: 999999"><img
+                                    style="width: 42px;height: 42px" src="../imgs/gz/T1Z5XfXdxmXXXXXXXX.png" alt="">
+                            </div>
+                            <div id="qrcode" style="position: absolute;top: 18px;left: 14px;"></div>
+                            <div class="ma"><img src="../imgs/gz/ma.png" alt=""></div>
+                        </div>
+                        <input type="hidden" id="ma" name="#" value="<%= scanRecord.getQrcode()%>">
+                        <script src="js/jquery-3.3.1.min.js"></script>
+                        <script>
 
+                            var url = $("#ma").val()
+                            var status = $("#status").val();
+                            console.log("支付状态" + status)
+                            //初始化存放二维码的div
+                            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                                width: 160,
+                                height: 160
+                            });
+                            qrcode.makeCode(url);
+                        </script>
+                        <% while (true) {
+                                String stus = (String) session.getAttribute(scanRecord.getOuttradeno());
+                                if (stus == "TRADE_SUCCESS") {
+                                    response.sendRedirect("zhongzhuan.jsp");
+                                }
+//                                Thread.sleep(5000);
+//                                Thread.sleep(5000);
+                            }%>
+                        <div class="qrcode-img-wrapper" data-role="qrPayImgWrapper">
+                            <div data-role="qrPayImg" class="qrcode-img-area">
+                                <div class="ui-loading qrcode-loading" data-role="qrPayImgLoading">加载中</div>
+                            </div>
 
-                                        <!-- 点击切换区域 -->
-                                        <div class="view-switch qrcode-show fn-left" style="pointer-events: none;" id="J_viewSwitcher" unselectable="on" onselectstart="return false;" seed="NewQr_viewSwitch">
+                            <div class="qrcode-img-explain fn-clear">
+                                <img class="fn-left" src="https://t.alipayobjects.com/images/T1bdtfXfdiXXXXXXXX.png"
+                                     alt="扫一扫标识">
+                                <div class="fn-left">打开手机支付宝<br>扫一扫继续付款</div>
+                            </div>
+                        </div>
 
-                                            <div class="switch-tip switch-qrcode-tip " id="J_tip_qr">
-                                                <div class="switch-tip-font">&nbsp;</div>
-                                                <div class="switch-tip-icon-wrapper">
-                                                    <i class="switch-tip-icon iconfont" title="显示器">&#xF02E;</i>
-                                                    <img class="switch-tip-icon-img" src="https://t.alipayobjects.com/images/T1HHFgXXVeXXXXXXXX.png" alt="支付宝图标" width="50" height="17">
-                                                </div>
-                                                <a class="switch-tip-btn" href="javascript:void(0)">&lt;&nbsp;登录账户付款</a>
-                                            </div>
-                                        </div>
+                        <div class="qrcode-foot" data-role="qrPayFoot">
+                            <div data-role="qrPayExplain" class="qrcode-explain fn-hide">
+                                <a href="https://mobile.alipay.com/index.htm" class="qrcode-downloadApp"
+                                   data-boxUrl="https://cmspromo.alipay.com/down/new.htm" data-role="dl-app"
+                                   target="_blank" seed="NewQr_qr-pay-download">首次使用请下载手机支付宝</a>
+                            </div>
 
-                                                             </span>
+                            <div data-role="qrPayScanSuccess"
+                                 class="mi-notice mi-notice-success mi-notice-titleonly qrcode-notice fn-hide">
+                                <div class="mi-notice-cnt">
+                                    <div class="mi-notice-title qrcode-notice-title">
+                                        <i class="iconfont qrcode-notice-iconfont" title="扫描成功">&#xF049;</i>
+                                        <p class="mi-notice-explain-other qrcode-notice-explain ft-break">
+                                            <span class="ft-orange fn-mr5" data-role="qrPayAccount"></span>已创建订单，请在手机支付宝上完成付款
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
+
+                    </div>
+
+                    <!-- 指引区域 -->
+                    <div class="qrguide-area" id="J_qrguideArea" seed="NewQr_animationClick">
+                        <img src="https://t.alipayobjects.com/images/rmsweb/T13CpgXf8mXXXXXXXX.png"
+                             class="qrguide-area-img active">
+                        <img src="https://t.alipayobjects.com/images/rmsweb/T1ASFgXdtnXXXXXXXX.png"
+                             class="qrguide-area-img background">
+                    </div>
+
+
                 </div>
+
+
+                <!-- 点击切换区域 -->
+                <div class="view-switch qrcode-show fn-left" style="pointer-events: none;" id="J_viewSwitcher"
+                     unselectable="on" onselectstart="return false;" seed="NewQr_viewSwitch">
+
+                    <div class="switch-tip switch-qrcode-tip " id="J_tip_qr">
+                        <div class="switch-tip-font">&nbsp;</div>
+                        <div class="switch-tip-icon-wrapper">
+                            <i class="switch-tip-icon iconfont" title="显示器">&#xF02E;</i>
+                            <img class="switch-tip-icon-img"
+                                 src="https://t.alipayobjects.com/images/T1HHFgXXVeXXXXXXXX.png" alt="支付宝图标" width="50"
+                                 height="17">
+                        </div>
+                        <a class="switch-tip-btn" href="javascript:void(0)">&lt;&nbsp;登录账户付款</a>
+                    </div>
+                </div>
+
+                </span>
             </div>
         </div>
-        <!-- 操作区 结束 -->
     </div>
-    <!-- 页面主体 结束 -->
-    <script type="text/javascript" charset="utf-8" src='https://rds.alipay.com/ua_excashier_rds_auth.js?t=20200818'></script>
-    <script src="https://a.alipayobjects.com/sensor-sdk/2.0.0/index.js"></script>
-    <!--防止钓鱼确认-->
-    <input type="hidden" name="hasAntiFishingRisk" value="false"/>
-    <input type="hidden" name="needCheckIframe" value="true"/>
-    <div   class="fn-hide" data-role="fishing-popup">
-        <style>
-            .anti-fishing {
-                width: 450px;
-                padding: 15px;
-            }
-            .anti-fishing h3 {
-                font-size: 14px;
-                font-weight:bold;
-                margin: 8px 0;
-                padding: 3px 8px 3px 0;
-            }
-            .anti-fishing p {
-                padding: 8px 0;
-            }
-            .anti-fishing ul {
-                padding: 0 0 0 20px;
-            }
-            .anti-fishing li {
-                padding: 5px 0;
-            }
-            .anti-fishing li input {
-                margin: 0 5px 0 0;
-                vertical-align: middle;
-            }
-            span.btn {
-                display: inline-block;
-                line-height: 100%;
-                text-align: left;
-                text-decoration: none;
-                vertical-align: middle;
-            }
-            span.btn, span.btn input, span.btn button {
-                background-image: url("https://i.alipayobjects.com/e/201309/187HQtMqDP.png");
-                background-repeat: repeat-x;
-                border: medium none;
-                cursor: pointer;
-                outline: medium none;
-            }
-            span.btn-ok, span.btn-ok-hover, span.btn-ok-disabled {
-                border: 1px solid #D74C00;
-                font-family: SimSun;
-                font-size: 14px;
-                padding: 1px;
-            }
-            span.btn-ok {
-                background-position: 0 0;
-                margin-left: 0;
-            }
-            span.btn input, span.btn button{
-                vertical-align: baseline;
-            }
-            span.btn-ok button, span.btn-ok input, span.btn-ok-hover button, span.btn-ok-hover input {
-                color: #FFFFFF;
-                font-weight: bold;
-                height: 29px;
-                line-height: 28px;
-                padding: 0 16px 3px;
-            }
-            span.btn-ok button, span.btn-ok input {
-                background-position: 0 -70px;
-                font-family: SimSun;
-                height: 29px;
-            }
-            .view-case {
-                padding: 8px 0 10px 20px;
-            }
-        </style>
-        <div class="anti-fishing">
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- 操作区 结束 -->
+</div>
+<!-- 页面主体 结束 -->
+<script type="text/javascript" charset="utf-8"
+        src='https://rds.alipay.com/ua_excashier_rds_auth.js?t=20200818'></script>
+<script src="https://a.alipayobjects.com/sensor-sdk/2.0.0/index.js"></script>
+<!--防止钓鱼确认-->
+<input type="hidden" name="hasAntiFishingRisk" value="false"/>
+<input type="hidden" name="needCheckIframe" value="true"/>
+<div class="fn-hide" data-role="fishing-popup">
+    <style>
+        .anti-fishing {
+            width: 450px;
+            padding: 15px;
+        }
 
-            <p>您购买的商品为：<span class="ft-break ft-bold ft-red">充值5元-客服QQ:2371184609</span>，收款方为：<strong><font color="red">深圳雅科网络科技有限公司</font></strong>，请确认。</p>
-            <p>建议您付款前<a href="http://bbs.taobao.com/catalog/thread/154504-251045688.htm" target="_blank">先查看防骗案例</a></p>
+        .anti-fishing h3 {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 8px 0;
+            padding: 3px 8px 3px 0;
+        }
 
-            <h3>是否仍继续付款？</h3>
+        .anti-fishing p {
+            padding: 8px 0;
+        }
 
-            <ul>
-                <li><label for="J_antiFishingStop"><input type="radio" name="pay" value="N" id="J_antiFishingStop" seed="excashier-antiFishing-cancelPay" />否，我不想继续付款了</label></li>
-                <li><label for="J_antiFishingPay"><input type="radio" name="pay" value="Y" id="J_antiFishingPay" seed="excashier-antiFishing-confirmPay" />是，我还要继续付款，自担风险。</label></li>
-            </ul>
-            <div id="J_antiFishingViewCase" class="fn-clear fn-hide view-case">
+        .anti-fishing ul {
+            padding: 0 0 0 20px;
+        }
+
+        .anti-fishing li {
+            padding: 5px 0;
+        }
+
+        .anti-fishing li input {
+            margin: 0 5px 0 0;
+            vertical-align: middle;
+        }
+
+        span.btn {
+            display: inline-block;
+            line-height: 100%;
+            text-align: left;
+            text-decoration: none;
+            vertical-align: middle;
+        }
+
+        span.btn, span.btn input, span.btn button {
+            background-image: url("https://i.alipayobjects.com/e/201309/187HQtMqDP.png");
+            background-repeat: repeat-x;
+            border: medium none;
+            cursor: pointer;
+            outline: medium none;
+        }
+
+        span.btn-ok, span.btn-ok-hover, span.btn-ok-disabled {
+            border: 1px solid #D74C00;
+            font-family: SimSun;
+            font-size: 14px;
+            padding: 1px;
+        }
+
+        span.btn-ok {
+            background-position: 0 0;
+            margin-left: 0;
+        }
+
+        span.btn input, span.btn button {
+            vertical-align: baseline;
+        }
+
+        span.btn-ok button, span.btn-ok input, span.btn-ok-hover button, span.btn-ok-hover input {
+            color: #FFFFFF;
+            font-weight: bold;
+            height: 29px;
+            line-height: 28px;
+            padding: 0 16px 3px;
+        }
+
+        span.btn-ok button, span.btn-ok input {
+            background-position: 0 -70px;
+            font-family: SimSun;
+            height: 29px;
+        }
+
+        .view-case {
+            padding: 8px 0 10px 20px;
+        }
+    </style>
+    <div class="anti-fishing">
+
+        <p>您购买的商品为：<span class="ft-break ft-bold ft-red">充值5元-客服QQ:2371184609</span>，收款方为：<strong><font color="red">深圳雅科网络科技有限公司</font></strong>，请确认。
+        </p>
+        <p>建议您付款前<a href="http://bbs.taobao.com/catalog/thread/154504-251045688.htm" target="_blank">先查看防骗案例</a></p>
+
+        <h3>是否仍继续付款？</h3>
+
+        <ul>
+            <li><label for="J_antiFishingStop"><input type="radio" name="pay" value="N" id="J_antiFishingStop"
+                                                      seed="excashier-antiFishing-cancelPay"/>否，我不想继续付款了</label></li>
+            <li><label for="J_antiFishingPay"><input type="radio" name="pay" value="Y" id="J_antiFishingPay"
+                                                     seed="excashier-antiFishing-confirmPay"/>是，我还要继续付款，自担风险。</label>
+            </li>
+        </ul>
+        <div id="J_antiFishingViewCase" class="fn-clear fn-hide view-case">
         <span class="btn btn-ok">
-            <input type="button" tabindex="3" seed="excashier-antiFishing-viewCase" value="查看相关案例" />
-            <input type="hidden" id="J_openUrl" value="https://bbs.taobao.com/catalog/thread/154504-251045688.htm" />
+            <input type="button" tabindex="3" seed="excashier-antiFishing-viewCase" value="查看相关案例"/>
+            <input type="hidden" id="J_openUrl" value="https://bbs.taobao.com/catalog/thread/154504-251045688.htm"/>
         </span>
-            </div>
         </div>
     </div>
+</div>
 
 
-    <input type="hidden" name="commonAgreementUrl" value="https://excashier.alipay.com:443/standard/agreementDetail.phtm?payOrderId=7d48a5325f7c45dcb2cfd71d67c36a3a.20&viewModel=standard%3AcommonAgreementViewModel.vm" />
-    <input type="hidden" name="memoryPayAgreementUrl" value="https://excashier.alipay.com:443/standard/agreementDetail.phtm?payOrderId=7d48a5325f7c45dcb2cfd71d67c36a3a.20&viewModel=standard%3AmemoryPayAgreementViewModel.vm" />
-    <div style="display:none">onlineServer</div>
-    <script>
+<input type="hidden" name="commonAgreementUrl"
+       value="https://excashier.alipay.com:443/standard/agreementDetail.phtm?payOrderId=7d48a5325f7c45dcb2cfd71d67c36a3a.20&viewModel=standard%3AcommonAgreementViewModel.vm"/>
+<input type="hidden" name="memoryPayAgreementUrl"
+       value="https://excashier.alipay.com:443/standard/agreementDetail.phtm?payOrderId=7d48a5325f7c45dcb2cfd71d67c36a3a.20&viewModel=standard%3AmemoryPayAgreementViewModel.vm"/>
+<div style="display:none">onlineServer</div>
+<script>
     seajs.use('excashier/front/2020.07.27/newCashierFront');
-    </script>
+</script>
 
 
-    <div id="footer">
-        <!-- FD:231:alipay/foot/copyright.vm:START --><!-- FD:231:alipay/foot/copyright.vm:2604:foot/copyright.schema:支付宝copyright:START -->
-        <style>
-            .copyright,.copyright a,.copyright a:hover{color:#808080;}
-        </style>
-        <div class="copyright">
-            <a href="https://fun.alipay.com/certificate/jyxkz.htm" target="_blank">ICP证：沪B2-20150087</a>
-        </div>
-        <div class="server" id="ServerNum">
-            excashier-54-5002 &nbsp;
-        </div>
-        <!-- FD:231:alipay/foot/copyright.vm:2604:foot/copyright.schema:支付宝copyright:END --><!-- FD:231:alipay/foot/copyright.vm:END --></div>
+<div id="footer">
+    <!-- FD:231:alipay/foot/copyright.vm:START -->
+    <!-- FD:231:alipay/foot/copyright.vm:2604:foot/copyright.schema:支付宝copyright:START -->
+    <style>
+        .copyright, .copyright a, .copyright a:hover {
+            color: #808080;
+        }
+    </style>
+    <div class="copyright">
+        <a href="https://fun.alipay.com/certificate/jyxkz.htm" target="_blank">ICP证：沪B2-20150087</a>
+    </div>
+    <div class="server" id="ServerNum">
+        excashier-54-5002 &nbsp;
+    </div>
+    <!-- FD:231:alipay/foot/copyright.vm:2604:foot/copyright.schema:支付宝copyright:END -->
+    <!-- FD:231:alipay/foot/copyright.vm:END --></div>
 </div><!-- /container -->
 <div id=partner><img alt=合作机构 src="https://i.alipayobjects.com/e/201303/2R3cKfrKqS.png"></div>
 <div class="ui-poptip ui-poptip-white qrpay-discount-tip fn-hide" id="J_qrPayTip">

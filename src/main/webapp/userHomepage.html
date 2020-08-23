@@ -1083,9 +1083,25 @@
                         layer.msg("不好意思，金额不能低于0.01");
                         return false;
                     }
-                    // layer.msg("输入价格"+price)
-                    window.location.href="trade_precreate?totalAmount="+price;
-                    layer.closeAll()
+                    $.ajax({
+                                            type: "POST",//方法
+                                            url: "trade_precreate.do",
+                                            data:{"totalAmount":price},
+                                            success: function (josnData) {
+                                                if (josnData.success == 1) {
+                                                    layer.msg("订单生成成功……正在跳转")
+                                                    window.location.href="111.html?outTradeNo="+josnData.data.outtradeno;
+                                                    layer.closeAll()
+                                                } else {
+                                                    layer.msg("订单生成失败")
+                                                    layer.closeAll()
+                                                }
+                                            },
+                                            error: function () {
+                                                layer.closeAll()
+                                            }
+                                        });
+
                 }
                 , btn2: function (index, layero) {
                     //按钮【按钮二】的回调
