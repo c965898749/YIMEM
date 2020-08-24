@@ -389,6 +389,28 @@ public class OrderController {
         }
     }
 
+    /**
+     * 查询订单getScanRecord
+     */
+    @RequestMapping("getScanRecord")
+    @ResponseBody
+    public BaseResp getScanRecord(String outTradeNo) {
+        BaseResp baseResp=new BaseResp();
+        try {
+            log.info("进入查询");
+            ScanRecord order = scanRecordService.findOrderByOuttradeno(outTradeNo);
+            baseResp.setSuccess(1);
+            baseResp.setData(order);
+            return baseResp;
+        } catch (Exception e) {
+           log.info("查询订单异常");
+           baseResp.setErrorMsg("查询订单异常"+e.getMessage());
+           baseResp.setSuccess(0);
+           return baseResp;
+        }
+
+    }
+
     // 测试当面付2.0生成支付二维码
     @RequestMapping("trade_precreate.do")
     @ResponseBody

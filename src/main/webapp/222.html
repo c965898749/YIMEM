@@ -8,17 +8,71 @@
   <title>Document</title>
 </head>
 <body>
+<script src="js/axios.min.js"></script>
 <div id="app">
-    {{message}}
+  {{message | moneyfilter }}
 </div>
 <script src="js/vue.js"></script>
 <script>
-    const  app= new Vue({
-        el: "#app",
-        data:{
-            message:'你好啊'
+  const app = new Vue({
+    el: "#app",
+    data: {
+      message: ""
+    } ,
+    created:function () {
+      this.message=10000
+    }
+    , filters: {
+      //将数字转换成金额显示
+      moneyfilter(num) {
+
+        num = num.toFixed(2);
+        num = parseFloat(num)
+        num = num.toLocaleString();
+        // let k=mum.indexOf('.')
+        var w = num.indexOf(".")
+        if (w !== -1) {
+          console.log(w)
+          console.log(num.length - w)
+          if (num.length - w <= 2) {
+
+            return num + "0";
+          }
+          return num;
+        } else {
+          return num + ".00";
         }
-    })
+
+      }
+    }
+  })
+</script>
+<script>
+
+  // // var outTradeNo="tradeprecreate15982876821281715185"
+  // var kk="tradeprecreate15979248886726692432"
+  // // axios.get(
+  // // 'getScanRecord',{
+  // //   params: {
+  // //     outTradeNo: kk
+  // //   }
+  // // }).then( res => {
+  // //   console.info(res)
+  // // }).catch( e => {
+  // //   console.info(e)
+  // // })
+  // axios.get('getScanRecord',{
+  //       params:{
+  //         outTradeNo:kk
+  //       }
+  //     }).then(res=> {
+  //   console.log(res)
+  //   // this.ScanRecord=res.data;
+  //   // console.log("ScanRecord值是"+this.ScanRecord)
+  // }).catch(err=> {
+  //
+  // })
+
 </script>
 </body>
 </html>

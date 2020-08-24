@@ -15,15 +15,13 @@
     <link href="https://cashier.alipay.com" rel="dns-prefetch"/>
     <link href="https://financeprod.alipay.com" rel="dns-prefetch"/>
     <link href="https://shenghuo.alipay.com" rel="dns-prefetch"/>
-    <script src="../js/qrcode.min.js"></script>
-    <!--<script src="js/jquery-3.3.1.min.js"></script>-->
+    <script src="js/qrcode.min.js"></script>
     <!-- seajs以及插件 -->
     <script charset="utf-8" crossorigin="anonymous" id="seajsnode"
             onerror="window.monitor && monitor.lost && monitor.lost(this.src)"
             src="https://a.alipayobjects.com:443/??seajs/seajs/2.2.3/sea.js,seajs/seajs-combo/1.0.0/seajs-combo.js,seajs/seajs-style/1.0.2/seajs-style.js,seajs/seajs-log/1.0.0/seajs-log.js,jquery/jquery/1.7.2/jquery.js,gallery/json/1.0.3/json.js,alipay-request/3.0.3/index.js"></script>
 
-    <!-- seajs config 配置 -->
-    <script >
+    <script>
     seajs.config({
         alias: {
             '$': 'jquery/jquery/1.7.2/jquery',
@@ -877,14 +875,14 @@
                     </div>
                     <div class="commodity-message-row">
             <span class="first long-content">
-                {{message}}
+                {{ScanRecord.body}}
             </span>
                         <span class="second short-content">
                                                                     收款方：一梦工作室
                             </span>
                     </div>
                     <span class="payAmount-area" id="J_basePriceArea">
-                                                     <strong class=" amount-font-22 ">{{message}}</strong> 元
+                                                     <strong class=" amount-font-22 ">{{ScanRecord.totalamount | moneyfilter }}</strong> 元
 
         </span>
                 </div>
@@ -914,7 +912,7 @@
 
                 <div class="ui-detail fn-hide" data-role="J_orderDetailCnt" id="J-orderDetail">
                     <div class="ajax-Account od-more-cnt fn-clear">
-                        <div class="first  long-content">{{message}}
+                        <div class="first  long-content">{{ScanRecord.outtradeno}}
                         </div>
                         <ul class="order-detail-container">
                             <li class="order-item">
@@ -928,23 +926,23 @@
                                     </tr>
                                     <tr>
                                         <th class="sub-th">订单号：</th>
-                                        <td>{{message}}
+                                        <td>{{ScanRecord.outtradeno}}
                                         </td>
                                     </tr>
                                     <tr>
                                         <th class="sub-th">商品名称：</th>
                                         <td>
-                                            {{message}}
+                                            {{ScanRecord.body}}
                                         </td>
                                     </tr>
                                     <tr>
                                         <th class="sub-th">商品描述：</th>
-                                        <td>充值-{{message}}
+                                        <td>充值-{{ScanRecord.totalamount}}
                                         </td>
                                     </tr>
                                     <tr>
                                         <th class="sub-th">交易金额：</th>
-                                        <td>{{message}}
+                                        <td>{{ScanRecord.totalamount  | moneyfilter }}
                                         </td>
                                     </tr>
                                     </tbody>
@@ -955,7 +953,7 @@
                         </ul>
                     </div>
                     <span class="payAmount-area payAmount-area-expand">
-                <strong class=" amount-font-22 ">{{message}}</strong> 元
+                <strong class=" amount-font-22 ">{{ScanRecord.totalamount | moneyfilter }}</strong> 元
         </span>
                     <iframe src="javascript:''" class="ui-detail-iframe-fix" data-role="J_orderDetailFrameFix"></iframe>
                 </div>
@@ -986,7 +984,7 @@
                     <div data-role="qrPayArea" class="qrcode-integration qrcode-area" id="J_qrPayArea">
                         <div class="qrcode-header">
                             <div class="ft-center">扫一扫付款（元）</div>
-                            <div class="ft-center qrcode-header-money">{{message}}
+                            <div class="ft-center qrcode-header-money">{{ScanRecord.totalamount | moneyfilter }}
                             </div>
                         </div>
 
@@ -999,30 +997,7 @@
                             <div id="qrcode" style="position: absolute;top: 18px;left: 14px;"></div>
                             <div class="ma"><img src="../imgs/gz/ma.png" alt=""></div>
                         </div>
-                        <!--<div id="app">-->
-                            <!--{{message}}-->
-                        <!--</div>-->
-                        <script src="js/vue.js"></script>
-                        <script src="js/axios.min.js"></script>
-                        <script>
-                            const  app= new Vue({
-                                el: "#content",
-                                data:{
-                                    message:'你好啊'
-                                }
-                            })
-                           axios.get('trade_precreate.do').then(function (res) {
-                               console.log(res)
-                           }).catch(function (err) {
-                               console.log(err)
-                           })
-                            function getQueryString(name) {
-                                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-                                var r = window.location.search.substr(1).match(reg);
-                                if (r != null) return r[2];
-                                return null;
-                            }
-                        </script>
+
                         <div class="qrcode-img-wrapper" data-role="qrPayImgWrapper">
                             <div data-role="qrPayImg" class="qrcode-img-area">
                                 <div class="ui-loading qrcode-loading" data-role="qrPayImgLoading">加载中</div>
@@ -1251,5 +1226,68 @@
         </div>
     </div>
 </div>
+<script src="js/axios.min.js"></script>
+<script src="js/vue.js"></script>
+<script>
+
+    const  app= new Vue({
+        el: "#content",
+        data:{
+            ScanRecord:''
+        },
+        created:function () {
+            var outTradeNo=getQueryString("outTradeNo");
+          console.log("outTradeNo值是"+outTradeNo)
+            if (outTradeNo!=null){
+                axios.get('getScanRecord',
+                    {
+                      params:{
+                        outTradeNo:outTradeNo
+                      }
+                    }
+                ).then(res=> {
+                  console.log(res)
+                    this.ScanRecord=res.data.data;
+                    var qrcode = new QRCode(document.getElementById("qrcode"), {
+                        width: 160,
+                        height: 160
+                    });
+                    qrcode.makeCode(this.ScanRecord.qrcode);
+                }).catch(err=> {
+
+                })
+            }
+        },filters: {
+            //将数字转换成金额显示
+            moneyfilter(num) {
+
+                num = num.toFixed(2);
+                num = parseFloat(num)
+                num = num.toLocaleString();
+                // let k=mum.indexOf('.')
+                var w = num.indexOf(".")
+                if (w !== -1) {
+                    console.log(w)
+                    console.log(num.length - w)
+                    if (num.length - w <= 2) {
+
+                        return num + "0";
+                    }
+                    return num;
+                } else {
+                    return num + ".00";
+                }
+
+            }
+        }
+    })
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return r[2];
+        return null;
+    }
+</script>
 </body>
 </html>
