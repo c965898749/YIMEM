@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.UserOrderMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.UserOrder">
+    <constructor>
+      <idArg column="order_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="order_no" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="order_amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="order_status" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="create_time" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="last_update_time" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_id, user_id, order_no, order_amount, order_status, create_time, last_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_order_t
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <select id="selectOneByorderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_order_t
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_order_t
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sy.model.UserOrder">
+    insert into user_order_t (order_id, user_id, order_no,
+      order_amount, order_status, create_time,
+      last_update_time)
+    values (#{orderId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR},
+      #{orderAmount,jdbcType=DECIMAL}, #{orderStatus,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR},
+      #{lastUpdateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.UserOrder">
+    insert into user_order_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="orderAmount != null">
+        order_amount,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAmount != null">
+        #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.UserOrder">
+    update user_order_t
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAmount != null">
+        order_amount = #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.model.UserOrder">
+    update user_order_t
+    set
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      order_amount = #{orderAmount,jdbcType=DECIMAL},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_update_time = #{lastUpdateTime,jdbcType=VARCHAR}
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+</mapper>
