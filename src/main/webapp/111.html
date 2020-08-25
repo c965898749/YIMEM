@@ -833,14 +833,7 @@
     </div>
 </div>
 <div id="container">
-    <div class="mi-notice mi-notice-success mi-notice-titleonly order-timeout-notice" id="J_orderPaySuccessNotice">
-        <div class="mi-notice-cnt">
-            <div class="mi-notice-title">
-                <i class="iconfont" title="支付成功">&#xF049;</i>
-                <h3>支付成功，<span class="ft-orange" id="J_countDownSecond">3</span> 秒后自动返回商户。</h3>
-            </div>
-        </div>
-    </div>
+
 
     <div class="mi-notice mi-notice-error mi-notice-titleonly order-timeout-notice" id="J_orderDeadlineNotice">
         <div class="mi-notice-cnt">
@@ -859,9 +852,18 @@
     </span>
 
     <!-- 页面主体 -->
-    <div id="content" class="fn-clear">
+    <div id="content" class="fn-clear" style="height: 633px">
 
-        <div id="J_order" class="order-area" data-module="excashier/login/2015.08.01/orderDetail">
+        <div class="mi-notice mi-notice-success mi-notice-titleonly " id="J_orderPaySuccessNotice" v-show="!isshow">
+            <div class="mi-notice-cnt">
+                <div class="mi-notice-title">
+                    <i class="iconfont" title="支付成功">&#xF049;</i>
+                    <h3>支付成功，<span class="ft-orange" id="J_countDownSecond">{{auth_time}}</span> 秒后自动返回商户。</h3>
+                </div>
+            </div>
+        </div>
+
+        <div id="J_order" class="order-area" data-module="excashier/login/2015.08.01/orderDetail" v-show="isshow">
             <div id="order" data-role="order" class="order order-bow">
                 <div class="orderDetail-base" data-role="J_orderDetailBase">
                     <div class="order-extand-explain fn-clear">
@@ -974,7 +976,7 @@
 
         </div>
         <!-- 操作区 -->
-        <div class="cashier-center-container">
+        <div class="cashier-center-container" v-show="isshow">
 
             <div data-module="excashier/login/2020.07.27/loginPwdMemberT" id="J_loginPwdMemberTModule"
                  class="cashiser-switch-wrapper fn-clear">
@@ -1229,15 +1231,17 @@
 <script src="js/axios.min.js"></script>
 <script src="js/vue.js"></script>
 <script>
-
+    const outTradeNo=getQueryString("outTradeNo");
+    let  k;
     const  app= new Vue({
         el: "#content",
         data:{
-            ScanRecord:''
-        },
-        created:function () {
-            var outTradeNo=getQueryString("outTradeNo");
-          console.log("outTradeNo值是"+outTradeNo)
+            ScanRecord:'',
+            isshow:true,
+            auth_time:3
+        },created:function () {
+
+            console.log("outTradeNo值是"+outTradeNo)
             if (outTradeNo!=null){
                 axios.get('getScanRecord',
                     {
@@ -1257,14 +1261,44 @@
 
                 })
             }
+        },mounted:function () {
+            //轮询请求
+            window.setInterval(() => {
+              k=setTimeout(this.getNewMessage(), 0);
+            }, 3000);
+        },methods:{
+            getNewMessage(){
+                axios.get('getScanRecord',
+                        {
+                            params:{
+                                outTradeNo:outTradeNo
+                            }
+                        }
+                ).then(res=> {
+                    console.log(res)
+                    let sc=res.data.data;
+                  if (sc.status=="TRADE_SUCCESS"){
+                     this.isshow=false;
+                      clearInterval(k)
+                     this.getTime()
+                  }
+                }).catch(err=> {
+
+                })
+            },
+            getTime(){
+                var auth_timetimer = setInterval(() => {
+                    this.auth_time--;
+                    if (this.auth_time <= 0) {
+                        clearInterval(auth_timetimer);
+                        window.location.href="userHomepage.html"
+                    }
+                }, 1000);
+            }
         },filters: {
             //将数字转换成金额显示
             moneyfilter(num) {
-
-                num = num.toFixed(2);
-                num = parseFloat(num)
-                num = num.toLocaleString();
-                // let k=mum.indexOf('.')
+                num=num+""
                 var w = num.indexOf(".")
                 if (w !== -1) {
                     console.log(w)

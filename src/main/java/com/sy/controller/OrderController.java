@@ -429,7 +429,7 @@ public class OrderController {
             scanRecord.setSellerid(request.getSession().getId());
             // (必填) 商户网站订单系统中唯一订单号，64个字符以内，只能包含字母、数字、下划线，
             // 需保证商户系统端不能重复，建议通过数据库sequence生成，
-            String outTradeNo = "tradeprecreate" + System.currentTimeMillis()
+            String outTradeNo =""+System.currentTimeMillis()
                     + (long) (Math.random() * 10000000L);
             scanRecord.setOuttradeno(outTradeNo);
             // (必填) 订单标题，粗略描述用户的支付目的。如“xxx品牌xxx门店当面付扫码消费”
@@ -615,8 +615,8 @@ public class OrderController {
                         user.setDownloadmoney(money.doubleValue());
                         userServic.updateUserMoney(user);
 //                        通知前端他跳转
-                        HttpSession session = MySessionContext.getSession(order.getSellerid());
-                        session.setAttribute(order.getOuttradeno(),status);
+//                        HttpSession session = MySessionContext.getSession(order.getSellerid());
+//                        session.setAttribute(order.getOuttradeno(),status);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

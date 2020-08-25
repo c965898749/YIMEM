@@ -1293,15 +1293,14 @@
                         </div>
                         <div class="rightContain">
                             <div class="id_card">
-                                <div class="id_name">用户名:<span>${jsondata.username}</span></div>
+                                <div class="id_name">用户账号:<span>${jsondata.username}</span></div>
                                 <!--<div class="user_home">个人主页＞</div>-->
                             </div>
                             <div class="csdn_info">
                                 <div class="attention" style="margin-left: 10px">关注<span>${jsondata.attentionCount}</span></div>
                                 <div class="fans">粉丝<span>${jsondata.fansCount}</span></div>
                                 <div class="wire">|</div>
-                                <div class="Cbi">积分<span>${jsondata.downloadmoney}</span></div>
-                                <div class="recharge" style="font-weight:bolder;font-size: 16px">赞 助</div>
+                                <div class="recharge" style="font-weight:bolder;font-size: 16px;margin-left: 45px">赞 助</div>
                                 <div class="tip">
                                 <div class="inner"></div>
                                 <div class="text">
@@ -1315,6 +1314,7 @@
                             </div>
                             <div class="personal_data">
                                 <ul>
+                                    <li>积分：<span>${jsondata.downloadmoney}</span></li>
                                     <li>昵称：<span class="nickname">${jsondata.nickname == null ? "" : jsondata.nickname}</span></li>
                                     <li>性别：<span class="sex">${jsondata.sex == null ? "" : jsondata.sex}</spanclass></li>
                                     <li>生日：<span class="birthday">${jsondata.birthday == null ? "" : jsondata.birthday}</spanclass></li>
