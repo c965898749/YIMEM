@@ -11,7 +11,7 @@ public class BlogReplay {
     private String comment;
     private Integer commentuserid;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Alisa/Shanghai")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date time;
     private User user;
     private Integer status;

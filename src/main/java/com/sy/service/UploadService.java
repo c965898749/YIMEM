@@ -15,7 +15,7 @@ public interface UploadService {
     List<Upload> findAll(Upload upload)throws CsdnExpection;
     Integer findAllCount(Upload download)throws CsdnExpection;
     Integer modifReplyCount(Integer id, Integer replyCount);
-    Integer updatahot(Integer hot);
+    Integer updatahot(Upload download);
     Map<String,Integer>  resourceProp(Integer userId);
     List<Upload> selecthot();
 }

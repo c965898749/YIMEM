@@ -273,7 +273,7 @@ public class UserController {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        System.out.println("token2   " + token);
+//        System.out.println("token2   " + token);
         if (Xtool.isNotNull(token)) {
             String key = DESUtil.getDecryptString(token);
             if (Xtool.isNotNull(key)) {

@@ -19,7 +19,7 @@
         <result property="img" column="img"/>
         <association property="user" javaType="com.sy.model.User">
             <id property="userId" column="userId"/>
-            <result property="username" column="username"/>
+            <result property="nickname" column="nickname"/>
             <result property="headImg" column="headImg"/>
         </association>
     </resultMap>
@@ -27,7 +27,7 @@
     <!--List<Invitation> selectAll(Invitation invitation);-->
     <!--查询所有(条件)-->
     <select id="selectAll" resultMap="baseResultMap">
-        select `invitation`.*,`user`.username,`user`.headImg from invitation
+        select `invitation`.*,`user`.nickname,`user`.headImg from invitation
         LEFT JOIN user on `invitation`.userid=`user`.userid
         <trim prefix="where" prefixOverrides="and | or">
             <if test="userid !=null and userid !=''">
@@ -51,7 +51,7 @@
     </select>
     <!--按id查询-->
     <select id="selectById" resultMap="baseResultMap">
-   select invitation.*,`user`.username,`user`.headImg from invitation LEFT JOIN `user` on invitation.userid=`user`.userid WHERE id=#{id}
+   select invitation.*,`user`.nickname,`user`.headImg from invitation LEFT JOIN `user` on invitation.userid=`user`.userid WHERE id=#{id}
     </select>
     <!--查找资源数-->
     <select id="selectAllCount" resultType="java.lang.Integer">
@@ -96,17 +96,17 @@
 
     <!--找所在分类中访问数最大的贴-->
     <select id="selectMaxreadCount" resultMap="baseResultMap">
-     SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN user on invitation.userid=`user`.userid  where readCount in (SELECT MAX(readCount) FROM invitation  GROUP BY categoryid,categoryid2) ORDER BY readCount DESC LIMIT #{page},#{pageSize}
+     SELECT invitation.*,`user`.nickname,`user`.headImg from invitation   LEFT JOIN `user` on invitation.userid=`user`.userid  where readCount in (SELECT MAX(readCount) FROM invitation  GROUP BY categoryid,categoryid2) ORDER BY readCount DESC LIMIT #{page},#{pageSize}
     </select>
 
     <select id="selectMaxreadCountCount" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM (SELECT MAX(readCount),invitation.* FROM invitation  GROUP BY categoryid,categoryid2) m
     </select>
     <select id="selectAspam" resultMap="baseResultMap">
-        SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN user on invitation.userid=`user`.userid  where categoryid=8 and categoryid2=44 ORDER BY readCount  DESC LIMIT #{page},#{pageSize}
+        SELECT invitation.*,`user`.nickname,`user`.headImg from invitation   LEFT JOIN user on invitation.userid=`user`.userid  where categoryid=8 and categoryid2=44 ORDER BY readCount  DESC LIMIT #{page},#{pageSize}
     </select>
     <select id="selectNotice" resultMap="baseResultMap">
-        SELECT invitation.*,`user`.username,`user`.headImg from invitation   LEFT JOIN user on invitation.userid=`user`.userid  where categoryid=8 and categoryid2=46 ORDER BY readCount  DESC LIMIT #{page},#{pageSize}
+        SELECT invitation.*,`user`.nickname,`user`.headImg from invitation   LEFT JOIN user on invitation.userid=`user`.userid  where categoryid=8 and categoryid2=46 ORDER BY readCount  DESC LIMIT #{page},#{pageSize}
     </select>
 
 </mapper>

@@ -74,19 +74,17 @@ public class DownloadController {
 
             if (count>0) {
                 path = upload.getSrc();
-
-//                return "redirect:"+path+"?attname="+upload.getName();
+                //记录下载次数
+                upload.setHot(upload.getHot()+1);
+                service.updatahot(upload);
+                //        开始下载
                 return "redirect:"+path+"?attname="+URLEncoder.encode(upload.getName(),"UTF-8");
             }
         } catch (CsdnExpection e) {
             e.printStackTrace();
             return "redirect:404.html";
         }
-        //记录下载次数
-        upload.setHot(upload.getHot()+1);
-        service.updatahot(upload.getHot());
         return "redirect:404.html";
-        //        开始下载
     }
 
 //    查询下载最多

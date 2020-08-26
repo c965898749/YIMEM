@@ -545,34 +545,35 @@
             $("#allupload").siblings().css("background-color", "")
             $("#allupload").siblings().css("color", "black")
             $(".myintegrals").hide()
-            if (userid == 0) {
-                var html = ` <a href="login.html"><img src="imgs/btn/blog/_fsdfsdf.png" alt=""style="margin-left: -20px;margin-top: -20px"></a>`
-                $("#uploadIndex").append(html)
-            } else {
-                var html = ` <div class="top">
-                        <div class="top-lef"><a href="perInfor.html?viewUserId=`+userid+`&type=blog"> <img class="headimg" style="width: 48px;height: 48px;border-radius: 24px;"
-                                 src="` + user.headImg + `"/></a>
-
-                        </div>
-                        <div class="top-rig">
-                            <div class="username">
-                                <a href="">` + user.username + `</a>
-                            </div>
-                            <div class="grade">
-                                <div class="img">
-                                    <img src="imgs/icons/blog/down1.png"/>
-                                </div>
-                                <div class=="context">
-									<span style="color: #888;font-size: 12px;">
-								积分：
-							     </span>
-                                    <span style="color: red;">` + user.downloadmoney + `</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-                $("#uploadIndex").append(html)
-            }
+            // if (userid == 0) {
+            //     var html = ` <a href="login.html"><img src="imgs/btn/blog/_fsdfsdf.png" alt=""style="margin-left: -20px;margin-top: -20px"></a>`
+            //     $("#uploadIndex").append(html)
+            // } else {
+            //     console.log(user)
+            //     var html = ` <div class="top">
+            //             <div class="top-lef"><a href="perInfor.html?viewUserId=`+userid+`&type=blog"> <img class="headimg" style="width: 48px;height: 48px;border-radius: 24px;"
+            //                      src="` + user.headImg + `"/></a>
+            //
+            //             </div>
+            //             <div class="top-rig">
+            //                 <div class="username">
+            //                     <a href="">` + user.nickname + `</a>
+            //                 </div>
+            //                 <div class="grade">
+            //                     <div class="img">
+            //                         <img src="imgs/icons/blog/down1.png"/>
+            //                     </div>
+            //                     <div class=="context">
+						// 			<span style="color: #888;font-size: 12px;">
+						// 		积分：
+						// 	     </span>
+            //                         <span style="color: red;">` + user.downloadmoney + `</span>
+            //                     </div>
+            //                 </div>
+            //             </div>
+            //         </div>`;
+            //     $("#uploadIndex").append(html)
+            // }
             xuran()
             taplan(getQueryString("type"))
             ajaxGetCategory()
@@ -655,69 +656,69 @@
         }
         // 个人信息渲染
         function people() {
-            var html = `<div class="top-lefw"><a href="perInfor.html?viewUserId=` + userid + `&type=blog"> <img class="headimg" style="width: 98px;height: 98px;border-radius: 48px"
-                         src="` + user.headImg + `"/></a>
-
-                </div>
-                <div class="top-model">
-                    <div class="username">
-                        <a href="" style="font-size: 16px;">` + user.username + `</a>
-                    </div>
-                    <div class="grade">
-                        <div class="img">
-                            <img src="imgs/icons/blog/down1.png"/>
-                        </div>
-                        <div class=="context">
-					<span style="color: #888;font-size: 12px;">
-				论坛权限：
-			     </span>
-                            <span style="color:#888;">1级</span>
-                        </div>
-                    </div>
-                </div>`;
-            $("#top").append(html)
-            var html2 = `<div class="integral">
-                    <div class="top">
-                        积分
-                    </div>
-                    <div class="foolt" style="margin-top: 10px;">
-			<span style="color: #FF9358;font-size: 24px;text-align:center ;">
-				` + user.downloadmoney + `
-			</span>
-                    </div>
-                </div>
-                <div class="integral">
-                    <div class="top">
-                        总排名
-
-                    </div>
-                    <div class="foolt" style="margin-top: 10px;">
-			<span style="color: #FF9358;font-size: 24px;">
-				0
-			</span>
-                    </div>
-                </div>
-                <div class="integral">
-                    <div class="top">
-                        总帖子
-                    </div>
-                    <div class="foolt" style="margin-top: 10px;">
-			<span style="color: #FF9358;font-size: 24px;">
-				` + user.resourceCount + `
-			</span>
-                    </div>
-                </div>
-                <div class="integral">
-                    <div class="top">
-                        加精贴
-                    </div>
-                    <div class="foolt" style="margin-top: 10px;">
-			<span style="color: #FF9358;font-size: 24px;">
-				` + user.downCount + `
-			</span>
-                    </div>
-                </div>`
-            $("#count").append(html2)
+      //       var html = `<div class="top-lefw"><a href="perInfor.html?viewUserId=` + userid + `&type=blog"> <img class="headimg" style="width: 98px;height: 98px;border-radius: 48px"
+      //                    src="` + user.headImg + `"/></a>
+      //
+      //           </div>
+      //           <div class="top-model">
+      //               <div class="username">
+      //                   <a href="" style="font-size: 16px;">` + user.username + `</a>
+      //               </div>
+      //               <div class="grade">
+      //                   <div class="img">
+      //                       <img src="imgs/icons/blog/down1.png"/>
+      //                   </div>
+      //                   <div class=="context">
+			// 		<span style="color: #888;font-size: 12px;">
+			// 	论坛权限：
+			//      </span>
+      //                       <span style="color:#888;">1级</span>
+      //                   </div>
+      //               </div>
+      //           </div>`;
+      //       $("#top").append(html)
+      //       var html2 = `<div class="integral">
+      //               <div class="top">
+      //                   积分
+      //               </div>
+      //               <div class="foolt" style="margin-top: 10px;">
+			// <span style="color: #FF9358;font-size: 24px;text-align:center ;">
+			// 	` + user.downloadmoney + `
+			// </span>
+      //               </div>
+      //           </div>
+      //           <div class="integral">
+      //               <div class="top">
+      //                   总排名
+      //
+      //               </div>
+      //               <div class="foolt" style="margin-top: 10px;">
+			// <span style="color: #FF9358;font-size: 24px;">
+			// 	0
+			// </span>
+      //               </div>
+      //           </div>
+      //           <div class="integral">
+      //               <div class="top">
+      //                   总帖子
+      //               </div>
+      //               <div class="foolt" style="margin-top: 10px;">
+			// <span style="color: #FF9358;font-size: 24px;">
+			// 	` + user.resourceCount + `
+			// </span>
+      //               </div>
+      //           </div>
+      //           <div class="integral">
+      //               <div class="top">
+      //                   加精贴
+      //               </div>
+      //               <div class="foolt" style="margin-top: 10px;">
+			// <span style="color: #FF9358;font-size: 24px;">
+			// 	` + user.downCount + `
+			// </span>
+      //               </div>
+      //           </div>`
+      //       $("#count").append(html2)
 
         }
 
@@ -879,12 +880,13 @@
                 dataType: "json",
                 success: function (jsonData) {
                     var  data = jsonData.data;
-               //console.log(data)
+                    console.log("哈哈")
+               console.log(data)
                     var html='';
                     $.each(data,function (k,v) {
                         html=`  <tr>
                             <td style="display: flex"><div style="width: 40px;height: 20px;background-color:#FFBB66;color: white;margin-right: 10px;text-align: center">`+v.publishForm+`</div><a href="invitation_Details.html?invitationId=`+v.id+`">`+v.title+`</a></td>
-                            <td>`+v.user.username+`</td>
+                            <td>`+v.user.nickname+`</td>
                             <td>(`+v.readCount+`)人气</td>
                         </tr>`;
                         $(".tbHotSkill").append(html);
@@ -898,7 +900,8 @@
                 dataType: "json",
                 success: function (jsonData) {
                     var  data = jsonData.data;
-                   ////////////console.log(data)
+                    console.log("哈哈2")
+               console.log(data)
                     var html='';
                     $.each(data,function (k,v) {
                         html=`  <tr>
@@ -916,12 +919,13 @@
                 dataType: "json",
                 success: function (jsonData) {
                     var  data = jsonData.data;
-                   //////////console.log(data)
+                    console.log("哈哈3")
+                console.log(data)
                     var html='';
                     $.each(data,function (k,v) {
                         html=`  <tr>
                             <td style="display: flex"><div style="width: 70px;height: 20px;color: #D5AA83;margin-right: 10px;text-align: center">灌水乐园</div><a href="invitation_Details.html?invitationId=`+v.id+`">`+v.title+`</a></td>
-                            <td>`+v.user.username+`</td>
+                            <td>`+v.user.nickname+`</td>
                             <td>(`+v.readCount+`)人气</td>
                         </tr>`;
                         $(".tbHotLiving").append(html);
@@ -935,7 +939,8 @@
                 dataType: "json",
                 success: function (jsonData) {
                     var  data = jsonData.data;
-                    //////////console.log(data)
+                    console.log("哈哈4")
+                    console.log(data)
                     var html='';
                     $.each(data,function (k,v) {
                         html=`  <tr>

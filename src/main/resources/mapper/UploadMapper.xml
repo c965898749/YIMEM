@@ -113,7 +113,7 @@ select count(*) from upload where userid=#{userid} and leixin =#{leixin}
         where id=#{id}
     </update>
 
-    <update id="updatahot" parameterType="java.lang.Integer">
+    <update id="updatahot" parameterType="com.sy.model.Upload">
         UPDATE upload
         <set>
             <if test="hot !=null and hot !=''">

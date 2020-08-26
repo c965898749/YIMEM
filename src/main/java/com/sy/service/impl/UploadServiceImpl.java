@@ -99,8 +99,8 @@ public class UploadServiceImpl implements UploadService {
     }
 
     @Override
-    public Integer updatahot(Integer hot) {
-        return mapper.updatahot(hot);
+    public Integer updatahot(Upload download) {
+        return mapper.updatahot(download);
     }
 
     @Override

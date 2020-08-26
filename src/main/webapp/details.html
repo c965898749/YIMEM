@@ -614,7 +614,7 @@
             dataType: "json",
             type: "get",
             success: function (json) {
-                //console.log(json)
+                console.log(json)
                 $(".replaylist").html("")
                 $.each(json.data, function (index, eachobj) {
                     var html = ` <div class="replays">
@@ -883,8 +883,7 @@
                             </div>
 
                             <!-- Baidu Button END -->
-                            </div> </div>
-           `
+                            </div> </div>`
                         document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
                         $(".content_middle_content").append(html)
                     }
