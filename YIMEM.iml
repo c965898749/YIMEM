@@ -41,8 +41,6 @@
     <orderEntry type="library" name="alipay-sdk-java-3.3.0-source" level="project" />
     <orderEntry type="library" name="alipay-trade-sdk-20161215" level="project" />
     <orderEntry type="library" name="alipay-trade-sdk-20161215-source" level="project" />
-    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.1.41" level="project" />
-    <orderEntry type="library" name="Maven: com.alipay.sdk:alipay-sdk-java:3.7.4.ALL" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />

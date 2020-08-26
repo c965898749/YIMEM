@@ -28,7 +28,8 @@ public class Constants {
     /**
      * 公钥
      */
-    public static final String PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr9ndJGB4R76BRpGVMjzVT7OL25KqUHLG/TGIYBDEI6cigxpKTNfu6rhrEpqy+bJFR7aXAP50X70PiXBNaOck7Ib6q3+IH83VTzqY2ceMlD2GU7AdrKej0iUSuVk0hiVsZqSlBj8zOzYIezZi3DKXFZNSCXstvavaWgzvZebE0wWaTnzHxoUE5dBoUnOClY1FzbI/uKXT19RxPUOZgQd91lwlQ7u8X6ilHawLpArU8DHQABrE08P2vdo7DP0VO/7iGuvOBjZb0zIL9fDiysoGK4H13PaD1qZhzA+qedRmT8VnAgW7VqTDM2L7SaT98VdUeUGr/efKdGDdy7fMIq22kwIDAQAB";
+//    public static final String PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr9ndJGB4R76BRpGVMjzVT7OL25KqUHLG/TGIYBDEI6cigxpKTNfu6rhrEpqy+bJFR7aXAP50X70PiXBNaOck7Ib6q3+IH83VTzqY2ceMlD2GU7AdrKej0iUSuVk0hiVsZqSlBj8zOzYIezZi3DKXFZNSCXstvavaWgzvZebE0wWaTnzHxoUE5dBoUnOClY1FzbI/uKXT19RxPUOZgQd91lwlQ7u8X6ilHawLpArU8DHQABrE08P2vdo7DP0VO/7iGuvOBjZb0zIL9fDiysoGK4H13PaD1qZhzA+qedRmT8VnAgW7VqTDM2L7SaT98VdUeUGr/efKdGDdy7fMIq22kwIDAQAB";
+    public static final String PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2OqZOfNpqieridefZ8hPeV752E6UPb7/6vsgTb0euDIiT1ZuuSxlJAX7978KgSpooZFex13CWD+P96+005j4LAT10MB8alumMAvwMgiiT+ZwHjX03+asKUBaeaqMwUT6eWOACA/OC43rKNZHBSFYFc5yka+gIyZToelRxviWEyXMY4QQfZAVDMrh+gZAuatvcV4shEnsvTm/ZmlxIqqjjfY88LsQRyq0NS/whEg6703zlAXEroIM1KWWFi6rB5PGagus7pBJ14gR3FKCp8w7JJO0pv/DLNg7073b8Lg62KWSlCAlcVt6ICsLWlesmoHR1GzqWEpa2+O/bO0DK3B4+wIDAQAB";
 
     /**
      * 私钥
@@ -64,6 +65,8 @@ public class Constants {
     public static final String TEMPLATE_ID2="PALmmHSVxSQle5WQmZ2pnX4EgRHsmGlHMJp9g4MVtnU";
 
     public static final String TEMPLATE_ID3="g29LkxPM2mzhKDk5JTg5UGsUPMpsRepujcRVCpWkK-s";
+
+    public static final String TEMPLATE_ID4="WI1Hawtg_Dk-YbceHsoCx8v-8SNMRor-2zESVDEeCRo";
 
     public static final String[] type={"动作","喜剧","爱情","科幻","灾难","恐怖","悬疑","奇幻","战争","悬疑","犯罪"," 惊悚","动画","伦理",
             "剧情","冒险","历史","家庭","歌舞","传记","音乐"," 西部","运动","古装","家庭","情色","同性","武侠","短片","黑色电影","儿童",

@@ -1090,7 +1090,7 @@
                                             success: function (josnData) {
                                                 if (josnData.success == 1) {
                                                     layer.msg("订单生成成功……正在跳转")
-                                                    window.location.href="111.html?outTradeNo="+josnData.data.outtradeno;
+                                                    window.location.href="pay.html?outTradeNo="+josnData.data.outtradeno;
                                                     layer.closeAll()
                                                 } else {
                                                     layer.msg("订单生成失败")

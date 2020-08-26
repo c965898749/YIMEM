@@ -574,4 +574,25 @@ public class WeixinPostServiceImpl implements WeixinPostService {
         String data ="{\"touser\":\""+fromUserName+"\",\"template_id\":\""+Constants.TEMPLATE_ID3+"\",\"url\":\"http://www.yimem.com\",\"topcolor\":\"#FF0000\",\"data\":{\"first\":{\"value\":\""+username+"\",\"color\":\"#173177\"},\"four\":{\"value\":\""+time+"\",\"color\":\"#173177\"},\"sec\":{\"value\":\""+nickname+"\",\"color\":\"#173177\"}}}";
         doPostStr(url,data);
     }
+
+    @Override
+    public void sendTemplate4(String fromUserName, String nickname, String outTradeNo, String money, String totalAmount) throws IOException {
+        AccessToken token = new AccessToken();
+        String src = Constants.ACCESS_TOKEN_URL.replace("APPID", Constants.APPID).replace("APPSECRET", Constants.APPSECRET);
+        JSONObject jsonObject = doGetStr(src);
+        if (jsonObject != null) {
+            token.setToken(jsonObject.getString("access_token"));
+            token.setExpiresIn(jsonObject.getString("expires_in"));
+        }
+        //调用消息模板url
+        String  url = Constants.TEMPLATE.replace("ACCESS_TOKEN",token.getToken());
+        //生成消息模板
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(currentTime);
+        String data ="{\"touser\":\""+fromUserName+"\",\"template_id\":\""+Constants.TEMPLATE_ID4+"\",\"url\":\"http://www.yimem.com\",\"topcolor\":\"#FF0000\",\"data\":{\"first\":{\"value\":\""+nickname+"\",\"color\":\"#173177\"},\"second\":{\"value\":\""+outTradeNo+"\",\"color\":\"#173177\"},\"six\":{\"value\":\""+money+"\",\"color\":\"#173177\"},\"third\":{\"value\":\""+totalAmount+"\",\"color\":\"#173177\"},\"four\":{\"value\":\""+dateString+"\",\"color\":\"#173177\"}}}";
+        doPostStr(url,data);
+    }
+
+
 }
