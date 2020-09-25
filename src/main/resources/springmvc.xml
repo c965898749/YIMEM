@@ -19,7 +19,18 @@
     <task:annotation-driven/>
 
     <!--1.开启springMVC注解驱动,其作用相当于注册了RequestMappingHandlerAdapter和RequestMappingHandlerMapping-->
-    <mvc:annotation-driven ></mvc:annotation-driven>
+    <mvc:annotation-driven >
+        <!-- 处理请求返回json字符串的中文乱码问题 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
     <mvc:default-servlet-handler/>
     <!--3.viewResovler-->
     <!--ModelAndView:逻辑视图名index,拼接前缀/WEB-INF/jsp/index.jsp,并拼接了后缀-->

@@ -1,13 +1,38 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Hello DPlayer</title>
+    <link rel="stylesheet" href="css/DPlayer.min.css">
+    <script src="https://www.jq22.com/jquery/jquery-3.3.1.js"></script>
 </head>
 <body>
-
+<div style="width: 50%;position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+    <div id="dplayer"></div>
+</div>
+<script src="js/DPlayer.min.js"></script>
+<script>
+    const videoId = '98' //填写视频ID
+    const userId = 1  //填写用户ID
+    // dp1
+    window.dp1 = new DPlayer({
+        container: document.getElementById('dplayer'),
+        preload: 'none',
+        screenshot: true,
+        video: {
+            url: 'https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4',
+            pic: 'https://i.loli.net/2019/06/06/5cf8c5d9c57b510947.png',
+            thumbnails: 'https://i.loli.net/2019/06/06/5cf8c5d9cec8510758.jpg'
+        },
+        subtitle: {
+            url: 'https://s-sh-17-dplayercdn.oss.dogecdn.com/hikarunara.vtt'
+        },
+        danmaku: {
+            id: '9E2E3368B56CDBB4',
+            api: 'https://api.prprpr.me/dplayer/',
+            addition: ['https://s-sh-17-dplayercdn.oss.dogecdn.com/1678963.json']
+        }
+    });
+</script>
 </body>
 </html>

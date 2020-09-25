@@ -189,14 +189,14 @@ function addListener() {
         }
     };
     dp.on("play", function () {
-        console.log("点击了播放。。。。。。");
-
-        userBean = isLogin();
-        if(userBean){
-            addHistory();
-        }else{
-            layer.msg("登录后可以添加到历史记录中哦");
-        }
+        // console.log("点击了播放。。。。。。");
+        //
+        // userBean = isLogin();
+        // if(userBean){
+        //     addHistory();
+        // }else{
+        //     layer.msg("登录后可以添加到历史记录中哦");
+        // }
 
     });
 
@@ -259,25 +259,25 @@ function sendToServer(newDanmaku) {
 /**
  * 把视频添加到历史记录。。。。。
  */
-function addHistory(){
-    jQuery.ajax({
-        // users/{usersId}/histories
-        url:"users/"+userBean.userId+"/histories",
-        type:"post",
-        contentType:"application/json",
-        data:JSON.stringify({
-            userId:userBean.userId,
-            videoId: videoId
-        }),
-        dataType:"json",
-        success:function (data) {
-            console.log(data);
-            layer.msg("已添加到历史记录，(づ￣3￣)づ╭❤～");
-
-        },
-        error:function (xhr) {
-            console.log("ajax失败...")
-        }
-    });
-
-}
+// function addHistory(){
+//     jQuery.ajax({
+//         // users/{usersId}/histories
+//         url:"users/"+userBean.userId+"/histories",
+//         type:"post",
+//         contentType:"application/json",
+//         data:JSON.stringify({
+//             userId:userBean.userId,
+//             videoId: videoId
+//         }),
+//         dataType:"json",
+//         success:function (data) {
+//             console.log(data);
+//             layer.msg("已添加到历史记录，(づ￣3￣)づ╭❤～");
+//
+//         },
+//         error:function (xhr) {
+//             console.log("ajax失败...")
+//         }
+//     });
+//
+// }

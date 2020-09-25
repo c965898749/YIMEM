@@ -60,9 +60,9 @@ public class UserController {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             baseResp = servic.loginVerification(username, userpassword);
             if (baseResp.getSuccess() == 1) {
-                User user=(User) baseResp.getData();
-                if (Xtool.isNotNull(user.getOpenid())){
-                    weixinPostService.sendTemplate(user.getOpenid(),user.getUsername(),df.format(day));
+                User user = (User) baseResp.getData();
+                if (Xtool.isNotNull(user.getOpenid())) {
+                    weixinPostService.sendTemplate(user.getOpenid(), user.getUsername(), df.format(day));
                 }
                 Date date = new Date();
                 //时间+账号+密码进行DES加密
@@ -279,22 +279,31 @@ public class UserController {
             if (Xtool.isNotNull(key)) {
 //                System.out.println(1111);
                 String[] str = key.split(";");
-                Date ss = new Date(str[0]);
-                Date edate = new Date();
-                long betweendays = (long) ((edate.getTime() - ss.getTime()) / (1000 * 60 * 60 * 24) + 0.5);//天数间隔
-//            System.out.println(betweendays);
-                if (betweendays < 30) {
-                    try {
-                        System.out.println(str[1] + "--------------" + str[2]);
-                        baseResp = servic.loginVerification(str[1], str[2]);
-                        if (baseResp.getSuccess() == 1) {
-                            request.getSession().setAttribute("user", baseResp.getData());
-                            return baseResp;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                try {
+                    baseResp = servic.loginVerification(str[0], str[1]);
+                    if (baseResp.getSuccess() == 1) {
+                        request.getSession().setAttribute("user", baseResp.getData());
+                        return baseResp;
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+//                Date ss = new Date(str[0]);
+//                Date edate = new Date();
+//                long betweendays = (long) ((edate.getTime() - ss.getTime()) / (1000 * 60 * 60 * 24) + 0.5);//天数间隔
+//            System.out.println(betweendays);
+//                if (betweendays < 30) {
+//                    try {
+//                        System.out.println(str[1] + "--------------" + str[2]);
+//                        baseResp = servic.loginVerification(str[1], str[2]);
+//                        if (baseResp.getSuccess() == 1) {
+//                            request.getSession().setAttribute("user", baseResp.getData());
+//                            return baseResp;
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
             }
         }
         User user = (User) request.getSession().getAttribute("user");
