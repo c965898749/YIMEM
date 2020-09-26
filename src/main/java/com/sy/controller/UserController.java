@@ -64,9 +64,10 @@ public class UserController {
                 if (Xtool.isNotNull(user.getOpenid())) {
                     weixinPostService.sendTemplate(user.getOpenid(), user.getUsername(), df.format(day));
                 }
-                Date date = new Date();
+//                Date date = new Date();
                 //时间+账号+密码进行DES加密
-                String token = DESUtil.getEncryptString(date + ";" + username + ";" + userpassword);
+//                String token = DESUtil.getEncryptString(date + ";" + username + ";" + userpassword);
+                String token = DESUtil.getEncryptString(username + ";" + userpassword);
                 baseResp.setErrorMsg(token);
                 System.out.println("生成token:    " + token);
                 request.getSession().setAttribute("user", baseResp.getData());
