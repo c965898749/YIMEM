@@ -211,7 +211,7 @@
             <li title="工具"><a href="tool.html" id="tool_html">工具</a></li>
             <li title="默默"><a href="app.html" id="app_html" style="pointer-events: none;">默默</a></li>
             <li>
-                <div style="border:1px solid #CCCCCC;border-radius: 10px;width: 250px;height: 32px;margin-top: 5px;display: flex">
+                <div id="searchtihing" style="border:1px solid #CCCCCC;border-radius: 10px;width: 250px;height: 32px;margin-top: 5px;display: flex">
                     <input type="text" placeholder="请输入搜索内容" id="searchValue" onkeydown='test()'>
                     <div class="TsearchContain" id="QueryA">
                         <img src="imgs/btn/blog/serch.png" style="width: 25px;height: 25px;margin-top: -8px" alt="">
@@ -371,13 +371,13 @@
     function setEnterHtml(success) {
         var html=``;
         if(success==0){
-           html=` <ul style="margin-top: 5px">
-                    <li class="lo" ><a href="login.html">登录</a></li>
-                    <li class="re"><a href="register.html">注册</a></li>
+           html=` <ul  style="margin-top: 5px">
+                    <li class="lo" id="author"><a  href="login.html">登录</a></li>
+                    <li class="re" id="author2"><a href="register.html">注册</a></li>
                 </ul>`;
         }else {
             html=`<div class="TheadImg">
-                <img src="" width="40px" height="40px" style="border-radius: 20px;margin-right: 10px">
+                <img src="" width="40px" height="40px" id="TheadImg33" style="border-radius: 20px;margin-right: 10px">
                 <div class="Tmylist">
                     <ul>
                         <li id="Tmyat">我的关注</li>

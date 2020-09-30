@@ -14,6 +14,10 @@
     <script src="js/include.js"></script>
     <link rel="stylesheet" href="css/DPlayer.min.css">
     <link rel="stylesheet" href="css/video_detail.css">
+    <link rel="stylesheet" type="text/css" href="assets/waifu.min.css?v=1.4.2"/>
+    <script src="assets/jquery.min.js?v=3.3.1"></script>
+    <!-- 实现拖动效果，需引入 JQuery UI -->
+    <script src="assets/jquery-ui.min.js?v=1.12.1"></script>
 </head>
 <style>
     #down_load {
@@ -365,10 +369,9 @@
                         </div>
                         <div class="foolt" style="display: flex;height: 60px;">
 							<span style="color: #888;font-size: 14px;margin-left: 20px; margin-top: 25px;">
-									所需积分/C币:
-								</span> <span id="price" style="color: #ff9358;font-size: 32px;margin-top: 10px;">
+									所需 <span id="price" style="color: #ff9358;font-size: 32px;margin-top: 10px;">
 									` + item.price + `
-								</span>
+								</span>积分/C币</span>
                             <input type="button" title="会员免费下载" value="申请会员" class="memberbtn" onclick="vipbtn()"
                                    style="height: 36px;width: 120px;text-align: center;background-color:red;color: white;border: none;margin: 10px;border-radius: 4px;">
                             <input type="button" value="立即下载" class="downbtn" onclick="downbtn()"
@@ -822,5 +825,5 @@
         })
     }
 </script>
-
+<script src="assets/autoload.js"></script>
 </html>

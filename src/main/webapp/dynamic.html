@@ -8,6 +8,10 @@
 		<script src="js/setCookie.js"></script>
 		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
 		<script src="layui/layui.all.js"></script>
+		<link rel="stylesheet" type="text/css" href="assets/waifu.min.css?v=1.4.2"/>
+		<script src="assets/jquery.min.js?v=3.3.1"></script>
+		<!-- 实现拖动效果，需引入 JQuery UI -->
+		<script src="assets/jquery-ui.min.js?v=1.12.1"></script>
 		<style>
 			*{
 				background: white;
@@ -16,7 +20,7 @@
 				margin: 0 auto;
 				width: 400px;
 			}
-			
+
 			.container .layui-tab .layui-tab-content .state {
 				margin-top: 10px;
 				display: flex;
@@ -25,12 +29,12 @@
 			.container .layui-tab .layui-tab-content .state:hover {
 				background: #E5E9EF;
 			}
-			
+
 			.container .layui-tab .layui-tab-content .state div {
 				margin-left: 10px;
 				/*	margin-top: 10px;*/
 			}
-			
+
 			.container .layui-tab .layui-tab-content .title {
 				/*溢出省略*/
 				width: 300px;
@@ -39,7 +43,7 @@
 				overflow: hidden;
 				color: #47BBE1;
 			}
-			
+
 			.container .layui-tab .layui-tab-content input[type="button"] {
 				display: block;
 			/*	text-align: center;*/
@@ -52,7 +56,7 @@
 				border: none;
 				cursor: pointer;
 			}
-			
+
 			.container .layui-tab .layui-tab-content  input[type="button"]:hover {
 				background: #CCD0D7;
 			}
@@ -210,5 +214,5 @@
 			</script>
 		</div>
 	</body>
-
+	<script src="assets/autoload.js"></script>
 </html>
