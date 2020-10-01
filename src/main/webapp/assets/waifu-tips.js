@@ -342,7 +342,7 @@ function loadTipsMessage(result) {
     function ifActed() {
         if (!hitokotoInterval) {
             hitokotoInterval = true;
-            hitokotoTimer = window.setInterval(showHitokotoActed, 30000);
+            hitokotoTimer = window.setInterval(showHitokotoActed, 15000);
         }
     }
 

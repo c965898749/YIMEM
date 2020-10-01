@@ -64,6 +64,7 @@ initModel({
     "mouseover": [
         { "selector": ".container a[href^='http']", "text": ["要看看 <span style=\"color:#0099cc;\">{text}</span> 么？"] },
         { "selector": ".fui-home", "text": ["点击前往首页，想回到上一页可以使用浏览器的后退功能哦"] },
+        { "selector": ".aplayer", "text": ["点播音乐放松心情吧"] },
         { "selector": "#searchtihing", "text": ["<(￣︶￣)>输入你想要查找的资源吧……哈哈哈……我可啥都懂"] },
         { "selector": "#TheadImg33", "text": ["你的头像好可爱呀……人家好喜欢呀"] },
         { "selector": ".TmsgContain", "text": ["看看谁给你来消息。"] },

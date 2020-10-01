@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
+    <!--<meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+    <title>我的音乐</title>
+    <script src="js/include.js"></script>
+    <script src="js/setCookie.js"></script>
+    <link rel="shortcut icon" href="statics/img/favicon.ico">
+    <script src="js/jquery.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/APlayer.min.css">
+    <script src="js/APlayer.min.js"></script>
+    <style>
+        p{
+            opacity: 0.8!important;
+            height: 30px!important;
+
+            /*color: red!important;*/
+            overflow: visible!important;
+        }
+        .aplayer-lrc-current{
+            color: blue!important;
+            font-size: 20px!important;
+        }
+        .aplayer-lrc{
+            margin-left: 202px!important;
+            overflow: visible!important;
+        }
+        .aplayer-info{
+
+            /*height: 500px!important;*/
+        }
+        .aplayer-info{
+            border-bottom: none!important;
+        }
+        .aplayer-lrc-contents{
+            padding: 5px!important;
+            /*margin-top: -45px!important;*/
+            /*background: #0bb20c;*/
+            /*top: -500px;*/
+            /*z-index: 999999999999!important;*/
+            /*margin-left: 202px;*/
+            margin-top: -70px!important;
+        }
+        .aplayer-body{
+            /*background: red;*/
+            height: 300px;
+            overflow: hidden!important;
+            /*margin-top: -30px!important;*/
+            /*height: 500px;*/
+        }
+        .aplayer{
+            overflow: visible!important;
+        }
+        .aplayer-list{
+            overflow: hidden!important;
+        }
+        .aplayer-controller{
+            margin-top: 256px;
+        }
+        .aplayer-pic{
+            height: 300px!important;
+            width: 300px!important;
+            margin-right: 5px!important;
+
+        }
+
+        .aplayer-music{
+            margin-top: 30px!important;
+        }
+        /*.aplayer-button{*/
+        /*width: 100px!important;*/
+        /*height: 100px;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div id="titleContai">
+    <include src="title.html"></include>
+</div>
+<div class="NAV">
+    <div class="NAV-Detail" style="width: 1200px;margin: 0 auto">
+        <div class="context">
+            <div id="aplayer" ></div>
+        </div>
+        <div class="context2" style="margin-top: 10px">
+            <div class="layui-btn-container" style="text-align: center;">
+                <button type="button" onclick="bt1()" class="layui-btn layui-btn-radius layui-btn-danger">暂停/播放</button>
+                <button type="button" onclick="bt2()" class="layui-btn layui-btn-radius layui-btn-normal">音量+</button>
+                <button type="button" onclick="bt3()" class="layui-btn layui-btn-radius layui-btn-normal">音量—</button>
+                <button type="button" onclick="bt4()" class="layui-btn layui-btn-radius layui-btn-normal">添加歌曲</button>
+                <button type="button" onclick="bt5()" class="layui-btn layui-btn-radius layui-btn-normal">查找歌曲</button>
+                <input id="bt6" style="width: 200px;height: 30px">
+            </div>
+
+        </div>
+        <div class="context3">
+            <div id="test1" style="text-align: center"></div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+<script src="layui/layui.all.js"></script>
+<script>
+    var ap
+    var volume=0.7
+    var name=""
+    var pageNum=1
+    var pageSize=5
+    function muic(){
+        const playerOption = {// 设置播放器基本参数
+            container: document.getElementById('aplayer'),
+            mini: false,
+            autoplay: false,
+            theme: '#FADFA3',
+            loop: 'all',
+            order: 'random',
+            preload: 'auto',
+            volume: 0.7,
+            mutex: true,
+            listFolded: false,
+            listMaxHeight: 90,
+            lrcType: 3,
+            audio: []
+        };
+        $.ajax({
+            url: "getMymusic",
+            data: {"pageNum":pageNum,"pageSize":pageSize,"name":name},
+            dataType: "json",
+            type: "get",
+            success: function (json) {
+                console.log(json.data);
+                playerOption.audio=json.data;
+                 ap = new APlayer(playerOption)
+            },
+            error: function () {
+
+            }
+        })
+    }
+    muic()
+   function bt1(){ap.toggle()}
+   function bt2(){
+        volume=volume+0.1
+        ap.volume(volume, true)
+    }
+   function bt3(){
+       volume=volume-0.1
+       ap.volume(volume, true)
+   }
+   function bt4(){
+        location.href="222.html"
+   }
+   function bt5(){}
+
+    layui.use('laypage', function(){
+        var laypage = layui.laypage;
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+            ,count: 50 //数据总数，从服务端得到
+        });
+    });
+</script>
+</html>
+

@@ -18,6 +18,8 @@
     <script type="text/javascript" src="syntax/scripts/shBrushPhp.js"></script>
     <link type="text/css" rel="stylesheet" href="syntax/styles/shCoreDefault.css"/>
     <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/APlayer.min.css">
+    <script src="js/APlayer.min.js"></script>
     <style>
         #blog_page {
             border-bottom: 2px red solid;
@@ -31,7 +33,6 @@
         body {
             background-color: #E4E6CD;
         }
-
         .navigation div {
             float: left;
             font-size: 15px;
@@ -552,6 +553,7 @@
         </div>
     </ul>
 </div>
+<div id="aplayer"></div>
 </body>
 <script type="text/javascript" id="bdshare_js" data="type=tools" ></script>
 <script type="text/javascript" id="bdshell_js"></script>
@@ -1472,7 +1474,33 @@
         })
 
     // });
+            function muic(){
+                const playerOption = {// 设置播放器基本参数
+                    container: document.getElementById('aplayer'),
+                    fixed: true,
+                    volume:0.7,
+                    order:'list',
+                    theme:'#988bbc',
+                    listFolded:false,
+                    lrcType:1,
+                    audio: []
+                };
+                $.ajax({
+                    url: "getPlayList",
+                    data: {"listId":2151920273},
+                    dataType: "json",
+                    type: "get",
+                    success: function (json) {
+                        console.log(json);
+                        playerOption.audio=json;
+                        var ap = new APlayer(playerOption)
+                    },
+                    error: function () {
 
+                    }
+                })
+            }
+            muic()
 
 </script>
 <script src="assets/autoload.js"></script>

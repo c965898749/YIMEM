@@ -12,7 +12,13 @@ public class BaseResp<T> implements Serializable {
     private int page;
     private long count;
 
+    public BaseResp() {
+    }
 
+    public BaseResp(int success, String errorMsg) {
+        this.success = success;
+        this.errorMsg = errorMsg;
+    }
 
     public int getSuccess() {
         return success;

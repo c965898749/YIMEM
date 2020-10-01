@@ -344,7 +344,7 @@
     <select id="getUserListBySearch" resultType="com.sy.model.User" parameterType="com.sy.model.User">
         select * from user
         <trim prefix="where" prefixOverrides="and | or">
-            c
+
             <if test="username != null">
                 and username like #{username}
             </if>
