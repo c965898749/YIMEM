@@ -200,8 +200,8 @@
         $(".lists").show()
     }
     function bacak2(zleixin) {
-        // //console.log(zleixin)
-        if (zleixin=="flac"||zleixin=="mp3"||zleixin=="mp4") {
+        // ////console.log(zleixin)
+        if (zleixin=="flac"||zleixin=="mp3"||zleixin=="mp4"||zleixin=="pdf") {
             $.ajax({
                 url: "upload/yulang",
                 data: {"id": id},
@@ -209,12 +209,18 @@
                 dataType: "json",
                 success: function (json) {
                    if (json.success=200){
+                       console.log(json);
                        videoUrl=json.data
-                       //console.log(videoUrl)
-                       getDplayer(id)
-                       // ss()
-                       $(".video").show()
-                       $(".lists").hide()
+                       console.log(videoUrl)
+                       if(zleixin=="pdf"){
+                           localStorage.videoUrl = videoUrl;
+                           window.open("pdf.html")
+                       }else {
+                           getDplayer(id)
+                           // ss()
+                           $(".video").show()
+                           $(".lists").hide()
+                       }
                    } else {
                        layer.msg(json.errorMsg)
                    }
@@ -312,13 +318,13 @@
             type: "GET",
             dataType: "json",
             success: function (Jsondata) {
-                //console.log(Jsondata);
+                ////console.log(Jsondata);
                 var item = Jsondata.data;
                 bloguserid = item.user.userId;
                 fucs(item.user.userId);
                 var path = "imgs/filetype/zip .svg";
                 var daxiao = 0;
-                ////////////console.log(item.leixin)
+                //////////////console.log(item.leixin)
                 if (item.leixin == "zip") {
                     path = "zip";
                 } else if (item.leixin2 == "pdf") {
@@ -344,7 +350,7 @@
                 price = item.price
                 var filesize = item.size;
                 daxiao = renderSize(filesize);
-//console.log(item.leixin2)
+////console.log(item.leixin2)
                 var html = ` <div class="list"  data-id="` + item.id + `" style="border:none ;">
                             <div class="img-left">
                                 <img src="imgs/filetype/` + path + `.svg" style="width: 42px;height: 48px;"/>
@@ -390,7 +396,7 @@
                             <span style="font-size: 14px;color: #999;">
 								共` + item.replyCount + `条
 							</span>`;
-                console.log(item);
+                //console.log(item);
                 var html4 = `<div class="username"
                                      style="text-overflow : ellipsis; white-space : nowrap; overflow : hidden;">
                                      <input id="yanzhen" type="hidden" value="` + item.user.userId + `">
@@ -421,7 +427,7 @@
     //关注块
     $("#focus").click(function () {
         if (userid != 0) {
-            // ////console.log(userid)
+            // //////console.log(userid)
             //如果登陆成功，需要请求ajax访问数据库关注数据表
             //首先进行关注状态的判断
             //状态为关注
@@ -437,7 +443,7 @@
                     type: "get",
                     dataType: "json",
                     success: function (json) {
-                        ////console.log(json)
+                        //////console.log(json)
 
                     }, error: function (xhr) {
 
@@ -455,7 +461,7 @@
                     type: "get",
                     dataType: "json",
                     success: function (json) {
-                        ////console.log(json)
+                        //////console.log(json)
                     }, error: function (xhr) {
 
                     }
@@ -477,9 +483,9 @@
             type: "get",
             dataType: "json",
             success: function (json) {
-                // ////console.log("kkkk________kkkkkkkk+++++++")
-                // ////console.log(json)
-                // ////console.log("kkkk________kkkkkkkk+++++++")
+                // //////console.log("kkkk________kkkkkkkk+++++++")
+                // //////console.log(json)
+                // //////console.log("kkkk________kkkkkkkk+++++++")
                 if (json.success != 400) {
                     if (json.success != 0) {
                         // $("#focus").css("width", "100px")
@@ -506,7 +512,7 @@
             , dataType: "json"
             // , async: false
             , success: function (jsonData) {
-                ////////console.log(jsonData)
+                //////////console.log(jsonData)
                 var data = jsonData.data;
                 var children = data.children;
                 var name1 = data.categoryname;
@@ -521,7 +527,7 @@
                 $(".nav").append(html2);
             }
             , error: function (res) {
-                ////////////console.log("ajax提交错误")
+                //////////////console.log("ajax提交错误")
             }
         })
 
@@ -531,7 +537,7 @@
 
     // vip
     function vipbtn() {
-        ////////////console.log("vip")
+        //////////////console.log("vip")
         location.href = "vip.html"
     }
 
@@ -559,9 +565,9 @@
         //     return false;
         // }
         if (user.downloadmoney >= price) {
-            //////console.log(user)
-            //////console.log(user.downloadmoney + "h哈哈");
-            //////console.log(price)
+            ////////console.log(user)
+            ////////console.log(user.downloadmoney + "h哈哈");
+            ////////console.log(price)
             layer.open({
                 content: '是否下载'
                 , btn: ['确定', '退出']
@@ -621,7 +627,7 @@
     function reply() {
         layui.use('flow', function () {
             var flow = layui.flow;
-            //////////console.log("哈哈哈")
+            ////////////console.log("哈哈哈")
             flow.load({
                 elem: '#replay-lists' //流加载容器
                 , done: function (page, next) { //执行下一页的回调
@@ -636,7 +642,7 @@
                             type: "GET",
                             dataType: "json",
                             success: function (res) {
-                                ////console.log(res)
+                                //////console.log(res)
                                 // var data=jsonData.data;
                                 var arr = {1: '★☆☆☆☆☆', 2: '★★☆☆☆', 3: '★★★☆☆', 4: '★★★★☆', 5: '★★★★★'}
                                 layui.each(res.data, function (index, item) {
@@ -702,7 +708,7 @@
             });
             return false;
         }
-        ////////////console.log(content)
+        //////////////console.log(content)
         $.ajax({
             url: "saveReply",
             type: "POST",
@@ -730,13 +736,13 @@
             , dataType: "json"
             , async: false
             , success: function (jsonData) {
-                ////////////console.log(jsonData)
+                //////////////console.log(jsonData)
                 if (jsonData.success == 1) {
                     data = jsonData.data;
                 }
             }
             , error: function (res) {
-                ////////////console.log("ajax提交错误")
+                //////////////console.log("ajax提交错误")
             }
         })
         return data;
@@ -762,7 +768,7 @@
     });
 
     function ResocollectBt() {
-        ////console.log("按钮")
+        //////console.log("按钮")
         if (userid == 0) {
             layer.open({
                 content: '你还未登录'
@@ -791,11 +797,11 @@
             }
             , dataType: "json"
             , success: function (jsonData) {
-                ////console.log(jsonData)
+                //////console.log(jsonData)
                 yanzhenResocollect()
             }
             , error: function (res) {
-                ////////////console.log("ajax提交错误")
+                //////////////console.log("ajax提交错误")
             }
         })
     }
@@ -812,8 +818,8 @@
             , dataType: "json"
             , success: function (jsonData) {
                 $("#Resocollect").empty()
-                ////console.log(jsonData)
-                ////console.log(ting)
+                //////console.log(jsonData)
+                //////console.log(ting)
                 if (jsonData.success == 1) {
                     var html = ` <img class="" src="imgs/icons/blog/xin.png" style="width: 18px;height: 18px;"/>收藏 `
                     $("#Resocollect").append(html)
@@ -823,7 +829,7 @@
                 }
             }
             , error: function (res) {
-                ////////////console.log("ajax提交错误")
+                //////////////console.log("ajax提交错误")
             }
         })
     }
@@ -844,7 +850,7 @@
             dataType: "json",
             type: "get",
             success: function (json) {
-                console.log(json);
+                //console.log(json);
                 playerOption.audio=json;
                 var ap = new APlayer(playerOption)
             },

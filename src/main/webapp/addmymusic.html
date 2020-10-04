@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="js/include.js"></script>
+    <script src="js/setCookie.js"></script>
+    <link rel="shortcut icon" href="statics/img/favicon.ico">
+    <script src="js/jquery.js"></script>
+</head>
+<body>
+<div id="titleContai">
+    <include src="title.html"></include>
+</div>
+<div class="NAV">
+    <div class="NAV-Detail" style="width: 800px;margin: 0 auto">
+        <div class="context">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">封面连接</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="cover" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">音乐路径</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="url" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">音乐作者</label>
+                        <div class="layui-input-inline">
+                            <input type="tel" name="artist" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">音乐名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">歌词地址</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="lrc" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item" >
+                    <div class="layui-input-block">
+
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+                <a href="mymusic.html">《返回我的音乐</a>
+            </form>
+        </div>
+        <br>
+        <h4>版权声明</h4>
+        <p>本站音频文件来自各网站接口，本站不会修改任何音频文件</p>
+        <p>音频版权来自各网站，本站只提供数据查询服务，不提供任何音频存储和贩卖服务</p>
+        <p>本站严格遵守国家相关法律法规，尊重著作权、版权等第三方权利，如果侵犯了您的相关权利，请联系客服进行删除</p>
+    </div>
+</div>
+
+<script src="layui/layui.all.js"></script>
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            $.ajax({
+                url: "addMymusic",
+                data: data.field,
+                dataType: "json",
+                type: "post",
+                success: function (json) {
+                    if (json.success==200) {
+                        layer.msg("保存成功")
+                    }else {
+                        layer.msg("保存失败")
+                    }
+                },
+                error: function () {
+                    layer.msg("服务器异常")
+                }
+            })
+            // layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

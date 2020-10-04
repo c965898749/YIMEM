@@ -98,6 +98,20 @@ public class DownloadController {
         return "redirect:404.html";
     }
 
+    @RequestMapping(value = "YiMemapp", method = RequestMethod.GET)
+    public String YiMemapp(Integer id)  throws IOException {
+//    再查看资源是否存在
+        String path = null;
+        Upload upload = new Upload();
+        try {
+            upload = service.findById(132);
+            path = upload.getSrc();
+            return "redirect:" + path + "?attname=" + URLEncoder.encode(upload.getName(), "UTF-8");
+        } catch (CsdnExpection csdnExpection) {
+            return "redirect:404.html";
+        }
+    }
+
     //发送弹幕
     @RequestMapping(value = "kk", method = RequestMethod.POST)
     @ResponseBody
@@ -113,14 +127,15 @@ public class DownloadController {
             return baseResp;
         }
     }
+
     @ResponseBody
     @RequestMapping(value = "bullets/v3", method = RequestMethod.POST)
-    public String postv3(@RequestBody Map<String,String> param,HttpServletRequest request) throws Exception {
+    public String postv3(@RequestBody Map<String, String> param, HttpServletRequest request) throws Exception {
         Map map = new HashMap();
 //        System.out.println(param);
         User user = (User) request.getSession().getAttribute("user");
-        Bullet bullet=new Bullet();
-        if (user!=null&&param!=null&&!param.isEmpty()){
+        Bullet bullet = new Bullet();
+        if (user != null && param != null && !param.isEmpty()) {
             bullet.setUserid(user.getUserId());
             bullet.setColor(param.get("color"));
             bullet.setCurrenttime(param.get("time"));
@@ -129,8 +144,8 @@ public class DownloadController {
             bullet.setVideoid(Integer.valueOf(param.get("id")));
             Integer count = bulletService.insertSelective(bullet);
         }
-        map.put("code",0);
-        map.put("data",param);
+        map.put("code", 0);
+        map.put("data", param);
         return JSON.toJSONString(map);
 //        {id=98, author=DIYgod, time=23.50655, text=你好, color=16777215, type=0}
     }
@@ -155,12 +170,12 @@ public class DownloadController {
                     data.add(list);
                 });
             }
-                jsonObject.put("code", 0);
-                jsonObject.put("data", data);
-                System.out.println(jsonObject.toString());
-                return jsonObject.toString();
+            jsonObject.put("code", 0);
+            jsonObject.put("data", data);
+            System.out.println(jsonObject.toString());
+            return jsonObject.toString();
         } catch (Exception e) {
-           log.info("弹幕加载异常"+e.getMessage());
+            log.info("弹幕加载异常" + e.getMessage());
             jsonObject.put("code", 500);
             return jsonObject.toString();
         }

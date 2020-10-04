@@ -65,7 +65,6 @@ public class BlogController {
     //通过阅读量排序查询
     @RequestMapping(value = "/requestOrderByReadCount", method = RequestMethod.GET)
     public BaseResp requestOrderByReadCount(String page) {
-
         BaseResp baseResp = new BaseResp();
         baseResp = blogService.queryOrderByReadCount(page);
         return baseResp;
@@ -128,7 +127,8 @@ public class BlogController {
 
     //通过userId查找博文
     @RequestMapping(value = "/queryByUserId", method = RequestMethod.GET)
-    public BaseResp queryBlogByUserId(Blog blog) {
+    public BaseResp queryBlogByUserId(  Blog blog) {
+//        System.out.println(blog);
         BaseResp baseResp = new BaseResp();
         baseResp = blogService.queryByUserId(blog);
         return baseResp;

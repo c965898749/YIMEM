@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>WeUI</title>
+    <link rel="stylesheet" href="css/weui.min.css"/>
+</head>
+<body>
+<div class="container" id="container">
+
+<div class="weui_msg">
+    <div class="weui_icon_area"><img src="imgs/jh/template33.png" style="width: 70px;height: 70px" alt=""></div>
+    <div class="weui_text_area">
+        <!--<p class="weui_msg_title">YiMem app</p>-->
+        <!--<p class="weui_msg_desc">YiMem官方app</p>-->
+        <p class="weui_msg_desc">版号 YM 2020/10/04 0.0.1</p>
+    </div>
+    <div class="weui_opr_area">
+        <p class="weui_btn_area">
+            <a href="javascript:;" class="weui_btn weui_btn_primary" onclick="downbtn()">点击下载</a>
+            <a href="javascript:;" class="weui_btn weui_btn_default">取消</a>
+        </p>
+    </div>
+    <div class="weui_text_area">
+        <!--<h2 class="weui_msg_title">点击下载</h2>-->
+        <p class="weui_msg_desc">历史版号</p>
+    </div>
+    <div class="weui_extra_area">
+        <a href="">查看详情</a>
+    </div>
+</div>
+
+</div>
+<script type="text/javascript" src="js/zepto.min.js"></script>
+<script>
+    function downbtn() {
+        location.href = "YiMemapp?id=" + 132;
+    }
+</script>
+</body>

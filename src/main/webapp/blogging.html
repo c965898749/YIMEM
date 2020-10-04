@@ -203,7 +203,7 @@
     <div class="textareaContain">
         <textarea id="editor_id" name="content" ></textarea>
     </div>
-    <div class="folw">＜</div>
+    <!--<div class="folw">＜</div>-->
     <div class="view">
     </div>
 </div>
@@ -282,7 +282,7 @@
             },
             afterChange:function () {
                 $(".view").html(this.html())
-                SyntaxHighlighter.highlight()
+                // SyntaxHighlighter.highlight()
             }
         });
         //发布文章点击事件
@@ -328,21 +328,21 @@
          })
 
 
-        //预览点击事件
-        $(".folw").click(function () {
-            var type = $(".folw").text()
-            if (type == "＞") {
-                type = $(".folw").text("＜")
-                $(".view").css("display", "none")
-                $(".textareaContain").css("width", "1130px")
-            } else {
-                type = $(".folw").text("＞")
-                $(".view").css("display", "block")
-                $(".textareaContain").css("width", "550px")
-
-            }
-            // $(".view").html($(".view").html())
-        })
+        // //预览点击事件
+        // $(".folw").click(function () {
+        //     var type = $(".folw").text()
+        //     if (type == "＞") {
+        //         type = $(".folw").text("＜")
+        //         $(".view").css("display", "none")
+        //         $(".textareaContain").css("width", "1130px")
+        //     } else {
+        //         type = $(".folw").text("＞")
+        //         $(".view").css("display", "block")
+        //         $(".textareaContain").css("width", "550px")
+        //
+        //     }
+        //     // $(".view").html($(".view").html())
+        // })
 
 
     });

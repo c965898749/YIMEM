@@ -589,6 +589,7 @@
     function loadReq(pageNum, createtime, readCount) {
         //console.log(pageNum+"----"+createtime+"------"+readCount+"-------"+bloguserid)
         $.ajax({
+            // JSON.stringify()
             url: "/blog/queryByUserId",
             data: {
                 "userid": bloguserid,

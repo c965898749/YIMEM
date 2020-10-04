@@ -54,7 +54,7 @@ public class UploadController {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("资源查询异常");
         }
-        if ("flac".equals(upload.getLeixin2())||"mp3".equals(upload.getLeixin2())||"mp4".equals(upload.getLeixin2())){
+        if ("pdf".equals(upload.getLeixin2())||"flac".equals(upload.getLeixin2())||"mp3".equals(upload.getLeixin2())||"mp4".equals(upload.getLeixin2())){
             baseResp.setSuccess(200);
             baseResp.setData(upload.getSrc());
         }else {
