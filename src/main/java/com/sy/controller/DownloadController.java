@@ -4,16 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sy.expection.CsdnExpection;
-import com.sy.model.Bullet;
-import com.sy.model.Download;
-import com.sy.model.Upload;
-import com.sy.model.User;
+import com.sy.model.*;
 import com.sy.model.resp.BaseResp;
 import com.sy.model.resp.ResultCode;
-import com.sy.service.BulletService;
-import com.sy.service.DownloadService;
-import com.sy.service.UploadService;
-import com.sy.service.UserServic;
+import com.sy.service.*;
 import com.sy.tool.Xtool;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -32,6 +26,8 @@ import java.util.Map;
 
 @Controller
 public class DownloadController {
+    @Autowired
+    private AppService appService;
     @Autowired
     private UploadService service;
     @Autowired
@@ -98,14 +94,41 @@ public class DownloadController {
         return "redirect:404.html";
     }
 
+    @RequestMapping(value = "getAllapp", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResp getAll(){
+        BaseResp baseResp=new BaseResp();
+        try {
+            List<App> list= appService.selectAll();
+            if (Xtool.isNotNull(list)){
+                baseResp.setSuccess(200);
+                baseResp.setData(list);
+                return baseResp;
+            }else {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("为找到资源");
+                return baseResp;
+            }
+        } catch (Exception e) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("服务器异常");
+           return baseResp;
+        }
+
+    }
+
+
     @RequestMapping(value = "YiMemapp", method = RequestMethod.GET)
     public String YiMemapp(Integer id)  throws IOException {
 //    再查看资源是否存在
         String path = null;
         Upload upload = new Upload();
         try {
-            upload = service.findById(132);
+            upload = service.findById(id);
             path = upload.getSrc();
+            //记录下载次数
+            upload.setHot(upload.getHot() + 1);
+            service.updatahot(upload);
             return "redirect:" + path + "?attname=" + URLEncoder.encode(upload.getName(), "UTF-8");
         } catch (CsdnExpection csdnExpection) {
             return "redirect:404.html";

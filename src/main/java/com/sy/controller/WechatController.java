@@ -38,6 +38,7 @@ public class WechatController {
 
     /**
      * 2020/8/10 后不再使用的扫码登录方式 改造成账号绑定机制
+     *
      * @param request
      * @return
      * @throws Exception
@@ -50,7 +51,22 @@ public class WechatController {
     }
 
     /**
+     * 获取我的音乐
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getMusic", method = RequestMethod.GET)
+    @ResponseBody
+    public String getMusic(HttpServletRequest request) throws Exception {
+        String state = WxUtils.getURL(Constants.APPID, Constants.REDIRECT_URI2, request.getSession().getId());
+        return state;
+    }
+
+    /**
      * 2020/8/10 使用微信官方自带二维码生成结构
+     *
      * @param request
      * @return
      * @throws Exception
@@ -58,9 +74,9 @@ public class WechatController {
     @RequestMapping(value = "/getURL2", method = RequestMethod.GET)
     @ResponseBody
     public String getURL2(HttpServletRequest request) throws Exception {
-        String state=weixinPostService.getTicketData(request.getSession().getId());
-        log.info("Ticket号是："+state+"---Sessionid是："+request.getSession().getId());
-        return  java.net.URLDecoder.decode(state, "UTF-8");
+        String state = weixinPostService.getTicketData(request.getSession().getId());
+        log.info("Ticket号是：" + state + "---Sessionid是：" + request.getSession().getId());
+        return java.net.URLDecoder.decode(state, "UTF-8");
 
 //        String state = WxUtils.getURL(Constants.APPID, Constants.REDIRECT_URI, request.getSession().getId());
 //        return state;
@@ -69,6 +85,7 @@ public class WechatController {
 
     /**
      * 2020/8/10 后不再使用的扫码登录方式 改造成账号绑定机制
+     *
      * @param code
      * @param state
      * @param request
@@ -86,17 +103,35 @@ public class WechatController {
         String s = WxUtils.getLoginAcessToken(Constants.APPID, Constants.APPSECRET, code);
         WeiXin weiXin = JSONObject.parseObject(s, WeiXin.class);
         String openid = weiXin.getOpenid();
-        log.info("获取微信用户openid---"+openid);
-        String access_token=weiXin.getAccess_token();
-        String u=WxUtils.getWeiXinUser(access_token,openid);
-        WeiXinUser weiXinUser=JSONObject.parseObject(u,WeiXinUser.class);
-        log.info("获取微信用户————"+weiXinUser);
+        log.info("获取微信用户openid---" + openid);
+        String access_token = weiXin.getAccess_token();
+        String u = WxUtils.getWeiXinUser(access_token, openid);
+        WeiXinUser weiXinUser = JSONObject.parseObject(u, WeiXinUser.class);
+        log.info("获取微信用户————" + weiXinUser);
         request.getSession().setAttribute("weiXinUser", weiXinUser);
         return "banding";
     }
 
+    @RequestMapping(value = "/login2", method = RequestMethod.GET)
+    public String login2(String code, String state, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+        request.setCharacterEncoding("UTF-8");  //微信服务器POST消息时用的是UTF-8编码，在接收时也要用同样的编码，否则中文会乱码；
+        response.setCharacterEncoding("UTF-8"); //在响应消息（回复消息给用户）时，也将编码方式设置为UTF-8，原理同上；
+//       TODO 暂时切换session
+//        HttpSession session = MySessionContext.getSession(state);
+        String s = WxUtils.getLoginAcessToken(Constants.APPID, Constants.APPSECRET, code);
+        WeiXin weiXin = JSONObject.parseObject(s, WeiXin.class);
+        String openid = weiXin.getOpenid();
+        log.info("我的音乐");
+        User user = userServic.getUserByopenid(openid);
+        if (user != null) {
+            request.getSession().setAttribute("user", user);
+        }
+        return "redirect:/mymusic.html";
+    }
+
+
     @RequestMapping(value = "/zhuce", method = RequestMethod.GET)
-    public String zhuce(){
+    public String zhuce() {
         return "zhuce";
     }
 
@@ -136,11 +171,11 @@ public class WechatController {
 
                 try {
                     respMessage = weixinPostService.weixinPost(request);
-                    if (respMessage!=null){
+                    if (respMessage != null) {
                         out.write(respMessage);
                     }
                 } catch (Exception e) {
-                   log.info("Failed to convert the message from weixin!");
+                    log.info("Failed to convert the message from weixin!");
                 }
 
             }
@@ -156,18 +191,18 @@ public class WechatController {
      */
     @RequestMapping(value = "/sendMesg", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void sendMesg(String Message,HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void sendMesg(String Message, HttpServletRequest request, HttpServletResponse response) throws IOException {
         log.info("主动触发消息------------------------");
         Date day = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if (Xtool.isNotNull(Message)){
+        if (Xtool.isNotNull(Message)) {
             WeiXinUser weiXinUser = (WeiXinUser) request.getSession().getAttribute("weiXinUser");
-            User xx=userServic.getUserByopenid(weiXinUser.getOpenid());
-            if (weiXinUser!=null&&xx!=null&&Xtool.isNotNull(xx.getOpenid())){
-                if ("banding".equals(Message)){
-                    weixinPostService.sendTemplate2(xx.getOpenid(),xx.getUsername(),weiXinUser.getNickname(),df.format(day));
-                }  else {
-                    weixinPostService.sendTemplate3(xx.getOpenid(),weiXinUser.getNickname(),xx.getUsername(),df.format(day));
+            User xx = userServic.getUserByopenid(weiXinUser.getOpenid());
+            if (weiXinUser != null && xx != null && Xtool.isNotNull(xx.getOpenid())) {
+                if ("banding".equals(Message)) {
+                    weixinPostService.sendTemplate2(xx.getOpenid(), xx.getUsername(), weiXinUser.getNickname(), df.format(day));
+                } else {
+                    weixinPostService.sendTemplate3(xx.getOpenid(), weiXinUser.getNickname(), xx.getUsername(), df.format(day));
                 }
             }
 

@@ -5,6 +5,7 @@
     <title>Title</title>
     <script src="jquery/jquery.js"></script>
     <link rel="stylesheet" href="font/cheatin.css">
+    <script src="js/qrcode.min.js"></script>
     <script>
         var _hmt = _hmt || [];
         (function() {
@@ -187,6 +188,21 @@
             display: none;
             z-index: 9999;
         }
+        #appma{
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .8);
+            background: white;
+            border: 2px black solid;
+            padding: 5px;
+            margin-left: -50px;
+            height: 150px;
+            width: 150px;
+            position: absolute;
+            display: none;
+            z-index: 9999;
+        }
+        .appmak:hover #appma{
+            display: block;
+        }
         .Tmylist li{
             width: 100%;
             height: 20px;
@@ -204,13 +220,18 @@
         <ul class="Tcontain1">
             <li title="首页" style="display: flex"><span style="font-family: Cheatin;font-size: 45px"><span style="color: red">Y</span>ImEm</span><a href="index.html"  id="home_page">首页</a></li>
             <li title="博客"><a href="blog_page.html" id="blog_page">博客</a></li>
-            <li title="下载"><a href="download.html?type=1" id="down_load">下载</a></li>
+            <li title="下载资源"><a href="download.html?type=1" id="down_load">下载</a></li>
             <li title="仿DZ论坛"><a href="forum.html" id="forum_html">论坛</a></li>
             <li title="Discuz论坛"><a href="http://admin.yimem.com:59754" id="discuz_html">Discuz论坛</a></li>
             <!--<li title="问答"><a href="questions.html" id="questions_html">问答</a></li>-->
             <li title="娱乐"><a href="game.html" id="game_html">娱乐</a></li>
-            <li title="工具"><a href="tool.html" id="tool_html">工具</a></li>
-            <li title="默默"><a href="app.html" id="app_html" style="pointer-events: none;">默默</a></li>
+            <li title="实用工具"><a href="tool.html" id="tool_html">工具</a></li>
+            <!--<li title="默默"><a href="app.html" id="app_html" style="pointer-events: none;">默默</a></li>-->
+            <li title="看视频"><a href="app.html" id="app_html" >默默</a></li>
+            <li class="appmak">本站app
+                <!--<div class="appma"><img style="height: 100%;width: 100%" src="imgs/saoma/app.png" alt=""></div>-->
+                <div id="appma"></div>
+            </li>
             <li>
                 <div id="searchtihing" style="border:1px solid #CCCCCC;border-radius: 10px;width: 250px;height: 32px;margin-top: 5px;display: flex">
                     <input type="text" placeholder="请输入搜索内容" id="searchValue" onkeydown='test()'>
@@ -247,6 +268,7 @@
     var usermsg=getUser()
     $(function () {
         blogClick()
+        ma()
         //渲染
         if (usermsg.success!=1){
             var str = window.location.href
@@ -259,6 +281,23 @@
         messageAlert()
     })
 
+    //适配微信端的扫码
+   function ma() {
+       //初始化存放二维码的div
+       var qrcode = new QRCode(document.getElementById("appma"), {
+           width : 150,
+           height : 150
+       });
+       //window.location.href获取到URL
+       let url='http://www.yimem.com/Msg.html'
+       if (url.indexOf('?') >0) {
+           url+="&"+Math.random();
+       } else {
+           url+="?"+Math.random();
+       }
+       qrcode.makeCode(url);
+       // qrcode.makeCode('https://www.baidu.com');
+   }
     //消息数字提示
     function messageAlert(){
         if(usermsg.success==1){

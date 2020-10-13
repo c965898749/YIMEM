@@ -107,6 +107,40 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     } else if (content.equals("广告") || content.equals("广告租用")) {
                         String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:18932200163\n或加微信:c965898749";
                         text.setContent(tt);
+                    }else if (content.equals("App下载") || content.equals("app下载")) {
+                        String message = null;
+                        Image image = new Image();
+                        AccessToken token = this.getAccessToken(toUserName);
+//                        log.info("access_token为---------"+token.getToken());
+                        String path = request.getSession().getServletContext().getRealPath("/imgs/saoma/app.png");
+                        image.setMediaId(this.upload(path, token.getToken(), "image"));
+//                        log.info("MediaId为---------"+image.getMediaId());
+                        ImageMessage imageMessage = new ImageMessage();
+                        imageMessage.setFromUserName(toUserName);
+                        imageMessage.setToUserName(fromUserName);
+                        imageMessage.setMsgType("image");
+                        imageMessage.setCreateTime(new Date().getTime() + "");
+                        imageMessage.setImage(image);
+                        message = MessageUtil.textMessageToXml(imageMessage);
+                        return message;
+                    }else if (content.equals("我的音乐")) {
+                        if (Constants.TO_USER_NAME.equals(toUserName)){
+                            text.setContent("<a href='http://www.yimem.com/Cell.html?type='mymusic''>点击播放</a>");
+                            text.setToUserName(fromUserName);
+                            text.setFromUserName(toUserName);
+                            text.setCreateTime(new Date().getTime() + "");
+                            text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                            respMessage = MessageUtil.textMessageToXml(text);
+
+                        }else {
+                            text.setContent("请关注本站测试公众\n\n输入或语音 账号绑定");
+                            text.setToUserName(fromUserName);
+                            text.setFromUserName(toUserName);
+                            text.setCreateTime(new Date().getTime() + "");
+                            text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                            respMessage = MessageUtil.textMessageToXml(text);
+                        }
+
                     }
                 text.setToUserName(fromUserName);
                 text.setFromUserName(toUserName);
@@ -171,7 +205,40 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         text.setCreateTime(new Date().getTime() + "");
                         text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                         respMessage = MessageUtil.textMessageToXml(text);
-                    } else {
+                    } else if (recvMessage.equals("App下载") || recvMessage.equals("app下载")) {
+                        String message = null;
+                        Image image = new Image();
+                        AccessToken token = this.getAccessToken(toUserName);
+//                        log.info("access_token为---------"+token.getToken());
+                        String path = request.getSession().getServletContext().getRealPath("/imgs/saoma/app.png");
+                        image.setMediaId(this.upload(path, token.getToken(), "image"));
+//                        log.info("MediaId为---------"+image.getMediaId());
+                        ImageMessage imageMessage = new ImageMessage();
+                        imageMessage.setFromUserName(toUserName);
+                        imageMessage.setToUserName(fromUserName);
+                        imageMessage.setMsgType("image");
+                        imageMessage.setCreateTime(new Date().getTime() + "");
+                        imageMessage.setImage(image);
+                        message = MessageUtil.textMessageToXml(imageMessage);
+                        return message;
+                    }else if (recvMessage.equals("我的音乐")) {
+                        if (Constants.TO_USER_NAME.equals(toUserName)){
+                            text.setContent("<a href='http://www.yimem.com/Cell2.html'>点击播放</a>");
+                            text.setToUserName(fromUserName);
+                            text.setFromUserName(toUserName);
+                            text.setCreateTime(new Date().getTime() + "");
+                            text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                            respMessage = MessageUtil.textMessageToXml(text);
+
+                        }else {
+                            text.setContent("请关注本站测试公众\n\n输入或语音 账号绑定");
+                            text.setToUserName(fromUserName);
+                            text.setFromUserName(toUserName);
+                            text.setCreateTime(new Date().getTime() + "");
+                            text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                            respMessage = MessageUtil.textMessageToXml(text);
+                        }
+                    }else {
                         StringBuffer stringBuffer = this.getTextMessage(recvMessage);
                         log.info("微信输出信息-------------" + stringBuffer.toString());
                         text.setToUserName(fromUserName);
@@ -294,7 +361,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
         stringBuffer.append("小梦，为您搜寻:" + "  " + recvMessage + "  相关资源");
         int count;
         baseResp = searchService.queryAll(recvMessage);
-//                    log.info("查询结果-------------"+baseResp.toString());
+                    log.info("查询结果-------------"+baseResp.toString());
         Map<String, Object> map = (Map<String, Object>) baseResp.getData();
         if (!CollectionUtils.isEmpty(map)) {
             List<Blog> blogList = (List<Blog>) map.get("Blog");

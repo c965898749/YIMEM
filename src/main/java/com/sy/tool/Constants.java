@@ -45,6 +45,7 @@ public class Constants {
     public static final String SIGN_TYPE = "RSA2";
 
     public static final String REDIRECT_URI = "http%3A%2F%2Fwww.yimem.com%2Fwechat%2Flogin";
+    public static final String REDIRECT_URI2 = "http%3A%2F%2Fwww.yimem.com%2Fwechat%2Flogin2";
 
     public static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 

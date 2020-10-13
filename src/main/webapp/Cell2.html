@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>绑定</title>
+    <title>音乐</title>
     <link rel="stylesheet" href="css/weui.min.css"/>
 </head>
 <body>
@@ -31,18 +31,19 @@
 <script type="text/javascript" src="js/zepto.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script>
-        $.ajax({
-            url: '/wechat/getURL',
-            type: 'GET',
-            dataType: 'text',
-            error: function () {
 
-            },
-            success: function (jsonData) {
-                console.log(jsonData)
-                window.location.href = jsonData;
-            }
-        });
+    $.ajax({
+        url: '/wechat/getMusic',
+        type: 'GET',
+        dataType: 'text',
+        error: function () {
+
+        },
+        success: function (jsonData) {
+            console.log(jsonData)
+            window.location.href = jsonData;
+        }
+    });
 
 </script>
 </body>
