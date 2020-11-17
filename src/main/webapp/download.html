@@ -580,7 +580,7 @@
                          作者/分享人：<a style="text-decoration : none" href="perInfor.html?viewUserId=${eachobj.userid}&type=blog">${eachobj.user.nickname}</a> 下载数 ${eachobj.hot}
                           </span>
                 </div>
-            </div>`
+            </div>`;
                     $(".recommend").append(html);
                     if (index > 4) {
                         return false;
@@ -987,7 +987,7 @@
                                     }
                                     var filesize = item.size;
                                     daxiao = renderSize(filesize);
-                                    lis.push(`<div class="list"  data-id="` + item.id + `">
+                                    lis.push(`<div class="list"  data-id="` + item.id + `" data-leix="${item.leixin2}">
 												<div class="img-left">
 													<img src="imgs/filetype/` + path + `.svg" style="width: 42px;height: 48px;"/>
 												</div>
@@ -1008,6 +1008,7 @@
 													</span> <span style="color: #ff9358;font-size: 32px;">
 														` + item.price + `
 													</span>
+													<div><a class="goToPageB" target="_blank" href="detailpage.html?id=` + item.id + `">预览  <img style="width: 20px;height: 20px;" src="/imgs/btn/blog/yulang.png" alt="" ></a></div>
 												</div>
 											</div>`);
                                 });
@@ -1016,6 +1017,12 @@
                                 //////////////console.log(res.count)
                                 next(lis.join(''), page < res.count); //假设总页数为 10
                                 // clik()
+                                $('.goToPageB').on('click',function() {
+                                    console.log("点击");
+                                    let leix = $(this).parents(".list").attr("data-leix");
+                                    console.log(leix);
+                                    sessionStorage.setItem("from",leix);
+                                })
                             },
                             error: function (xhr) {
 

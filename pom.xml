@@ -403,7 +403,8 @@
             <extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
           </compilerArguments>
         </configuration>
-      </plugin>      <plugin>
+      </plugin>
+      <plugin>
         <groupId>org.mybatis.generator</groupId>
         <artifactId>mybatis-generator-maven-plugin</artifactId>
         <version>1.3.7</version>

@@ -199,8 +199,22 @@
         $(".video").hide()
         $(".lists").show()
     }
+
+    window.onload = function() {
+        console.log("进入");
+        var from = sessionStorage.getItem("from");
+        // console.log("ZXXX-----------------"+from);
+        // sessionStorage.setItem("from","");
+        if(from) {
+            //balabala  要触发的点击事件  $('#xxx').click()
+            console.log("类型-----------------"+from);
+            sessionStorage.setItem("from",""); //销毁 from 防止在b页面刷新 依然触发$('#xxx').click()
+            bacak2(from)
+        }
+    }
+
     function bacak2(zleixin) {
-        // ////console.log(zleixin)
+       console.log(zleixin)
         if (zleixin=="flac"||zleixin=="mp3"||zleixin=="mp4"||zleixin=="pdf") {
             $.ajax({
                 url: "upload/yulang",

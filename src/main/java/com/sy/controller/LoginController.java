@@ -35,11 +35,11 @@ public class LoginController {
      * 跳转到登录页面
      * @return
      */
-    @RequestMapping("/admin.html")
-    public String toIndex(){
-
-        return "index";
-    }
+//    @RequestMapping("/admin.html")
+//    public String toIndex(){
+//
+//        return "index";
+//    }
 
     @RequestMapping("/kk")
     public String kk(){
