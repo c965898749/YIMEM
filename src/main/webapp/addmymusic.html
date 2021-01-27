@@ -14,7 +14,7 @@
 </head>
 <body>
 <div id="titleContai">
-    <include src="title.html"></include>
+    <!--<include src="title.html"></include>-->
 </div>
 <div class="NAV">
     <div class="NAV-Detail" style="width: 800px;margin: 0 auto">
@@ -75,6 +75,7 @@
 <script src="layui/layui.all.js"></script>
 <script>
     //Demo
+    $("#titleContai").load("title.html")
     layui.use('form', function(){
         var form = layui.form;
 

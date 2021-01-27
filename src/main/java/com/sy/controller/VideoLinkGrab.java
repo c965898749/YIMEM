@@ -41,9 +41,8 @@ public class VideoLinkGrab {
 //        videoLinkGrab.saveData("http://www.y80s.com/movie/list/");
         videoLinkGrab.saveData("http://www.y80s.com/movie/40606");
     }
-
-    @Scheduled(cron = "0 0 3 ? * *")
-//    @Scheduled(cron = "0 */1 * * * ?")
+    //每周星期天凌晨1点实行一次
+    @Scheduled(cron = "0 0 23 ? * MON")
     public void Reptilia() {
         System.out.println("执行");
         VideoLinkGrab videoLinkGrab = new VideoLinkGrab();

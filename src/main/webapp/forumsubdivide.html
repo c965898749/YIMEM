@@ -151,7 +151,7 @@
 
 <body>
 <div id="titleContai">
-    <include src="title.html"></include>
+    <!--<include src="title.html"></include>-->
 </div>
 <div class="shousuo">
     <input type="button"
@@ -2055,6 +2055,7 @@
     var categoryid = getQueryString(pid);
     var invitation = null;
     var url = null;
+    $("#titleContai").load("title.html")
     $(function () {
         $("#userinfo").hide()
         renderAllinvitation()

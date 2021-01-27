@@ -30,7 +30,7 @@
 
 <body>
 <div id="titleContai">
-    <include src="title.html"></include>
+    <!--<include src="title.html"></include>-->
 </div>
 <div class="TOP">
     <div class="TOP-nav">
@@ -185,6 +185,7 @@
     var danmakuList;
     var coverUrl;  //封面地址
     var videoUrl;   //视频地址
+    $("#titleContai").load("title.html")
     $(".layui-input-block").on("click", function () {
 
         if ($("#zzz").prop("checked")) {

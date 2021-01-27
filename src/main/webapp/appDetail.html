@@ -38,7 +38,7 @@
 
 <body>
 <div id="titleContai">
-    <include src="title.html"></include>
+    <!--<include src="title.html"></include>-->
 </div>
 <div class="TOP">
     <div class="TOP-nav">
@@ -243,6 +243,7 @@
     var createtime = "";
     var region = "";
     var title = "";
+    $("#titleContai").load("title.html")
     if (user) {
         userissd = user.userId
         $(".head").html(`<img class="icon userInfoIcon" src="${user.headImg}"/>`)

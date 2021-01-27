@@ -78,7 +78,7 @@
 </head>
 <body>
 <div id="titleContai">
-    <include src="title.html"></include>
+    <!--<include src="title.html"></include>-->
 </div>
 <div class="NAV">
     <div class="NAV-Detail" style="width: 1200px;margin: 0 auto">
@@ -112,6 +112,7 @@
     var name=""
     var pageNum=1
     var pageSize=5
+    $("#titleContai").load("title.html")
     function muic(){
         const playerOption = {// 设置播放器基本参数
             container: document.getElementById('aplayer'),

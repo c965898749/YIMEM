@@ -142,7 +142,7 @@
 
     <body>
     <div id="titleContai">
-        <include src="title.html" ></include>
+        <!--<include src="title.html" ></include>-->
     </div>
         <div class="shousuo">
             <input type="button"
@@ -541,6 +541,7 @@
         }
         var invitation = null;
         var url = null;
+        $("#titleContai").load("title.html")
         $(function () {
             selcetRoot()
             jinpin()

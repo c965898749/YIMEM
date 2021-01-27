@@ -50,7 +50,7 @@
 
 <body>
 <div id="titleContai">
-    <include src="title.html"></include>
+    <!--<include src="title.html"></include>-->
 </div>
 <div class="TOP">
     <div class="TOP-nav">
@@ -270,6 +270,7 @@
     var region = "";
     var title = "";
     //获取登入者ID
+    $("#titleContai").load("title.html")
     var user = getUser();
     var userid = 0;
     if (user) {
