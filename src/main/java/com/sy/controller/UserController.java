@@ -508,4 +508,15 @@ public class UserController {
             return resp;
         }
     }
+
+
+    @RequestMapping(value = "isnormal", method = RequestMethod.POST)
+    public BaseResp isnormal(HttpServletResponse res) {
+        BaseResp resp = new BaseResp();
+        resp.setSuccess(200);
+        res.setStatus(200);
+        resp.setErrorMsg("网站正常运行");
+        return  resp;
+    }
+
 }
