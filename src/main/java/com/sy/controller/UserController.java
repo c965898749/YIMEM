@@ -510,7 +510,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "isnormal", method = RequestMethod.POST)
+    @RequestMapping(value = "isnormal")
     public BaseResp isnormal(HttpServletResponse res) {
         BaseResp resp = new BaseResp();
         resp.setSuccess(200);
