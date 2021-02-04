@@ -511,12 +511,8 @@ public class UserController {
 
 
     @RequestMapping(value = "isnormal")
-    public BaseResp isnormal(HttpServletResponse res) {
-        BaseResp resp = new BaseResp();
-        resp.setSuccess(200);
+    public void isnormal(HttpServletResponse res) {
         res.setStatus(200);
-        resp.setErrorMsg("网站正常运行");
-        return  resp;
     }
 
 }
