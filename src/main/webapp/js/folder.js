@@ -125,7 +125,7 @@ function init(parent_id, mode) {
     //定义键盘按键弹起事件
     keyup();
     //将元素绑定拖拽方法--还没开发完
-    drag();
+    // drag();
 }
 
 //在历史记录中找到当前的节点
@@ -262,6 +262,11 @@ function contextMenu_folder() {
 function contextMenu_file() {
     $("#divall li.file").contextMenu('myMenu3', {
         bindings: {
+            'open': function (t) {
+                alert("打开这个文件");
+                // var id = $(t).children().attr("data-id");
+                // init(id, 6);
+            },
             'rename': function (t) {
                 //重命名
                 var folder = $(t).children("input.changename"),
@@ -1106,30 +1111,30 @@ var testFolderName = function (folderName) {
 
 //同一父目录下不能有同名目录或同名文档
 function judgeDocUpdate(id, name) {
-    // var pd = false;
-    var rows = select("M8610EQ002",{"id":id,"folder_name":name});
-    if(rows.length > 0){
-    	if (rows[0].count > 0) {
-            pd = true;
-        } else {
-            pd = false;
-        }
-    }
-    // return pd;
+    var pd = false;
+    // var rows = select("M8610EQ002",{"id":id,"folder_name":name});
+    // if(rows.length > 0){
+    // 	if (rows[0].count > 0) {
+    //         pd = true;
+    //     } else {
+    //         pd = false;
+    //     }
+    // }
+    return pd;
 };
 
 //新增目录、上传文档时校验同目录下是否有同名目录/文档
 function judgeDocExist(id, folder_name) {
-    // var pd = false;
-    var rows = select("M8610EQ003",{"id":id,"folder_name":folder_name});
-    if(rows.length > 0){
-    	if (rows[0].count > 0) {
-            pd = true;
-        } else {
-            pd = false;
-        }
-    }
-    // return pd;
+    var pd = false;
+    // var rows = select("M8610EQ003",{"id":id,"folder_name":folder_name});
+    // if(rows.length > 0){
+    // 	if (rows[0].count > 0) {
+    //         pd = true;
+    //     } else {
+    //         pd = false;
+    //     }
+    // }
+    return pd;
 }
 
 //选择文件时动态加载信息框
