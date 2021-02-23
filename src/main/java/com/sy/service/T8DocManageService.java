@@ -1,18 +1,15 @@
-package com.sy.mapper;
+package com.sy.service;
 
 import com.sy.model.T8DocManage;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-@Mapper
-public interface T8DocManageMapper {
 
-
-    int insert(T8DocManage record);
-
-
-
-
+/**
+ * @author CZX
+ * @version 1.0
+ * @date 2021/2/22 0022 23:45
+ */
+public interface T8DocManageService {
     T8DocManage selectByPrimaryKey(Integer id);
 
     List<T8DocManage> selectByparentId(Integer id);
@@ -24,10 +21,4 @@ public interface T8DocManageMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insertSelective(T8DocManage record);
-
-
-
-
-
-    int updateByPrimaryKey(T8DocManage record);
 }
