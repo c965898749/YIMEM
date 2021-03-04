@@ -11,8 +11,6 @@ public interface T8DocManageMapper {
     int insert(T8DocManage record);
 
 
-
-
     T8DocManage selectByPrimaryKey(Integer id);
 
     List<T8DocManage> selectByparentId(Integer id);
@@ -25,8 +23,8 @@ public interface T8DocManageMapper {
 
     int insertSelective(T8DocManage record);
 
-
-
+    List<T8DocManage> M8610EQ006(T8DocManage record);
+    List<T8DocManage> M8610EQ005(T8DocManage record);
 
 
     int updateByPrimaryKey(T8DocManage record);

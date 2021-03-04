@@ -6,6 +6,7 @@ import com.sy.service.T8DocManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -46,5 +47,15 @@ public class T8DocManageServiceImpl implements T8DocManageService {
     @Override
     public int insertSelective(T8DocManage record) {
         return t8DocManageMapper.insertSelective(record);
+    }
+
+    @Override
+    public List<T8DocManage> M8610EQ006(T8DocManage record) {
+        return t8DocManageMapper.M8610EQ006(record);
+    }
+
+    @Override
+    public List<T8DocManage> M8610EQ005(T8DocManage record) {
+        return t8DocManageMapper.M8610EQ005(record);
     }
 }

@@ -427,6 +427,25 @@ function contextMenu_blank() {
         }
     });
 }
+var check_res;
+function select(sqlExecute,params) {
+    $.ajax({
+        async:false,
+        url: sqlExecute,
+        data:JSON.stringify(params),
+        type: "POST",
+        dataType: "json",
+        contentType:'application/json;charset=utf-8',
+        success: function (jsonData) {
+            check_res= jsonData;
+        }
+        , error: function (res) {
+            //console.log("登入状态ajax提交错误")
+        }
+    })
+    return check_res;
+}
+
 
 //加载文件夹和文件
 function load() {
@@ -511,12 +530,16 @@ function info(mode, id) {
 function navigation(parent_id) {
     $("#navigation").val(parent_id);
     //查询文件路径
+    console.log("-------------------"+parent_id)
     var id = parent_id,
         flag = true,
         path = [],
         str = "";
-    do {
+    // do {
         var rows = select("M8610EQ005", {"id": id});
+        console.log("1111111111")
+        console.log(rows)
+        console.log("2222222")
         if (rows.length > 0) {
             var row = rows[0];
             if (row.parent_id != 0) {
@@ -533,7 +556,7 @@ function navigation(parent_id) {
                 });
             }
         }
-    } while (flag);
+    // } while (flag);
     $("#folder-navigation").empty();
     for (var i = 0; i < path.length; i++) {
         str += '<a class="foldername" data-id="' + path[i].parent_id + '">' + path[i].folder_name + '</a>';

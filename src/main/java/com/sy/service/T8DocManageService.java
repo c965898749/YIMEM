@@ -21,4 +21,7 @@ public interface T8DocManageService {
     int deleteByPrimaryKey(Integer id);
 
     int insertSelective(T8DocManage record);
+
+    List<T8DocManage> M8610EQ006(T8DocManage record);
+    List<T8DocManage> M8610EQ005(T8DocManage record);
 }

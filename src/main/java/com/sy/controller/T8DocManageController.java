@@ -4,6 +4,7 @@ import com.sy.model.T8DocManage;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.T8DocManageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,5 +61,17 @@ public class T8DocManageController {
     @RequestMapping(value = "insertSelective")
     public  Integer  insertSelective(T8DocManage record) {
         return t8DocManageService.insertSelective(record);
+    }
+
+
+    @RequestMapping(value = "M8610EQ006",method = RequestMethod.POST)
+    public  List<T8DocManage>  M8610EQ006(@RequestBody T8DocManage record) {
+        System.out.println(record.getId());
+        return t8DocManageService.M8610EQ006(record);
+    }
+    @RequestMapping(value = "M8610EQ005",method = RequestMethod.POST)
+    public  List<T8DocManage>  M8610EQ005(@RequestBody T8DocManage record) {
+        System.out.println(record.getId());
+        return t8DocManageService.M8610EQ005(record);
     }
 }

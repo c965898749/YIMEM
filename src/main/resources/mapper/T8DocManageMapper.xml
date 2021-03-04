@@ -33,6 +33,16 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
+
+
+  <select id="M8610EQ005"  resultType="com.sy.model.T8DocManage">
+    select folder_name,parent_id,is_directory from t8_doc_manage where id = #{id}
+  </select>
+
+  <select id="M8610EQ006"  resultType="com.sy.model.T8DocManage">
+    select id,folder_name,is_directory from t8_doc_manage where parent_id = #{id} order by is_directory desc,folder_name
+  </select>
+
   <select id="selectByparentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id,folder_name,is_directory from t8_doc_manage where parent_id = #{id} order by is_directory desc,folder_name
   </select>
