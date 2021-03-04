@@ -1,6 +1,6 @@
 //定义双向链表存放浏览历史
 var operation_history = new DbList({
-        "parent_id": "-1",
+        "parentId": "-1",
         "is_active": false
     }),
     timeOutFn = null,
@@ -9,19 +9,19 @@ var operation_history = new DbList({
     focus_index = -1;
 /*mode:1->复制  2->剪切
  * id:被复制或剪切的文件或文件夹的id
- * parent_id:被复制文件的上级目录id
+ * parentId:被复制文件的上级目录id
  * can_paste:false->不能黏贴 true->能黏贴
  * */
 oprate_param = {
     "mode": "",
     "id": "",
-    "parent_id": "",
+    "parentId": "",
     "can_paste": false
 };
 
-function init(parent_id, mode) {
+function init(parentId, mode) {
     //初始化导航栏
-    navigation(parent_id);
+    navigation(parentId);
     //将当前页面插入历史记录链表里面
     /*mode
      *0:初始化进入页面
@@ -40,7 +40,7 @@ function init(parent_id, mode) {
      */
     if (mode == 0) {
         operation_history.insertLast({
-            "parent_id": parent_id,
+            "parentId": parentId,
             "is_active": true
         });
     } else if (mode == 1) {
@@ -59,7 +59,7 @@ function init(parent_id, mode) {
         operation_history.removeAfter(currNode);
         currNode.element.is_active = false;
         operation_history.insertLast({
-            "parent_id": parent_id,
+            "parentId": parentId,
             "is_active": true
         });
     } else if (mode == 7) {
@@ -76,7 +76,7 @@ function init(parent_id, mode) {
         operation_history.removeAfter(currNode);
         currNode.element.is_active = false;
         operation_history.insertLast({
-            "parent_id": parent_id,
+            "parentId": parentId,
             "is_active": true
         });
     } else if (mode == 10) {
@@ -85,7 +85,7 @@ function init(parent_id, mode) {
         operation_history.removeAfter(currNode);
         currNode.element.is_active = false;
         operation_history.insertLast({
-            "parent_id": parent_id,
+            "parentId": parentId,
             "is_active": true
         });
     } else if (mode == 11) {
@@ -94,11 +94,11 @@ function init(parent_id, mode) {
         var currNode = find_active_node(),
             lastNode = operation_history.findLast();
         currNode.element.is_active = false;
-        if (lastNode.element.parent_id == parent_id) {
+        if (lastNode.element.parentId == parentId) {
             lastNode.element.is_active = true;
         } else {
             operation_history.insertLast({
-                "parent_id": parent_id,
+                "parentId": parentId,
                 "is_active": true
             });
         }
@@ -152,32 +152,34 @@ function contextMenu_folder() {
                 init(id, 6);
             },
             'rename': function (t) {
+              var div = document.getElementById('background2');
+              div.style.display = "block";
                 //重命名
                 var folder = $(t).children("input.changename"),
-                    folder_name = folder.val(),
+                    folderName = folder.val(),
                     id = folder.attr("data-id"),
-                    is_directory = $(t).hasClass("folder") ? 1 : 0;
+                    isDirectory = $(t).hasClass("folder") ? 1 : 0;
                 doc_type = $(t).hasClass("folder") ? "" : folder.attr("data-filetype"),
-                    parent_id = $("#navigation").val(),
+                    parentId = $("#navigation").val(),
                     params = {
-                        "folder_name": folder_name,
+                        "folderName": folderName,
                         "id": id,
-                        "is_directory": is_directory,
+                        "isDirectory": isDirectory,
                         "doc_type": doc_type,
-                        "parent_id": parent_id,
+                        "parentId": parentId,
                         "description": ""
                     };
-                update_folder_name(params)
+                update_folderName(params)
                 // form.setparams($("#M8610F001"), params);
                 // popup($("#M8610P001"));
             },
             'delete': function (t) {
                 //删除文件夹
                 var id = $(t).children("input.changename").attr("data-id"),
-                    is_directory = $(t).hasClass("folder") ? 1 : 0,
+                    isDirectory = $(t).hasClass("folder") ? 1 : 0,
                     params = {
                         "id": id,
-                        "is_directory": is_directory
+                        "isDirectory": isDirectory
                     };
                 dele(params);
             },
@@ -185,14 +187,14 @@ function contextMenu_folder() {
                 //将文件夹打包下载
                 var folder = $(t).children("input.changename"),
                     id = folder.attr("data-id"),
-                    is_directory = $(t).hasClass("folder") ? 1 : 0,
-                    folder_name = folder.val(),
-                    parent_id = $("#navigation").val(),
+                    isDirectory = $(t).hasClass("folder") ? 1 : 0,
+                    folderName = folder.val(),
+                    parentId = $("#navigation").val(),
                     params = {
                         "id": id,
-                        "is_directory": is_directory,
-                        "folder_name": folder_name,
-                        "parent_id": parent_id
+                        "isDirectory": isDirectory,
+                        "folderName": folderName,
+                        "parentId": parentId
                     };
                 download(params);
                 alert("下载成功!");
@@ -207,7 +209,7 @@ function contextMenu_folder() {
                 });
                 oprate_param.mode = 1;
                 oprate_param.id = focus_id;
-                oprate_param.parent_id = $("#navigation").val();
+                oprate_param.parentId = $("#navigation").val();
                 oprate_param.can_paste = true;
                 alert("copy了：" + focus_id);
             },
@@ -221,7 +223,7 @@ function contextMenu_folder() {
                 });
                 oprate_param.mode = 2;
                 oprate_param.id = focus_id;
-                oprate_param.parent_id = $("#navigation").val();
+                oprate_param.parentId = $("#navigation").val();
                 oprate_param.can_paste = true;
                 alert("cut了：" + focus_id);
             },
@@ -231,7 +233,7 @@ function contextMenu_folder() {
                 if (oprate_param.can_paste != true) {
                     alert("剪切板中无内容!");
                 } else {
-                    if (oprate_param.parent_id == id) {
+                    if (oprate_param.parentId == id) {
                         alert("文件已存在!");
                     } else {
                         //黏贴
@@ -270,17 +272,17 @@ function contextMenu_file() {
             'rename': function (t) {
                 //重命名
                 var folder = $(t).children("input.changename"),
-                    folder_name = folder.val(),
+                    folderName = folder.val(),
                     id = folder.attr("data-id"),
-                    is_directory = $(t).hasClass("folder") ? 1 : 0,
+                    isDirectory = $(t).hasClass("folder") ? 1 : 0,
                     doc_type = $(t).hasClass("folder") ? "" : folder.attr("data-filetype"),
-                    parent_id = $("#navigation").val(),
+                    parentId = $("#navigation").val(),
                     params = {
-                        "folder_name": folder_name,
+                        "folderName": folderName,
                         "id": id,
-                        "is_directory": is_directory,
+                        "isDirectory": isDirectory,
                         "doc_type": doc_type,
-                        "parent_id": parent_id,
+                        "parentId": parentId,
                         "description": ""
                     };
 
@@ -297,7 +299,7 @@ function contextMenu_file() {
                 });
                 oprate_param.mode = 1;
                 oprate_param.id = focus_id;
-                oprate_param.parent_id = $("#navigation").val();
+                oprate_param.parentId = $("#navigation").val();
                 oprate_param.can_paste = true;
                 alert("copy了：" + focus_id);
             },
@@ -311,17 +313,17 @@ function contextMenu_file() {
                 });
                 oprate_param.mode = 2;
                 oprate_param.id = focus_id;
-                oprate_param.parent_id = $("#navigation").val();
+                oprate_param.parentId = $("#navigation").val();
                 oprate_param.can_paste = true;
                 alert("cut了：" + focus_id);
             },
             'delete': function (t) {
                 //删除单个文件
                 var id = $(t).children("input.changename").attr("data-id"),
-                    is_directory = $(t).hasClass("folder") ? 1 : 0,
+                    isDirectory = $(t).hasClass("folder") ? 1 : 0,
                     params = {
                         "id": id,
-                        "is_directory": is_directory
+                        "isDirectory": isDirectory
                     };
                 dele(params);
             },
@@ -329,14 +331,14 @@ function contextMenu_file() {
                 //下载单个文件
                 var folder = $(t).children("input.changename"),
                     id = folder.attr("data-id"),
-                    is_directory = $(t).hasClass("folder") ? 1 : 0,
-                    folder_name = folder.val() + "." + folder.attr("data-filetype"),
-                    parent_id = $("#navigation").val(),
+                    isDirectory = $(t).hasClass("folder") ? 1 : 0,
+                    folderName = folder.val() + "." + folder.attr("data-filetype"),
+                    parentId = $("#navigation").val(),
                     params = {
                         "id": id,
-                        "is_directory": is_directory,
-                        "folder_name": folder_name,
-                        "parent_id": parent_id
+                        "isDirectory": isDirectory,
+                        "folderName": folderName,
+                        "parentId": parentId
                     };
                 //download(params);
                 alert("下载成功!");
@@ -366,18 +368,18 @@ function contextMenu_blank() {
         bindings: {
             'newfolder': function (t) {
                 //获取新文件夹的名称
-                var folder_names = [],
-                    newfolder_name = "";
+                var folderNames = [],
+                    newfolderName = "";
                 $("#all_folder").find("ul").eq(0).find("li.folder").each(function (index) {
-                    folder_names.push($(this).children("input.changename").val());
+                    folderNames.push($(this).children("input.changename").val());
                 });
                 for (var i = 0; i < 100; i++) {
                     if (i == 0) {
-                        newfolder_name = "新文件夹";
+                        newfolderName = "新文件夹";
                     } else {
-                        newfolder_name = "新文件夹[" + i + "]";
+                        newfolderName = "新文件夹[" + i + "]";
                     }
-                    if ($.inArray(newfolder_name, folder_names) == -1) {
+                    if ($.inArray(newfolderName, folderNames) == -1) {
                         break;
                     }
                     ;
@@ -386,7 +388,7 @@ function contextMenu_blank() {
                 var params = {
                     "id": $("#navigation").val(),
                     "discription": "",
-                    "folder_name": newfolder_name
+                    "folderName": newfolderName
                 };
                 var flag = add_folder(params);
                 if (flag) {
@@ -395,11 +397,11 @@ function contextMenu_blank() {
             },
             'paste': function (t) {
                 //黏贴
-                var parent_id = $("#navigation").val();
+                var parentId = $("#navigation").val();
                 if (oprate_param.can_paste != true) {
                     alert("无黏贴内容");
                 } else {
-                    if (oprate_param.parent_id == parent_id) {
+                    if (oprate_param.parentId == parentId) {
                         alert("文件已存在!");
                         paste(oprate_param);
                     } else {
@@ -418,8 +420,23 @@ function contextMenu_blank() {
                 init($("#navigation").val(), 4);
             },
             'upload': function (t) {
+              // btn.onclick = function show() {
+              //   //console.log(11111111111111)
+              //   div.style.display = "block";
+              // }
+              //console.log(11111111111111)
+              // close.onclick = function close() {
+              //     div.style.display = "none";
+              // }
+              var div = document.getElementById('background');
+              div.style.display = "block";
+              // window.onclick = function close(e) {
+              //   if (e.target == div) {
+              //     div.style.display = "none";
+              //   }
+              // }
                 //上传文件
-                var $M8610F002 = $("#M8610F002");
+                // var $M8610F002 = $("#M8610F002");
                 // K.form.reset($M8610F002);
                 // K.field.value($('#upload_id'), $("#navigation").val());
                 // K.popup($("#M8610P002"));
@@ -440,10 +457,66 @@ function select(sqlExecute,params) {
             check_res= jsonData;
         }
         , error: function (res) {
-            //console.log("登入状态ajax提交错误")
+            ////console.log("登入状态ajax提交错误")
         }
     })
     return check_res;
+}
+var  insert_res;
+function  insert(sqlExecute,params) {
+    $.ajax({
+        async:false,
+        url: sqlExecute,
+        data:JSON.stringify(params),
+        type: "POST",
+        dataType: "json",
+        contentType:'application/json;charset=utf-8',
+        success: function (jsonData) {
+            insert_res= jsonData;
+        }
+        , error: function (res) {
+            ////console.log("登入状态ajax提交错误")
+        }
+    })
+    return  insert_res;
+}
+
+var  update_res;
+function  update(sqlExecute,params) {
+    $.ajax({
+        async:false,
+        url: sqlExecute,
+        data:JSON.stringify(params),
+        type: "POST",
+        dataType: "json",
+        contentType:'application/json;charset=utf-8',
+        success: function (jsonData) {
+            update_res= jsonData;
+        }
+        , error: function (res) {
+            ////console.log("登入状态ajax提交错误")
+        }
+    })
+    return  update_res;
+}
+
+var  del_res;
+function  del(sqlExecute,params) {
+    $.ajax({
+        async:false,
+        url: sqlExecute,
+        data:JSON.stringify(params),
+        type: "POST",
+        dataType: "json",
+        contentType:'application/json;charset=utf-8',
+        success: function (jsonData) {
+            del_res= jsonData;
+        }
+        , error: function (res) {
+            ////console.log("登入状态ajax提交错误")
+        }
+    })
+    return  del_res;
 }
 
 
@@ -455,18 +528,18 @@ function load() {
     if (rows.length > 0) {
         var str = "";
         for (var i = 0; i < rows.length; i++) {
-            if (rows[i].is_directory == "1") {
-                str += "<li class='folder' title='" + rows[i].folder_name + "' index='" + i + "'><input type='text' class='changename' value='";
-                str += rows[i].folder_name;
-                str += "' data-id='" + rows[i].id + "' disabled='disabled' data-last-value='" + rows[i].folder_name + "'/></li>";
-            } else if (rows[i].is_directory == "0") {
-                var doc_fullname = rows[i].folder_name,
+            if (rows[i].isDirectory == "1") {
+                str += "<li class='folder' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
+                str += rows[i].folderName;
+                str += "' data-id='" + rows[i].id + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
+            } else if (rows[i].isDirectory == "0") {
+                var doc_fullname = rows[i].folderName,
                     doc_name = doc_fullname.substring(0, doc_fullname.lastIndexOf('.')),
                     doc_type = doc_fullname.substring(doc_fullname.lastIndexOf('.') + 1),
                     doc_type_class = $.inArray(doc_type, ["doc", "docx", "xls", "xlsx", "pdf"]) != -1 ? doc_type : "other-filetype";
-                str += "<li class='file " + doc_type_class + "' title='" + rows[i].folder_name + "' index='" + i + "'><input type='text' class='changename' value='";
+                str += "<li class='file " + doc_type_class + "' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
                 str += doc_name;
-                str += "' data-id='" + rows[i].id + "' data-filetype='" + doc_type + "' disabled='disabled' data-last-value='" + rows[i].folder_name + "'/></li>";
+                str += "' data-id='" + rows[i].id + "' data-filetype='" + doc_type + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
             }
         }
         $("#divall").append(str);
@@ -474,6 +547,7 @@ function load() {
 }
 
 function info(mode, id) {
+  console.log(222222222222222)
     var str = "";
     if (mode == 1) { //展示目录下的对象数目
         $("#info-bar").empty();
@@ -488,31 +562,31 @@ function info(mode, id) {
         var rows = select("M8610EQ008", {"id": id});
         if (rows.length > 0) {
             var row = rows[0],
-                folder_name = row.folder_name,
-                is_directory = row.is_directory,
-                file_type = is_directory == "1" ? "" : folder_name.substring(folder_name.lastIndexOf('.') + 1),
+                folderName = row.folderName,
+                isDirectory = row.isDirectory,
+                file_type = isDirectory == "1" ? "" : folderName.substring(folderName.lastIndexOf('.') + 1),
                 file_type_class = file_type == "" ? "folder" : ($.inArray(file_type, ["doc", "docx", "xls", "xlsx", "pdf"]) != -1 ? file_type : "other-filetype"),
-                file_type_info = is_directory == "1" ? "文件夹" : folder_name.substring(folder_name.lastIndexOf('.') + 1) + "文件",
-                crt_username = row.crt_username,
-                upd_username = row.upd_username,
-                crt_date = row.crt_date,
-                crt_time = row.crt_time,
-                upd_date = row.upd_date,
-                upd_time = row.upd_time;
+                file_type_info = isDirectory == "1" ? "文件夹" : folderName.substring(folderName.lastIndexOf('.') + 1) + "文件",
+                crtUsername = row.crtUsername,
+                updUsername = row.updUsername,
+                crtDate = row.crtDate,
+                crtTime = row.crtTime,
+                updDate = row.updDate,
+                updTime = row.updTime;
             str += '<div class="' + file_type_class + ' info-icon"></div><div class="info-detail"><form class="detail-form"><div class="detail-field" ><label>文件名:</label><span>';
-            str += folder_name;
+            str += folderName;
             str += '</span></div><div class="detail-field" ><label>创建人:</label><span>';
-            str += crt_username != null ? crt_username : '';
+            str += crtUsername != null ? crtUsername : '';
             str += '</span></div><div class="detail-field" ><label>修改人:</label><span>';
-            str += upd_username != null ? upd_username : '';
+            str += updUsername != null ? updUsername : '';
             str += '</span></div><div class="detail-field" ><label>文件类型:</label><span>';
             str += file_type_info;
             str += '</span></div><div class="detail-field" ><label>创建时间:</label><span>';
-            str += crt_date != "" && crt_date != null ? crt_date.substring(0, 4) + '/' + crt_date.substring(4, 6) + "/" + crt_date.substring(6, 8) : "";
-            str += crt_time != "" && crt_time != null ? "  " + crt_time.substring(0, 2) + ":" + crt_time.substring(2, 4) + ":" + crt_time.substring(4, 6) : "";
+            str += crtDate != "" && crtDate != null ? crtDate.substring(0, 4) + '/' + crtDate.substring(4, 6) + "/" + crtDate.substring(6, 8) : "";
+            str += crtTime != "" && crtTime != null ? "  " + crtTime.substring(0, 2) + ":" + crtTime.substring(2, 4) + ":" + crtTime.substring(4, 6) : "";
             str += '</span></div><div class="detail-field" ><label>修改时间:</label><span>';
-            str += upd_date != "" && upd_date != null ? upd_date.substring(0, 4) + '/' + upd_date.substring(4, 6) + "/" + upd_date.substring(6, 8) : "";
-            str += upd_time != "" && upd_time != null ? "  " + upd_time.substring(0, 2) + ":" + upd_time.substring(2, 4) + ":" + upd_time.substring(4, 6) : "";
+            str += updDate != "" && updDate != null ? updDate.substring(0, 4) + '/' + updDate.substring(4, 6) + "/" + updDate.substring(6, 8) : "";
+            str += updTime != "" && updTime != null ? "  " + updTime.substring(0, 2) + ":" + updTime.substring(2, 4) + ":" + updTime.substring(4, 6) : "";
             str += '</span></div></form></div>';
             $("#info-bar").append(str);
         }
@@ -527,39 +601,35 @@ function info(mode, id) {
     }
 }
 
-function navigation(parent_id) {
-    $("#navigation").val(parent_id);
+function navigation(parentId) {
+    $("#navigation").val(parentId);
     //查询文件路径
-    console.log("-------------------"+parent_id)
-    var id = parent_id,
+    var id = parentId,
         flag = true,
         path = [],
         str = "";
     // do {
         var rows = select("M8610EQ005", {"id": id});
-        console.log("1111111111")
-        console.log(rows)
-        console.log("2222222")
         if (rows.length > 0) {
             var row = rows[0];
-            if (row.parent_id != 0) {
+            if (row.parentId != 0) {
                 path.unshift({
-                    "folder_name": row.folder_name,
-                    "parent_id": id
+                    "folderName": row.folderName,
+                    "parentId": id
                 });
-                id = row.parent_id;
+                id = row.parentId;
             } else {
                 flag = false;
                 path.unshift({
-                    "folder_name": row.folder_name,
-                    "parent_id": id
+                    "folderName": row.folderName,
+                    "parentId": id
                 });
             }
         }
     // } while (flag);
     $("#folder-navigation").empty();
     for (var i = 0; i < path.length; i++) {
-        str += '<a class="foldername" data-id="' + path[i].parent_id + '">' + path[i].folder_name + '</a>';
+        str += '<a class="foldername" data-id="' + path[i].parentId + '">' + path[i].folderName + '</a>';
         if (i != path.length - 1) {
             str += '<img class="triangle" src="images/triangle.png"/>';
         }
@@ -594,7 +664,7 @@ function drag() {
         //$(".item_content .item").each(function(i) {
         this.init = function () { // 初始化
             this.box = $(this);
-            console.log("left: " + this.box.offset().left + " top: " + this.box.offset().top);
+            //console.log("left: " + this.box.offset().left + " top: " + this.box.offset().top);
             $(this).attr("index", i);
             // css({
             //                 position : "absolute",
@@ -693,7 +763,7 @@ function drag() {
                     oldPosition.left = this.box.offset().left;
 
                     oldPosition.top = this.box.offset().top;
-                    console.log("oldleft" + oldPosition.left + "oldtop" + oldPosition.top);
+                    //console.log("oldleft" + oldPosition.left + "oldtop" + oldPosition.top);
                     oldPointer.x = e.clientX;
                     oldPointer.y = e.clientY;
                     isDrag = true;
@@ -740,7 +810,7 @@ function leftClick() {
     //点击文件夹
     $("#divall li").click(function (event) {
         var $this = $(this),
-            folder_name = $this.children("input.changename"),
+            folderName = $this.children("input.changename"),
             index = $this.attr("index");
         if (is_ctrl_down == true && is_shift_down == false) { //按下ctrl
             event.stopPropagation();
@@ -782,8 +852,8 @@ function leftClick() {
             focus_index = index;
             clearTimeout(timeOutFn);
             timeOutFn = setTimeout(function () {
-                folder_name.removeAttr("disabled");
-                info(2, folder_name.attr("data-id"));
+                folderName.removeAttr("disabled");
+                info(2, folderName.attr("data-id"));
             }, 300);
         }
 
@@ -792,13 +862,16 @@ function leftClick() {
     $("#divall li input.changename").click(function (event) {
         if (is_ctrl_down == false) { //没有按下ctrl
             event.stopPropagation();
-            console.log("input click");
+            //console.log("input click");
         }
 
     });
     //点击空白的地方
     $("#all_folder").click(function () {
-        console.log("blank click");
+        //console.log("blank click");
+        document.getElementById('background').style.display = "none";
+        document.getElementById('background2').style.display = "none";
+
         $("#divall").find("li").each(function (index) {
             $(this).removeClass("focus");
             $(this).children("input.changename").attr("disabled", "disabled");
@@ -807,71 +880,81 @@ function leftClick() {
     });
     //点击后退按钮
     $("button.backward").off("click").click(function () {
-        console.log("backward click");
+      document.getElementById('background').style.display = "none";
+      document.getElementById('background2').style.display = "none";
+        //console.log("backward click");
         var currNode = find_active_node();
         if (currNode.previous.previous != null) {
             var preNode = currNode.previous,
-                parent_id = preNode.element.parent_id;
-            init(parent_id, 7);
+                parentId = preNode.element.parentId;
+            init(parentId, 7);
         }
     });
     //点击前进按钮
     $("button.forward").off("click").click(function () {
-        console.log("forward click");
+      document.getElementById('background').style.display = "none";
+      document.getElementById('background2').style.display = "none";
+        //console.log("forward click");
         var currNode = find_active_node();
         if (currNode.next != null) {
             var nextNode = currNode.next,
-                parent_id = nextNode.element.parent_id;
-            init(parent_id, 8);
+                parentId = nextNode.element.parentId;
+            init(parentId, 8);
         }
     });
     //点击主页按钮
     $("button.home").off("click").click(function () {
-        console.log("home click");
+      document.getElementById('background').style.display = "none";
+      document.getElementById('background2').style.display = "none";
+        //console.log("home click");
         if ($("#navigation").val() != 1) {
             init(1, 9);
         }
     });
     //点击返回上级目录
     $("button.gotopre").off("click").click(function () {
-        console.log("gotopre click");
+      document.getElementById('background').style.display = "none";
+      document.getElementById('background2').style.display = "none";
+        //console.log("gotopre click");
         if ($("#navigation").val() != 1) {
-            //查询上级目录的parent_id
+            //查询上级目录的parentId
             var rows = select("M8610EQ005", {"id": $("#navigation").val()});
             if (rows.length > 0) {
-                var parent_id = rows[0].parent_id;
-                if (parent_id != 0) {
-                    init(parent_id, 10);
+                var parentId = rows[0].parentId;
+                if (parentId != 0) {
+                    init(parentId, 10);
                 }
             }
         }
     });
     //点击地址栏地址
     $("a.foldername").off("click").click(function () {
-        var parent_id = $(this).attr("data-id");
-        if ($("#navigation").val() != parent_id) {
-            init(parent_id, 11);
+      document.getElementById('background').style.display = "none";
+      document.getElementById('background2').style.display = "none";
+        var parentId = $(this).attr("data-id");
+        if ($("#navigation").val() != parentId) {
+            init(parentId, 11);
         }
     });
 }
 
 function focus() {
     $("#divall li input.changename").focus(function () {
-        console.log("input focus");
+        //console.log("input focus");
     });
 
     $("#divall li").focus(function () {
-        console.log("li focus");
+        //console.log("li focus");
     });
 }
 
 function blur() {
     $("#divall li").blur(function () {
-        console.log("li blur");
+        //console.log("li blur");
     });
 
     $("#divall li input.changename").blur(function () {
-        console.log("input blur");
+        //console.log("input blur");
         $(this).attr("disabled", "disabled");
     });
 
@@ -879,24 +962,24 @@ function blur() {
 
 function change() {
     $("#divall li input.changename").change(function () {
-        console.log("input change");
+        //console.log("input change");
         var folder = $(this).parent("li"),
             data_last_value = $(this).attr("data-last-value"),
-            folder_name = $(this).val(),
+            folderName = $(this).val(),
             id = $(this).attr("data-id"),
-            is_directory = folder.hasClass("folder") ? 1 : 0,
+            isDirectory = folder.hasClass("folder") ? 1 : 0,
             doc_type = folder.hasClass("folder") ? "" : $(this).attr("data-filetype"),
-            parent_id = $("#navigation").val(),
+            parentId = $("#navigation").val(),
             params = {
-                "folder_name": folder_name,
+                "folderName": folderName,
                 "id": id,
-                "is_directory": is_directory,
+                "isDirectory": isDirectory,
                 "doc_type": doc_type,
-                "parent_id": parent_id,
+                "parentId": parentId,
                 "description": ""
             };
-        if (update_folder_name(params)) {
-            $(this).attr("data-last-value", folder_name);
+        if (update_folderName(params)) {
+            $(this).attr("data-last-value", folderName);
             info(2, $(this).attr("data-id"));
         } else {
             $(this).val(data_last_value);
@@ -907,7 +990,7 @@ function change() {
 function dbclick() {
     $("#divall li.folder").dblclick(function () {
         clearTimeout(timeOutFn);
-        console.log("li dblclick");
+        //console.log("li dblclick");
         var folder = $(this).children("input.changename");
         init(folder.attr("data-id"), 6);
     });
@@ -936,23 +1019,23 @@ function keyup() {
 //新增目录
 var add_folder = function (params) {
     var flag = false;
-    if (!testFolderName(params.folder_name)) {
+    if (!testFolderName(params.folderName)) {
         alert("文件夹名不能包括\\\/:*?\"<>|等特殊符号");
         return flag;
     }
-    if (judgeDocExist(params.id, params.folder_name)) {
+    if (judgeDocExist(params.id, params.folderName)) {
         alert("该目录已存在，不能添加");
         return flag;
     }
     var param = {
         description: params.description,
-        folder_name: params.folder_name,
-        is_directory: 1,
-        parent_id: params.id,
-        port_level: 1,
+        folderName: params.folderName,
+        isDirectory: 1,
+        parentId: params.id,
+        portLevel: 1,
         username: "semitree",
-        date: new Date().Format("yyyyMMdd"),
-        time: new Date().Format("hhmmss")
+        // date: new Date().Format("yyyyMMdd"),
+        // time: new Date().Format("hhmmss")
     };
     insert("M8610ES001", param);
     return true;
@@ -960,37 +1043,37 @@ var add_folder = function (params) {
 
 
 //修改文件名称
-var update_folder_name = function (params) {
-    var folder_name = "",
+var update_folderName = function (params) {
+    var folderName = "",
         flag = false;
-    if (params.is_directory == 1) {
-        folder_name = params.folder_name;
+    if (params.isDirectory == 1) {
+        folderName = params.folderName;
     } else {
-        folder_name = params.folder_name + '.' + params.doc_type;
+        folderName = params.folderName + '.' + params.doc_type;
     }
-    if (!testFolderName(params.folder_name)) {
+    if (!testFolderName(params.folderName)) {
         alert("文件名不能包括\\\/:*?\"<>|等特殊符号");
         return flag;
     }
-    if (judgeDocUpdate(params.id, folder_name)) {
+    if (judgeDocUpdate(params.id, folderName)) {
         alert("该目录/文档已存在，请重新输入!");
         return flag;
     }
-    var current_date = new Date(),
-        date = current_date.Format("yyyyMMdd"),
-        time = current_date.Format("hhmmss");
+    // var current_date = new Date(),
+    //     date = current_date.Format("yyyyMMdd"),
+    //     time = current_date.Format("hhmmss");
     update("M8610EU001", {
         "description": params.description,
-        "folder_name": params.folder_name,
+        "folderName": params.folderName,
         "username": "semitree",
-        "date": date,
-        "time": time,
+        // "date": date,
+        // "time": time,
         "id": params.id
     });
     flag = true;
     // K.popup.close($("#M8610P001"));
     //修改文件名
-    $("#divall").find("input[data-id=" + params.id + "]").val(params.folder_name);
+    $("#divall").find("input[data-id=" + params.id + "]").val(params.folderName);
     return flag;
 };
 
@@ -1035,20 +1118,20 @@ var uploadFile = function (params) {
                     height: 'auto',
                     content: "文件名过长!(支持50个中文或100个英文)"
                 });
-                console.log("文件名过长!(支持50个中文或100个英文)");
+                //console.log("文件名过长!(支持50个中文或100个英文)");
                 return false;
             }
         });
         $.each(fileNameWithSuffixList, function (index, docName) {
             var param = {
                 description: "",
-                folder_name: docName,
-                is_directory: 0,
-                parent_id: params.id,
-                port_level: 1,
+                folderName: docName,
+                isDirectory: 0,
+                parentId: params.id,
+                portLevel: 1,
                 username: "semitree",
-                date: new Date().Format("yyyyMMdd"),
-                time: new Date().Format("hhmmss")
+                // date: new Date().Format("yyyyMMdd"),
+                // time: new Date().Format("hhmmss")
             };
             insert("M8610ES001", param);
         });
@@ -1077,9 +1160,9 @@ var dele = function (params) {
 
 //删除文档或目录
 var deleteDoc = function (params) {
-    var is_directory = params.is_directory,
+    var isDirectory = params.isDirectory,
         id = params.id;
-    if (is_directory == 0) {//删除单个文件
+    if (isDirectory == 0) {//删除单个文件
         del("M8610ED001", {"id": id});
     } else {//删除文件夹
         //递归删除文件夹下所有的子文件和文件夹
@@ -1098,10 +1181,10 @@ var download = function (params) {
     // var $M8610F003 = $("#M8610F003");
     // K.form.reset($M8610F003);
     // K.field.value($('#_id'), params.id);
-    // K.field.value($('#p_id'), params.parent_id);
-    // K.field.value($('#f_name'), params.folder_name);
-    // K.field.value($('#i_directory'), params.is_directory);
-    if (params.is_directory == 1) {
+    // K.field.value($('#p_id'), params.parentId);
+    // K.field.value($('#f_name'), params.folderName);
+    // K.field.value($('#i_directory'), params.isDirectory);
+    if (params.isDirectory == 1) {
         confirm("是否打包下载整个文件夹?(可能需要较长时间，请耐心等待)", function (ok) {
             if (ok) {
                 //判断所下载的目录是否为空
@@ -1135,7 +1218,7 @@ var testFolderName = function (folderName) {
 //同一父目录下不能有同名目录或同名文档
 function judgeDocUpdate(id, name) {
     var pd = false;
-    // var rows = select("M8610EQ002",{"id":id,"folder_name":name});
+    // var rows = select("M8610EQ002",{"id":id,"folderName":name});
     // if(rows.length > 0){
     // 	if (rows[0].count > 0) {
     //         pd = true;
@@ -1147,9 +1230,9 @@ function judgeDocUpdate(id, name) {
 };
 
 //新增目录、上传文档时校验同目录下是否有同名目录/文档
-function judgeDocExist(id, folder_name) {
+function judgeDocExist(id, folderName) {
     var pd = false;
-    // var rows = select("M8610EQ003",{"id":id,"folder_name":folder_name});
+    // var rows = select("M8610EQ003",{"id":id,"folderName":folderName});
     // if(rows.length > 0){
     // 	if (rows[0].count > 0) {
     //         pd = true;
@@ -1218,7 +1301,7 @@ function textarea_bind() {
                 curLength = $(this).val().length,
                 span_html = "";
             span_html += '<span><var class="word">' + (maxLength - curLength) + '</var>/' + maxLength + '</span>';
-            console.log(span_html);
+            //console.log(span_html);
             $.pt({
                 target: self,
                 position: 'r',
