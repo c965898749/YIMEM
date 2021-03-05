@@ -194,9 +194,9 @@
                     <button type="button"
                             class="btn btn-success btn-icon icon-submit k-btn btn-sm"
                             data-from="#M8610F002" data-param-handler="uploadFile"
-                            data-descript="上传文件">提交
+                            data-descript="上传文件" onclick="uploadFile()">提交
                     </button>
-                    <button type="button" class="btn btn-default k-popup-close">取消</button>
+                    <button type="button" class="btn btn-default k-popup-close" onclick="closetanchuan()">取消</button>
                 </div>
             </div>
         </div>
@@ -240,17 +240,25 @@
                     </form>
                 </div>
                 <div class="panel-footer text-center">
-                    <button type="button"
+                    <button type="button" onclick="update_folderName()"
                             class="btn btn-success btn-icon icon-submit k-btn btn-sm"
                             data-from="#M8610F001" data-param-handler="update_folder_name"
                             data-descript="修改文件名称">确定
                     </button>
-                    <button type="button" class="btn btn-default k-popup-close">取消</button>
+                    <button type="button" onclick="closetanchuan()" class="btn btn-default k-popup-close">取消</button>
                 </div>
             </div>
         </div>
 
-
+        <table id="chooseImage"
+               style="cursor: pointer;margin-bottom: 20px;margin-left: 35px;margin-top: 10px;width: 1100px;height:100px;background-color: #F3F9FF"
+               border="0" cellspacing="0" cellpadding="0" align="center">
+            <tr>
+                <td align="center" style="position: absolute" id="">
+                    <div id="progressPersent" style="position: relative;left: 400px;top:30px"></div>
+                </td>
+            </tr>
+        </table>
         <!--<div id="background3" class="back">-->
             <!--<div id="div3" class="content">-->
                 <!--<div class="panel-heading" id="title">下载目录/文档</div>-->
@@ -303,7 +311,7 @@
                 <li id="paste">黏贴</li>
                 <li id="rename">重命名</li>
                 <li id="delete">删除</li>
-                <li id="download">打包下载</li>
+                <!--<li id="download">打包下载</li>-->
             </ul>
         </div>
         <!-- 在文件上面右键菜单 -->

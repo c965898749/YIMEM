@@ -2,17 +2,116 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>弹窗</title>
+    <link rel="stylesheet" type="text/css" href="弹窗.css">
+
 </head>
+<style>
+    body{
+        font-family: Arial,Helvetica,sans-serif;
+        font-size: 17px;
+        text-align: 1.5;
+    }
+
+    #open_btn {
+        background: #009900;
+    }
+
+    #background {
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+
+    #div1 {
+        background:#eeeeee;
+        width: 70%;
+        z-index: 1;
+        margin: 12% auto;
+        overflow: auto;
+    }
+
+    span {
+        color: white;
+        padding-top: 12px;
+        cursor: pointer;
+        padding-right: 15px;
+    }
+
+    #div2 {
+        background:#eeeeee;
+        margin: auto;
+        height: 300px;
+        padding: 0 20px;
+    }
+
+    #close {
+        padding: 5px;
+        background: #5cd31b;
+    }
+
+    #close-button {
+        float: right;
+        font-size: 30px;
+    }
+
+    #foot {
+        padding: 5px 0;
+        text-align: center;
+        background: #5cd31b;
+        color: white;
+    }
+
+    h2 {
+        margin: 10px 0;
+        color: white;
+        padding-left: 15px;
+    }
+
+    h3 {
+        margin: 0 0px;
+        padding-top: 15px;
+    }
+</style>
 <body>
-
-</body>
+<button id="open_btn" class="btn">弹窗</button>
+<!-- 弹窗内容开始 -->
+<div id="background" class="back">
+    <div id="div1" class="content">
+        <div id="close">
+            <span id="close-button">×</span>
+            <h2>弹窗头部</h2>
+        </div>
+        <div id="div2">
+            <h3>弹窗标题</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, ullam, nisi, enim laboriosam ea cum necessitatibus ipsum cupiditate neque soluta qui autem odit eligendi blanditiis voluptatem repellat suscipit quia perspiciatis.</p>
+        </div>
+        <h3 id="foot">底部内容</h3>
+    </div>
+</div>
+<!-- 弹窗内容结束 -->
 <script>
-    // window.location.href = 'pdf.html';
+    var btn = document.getElementById('open_btn');
+    var div = document.getElementById('background');
+    var close = document.getElementById('close-button');
 
-    location.href = '111.html';
+    btn.onclick = function show() {
+        div.style.display = "block";
+    }
+
+    close.onclick = function close() {
+        div.style.display = "none";
+    }
+
+    window.onclick = function close(e) {
+        if (e.target == div) {
+            div.style.display = "none";
+        }
+    }
 </script>
+</body>
 </html>

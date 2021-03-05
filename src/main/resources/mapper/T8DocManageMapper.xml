@@ -60,7 +60,8 @@
 
 
   <insert id="M8610ES001" parameterType="com.sy.model.T8DocManage">
-    insert into t8_doc_manage( folder_name, description, port_level, parent_id, is_directory,crt_username, crt_date, crt_time, upd_username, upd_date, upd_time) values(#{folderName},#{description},#{portLevel},#{parentId},#{isDirectory},#{username},now(),now(), NULL, NULL, NULL)
+    insert into t8_doc_manage( folder_name, description, port_level, parent_id, is_directory,crt_username, crt_date, crt_time, upd_username, upd_date, upd_time,src,size,type)
+     values(#{folderName},#{description},#{portLevel},#{parentId},#{isDirectory},#{username},now(),now(), NULL, NULL, NULL,#{src},#{size},#{type})
   </insert>
 
   <select id="selectByparentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">

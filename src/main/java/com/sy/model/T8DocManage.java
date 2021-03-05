@@ -30,6 +30,9 @@ public class T8DocManage {
     private Date crtDate;
 
     private Date crtTime;
+    private String src;
+    private String size;
+    private String type;
 
 
 }
