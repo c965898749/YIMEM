@@ -620,7 +620,7 @@ function load() {
         var doc_fullname = rows[i].folderName,
             doc_name = doc_fullname.substring(0, doc_fullname.lastIndexOf('.')),
             doc_type = doc_fullname.substring(doc_fullname.lastIndexOf('.') + 1),
-            doc_type_class = $.inArray(doc_type, ["doc", "docx", "xls", "xlsx", "pdf"]) != -1 ? doc_type : "other-filetype";
+            doc_type_class = $.inArray(doc_type, ["svg","png","jpg","jpeg","gif","doc", "docx", "xls", "xlsx", "pdf", "mp4","avi","rm","mkv","asf","vob","asx","fla","mpe","mov","flv","swf","wmv","mpg","rmvb","mpeg"]) != -1 ? doc_type : "other-filetype";
         str += "<li class='file " + doc_type_class + "' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
         str += doc_name;
         str += "' data-id='" + rows[i].id + "' data-filetype='" + doc_type + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";

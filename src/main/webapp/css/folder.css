@@ -17,6 +17,29 @@ body,html {
 .folder {
 	background:url(../images/213125.png) center top no-repeat;
 }
+
+.mp4,.avi,.rm,.mkv,.asf,.vob,.asx,.fla,.mpe,.mov,.flv,.swf,.wmv,.mpg,.rmvb,.mpeg{
+	background:url(../images/MP4_File_Extension.png) center top no-repeat;
+}
+.gif {
+  background:url(../images/GIF_File_Extension.png) center top no-repeat;
+}
+
+.png {
+  background:url(../images/PNG_File_Extension.png) center top no-repeat;
+}
+
+.svg {
+  background:url(../images/SVG_File_Extension.png) center top no-repeat;
+}
+
+.jpg {
+  background:url(../images/JPG_File_Extension.png) center top no-repeat;
+}
+
+.jpeg {
+  background:url(../images/JPEG_File_Extension.png) center top no-repeat;
+}
 .doc,.docx {
 	background:url(../images/DOC_File_Extension.png) center top no-repeat;
 }

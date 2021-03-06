@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/tooltips.css"/>
     <link rel="stylesheet" href="css/folder.css"/>
     <link rel="stylesheet" href="css/simplepop.min.css"/>
-    <link rel="stylesheet" href="css/k-all.css">
+    <!--<link rel="stylesheet" href="css/k-all.css">-->
     <link rel="stylesheet" href="css/upload.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
@@ -69,47 +69,6 @@
             textarea_bind();
             // $("#titleContai").load("title.html")
         });
-
-
-        function getUser() {
-            var userJson;
-            $.ajax({
-                url: "isEnter"
-                , type: "get"
-                , dataType: "json"
-                , async: false
-                , success: function (jsonData) {
-                    // //console.log(jsonData)
-                    userJson = jsonData;
-                    $(".login").html(setEnterHtml(jsonData.success))
-                    if (jsonData.success == 1) {
-                        enterClick()
-                        //渲染头像
-                        $(".TheadImg img").attr("src", jsonData.data.headImg)
-                    } else {
-                        $(".TmsgContain").click(function () {
-                            layer.open({
-                                content: '你还未登录'
-                                , btn: ['登录', '退出']
-                                , yes: function (index, layero) {
-                                    //按钮【按钮一】的回调
-                                    location.href = "login.html";
-                                    layer.close(index);
-                                }
-                                , btn2: function (index, layero) {
-                                    layer.close(index);
-                                }
-                            });
-                            return false;
-                        })
-                    }
-                }
-                , error: function (res) {
-                    //console.log("登入状态ajax提交错误")
-                }
-            })
-            return userJson;
-        }
     </script>
 </head>
 
@@ -125,7 +84,7 @@
     </div>
 </div>
 <div class="NAV">
-    <div class="NAV-mian-left">
+    <div class="NAV-mian-left" style="width: 892px;">
         <div class="classify">
             <div class="snsearch">
                 <div class="search-left">
@@ -306,9 +265,9 @@
         <div class="contextMenu" id="myMenu2">
             <ul>
                 <li id="open">打开</li>
-                <li id="copy">复制</li>
-                <li id="cut">剪切</li>
-                <li id="paste">黏贴</li>
+                <!--<li id="copy">复制</li>-->
+                <!--<li id="cut">剪切</li>-->
+                <!--<li id="paste">黏贴</li>-->
                 <li id="rename">重命名</li>
                 <li id="delete">删除</li>
                 <!--<li id="download">打包下载</li>-->
@@ -319,8 +278,8 @@
             <ul>
                 <li id="download">下载</li>
                 <li id="open">打开</li>
-                <li id="copy">复制</li>
-                <li id="cut">剪切</li>
+                <!--<li id="copy">复制</li>-->
+                <!--<li id="cut">剪切</li>-->
                 <li id="rename">重命名</li>
                 <li id="delete">删除</li>
             </ul>
