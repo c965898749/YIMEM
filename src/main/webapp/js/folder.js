@@ -7,6 +7,7 @@ var operation_history = new DbList({
     is_ctrl_down = false,
     is_shift_down = false,
     focus_index = -1;
+var dp=null;
 /*mode:1->复制  2->剪切
  * id:被复制或剪切的文件或文件夹的id
  * parentId:被复制文件的上级目录id
@@ -171,8 +172,14 @@ function contextMenu() {
 function closetanchuan() {
   $("#background").removeData()
   $("#background2").removeData()
+  $("#background3").removeData()
   $("#background2").css("display", "none");
+  $("#background3").css("display", "none");
   $("#background").css("display", "none");
+  if (dp!=null) {
+    dp.pause()
+  }
+
 }
 
 function contextMenu_folder() {
@@ -307,6 +314,11 @@ function contextMenu_file() {
         if (rows.type=='pdf') {
           localStorage.videoUrl =  rows.src;
           window.open("pdf.html")
+        }else if (rows.type=='pdf'||rows.type=='svg'||rows.type=='png'||rows.type=='jpg'||rows.type=='jpeg'||rows.type=='gif') {
+          prewImg(rows.src)
+        }else if (rows.type=='mp4'||rows.type=='avi'||rows.type=='rm'||rows.type=='mkv'||rows.type=='asf'||rows.type=='vob'||rows.type=='asx'||rows.type=='fla'||rows.type=='mpe'||rows.type=='mov'||rows.type=='flv'||rows.type=='swf'||rows.type=='wmv'||rows.type=='mpg'||rows.type=='rmvb'||rows.type=='mpeg'
+        ){
+          getDplayer(rows.src)
         }else {
           alert("该文件格式不支持在线预览");
         }
@@ -952,9 +964,12 @@ function leftClick() {
   //点击空白的地方
   $("#all_folder").click(function () {
     //console.log("blank click");
-    document.getElementById('background').style.display = "none";
-    document.getElementById('background2').style.display = "none";
-
+     $("#background").css("display", "none");
+     $("#background2").css("display", "none");
+     $("#background3").css("display", "none");
+    if (dp!=null) {
+      dp.pause()
+    }
     $("#divall").find("li").each(function (index) {
       $(this).removeClass("focus");
       $(this).children("input.changename").attr("disabled", "disabled");
@@ -963,8 +978,12 @@ function leftClick() {
   });
   //点击后退按钮
   $("button.backward").off("click").click(function () {
-    document.getElementById('background').style.display = "none";
-    document.getElementById('background2').style.display = "none";
+    $("#background").css("display", "none");
+    $("#background2").css("display", "none");
+    $("#background3").css("display", "none");
+    if (dp!=null) {
+      dp.pause()
+    }
     //console.log("backward click");
     var currNode = find_active_node();
     if (currNode.previous.previous != null) {
@@ -975,8 +994,12 @@ function leftClick() {
   });
   //点击前进按钮
   $("button.forward").off("click").click(function () {
-    document.getElementById('background').style.display = "none";
-    document.getElementById('background2').style.display = "none";
+    $("#background").css("display", "none");
+    $("#background2").css("display", "none");
+    $("#background3").css("display", "none");
+    if (dp!=null) {
+      dp.pause()
+    }
     //console.log("forward click");
     var currNode = find_active_node();
     if (currNode.next != null) {
@@ -987,8 +1010,12 @@ function leftClick() {
   });
   //点击主页按钮
   $("button.home").off("click").click(function () {
-    document.getElementById('background').style.display = "none";
-    document.getElementById('background2').style.display = "none";
+    $("#background").css("display", "none");
+    $("#background2").css("display", "none");
+    $("#background3").css("display", "none");
+    if (dp!=null) {
+      dp.pause()
+    }
     //console.log("home click");
     if ($("#navigation").val() != 1) {
       init(1, 9);
@@ -996,8 +1023,12 @@ function leftClick() {
   });
   //点击返回上级目录
   $("button.gotopre").off("click").click(function () {
-    document.getElementById('background').style.display = "none";
-    document.getElementById('background2').style.display = "none";
+    $("#background").css("display", "none");
+    $("#background2").css("display", "none");
+    $("#background3").css("display", "none");
+    if (dp!=null) {
+      dp.pause()
+    }
     //console.log("gotopre click");
     if ($("#navigation").val() != 1) {
       //查询上级目录的parentId
@@ -1012,8 +1043,12 @@ function leftClick() {
   });
   //点击地址栏地址
   $("a.foldername").off("click").click(function () {
-    document.getElementById('background').style.display = "none";
-    document.getElementById('background2').style.display = "none";
+    $("#background").css("display", "none");
+    $("#background2").css("display", "none");
+    $("#background3").css("display", "none");
+    if (dp!=null) {
+      dp.pause()
+    }
     var parentId = $(this).attr("data-id");
     if ($("#navigation").val() != parentId) {
       init(parentId, 11);
@@ -1086,6 +1121,11 @@ function dbclick() {
     if (rows.type=='pdf') {
       localStorage.videoUrl =  rows.src;
       window.open("pdf.html")
+    }else if (rows.type=='pdf'||rows.type=='svg'||rows.type=='png'||rows.type=='jpg'||rows.type=='jpeg'||rows.type=='gif') {
+      prewImg(rows.src)
+    }else if (rows.type=='mp4'||rows.type=='avi'||rows.type=='rm'||rows.type=='mkv'||rows.type=='asf'||rows.type=='vob'||rows.type=='asx'||rows.type=='fla'||rows.type=='mpe'||rows.type=='mov'||rows.type=='flv'||rows.type=='swf'||rows.type=='wmv'||rows.type=='mpg'||rows.type=='rmvb'||rows.type=='mpeg'
+    ){
+      getDplayer(rows.src)
     }else {
       alert("该文件格式不支持在线预览");
     }
@@ -1093,6 +1133,51 @@ function dbclick() {
     // init(folder.attr("data-id"), 6);
   });
 }
+
+function prewImg(url) {
+  $(".back2").css("display", "block");
+  $("#prewImg").attr("src", url);
+}
+
+function canclePrew() {
+  $(".back2").css("display", "none");
+  $("#prewImg").attr("src", "")
+}
+
+
+function getDplayer(videoUrl) {
+  ////console.log("这是"+videoUrl)
+  // const userId = 1
+  $("#background3").css("display", "block");
+   dp=new DPlayer({
+    element: document.getElementById('Dplayer'),
+    // screenshot: true,
+    video: {
+      url: 'http://www.yimem.com/group1/M00/00/01/wKgBBV8sPCGABOVPAbyBa1FtACo102.mp4',
+      // pic: coverUrl
+      // pic: 'http://www.yimem.com/group1/M00/00/00/wKgBBV7dFPCAKpdxAAA-0c-9Y4o668.jpg'
+      pic: '/imgs/loading/fm.jpg'
+    },
+    // theme: "yellow",
+    // live:true,
+    hotkey: true,
+    loop: true,
+    logo:'/imgs/logo.png',
+    contextmenu: [
+      {
+        text: '观看更多……',
+        link: 'http://www.yimem.com/app.html',
+      },
+      {
+        text: '下载视屏',
+        click: (player) => {
+          location.href = "downloadResource?id=" + videoId;
+        },
+      },
+    ],
+  });
+}
+
 
 function keydown() {
   $(document).keydown(function (event) {

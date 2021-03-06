@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>面试宝典</title>
+    <link rel="stylesheet" href="css/APlayer.min.css">
+    <!--<script src="js/APlayer.min.js"></script>-->
+    <script src="js/DPlayer.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/fileinput.css"/>
     <link rel="stylesheet" href="css/tooltips.css"/>
@@ -35,6 +38,29 @@
     <!--&lt;!&ndash; 实现拖动效果，需引入 JQuery UI &ndash;&gt;-->
     <!--<script src="assets/jquery-ui.min.js?v=1.12.1"></script>-->
     <style>
+
+        .back2 {
+            display: none;
+            position: fixed;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index: 1000;
+            filter: alpha(opacity=70);
+            text-align: center;
+        }
+
+        .center {
+            width: 80%;
+            margin: 5% auto;
+            z-index: 1001;
+            height: 80%;
+            width: 80%;
+            margin: 5% auto;
+        }
+
         #background {
             width: 900px;
             height: 300px;
@@ -48,6 +74,16 @@
         #background2 {
             width: 450px;
             height: 100px;
+            display: none;
+            position: fixed;
+            left: 20%;
+            top: 30%;
+            background-color: white;
+            /*background-color: rgba(0,0,0,0.5);*/
+        }
+        #background3 {
+            width: 900px;
+            height: 300px;
             display: none;
             position: fixed;
             left: 20%;
@@ -113,7 +149,12 @@
         <hr>
         <div class="info-bar" id="info-bar"></div>
         <div style="clear: both;"></div>
-
+        <div class="back2" onclick="canclePrew()">
+                    
+            <div class="center">
+                <img alt="" src="" width="100%" height="100%" id="prewImg">        
+            </div>
+        </div>
         <!-- 弹窗内容开始 -->
         <div id="background" class="back">
             <div id="div1" class="content">
@@ -206,6 +247,13 @@
                     </button>
                     <button type="button" onclick="closetanchuan()" class="btn btn-default k-popup-close">取消</button>
                 </div>
+            </div>
+        </div>
+
+
+        <div id="background3" class="back">
+            <div id="div3" class="content">
+                <div id="Dplayer"></div>
             </div>
         </div>
 
@@ -340,6 +388,5 @@
     </ul>
 </div>
 </body>
-<!--<script src="layui/layui.all.js"></script>-->
 <!--<script src="assets/autoload.js"></script>-->
 </html>

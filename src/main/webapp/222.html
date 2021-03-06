@@ -1,46 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-</head>
-<body>
-
-
-<img src="" alt="" height="100px" width="100px">
-
-
-<script>
-    document.addEventListener("drop", preventDe);
-    document.addEventListener("dragleave", preventDe);
-    document.addEventListener("dragover", preventDe);
-    document.addEventListener("dragenter", preventDe);
-    function preventDe(e) {
-        e.preventDefault();
+  <meta charset="UTF-8">
+  <title>图片预览</title>
+  <script src="js/jquery-3.3.1.min.js" type="text/javascript"
+          charset="utf-8"></script>
+  <script type="text/javascript">
+    function prewImg(imgEle) {
+      $(".back").css("display", "block");
+      $("#prewImg").attr("src", $(imgEle).attr("src"));
     }
 
-    document.addEventListener("drop", function (e) {
-        e.preventDefault();
-        var file = e.dataTransfer.files[0];
-        console.log(file)
-//file.type; 文件类型
-//file.name;文件名
-//file.size; 文件大小 btye
+    function canclePrew() {
+      $(".back").css("display", "none");
+      $("#prewImg").attr("src", "")
+    }
 
-        // var img = document.getElementsByTagName("img")[0];
-        // var dataURL = URL.createObjectURL(file);
-        // img.src = dataURL;
-        // console.log(dataURL)
+    function canclePrew() {
+      $(".back").css("display", "none");
+      $("#prewImg").attr("src", "")
+    }
+  </script>
+  <style>
+    .back {
+      display: none;
+      position: fixed;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      z-index: 1000;
+      filter: alpha(opacity=70);
+      text-align: center;
+    }
 
-//         var formData = new FormData();
-//         formData.append("file", file);
-// // 发送XHR
-//         XHR.send(formData);
-    })
-
-
-</script>
-
-
+    .center {
+      width: 80%;
+      margin: 5% auto;
+      z-index: 1001;
+      height: 80%;
+      width: 80%;
+      margin: 5% auto;
+    }
+  </style>
+</head>
+<body>
+<img onclick="prewImg(this)" width="100px" height="100px" alt=""
+     src="http://www.yimem.com/group1/M00/00/04/wKgAaWBDfIWAYw4BAACQUd2VuWU633.jpg">
+<div class="back" onclick="canclePrew()">
+          
+  <div class="center">
+    <img alt="" src="" width="100%" height="100%" id="prewImg">        
+  </div>
+</div>
 </body>
 </html>
