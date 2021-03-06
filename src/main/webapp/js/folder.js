@@ -304,8 +304,6 @@ function contextMenu_file() {
         var folder = $(t).children("input.changename"),
             id = folder.attr("data-id");
         var rows = select("M8610EQ008", {"id": id});
-        console.log(rows)
-
         if (rows.type=='pdf') {
           localStorage.videoUrl =  rows.src;
           window.open("pdf.html")
@@ -722,27 +720,27 @@ function navigation(parentId) {
   $("#folder-navigation").append(str);
 }
 
-function paste(param) {
-  Util.ajaxRequest({
-    url: "pasteDocManage.json",
-    params: param,
-    async: false,
-    afterSuccess: function (json) {
-      alert(3);
-      var msg = json.returnmsg;
-      var success = json.success;
-      if (success == false) {
-        if (msg == "windows") {
-          alert("请检查windows的文档上传路径配置是否正确！");
-        }
-      }
-      if (success == true) {
-
-      }
-      return false;
-    }
-  }, false);
-}
+// function paste(param) {
+//   Util.ajaxRequest({
+//     url: "pasteDocManage.json",
+//     params: param,
+//     async: false,
+//     afterSuccess: function (json) {
+//       alert(3);
+//       var msg = json.returnmsg;
+//       var success = json.success;
+//       if (success == false) {
+//         if (msg == "windows") {
+//           alert("请检查windows的文档上传路径配置是否正确！");
+//         }
+//       }
+//       if (success == true) {
+//
+//       }
+//       return false;
+//     }
+//   }, false);
+// }
 
 function drag() {
   $("#divall li").each(function (i) {
@@ -947,7 +945,7 @@ function leftClick() {
   $("#divall li input.changename").click(function (event) {
     if (is_ctrl_down == false) { //没有按下ctrl
       event.stopPropagation();
-      //console.log("input click");
+      console.log("input click");
     }
 
   });
@@ -1075,9 +1073,24 @@ function change() {
 function dbclick() {
   $("#divall li.folder").dblclick(function () {
     clearTimeout(timeOutFn);
-    //console.log("li dblclick");
+    // console.log("li dblclick");
     var folder = $(this).children("input.changename");
     init(folder.attr("data-id"), 6);
+  });
+  $("#divall li.file").click(function (event) {
+    clearTimeout(timeOutFn);
+    // console.log("li dblclick");
+    var folder = $(this).children("input.changename");
+    var id = folder.attr("data-id");
+    var rows = select("M8610EQ008", {"id": id});
+    if (rows.type=='pdf') {
+      localStorage.videoUrl =  rows.src;
+      window.open("pdf.html")
+    }else {
+      alert("该文件格式不支持在线预览");
+    }
+
+    // init(folder.attr("data-id"), 6);
   });
 }
 
