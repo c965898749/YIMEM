@@ -34,7 +34,7 @@
   </select>
 
   <select id="M8610EQ008"  resultType="com.sy.model.T8DocManage">
-    SELECT folder_name,is_directory,crt_username,upd_username,crt_date,crt_time,upd_date,upd_time FROM t8_doc_manage WHERE id = #{id}
+    SELECT folder_name,is_directory,crt_username,upd_username,crt_date,crt_time,upd_date,upd_time,src,size,type FROM t8_doc_manage WHERE id = #{id}
   </select>
 
   <select id="M8610EQ005"  resultType="com.sy.model.T8DocManage">

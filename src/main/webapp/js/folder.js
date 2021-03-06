@@ -279,8 +279,8 @@ function contextMenu_file() {
         var folder = $(t).children("input.changename"),
             id = folder.attr("data-id");
         var rows = select("M8610EQ008", {"id": id});
-        var row = rows[0];
-        localStorage.videoUrl =  row.src;
+        console.log(rows)
+        localStorage.videoUrl =  rows.src;
         window.open("pdf.html")
         // var id = $(t).children().attr("data-id");
         // init(id, 6);
@@ -348,16 +348,20 @@ function contextMenu_file() {
         var folder = $(t).children("input.changename"),
             id = folder.attr("data-id"),
             isDirectory = $(t).hasClass("folder") ? 1 : 0,
-            folderName = folder.val() + "." + folder.attr("data-filetype"),
-            parentId = $("#navigation").val(),
-            params = {
-              "id": id,
-              "isDirectory": isDirectory,
-              "folderName": folderName,
-              "parentId": parentId
-            };
+            folderName = folder.val() + "." + folder.attr("data-filetype");
+            // parentId = $("#navigation").val();
+            // params = {
+            //   "id": id,
+            //   "isDirectory": isDirectory,
+            //   "folderName": folderName,
+            //   "parentId": parentId
+            // };
+        var rows = select("M8610EQ008", {"id": id});
+        localStorage.videoUrl =  rows.src;
+        window.open(rows.src+"?attname="+folderName)
+        // ?attname=
         //download(params);
-        alert("下载成功!");
+        // alert("下载成功!");
       }
     },
     onContextMenu: function (e) {
@@ -1199,6 +1203,7 @@ function uploadfile(picFileList) {
           type:jsoncontent.data.type
         };
         insert("M8610ES001", param);
+        $("#background").css("display", "none");
         init($("#navigation").val(), 1);
 
       } else {
