@@ -136,7 +136,7 @@ document.addEventListener("dragover", preventDe);
 document.addEventListener("dragenter", preventDe);
 document.addEventListener("drop", function (e) {
   e.preventDefault();
-  var file = e.dataTransfer.files[0];
+  var file = e.dataTransfer.files;
   console.log(file)
   uploadfile(file)
 //file.type; 文件类型
