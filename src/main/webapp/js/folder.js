@@ -127,7 +127,32 @@ function init(parentId, mode) {
   //将元素绑定拖拽方法--还没开发完
   // drag();
 }
+function preventDe(e) {
+  e.preventDefault();
+}
+document.addEventListener("drop", preventDe);
+document.addEventListener("dragleave", preventDe);
+document.addEventListener("dragover", preventDe);
+document.addEventListener("dragenter", preventDe);
+document.addEventListener("drop", function (e) {
+  e.preventDefault();
+  var file = e.dataTransfer.files[0];
+  console.log(file)
+  uploadfile(file)
+//file.type; 文件类型
+//file.name;文件名
+//file.size; 文件大小 btye
 
+  // var img = document.getElementsByTagName("img")[0];
+  // var dataURL = URL.createObjectURL(file);
+  // img.src = dataURL;
+  // console.log(dataURL)
+
+//         var formData = new FormData();
+//         formData.append("file", file);
+// // 发送XHR
+//         XHR.send(formData);
+})
 //在历史记录中找到当前的节点
 function find_active_node() {
   var currNode = operation_history.getHead();
@@ -424,17 +449,28 @@ function contextMenu_blank() {
       'paste': function (t) {
         //黏贴
         var parentId = $("#navigation").val();
-        if (oprate_param.can_paste != true) {
-          alert("无黏贴内容");
-        } else {
-          if (oprate_param.parentId == parentId) {
-            alert("文件已存在!");
-            paste(oprate_param);
-          } else {
-            alert("正在黏贴");
-            paste(oprate_param);
-          }
-        }
+        let data =t.clipboardData||window.clipboardData;
+        console.dir(data);
+        // let items = data.items;
+        // let fileList = []; //存储文件数据
+        // if (items && items.length) {
+        //   // 检索剪切板items
+        //   for (let i = 0; i < items.length; i++) {
+        //     console.log(items[i].getAsFile()); // <--- 这里打印出来就就是你想要的文件
+        //     fileList.push(items[i].getAsFile());
+        //   }
+        // }
+        // if (oprate_param.can_paste != true) {
+        //   alert("无黏贴内容");
+        // } else {
+        //   if (oprate_param.parentId == parentId) {
+        //     alert("文件已存在!");
+        //     paste(oprate_param);
+        //   } else {
+        //     alert("正在黏贴");
+        //     paste(oprate_param);
+        //   }
+        // }
         //oprate_param.can_paste = false;
         //init($("#navigation").val(),3);
       },
@@ -1161,7 +1197,7 @@ function onprogress(evt) {
 //上传文件
 
 function uploadfile(picFileList) {
-
+  var parentId = $("#navigation").val()
   var xhr = new XMLHttpRequest();
   //将上传的多个文件放入formData中
 
@@ -1201,7 +1237,7 @@ function uploadfile(picFileList) {
           description: "",
           folderName: jsoncontent.data.original,
           isDirectory: 0,
-          parentId: params.id,
+          parentId: parentId,
           portLevel: 1,
           username: "semitree",
           src:jsoncontent.data.url,

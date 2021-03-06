@@ -1,117 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>弹窗</title>
-    <link rel="stylesheet" type="text/css" href="弹窗.css">
-
+    <title>Document</title>
 </head>
-<style>
-    body{
-        font-family: Arial,Helvetica,sans-serif;
-        font-size: 17px;
-        text-align: 1.5;
-    }
-
-    #open_btn {
-        background: #009900;
-    }
-
-    #background {
-        display: none;
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.5);
-    }
-
-    #div1 {
-        background:#eeeeee;
-        width: 70%;
-        z-index: 1;
-        margin: 12% auto;
-        overflow: auto;
-    }
-
-    span {
-        color: white;
-        padding-top: 12px;
-        cursor: pointer;
-        padding-right: 15px;
-    }
-
-    #div2 {
-        background:#eeeeee;
-        margin: auto;
-        height: 300px;
-        padding: 0 20px;
-    }
-
-    #close {
-        padding: 5px;
-        background: #5cd31b;
-    }
-
-    #close-button {
-        float: right;
-        font-size: 30px;
-    }
-
-    #foot {
-        padding: 5px 0;
-        text-align: center;
-        background: #5cd31b;
-        color: white;
-    }
-
-    h2 {
-        margin: 10px 0;
-        color: white;
-        padding-left: 15px;
-    }
-
-    h3 {
-        margin: 0 0px;
-        padding-top: 15px;
-    }
-</style>
 <body>
-<button id="open_btn" class="btn">弹窗</button>
-<!-- 弹窗内容开始 -->
-<div id="background" class="back">
-    <div id="div1" class="content">
-        <div id="close">
-            <span id="close-button">×</span>
-            <h2>弹窗头部</h2>
-        </div>
-        <div id="div2">
-            <h3>弹窗标题</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, ullam, nisi, enim laboriosam ea cum necessitatibus ipsum cupiditate neque soluta qui autem odit eligendi blanditiis voluptatem repellat suscipit quia perspiciatis.</p>
-        </div>
-        <h3 id="foot">底部内容</h3>
-    </div>
-</div>
-<!-- 弹窗内容结束 -->
+
+
+<img src="" alt="" height="100px" width="100px">
+
+
 <script>
-    var btn = document.getElementById('open_btn');
-    var div = document.getElementById('background');
-    var close = document.getElementById('close-button');
-
-    btn.onclick = function show() {
-        div.style.display = "block";
+    document.addEventListener("drop", preventDe);
+    document.addEventListener("dragleave", preventDe);
+    document.addEventListener("dragover", preventDe);
+    document.addEventListener("dragenter", preventDe);
+    function preventDe(e) {
+        e.preventDefault();
     }
 
-    close.onclick = function close() {
-        div.style.display = "none";
-    }
+    document.addEventListener("drop", function (e) {
+        e.preventDefault();
+        var file = e.dataTransfer.files[0];
+        console.log(file)
+//file.type; 文件类型
+//file.name;文件名
+//file.size; 文件大小 btye
 
-    window.onclick = function close(e) {
-        if (e.target == div) {
-            div.style.display = "none";
-        }
-    }
+        // var img = document.getElementsByTagName("img")[0];
+        // var dataURL = URL.createObjectURL(file);
+        // img.src = dataURL;
+        // console.log(dataURL)
+
+//         var formData = new FormData();
+//         formData.append("file", file);
+// // 发送XHR
+//         XHR.send(formData);
+    })
+
+
 </script>
+
+
 </body>
 </html>
