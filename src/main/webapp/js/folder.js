@@ -280,8 +280,14 @@ function contextMenu_file() {
             id = folder.attr("data-id");
         var rows = select("M8610EQ008", {"id": id});
         console.log(rows)
-        localStorage.videoUrl =  rows.src;
-        window.open("pdf.html")
+
+        if (rows.type=='pdf') {
+          localStorage.videoUrl =  rows.src;
+          window.open("pdf.html")
+        }else {
+          alert("该文件格式不支持在线预览");
+        }
+
         // var id = $(t).children().attr("data-id");
         // init(id, 6);
       },
@@ -1291,8 +1297,8 @@ var uploadFile = function () {
 
 var dele = function (params) {
   //查询该目录下是否存在子目录/文档
-  var rows = select("M8610EQ004", {"id": params.id}),
-      desc = rows.length > 0 ? "删除整个文件夹(包含所有子目录和子文档)?" : "确认删除?";
+  var rows = select("M8610EQ004", {"id": params.id});
+      // desc = rows.length > 0 ? "删除整个文件夹(包含所有子目录和子文档)?" : "确认删除?";
   if (confirm(rows.length > 0 ? "删除整个文件夹(包含所有子目录和子文档)?" : "确认删除?") == true) {
     deleteDoc(params);
     init($("#navigation").val(), 2);

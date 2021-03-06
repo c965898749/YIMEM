@@ -66,43 +66,36 @@ public class T8DocManageController {
 
     @RequestMapping(value = "M8610EQ006",method = RequestMethod.POST)
     public  List<T8DocManage>  M8610EQ006(@RequestBody T8DocManage record) {
-        System.out.println(record.getId());
         return t8DocManageService.M8610EQ006(record);
     }
 
     @RequestMapping(value = "M8610EU001",method = RequestMethod.POST)
     public  Integer  M8610EU001(@RequestBody T8DocManage record) {
-        System.out.println(record.getId());
         return t8DocManageService.M8610EU001(record);
     }
 
     @RequestMapping(value = "M8610EQ004",method = RequestMethod.POST)
     public  Integer  M8610EQ004(@RequestBody T8DocManage record) {
-        System.out.println(record.getId());
         return t8DocManageService.M8610EQ004(record);
     }
 
     @RequestMapping(value = "M8610ED001",method = RequestMethod.POST)
     public  Integer  M8610ED001(@RequestBody T8DocManage record) {
-        System.out.println(record.getId());
         return t8DocManageService.M8610ED001(record);
     }
 
     @RequestMapping(value = "M8610ES001",method = RequestMethod.POST)
     public  Integer  M8610ES001(@RequestBody T8DocManage record) {
-        System.out.println(record.getId());
         return t8DocManageService.M8610ES001(record);
     }
 
     @RequestMapping(value = "M8610EQ008",method = RequestMethod.POST)
     public  T8DocManage  M8610EQ008(@RequestBody T8DocManage record) {
-        System.out.println(record.getId());
         return t8DocManageService.M8610EQ008(record);
     }
 
     @RequestMapping(value = "M8610EQ005",method = RequestMethod.POST)
     public  List<T8DocManage>  M8610EQ005(@RequestBody T8DocManage record) {
-        System.out.println(record.getId());
         return t8DocManageService.M8610EQ005(record);
     }
 }
