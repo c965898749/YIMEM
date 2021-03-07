@@ -38,7 +38,6 @@
   <!--&lt;!&ndash; 实现拖动效果，需引入 JQuery UI &ndash;&gt;-->
   <!--<script src="assets/jquery-ui.min.js?v=1.12.1"></script>-->
   <style>
-
     .back2 {
       display: none;
       position: fixed;
@@ -56,7 +55,7 @@
       display: none;
       position: fixed;
       left: 20%;
-      top: 10px;
+      top: 40px;
       width: 870px;
       /*height: 100%;*/
       background-color: black;
@@ -106,7 +105,9 @@
       background-color: white;
       /*background-color: rgba(0,0,0,0.5);*/
     }
-
+    #interview_html {
+      border-bottom: 2px red solid;
+    }
   </style>
   <script src="js/setCookie.js"></script>
   <script src="layui/layui.all.js"></script>
@@ -118,8 +119,96 @@
       init(id, 0);
       $("input").FileInput();
       textarea_bind();
-      // $("#titleContai").load("title.html")
+      jinpin()
     });
+    //精品渲染
+    function jinpin() {
+      $.ajax({
+        url: "getVideohotcount",
+        type: "get",
+        dataType: "json",
+        success: function (jsonData) {
+          var i=0;
+          var html = ` <div class="top" style="display: flex;justify-content : space-between;">
+                <div class="left">
+                    <span style="font-size: 14px;color: #868B96">热门面经</span>
+                </div>
+                <div class="right">
+                    <span style="color: #888;font-size: 14px;">
+                    <a href="blog_page.html" style="font-size: 14px;color: #868B96">更多</a>
+                    </span>
+                </div>
+            </div>`;
+          $(".recommend").append(html);
+          var data = jsonData.data;
+          console.log(data)
+          var html = "";
+          $.each(data, function (k, v) {
+            if (i < 3) {
+              html += ` <a href="/appDetail.html?videoid=${v.videoid}" target="_blank">
+                        <ul class="danmuLi" style="height: 50px;margin-top: 15px">
+                            <li>
+                                <hr style="margin-top: 20px;"/>
+                                <div class="currentTime" style="width: 37px;color: #888888 "><img style="height: 100%;width: 100%" src="${v.coverurl}" alt=""></div>
+                            </li>
+                            <li style="margin-left: 53px;margin-top: -50px;display: flex;">
+                                <div class="msg" style="color: #888888 ">${v.title}</div>
+                                <div class="createTime" style="color: #888888;transform:scale(0.8);margin-left: auto;">学习数:${v.clickcount}</div>
+                            </li>
+
+                        </ul>
+                    </a>`;
+            } else {
+              var yu = "英语";
+              if (v.director.substr(1, 2) != null) {
+                yu = v.director.substr(1, 2);
+              }
+              html += `<a href="/appDetail.html?videoid=${v.videoid}" target="_blank">
+                       <ul class="danmuLi" style="height: 25px;margin-top: 15px">
+                        <li style="display: flex;">
+                            <div class="currentTime" style="color: #888888 ">[${yu}]</div>
+                            <div class="msg" style="color: #888888 ">${v.title}</div>
+                            <div class="createTime" style="color: #888888;transform:scale(0.8);margin-left: auto;">学习数:${v.clickcount}</div>
+                            <hr style="margin-top: 0px"/>
+                        </li>
+                    </ul></a>`;
+            }
+            i++;
+            if (i == 10) {
+              return false;
+            }
+          })
+          $(".recommend").append(html);
+
+        },
+        error: function (err) {
+
+        }
+      })
+    }
+    function uploadIndex() {
+      layer.open({
+        type: 1,
+        area: ['440px', '250px'],
+        content: '<textarea id="textarea" rows="4" style="width: 100%;height: 95%" placeholder="留下你的建议，我们将全力做出改进"></textarea>'
+        , btn: ['发送', '取消']
+        , title: ['留言', 'color:white;background-color:#3BB9B6;']
+        , yes: function (index, layero) {
+          //按钮【按钮一】的回调
+          layer.closeAll()
+        }
+        , btn2: function (index, layero) {
+          //按钮【按钮二】的回调
+
+          //return false 开启该代码可禁止点击该按钮关闭
+        }
+        , cancel: function () {
+          //右上角关闭回调
+
+          //return false 开启该代码可禁止点击该按钮关闭
+        }
+      });
+    }
   </script>
 </head>
 
@@ -136,6 +225,27 @@
 </div>
 <div class="NAV">
   <div class="NAV-mian-left" style="width: 892px;">
+    <table id="chooseImage"
+           style="width: 875px;height:20px;background-color: #F3F9FF"
+           border="0" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td align="center" style="position: absolute" id="">
+          <div id="progressPersent" style="position: relative;left: 400px;top:30px"></div>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <!-- 红色部分 -->
+          <table width="0%" border="0" cellspacing="0" cellpadding="0" style="background-color:#007DDB"
+                 id="progress">
+            <tr>
+              <td id="neirong" style="height: 19px"></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
     <div class="classify">
       <div class="snsearch">
         <div class="search-left">
@@ -277,15 +387,8 @@
       </div>
     </div>
 
-    <table id="chooseImage"
-           style="cursor: pointer;margin-bottom: 20px;margin-left: 35px;margin-top: 10px;width: 1100px;height:100px;background-color: #F3F9FF"
-           border="0" cellspacing="0" cellpadding="0" align="center">
-      <tr>
-        <td align="center" style="position: absolute" id="">
-          <div id="progressPersent" style="position: relative;left: 400px;top:30px"></div>
-        </td>
-      </tr>
-    </table>
+
+
     <!--<div id="background3" class="back">-->
     <!--<div id="div3" class="content">-->
     <!--<div class="panel-heading" id="title">下载目录/文档</div>-->
@@ -361,8 +464,9 @@
     <div class="ad">
       <img src="imgs/ad/blog/cd18.png"/>
     </div>
-    <div class="upload" id="uploadIndex">
-
+    <div class="upload" id="uploadIndex" onclick="uploadIndex()"
+         style="background: #EBEDF2;text-align: center;font-size: 14px;color: #868B96;border: 2px #E3E5EB solid;cursor: pointer ">
+      投诉与建议
     </div>
     <div class="recommend">
 

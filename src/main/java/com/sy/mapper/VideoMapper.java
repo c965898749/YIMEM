@@ -12,6 +12,7 @@ public interface VideoMapper {
     int insertSelective(Video record);
 
     Video selectByPrimaryKey(Integer videoid);
+    List<Video> getVideohotcount();
     Integer selectBytitle(String title);
     int updateByPrimaryKeySelective(Video record);
     List<Video> select(Video video);

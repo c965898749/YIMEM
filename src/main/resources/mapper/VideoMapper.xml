@@ -59,6 +59,17 @@
         from video
         where videoId = #{videoid,jdbcType=INTEGER}
     </select>
+
+
+    <select id="getVideohotcount" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from video  ORDER BY clickCount DESC LIMIT 20
+
+    </select>
+
     <select id="select" resultMap="ResultMapWithBLOBs" parameterType="com.sy.model.Video">
 
         select

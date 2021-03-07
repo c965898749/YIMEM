@@ -83,6 +83,32 @@ public class VideoLinkGrab {
         Video videos = null;
         try {
             videos = videoMapper.selectByPrimaryKey(videoid);
+            if (videos!=null){
+                videos.setClickcount(videos.getClickcount()+1);
+                videoMapper.updateByPrimaryKeySelective(videos);
+            }
+            resultVO.setData(videos);
+            resultVO.setSuccess(1);
+            return resultVO;
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO.setErrorMsg(e.getMessage());
+            resultVO.setSuccess(0);
+            return resultVO;
+        }
+
+    }
+
+    /**
+     * 热门电影排行榜
+     * @return
+     */
+    @RequestMapping(value = "getVideohotcount", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResp getVideohotcount() {
+        BaseResp resultVO = new BaseResp();
+        try {
+            List<Video>  videos= videoMapper.getVideohotcount();
             resultVO.setData(videos);
             resultVO.setSuccess(1);
             return resultVO;

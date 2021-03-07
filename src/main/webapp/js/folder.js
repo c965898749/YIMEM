@@ -1304,6 +1304,7 @@ function onprogress(evt) {
   var per = Math.floor(100 * loaded / tot);   //已经上传的百分比
 
   document.getElementById("progressPersent").innerText = per + "%";
+  document.getElementById("progress").style.width = per + "%";
 
 }
 
@@ -1345,7 +1346,7 @@ function uploadfile(picFileList) {
       if (jsoncontent.success == 1) {
         console.log("成功")
         document.getElementById("progressPersent").innerText = "100%";
-
+        document.getElementById("progress").style.width = "100%";
         var param = {
           description: "",
           folderName: jsoncontent.data.original,
