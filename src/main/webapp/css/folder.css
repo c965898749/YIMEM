@@ -18,6 +18,19 @@ body,html {
 	background:url(../images/213125.png) center top no-repeat;
 }
 
+.cab {
+	background:url(../images/CAB_File_Extension.png) center top no-repeat;
+}
+.rar {
+	background:url(../images/RAR_File_Extension.png) center top no-repeat;
+}
+
+.tar {
+	background:url(../images/TAR_File_Extension.png) center top no-repeat;
+}
+.zip {
+	background:url(../images/ZIP_File_Extension.png) center top no-repeat;
+}
 .mp4,.avi,.rm,.mkv,.asf,.vob,.asx,.fla,.mpe,.mov,.flv,.swf,.wmv,.mpg,.rmvb,.mpeg{
 	background:url(../images/MP4_File_Extension.png) center top no-repeat;
 }
