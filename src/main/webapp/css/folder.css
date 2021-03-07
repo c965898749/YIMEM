@@ -29,6 +29,10 @@ body,html {
   background:url(../images/PNG_File_Extension.png) center top no-repeat;
 }
 
+.pptx {
+	background:url(../images/PPT_File_Extension.png) center top no-repeat;
+}
+
 .svg {
   background:url(../images/SVG_File_Extension.png) center top no-repeat;
 }

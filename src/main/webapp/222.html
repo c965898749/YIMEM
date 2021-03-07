@@ -1,58 +1,14 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>图片预览</title>
-  <script src="js/jquery-3.3.1.min.js" type="text/javascript"
-          charset="utf-8"></script>
-  <script type="text/javascript">
-    function prewImg(imgEle) {
-      $(".back").css("display", "block");
-      $("#prewImg").attr("src", $(imgEle).attr("src"));
-    }
-
-    function canclePrew() {
-      $(".back").css("display", "none");
-      $("#prewImg").attr("src", "")
-    }
-
-    function canclePrew() {
-      $(".back").css("display", "none");
-      $("#prewImg").attr("src", "")
-    }
-  </script>
-  <style>
-    .back {
-      display: none;
-      position: fixed;
-      top: 0%;
-      left: 0%;
-      width: 100%;
-      height: 100%;
-      background-color: black;
-      z-index: 1000;
-      filter: alpha(opacity=70);
-      text-align: center;
-    }
-
-    .center {
-      width: 80%;
-      margin: 5% auto;
-      z-index: 1001;
-      height: 80%;
-      width: 80%;
-      margin: 5% auto;
-    }
-  </style>
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
 </head>
 <body>
-<img onclick="prewImg(this)" width="100px" height="100px" alt=""
-     src="http://www.yimem.com/group1/M00/00/04/wKgAaWBDfIWAYw4BAACQUd2VuWU633.jpg">
-<div class="back" onclick="canclePrew()">
-          
-  <div class="center">
-    <img alt="" src="" width="100%" height="100%" id="prewImg">        
-  </div>
-</div>
+<iframe src='https://view.officeapps.live.com/op/view.aspx?src=http://www.yimem.com/group1/M00/00/04/wKgAaWBEdXSAUaYbAAD69o-2z0A73.docx' width='100%' height='900px' frameborder='1'>
+</iframe>
 </body>
 </html>
