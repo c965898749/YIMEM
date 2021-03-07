@@ -1168,7 +1168,7 @@ function getDplayer(videoUrl) {
     element: document.getElementById('Dplayer'),
     // screenshot: true,
     video: {
-      url: 'http://www.yimem.com/group1/M00/00/01/wKgBBV8sPCGABOVPAbyBa1FtACo102.mp4',
+      url: videoUrl,
       // pic: coverUrl
       // pic: 'http://www.yimem.com/group1/M00/00/00/wKgBBV7dFPCAKpdxAAA-0c-9Y4o668.jpg'
       pic: '/imgs/loading/fm.jpg'
