@@ -330,20 +330,26 @@ function contextMenu_file() {
       },
       'rename': function (t) {
         //重命名
+        $("#background2").css("display", "block");
+        //重命名
         var folder = $(t).children("input.changename"),
-            folderName = folder.val(),
+            // folderName = folder.val(),
             id = folder.attr("data-id"),
-            isDirectory = $(t).hasClass("folder") ? 1 : 0,
-            doc_type = $(t).hasClass("folder") ? "" : folder.attr("data-filetype"),
+            isDirectory = $(t).hasClass("folder") ? 1 : 0;
+        doc_type = $(t).hasClass("folder") ? "" : folder.attr("data-filetype"),
             parentId = $("#navigation").val(),
-            params = {
-              "folderName": folderName,
-              "id": id,
-              "isDirectory": isDirectory,
-              "doc_type": doc_type,
-              "parentId": parentId,
-              "description": ""
-            };
+            // params = {
+            //     "folderName": folderName,
+            //     "id": id,
+            //     "isDirectory": isDirectory,
+            //     "doc_type": doc_type,
+            //     "parentId": parentId,
+            //     "description": ""
+            // };
+            $("#background2").data("id", id);
+        $("#background2").data("isDirectory", isDirectory);
+        $("#background2").data("doc_type", doc_type);
+        $("#background2").data("parentId", parentId);
 
         // K.form.setparams($("#M8610F001"), params);
         // K.popup($("#M8610P001"));
@@ -1166,9 +1172,11 @@ function getDplayer(videoUrl) {
   $("#background3").css("display", "block");
    dp=new DPlayer({
     element: document.getElementById('Dplayer'),
-    // screenshot: true,
+     type:'auto',
+     preload:'auto',
+     autoplay: true,
     video: {
-      url: videoUrl,
+      url: 'http://www.yimem.com/group1/M00/00/07/wKgAaWBFC2uAC9OwAMROAOeGbMw860.avi',
       // pic: coverUrl
       // pic: 'http://www.yimem.com/group1/M00/00/00/wKgBBV7dFPCAKpdxAAA-0c-9Y4o668.jpg'
       pic: '/imgs/loading/fm.jpg'
