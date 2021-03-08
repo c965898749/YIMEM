@@ -10,11 +10,9 @@ import com.sy.model.resp.BaseResp;
 import com.sy.model.resp.ResultVO;
 import com.sy.service.PowerService;
 import com.sy.service.UploadService;
-import com.sy.tool.AllEnum;
-import com.sy.tool.Constants;
-import com.sy.tool.FastDFSClient;
+import com.sy.tool.*;
 
-import com.sy.tool.Xtool;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -39,25 +38,26 @@ public class UploadController {
     private UserMapper userMapper;
     @Autowired
     private UploadService uploadService;
+
     @RequestMapping("/upload/yulang")
     @ResponseBody
-    public  BaseResp yulang(Integer id){
+    public BaseResp yulang(Integer id) {
         BaseResp baseResp = new BaseResp();
         Upload upload = new Upload();
         try {
             upload = uploadService.findById(id);
             if (upload == null) {
-               baseResp.setSuccess(0);
-               baseResp.setErrorMsg("资源不存在！");
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("资源不存在！");
             }
         } catch (CsdnExpection csdnExpection) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("资源查询异常");
         }
-        if ("pdf".equals(upload.getLeixin2())||"flac".equals(upload.getLeixin2())||"mp3".equals(upload.getLeixin2())||"mp4".equals(upload.getLeixin2())){
+        if ("pdf".equals(upload.getLeixin2()) || "flac".equals(upload.getLeixin2()) || "mp3".equals(upload.getLeixin2()) || "mp4".equals(upload.getLeixin2())) {
             baseResp.setSuccess(200);
             baseResp.setData(upload.getSrc());
-        }else {
+        } else {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("该文件格式暂不支持预览");
         }
@@ -77,16 +77,16 @@ public class UploadController {
             Upload upload = new Upload();
             upload.setId(id);
             upload.setUserid(user.getUserId());
-            List<Upload> uploads =uploadMapper.selectAll(upload);
-            if (Xtool.isNotNull(uploads)){
+            List<Upload> uploads = uploadMapper.selectAll(upload);
+            if (Xtool.isNotNull(uploads)) {
                 try {
                     FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
-                    uploads.forEach(x->{
-                        uploadMapper.delete(user.getUserId(),x.getId());
-                        user.setResourceCount(user.getResourceCount()-1);
+                    uploads.forEach(x -> {
+                        uploadMapper.delete(user.getUserId(), x.getId());
+                        user.setResourceCount(user.getResourceCount() - 1);
                         userMapper.updateuser(user);
-                        String url=x.getSrc().replace(Constants.IMAGE_SERVER_URL+"group1/","");
-                        fastDFSClient.deleteFile("group1",url);
+                        String url = x.getSrc().replace(Constants.IMAGE_SERVER_URL + "group1/", "");
+                        fastDFSClient.deleteFile("group1", url);
                     });
                     baseResp.setSuccess(1);
                     baseResp.setErrorMsg("删除成功");
@@ -97,7 +97,7 @@ public class UploadController {
                 baseResp.setSuccess(0);
                 baseResp.setErrorMsg("删除失败");
                 return baseResp;
-            }else {
+            } else {
                 baseResp.setSuccess(0);
                 baseResp.setErrorMsg("你无权删除该资源");
                 return baseResp;
@@ -136,6 +136,69 @@ public class UploadController {
                     baseResp.setErrorMsg("上传文件超过限制");
                     return baseResp;
                 }
+                if (extName.equals("avi") || extName.equals("rm")
+                        || extName.equals("rmvb") || extName.equals("wmv")
+                        || extName.equals("3gp") || extName.equals("mov")
+                        || extName.equals("flv") || extName.equals("ogg")) {
+                    System.out.println("========开始调用视频转码工具类=======");
+                    //调用转码机制flv mp4 f4v m3u8 webm ogg放行直接播放，
+                    //asx，asf，mpg，wmv，3gp，mov，avi，wmv9，rm，rmvb等进行其他转码为mp4
+                    String path = Constants.videoRealPath;
+                    File TempFile = new File(path);
+                    if (TempFile.exists()) {
+                        if (TempFile.isDirectory()) {
+                            System.out.println("该文件夹存在。");
+                        } else {
+                            System.out.println("同名的文件存在，不能创建文件夹。");
+                        }
+                    } else {
+                        System.out.println("文件夹不存在，创建该文件夹。");
+                        TempFile.mkdir();
+                    }
+
+                    //上传到本地磁盘/服务器
+                    try {
+                        System.out.println("写入本地磁盘/服务器");
+                        InputStream is = file.getInputStream();
+                        OutputStream os = new FileOutputStream(new File(path, originalFilename));
+                        int len = 0;
+                        byte[] buffer = new byte[2048];
+
+                        while ((len = is.read(buffer)) != -1) {
+                            os.write(buffer, 0, len);
+                        }
+                        os.close();
+                        os.flush();
+                        is.close();
+                    } catch (FileNotFoundException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    System.out.println(Constants.videoRealPath+originalFilename);
+                    if (ShiPingZhuanMa.process(Constants.videoRealPath+originalFilename)) {
+                        System.out.println("ok----删除临时文件");
+                        File file2 = new File(Constants.videoRealPath+originalFilename);
+                        file2.delete();
+                        FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
+                        String url = fastDFSClient.uploadFile(Constants.videoRealPath+ StringUtils.substringBefore(originalFilename,".")+".mp4", extName);
+                        File file3 = new File(Constants.videoRealPath+ StringUtils.substringBefore(originalFilename,".")+".mp4", extName);
+                        file3.delete();
+                        url = Constants.IMAGE_SERVER_URL + url;
+                        String fid = "";
+                        System.out.println(url);
+                        baseResp.setSuccess(1);
+                        baseResp.setData(resultMap("SUCCESS", url, file.getSize(), fid, originalFilename, extName));
+                        baseResp.setErrorMsg("文件上传成功");
+                        return baseResp;
+                    }else {
+                        baseResp.setSuccess(0);
+                        baseResp.setErrorMsg("视频转码出错");
+                        return baseResp;
+                    }
+                }
                 //上传到图片服务器
                 FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
                 String url = fastDFSClient.uploadFile(file.getBytes(), extName);
@@ -154,6 +217,7 @@ public class UploadController {
             }
         }
     }
+
 
     @RequestMapping("imgUpload")
     @ResponseBody
