@@ -36,10 +36,10 @@ public class ShiPingZhuanMa {
 //            inputPath = "/root/shipingzhuanma/1.avi";
 //视频转完格式存放地址 
 //outputPath = "D:/ShiPingZhuanMa/";
-            outputPath = "/root/shipingzhuanma/";
+            outputPath = "/shipingzhuanma/";
             //转换视频的插件
 // ffmpegPath = "D:/ShiPingZhuanMa/ffmpeg-20171225-be2da4c-win64-static/bin/";
-            ffmpegPath = "/root/usr/local/ffmpeg-3.1/";
+            ffmpegPath = "/usr/local/ffmpeg-3.1/";
             System.out.println(currPath);
         } catch (Exception e) {
             System.out.println("getPath出错");
