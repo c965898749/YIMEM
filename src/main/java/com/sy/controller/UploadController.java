@@ -165,6 +165,7 @@ public class UploadController {
                         randomcode = randomcode + (char)value;
 
                     }
+                    randomcode=randomcode+"."+extName;
                     //上传到本地磁盘/服务器
                     try {
 
