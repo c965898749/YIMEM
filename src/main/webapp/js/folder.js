@@ -1309,10 +1309,16 @@ function onprogress(evt) {
 
   var tot = evt.total;       //附件总大小
 
-  var per = Math.floor(100 * loaded / tot);   //已经上传的百分比
+  var per = Math.floor(99 * loaded / tot);   //已经上传的百分比
 
-  document.getElementById("progressPersent").innerText = per + "%";
-  document.getElementById("progress").style.width = per + "%";
+
+  if (per>=99){
+    document.getElementById("progressPersent").innerText ="正在转码请稍等……(请不要刷新页面)";
+    document.getElementById("progress").style.width = per + "%";
+  }else {
+    document.getElementById("progressPersent").innerText = per + "%";
+    document.getElementById("progress").style.width = per + "%";
+  }
 
 }
 
@@ -1352,9 +1358,6 @@ function uploadfile(picFileList) {
       ////////console.log(jsoncontent)
       // if(xhr.responseText == "succes"){
       if (jsoncontent.success == 1) {
-        console.log("成功")
-        document.getElementById("progressPersent").innerText = "100%";
-        document.getElementById("progress").style.width = "100%";
         var param = {
           description: "",
           folderName: jsoncontent.data.original,
@@ -1369,7 +1372,8 @@ function uploadfile(picFileList) {
         insert("M8610ES001", param);
         $("#background").css("display", "none");
         init($("#navigation").val(), 1);
-
+        document.getElementById("progressPersent").innerText = "上传成功！";
+        document.getElementById("progress").style.width = "100%";
       } else {
 
         document.getElementById("progressPersent").innerText = jsoncontent.errorMsg;

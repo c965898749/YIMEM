@@ -194,8 +194,8 @@ public class UploadController {
                         File file2 = new File(Constants.videoRealPath+randomcode);
                         file2.delete();
                         FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
-                        String url = fastDFSClient.uploadFile(Constants.videoRealPath+"a.mp4", extName);
-                        File file3 = new File(Constants.videoRealPath+"a.mp4", extName);
+                        String url = fastDFSClient.uploadFile(Constants.videoRealPath+"a.mp4", "mp4");
+                        File file3 = new File(Constants.videoRealPath+"a.mp4", "mp4");
                         file3.delete();
                         url = Constants.IMAGE_SERVER_URL + url;
                         String fid = "";
