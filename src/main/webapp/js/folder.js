@@ -1355,7 +1355,7 @@ function uploadfile(picFileList) {
     if (xhr.readyState == 4 && xhr.status == 200) {
       // 获取json数据
       var jsoncontent = JSON.parse(xhr.responseText)
-      ////////console.log(jsoncontent)
+      console.log(jsoncontent)
       // if(xhr.responseText == "succes"){
       if (jsoncontent.success == 1) {
         var param = {
