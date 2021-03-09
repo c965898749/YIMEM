@@ -1176,7 +1176,7 @@ function getDplayer(videoUrl) {
      preload:'auto',
      autoplay: true,
     video: {
-      url: 'http://www.yimem.com/group1/M00/00/07/wKgAaWBFC2uAC9OwAMROAOeGbMw860.avi',
+      url: videoUrl,
       // pic: coverUrl
       // pic: 'http://www.yimem.com/group1/M00/00/00/wKgBBV7dFPCAKpdxAAA-0c-9Y4o668.jpg'
       pic: '/imgs/loading/fm.jpg'
