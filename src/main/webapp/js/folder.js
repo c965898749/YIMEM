@@ -1172,14 +1172,12 @@ function getDplayer(videoUrl) {
   $("#background3").css("display", "block");
    dp=new DPlayer({
     element: document.getElementById('Dplayer'),
-     type:'auto',
-     preload:'auto',
-     autoplay: true,
     video: {
-      url: videoUrl,
+      // url: 'http://www.yimem.com/group1/M00/00/07/wKgAaWBHPKqAK6-GAeKDAL22n5E231.mp4',
+      url: 'http://www.yimem.com/group1/M00/00/01/wKgBBV8sPCGABOVPAbyBa1FtACo102.mp4',
       // pic: coverUrl
       // pic: 'http://www.yimem.com/group1/M00/00/00/wKgBBV7dFPCAKpdxAAA-0c-9Y4o668.jpg'
-      pic: '/imgs/loading/fm.jpg'
+      // pic: '/imgs/loading/fm.jpg'
     },
     // theme: "yellow",
     // live:true,
