@@ -2,6 +2,7 @@ package com.sy.tool;
 
 public class Constants {
     public static final String videoRealPath = "/shipingzhuanma/";
+//    public static final String videoRealPath = "D:/shipingzhuanma/";
     public static final String SIMPLE_QUEUE_NAME = "simple_queue";
     public static final String REPLAY_INFORMATION = "ReplayInformation";
     public static final String FANS_INFORMATION = "FansInformation";

@@ -9,9 +9,11 @@ import java.util.List;
 public class ShiPingZhuanMa {
 //    private static String inputPath = "";
 
-    private static String outputPath = "";
+//    private static String outputPath = "D:/shipingzhuanma/";
+    private static String outputPath = "/shipingzhuanma/";
 
-    private static String ffmpegPath = "";
+//    private static String ffmpegPath = "D:/ffmpeg/bin/";
+    private static String ffmpegPath = "/usr/local/ffmpeg-3.1/";
 
 //    public static void main(String args[]) throws IOException {
 //
@@ -34,12 +36,14 @@ public class ShiPingZhuanMa {
 //视频的地址
             // inputPath = "D:/ShiPingZhuanMa/1.wmv";
 //            inputPath = "/root/shipingzhuanma/1.avi";
-//视频转完格式存放地址 
+//视频转完格式存放地址
 //outputPath = "D:/ShiPingZhuanMa/";
-            outputPath = "/shipingzhuanma/";
+//            outputPath = "/shipingzhuanma/";
+            outputPath = "D:/shipingzhuanma/";
             //转换视频的插件
 // ffmpegPath = "D:/ShiPingZhuanMa/ffmpeg-20171225-be2da4c-win64-static/bin/";
-            ffmpegPath = "/usr/local/ffmpeg-3.1/";
+//            ffmpegPath = "/usr/local/ffmpeg-3.1/";
+//            ffmpegPath = "D:/ffmpeg/bin/";
             System.out.println(currPath);
         } catch (Exception e) {
             System.out.println("getPath出错");
@@ -198,6 +202,10 @@ public class ShiPingZhuanMa {
         command.add(outputPath + "2.mp4");
         try {
 
+            System.out.println(ffmpegPath + "ffmpeg -i " + inputPath
+                    + " -ab 56 -ar 22050 -qscale 8 -r 15 -s 600x500 "
+                    // + outputPath + "a.flv");  哈哈
+                    + outputPath + "a.mp4");
             // 方案1
             Process videoProcess = Runtime.getRuntime().exec(ffmpegPath + "ffmpeg -i " + inputPath
                     + " -ab 56 -ar 22050 -qscale 8 -r 15 -s 600x500 "

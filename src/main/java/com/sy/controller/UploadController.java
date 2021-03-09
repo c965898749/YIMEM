@@ -155,12 +155,22 @@ public class UploadController {
                         System.out.println("文件夹不存在，创建该文件夹。");
                         TempFile.mkdir();
                     }
+                    String randomcode = "";
+                    for(int i=0;i<6;i++)
+                    {
+                        //52个字母与6个大小写字母间的符号；范围为91~96
+                        int value = (int)(Math.random()*58+65);
+                        while(value>=91 && value<=96)
+                            value = (int)(Math.random()*58+65);
+                        randomcode = randomcode + (char)value;
 
+                    }
                     //上传到本地磁盘/服务器
                     try {
+
                         System.out.println("写入本地磁盘/服务器");
                         InputStream is = file.getInputStream();
-                        OutputStream os = new FileOutputStream(new File(path, originalFilename));
+                        OutputStream os = new FileOutputStream(new File(path, randomcode));
                         int len = 0;
                         byte[] buffer = new byte[2048];
 
@@ -177,14 +187,14 @@ public class UploadController {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    System.out.println(Constants.videoRealPath+originalFilename);
-                    if (ShiPingZhuanMa.process(Constants.videoRealPath+originalFilename)) {
+                    System.out.println(Constants.videoRealPath+randomcode);
+                    if (ShiPingZhuanMa.process(Constants.videoRealPath+randomcode)) {
                         System.out.println("ok----删除临时文件");
-                        File file2 = new File(Constants.videoRealPath+originalFilename);
+                        File file2 = new File(Constants.videoRealPath+randomcode);
                         file2.delete();
                         FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
-                        String url = fastDFSClient.uploadFile(Constants.videoRealPath+ StringUtils.substringBefore(originalFilename,".")+".mp4", extName);
-                        File file3 = new File(Constants.videoRealPath+ StringUtils.substringBefore(originalFilename,".")+".mp4", extName);
+                        String url = fastDFSClient.uploadFile(Constants.videoRealPath+"a.mp4", extName);
+                        File file3 = new File(Constants.videoRealPath+"a.mp4", extName);
                         file3.delete();
                         url = Constants.IMAGE_SERVER_URL + url;
                         String fid = "";
