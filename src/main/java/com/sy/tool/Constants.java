@@ -1,8 +1,39 @@
 package com.sy.tool;
 
 public class Constants {
-    public static final String videoRealPath = "/shipingzhuanma/";
+    //手机号正则表达式
+    public static final String PHONE_REG = "^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\\d{8}$";
+
+
+    //存放上传文件的根目录：
+//    public static final String UPLOAD_ROOT_DIR = "/upload/";
+    public static final String UPLOAD_ROOT_DIR = "D:/项目/YIMEM/src/main/webapp/mp4/";
+    //用户图片存放路径
+    public static final String ICON_DIR = "upload/iconImgs/";
+    //默认头像地址
+    public static final String DEFALT_ICON = "upload/iconImgs/akari.jpg";
+    //视频上传封面存放地址。
+    public static final String VIDEO_COVER_DIR = "upload/cover/";
+
+    //视频上传后，转码后保存地址
+//    public static final String VIDEO_DIR = "upload/video/";
+    public static final String VIDEO_DIR = "D:/项目/YIMEM/src/main/webapp/mp4/";
+
+    public static final String VIDEO_CACHE_DIR = "upload/videotemp";
+
+    public static final String ffmpegpath = "D:/ffmpeg/bin/ffmpeg.exe";        // ffmpeg工具安装位置
+    public static final String mencoderpath = "D:/ffmpeg/bin/mencoder";    // mencoder工具安装的位置
+
+    public static String videofolder = "D:/项目/YIMEM/src/main/webapp/mp4/";    // 需要被转换格式的视频目录
+    //    public static final String videoRealPath = "/shipingzhuanma/";
 //    public static final String videoRealPath = "D:/shipingzhuanma/";
+    public static final String videoRealPath = "D:/项目/YIMEM/src/main/webapp/mp4/";    // 需要被截图的视频目录
+
+    public static String targetfolder = "D:/项目/YIMEM/src/main/webapp/mp4/KK/"; // 转码后视频保存的目录
+    public static final String imageRealPath = "D://acView/convert/"; // 截图的存放目录
+
+
+
     public static final String SIMPLE_QUEUE_NAME = "simple_queue";
     public static final String REPLAY_INFORMATION = "ReplayInformation";
     public static final String FANS_INFORMATION = "FansInformation";

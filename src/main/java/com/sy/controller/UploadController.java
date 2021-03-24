@@ -12,7 +12,7 @@ import com.sy.service.PowerService;
 import com.sy.service.UploadService;
 import com.sy.tool.*;
 
-import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -156,16 +156,15 @@ public class UploadController {
                         TempFile.mkdir();
                     }
                     String randomcode = "";
-                    for(int i=0;i<6;i++)
-                    {
+                    for (int i = 0; i < 6; i++) {
                         //52个字母与6个大小写字母间的符号；范围为91~96
-                        int value = (int)(Math.random()*58+65);
-                        while(value>=91 && value<=96)
-                            value = (int)(Math.random()*58+65);
-                        randomcode = randomcode + (char)value;
+                        int value = (int) (Math.random() * 58 + 65);
+                        while (value >= 91 && value <= 96)
+                            value = (int) (Math.random() * 58 + 65);
+                        randomcode = randomcode + (char) value;
 
                     }
-                    randomcode=randomcode+"."+extName;
+                    randomcode = randomcode + "." + extName;
                     //上传到本地磁盘/服务器
                     try {
 
@@ -188,23 +187,27 @@ public class UploadController {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    System.out.println(Constants.videoRealPath+randomcode);
-                    if (ShiPingZhuanMa.process(Constants.videoRealPath+randomcode)) {
-                        System.out.println("ok----删除临时文件");
-                        File file2 = new File(Constants.videoRealPath+randomcode);
-                        file2.delete();
-                        FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
-                        String url = fastDFSClient.uploadFile(Constants.videoRealPath+"a.mp4", "mp4");
-                        File file3 = new File(Constants.videoRealPath+"a.mp4");
-                        file3.delete();
-                        url = Constants.IMAGE_SERVER_URL + url;
-                        String fid = "";
-                        System.out.println(url);
+                    ConverVideoUtils zout = new ConverVideoUtils(Constants.videoRealPath + randomcode);  //传入path
+                    //删除源文件
+                    boolean isDelSourseFile = false;
+                    System.out.println(Constants.videoRealPath + randomcode);
+                    String targetExtension = ".mp4";  				//设置转换的格式
+                    if (zout.process(targetExtension, isDelSourseFile)) {
+//                        System.out.println("ok----删除临时文件");
+//                        File file2 = new File(Constants.videoRealPath+randomcode);
+//                        file2.delete();
+//                        FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
+//                        String url = fastDFSClient.uploadFile(Constants.videoRealPath+"a.mp4", "mp4");
+//                        File file3 = new File(Constants.videoRealPath+"a.mp4");
+//                        file3.delete();
+//                        url = Constants.IMAGE_SERVER_URL + url;
+//                        String fid = "";
+//                        System.out.println(url);
                         baseResp.setSuccess(1);
-                        baseResp.setData(resultMap("SUCCESS", url, file.getSize(), fid, originalFilename, extName));
+//                        baseResp.setData(resultMap("SUCCESS", url, file.getSize(), fid, originalFilename, extName));
                         baseResp.setErrorMsg("文件上传成功");
                         return baseResp;
-                    }else {
+                    } else {
                         baseResp.setSuccess(0);
                         baseResp.setErrorMsg("视频转码出错");
                         return baseResp;

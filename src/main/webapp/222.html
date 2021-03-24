@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+</head>
+<body>
+<textarea class="form-control" id="original" rows="20" placeholder="Please input JSON data here ..." style="white-space:nowrap; overflow:scroll;"></textarea>
+
+</body>
+<script src="jquery/jquery.js"></script>
+<script>
+    <!--失去焦点的时候格式化 JSON 数据-->
+    $('#original').blur(function() {
+        var input;
+        try {
+            if ($('#original').val().length == 0) {
+                return;
+            }
+
+            input = eval('(' + $('#original').val() + ')');
+        } catch (error) {
+            return alert("Input data is not valid JSON, please check. Error: " + error);
+        }
+
+        $('#original').val(JSON.stringify(input, null, 4));
+    });
+</script>
+</html>

@@ -42,11 +42,13 @@ public class VideoLinkGrab {
         videoLinkGrab.saveData("http://www.y80s.com/movie/40606");
     }
     //每周星期天凌晨1点实行一次
-    @Scheduled(cron = "0 0 23 ? * MON")
+//    @Scheduled(cron = "0 0 23 ? * MON")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void Reptilia() {
         System.out.println("执行");
         VideoLinkGrab videoLinkGrab = new VideoLinkGrab();
-        videoLinkGrab.saveData("http://www.y80s.com/movie/list/");
+//        videoLinkGrab.saveData("http://www.y80s.com/movie/list/");
+        videoLinkGrab.saveData("http://www.y80s.org/movie/list/");
 //        videoLinkGrab.saveData("http://www.y80s.com/movie/40606");
     }
 
@@ -393,7 +395,8 @@ public class VideoLinkGrab {
      * @return 状态
      */
     public boolean checkUrl(String url) {
-        Pattern pattern = Pattern.compile("http://www.y80s.com/movie/\\d*");
+//        Pattern pattern = Pattern.compile("http://www.y80s.com/movie/\\d*");
+        Pattern pattern = Pattern.compile("http://www.y80s.org/movie/\\d*");
         Matcher matcher = pattern.matcher(url);
         if (matcher.find())
             return true; //2015年的列表
@@ -408,7 +411,8 @@ public class VideoLinkGrab {
      * @return 状态
      */
     public boolean isMoviePage(String url) {
-        Pattern pattern = Pattern.compile("http://www.y80s.com/movie/\\d+");
+//        Pattern pattern = Pattern.compile("http://www.y80s.com/movie/\\d+");
+        Pattern pattern = Pattern.compile("http://www.y80s.org/movie/\\d+");
         Matcher matcher = pattern.matcher(url);
         if (matcher.find())
             return true; //电影页面
