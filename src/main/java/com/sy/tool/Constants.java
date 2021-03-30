@@ -21,6 +21,7 @@ public class Constants {
 
     public static final String VIDEO_CACHE_DIR = "upload/videotemp";
 
+//    public static final String ffmpegpath = "/usr/local/ffmpeg/bin/ffmpeg.exe";        // ffmpeg工具安装位置
     public static final String ffmpegpath = "D:/ffmpeg/bin/ffmpeg.exe";        // ffmpeg工具安装位置
     public static final String mencoderpath = "D:/ffmpeg/bin/mencoder";    // mencoder工具安装的位置
 
