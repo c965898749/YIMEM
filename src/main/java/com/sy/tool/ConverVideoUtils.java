@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class ConverVideoUtils {
     private String sourceVideoPath;							//源视频路径
-    private String filerealname="b";				 			//文件名不包括后缀名
+    private String filerealname="a";				 			//文件名不包括后缀名
     private String filename; 								//包括后缀名
     private String videofolder = Constants.videofolder; 		// 别的格式视频的目录
     private String targetfolder = Constants.targetfolder; 	// flv视频的目录
@@ -502,9 +502,9 @@ public class ConverVideoUtils {
 //        commend.add("h263");  //
 //        commend.add("-ab");		//新增4条
 //        commend.add("64");      //高品质:128 低品质:64
-        commend.add("-vn");
-        commend.add("-acodec");
-        commend.add("copy");
+//        commend.add("-vn");
+//        commend.add("-acodec");
+//        commend.add("copy");
 //        commend.add("mp3");      //音频编码器：原libmp3lame
 //        commend.add("-ac");
 //        commend.add("2");       //原1

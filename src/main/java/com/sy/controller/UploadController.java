@@ -189,22 +189,23 @@ public class UploadController {
                     }
                     ConverVideoUtils zout = new ConverVideoUtils(Constants.videoRealPath + randomcode);  //传入path
                     //删除源文件
-                    boolean isDelSourseFile = false;
+//                    boolean isDelSourseFile = false;
+                    boolean isDelSourseFile = true;
                     System.out.println(Constants.videoRealPath + randomcode);
                     String targetExtension = ".mp4";  				//设置转换的格式
                     if (zout.process(targetExtension, isDelSourseFile)) {
 //                        System.out.println("ok----删除临时文件");
 //                        File file2 = new File(Constants.videoRealPath+randomcode);
 //                        file2.delete();
-//                        FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
-//                        String url = fastDFSClient.uploadFile(Constants.videoRealPath+"a.mp4", "mp4");
-//                        File file3 = new File(Constants.videoRealPath+"a.mp4");
-//                        file3.delete();
-//                        url = Constants.IMAGE_SERVER_URL + url;
-//                        String fid = "";
-//                        System.out.println(url);
+                        FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
+                        String url = fastDFSClient.uploadFile(Constants.videoRealPath+"a.mp4", "mp4");
+                        File file3 = new File(Constants.videoRealPath+"a.mp4");
+                        file3.delete();
+                        url = Constants.IMAGE_SERVER_URL + url;
+                        String fid = "";
+                        System.out.println(url);
                         baseResp.setSuccess(1);
-//                        baseResp.setData(resultMap("SUCCESS", url, file.getSize(), fid, originalFilename, extName));
+                        baseResp.setData(resultMap("SUCCESS", url, file.getSize(), fid, originalFilename, extName));
                         baseResp.setErrorMsg("文件上传成功");
                         return baseResp;
                     } else {
