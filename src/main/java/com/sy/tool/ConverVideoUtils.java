@@ -497,13 +497,13 @@ public class ConverVideoUtils {
         commend.add(ffmpegpath);		 //ffmpeg.exe工具地址
         commend.add("-i");
         commend.add(oldfilepath);			//源视频路径
-        commend.add("-acodec");
-        commend.add("aac");
-        commend.add("-vcodec");
-        commend.add("libx264");
-        commend.add("-y");
+//        commend.add("-acodec");
+//        commend.add("aac");
 //        commend.add("-vcodec");
-//        commend.add("h263");  //
+//        commend.add("libx264");
+//        commend.add("-y");
+        commend.add("-vcodec");
+        commend.add("h263");  //
 //        commend.add("-ab");	  //新增4条
 //        commend.add("64");      //高品质:128 低品质:64
 //        commend.add("-vn");
