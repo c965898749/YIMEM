@@ -193,7 +193,7 @@ public class UploadController {
                     boolean isDelSourseFile = true;
                     System.out.println(Constants.videoRealPath + originalFilename);
                     String targetExtension = ".mp4";  				//设置转换的格式
-                    if (zout.process(targetExtension, isDelSourseFile)) {
+                    if (zout.beginConver(targetExtension, isDelSourseFile)) {
 //                        System.out.println("ok----删除临时文件");
 //                        File file2 = new File(Constants.videoRealPath+randomcode);
 //                        file2.delete();

@@ -500,7 +500,7 @@ public class ConverVideoUtils {
 
 //        commend.add("-vcodec");
 //        commend.add("h263");  //
-//        commend.add("-ab");		//新增4条
+//        commend.add("-ab");	  //新增4条
 //        commend.add("64");      //高品质:128 低品质:64
 //        commend.add("-vn");
 //        commend.add("-acodec");
