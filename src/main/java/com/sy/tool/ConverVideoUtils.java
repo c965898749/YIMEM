@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class ConverVideoUtils {
     private String sourceVideoPath;							//源视频路径
-    private String filerealname="a";				 			//文件名不包括后缀名
+    private String filerealname;				 			//文件名不包括后缀名
     private String filename; 								//包括后缀名
     private String videofolder = Constants.videofolder; 		// 别的格式视频的目录
     private String targetfolder = Constants.targetfolder; 	// flv视频的目录
@@ -84,14 +84,14 @@ public class ConverVideoUtils {
         //执行转码机制
         if (process(targetExtension,isDelSourseFile)) {
 
-            System.out.println("视频转码结束，开始截图================= ");
-
-            //视频转码完成，调用截图功能--zoutao
-            if (processImg(sourceVideoPath)) {
-                System.out.println("截图成功！ ");
-            } else {
-                System.out.println("截图失败！ ");
-            }
+//            System.out.println("视频转码结束，开始截图================= ");
+//
+//            //视频转码完成，调用截图功能--zoutao
+//            if (processImg(sourceVideoPath)) {
+//                System.out.println("截图成功！ ");
+//            } else {
+//                System.out.println("截图失败！ ");
+//            }
 
 
             //删除原视频+临时视频
