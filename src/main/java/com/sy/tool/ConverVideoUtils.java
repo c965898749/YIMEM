@@ -493,8 +493,6 @@ public class ConverVideoUtils {
         commend.add(ffmpegpath);         //ffmpeg.exe工具地址
         commend.add("-i");
         commend.add(oldfilepath);            //源视频路径
-        commend.add("-i");
-        commend.add(oldfilepath);
         commend.add("-acodec");
         commend.add("copy");
         commend.add("-vcodec");
