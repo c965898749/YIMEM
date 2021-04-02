@@ -748,7 +748,7 @@
         xhr.send(formData);
 
         xhr.onreadystatechange = function () {
-
+            console.log( xhr)
             if (xhr.readyState == 4 && xhr.status == 200) {
                 // 获取json数据
                 var jsoncontent = JSON.parse(xhr.responseText)
