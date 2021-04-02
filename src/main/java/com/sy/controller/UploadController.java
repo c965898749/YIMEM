@@ -136,6 +136,7 @@ public class UploadController {
                     baseResp.setErrorMsg("上传文件超过限制");
                     return baseResp;
                 }
+                System.out.println("接收文件");
                 if (extName.equals("avi") || extName.equals("rm")
                         || extName.equals("rmvb") || extName.equals("wmv")
                         || extName.equals("3gp") || extName.equals("mov")
@@ -216,6 +217,7 @@ public class UploadController {
                 }
                 //上传到图片服务器
                 FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
+                System.out.println("FastDFS上传文件");
                 String url = fastDFSClient.uploadFile(file.getBytes(), extName);
                 url = Constants.IMAGE_SERVER_URL + url;
                 String fid = "";
