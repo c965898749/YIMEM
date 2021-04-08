@@ -39,7 +39,8 @@ public class VideoLinkGrab {
     public static void main(String[] args) {
         VideoLinkGrab videoLinkGrab = new VideoLinkGrab();
 //        videoLinkGrab.saveData("http://www.y80s.com/movie/list/");
-        videoLinkGrab.saveData("http://www.y80s.com/movie/40606");
+//        videoLinkGrab.saveData("http://www.y80s.com/movie/40606");
+        videoLinkGrab.saveData("http://www.y80s.tw/movie/40606");
     }
     //每周星期天凌晨1点实行一次
 //    @Scheduled(cron = "0 0 23 ? * MON")
@@ -48,7 +49,7 @@ public class VideoLinkGrab {
         System.out.println("执行");
         VideoLinkGrab videoLinkGrab = new VideoLinkGrab();
 //        videoLinkGrab.saveData("http://www.y80s.com/movie/list/");
-        videoLinkGrab.saveData("http://www.y80s.org/movie/list/");
+        videoLinkGrab.saveData("http://www.y80s.tw/movie/list/");
 //        videoLinkGrab.saveData("http://www.y80s.com/movie/40606");
     }
 
@@ -396,7 +397,8 @@ public class VideoLinkGrab {
      */
     public boolean checkUrl(String url) {
 //        Pattern pattern = Pattern.compile("http://www.y80s.com/movie/\\d*");
-        Pattern pattern = Pattern.compile("http://www.y80s.org/movie/\\d*");
+//        Pattern pattern = Pattern.compile("http://www.y80s.org/movie/\\d*");
+        Pattern pattern = Pattern.compile("http://www.y80s.tw/movie/\\d*");
         Matcher matcher = pattern.matcher(url);
         if (matcher.find())
             return true; //2015年的列表
@@ -412,7 +414,8 @@ public class VideoLinkGrab {
      */
     public boolean isMoviePage(String url) {
 //        Pattern pattern = Pattern.compile("http://www.y80s.com/movie/\\d+");
-        Pattern pattern = Pattern.compile("http://www.y80s.org/movie/\\d+");
+//        Pattern pattern = Pattern.compile("http://www.y80s.org/movie/\\d+");
+        Pattern pattern = Pattern.compile("http://www.y80s.tw/movie/\\d+");
         Matcher matcher = pattern.matcher(url);
         if (matcher.find())
             return true; //电影页面
