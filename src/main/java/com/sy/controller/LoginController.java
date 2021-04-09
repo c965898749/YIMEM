@@ -93,7 +93,8 @@ public class LoginController {
     @ResponseBody
     public void syslogininfor(HttpServletRequest request) {
         User user=(User) request.getSession().getAttribute("user");
-        final String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+//        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+        String ip = IpUtils.getIpAddr(request);
         UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
         String address = AddressUtils.getRealAddressByIP(ip);
         StringBuilder s = new StringBuilder();
