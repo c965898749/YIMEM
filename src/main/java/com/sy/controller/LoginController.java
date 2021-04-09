@@ -1,12 +1,14 @@
 package com.sy.controller;
 
+import com.sy.model.SysLogininfor;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
+import com.sy.service.ISysLogininforService;
 import com.sy.service.MenuService;
 
 import com.sy.service.UserServic;
-import com.sy.tool.AsyncFactory;
-import com.sy.tool.Constants;
+import com.sy.tool.*;
+import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,13 +91,40 @@ public class LoginController {
 
     @RequestMapping(value = "syslogininfor", method = RequestMethod.POST)
     @ResponseBody
-    public void syslogininfor(HttpServletResponse response, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
+    public void syslogininfor(HttpServletRequest request) {
+        User user=(User) request.getSession().getAttribute("user");
+        final String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+        UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
+        String address = AddressUtils.getRealAddressByIP(ip);
+        StringBuilder s = new StringBuilder();
+//                s.append(LogUtils.getBlock(ip));
+//                s.append(address);
+//                s.append(LogUtils.getBlock(username));
+//                s.append(LogUtils.getBlock(status));
+//                s.append(LogUtils.getBlock(message));
+//                // 打印信息到日志
+//                sys_user_logger.info(s.toString(), args);
+        // 获取客户端操作系统
+        String os = userAgent.getOperatingSystem().getName();
+        // 获取客户端浏览器
+        String browser = userAgent.getBrowser().getName();
+        // 封装对象
+        SysLogininfor logininfor = new SysLogininfor();
         if (user == null) {
-            AsyncFactory.recordLogininfor(user.getUsername(), Constants.LOGIN_SUCCESS, "会员访问");
+            logininfor.setUserName("");
+            logininfor.setStatus(Constants.FAIL);
         } else {
-            AsyncFactory.recordLogininfor(user.getUsername(), Constants.LOGIN_FAIL, "游客访问");
+            logininfor.setUserName(user.getUsername());
+            logininfor.setStatus(Constants.SUCCESS);
+
         }
+        logininfor.setIpaddr(ip);
+        logininfor.setLoginLocation(address);
+        logininfor.setBrowser(browser);
+        logininfor.setOs(os);
+        logininfor.setMsg("");
+        // 插入数据
+        SpringUtils.getBean(ISysLogininforService.class).insertLogininfor(logininfor);
     }
 
     @RequestMapping(value = "isLogin", method = RequestMethod.POST)

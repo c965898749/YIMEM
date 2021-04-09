@@ -423,8 +423,18 @@
         })
 
     }
-
-
+    function syslogininfor() {
+        $.ajax({
+            url: "syslogininfor"
+            , type: "post"
+            , dataType: "json"
+            , success: function (jsonData) {
+            }
+            , error: function (res) {
+            }
+        })
+    }
+    syslogininfor()
     //获取当前用户
     function getUser() {
         var data;
