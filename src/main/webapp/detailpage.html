@@ -25,7 +25,9 @@
     #down_load {
         border-bottom: 2px red solid;
     }
-
+    #donate{
+        display: none;
+    }
 </style>
 
 <body>
@@ -155,6 +157,27 @@
             </div>
         </div>
     </div>
+    <div id="donate">
+        <form id="form3" class="layui-form" method="post" onsubmit="return false">
+            <div style="margin-left:55px;margin-top: 10px;margin-bottom: 10px">每赞助1元我们都将赠送你1000积分</div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 100px;">输入金额</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" value="1"  name="price_min" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" placeholder="￥" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">元</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px;">支付范式</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <select name="zfb">
+                        <option value="">支付宝</option>
+                    </select>
+                </div>
+            </div>
+        </form>
 
 </div>
 <div class="siderBar">
@@ -213,7 +236,66 @@
             bacak2(from)
         }
     }
+    //赞助
+    function donate() {
+        //prompt层
+            layer.open({
+                type: 1,
+                area: ['350px', '250px'],
+                content: $('#donate')
+                ,shade: [0.8, '#393D49']
+                , btn: ['确认', '取消']
+                , title: ['感谢您的支持', 'color:white;background-color:#3399ea;']
+                , yes: function (index, layero) {
+                    var price=$("input[name='price_min']").val();
 
+                    if(price === "" || price ==null){
+                        layer.msg("不好意思，您还没输入金额");
+                        return false;
+                    }
+                    var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+                    var regPos2 = /^\d+(\.\d{0,2})?$/; //非负浮点数
+                    if(!regPos.test(price)){
+                        layer.msg("不好意思，请输入正确金额格式");
+                        return false;
+                    }
+                    if(!regPos2.test(price)){
+                        layer.msg("不好意思，金额不能低于0.01");
+                        return false;
+                    }
+                    $.ajax({
+                        type: "POST",//方法
+                        url: "trade_precreate.do",
+                        data:{"totalAmount":price},
+                        success: function (josnData) {
+                            if (josnData.success == 1) {
+                                layer.msg("订单生成成功……正在跳转")
+                                window.location.href="pay.html?outTradeNo="+josnData.data.outtradeno;
+                                layer.closeAll()
+                            } else {
+                                layer.msg("订单生成失败")
+                                layer.closeAll()
+                            }
+                        },
+                        error: function () {
+                            layer.closeAll()
+                        }
+                    });
+
+                }
+                , btn2: function (index, layero) {
+                    //按钮【按钮二】的回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+                , cancel: function () {
+                    //右上角关闭回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+
+    }
     function bacak2(zleixin) {
        console.log(zleixin)
         if (zleixin=="flac"||zleixin=="mp3"||zleixin=="mp4"||zleixin=="pdf") {
@@ -396,8 +478,8 @@
 									所需 <span id="price" style="color: #ff9358;font-size: 32px;margin-top: 10px;">
 									` + item.price + `
 								</span>积分/C币</span>
-                            <input type="button" title="会员免费下载" value="申请会员" class="memberbtn" onclick="vipbtn()"
-                                   style="height: 36px;width: 120px;text-align: center;background-color:red;color: white;border: none;margin: 10px;border-radius: 4px;">
+                            <!--<input type="button" title="会员免费下载" value="申请会员" class="memberbtn" onclick="vipbtn()"-->
+                                   <!--style="height: 36px;width: 120px;text-align: center;background-color:red;color: white;border: none;margin: 10px;border-radius: 4px;">-->
                             <input type="button" value="立即下载" class="downbtn" onclick="downbtn()"
                                    style="height: 36px;width: 120px;text-align: center;background-color:white;border: 1px red solid;color: red;margin: 10px;border-radius: 4px;">
 
@@ -606,7 +688,7 @@
                     //按钮【按钮一】的回调
                     // downloadResource()
 
-                    location.href = "vip.html"
+                    donate()
                     layer.close(index);
 
                 }
