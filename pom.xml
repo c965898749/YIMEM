@@ -345,6 +345,13 @@
       <artifactId>alipay-sdk-java</artifactId>
       <version>3.7.4.ALL</version>
     </dependency>
+
+    <!-- 解析客户端操作系统、浏览器等 -->
+    <dependency>
+      <groupId>eu.bitwalker</groupId>
+      <artifactId>UserAgentUtils</artifactId>
+      <version>1.21</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>YIMEM</finalName>
