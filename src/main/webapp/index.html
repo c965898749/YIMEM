@@ -15,6 +15,7 @@
     <script src="assets/jquery.min.js?v=3.3.1"></script>
     <!-- 实现拖动效果，需引入 JQuery UI -->
     <script src="assets/jquery-ui.min.js?v=1.12.1"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
     <link rel="stylesheet" href="css/APlayer.min.css">
     <script src="js/APlayer.min.js"></script>
     <style>
@@ -427,6 +428,7 @@
         $.ajax({
             url: "syslogininfor"
             , type: "post"
+            ,data: {"cip": returnCitySN["cip"],"name":returnCitySN["cname"]}
             , dataType: "json"
             , success: function (jsonData) {
             }

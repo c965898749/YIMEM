@@ -91,13 +91,13 @@ public class LoginController {
 
     @RequestMapping(value = "syslogininfor", method = RequestMethod.POST)
     @ResponseBody
-    public void syslogininfor(HttpServletRequest request) {
+    public void syslogininfor(String cip,String name,HttpServletRequest request) {
         User user=(User) request.getSession().getAttribute("user");
 //        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
-        String ip = IpUtils.getIpAddr(request);
+//        String ip = IpUtils.getIpAddr(request);
         UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
-        String address = AddressUtils.getRealAddressByIP(ip);
-        StringBuilder s = new StringBuilder();
+        String address = AddressUtils.getRealAddressByIP(cip);
+//        StringBuilder s = new StringBuilder();
 //                s.append(LogUtils.getBlock(ip));
 //                s.append(address);
 //                s.append(LogUtils.getBlock(username));
@@ -119,8 +119,12 @@ public class LoginController {
             logininfor.setStatus(Constants.SUCCESS);
 
         }
-        logininfor.setIpaddr(ip);
-        logininfor.setLoginLocation(address);
+        logininfor.setIpaddr(cip);
+        if (Xtool.isNull(address)){
+            logininfor.setLoginLocation(name);
+        }else {
+            logininfor.setLoginLocation(address);
+        }
         logininfor.setBrowser(browser);
         logininfor.setOs(os);
         logininfor.setMsg("");
