@@ -91,7 +91,7 @@ public class LoginController {
 
     @RequestMapping(value = "syslogininfor", method = RequestMethod.POST)
     @ResponseBody
-    public void syslogininfor(String cip,String name,HttpServletRequest request) {
+    public void syslogininfor(String cip,String name,String msg,HttpServletRequest request) {
         User user=(User) request.getSession().getAttribute("user");
 //        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
 //        String ip = IpUtils.getIpAddr(request);
@@ -127,7 +127,7 @@ public class LoginController {
         }
         logininfor.setBrowser(browser);
         logininfor.setOs(os);
-        logininfor.setMsg("");
+        logininfor.setMsg("访问 "+msg+" 页面");
         // 插入数据
         SpringUtils.getBean(ISysLogininforService.class).insertLogininfor(logininfor);
     }

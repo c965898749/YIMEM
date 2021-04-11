@@ -36,3 +36,16 @@ function checkCookie()
         }
     }
 }
+function syslogininfor() {
+    $.ajax({
+        url: "syslogininfor"
+        , type: "post"
+        ,data: {"cip": returnCitySN["cip"],"name":returnCitySN["cname"],"msg":document.title}
+        , dataType: "json"
+        , success: function (jsonData) {
+        }
+        , error: function (res) {
+        }
+    })
+}
+syslogininfor()
