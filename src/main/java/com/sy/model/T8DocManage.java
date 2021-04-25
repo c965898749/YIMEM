@@ -30,9 +30,11 @@ public class T8DocManage {
     private Date updTime;
 
     private String crtUsername;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Alisa/Shanghai")
     private Date crtDate;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Alisa/Shanghai")
     private Date crtTime;
     private String src;
     private String size;
