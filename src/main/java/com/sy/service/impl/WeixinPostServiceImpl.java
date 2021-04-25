@@ -369,6 +369,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
             List<Invitation> forumList = (List<Invitation>) map.get("Invitation");
             List<Upload> uploadList = (List<Upload>) map.get("Upload");
             List<Video> videos = (List<Video>) map.get("Video");
+            List<T8DocManage> t8DocManages = (List<T8DocManage>) map.get("t8DocManages");
             if (Xtool.isNotNull(blogList)) {
                 stringBuffer.append("\n\n博客类:");
                 count = 0;
@@ -404,6 +405,20 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     count++;
                     String tile = upload.getTitle();
                     String src = "http://www.yimem.com/detailpage.html?id=" + upload.getId();
+                    stringBuffer.append("\n\n<a href='" + src + "'>" + tile + "</a>");
+                    if (count >= 5) {
+                        break;
+                    }
+                }
+                stringBuffer.append("\n\n<a href='http://www.yimem.com/searchResult_page.html?key=" + recvMessage + "'>点击查询更多</a>");
+            }
+            if (Xtool.isNotNull(t8DocManages)) {
+                stringBuffer.append("\n\n面试类:");
+                count = 0;
+                for (T8DocManage t8DocManage : t8DocManages) {
+                    count++;
+                    String tile = t8DocManage.getFolderName();
+                    String src = t8DocManage.getSrc();
                     stringBuffer.append("\n\n<a href='" + src + "'>" + tile + "</a>");
                     if (count >= 5) {
                         break;
