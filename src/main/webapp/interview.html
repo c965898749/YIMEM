@@ -24,7 +24,7 @@
   <script src="js/FileUpload.js"></script>
   <script src="js/jquery.pure.tooltips.js"></script>
   <link rel="shortcut icon" href="img/favicon.ico">
-  <script src="js/setCookie.js"></script>
+  <!--<script src="js/setCookie.js"></script>-->
   <!--<script src="jquery/jquery.js"></script>-->
   <link rel="stylesheet" href="css/siderBar2.css">
   <link rel="stylesheet" type="text/css" href="css/css.css"/>
@@ -125,14 +125,14 @@
     //精品渲染
     function jinpin() {
       $.ajax({
-        url: "getVideohotcount",
-        type: "get",
+        url: "M8610EQ009",
+        type: "post",
         dataType: "json",
         success: function (jsonData) {
-          var i=0;
+          console.log(jsonData)
           var html = ` <div class="top" style="display: flex;justify-content : space-between;">
                 <div class="left">
-                    <span style="font-size: 14px;color: #868B96">放松一刻</span>
+                    <span style="font-size: 14px;color: #868B96">面经排行</span>
                 </div>
                 <div class="right">
                     <span style="color: #888;font-size: 14px;">
@@ -141,51 +141,45 @@
                 </div>
             </div>`;
           $(".recommend").append(html);
-          var data = jsonData.data;
-          console.log(data)
-          var html = "";
-          $.each(data, function (k, v) {
-            if (i < 3) {
-              html += ` <a href="/appDetail.html?videoid=${v.videoid}" target="_blank">
-                        <ul class="danmuLi" style="height: 50px;margin-top: 15px">
-                            <li>
-                                <hr style="margin-top: 20px;"/>
-                                <div class="currentTime" style="width: 37px;color: #888888 "><img style="height: 100%;width: 100%" src="${v.coverurl}" alt=""></div>
-                            </li>
-                            <li style="margin-left: 53px;margin-top: -50px;display: flex;">
-                                <div class="msg" style="color: #888888 ">${v.title}</div>
-                                <div class="createTime" style="color: #888888;transform:scale(0.8);margin-left: auto;">播放量:${v.clickcount}</div>
-                            </li>
-
-                        </ul>
-                    </a>`;
-            } else {
-              var yu = "英语";
-              if (v.director.substr(1, 2) != null) {
-                yu = v.director.substr(1, 2);
-              }
-              html += `<a href="/appDetail.html?videoid=${v.videoid}" target="_blank">
-                       <ul class="danmuLi" style="height: 25px;margin-top: 15px">
-                        <li style="display: flex;">
-                            <div class="currentTime" style="color: #888888 ">[${yu}]</div>
-                            <div class="msg" style="color: #888888 ">${v.title}</div>
-                            <div class="createTime" style="color: #888888;transform:scale(0.8);margin-left: auto;">学习数:${v.clickcount}</div>
-                            <hr style="margin-top: 0px"/>
-                        </li>
-                    </ul></a>`;
-            }
-            i++;
-            if (i == 10) {
+          $.each(jsonData, function (index, eachobj) {
+            var html = `<div class="list" onclick="ccc(${eachobj.id})" >
+                <div class="title" style="display: flex;white-space:normal;overflow: hidden;">
+						<div style="width: 20px;height: 20px;background:${index<3?'#F25D8E':'#B8C0CC'};border-radius: 5px;text-align: center;color: white;font-weight: bolder;line-height: 20px;margin-right: 8px;">${index+1}</div>
+                        <div style="width: 230px;">${eachobj.folderName}</div>
+                </div>
+                <div class="author" style="border-bottom: 1px #E6E6E6 solid;height: 30px;margin-top: 10px;">
+                        <span style="color: #888;font-size: 14px;">
+                         发布时间：${eachobj.crtDate} 阅读数 ${eachobj.readcount}
+                          </span>
+                </div>
+            </div>`;
+            $(".recommend").append(html);
+            if (index > 4) {
               return false;
             }
           })
-          $(".recommend").append(html);
 
         },
         error: function (err) {
 
         }
       })
+    }
+    function ccc(id) {
+      var rows = select("M8610EQ008", {"id": id});
+      if (rows.type == 'pdf') {
+        localStorage.videoUrl = rows.src;
+        window.open("pdf.html")
+      } else if (rows.type == 'pdf' || rows.type == 'svg' || rows.type == 'png' || rows.type == 'jpg' || rows.type == 'jpeg' || rows.type == 'gif') {
+        prewImg(rows.src)
+      } else if (rows.type == 'mp4' || rows.type == 'avi' || rows.type == 'rm' || rows.type == 'mkv' || rows.type == 'asf' || rows.type == 'vob' || rows.type == 'asx' || rows.type == 'fla' || rows.type == 'mpe' || rows.type == 'mov' || rows.type == 'flv' || rows.type == 'swf' || rows.type == 'wmv' || rows.type == 'mpg' || rows.type == 'rmvb' || rows.type == 'mpeg'
+      ) {
+        getDplayer(rows.src)
+      } else if (rows.type == 'doc' || rows.type == 'docx' || rows.type == 'xlsx' || rows.type == 'pptx') {
+        prewdoc(rows.src)
+      } else {
+        alert("该文件格式不支持在线预览");
+      }
     }
     function uploadIndex() {
       layer.open({

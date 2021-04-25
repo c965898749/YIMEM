@@ -33,6 +33,7 @@ public class T8DocManage {
     private String src;
     private String size;
     private String type;
+    private Integer readcount;
 
 
 }

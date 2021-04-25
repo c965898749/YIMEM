@@ -15,6 +15,7 @@
       <arg column="crt_username" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="crt_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="crt_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="readcount" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
@@ -39,6 +40,9 @@
 
   <select id="M8610EQ005"  resultType="com.sy.model.T8DocManage">
     select folder_name,parent_id,is_directory from t8_doc_manage where id = #{id}
+  </select>
+  <select id="M8610EQ009"  resultType="com.sy.model.T8DocManage">
+    select  id,folder_name,crt_date,readcount from t8_doc_manage where is_directory = 0 order by readcount desc limit 10
   </select>
 
   <select id="M8610EQ006"  resultType="com.sy.model.T8DocManage">
@@ -218,6 +222,12 @@
       crt_username = #{crtUsername,jdbcType=VARCHAR},
       crt_date = #{crtDate,jdbcType=TIMESTAMP},
       crt_time = #{crtTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updatereadcount" parameterType="com.sy.model.T8DocManage">
+    update t8_doc_manage
+    set
+      readcount = readcount+1
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

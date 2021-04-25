@@ -308,6 +308,7 @@ function contextMenu_folder() {
 }
 
 function contextMenu_file() {
+
     $("#divall li.file").contextMenu('myMenu3', {
         bindings: {
             'open': function (t) {
@@ -1144,6 +1145,7 @@ function change() {
 }
 
 function dbclick() {
+
     $("#divall li.folder").dblclick(function () {
         clearTimeout(timeOutFn);
         // console.log("li dblclick");
@@ -1152,11 +1154,12 @@ function dbclick() {
     });
     $("#divall li.file").click(function (event) {
         clearTimeout(timeOutFn);
-        // console.log("li dblclick");
+
         var folder = $(this).children("input.changename");
         var id = folder.attr("data-id");
         var rows = select("M8610EQ008", {"id": id});
         if (rows.type == 'pdf') {
+
             localStorage.videoUrl = rows.src;
             window.open("pdf.html")
         } else if (rows.type == 'pdf' || rows.type == 'svg' || rows.type == 'png' || rows.type == 'jpg' || rows.type == 'jpeg' || rows.type == 'gif') {

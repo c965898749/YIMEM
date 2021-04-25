@@ -26,10 +26,12 @@ public interface T8DocManageMapper {
     List<T8DocManage> M8610EQ006(T8DocManage record);
     List<T8DocManage> M8610EQ007(T8DocManage record);
     List<T8DocManage> M8610EQ005(T8DocManage record);
+    List<T8DocManage> M8610EQ009();
     Integer M8610EU001(T8DocManage record);
     Integer M8610EQ004(T8DocManage record);
     Integer M8610ED001(T8DocManage record);
     Integer M8610ES001(T8DocManage record);
+    Integer updatereadcount(T8DocManage record);
     T8DocManage M8610EQ008(T8DocManage record);
 
 

@@ -67,6 +67,11 @@ public class T8DocManageServiceImpl implements T8DocManageService {
     }
 
     @Override
+    public List<T8DocManage> M8610EQ009() {
+        return t8DocManageMapper.M8610EQ009();
+    }
+
+    @Override
     public Integer M8610EU001(T8DocManage record) {
         return t8DocManageMapper.M8610EU001(record);
     }
@@ -97,6 +102,7 @@ public class T8DocManageServiceImpl implements T8DocManageService {
 
     @Override
     public T8DocManage M8610EQ008(T8DocManage record) {
+        t8DocManageMapper.updatereadcount(record);
         return t8DocManageMapper.M8610EQ008(record);
     }
 }
