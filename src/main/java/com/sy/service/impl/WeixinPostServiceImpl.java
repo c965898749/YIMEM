@@ -418,7 +418,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 for (T8DocManage t8DocManage : t8DocManages) {
                     count++;
                     String tile = t8DocManage.getFolderName();
-                    String src = t8DocManage.getSrc();
+                    String src ="http://www.yimem.com/web/viewer.html?file="+ t8DocManage.getSrc();
                     stringBuffer.append("\n\n<a href='" + src + "'>" + tile + "</a>");
                     if (count >= 5) {
                         break;
