@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <title>查询结果</title>
     <script src="jquery/jquery.js"></script>
+    <script src="js/setCookie.js"></script>
     <link rel="stylesheet" href="layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="assets/waifu.min.css?v=1.4.2"/>
     <script src="assets/jquery.min.js?v=3.3.1"></script>
     <!-- 实现拖动效果，需引入 JQuery UI -->
     <script src="assets/jquery-ui.min.js?v=1.12.1"></script>
-    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
-    <script src="js/setCookie.js"></script>
     <style>
         body {
             background-color: #F5F6F7;
@@ -137,6 +136,7 @@
     <div class="content_catolog" id="forum">论坛</div>
     <div class="content_catolog" id="ask">问答</div>
     <div class="content_catolog" id="video">默默</div>
+    <div class="content_catolog" id="interview">面试</div>
     <input type="text" value="" id="search_all_value">
     <div class="search_all" id="search_all">搜一搜</div>
     <div class="search_result">
@@ -219,6 +219,8 @@
                 ask_req()
             } else if (choice == 5) {
                 video_req()
+            } else if (choice == 6) {
+                interview_req()
             }
         } else {
             layer.msg("请输入搜索内容")
@@ -359,8 +361,66 @@
                     var video_id = $(this).attr("video_id")
                     window.location.href = "/appDetail.html?videoid=" + video_id
                 })
+            }else if (indexbig == "t8DocManages") {
+                $.each(dataeach, function (index, each) {
+                    var html = ` <div class="search_result_sub" t8DocManage_src="${each.src}" t="t8DocManage">
+            <p style="font-size: 20px">${each.folderName} <span style="float: right;margin-right: 10px;color: #01AAED">查看</span></p>
+            <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${each.description != null ? each.description : ""}</p>
+              日期：<span style="color: #00A3D9">${each.crtDate != null ? each.crtDate : "未知"}</span>
+        </div>`
+                    $(".search_result").append(html)
+                })
+                $(".search_result_sub[t='t8DocManage']").click(function () {
+                    localStorage.videoUrl = $(this).attr("t8DocManage_src");
+                    window.open("pdf.html")
+                })
             }
 
+
+        })
+    }
+
+    //点击面試事件
+    $("#interview").click(function () {
+        $(this).siblings().css("border-bottom", "none")
+        $(this).css("border-bottom", "red 2px solid")
+        interview_req()
+        choice = 6
+    })
+
+    //渲染面試搜索内容
+    function interview_req() {
+        var index = layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
+        $(".search_result").html("")
+        $.ajax({
+            url: "searchinterview",
+            type: "GET",
+            data: {"key": key},
+            dataType: "json",
+            success: function (json) {
+                if (json.success!=200){
+                    layer.msg("抱歉资源未找到")
+                }else {
+                    $.each(json.data, function (index, each) {
+                        var html = ` <div class="search_result_sub" t8DocManage_src="${each.src}" t="t8DocManage">
+            <p style="font-size: 20px">${each.folderName} <span style="float: right;margin-right: 10px;color: #01AAED">查看</span></p>
+            <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${each.description != null ? each.description : ""}</p>
+              日期：<span style="color: #00A3D9">${each.crtDate != null ? each.crtDate : "未知"}</span>
+        </div>`
+                        $(".search_result").append(html)
+                    })
+                    $(".search_result_sub[t='t8DocManage']").click(function () {
+                        localStorage.videoUrl = $(this).attr("t8DocManage_src");
+                        window.open("pdf.html")
+                    })
+                }
+                layer.close(index)
+
+            },
+            error: function (res) {
+                layer.close(index)
+                layer.msg("抱歉资源未找到")
+            }
 
         })
     }
@@ -383,24 +443,26 @@
             data: {"key": key},
             dataType: "json",
             success: function (json) {
-                $.each(json.data, function (index, each) {
-                    var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
+                if (json.success!=200){
+                    layer.msg("抱歉资源未找到")
+                }else {
+                    $.each(json.data, function (index, each) {
+                        // var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
 
-                    var html = ` <div class="search_result_sub" video_id="${each.videoid}" t="video">
+                        var html = ` <div class="search_result_sub" video_id="${each.videoid}" t="video">
             <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">播放</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${each.info != null ? each.info : ""}</p>
               日期：<span style="color: #00A3D9">${each.createtime!=null?each.createtime:"未知"}</span>
         </div>`
-                    $(".search_result").append(html)
-                })
-                $(".search_result_sub[t='video']").click(function () {
-                    var video_id = $(this).attr("video_id")
-                    window.location.href = "/appDetail.html?videoid=" + video_id
-                })
-                layer.close(index)
-                if (json.success!=200){
-                    layer.msg("抱歉资源未找到")
+                        $(".search_result").append(html)
+                    })
+                    $(".search_result_sub[t='video']").click(function () {
+                        var video_id = $(this).attr("video_id")
+                        window.location.href = "/appDetail.html?videoid=" + video_id
+                    })
                 }
+                layer.close(index)
+
             },
             error: function (res) {
                 layer.close(index)
@@ -429,25 +491,27 @@
             dataType: "json",
             success: function (json) {
                 ////console.log(json)
+                if (json.success!=200){
+                    layer.msg("抱歉资源未找到")
+                }else {
+                    $.each(json.data, function (index, each) {
+                        var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
 
-                $.each(json.data, function (index, each) {
-                    var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
-
-                    var html = ` <div class="search_result_sub" blog_id="${each.id}" t="blog">
+                        var html = ` <div class="search_result_sub" blog_id="${each.id}" t="blog">
             <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">博客</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${text}</p>
               日期：<span style="color: #00A3D9">${each.createtime}</span>
         </div>`
-                    $(".search_result").append(html)
-                })
-                $(".search_result_sub[t='blog']").click(function () {
-                    var blog_id = $(this).attr("blog_id")
-                    window.location.href = "/details.html?blog_id=" + blog_id
-                })
-                layer.close(index)
-                if (json.success!=200){
-                    layer.msg("抱歉资源未找到")
+                        $(".search_result").append(html)
+                    })
+                    $(".search_result_sub[t='blog']").click(function () {
+                        var blog_id = $(this).attr("blog_id")
+                        window.location.href = "/details.html?blog_id=" + blog_id
+                    })
                 }
+
+                layer.close(index)
+
 
             },
             error: function (res) {
@@ -477,24 +541,26 @@
             dataType: "json",
             success: function (json) {
                 // ////console.log(json)
-
-                $.each(json.data, function (index, each) {
-                    var text = `${each.intro}`.replace(/[^\u4e00-\u9fa5]/gi, "")
-                    var html = ` <div class="search_result_sub" down_id="${each.id}" t="down">
+                if (json.success!=200){
+                    layer.msg("抱歉资源未找到")
+                }else {
+                    $.each(json.data, function (index, each) {
+                        var text = `${each.intro}`.replace(/[^\u4e00-\u9fa5]/gi, "")
+                        var html = ` <div class="search_result_sub" down_id="${each.id}" t="down">
             <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">下载</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${text}</p>
             日期：<span style="color: #00A3D9">${each.createtime}</span>
         </div>`
-                    $(".search_result").append(html)
-                })
-                $(".search_result_sub[t='down']").click(function () {
-                    var down_id = $(this).attr("down_id")
-                    window.location.href = "detailpage.html?id=" + down_id
-                })
-                layer.close(index)
-                if (json.success!=200){
-                    layer.msg("抱歉资源未找到")
+                        $(".search_result").append(html)
+                    })
+                    $(".search_result_sub[t='down']").click(function () {
+                        var down_id = $(this).attr("down_id")
+                        window.location.href = "detailpage.html?id=" + down_id
+                    })
                 }
+
+                layer.close(index)
+
 
             },
             error: function (res) {
@@ -524,24 +590,26 @@
             dataType: "json",
             success: function (json) {
                 // ////console.log(json)
-
-                $.each(json.data, function (index, each) {
-                    var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
-                    var html = ` <div class="search_result_sub" forum_id="${each.id}" t="forum">
+                if (json.success!=200){
+                    layer.msg("抱歉资源未找到")
+                }else {
+                    $.each(json.data, function (index, each) {
+                        var text = `${each.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
+                        var html = ` <div class="search_result_sub" forum_id="${each.id}" t="forum">
             <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">论坛</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${text}</p>
               日期：<span style="color: #00A3D9">${each.createtime}</span>
         </div>`
-                    $(".search_result").append(html)
-                })
-                $(".search_result_sub[t='forum']").click(function () {
-                    var invitationId = $(this).attr("forum_id")
-                    window.location.href = "invitation_Details.html?invitationId=" + invitationId
-                })
-                layer.close(index)
-                if (json.success!=200){
-                    layer.msg("抱歉资源未找到")
+                        $(".search_result").append(html)
+                    })
+                    $(".search_result_sub[t='forum']").click(function () {
+                        var invitationId = $(this).attr("forum_id")
+                        window.location.href = "invitation_Details.html?invitationId=" + invitationId
+                    })
                 }
+
+                layer.close(index)
+
             },
             error: function (res) {
                 layer.close(index)
@@ -570,24 +638,26 @@
             dataType: "json",
             success: function (json) {
                 ////console.log(json)
-
-                $.each(json.data, function (index, each) {
-                    var text = `${each.askText}`.replace(/[^\u4e00-\u9fa5]/gi, "")
-                    var html = ` <div class="search_result_sub" ask_id="${each.askId}" t="ask">
+                if (json.success!=200){
+                    layer.msg("抱歉资源未找到")
+                }else {
+                    $.each(json.data, function (index, each) {
+                        var text = `${each.askText}`.replace(/[^\u4e00-\u9fa5]/gi, "")
+                        var html = ` <div class="search_result_sub" ask_id="${each.askId}" t="ask">
             <p style="font-size: 20px">${each.askName} <span style="float: right;margin-right: 10px;color: #01AAED">问答</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${text}</p>
              日期：<span style="color: #00A3D9">${each.createTime}</span>
         </div>`
-                    $(".search_result").append(html)
-                })
-                $(".search_result_sub[t='ask']").click(function () {
-                    var ask_id = $(this).attr("ask_id")
-                    window.location.href = "askInfor.html?askId=" + ask_id
-                })
-                layer.close(index)
-                if (json.success!=200){
-                    layer.msg("抱歉资源未找到")
+                        $(".search_result").append(html)
+                    })
+                    $(".search_result_sub[t='ask']").click(function () {
+                        var ask_id = $(this).attr("ask_id")
+                        window.location.href = "askInfor.html?askId=" + ask_id
+                    })
                 }
+
+                layer.close(index)
+
             },
             error: function (res) {
                 layer.close(index)

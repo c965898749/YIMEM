@@ -14,4 +14,6 @@ public interface SearchMapper {
     //搜索视频
     List<Video> queryVideo(String key);
 
+    List<T8DocManage> queryDocManage(String key);
+
 }

@@ -2,6 +2,7 @@ package com.sy.service.impl;
 
 import com.sy.mapper.BlogMapper;
 import com.sy.mapper.SearchMapper;
+import com.sy.mapper.T8DocManageMapper;
 import com.sy.model.*;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.SearchService;
@@ -21,7 +22,10 @@ public class SearchServiceImpl implements SearchService {
     private BlogMapper blogMapper;
     @Autowired
     private SearchMapper searchMapper;
+    @Autowired
+    private T8DocManageMapper t8DocManageMapper;
     private Logger log = Logger.getLogger(SearchServiceImpl.class.getName());
+
     @Override
     public BaseResp queryBlog(String key) {
         BaseResp baseResp = new BaseResp();
@@ -110,8 +114,25 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
+    public BaseResp queryinterview(String key) {
+        BaseResp baseResp = new BaseResp();
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("%");
+        stringBuffer.append(key);
+        stringBuffer.append("%");
+        List<T8DocManage> askList = searchMapper.queryDocManage(stringBuffer.toString());
+        if (askList.size() != 0) {
+            baseResp.setSuccess(200);
+            baseResp.setData(askList);
+        } else {
+            baseResp.setSuccess(404);
+        }
+        return baseResp;
+    }
+
+    @Override
     public BaseResp queryAll(String key) {
-        log.info("查询接受关键词----------"+key);
+        log.info("查询接受关键词----------" + key);
         //TODO           问题代码
 //        List<List<?>> list = new ArrayList<>();
 //        BaseResp baseResp = new BaseResp();
@@ -137,7 +158,7 @@ public class SearchServiceImpl implements SearchService {
 //        }
 //
 //        return baseResp;
-        Map<String,List<?>> map = new HashMap<>();
+        Map<String, List<?>> map = new HashMap<>();
         BaseResp baseResp = new BaseResp();
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("%");
@@ -148,23 +169,25 @@ public class SearchServiceImpl implements SearchService {
         List<Invitation> forumList = searchMapper.queryForum(stringBuffer.toString());
         List<Upload> uploadList = searchMapper.queryDownload(stringBuffer.toString());
         List<Video> videos = searchMapper.queryVideo(stringBuffer.toString());
-        if (Xtool.isNotNull(blogList)){
-            map.put("Blog",blogList);
+        List<T8DocManage> t8DocManages = searchMapper.queryDocManage(stringBuffer.toString());
+        if (Xtool.isNotNull(blogList)) {
+            map.put("Blog", blogList);
         }
-      if (Xtool.isNotNull(askList)){
-          map.put("Ask",askList);
-      }
-      if (Xtool.isNotNull(forumList)){
-          map.put("Invitation",forumList);
-      }
-      if (Xtool.isNotNull(uploadList))
-      {
-          map.put("Upload",uploadList);
-      }
-      if (Xtool.isNotNull(videos))
-      {
-          map.put("Video",videos);
-      }
+        if (Xtool.isNotNull(askList)) {
+            map.put("Ask", askList);
+        }
+        if (Xtool.isNotNull(forumList)) {
+            map.put("Invitation", forumList);
+        }
+        if (Xtool.isNotNull(uploadList)) {
+            map.put("Upload", uploadList);
+        }
+        if (Xtool.isNotNull(videos)) {
+            map.put("Video", videos);
+        }
+        if (Xtool.isNotNull(t8DocManages)) {
+            map.put("t8DocManages", t8DocManages);
+        }
         if (!CollectionUtils.isEmpty(map)) {
             baseResp.setSuccess(200);
             baseResp.setData(map);

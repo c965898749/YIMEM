@@ -57,6 +57,11 @@ public class T8DocManageServiceImpl implements T8DocManageService {
     }
 
     @Override
+    public List<T8DocManage> M8610EQ007(T8DocManage record) {
+        return t8DocManageMapper.M8610EQ007(record);
+    }
+
+    @Override
     public List<T8DocManage> M8610EQ005(T8DocManage record) {
         return t8DocManageMapper.M8610EQ005(record);
     }

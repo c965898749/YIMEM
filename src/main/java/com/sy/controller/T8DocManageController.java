@@ -68,6 +68,10 @@ public class T8DocManageController {
     public  List<T8DocManage>  M8610EQ006(@RequestBody T8DocManage record) {
         return t8DocManageService.M8610EQ006(record);
     }
+    @RequestMapping(value = "M8610EQ007",method = RequestMethod.POST)
+    public  List<T8DocManage>  M8610EQ007(@RequestBody T8DocManage record) {
+        return t8DocManageService.M8610EQ007(record);
+    }
 
     @RequestMapping(value = "M8610EU001",method = RequestMethod.POST)
     public  Integer  M8610EU001(@RequestBody T8DocManage record) {

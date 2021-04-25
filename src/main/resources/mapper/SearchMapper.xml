@@ -61,6 +61,9 @@
     <select id="queryAsk" resultType="com.sy.model.Ask">
         select * from ask where askName like #{key}
     </select>
+    <select id="queryDocManage" resultType="com.sy.model.T8DocManage">
+        select * from t8_doc_manage where folder_name like #{key} and is_directory=0  and type='pdf'
+    </select>
     <select id="queryVideo" resultMap="ResultMapWithBLOBs">
         select
         <include refid="Base_Column_List"/>

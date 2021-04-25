@@ -45,4 +45,10 @@ public class SearchController {
         return baseResp;
     }
 
+    @RequestMapping(value = "searchinterview",method = RequestMethod.GET)
+    public BaseResp querysearchinterview(String key,HttpServletResponse response){
+        BaseResp baseResp = searchService.queryinterview(key);
+        return baseResp;
+    }
+
 }

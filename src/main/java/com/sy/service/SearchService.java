@@ -16,4 +16,6 @@ public interface SearchService {
     BaseResp queryAll(String key);
     //查询视频
     BaseResp queryVideo(String key);
+    //查看面试
+    BaseResp queryinterview(String key);
 }

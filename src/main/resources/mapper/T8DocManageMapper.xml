@@ -45,6 +45,10 @@
     select id,folder_name,is_directory from t8_doc_manage where parent_id = #{id} order by is_directory desc,folder_name
   </select>
 
+  <select id="M8610EQ007"  resultType="com.sy.model.T8DocManage">
+    select id,folder_name,is_directory from t8_doc_manage where folder_name like concat('%',#{folderName},'%') and is_directory=0 order by is_directory desc,folder_name
+  </select>
+
   <update id="M8610EU001" parameterType="com.sy.model.T8DocManage">
     update t8_doc_manage set description = #{description},folder_name = #{folderName},upd_username = #{username},upd_date = now(),upd_time = now() where id = #{id}
   </update>
