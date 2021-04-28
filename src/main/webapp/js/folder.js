@@ -1251,8 +1251,8 @@ function getDplayer(videoUrl) {
         element: document.getElementById('Dplayer'),
         video: {
             // url: 'http://www.yimem.com/group1/M00/00/07/wKgAaWBHPKqAK6-GAeKDAL22n5E231.mp4',
-            url: '/mp4/22.mp4',
-            // url: videoUrl,
+            // url: '/mp4/22.mp4',
+            url: videoUrl,
             // url: 'https://www.fztxylgy.com:65/20210419/FEYYVKSM/1500kb/hls/c02NLE86.ts',
             // pic: coverUrl
             // pic: 'http://www.yimem.com/group1/M00/00/00/wKgBBV7dFPCAKpdxAAA-0c-9Y4o668.jpg'
