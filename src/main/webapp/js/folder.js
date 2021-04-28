@@ -19,7 +19,6 @@ oprate_param = {
     "parentId": "",
     "can_paste": false
 };
-
 function init(parentId, mode) {
     //初始化导航栏
     navigation(parentId);
@@ -196,7 +195,8 @@ function contextMenu_folder() {
             'rename': function (t) {
                 $("#background2").css("display", "block");
                 //重命名
-                var folder = $(t).children("input.changename"),
+                // var folder = $(t).children("input.changename"),
+                var folder = $(t).children("textarea.changename"),
                     // folderName = folder.val(),
                     id = folder.attr("data-id"),
                     isDirectory = $(t).hasClass("folder") ? 1 : 0;
@@ -221,7 +221,8 @@ function contextMenu_folder() {
             },
             'delete': function (t) {
                 //删除文件夹
-                var id = $(t).children("input.changename").attr("data-id"),
+                // var id = $(t).children("input.changename").attr("data-id"),
+                var id = $(t).children("textarea.changename").attr("data-id"),
                     isDirectory = $(t).hasClass("folder") ? 1 : 0,
                     params = {
                         "id": id,
@@ -231,7 +232,8 @@ function contextMenu_folder() {
             },
             'download': function (t) {
                 //将文件夹打包下载
-                var folder = $(t).children("input.changename"),
+                // var folder = $(t).children("input.changename"),
+                var folder = $(t).children("textarea.changename"),
                     id = folder.attr("data-id"),
                     isDirectory = $(t).hasClass("folder") ? 1 : 0,
                     folderName = folder.val(),
@@ -250,7 +252,8 @@ function contextMenu_folder() {
                 var focus_id = [];
                 $("#divall").find("li").each(function (i) {
                     if ($(this).hasClass("focus")) {
-                        focus_id.push($(this).children("input.changename").attr("data-id"));
+                        // focus_id.push($(this).children("input.changename").attr("data-id"));
+                        focus_id.push($(this).children("textarea.changename").attr("data-id"));
                     }
                 });
                 oprate_param.mode = 1;
@@ -264,7 +267,8 @@ function contextMenu_folder() {
                 var focus_id = [];
                 $("#divall").find("li").each(function (i) {
                     if ($(this).hasClass("focus")) {
-                        focus_id.push($(this).children("input.changename").attr("data-id"));
+                        // focus_id.push($(this).children("input.changename").attr("data-id"));
+                        focus_id.push($(this).children("textarea.changename").attr("data-id"));
                     }
                 });
                 oprate_param.mode = 2;
@@ -274,7 +278,8 @@ function contextMenu_folder() {
                 alert("cut了：" + focus_id);
             },
             'paste': function (t) {
-                var folder = $(t).children("input.changename"),
+                // var folder = $(t).children("input.changename"),
+                var folder = $(t).children("textarea.changename"),
                     id = folder.attr("data-id");
                 if (oprate_param.can_paste != true) {
                     alert("剪切板中无内容!");
@@ -312,7 +317,8 @@ function contextMenu_file() {
     $("#divall li.file").contextMenu('myMenu3', {
         bindings: {
             'open': function (t) {
-                var folder = $(t).children("input.changename"),
+                // var folder = $(t).children("input.changename"),
+                var folder = $(t).children("textarea.changename"),
                     id = folder.attr("data-id");
                 var rows = select("M8610EQ008", {"id": id});
                 if (rows.type == 'pdf') {
@@ -336,7 +342,8 @@ function contextMenu_file() {
                 //重命名
                 $("#background2").css("display", "block");
                 //重命名
-                var folder = $(t).children("input.changename"),
+                // var folder = $(t).children("input.changename"),
+                var folder = $(t).children("textarea.changename"),
                     // folderName = folder.val(),
                     id = folder.attr("data-id"),
                     isDirectory = $(t).hasClass("folder") ? 1 : 0;
@@ -363,7 +370,8 @@ function contextMenu_file() {
                 var focus_id = [];
                 $("#divall").find("li").each(function (i) {
                     if ($(this).hasClass("focus")) {
-                        focus_id.push($(this).children("input.changename").attr("data-id"));
+                        // focus_id.push($(this).children("input.changename").attr("data-id"));
+                        focus_id.push($(this).children("textarea.changename").attr("data-id"));
                     }
                 });
                 oprate_param.mode = 1;
@@ -377,7 +385,8 @@ function contextMenu_file() {
                 var focus_id = [];
                 $("#divall").find("li").each(function (i) {
                     if ($(this).hasClass("focus")) {
-                        focus_id.push($(this).children("input.changename").attr("data-id"));
+                        // focus_id.push($(this).children("input.changename").attr("data-id"));
+                        focus_id.push($(this).children("textarea.changename").attr("data-id"));
                     }
                 });
                 oprate_param.mode = 2;
@@ -388,7 +397,8 @@ function contextMenu_file() {
             },
             'delete': function (t) {
                 //删除单个文件
-                var id = $(t).children("input.changename").attr("data-id"),
+                // var id = $(t).children("input.changename").attr("data-id"),
+                var id = $(t).children("textarea.changename").attr("data-id"),
                     isDirectory = $(t).hasClass("folder") ? 1 : 0,
                     params = {
                         "id": id,
@@ -398,7 +408,8 @@ function contextMenu_file() {
             },
             'download': function (t) {
                 //下载单个文件
-                var folder = $(t).children("input.changename"),
+                // var folder = $(t).children("input.changename"),
+                var folder = $(t).children("textarea.changename"),
                     id = folder.attr("data-id"),
                     isDirectory = $(t).hasClass("folder") ? 1 : 0,
                     folderName = folder.val() + "." + folder.attr("data-filetype");
@@ -444,7 +455,8 @@ function contextMenu_blank() {
                 var folderNames = [],
                     newfolderName = "";
                 $("#all_folder").find("ul").eq(0).find("li.folder").each(function (index) {
-                    folderNames.push($(this).children("input.changename").val());
+                    // folderNames.push($(this).children("input.changename").val());
+                    folderNames.push($(this).children("textarea.changename").val());
                 });
                 for (var i = 0; i < 100; i++) {
                     if (i == 0) {
@@ -637,18 +649,35 @@ function searchbtn() {
     if (rows.length > 0) {
         var str = "";
         for (var i = 0; i < rows.length; i++) {
+            // if (rows[i].isDirectory == "1") {
+            //     str += "<li class='folder' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
+            //     str += rows[i].folderName;
+            //     str += "' data-id='" + rows[i].id + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
+            // } else if (rows[i].isDirectory == "0") {
+            //     var doc_fullname = rows[i].folderName,
+            //         doc_name = doc_fullname.substring(0, doc_fullname.lastIndexOf('.')),
+            //         doc_type = doc_fullname.substring(doc_fullname.lastIndexOf('.') + 1),
+            //         doc_type_class = $.inArray(doc_type, ["cab", "rar", "tar", "zip", "pptx", "svg", "png", "jpg", "jpeg", "gif", "doc", "docx", "xls", "xlsx", "pdf", "mp4", "avi", "rm", "mkv", "asf", "vob", "asx", "fla", "mpe", "mov", "flv", "swf", "wmv", "mpg", "rmvb", "mpeg"]) != -1 ? doc_type : "other-filetype";
+            //     str += "<li class='file " + doc_type_class + "' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
+            //     str += doc_name;
+            //     str += "' data-id='" + rows[i].id + "' data-filetype='" + doc_type + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
+            // }
             if (rows[i].isDirectory == "1") {
-                str += "<li class='folder' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
-                str += rows[i].folderName;
-                str += "' data-id='" + rows[i].id + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
+                // str += "<li class='folder' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
+                // str += rows[i].folderName;
+                // str += "' data-id='" + rows[i].id + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
+                str += "<li class='folder' title='" + rows[i].folderName + "' index='" + i + "'><textarea  rows='3' class='changename' value='";
+                str += "' data-id='" + rows[i].id + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'>"+ rows[i].folderName.replace(/(.{28})(.*)/g,'$1...')+"</textarea></li>";
             } else if (rows[i].isDirectory == "0") {
                 var doc_fullname = rows[i].folderName,
                     doc_name = doc_fullname.substring(0, doc_fullname.lastIndexOf('.')),
                     doc_type = doc_fullname.substring(doc_fullname.lastIndexOf('.') + 1),
                     doc_type_class = $.inArray(doc_type, ["cab", "rar", "tar", "zip", "pptx", "svg", "png", "jpg", "jpeg", "gif", "doc", "docx", "xls", "xlsx", "pdf", "mp4", "avi", "rm", "mkv", "asf", "vob", "asx", "fla", "mpe", "mov", "flv", "swf", "wmv", "mpg", "rmvb", "mpeg"]) != -1 ? doc_type : "other-filetype";
-                str += "<li class='file " + doc_type_class + "' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
-                str += doc_name;
-                str += "' data-id='" + rows[i].id + "' data-filetype='" + doc_type + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
+                // str += "<li class='file " + doc_type_class + "' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
+                // str += doc_name;
+                // str += "' data-id='" + rows[i].id + "' data-filetype='" + doc_type + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
+                str += "<li class='file " + doc_type_class + "' title='" + rows[i].folderName + "' index='" + i + "'><textarea  rows='3' class='changename' ";
+                str += "' data-id='" + rows[i].id + "' data-filetype='" + doc_type + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'>"+ rows[i].folderName.replace(/(.{28})(.*)/g,'$1...')+"</textarea></li>";
             }
         }
         $("#divall").append(str);
@@ -664,17 +693,21 @@ function load() {
         var str = "";
         for (var i = 0; i < rows.length; i++) {
             if (rows[i].isDirectory == "1") {
-                str += "<li class='folder' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
-                str += rows[i].folderName;
-                str += "' data-id='" + rows[i].id + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
+                // str += "<li class='folder' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
+                // str += rows[i].folderName;
+                // str += "' data-id='" + rows[i].id + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
+                str += "<li class='folder' title='" + rows[i].folderName + "' index='" + i + "'><textarea  rows='3' class='changename' value='";
+                str += "' data-id='" + rows[i].id + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'>"+ rows[i].folderName.replace(/(.{28})(.*)/g,'$1...')+"</textarea></li>";
             } else if (rows[i].isDirectory == "0") {
                 var doc_fullname = rows[i].folderName,
                     doc_name = doc_fullname.substring(0, doc_fullname.lastIndexOf('.')),
                     doc_type = doc_fullname.substring(doc_fullname.lastIndexOf('.') + 1),
                     doc_type_class = $.inArray(doc_type, ["cab", "rar", "tar", "zip", "pptx", "svg", "png", "jpg", "jpeg", "gif", "doc", "docx", "xls", "xlsx", "pdf", "mp4", "avi", "rm", "mkv", "asf", "vob", "asx", "fla", "mpe", "mov", "flv", "swf", "wmv", "mpg", "rmvb", "mpeg"]) != -1 ? doc_type : "other-filetype";
-                str += "<li class='file " + doc_type_class + "' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
-                str += doc_name;
-                str += "' data-id='" + rows[i].id + "' data-filetype='" + doc_type + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
+                // str += "<li class='file " + doc_type_class + "' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
+                // str += doc_name;
+                // str += "' data-id='" + rows[i].id + "' data-filetype='" + doc_type + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
+                str += "<li class='file " + doc_type_class + "' title='" + rows[i].folderName + "' index='" + i + "'><textarea  rows='3' class='changename' ";
+                str += "' data-id='" + rows[i].id + "' data-filetype='" + doc_type + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'>"+ rows[i].folderName.replace(/(.{28})(.*)/g,'$1...')+"</textarea></li>";
             }
         }
         $("#divall").append(str);
@@ -944,13 +977,15 @@ function leftClick() {
     //点击文件夹
     $("#divall li").click(function (event) {
         var $this = $(this),
-            folderName = $this.children("input.changename"),
+            // folderName = $this.children("input.changename"),
+            folderName = $this.children("textarea.changename"),
             index = $this.attr("index");
         if (is_ctrl_down == true && is_shift_down == false) { //按下ctrl
             event.stopPropagation();
             focus_index = index;
             $("#divall").find("li").each(function (index) {
-                $(this).children("input.changename").attr("disabled", "disabled");
+                // $(this).children("input.changename").attr("disabled", "disabled");
+                $(this).children("textarea.changename").attr("disabled", "disabled");
             });
             if ($this.hasClass("focus")) {
                 $this.removeClass("focus");
@@ -969,7 +1004,8 @@ function leftClick() {
                 $("#divall").find("li").each(function (i) {
                     var i_index = $(this).attr("index");
                     $(this).removeClass("focus");
-                    $(this).children("input.changename").attr("disabled", "disabled");
+                    // $(this).children("input.changename").attr("disabled", "disabled");
+                    $(this).children("textarea.changename").attr("disabled", "disabled");
                     if (i_index >= index_min && i_index <= index_max) {
                         $(this).addClass("focus");
                     }
@@ -980,7 +1016,8 @@ function leftClick() {
             event.stopPropagation();
             $("#divall").find("li").each(function (index) {
                 $(this).removeClass("focus");
-                $(this).children("input.changename").attr("disabled", "disabled");
+                // $(this).children("input.changename").attr("disabled", "disabled");
+                $(this).children("textarea.changename").attr("disabled", "disabled");
             });
             $this.addClass("focus");
             focus_index = index;
@@ -993,10 +1030,11 @@ function leftClick() {
 
     });
     //点击文件名称
-    $("#divall li input.changename").click(function (event) {
+    // $("#divall li input.changename").click(function (event) {
+    $("#divall li textarea.changename").click(function (event) {
         if (is_ctrl_down == false) { //没有按下ctrl
             event.stopPropagation();
-            console.log("input click");
+            console.log("textarea click");
         }
 
     });
@@ -1011,7 +1049,8 @@ function leftClick() {
         }
         $("#divall").find("li").each(function (index) {
             $(this).removeClass("focus");
-            $(this).children("input.changename").attr("disabled", "disabled");
+            // $(this).children("input.changename").attr("disabled", "disabled");
+            $(this).children("textarea.changename").attr("disabled", "disabled");
         });
         info(1, 0);
     });
@@ -1096,7 +1135,8 @@ function leftClick() {
 }
 
 function focus() {
-    $("#divall li input.changename").focus(function () {
+    // $("#divall li input.changename").focus(function () {
+    $("#divall li textarea.changename").focus(function () {
         //console.log("input focus");
     });
 
@@ -1110,7 +1150,8 @@ function blur() {
         //console.log("li blur");
     });
 
-    $("#divall li input.changename").blur(function () {
+    // $("#divall li input.changename").blur(function () {
+    $("#divall li textarea.changename").blur(function () {
         //console.log("input blur");
         $(this).attr("disabled", "disabled");
     });
@@ -1118,7 +1159,8 @@ function blur() {
 }
 
 function change() {
-    $("#divall li input.changename").change(function () {
+    // $("#divall li input.changename").change(function () {
+    $("#divall li textarea.changename").change(function () {
         //console.log("input change");
         var folder = $(this).parent("li"),
             data_last_value = $(this).attr("data-last-value"),
@@ -1149,13 +1191,15 @@ function dbclick() {
     $("#divall li.folder").dblclick(function () {
         clearTimeout(timeOutFn);
         // console.log("li dblclick");
-        var folder = $(this).children("input.changename");
+        // var folder = $(this).children("input.changename");
+        var folder = $(this).children("textarea.changename");
         init(folder.attr("data-id"), 6);
     });
     $("#divall li.file").click(function (event) {
         clearTimeout(timeOutFn);
 
-        var folder = $(this).children("input.changename");
+        // var folder = $(this).children("input.changename");
+        var folder = $(this).children("textarea.changename");
         var id = folder.attr("data-id");
         var rows = select("M8610EQ008", {"id": id});
         if (rows.type == 'pdf') {
@@ -1207,8 +1251,8 @@ function getDplayer(videoUrl) {
         element: document.getElementById('Dplayer'),
         video: {
             // url: 'http://www.yimem.com/group1/M00/00/07/wKgAaWBHPKqAK6-GAeKDAL22n5E231.mp4',
-            // url: '/mp4/1_SpringMVC课程介绍.mp4',
-            url: videoUrl,
+            url: '/mp4/22.mp4',
+            // url: videoUrl,
             // url: 'https://www.fztxylgy.com:65/20210419/FEYYVKSM/1500kb/hls/c02NLE86.ts',
             // pic: coverUrl
             // pic: 'http://www.yimem.com/group1/M00/00/00/wKgBBV7dFPCAKpdxAAA-0c-9Y4o668.jpg'

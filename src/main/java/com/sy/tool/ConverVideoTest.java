@@ -1,5 +1,7 @@
 package com.sy.tool;
 
+import java.io.File;
+
 public class ConverVideoTest {
 
     /**
@@ -11,10 +13,26 @@ public class ConverVideoTest {
      */
 
     /*本地测试专用--zoutao*/
+//    public static void main(String[] args) {
+//        ConverVideoTest c = new ConverVideoTest();
+//        String yuanPATH = "D:/shipingzhuanma/22.avi";  //本地源视频
+//        c.run(yuanPATH);
+//    }
     public static void main(String[] args) {
-        ConverVideoTest c = new ConverVideoTest();
-        String yuanPATH = "D:/shipingzhuanma/22.avi";  //本地源视频
-        c.run(yuanPATH);
+        File file = new File("D:\\shipingzhuanma");
+        delete(file);
+    }
+    private static void delete(File f) {
+        File[] fi = f.listFiles();
+        for (File file : fi) {
+            if (file.isDirectory()) {
+                delete(file);
+            } else if (file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("avi")) {
+                System.out.println("成功删除" + file.getName());
+                file.delete();
+
+            }
+        }
     }
 
     //web调用
