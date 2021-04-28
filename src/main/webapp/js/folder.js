@@ -1365,7 +1365,7 @@ var update_folderName = function () {
     flag = true;
     // K.popup.close($("#M8610P001"));
     //修改文件名
-    $("#divall").find("input[data-id=" + params.id + "]").val(params.folderName);
+    $("#divall").find("textarea[data-id=" + params.id + "]").val(params.folderName);
     $("#background2").removeData();
     $("#background2").css("display", "none");
     return flag;
