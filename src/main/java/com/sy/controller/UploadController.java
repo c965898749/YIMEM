@@ -139,6 +139,7 @@ public class UploadController {
                 System.out.println("接收文件");
                 if (extName.equals("avi") || extName.equals("rm")
                         || extName.equals("rmvb") || extName.equals("wmv")
+                        || extName.equals("mp4") || extName.equals("wmv")
                         || extName.equals("3gp") || extName.equals("mov")
                         || extName.equals("flv") || extName.equals("ogg")) {
                     System.out.println("========开始调用视频转码工具类=======");

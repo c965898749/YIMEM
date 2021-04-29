@@ -27,13 +27,14 @@ public class Constants {
 
 //    public static String videofolder = "D:/VRMS-Workspace/YIMEM/src/main/webapp/mp4/";    // 需要被转换格式的视频目录
     public static String videofolder = "D:/项目/YIMEM/src/main/webapp/mp4/";    // 需要被转换格式的视频目录
-        public static final String videoRealPath = "/shipingzhuanma/";
-//    public static final String videoRealPath = "D:/shipingzhuanma/";
+//        public static final String videoRealPath = "/shipingzhuanma/";
+    public static final String videoRealPath = "D:/shipingzhuanma/";
 //    public static final String videoRealPath = "D:/VRMS-Workspace/YIMEM/src/main/webapp/mp4/";    // 需要被截图的视频目录
 
 //    public static String targetfolder = "D:/VRMS-Workspace/YIMEM/src/main/webapp/mp4/"; // 转码后视频保存的目录
 //    public static String targetfolder = "D:/项目/YIMEM/src/main/webapp/mp4/"; // 转码后视频保存的目录
-    public static String targetfolder = "D:/shipingzhuanma/";; // 转码后视频保存的目录
+//    public static String targetfolder = "D:/shipingzhuanma/";; // 转码后视频保存的目录
+    public static String targetfolder = "D:/shipingzhuanma2/";; // 转码后视频保存的目录
 //    public static String targetfolder = "/shipingzhuanma/"; // 转码后视频保存的目录
     public static final String imageRealPath = "D://acView/convert/"; // 截图的存放目录
 
