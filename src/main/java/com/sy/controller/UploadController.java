@@ -141,7 +141,7 @@ public class UploadController {
                         || extName.equals("rmvb") || extName.equals("wmv")
 //                        || extName.equals("mp4") || extName.equals("wmv")
                         || extName.equals("3gp") || extName.equals("mov")
-                        || extName.equals("flv") || extName.equals("ogg")) {
+                        || extName.equals("ogg")) {
                     System.out.println("========开始调用视频转码工具类=======");
                     //调用转码机制flv mp4 f4v m3u8 webm ogg放行直接播放，
                     //asx，asf，mpg，wmv，3gp，mov，avi，wmv9，rm，rmvb等进行其他转码为mp4
