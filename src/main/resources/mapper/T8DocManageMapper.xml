@@ -46,7 +46,7 @@
   </select>
 
   <select id="M8610EQ006"  resultType="com.sy.model.T8DocManage">
-    select id,folder_name,is_directory from t8_doc_manage where parent_id = #{id} order by folder_name+0
+    select id,folder_name,is_directory from t8_doc_manage where parent_id = #{id} order by is_directory DESC,folder_name+0
   </select>
 
   <select id="M8610EQ007"  resultType="com.sy.model.T8DocManage">
