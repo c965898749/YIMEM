@@ -9,6 +9,8 @@ import com.sy.model.Blog;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.BlogService;
+import com.sy.tool.BaiduApiUtil;
+import com.sy.tool.Constants;
 import com.sy.tool.HTMLSpirit;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,15 @@ public class BlogServiceImpl implements BlogService {
             baseResp.setData(blog.getId());
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("发布成功");
+            //向百度推送
+            //需要提交的资源链接
+            String[] urlsArr = {
+                    "http://www.yimem.com/details.html?blog_id="+blog.getId()
+            };
+            //将urlsArr数组转化为字符串形式
+            String urlsStr = BaiduApiUtil.urlsArrToString(urlsArr);
+            //打印结果
+            System.out.println(BaiduApiUtil.Post(Constants.SITE, Constants.BAITOKEN, urlsStr));
         } else {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("发布失败");
@@ -257,6 +268,15 @@ public class BlogServiceImpl implements BlogService {
         blog.setId(blogId);
         int result = blogMapper.modifierBlog(blog);
         if (result > 0) {
+            //向百度推送
+            //需要提交的资源链接
+            String[] urlsArr = {
+                    "http://www.yimem.com/details.html?blog_id="+blog.getId()
+            };
+            //将urlsArr数组转化为字符串形式
+            String urlsStr = BaiduApiUtil.urlsArrToString(urlsArr);
+            //打印结果
+            System.out.println(BaiduApiUtil.Post(Constants.SITE, Constants.BAITOKEN, urlsStr));
             baseResp.setData(blog.getId());
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("发布成功");

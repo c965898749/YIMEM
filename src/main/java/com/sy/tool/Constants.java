@@ -1,6 +1,12 @@
 package com.sy.tool;
 
 public class Constants {
+    //站点
+    public static final String SITE = "http://www.yimem.com";  //改为自己站点的site值
+
+    //百度token
+    public static final String BAITOKEN = "FSOogkX7tXsHm0Dk";   //改为自己站点的token
+
     //手机号正则表达式
     public static final String PHONE_REG = "^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\\d{8}$";
 
