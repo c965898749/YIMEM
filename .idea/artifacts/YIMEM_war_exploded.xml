@@ -90,6 +90,7 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-websocket:4.3.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.jsoup:jsoup:1.8.3" />
           <element id="library" level="project" name="Maven: com.alipay.sdk:alipay-sdk-java:3.7.4.ALL" />
+          <element id="library" level="project" name="Maven: eu.bitwalker:UserAgentUtils:1.21" />
         </element>
       </element>
       <element id="directory" name="META-INF">

@@ -7,714 +7,95 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/YIMEM_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/YIMEM_war_exploded.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_druid_1_1_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_druid_1_1_10.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_fastjson_1_1_41.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_fastjson_1_1_41.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alipay_sdk_alipay_sdk_java_3_7_4_ALL.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alipay_sdk_alipay_sdk_java_3_7_4_ALL.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_7_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_7_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_7_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_7_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_7_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_7_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jsqlparser_jsqlparser_0_9_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jsqlparser_jsqlparser_0_9_4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_miemiedev_mybatis_paginator_1_2_15.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_miemiedev_mybatis_paginator_1_2_15.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_pagehelper_pagehelper_4_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_pagehelper_pagehelper_4_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_googlecode_json_simple_json_simple_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_googlecode_json_simple_json_simple_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_rabbitmq_amqp_client_4_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_rabbitmq_amqp_client_4_0_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_rabbitmq_http_client_2_0_1_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_rabbitmq_http_client_2_0_1_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_mail_javax_mail_1_5_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_mail_javax_mail_1_5_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_thoughtworks_xstream_xstream_1_4_9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_thoughtworks_xstream_xstream_1_4_9.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_9.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_dbcp_commons_dbcp_1_2_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_dbcp_commons_dbcp_1_2_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_3_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_3_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_pool_commons_pool_1_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_pool_commons_pool_1_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_buffer_4_1_16_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_buffer_4_1_16_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_4_1_16_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_4_1_16_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_http_4_1_16_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_http_4_1_16_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_socks_4_1_16_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_socks_4_1_16_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_common_4_1_16_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_common_4_1_16_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_4_1_16_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_4_1_16_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_proxy_4_1_16_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_proxy_4_1_16_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_resolver_4_1_16_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_resolver_4_1_16_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_4_1_16_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_4_1_16_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_native_epoll_4_1_16_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_native_epoll_4_1_16_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_native_unix_common_4_1_16_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_native_unix_common_4_1_16_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_projectreactor_ipc_reactor_netty_0_7_1_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_projectreactor_ipc_reactor_netty_0_7_1_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_projectreactor_reactor_core_3_1_1_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_projectreactor_reactor_core_3_1_1_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_activation_activation_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_activation_activation_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_javaee_api_7_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_javaee_api_7_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_mail_mail_1_4_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_mail_mail_1_4_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_jstl_1_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_jstl_1_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__log4j_log4j_1_2_17.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__log4j_log4j_1_2_17.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_30.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_30.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_oschina_zcx7878_fastdfs_client_java_1_27_0_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_oschina_zcx7878_fastdfs_client_java_1_27_0_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_4_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_4_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjtools_1_8_14.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjtools_1_8_14.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_jackson_jackson_core_asl_1_9_13.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_jackson_jackson_core_asl_1_9_13.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_jackson_jackson_mapper_asl_1_9_13.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_jackson_jackson_mapper_asl_1_9_13.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jsoup_jsoup_1_8_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jsoup_jsoup_1_8_3.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_3_2_6.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_spring_1_3_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_projectlombok_lombok_1_18_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_projectlombok_lombok_1_18_10.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_reactivestreams_reactive_streams_1_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_reactivestreams_reactive_streams_1_0_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_log4j12_1_7_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_log4j12_1_7_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_amqp_spring_amqp_1_7_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_amqp_spring_amqp_1_7_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_amqp_spring_rabbit_1_7_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_amqp_spring_rabbit_1_7_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_retry_spring_retry_1_2_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_retry_spring_retry_1_2_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_4_3_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_4_3_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_4_3_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_4_3_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_4_3_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_4_3_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_support_4_3_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_support_4_3_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_4_3_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_4_3_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_4_3_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_4_3_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_4_3_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_4_3_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_messaging_4_3_5_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_messaging_4_3_5_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_4_3_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_4_3_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_4_3_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_4_3_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_4_3_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_4_3_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webflux_5_0_1_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webflux_5_0_1_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_4_3_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_4_3_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_websocket_4_3_2_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_websocket_4_3_2_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__redis_clients_jedis_2_9_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__redis_clients_jedis_2_9_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_0_b2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_0_b2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xmlpull_xmlpull_1_1_3_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xmlpull_xmlpull_1_1_3_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xpp3_xpp3_min_1_1_4c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xpp3_xpp3_min_1_1_4c.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YIMEM.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YIMEM.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/Allforumsubdivide.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Allforumsubdivide.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/Msg.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Msg.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ValidationEmail.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ValidationEmail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/addmymusic.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/addmymusic.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/app.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/appDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/appDetail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/askInfor.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/askInfor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/asking.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/asking.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/blog_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/blog_home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/blog_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/blog_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/bloggerHomepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/bloggerHomepage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/blogging.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/blogging.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/blogging2.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/blogging2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/detailpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/detailpage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/details.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/download.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/download.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/dynamic.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/dynamic.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/forum.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/forum.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/forumcld.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/forumcld.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/forumsubdivide.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/forumsubdivide.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/hotforumsubdivide.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/hotforumsubdivide.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/information.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/information.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/interview.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/interview.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/invitation_Details.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/invitation_Details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/jquery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/vue.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/vue.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/music_unlock.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/music_unlock.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/myInvitation.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/myInvitation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/my_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/my_home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/mymusic.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/mymusic.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/perInfor.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/perInfor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/questions.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/questions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/resetPw.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resetPw.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/EFpQQyG9GqCrobXxL-KRMQFhaRv2pGgT5Kf0An0s4MM.woff" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/EFpQQyG9GqCrobXxL-KRMQFhaRv2pGgT5Kf0An0s4MM.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/_xyN3apAT_yRRDeqB3sPRg.woff" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/_xyN3apAT_yRRDeqB3sPRg.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/azR40LUJrT4HaWK28zHmVA.woff" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/azR40LUJrT4HaWK28zHmVA.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-cerulean.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-cerulean.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-classic.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-classic.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-classic.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-classic.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-cyborg.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-cyborg.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-datetimepicker.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-datetimepicker.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-journal.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-journal.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-redy.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-redy.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-responsive.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-responsive.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-responsive.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-responsive.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-simplex.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-simplex.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-slate.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-slate.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-spacelab.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-spacelab.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/bootstrap-united.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-united.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/charisma-app.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/charisma-app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/chosen.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/chosen.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/colorbox.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/colorbox.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/elfinder.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/elfinder.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/elfinder.theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/elfinder.theme.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/fullcalendar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/fullcalendar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/fullcalendar.print.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/fullcalendar.print.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/jquery-ui-1.8.21.custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/jquery-ui-1.8.21.custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/jquery.cleditor.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/jquery.cleditor.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/jquery.iphone.toggle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/jquery.iphone.toggle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/jquery.noty.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/jquery.noty.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/noty_theme_default.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/noty_theme_default.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/opa-icons.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/opa-icons.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/pYVcIM206l3F7GUKEvtB3T8E0i7KZn-EPnyo3HZu7kw.woff" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/pYVcIM206l3F7GUKEvtB3T8E0i7KZn-EPnyo3HZu7kw.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/s-BiyweUPV0v-yRb-cjciBsxEYwM7FgeyaSgU71cLG0.woff" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/s-BiyweUPV0v-yRb-cjciBsxEYwM7FgeyaSgU71cLG0.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/uniform.default.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/uniform.default.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/css/uploadify.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/uploadify.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/+.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/+.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ajax-loaders/ajax-loader-1.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ajax-loaders/ajax-loader-1.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ajax-loaders/ajax-loader-2.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ajax-loaders/ajax-loader-2.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ajax-loaders/ajax-loader-3.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ajax-loaders/ajax-loader-3.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ajax-loaders/ajax-loader-4.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ajax-loaders/ajax-loader-4.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ajax-loaders/ajax-loader-5.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ajax-loaders/ajax-loader-5.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ajax-loaders/ajax-loader-6.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ajax-loaders/ajax-loader-6.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ajax-loaders/ajax-loader-7.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ajax-loaders/ajax-loader-7.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ajax-loaders/ajax-loader-8.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ajax-loaders/ajax-loader-8.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/arrows-active.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/arrows-active.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/arrows-normal.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/arrows-normal.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/bg-input-focus.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/bg-input-focus.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/bg-input.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/bg-input.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/big_load.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/big_load.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/border.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/border.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/buttons.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/buttons.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/cancel-off.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/cancel-off.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/cancel-on.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/cancel-on.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/chosen-sprite.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/chosen-sprite.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/controls.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/controls.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/crop.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/crop.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/dialogs.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/dialogs.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/error_bg.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/error_bg.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MS5qcGc1344290228.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MS5qcGc1344290228.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MTAuanBn1344290212.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MTAuanBn1344290212.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MTEuanBn1344290212.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MTEuanBn1344290212.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MTIuanBn1344290216.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MTIuanBn1344290216.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MTMuanBn1344290218.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MTMuanBn1344290218.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MTQuanBn1344290218.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MTQuanBn1344290218.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MTUuanBn1344290220.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MTUuanBn1344290220.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MTYuanBn1344290222.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MTYuanBn1344290222.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MTcuanBn1344290224.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MTcuanBn1344290224.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MTguanBn1344290226.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MTguanBn1344290226.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MTkuanBn1344290228.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MTkuanBn1344290228.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_Mi5qcGc1344290242.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_Mi5qcGc1344290242.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MjAuanBn1344290232.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MjAuanBn1344290232.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MjEuanBn1344290232.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MjEuanBn1344290232.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MjIuanBn1344290236.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MjIuanBn1344290236.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MjMuanBn1344290238.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MjMuanBn1344290238.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_MjQuanBn1344290240.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_MjQuanBn1344290240.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_My5qcGc1344290244.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_My5qcGc1344290244.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_NC5qcGc1344290246.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_NC5qcGc1344290246.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_NS5qcGc1344290246.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_NS5qcGc1344290246.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_Ni5qcGc1344290248.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_Ni5qcGc1344290248.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_Ny5qcGc1344290252.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_Ny5qcGc1344290252.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_OC5qcGc1344290254.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_OC5qcGc1344290254.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/.tmb/l1_OS5qcGc1344290254.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/.tmb/l1_OS5qcGc1344290254.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/10.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/10.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/11.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/11.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/12.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/12.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/13.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/13.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/14.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/14.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/15.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/15.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/16.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/16.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/17.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/17.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/18.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/18.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/19.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/19.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/20.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/20.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/21.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/21.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/22.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/22.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/23.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/23.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/24.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/24.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/5.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/6.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/7.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/8.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/9.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/9.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/10.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/10.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/11.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/11.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/12.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/12.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/13.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/13.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/14.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/14.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/15.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/15.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/16.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/16.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/17.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/17.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/18.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/18.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/19.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/19.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/20.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/20.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/21.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/21.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/22.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/22.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/23.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/23.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/24.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/24.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/5.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/6.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/7.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/8.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/gallery/thumbs/9.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/gallery/thumbs/9.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/glyphicons-halflings-white.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/glyphicons-halflings-white.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/glyphicons-halflings.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/glyphicons-halflings.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/goodspack/GoodsPackService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/goodspack/GoodsPackService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/goodspack/GoodsPackServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/goodspack/GoodsPackServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ico10.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ico10.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ico7.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ico7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/icons-big.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/icons-big.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/icons-small.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/icons-small.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/iphone-style-checkboxes/off.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/iphone-style-checkboxes/off.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/iphone-style-checkboxes/on.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/iphone-style-checkboxes/on.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/iphone-style-checkboxes/slider.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/iphone-style-checkboxes/slider.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/iphone-style-checkboxes/slider_center.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/iphone-style-checkboxes/slider_center.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/iphone-style-checkboxes/slider_left.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/iphone-style-checkboxes/slider_left.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/iphone-style-checkboxes/slider_right.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/iphone-style-checkboxes/slider_right.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/jg.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/jg.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/linkdel.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/linkdel.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/loading.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/loading.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/loading_background.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/loading_background.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/logo20.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/logo20.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-black16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-black16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-black32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-black32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-blue16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-blue16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-blue32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-blue32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-color16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-color16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-color32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-color32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-darkgray16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-darkgray16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-darkgray32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-darkgray32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-gray16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-gray16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-gray32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-gray32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-green16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-green16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-green32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-green32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-orange16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-orange16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-orange32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-orange32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-red16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-red16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-red32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-red32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-white16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-white16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/opa-icons-white32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/opa-icons-white32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/progress.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/progress.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/qrcode.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/qrcode.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/qrcode136.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/qrcode136.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/quicklook-bg.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/quicklook-bg.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/quicklook-icons.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/quicklook-icons.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/resize.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/resize.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/spinner-mini.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/spinner-mini.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/sprite.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/sprite.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/star-half.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/star-half.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/star-off.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/star-off.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/star-on.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/star-on.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/thumb.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/thumb.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/toolbar.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/toolbar.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/toolbar.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/toolbar.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/u108.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/u108.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/u14.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/u14.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/u16.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/u16.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/u64.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/u64.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-bg_flat_0_aaaaaa_40x100.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-bg_flat_0_aaaaaa_40x100.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-bg_flat_75_ffffff_40x100.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-bg_flat_75_ffffff_40x100.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-bg_glass_55_fbf9ee_1x400.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-bg_glass_55_fbf9ee_1x400.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-bg_glass_65_ffffff_1x400.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-bg_glass_65_ffffff_1x400.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-bg_glass_75_dadada_1x400.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-bg_glass_75_dadada_1x400.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-bg_glass_75_e6e6e6_1x400.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-bg_glass_75_e6e6e6_1x400.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-bg_glass_95_fef1ec_1x400.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-bg_glass_95_fef1ec_1x400.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-bg_highlight-soft_75_cccccc_1x100.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-bg_highlight-soft_75_cccccc_1x100.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-icons_222222_256x240.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-icons_222222_256x240.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-icons_2e83ff_256x240.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-icons_2e83ff_256x240.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-icons_454545_256x240.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-icons_454545_256x240.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-icons_888888_256x240.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-icons_888888_256x240.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/ui-icons_cd0a0a_256x240.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/ui-icons_cd0a0a_256x240.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/uploadify-cancel.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/uploadify-cancel.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/img/winapp_add.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/winapp_add.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/ajaxfileupload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/ajaxfileupload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-alert.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-alert.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-button.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-button.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-carousel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-carousel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-collapse.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-collapse.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-datetimepicker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-datetimepicker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-datetimepicker.zh-CN.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-datetimepicker.zh-CN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-dropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-dropdown.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-modal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-popover.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-popover.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-scrollspy.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-scrollspy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-tab.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-tab.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-toggle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-toggle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-tooltip.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-tooltip.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-tour.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-tour.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-transition.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-transition.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/bootstrap-typeahead.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap-typeahead.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/charisma.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/charisma.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/const.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/const.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/excanvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/excanvas.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/fullcalendar.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/fullcalendar.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery-1.7.2.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery-1.7.2.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery-ui-1.8.21.custom.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery-ui-1.8.21.custom.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.autogrow-textarea.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.autogrow-textarea.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.chosen.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.chosen.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.cleditor.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.cleditor.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.colorbox.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.colorbox.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.cookie.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.cookie.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.dataTables.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.dataTables.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.elfinder.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.elfinder.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.flot.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.flot.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.flot.pie.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.flot.pie.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.flot.resize.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.flot.resize.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.flot.stack.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.flot.stack.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.history.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.history.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.iphone.toggle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.iphone.toggle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.noty.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.noty.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.raty.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.raty.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.uniform.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.uniform.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/jquery.uploadify-3.1.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery.uploadify-3.1.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/json2.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/json2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/js/vue.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/asp.net/README.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/asp.net/bin/LitJSON.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/asp.net/demo.aspx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/asp.net/file_manager_json.ashx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/asp.net/upload_json.ashx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/asp/JSON_2.0.4.asp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/asp/UpLoad_Class.asp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/asp/demo.asp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/asp/file_manager_json.asp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/asp/upload_json.asp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/jsp/README.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/jsp/demo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/kindeditor/jsp/demo.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/jsp/file_manager_json.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/kindeditor/jsp/file_manager_json.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/jsp/lib/commons-fileupload-1.2.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/jsp/lib/commons-io-1.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/jsp/lib/json_simple-1.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/jsp/upload_json.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/kindeditor/jsp/upload_json.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/kindeditor-all-min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/kindeditor-all.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/lang/ar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/lang/en.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/lang/ko.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/lang/ru.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/lang/zh-CN.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/lang/zh-TW.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/license.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/php/JSON.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/php/demo.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/php/file_manager_json.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/php/upload_json.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/anchor/anchor.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/autoheight/autoheight.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/baidumap/baidumap.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/baidumap/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/baidumap/map.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/clearhtml/clearhtml.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/code/code.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/code/prettify.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/code/prettify.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/emoticons.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/0.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/1.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/10.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/100.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/101.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/102.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/103.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/104.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/105.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/106.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/107.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/108.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/109.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/11.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/110.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/111.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/112.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/113.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/114.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/115.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/116.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/117.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/118.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/119.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/12.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/120.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/121.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/122.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/123.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/124.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/125.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/126.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/127.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/128.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/129.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/13.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/130.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/131.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/132.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/133.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/134.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/14.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/15.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/16.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/17.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/18.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/19.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/2.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/20.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/21.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/22.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/23.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/24.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/25.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/26.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/27.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/28.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/29.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/3.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/30.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/31.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/32.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/33.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/34.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/35.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/36.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/37.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/38.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/39.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/4.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/40.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/41.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/42.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/43.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/44.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/45.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/46.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/47.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/48.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/49.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/5.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/50.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/51.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/52.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/53.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/54.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/55.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/56.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/57.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/58.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/59.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/6.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/60.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/61.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/62.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/63.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/64.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/65.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/66.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/67.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/68.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/69.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/7.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/70.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/71.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/72.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/73.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/74.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/75.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/76.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/77.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/78.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/79.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/8.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/80.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/81.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/82.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/83.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/84.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/85.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/86.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/87.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/88.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/89.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/9.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/90.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/91.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/92.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/93.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/94.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/95.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/96.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/97.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/98.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/99.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/emoticons/images/static.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/filemanager/filemanager.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/filemanager/images/file-16.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/filemanager/images/file-64.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/filemanager/images/folder-16.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/filemanager/images/folder-64.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/filemanager/images/go-up.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/fixtoolbar/fixtoolbar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/flash/flash.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/image/image.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/image/images/align_left.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/image/images/align_right.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/image/images/align_top.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/image/images/refresh.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/insertfile/insertfile.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/lineheight/lineheight.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/link/link.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/map/map.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/map/map.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/media/media.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/multiimage/images/image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/multiimage/images/select-files-en.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/multiimage/images/select-files-zh-CN.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/multiimage/images/swfupload.swf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/multiimage/multiimage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/pagebreak/pagebreak.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/plainpaste/plainpaste.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/preview/preview.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/quickformat/quickformat.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/table/table.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/template/html/1.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/template/html/2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/template/html/3.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/template/template.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/plugins/wordpaste/wordpaste.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/themes/common/anchor.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/themes/common/blank.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/themes/common/flash.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/themes/common/loading.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/themes/common/media.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/themes/common/rm.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/themes/default/background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/themes/default/default.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/themes/default/default.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/themes/qq/editor.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/themes/qq/qq.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/kindeditor/themes/simple/simple.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/css/layui.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/css/layui.mobile.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/css/modules/code.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/css/modules/laydate/default/laydate.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/css/modules/layer/default/icon-ext.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/css/modules/layer/default/icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/css/modules/layer/default/layer.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/css/modules/layer/default/loading-0.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/css/modules/layer/default/loading-1.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/css/modules/layer/default/loading-2.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/font/iconfont.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/font/iconfont.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/font/iconfont.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/font/iconfont.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/0.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/1.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/10.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/11.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/12.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/13.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/14.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/15.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/16.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/17.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/18.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/19.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/2.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/20.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/21.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/22.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/23.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/24.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/25.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/26.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/27.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/28.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/29.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/3.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/30.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/31.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/32.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/33.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/34.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/35.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/36.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/37.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/38.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/39.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/4.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/40.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/41.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/42.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/43.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/44.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/45.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/46.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/47.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/48.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/49.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/5.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/50.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/51.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/52.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/53.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/54.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/55.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/56.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/57.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/58.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/59.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/6.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/60.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/61.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/62.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/63.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/64.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/65.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/66.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/67.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/68.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/69.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/7.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/70.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/71.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/8.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/images/face/9.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/carousel.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/code.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/colorpicker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/element.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/flow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/form.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/jquery.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/laydate.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/layedit.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/layer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/laypage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/laytpl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/mobile.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/rate.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/slider.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/table.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/tree.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/upload.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/lay/modules/util.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/layui.all.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/layui/layui.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localcss/addgoodspack.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localcss/addgoodspack.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localcss/affiche.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localcss/affiche.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localcss/authoritymanage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localcss/authoritymanage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localcss/dicmanage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localcss/dicmanage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localcss/information.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localcss/information.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localcss/messagelist.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localcss/messagelist.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localcss/mymessage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localcss/mymessage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localcss/rolelist.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localcss/rolelist.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localcss/userlist.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localcss/userlist.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/addgoodspack.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/addgoodspack.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/affiche.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/affiche.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/authoritymanage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/authoritymanage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/dicmanage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/dicmanage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/goodsinfolist.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/goodsinfolist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/goodspacklist.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/goodspacklist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/information.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/information.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/memberlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/memberlist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/messagelist.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/messagelist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/modifygoodspack.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/modifygoodspack.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/modifypersonalinfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/modifypersonalinfo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/modifypersonalpwd.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/modifypersonalpwd.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/mymessage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/mymessage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/registmember.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/registmember.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/registrule.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/registrule.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/rolelist.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/rolelist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/userlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/userlist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/localjs/viewgoodspack.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/localjs/viewgoodspack.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/My97DatePicker.htm" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/My97DatePicker.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/WdatePicker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/WdatePicker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/calendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/calendar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/lang/en.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/lang/en.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/lang/zh-cn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/lang/zh-cn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/lang/zh-tw.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/lang/zh-tw.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/skin/WdatePicker.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/skin/WdatePicker.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/skin/datePicker.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/skin/datePicker.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/skin/default/datepicker.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/skin/default/datepicker.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/skin/default/img.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/skin/default/img.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/skin/whyGreen/bg.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/skin/whyGreen/bg.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/skin/whyGreen/datepicker.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/skin/whyGreen/datepicker.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/medire/skin/whyGreen/img.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/medire/skin/whyGreen/img.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shAutoloader.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushAS3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushAppleScript.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushBash.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushCSharp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushColdFusion.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushCpp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushCss.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushDelphi.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushDiff.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushErlang.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushGroovy.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushJScript.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushJava.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushJavaFX.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushPerl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushPhp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushPlain.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushPowerShell.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushPython.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushRuby.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushSass.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushScala.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushSql.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushVb.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shBrushXml.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shCore.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/scripts/shLegacy.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shCore.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shCoreDefault.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shCoreDjango.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shCoreEclipse.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shCoreEmacs.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shCoreFadeToGrey.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shCoreMDUltra.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shCoreMidnight.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shCoreRDark.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shThemeDefault.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shThemeDjango.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shThemeEclipse.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shThemeEmacs.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shThemeFadeToGrey.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shThemeMDUltra.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shThemeMidnight.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/syntax/styles/shThemeRDark.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/uploadfiles/1395382710471_IDcard.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/uploadfiles/1395382710471_IDcard.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/uploadfiles/1396939199216_IDcard.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/uploadfiles/1396939199216_IDcard.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statics/uploadfiles/1396939480299_bank.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/uploadfiles/1396939480299_bank.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/tool.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/tool.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/upload.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/userHomepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/userHomepage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/tool/RedisUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/RedisUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/title.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/title.html" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/target/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -733,9 +114,6 @@
     </option>
     <expand />
     <select />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -806,63 +184,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/main/webapp/Cell.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/Cell2.html" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sy/controller/DownloadController.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/mapper/DownloadreplyMapper.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sy/controller/LoginController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/include.js" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sy/controller/UserController.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/db.properties" />
-        <option value="$PROJECT_DIR$/src/main/webapp/title.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/css/k-all.css" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/folder.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/login.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/Msg.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/music_unlock.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/my_home.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/myInvitation.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/mymusic.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/forumcld.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/forumsubdivide.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/hotforumsubdivide.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/information.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/interview.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/invitation_Details.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/ValidationEmail.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/userHomepage.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/upload.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/tool.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/forum.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/dynamic.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/download.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/details.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/detailpage.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/blogging2.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/blogging.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/bloggerHomepage.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/blog_page.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/blog_home.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/asking.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/askInfor.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/appDetail.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/app.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/Allforumsubdivide.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/addmymusic.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/resetPw.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/register.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/questions.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/perInfor.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/pdf.html" />
-      </list>
-    </option>
-  </component>
   <component name="JsFlowSettings">
     <service-enabled>true</service-enabled>
     <exe-path />
@@ -879,9 +200,9 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="localRepository" value="D:\apache-maven-3.6.0\repo" />
-        <option name="mavenHome" value="D:/apache-maven-3.6.0" />
-        <option name="userSettingsFile" value="D:\apache-maven-3.6.0\conf\settings.xml" />
+        <option name="localRepository" value="D:\apache-maven-3.6.3\rep" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="D:\apache-maven-3.6.3\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
     <option name="importingSettings">
@@ -890,85 +211,21 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="MavenProjectNavigator">
-    <treeState>
-      <expand>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="YIMEM Maven Webapp" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="YIMEM Maven Webapp" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="YIMEM Maven Webapp" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Plugins" type="7aea1407:MavenProjectsStructure$PluginsNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="YIMEM Maven Webapp" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Plugins" type="7aea1407:MavenProjectsStructure$PluginsNode" />
-          <item name="tomcat7" type="36feed69:MavenProjectsStructure$PluginNode" />
-        </path>
-      </expand>
-      <select />
-    </treeState>
-  </component>
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="22" />
-    <option name="width" value="1382" />
-    <option name="height" value="754" />
-  </component>
+  <component name="ProjectId" id="1vebOwE4ArAWkF8yG4mHVMmM7r1" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <hideEmptyPackages ProjectPane="false" />
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="YIMEM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="YIMEM" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="YIMEM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="YIMEM" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="YIMEM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="YIMEM" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="YIMEM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="YIMEM" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1614267787642" />
@@ -1003,18 +260,6 @@
       <recent name="D:\项目\YIMEM\src\main\webapp\imgs\saoma" />
       <recent name="D:\项目\YIMEM\src\main\webapp\statics\img" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="Tomcat 9.0.11" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.11" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="D:\Java\jdk1.8.0_77\jre" nameIsGenerated="true">
@@ -1166,6 +411,18 @@
         </option>
       </method>
     </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -1359,6 +616,11 @@
       <workItem from="1613988065900" duration="9670000" />
       <workItem from="1614001228444" duration="3043000" />
       <workItem from="1614266714976" duration="1026000" />
+      <workItem from="1626925494657" duration="295000" />
+      <workItem from="1626926510727" duration="5012000" />
+      <workItem from="1627020730774" duration="104000" />
+      <workItem from="1627021008925" duration="2476000" />
+      <workItem from="1627024751697" duration="2714000" />
     </task>
     <servers />
   </component>
@@ -1394,536 +656,61 @@
       <configuration name="UserTest.AA6" configurationId="JUnit" />
     </history-entry>
   </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1052301000" />
-  </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="-8" y="32" width="1936" height="1056" extended-state="6" />
-    <layout>
-      <window_info id="Image Layers" order="0" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="UI Designer" order="3" />
-      <window_info id="Web" order="4" sideWeight="0.5037037" side_tool="true" weight="0.25419846" />
-      <window_info id="Designer" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" weight="0.3299356" />
-      <window_info content_ui="combo" id="Project" order="7" sideWeight="0.4962963" visible="true" weight="0.23229614" />
-      <window_info anchor="bottom" id="Terminal" order="0" weight="0.31616342" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.77442276" />
-      <window_info anchor="bottom" id="Docker" order="2" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.5003224" side_tool="true" weight="0.41271678" />
-      <window_info anchor="bottom" id="Messages" order="4" sideWeight="0.49967763" weight="0.43425414" />
-      <window_info anchor="bottom" id="Database Changes" order="5" />
-      <window_info anchor="bottom" id="Version Control" order="6" weight="0.3285968" />
-      <window_info anchor="bottom" id="TODO" order="7" weight="0.3285968" />
-      <window_info anchor="bottom" id="Java Enterprise" order="8" weight="0.3285968" />
-      <window_info anchor="bottom" id="Spring" order="9" weight="0.3285968" />
-      <window_info anchor="bottom" id="Message" order="10" />
-      <window_info anchor="bottom" id="Debug" order="11" weight="0.60552484" />
-      <window_info anchor="bottom" id="Cvs" order="12" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="13" weight="0.4" />
-      <window_info anchor="bottom" id="Application Servers" order="14" weight="0.3250444" />
-      <window_info active="true" anchor="bottom" id="Run" order="15" visible="true" weight="0.51907516" />
-      <window_info anchor="right" id="Database" order="0" weight="0.32900763" />
-      <window_info anchor="right" id="Maven" order="1" sideWeight="0.49825174" visible="true" weight="0.27092275" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.24839056" />
-      <window_info anchor="right" id="CDI" order="3" weight="0.32939914" />
-      <window_info anchor="right" id="Bean Validation" order="4" weight="0.3299356" />
-      <window_info anchor="right" auto_hide="true" id="JSF" order="5" weight="0.32977098" />
-      <window_info anchor="right" id="Palette" order="6" />
-      <window_info anchor="right" id="Capture Analysis" order="7" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
-      <window_info anchor="right" id="Theme Preview" order="9" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="10" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="11" weight="0.25" />
-      <window_info anchor="right" id="Coverage" order="12" sideWeight="0.50174826" side_tool="true" weight="0.16309012" />
-    </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49832776" visible="true" weight="0.63987637" />
-      <window_info id="Image Layers" order="1" />
-      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info id="Capture Tool" order="3" />
-      <window_info id="UI Designer" order="4" />
-      <window_info id="Web" order="5" sideWeight="0.50167227" side_tool="true" weight="0.23358779" />
-      <window_info id="Designer" order="6" />
-      <window_info id="Favorites" order="7" side_tool="true" weight="0.3299356" />
-      <window_info anchor="bottom" id="Terminal" order="0" weight="0.31616342" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.77572256" />
-      <window_info anchor="bottom" id="Docker" order="2" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.5003224" side_tool="true" weight="0.41271678" />
-      <window_info anchor="bottom" id="Messages" order="4" sideWeight="0.49967763" weight="0.43583816" />
-      <window_info anchor="bottom" id="Database Changes" order="5" />
-      <window_info anchor="bottom" id="Version Control" order="6" />
-      <window_info anchor="bottom" id="TODO" order="7" weight="0.32978722" />
-      <window_info anchor="bottom" id="Java Enterprise" order="8" weight="0.3289183" />
-      <window_info anchor="bottom" id="Spring" order="9" weight="0.32978722" />
-      <window_info anchor="bottom" id="Message" order="10" />
-      <window_info anchor="bottom" id="Debug" order="11" weight="0.46358383" />
-      <window_info anchor="bottom" id="Cvs" order="12" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="13" weight="0.4" />
-      <window_info anchor="bottom" id="Application Servers" order="14" weight="0.32601157" />
-      <window_info anchor="bottom" id="Run" order="15" visible="true" weight="0.43643263" />
-      <window_info anchor="right" id="Database" order="0" weight="0.32900763" />
-      <window_info anchor="right" id="Maven" order="1" sideWeight="0.49825174" weight="0.7171561" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.24839056" />
-      <window_info anchor="right" id="CDI" order="3" weight="0.32939914" />
-      <window_info anchor="right" id="Bean Validation" order="4" weight="0.3299356" />
-      <window_info anchor="right" auto_hide="true" id="JSF" order="5" weight="0.32977098" />
-      <window_info anchor="right" id="Palette" order="6" />
-      <window_info anchor="right" id="Capture Analysis" order="7" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
-      <window_info anchor="right" id="Theme Preview" order="9" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="10" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="11" weight="0.25" />
-      <window_info anchor="right" id="Coverage" order="12" sideWeight="0.50174826" side_tool="true" weight="0.16309012" />
-    </layout-to-restore>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="589" y="44" key="#Tomcat_9.0.11" timestamp="1627023303455">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="589" y="44" key="#Tomcat_9.0.11/0.0.1920.1040@0.0.1920.1040" timestamp="1627023303455" />
+    <state x="414" y="168" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1627025769358">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="168" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1627025769358" />
+    <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1626925885516">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1626925885516" />
+    <state width="1867" height="442" key="GridCell.Tab.0.bottom" timestamp="1627029381735">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1867" height="442" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1627029381735" />
+    <state width="1867" height="442" key="GridCell.Tab.0.center" timestamp="1627029381735">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1867" height="442" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1627029381735" />
+    <state width="1867" height="442" key="GridCell.Tab.0.left" timestamp="1627029381735">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1867" height="442" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1627029381735" />
+    <state width="1867" height="442" key="GridCell.Tab.0.right" timestamp="1627029381735">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1867" height="442" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1627029381735" />
+    <state x="337" y="98" key="SettingsEditor" timestamp="1627021047726">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="337" y="98" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1627021047726" />
+    <state x="560" y="323" key="com.intellij.ide.util.TipDialog" timestamp="1627024852053">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="560" y="323" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1627024852053" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/sy/amqp/MessageConsumer.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/kindeditor/asp/demo.asp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/syntax/styles/shCore.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-891">
-          <caret line="19" column="27" lean-forward="true" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#span#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#4;n#fieldset#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#4;n#fieldset#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#fieldset#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#fieldset#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/Msg.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/music_unlock.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1409">
-          <caret line="60" column="44" selection-start-line="60" selection-start-column="44" selection-end-line="60" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/my_home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#1;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/myInvitation.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="7" column="48" selection-start-line="7" selection-start-column="48" selection-end-line="7" selection-end-column="48" />
-          <folding>
-            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/mymusic.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="9" column="44" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/forumcld.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/forumsubdivide.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-50585">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-          <folding>
-            <element signature="e#59#66#1" expanded="true" />
-            <element signature="e#105#113#1" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/hotforumsubdivide.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/information.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#2;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#2;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#2;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/interview.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-18010">
-          <caret line="22" column="44" selection-start-line="22" selection-start-column="44" selection-end-line="22" selection-end-column="44" />
-          <folding>
-            <element signature="n#li#9;n#ul#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#li#10;n#ul#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#form#0;n#div#1;n#div#6;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#1;n#div#6;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#11;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/invitation_Details.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-          <folding>
-            <element signature="e#59#66#1" expanded="true" />
-            <element signature="e#105#113#1" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/vip.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/ValidationEmail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/userHomepage.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/upload.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/tool.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-216">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#p#0;n#div#2;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/forum.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
-          <folding>
-            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/dynamic.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/download.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#a#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/details.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#1;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/detailpage.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/Cell2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-91" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/blogging2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/blogging.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/bloggerHomepage.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/blog_page.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/blog_home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#1;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/asking.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/askInfor.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/appDetail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/app.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/Allforumsubdivide.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/addmymusic.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="11" column="44" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/treemenu.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-91" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/title.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7">
-          <caret line="7" column="44" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/test2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-91" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/searchResult_page.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-91" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resetPw.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4709">
-          <caret line="192" column="7" selection-start-line="192" selection-start-column="7" selection-end-line="192" selection-end-column="7" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#fieldset#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#4;n#fieldset#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#fieldset#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#6;n#fieldset#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#fieldset#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/register.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4209">
-          <caret line="172" column="7" selection-start-line="172" selection-start-column="7" selection-end-line="172" selection-end-column="7" />
-          <folding>
-            <element signature="n#style#0;n#input#0;n#div#4;n#fieldset#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#fieldset#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/questions.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/perInfor.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/pdf.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="10" column="53" selection-start-line="10" selection-start-column="42" selection-end-line="10" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/pay.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-91" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/error.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/Cell.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-91" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/demo.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/404.htm">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
   </component>
   <component name="masterDetails">
     <states>
