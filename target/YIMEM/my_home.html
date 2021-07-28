@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详情页面</title>
+    <link rel="stylesheet" href="css/siderBar2.css">
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <script src="jquery/jquery.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shCore.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushJava.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushCss.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushPython.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushPhp.js"></script>
+    <link type="text/css" rel="stylesheet" href="syntax/styles/shCoreDefault.css"/>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="assets/waifu.min.css?v=1.4.2"/>
+    <script src="assets/jquery.min.js?v=3.3.1"></script>
+    <!-- 实现拖动效果，需引入 JQuery UI -->
+    <script src="assets/jquery-ui.min.js?v=1.12.1"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script src="js/setCookie.js"></script>
+    <style>
+        #blog_page {
+            border-bottom: 2px red solid;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #E4E6CD;
+        }
+
+        .navigation div {
+            float: left;
+            font-size: 15px;
+            /*margin-top: 20px;*/
+            margin-left: 8px;
+            color: #707070;
+        }
+
+        .navigation img {
+            float: left;
+            vertical-align: middle;
+            margin-top: -3px;
+        }
+
+        .navigation {
+            width: 1220px;
+            margin: 0 auto;
+            padding: 10px;
+            height: 50px;
+            /*line-height: 50px;*/
+            /*border: 1px red solid;*/
+
+        }
+
+        .navigation input {
+            margin-left: 20px;
+            float: left;
+            height: 25px;
+            margin-top: -5px;
+        }
+
+        .navigation_frame {
+            background-color: white;
+            height: 50px;
+        }
+
+        .head_portrait {
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+
+        }
+
+        .content {
+            width: 1200px;
+            /*height: 600px;*/
+            /*border: 1px red solid;*/
+            margin: 10px auto;
+            overflow: hidden;
+            display: flex;
+
+        }
+
+        .content_left {
+            width: 300px;
+            /*float: left;*/
+            /*position: fixed;*/
+        }
+
+        .aside-box-top {
+            background: white;
+            height: 80px;
+            /*border: 1px red solid;*/
+            padding: 10px;
+
+        }
+
+        .focus {
+            border: 1px red solid;
+            float: right;
+            margin-top: 10px;
+            font-size: 15px;
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            padding-top: 5px;
+            color: red;
+            cursor: pointer;
+        }
+
+        .aside-box-middle {
+            background: white;
+            height: 80px;
+            margin-top: 5px;
+            /*border: 1px red solid;*/
+            padding: 10px;
+        }
+
+        .aside-box-middle-sub {
+            display: inline-block;
+            margin-left: 29px;
+            margin-top: 8px;
+            font-size: 15px;
+        }
+
+        .aside-box-middle-sub p:nth-child(2) {
+            font-weight: 700;
+        }
+
+        .aside-box-buttom {
+            background: white;
+            height: 150px;
+            margin-top: 5px;
+            /*border: 1px red solid;*/
+            padding: 10px;
+        }
+
+        .aside-box-buttom p {
+            margin-top: 10px;
+        }
+
+        .content_middle {
+            width: 900px;
+            /*border: 1px red solid;*/
+            /*height: 1800px;*/
+            /*float: left;*/
+            margin-left: 7px;
+            background: white;
+            /*margin-left: 305px;*/
+            /*padding:    10px;*/
+
+        }
+
+        .aside-box2 {
+            width: 300px;
+            /*height: 540px;*/
+            background: white;
+            margin-top: 10px;
+
+        }
+
+        .aside-box2-title {
+            background: #F5F5F5;
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .aside-box2-content {
+            padding-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .new_article, .Blogger_column, .pigeonhole, .hot_article, .latest_comments, .Personal_classification {
+            width: 300px;
+            height: 200px;
+            background: white;
+            margin-top: 10px;
+        }
+
+        .new_article {
+
+        }
+
+        .like {
+            width: 44px;
+            height: 56px;
+            background: white;
+            /*border: 1px green solid;*/
+            margin-top: 2px;
+            text-align: center;
+            cursor: pointer;
+            line-height: 56px;
+        }
+
+
+        .clike_font, .ccomment_font, .ccatalog_font, .ccollect_font, .cphone_look_font {
+            color: red;
+            display: none
+        }
+
+        .like:hover .clike {
+            display: none;
+        }
+
+        .like:hover .clike_font {
+            display: block;
+        }
+
+        .comment, .catalog, .phone_look, .collect {
+            width: 44px;
+            height: 56px;
+            background: white;
+            /*border: 1px green solid;*/
+            margin-top: 2px;
+            text-align: center;
+            cursor: pointer;
+            line-height: 56px;
+        }
+
+        .comment:hover .ccomment {
+            display: none;
+        }
+
+        .comment:hover .ccomment_font {
+            display: inline-block;
+        }
+
+        .catalog:hover .ccatalog {
+            display: none;
+        }
+
+        .catalog:hover .ccatalog_font {
+            display: inline-block;
+        }
+
+        .collect:hover .ccollect {
+            display: none;
+        }
+
+        .collect:hover .ccollect_font {
+            display: inline-block;
+        }
+
+        .phone_look:hover .cphone_look {
+            display: none;
+        }
+
+        .phone_look:hover .cphone_look_font {
+            display: inline-block;
+        }
+
+
+        .content_right {
+            width: 50px;
+            height: 590px;
+            /*border: 1px green solid;*/
+            /*float: left;*/
+            margin-left: 3px;
+            position: fixed;
+            left: 95%;
+
+        }
+
+        .content_middle_content {
+            /*height: 400px;*/
+            overflow: hidden;
+
+        }
+
+        .replay {
+            text-align: center;
+            width: 900px;
+            /*border: 1px red solid;*/
+            /*height: 200px;*/
+            /*float: left;*/
+            /*margin-left: 305px;*/
+            background: white;
+            margin-top: 3px;
+
+
+        }
+
+        #replay {
+            height: 120px;
+            width: 860px;
+            margin: 20px;
+
+
+        }
+
+        .submit_replay {
+            float: right;
+            margin-right: 40px;
+            background: red;
+            color: white;
+            width: 120px;
+            height: 30px;
+            line-height: 30px;
+            cursor: pointer;
+        }
+
+        .collect_frame {
+            display: none;
+            text-align: center;
+        }
+
+        .replays {
+
+            clear: both;
+            text-align: left;
+            margin: 20px;
+        }
+
+        .replays img {
+            width: 30px;
+            height: 30px;
+            border-radius: 30px;
+        }
+
+        #blog {
+            border-bottom: 2px red solid;
+        }
+
+        .blog_type {
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            border: 1px red solid;
+            color: red;
+            text-align: center;
+            display: inline-block;
+        }
+
+        /*.content_middle_content_title {*/
+        /*padding: 10px;*/
+        /*}*/
+
+        /*.content_middle_content_title .title {*/
+        /*display: inline-block;*/
+        /*font-size: 25px;*/
+        /*font-weight: bold;*/
+        /*}*/
+
+        /*.content_middle_content_title p {*/
+        /*margin-top: 20px;*/
+        /*font-size: 15px;*/
+        /*color: #707070;*/
+        /*}*/
+        .new_collect {
+            clear: both;
+            width: 340px;
+            font-size: 20px;
+            display: none;
+        }
+
+        .layui-form-label {
+            margin-left: -14px;
+        }
+
+        .layui-textarea {
+            margin-left: -35px;
+            width: 247px;
+        }
+
+        .new_article_items {
+            height: 20px;
+            text-overflow: ellipsis;
+            width: 260px;
+            white-space: nowrap;
+            overflow: hidden;
+            margin-top: 10px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .new_article_items:hover {
+            color: red;
+        }
+
+        /*.content_middle_content_content{*/
+        /*margin: auto;*/
+        /*width: 850px;*/
+        /*}*/
+        .listbloghead {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            width: 900px;
+            height: 16px;
+        }
+
+        .listbloghead ul li {
+            float: left;
+            margin-left: 20px;
+            list-style-type: none;
+        }
+
+        .listbloghead ul li:nth-child(1) {
+            margin-right: 300px;
+        }
+
+        .bloglist {
+            margin-left: 0px;
+            width: 893px;
+            height: 140px;
+            border: 1px #EFF0F1 solid;
+
+        }
+
+        .bloglist:hover {
+            background-color: #E4E6CD;
+        }
+
+        .bloglist .floot {
+            margin-top: 10px;
+        }
+
+        .bloglist .floot ul li {
+            float: left;
+            margin-right: 20px;
+            list-style-type: none;
+        }
+
+        .bloglist .floot ul li:nth-child(3) {
+            margin-right: 400px;
+        }
+
+        .bloglist .floot ul li:nth-child(4), .bloglist .floot ul li:nth-child(5), .bloglist .floot ul li:nth-child(6) {
+            display: none;
+        }
+
+        .bloglist:hover .floot ul li:nth-child(4), .bloglist:hover .floot ul li:nth-child(5), .bloglist:hover .floot ul li:nth-child(6) {
+            display: block;
+        }
+
+        .bloglist .middle {
+            max-height: 50px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /*.bloglist .middle .text {*/
+        /*overflow: hidden;*/
+        /*text-overflow: ellipsis;*/
+        /*display: -webkit-box;*/
+        /*-webkit-line-clamp: 2;*/
+        /*-webkit-box-orient: vertical;*/
+        /*}*/
+
+        .zhidin {
+            content: url("imgs/icons/blog/zhidin.png");
+            width: 50px;
+            height: 50px;
+            float: right
+        }
+
+
+        /*style="padding-left: 10px;border: 1px #c0c4cc solid;width: 200px;height: 20px"*/
+        #serachblog {
+            padding-left: 10px;
+            border: 1px #c0c4cc solid;
+            width: 200px;
+            height: 20px
+        }
+
+        #serachblog:hover {
+            border: 1px red solid;
+        }
+
+        /*src="imgs/zhidin.png" alt="" style="width: 50px;height: 50px;float: right"*/
+        /*.contents_middle_sub2 {*/
+        /*}*/
+        /*.contents_middle_sub2_content {*/
+        /*!*height: 100px;*!*/
+        /*width: 900px;*/
+        /*background: white;*/
+        /*margin-top: 10px;*/
+        /*padding: 10px;*/
+        /*cursor: pointer;*/
+        /*}*/
+    </style>
+</head>
+<body style="background-color:  #E4E6CD">
+
+<div id="titleContai" ></div>
+<div class="content">
+    <div class="content_left">
+        <div class="aside-box">
+
+        </div>
+
+        <div class="new_article">
+            <div class="aside-box2-title" style="font-weight: bolder;padding-left: 10px;border-left: solid 2px red">
+                <p>最新文章</p>
+            </div>
+            <div class="new_article_content">
+
+
+            </div>
+        </div>
+        <div class="aside-box2">
+            <div class="aside-box2-title" style=";font-weight:bolder;padding-left: 10px;border-left: solid 2px red">
+                <p>热门文章</p>
+
+            </div>
+            <div class="aside-box2-content">
+
+            </div>
+        </div>
+
+        <div class="yimem_gg" style="margin: 10px;margin-left: -5px">
+            <img src="imgs/ad/blog/cd17.png">
+        </div>
+        <div class="yimem_bz" style="background-color: white;margin-top: 10px;">
+            <div style="width:300px;margin:0 auto">
+                <img src="imgs/gz/gz.jpg" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px" alt="">
+                <img src="imgs/gz/eduwxfix.png" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
+                     alt="">
+            </div>
+            <div style="padding-bottom: 5px;margin: 0 auto;width: 250px ;border-bottom: 1px #E0E0E0 solid"><span style="color:#8B8B8B;margin-left: 15px">YIMEM公众号</span><span
+                    style="color:#8B8B8B;margin-left: 60px">IT学院</span></div>
+            <div style="padding-top: 5px;margin: 0 auto;width: 250px"><span style="color:#3D3D3D;font-weight: bold;margin-left: 20px">关于我们</span>
+                <span
+                        style="color:#3D3D3D;margin-left: 20px">网站地图</span><span
+                        style="color:#3D3D3D;margin-left: 20px">广告服务</span></div>
+            <div style="width:300px;margin:0 auto; padding:20px 0;">
+                <img src="imgs/jh/jh.png" style="margin-left: 30px;margin-top: -15px" alt=""> <a target="_blank"
+                                                                                                 href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32061202001097"
+                                                                                                 style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
+                    src="" style="float:left;"/>
+                <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
+                    32061202001097号</p></a>
+            </div>
+        </div>
+
+    </div>
+    <!--<div class="content_left_and_right">-->
+
+    <div class="content_middle">
+        <div class="listbloghead">
+            <ul>
+                <li style="display: flex"><input id="serachblog" type="text" placeholder="请输入关键字"><div onclick="serachblogg()"
+                        style="cursor: pointer;background-color: #b50a13;font-size: 14px;color: #fff;height: 20px;width: 50px;border-radius:5px;text-align: center;margin-left: 5px">搜索</div>
+                </li>
+                <li>排序：</li>
+                <li>默认</li>
+                <li onclick="createtime1()" style="cursor: pointer">按更新时间</li>
+                <li onclick="readCount1()" style="cursor: pointer">按访问量</li>
+            </ul>
+        </div>
+        <!--内容渲染-->
+        <div class="contents_middle_sub2" id="contents_middle_sub2">
+            <div class="bloglist">
+
+            </div>
+        </div>
+        <div id="pageContainer" style="text-align: center"></div>
+    </div>
+
+</div>
+<div class="siderBar">
+    <!--<div class="siderBar-bg" ></div>-->
+    <ul>
+        <!--<li>返回</li>-->
+        <!--<li>顶部</li>-->
+        <div>
+            <div class="siderBar-line"></div>
+
+            <div class="siderBar-goTop" id="btn"></div>
+
+        </div>
+    </ul>
+</div>
+</body>
+
+
+<script src="layui/layui.all.js"></script>
+<script>
+    var navH = $(".yimem_gg").offset().top;
+    var serachblog="";
+    var createtime = 1;
+    var readCount = 0
+    var timer = null;
+    var user = getUser();
+    var bloguserid = 0;
+    $(function () {
+        if (user) {
+            bloguserid = user.userId
+        }
+        peson(bloguserid)
+        loadReq(pageNum, createtime, readCount)
+    })
+    peson(bloguserid)
+
+    //获取当前用户
+    function getUser() {
+        var data;
+        $.ajax({
+            url: "isEnter"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                ////////////////////console.log(jsonData)
+                if (jsonData.success == 1) {
+                    data = jsonData.data;
+                }
+            }
+            , error: function (res) {
+                ////////////////////console.log("ajax提交错误")
+            }
+        })
+        return data;
+    }
+
+
+    document.getElementById("btn").onclick = function () {
+        cancelAnimationFrame(timer);
+        timer = requestAnimationFrame(function fn() {
+            var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+            if (oTop > 0) {
+                scrollBy(0, -50);
+                timer = requestAnimationFrame(fn);
+            } else {
+                cancelAnimationFrame(timer);
+            }
+        });
+    }
+
+    // 关键词搜索
+    function serachblogg() {
+        serachblog =$("#serachblog").val();
+        loadReq(pageNum, createtime, readCount)
+    }
+    //查询博客列表
+    function loadReq(pageNum, createtime, readCount) {
+        // //////console.log(pageNum+"----"+createtime+"------"+readCount)
+        $.ajax({
+            url: "/blog/queryByUserId",
+            data: {
+                "userid": bloguserid,
+                "pageNum": pageNum,
+                "timeCount": createtime,
+                "stick": 1,
+                "readCount": readCount,
+                "serachblog":serachblog
+            },
+            type: "get",
+            dataType: "json",
+            success: function (json) {
+                //////console.log(json)
+                apply_colours_to_a_drawing(json.data)
+                renderPager(json.count, createtime, readCount)
+            },
+            error: function () {
+
+            }
+        })
+
+
+    }
+
+    //分页
+    var laypage;
+    var pageNum = 1;
+    // var pageSize = 3;
+    layui.use('laypage', function () {
+        laypage = layui.laypage;
+    });
+
+    function renderPager(totalCount, createtime, readCount) {
+
+        laypage.render({
+            elem: 'pageContainer'
+            , count: totalCount
+            , limit: 12
+            , curr: pageNum
+            , layout: ['prev', 'page', 'next', 'skip']
+            , jump: function (obj, first) {
+                //obj包含了当前分页的所有参数，比如：
+                // //////console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                // //////console.log(obj.limit); //得到每页显示的条数
+
+                //首次不执行
+                if (!first) {
+
+                    //把分页值，和分页量（分页量可能会变化）
+                    pageNum = obj.curr;
+                    // pageSize = obj.limit;
+                    loadReq(pageNum, createtime, readCount);
+                }
+            }
+        });
+
+    }
+
+    function createtime1() {
+        //////console.log("时间")
+        createtime = 1;
+        readCount = null;
+        loadReq(pageNum, createtime, readCount)
+    }
+
+    function readCount1() {
+        //////console.log("数量")
+        createtime = null;
+        readCount = 1;
+        loadReq(pageNum, createtime, readCount)
+    }
+
+    //渲染博客方法
+    function apply_colours_to_a_drawing(data) {
+        //console.log(data)
+        $(".contents_middle_sub2").html("")
+        $.each(data, function (index, eachobj) {
+            var html = `<div class="bloglist">
+                <div class="top" style="height: 50px;cursor: pointer"><span
+                        style="font-weight:bold;font-size: 14px;color: red;margin-top: 10px;;float: left;margin-left: 10px">${eachobj.publishForm}</span><span
+                        style="margin-top: 10px;float: left;margin-left: 10px;font-weight:bold;font-size: 18px;color: #333333;" onclick="details(${eachobj.id})">${eachobj.title}</span>
+                    <img ${eachobj.stick == 1 ? 'class="zhidin"' : ''}></div>
+                <div class="middle" style="margin-left: 10px;color: #6B6B6B;cursor: pointer" onclick="details(${eachobj.id})">
+                   ${eachobj.content}
+                </div>
+                <div class="floot" style="margin-left: 10px;margin-top: 10px;color: #6B6B6B">
+                    <ul>
+                        <li>${eachobj.createtime}</li>
+                        <li>阅读数 ${eachobj.readCount}</li>
+                        <li>评论数 ${eachobj.replayCount}</li>
+                        <li onclick="Stick(${eachobj.id})" style="cursor: pointer">${eachobj.stick == 0 ? "置顶" : "取消置顶"}</li>
+                        <li onclick="modifier(${eachobj.id})" style="cursor: pointer">编辑</li>
+                        <li onclick="deleteBlog(${eachobj.id})" style="cursor: pointer">删除</li>
+                    </ul>
+                </div>
+            </div>`
+            $(".contents_middle_sub2").append(html)
+        })
+
+    }
+
+    // 博客点击事件
+    // details.html?blog_id=${eachobj.id}
+    function details(id) {
+        location.href = "details.html?blog_id=" + id;
+    }
+
+    // 博客编辑
+    function modifier(id) {
+        location.href = "blogging2.html?blogId=" + id;
+    }
+
+    //删除博客
+    function deleteBlog(blogid) {
+        layer.open({
+            content: '确认删除'
+            , btn: ['确认', '取消']
+            ,title:['提示','background-color:#F44444;']
+            , yes: function (index, layero) {
+                $.ajax({
+                    url: "/blog/deleteBlog",
+                    data: {"blogid": blogid},
+                    type: "get",
+                    dataType: "json",
+                    success: function (json) {
+                        //console.log(json)
+                        loadReq(pageNum, createtime, readCount)
+
+                    }, error: function (xhr) {
+
+                    }
+                })
+                layer.close(index);
+            }
+            , btn2: function (index, layero) {
+                layer.close(index);
+            }
+        });
+
+    }
+
+    // 置顶
+    function Stick(blogid) {
+        $.ajax({
+            url: "/blog/StickBlogid",
+            data: {"blogid": blogid},
+            type: "get",
+            dataType: "json",
+            success: function (json) {
+                //console.log(json)
+                loadReq(pageNum, createtime, readCount)
+
+            }, error: function (xhr) {
+
+            }
+        })
+    }
+
+    // SyntaxHighlighter.highlight()
+    //引用表头
+    $("#titleContai").load("title.html")
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return r[2];
+        return null;
+    }
+
+    window.onscroll = function () {
+        if (document.documentElement.scrollTop > 50) {
+            $("#content_right").css("top", "0px")
+            $(".content_left").css("top", "0px")
+        }
+        if (document.documentElement.scrollTop <= 50) {
+            $("#content_right").css("top", "60px")
+            $(".content_left").css("top", "60px")
+        }
+        var scroH = $(this).scrollTop();
+        if(scroH-600>=navH){
+            $(".yimem_gg").css({"position":"fixed","top":0});
+            $(".yimem_bz").css({"position":"fixed","top":260});
+        }else {
+            $(".yimem_gg").css({"position":"static"});
+            $(".yimem_bz").css({"position":"static"});
+        }
+    }
+    var register_Status = 0;
+    //0为未关注，1为关注
+    var focus_status = 0;
+    var bloguserid = getQueryString("bloguserid")
+    var userid = 0;
+    //是否点赞
+    var islike = 0
+
+
+    //获取博文主人信息的方法
+    function blogUserIdReq(data) {
+        // //console.log(data)
+        var html = `
+            <div class="aside-box-top">
+                <img class="head_portrait" src="${data.headImg}" userid="${data.userId}" id="img_head" style="cursor: pointer">
+                <span>${data.nickname}</span>
+            </div>
+            <div class="aside-box-middle">
+                <div class="aside-box-middle-sub">
+                    <p>原创</p>
+                    <p>${data.blogCount}</p>
+                </div>
+                <div class="aside-box-middle-sub">
+                    <p>粉丝</p>
+                    <p>${data.fansCount}</p>
+                </div>
+                <div class="aside-box-middle-sub">
+                    <p>获赞</p>
+                    <p>${data.likeCount}</p>
+                </div>
+                <div class="aside-box-middle-sub">
+                    <p>评论</p>
+                    <p>${data.commentCount}</p>
+                </div>
+            </div>
+            <div class="aside-box-buttom">
+                <p>
+                <div style="width: 100px;display: inline-block;margin-left: 30px;">
+                    等级：<span style="color: blue">博客</span><span style="font-weight: 700;">${data.level}</span>
+                </div>
+                <div style="width: 120px;display: inline-block;">
+                  访问：<span style="font-weight: 700;">${data.visitorCount}</span>
+                </div>
+                </p>
+                <div style="width: 100px;display: inline-block;margin-left: 30px;">
+                    <p>积分：<span style="font-weight: 700;">${data.downloadmoney}</span>
+                </div>
+               <div style="width: 120px;display: inline-block">
+                排名：<span style="font-weight: 700;">${data.ranking}</span>
+                </div>
+                </p>
+
+                <p style="float: right;color: #00A3D9;cursor: pointer" id="personal_homepage" userid="${data.userId}">TA的个人主页></p>
+            </div>
+        `
+        $(".aside-box").append(html)
+        $("#personal_homepage").click(function () {
+            var userid = $(this).attr("userid")
+            window.location.href = "perInfor.html?viewUserId=" + userid + "&type=blog"
+
+        })
+        $("#img_head").click(function () {
+            var userid = $(this).attr("userid")
+            window.location.href = "perInfor.html?viewUserId=" + userid + "&type=blog"
+        })
+        //关注块
+        $("#focus").click(function () {
+            if (userid != 0) {
+                // //////console.log(userid)
+                //如果登陆成功，需要请求ajax访问数据库关注数据表
+                //首先进行关注状态的判断
+                //状态为关注
+                if (focus_status == 0) {
+
+                    //设置为取消关注
+                    $("#focus").css("width", "100px")
+                    $("#focus").text("取消关注")
+                    focus_status = 1;
+                    $.ajax({
+                        url: "addFocus",
+                        data: {"blogUserId": bloguserid},
+                        type: "get",
+                        dataType: "json",
+                        success: function (json) {
+                            //////console.log(json)
+
+                        }, error: function (xhr) {
+
+                        }
+                    })
+
+                    //状态为关注
+                } else {
+                    $("#focus").css("width", "50px")
+                    $("#focus").text("关注")
+                    focus_status = 0;
+                    $.ajax({
+                        url: "deleteFocus",
+                        data: {"blogUserId": bloguserid},
+                        type: "get",
+                        dataType: "json",
+                        success: function (json) {
+                            //////console.log(json)
+                        }, error: function (xhr) {
+
+                        }
+                    })
+                }
+            } else {
+                layer.msg("请先登录！")
+                window.location.href = "/login.html"
+            }
+
+
+        })
+
+    }
+
+
+    function peson() {
+        //通过博文id查找博文用户id，渲染页面，原创，粉丝，喜欢，评论
+        $.ajax({
+            url: "/blog/blog/" + bloguserid,
+            type: "GET"
+            , dataType: "json"
+            , success: function (jsonData) {
+                //渲染博主的信息
+                blogUserIdReq(jsonData.data)
+            }
+            , error: function (res) {
+                //////console.log("ajax提交错误")
+            }
+        })
+        //渲染博主的最新文章
+        $.ajax({
+            url: "/blog/queryByUserId",
+            data: {"userid": bloguserid, "pageNum": 1},
+            type: "GET"
+            , dataType: "json"
+            , success: function (json) {
+                $(".new_article_content").html("")
+                $.each(json.data, function (index, eachobj) {
+                    var html = `  <p class="new_article_items" blog_id="${eachobj.id}" style="font-size: 14px;color: #555666;font-family:'Microsoft YaHei' ">${eachobj.title}</p>`
+                    $(".new_article_content").append(html)
+                    if (index == 4) {
+                        return false
+                    }
+                })
+                $(".new_article_items").click(function () {
+                    var blog_id = $(this).attr("blog_id")
+                    window.location.href = "/details.html?blog_id=" + blog_id
+                })
+
+            }
+            , error: function () {
+
+            }
+        })
+        //渲染博主的热门文章
+        $.ajax({
+            url: "/blog/queryBlogIdByUserIdAndReadCount",
+            data: {"userId": bloguserid, "pageNum": 1},
+            type: "GET"
+            , dataType: "json"
+            , success: function (json) {
+                //////console.log(json)
+                $(".aside-box2-content").html("")
+                $.each(json.data, function (index, eachobj) {
+                    var html = `<p class="new_article_items" blog_id="${eachobj.id}" style="font-size: 14px;color: #555666;font-family:'Microsoft YaHei' ">${eachobj.title}</p><p style="color: #999aaa;font-size: 12px;margin-left: 10px;">阅读数：${eachobj.readCount}</p>`
+                    $(".aside-box2-content").append(html)
+                    if (index == 4) {
+                        return false
+                    }
+                })
+                $(".new_article_items").click(function () {
+                    var blog_id = $(this).attr("blog_id")
+                    window.location.href = "/details.html?blog_id=" + blog_id
+                })
+
+            }
+            , error: function () {
+
+            }
+        })
+    }
+
+
+    //TA的个人主页-->
+    $("#personal_homepage").click(function () {
+        //需要将个人信息携带到地址栏中
+        window.location.href = "";
+    })
+    //点击
+
+</script>
+<script src="assets/autoload.js"></script>
+</html>

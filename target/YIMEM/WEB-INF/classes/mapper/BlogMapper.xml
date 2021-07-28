@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.BlogMapper">
+    <!--新增博客-->
+    <insert id="insertNewBlog" parameterType="com.sy.model.Blog" useGeneratedKeys="true" keyColumn="id"
+            keyProperty="id">
+        INSERT into blog(userid,title,content,publishForm,category) VALUES(#{userid},#{title},#{content},#{publishForm},#{category});
+    </insert>
+
+    <!--杨-->
+    <select id="queryByKey" resultType="com.sy.model.Blog">
+       select * from blog where title like #{key}
+   </select>
+    <select id="queryAll" resultType="com.sy.model.Blog">
+       select * from blog order by createtime desc
+   </select>
+    <select id="queryByRecomment" resultType="com.sy.model.Blog">
+       select * from blog where recomment>0 order by recomment desc ,createtime desc
+   </select>
+    <select id="queryByCategory" resultType="com.sy.model.Blog">
+       select * from blog where category=#{category} ORDER BY createtime desc
+   </select>
+    <select id="queryByCategoryByPage" resultType="com.sy.model.Blog">
+       select * from blog where category=#{category} limit #{initNum},#{pageSize}
+   </select>
+    <select id="queryByUserId" resultType="com.sy.model.Blog">
+        select * from blog where userid=#{userid}
+        <if test="timeCount == 1 and stick==1 and readCount!=1">
+           and title like concat('%',#{serachblog},'%')
+        </if>
+        <if test="timeCount == 1 and stick==1 and readCount!=1">
+            order by stick desc,createtime desc
+        </if>
+        <if test="timeCount != 1 and stick==1 and readCount==1">
+            order by stick desc,readCount desc
+        </if>
+        <if test="timeCount != 1 and stick!=1 and readCount!=1">
+            order by createtime desc
+        </if>
+    </select>
+    <select id="queryOrderByReadCount" resultType="com.sy.model.Blog">
+       select * from blog  order by readcount desc
+   </select>
+    <select id="queryMaxCountByUserId" resultType="java.lang.Integer">
+       select userid from blog GROUP BY userid HAVING COUNT(*) = (select MAX(a) from (select COUNT(*) as a from blog GROUP BY userid ) c)
+   </select>
+    <update id="addReadCount">
+       UPDATE blog set readCount = readCount+1 where id=#{id}
+   </update>
+    <select id="queryUserIdById" resultType="java.lang.Integer">
+       select userid from blog where id=#{id}
+   </select>
+
+    <select id="queryBlogByBlogId" resultType="com.sy.model.Blog">
+        select * from blog where id=#{id}
+    </select>
+
+    <select id="queryBlogIdByUserId" resultType="java.lang.Integer">
+       select id from blog where userid=#{userid}
+   </select>
+
+    <select id="queryBlogIdByUserIdAndReadCount" resultType="com.sy.model.Blog">
+          SELECT *from blog WHERE userid=#{userid} ORDER BY readCount DESC
+    </select>
+
+    <update id="StickBlogid">
+       UPDATE blog set stick = #{stick} where id=#{id}
+   </update>
+    <select id="queryStickBlogid" resultType="java.lang.Integer">
+         SELECT stick FROM blog where id=#{id}
+    </select>
+    <delete id="deleteBlog">
+        delete from blog where  id=#{id}
+    </delete>
+
+    <update id="modifierBlog">
+       UPDATE blog set title = #{title}, content = #{content}, publishForm=#{publishForm}, category=#{category} where id=#{id}
+   </update>
+
+</mapper>

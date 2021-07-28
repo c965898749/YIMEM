@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.DownloadCategoryMapper">
+    <resultMap id="baseResultMap" type="com.sy.model.DownloadCategory">
+        <id property="id" column="id"/>
+        <result property="categoryname" column="categoryname"/>
+        <result property="pid" column="pid"/>
+        <collection property="children" ofType="com.sy.model.DownloadCategory"
+                    select="selectByPid" column="id"></collection>
+    </resultMap>
+    <select id="selcetRoot" resultMap="baseResultMap">
+         SELECT *FROM downloadcategory where pid=0
+    </select>
+    <select id="selectByPid" resultMap="baseResultMap">
+        SELECT *FROM downloadcategory where pid=#{pid}
+    </select>
+    <select id="selectByid" resultMap="baseResultMap">
+         SELECT *FROM downloadcategory where id=#{id}
+    </select>
+</mapper>

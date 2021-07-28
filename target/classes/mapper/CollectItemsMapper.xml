@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.CollectItemsMapper">
+
+
+<update id="addToCollect">
+    INSERT INTO collectitems (`blogid`, `collectid`) VALUES (#{blogId},#{collectId});
+</update>
+
+ <select id="queryCollect" resultType="com.sy.model.Collectitems">
+     select * from collectitems where blogid=#{blogid} and collectid =#{collectid}
+ </select>
+
+    <delete id="deleteCollect">
+        delete from collectitems where blogid=#{blogId} and collectid =#{collectId}
+    </delete>
+
+
+
+</mapper>

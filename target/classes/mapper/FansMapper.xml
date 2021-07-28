@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.FansMapper">
+    <select id="queryByfansid" resultType="java.lang.String">
+      select fansedid from fans where fansid=#{fansId}
+   </select>
+
+    <select id="queryIsFocus" resultType="com.sy.model.Fans">
+      select * from fans where fansid=#{fansid} and fansedid=#{fansedid}
+   </select>
+
+    <insert id="addFocus">
+        INSERT INTO fans (`fansedid`, `fansid`) VALUES (#{fansedid},#{fansid});
+
+    </insert>
+    <delete id="deleteFocus">
+        delete from fans where  fansid=#{fansid} and fansedid=#{fansedid}
+    </delete>
+
+    <select id="queryAllFans" resultType="com.sy.model.Fans">
+        select * from fans where fansedid=#{userId}
+    </select>
+
+    <update id="removefansaa" parameterType="java.lang.Integer">
+            update fans set status=0 where fansedid=#{fansedid}
+    </update>
+
+    <update id="readfansaa" parameterType="java.lang.Integer">
+            update fans set status=3 where fansedid=#{fansedid} and status=1
+    </update>
+
+    <!--查询粉丝未读状态-->
+    <select id="queryStatusByFocus" resultType="java.lang.Integer">
+      select COUNT(*) from fans where fansid=#{fansid} and fansedid=#{fansedid} and status=1
+   </select>
+</mapper>

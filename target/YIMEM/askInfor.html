@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>问答详情</title>
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script type="text/javascript" src="syntax/scripts/shCore.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushJava.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushCss.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushPython.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushPhp.js"></script>
+    <link type="text/css" rel="stylesheet" href="syntax/styles/shCoreDefault.css"/>
+    <script type="text/javascript" src="kindeditor/kindeditor-all.js"></script>
+    <script type="text/javascript" src="kindeditor/plugins/code/code.js"></script>
+    <script type="text/javascript" src="kindeditor/lang/zh-CN.js"></script>
+    <link rel="stylesheet" href="kindeditor/themes/default/default.css"/>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script src="js/setCookie.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #F5F6F7 !important;
+        }
+
+        .askOutcount {
+            width: 1200px;
+            height: 500px;
+            margin: 10px auto;
+        }
+
+        .myInfoContain {
+            width: 300px;
+            height: 300px;
+            position: fixed;
+            background: white;
+            top: 50px;
+            margin-left: 920px;
+        }
+
+        .myInfoTitle {
+            height: 50px;
+            color: #8F99EA;
+            box-sizing: border-box;
+            padding: 0 10px;
+            border-bottom: 1px solid #F0F0F0;
+            font-size: 18px;
+            line-height: 50px;
+        }
+
+        .myInfoTitle:hover {
+            color: red;
+            cursor: pointer;
+        }
+
+        .myInfoImg {
+            height: 100px;
+            color: #8F99EA;
+            box-sizing: border-box;
+            padding: 20px 10px;
+            font-size: 17px;
+        }
+
+        .myInfoImg span:hover {
+            color: orange;
+            cursor: pointer;
+        }
+
+        .myInfoAsk {
+            height: 30px;
+            box-sizing: border-box;
+            padding: 0 10px;
+        }
+
+        .myInfoAskImg {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background: #A0D56D;
+            color: white;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .myInfoAskText {
+            height: 20px;
+            line-height: 20px;
+            display: inline-block;
+        }
+
+        .myInfoAskText span {
+            color: #8F99EA;
+        }
+
+        .myInfoReplay {
+            height: 30px;
+            box-sizing: border-box;
+            padding: 0 10px;
+        }
+
+        .myInfoReplayImg {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background: #F9AF57;
+            color: white;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .myInfoReplayText {
+            height: 20px;
+            line-height: 20px;
+            display: inline-block;
+        }
+
+        .myInfoReplayText span {
+            color: #8F99EA;
+        }
+
+        .myInfoAlsoAsk {
+            height: 30px;
+            box-sizing: border-box;
+            padding: 0 10px;
+        }
+
+        .myInfoAlsoAskImg {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background: #64B1CB;
+            color: white;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .myInfoAlsoAskText {
+            height: 20px;
+            line-height: 20px;
+            display: inline-block;
+        }
+
+        .myInfoAlsoAskText span {
+            color: #8F99EA;
+        }
+
+        .showCoutain {
+            width: 900px;
+            background-color: white;
+            float: left;
+            padding: 0 25px;
+            box-sizing: border-box;
+        }
+
+        .askTitel {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .askText {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .time {
+        }
+
+        .answerLabel {
+            height: 50px;
+        }
+
+        .labelContain {
+            height: 30px;
+            border-radius: 15px;
+            box-sizing: border-box;
+            border: 1px solid #979997;
+            float: left;
+            margin: 10px 10px 10px 0;
+            text-align: center;
+            line-height: 30px;
+            padding: 0 10px;
+        }
+
+        .answerContain {
+            width: 900px;
+            background-color: white;
+            float: left;
+            padding: 0 25px;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+
+        .answerCount {
+            width: 100%;
+            height: 50px;
+            box-sizing: border-box;
+            border-bottom: 2px solid #F5F6F7;
+            line-height: 50px;
+            font-size: 20px;
+
+        }
+
+        .Tmylist {
+            z-index: 100 !important;
+        }
+
+        .answerDetail {
+            width: 100%;
+            box-sizing: border-box;
+            border-bottom: 2px solid #F5F6F7;
+            padding: 20px 20px;
+            margin-bottom: 20px;
+        }
+
+        .timeandname {
+            margin-top: 20px;
+        }
+
+        .invant {
+            width: 50px;
+            height: 100px;
+            border-radius: 20px;
+            background-color: #1dc116;
+            color: white;
+            position: fixed;
+            top: 50px;
+            margin-left: -60px;
+            font-size: 26px;
+            box-sizing: border-box;
+            padding: 12px 13px;
+            cursor: pointer;
+        }
+        .alsoanswer{
+            width: 50px;
+            height: 100px;
+            border-radius: 20px;
+            background-color: #1dc116;
+            color: white;
+            position: fixed;
+            top: 200px;
+            margin-left: -60px;
+            font-size: 26px;
+            box-sizing: border-box;
+            padding: 12px 13px;
+            cursor: pointer;
+        }
+
+        .myanswerContain {
+            width: 900px;
+            background-color: white;
+            float: left;
+            padding: 0 25px 20px 0;
+            box-sizing: border-box;
+            margin: 20px 10px 30px 0;
+
+        }
+
+        .sub {
+            float: right;
+        }
+
+        .sub button {
+            width: 100px;
+            height: 30px;
+            border-radius: 10px;
+            outline: none;
+            border: none;
+            background-color: #0F8B7B;
+            margin-top: 10px;
+        }
+
+        .collectContain {
+            width: 300px;
+            /*height: 300px;*/
+            min-height: 200px;
+            background-color: #F1F3F4;
+            position: fixed;
+            top: 50px;
+            margin-left: 0px;
+            display: none;
+        }
+
+        .collectList {
+            box-sizing: border-box;
+            padding: 10px 10px 10px 10px;
+            margin: 20px 0px;
+        }
+
+        .collectName {
+            float: left;
+            width: 240px;
+        }
+
+        .closebutton {
+            position: absolute;
+            margin-left: 276px;
+            top: 5px;
+            box-sizing: border-box;
+            border: 1px solid black;
+            border-radius: 10px;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            font-size: 23px;
+            cursor: pointer;
+        }
+
+        .closebutton button {
+            background-color: red;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            width: 40px;
+            height: 25px;
+            color: white;
+            margin: 20px 0;
+        }
+
+        .collectList button {
+            float: right;
+            background-color: #009f95;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            width: 40px;
+            height: 25px;
+        }
+
+        .addCollect {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            border-radius: 50px;
+            line-height: 100px;
+            text-align: center;
+            font-size: 90px;
+            margin: 50px 0 0 100px;
+            cursor: pointer;
+
+        }
+        .answerText{
+            width: 100%;
+            overflow: hidden;
+        }
+        .collectinput{
+            margin: 10px 0;
+        }
+        .collecdiscr{
+            margin-left: 42px;
+        }
+        .collectinput button{
+            width: 55px;
+            height: 30px;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            background-color: #1E9FFF;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="titleContai"></div>
+<div class="askOutcount">
+    <div class="showCoutain">
+
+    </div>
+    <div class="answerContain">
+
+    </div>
+    <div class="myanswerContain">
+        <textarea id="editor_id" name="content"></textarea>
+        <div class="sub">
+            <button>我要回答</button>
+        </div>
+    </div>
+
+    <div class="myInfoContain">
+        <!--此处个人页渲染-->
+    </div>
+    <div class="invant">收藏</div>
+    <div class="alsoanswer">同问</div>
+    <div class="collectContain">
+        <!--此处渲染收藏夹-->
+
+    </div>
+</div>
+
+
+</body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="layui/layui.all.js"></script>
+<script>
+    // SyntaxHighlighter.highlight()
+    //引用表头
+    $("#titleContai").load('title.html')
+
+
+    KindEditor.ready(function (K) {
+        window.editor = K.create('#editor_id', {
+            items: [
+                "redo", "|", "undo", "|", "bold", "|", "italic", "|", "strikethrough", "|", "insertorderedlist", "|",
+                "insertunorderedlist", "|", "code", "|", "formatblock", "|", "table", "|", "link", "|", "unlink", "|",
+                "image", "|", "fontname", "|", "fontsize", "|", "forecolor", "|", "preview", "|", "removeformat", "|", "fullscreen",
+                "clearhtml", "|", "quickformat"
+            ], width: '100%',
+            uploadJson: 'imgUpload',
+            // uploadJson: 'kindeditor/jsp/upload_json.jsp',
+            // fileMangerJson: 'kindeditor/jsp/file_manager_json.jsp',
+            allowUpload: true,
+            fillDescAfterUploadImage:true,
+            afterUpload: function (url) {
+                console.log(url)   //上传图片的路径
+            },
+            afterChange: function () {
+
+            }
+        });
+        //回答按钮点击事件
+        $(".sub button").click(function () {
+            if (user) {
+                if (!editor.html()) {
+                    layer.msg("回复内容不能为空！")
+                    return false;
+                }
+                $.ajax({
+                    url: "insertAnswerAsk"
+                    , type: "post"
+                    , data: {"userID": userID, "askId": askId, "answerAskText": editor.html()}
+                    , dataType: "json"
+                    , async: false
+                    , success: function (jsonData) {
+                        console.log(jsonData)
+                        if (jsonData.success == 1) {
+                            layer.msg("回复成功")
+                            location.href = window.location.href
+                        }else {
+                            layer.msg(jsonData.errorMsg)
+                        }
+                    }
+                    , error: function (res) {
+                        console.log("ajax提交错误")
+                    }
+                })
+
+
+            } else {
+                layer.msg("登录后才能回答问题")
+            }
+        })
+
+    });
+    //重表头获取askId
+    var askId = location.search.substring(location.search.indexOf("=") + 1)
+    setHtml(getdata(askId))
+
+    //获取渲染数据
+    function getdata(askId) {
+        var jsondata;
+        $.ajax({
+            url: "getAskInforByAskid"
+            , type: "post"
+            , data: {"askId": askId}
+            , dataType: "json"
+            , async: false
+            , success: function (getdata) {
+                jsondata = getdata.data
+                console.log(jsondata)
+            }
+            , error: function (res) {
+                console.log("问答详情ajax提交错误")
+            }
+        })
+        return jsondata;
+    }
+       //问答详情渲染
+      function setHtml(data) {
+        var html = `<div class="askTitel">${data.askName}</div>
+                    <div class="askText">${data.askText}</div>
+                    <div class="time">${data.createTime}&nbsp;&nbsp; <span style="color: #63B0E8">${data.username}</span></div>
+                    <div class="answerLabel">`
+        $.each(data.se_labelList, function (index, obj) {
+            html = html + `<div class="labelContain">${obj.seLabelName}</div>`
+        })
+
+        html = html + `</div>`
+          //回复渲染
+        $(".showCoutain").html(html)
+        var answerhtml = `<div class="answerCount">${data.answerCount}个回答</div>`
+        $.each(data.answer_askList, function (index, obj) {
+            answerhtml = answerhtml + `<div class="answerDetail">
+                                    <div class="answerText">${obj.answerAskText}</div>
+                                    <div class="timeandname">
+                                        ${obj.createtime}&nbsp;&nbsp; <span style="color: #63B0E8">${obj.answername}</span>
+                                    </div>
+                                </div>`
+        })
+        //问答详情渲染
+        $(".answerContain").html(answerhtml)
+        // SyntaxHighlighter.highlight()
+    }
+
+    //获取当前用户
+    function getUser() {
+        var data;
+        $.ajax({
+            url: "isEnter"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                //console.log(jsonData)
+                if (jsonData.success == 1) {
+                    data = jsonData.data;
+                }
+            }
+            , error: function (res) {
+                console.log("ajax提交错误")
+            }
+        })
+        return data;
+    }
+
+    //获取登入者ID
+    var user = getUser();
+    var userID = 0;
+    if (user) {
+        userID = user.userId
+    } else {
+        $(".myInfoContain").css("display", "none")
+    }
+    var askUserId=getdata(askId).userId
+    $(".myInfoContain").css("display", "block")
+    $.ajax({
+        url: "userinfor"
+        , type: "post"
+        , data: {"userId":askUserId}
+        , dataType: "json"
+        , async: false
+        , success: function (jsonData) {
+            // console.log(jsonData)
+            var obj = jsonData.data;
+            var html = ` <div class="myInfoTitle">TA的问答</div>
+                            <div class="myInfoImg">
+                                <img src="${obj.user.headImg}" width="50x" height="50px">
+                                <span data-id="${askUserId}">${obj.user.username}</span>
+                            </div>
+                            <div class="myInfoAsk">
+                                <div class="myInfoAskImg">问</div>
+                                <div class="myInfoAskText">
+                                    提了<span>${obj.askCount}</span>个问题，
+                                    <span>${obj.hasAnswerCount}</span>人进行了回答
+                                </div>
+                            </div>
+                            <div class="myInfoReplay">
+                                <div class="myInfoReplayImg">答</div>
+                                <div class="myInfoReplayText">
+                                    回答了<span>${obj.myAnswerCount}</span>个问题
+                                </div>
+                            </div>
+                            <div class="myInfoAlsoAsk">
+                                <div class="myInfoAlsoAskImg">答</div>
+                                <div class="myInfoAlsoAskText">
+                                    有<span>${obj.alsoCount}</span>个同问
+                                </div>
+                            </div>`
+            $(".myInfoContain").html(html)
+        }
+        , error: function (res) {
+            console.log("问答页个人信息ajax提交错误")
+        }
+    })
+
+    //渲染收藏夹
+    function setCollect(userid) {
+        console.log(235)
+        $.ajax({
+              url: "findAllCollectByuserID"
+            , type: "get"
+            , data: {"userid": userid}
+            , dataType: "json"
+            , success: function (jsonData) {
+                console.log(jsonData)
+                if (jsonData.success == 1) {
+                    var html = `<div class="closebutton">×</div>`;
+                    $.each(jsonData.data, function (index, obj) {
+                        html = html + `<div class="collectList" data-value="${obj.id}">
+                                    <div class="collectName">${obj.name}</div>
+                                    <button class="addToCollect">收藏</button>
+                                </div>`
+                    })
+                    $(".collectContain").html(html)
+                } else {
+                   var html=`<div class="closebutton">×</div>
+                             <div class="addCollect">＋</div>`
+                    $(".collectContain").html(html)
+                }
+            }
+            , error: function (res) {
+                console.log("ajax提交错误")
+            }
+        })
+    }
+    //无收藏夹点击添加事件
+    $(".collectContain").on("click",".addCollect",function () {
+        var html=`<div class="collectinput">
+                        <span>收藏夹名称：</span>
+                        <input type="text" class="collectname">
+                    </div>
+                    <div class="collectinput">
+                        <span>描述：</span>
+                        <input type="text" class="collecdiscr">
+                    </div>
+                    <div class="collectinput">
+                        <button class="addCollect2">添加</button>
+                    </div>`
+        $(".collectContain").html(html)
+        addCollect()
+    })
+    //添加收藏夹按钮事件
+    function addCollect(){
+        $(".collectContain").on("click",".addCollect2",function () {
+            var name=$(".collectname").val()
+            var collectDescribe=$(".collecdiscr").val()
+            console.log(name)
+            if(!name){
+                layer.msg("收藏夹名不能为空！")
+                return false
+            }
+            $.ajax({
+                url: "addNewCollect"
+                , type: "post"
+                , data: {"userid": userID,"name": name,"collectDescribe": collectDescribe}
+                , dataType: "json"
+                , success: function (jsonData) {
+                    console.log(jsonData)
+                    if (jsonData.success == 1) {
+                        setCollect(userID)
+                        layer.msg("添加成功")
+                    } else {
+                        layer.msg(jsonData.errorMsg)
+                    }
+                }
+                , error: function (res) {
+                    console.log("添加收藏夹ajax提交错误")
+                }
+            })
+        })
+    }
+    //收藏点击事件
+    $(".invant").click(function () {
+        if (user){
+            console.log(123)
+            setCollect(userID)
+            $(".collectContain").css("display","block")
+        } else {
+            layer.msg("登录后收藏！")
+        }
+
+    })
+    //收藏夹事件关闭按钮
+    $(".collectContain").on("click",".closebutton",function () {
+        $(".collectContain").css("display","none")
+    })
+    //添加到收藏夹
+    $(".collectContain").on("click",".addToCollect",function () {
+        var collectid=$(this).parent().attr("data-value")
+        console.log(collectid)
+        $.ajax({
+            url: "addAskToCollect"
+            , type: "post"
+            , data: {"askID": askId,"collectid": collectid}
+            , dataType: "json"
+            , success: function (jsonData) {
+                //console.log(jsonData)
+                $(".collectContain").css("display","none")
+                if (jsonData.success == 1) {
+
+                     layer.msg("添加成功")
+                } else {
+                    layer.msg(jsonData.errorMsg)
+                }
+            }
+            , error: function (res) {
+                console.log("添加收藏夹ajax提交错误")
+            }
+        })
+    })
+    //同问事件
+    $(".alsoanswer").click(function () {
+        if(user){
+            $.ajax({
+                url: "addAlsoask"
+                , type: "post"
+                , data: {"askID": askId,"userId": userID}
+                , dataType: "json"
+                , success: function (jsonData) {
+                    console.log(jsonData)
+                    if (jsonData.success == 1) {
+                        layer.msg("同问成功")
+                        location.href=window.location.href
+                    } else {
+                        layer.msg(jsonData.errorMsg)
+                    }
+                }
+                , error: function (res) {
+                    console.log("同问ajax提交错误")
+                }
+            })
+        }else {
+            layer.msg("请先登录！")
+        }
+
+    })
+    //头像跳转事件
+    $(".myInfoContain").on("click",".myInfoImg span",function () {
+        location.href="perInfor.html?viewUserId="+askUserId+"&type=blog"
+    })
+</script>
+</html>

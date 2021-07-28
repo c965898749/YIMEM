@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改博客</title>
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <script src="jquery/jquery.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shCore.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushJava.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushCss.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushPython.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushPhp.js"></script>
+    <link type="text/css" rel="stylesheet" href="syntax/styles/shCoreDefault.css"/>
+    <script type="text/javascript" src="kindeditor/kindeditor-all.js"></script>
+    <script type="text/javascript" src="kindeditor/plugins/code/code.js"></script>
+    <script type="text/javascript" src="kindeditor/lang/zh-CN.js"></script>
+    <link rel="stylesheet" href="kindeditor/themes/default/default.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/waifu.min.css?v=1.4.2"/>
+    <script src="assets/jquery.min.js?v=3.3.1"></script>
+    <!-- 实现拖动效果，需引入 JQuery UI -->
+    <script src="assets/jquery-ui.min.js?v=1.12.1"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script src="js/setCookie.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body {
+            background: #F3F3F3;
+        }
+
+        .title {
+            width: 1200px;
+            height: 40px;
+            margin: 10px auto;
+        }
+
+        .title input {
+            height: 100%;
+            width: 930px;
+            outline: none;
+            border: 1px solid #E0E0E0;
+            box-sizing: border-box;
+            padding: 0 10px;
+            font-size: 18px;
+            border-radius: 10px;
+        }
+
+        .title button {
+            height: 100%;
+            width: 100px;
+            outline: none;
+            border-radius: 5px;
+            border: none;
+            background: red;
+            color: white;
+            font-size: 18px;
+            margin-left: 30px;
+            cursor: pointer;
+        }
+
+        .headImg {
+            /*width: 40px;*/
+            /*height: 40px;*/
+            /*border-radius: 20px;*/
+            float: right;
+            box-sizing: border-box;
+            /*margin-left: 10px;*/
+            /*background-image: url("//profile.csdnimg.cn/4/2/0/2_guanguoyi");*/
+            /*background-repeat: no-repeat;*/
+            /*background-size: 100% 100%;*/
+            vertical-align: middle;
+            cursor: pointer;
+            line-height: 40px;
+
+        }
+
+        .allContain {
+            height: 1000px;
+            width: 1200px;
+            margin: 0 auto;
+        }
+
+        .textareaContain {
+            height: 1000px;
+            width: 1130px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .textareaContain textarea {
+            /*width:550px;*/
+            height: 100%;
+        }
+
+        .view {
+            height: 1000px;
+            width: 580px;
+            float: right;
+            box-sizing: border-box;
+            background-color: white;
+            margin-left: 10px;
+            vertical-align: top;
+            display: none;
+            overflow:auto
+        }
+
+        .folw {
+            height: 1000px;
+            width: 50px;
+            box-sizing: border-box;
+            background-color: white;
+            line-height: 1000px;
+            text-align: center;
+            font-size: 50px;
+            vertical-align: top;
+            cursor: pointer;
+            /*float: right;*/
+            /*margin-right: 5px;*/
+            display: inline-block;
+            margin-left: 5px;
+        }
+        .typeContain{
+            height: 50px;
+            width: 1200px;
+            margin: 0 auto;
+        }
+        .category{
+            float: right;
+            margin-right: 300px;
+        }
+        .category select{
+            height: 30px;
+            width: 200px;
+            outline: none;
+            border: 1px solid #E0E0E0;
+        }
+        .publishForm{
+            line-height: 30px;
+            float: left;
+            /*margin-left: 150px;*/
+            display: flex;
+        }
+        .publishForm select{
+           height: 30px;
+            width: 200px;
+            outline: none;
+            border: 1px solid #E0E0E0;
+        }
+
+    </style>
+</head>
+<body>
+<div class="title">
+    <input type="text" placeholder="输入文章标题">
+    <span>0</span>/50
+    <button>修改文章</button>
+    <div class="headImg">
+
+        未登入
+    </div>
+</div>
+<div class="typeContain">
+
+    <div class="publishForm">
+        <img src="imgs/btn/blog/jiantou.png" style="width: 20px;height: 20px;margin-top: 5px" alt="">
+        <div id="bt_wzgl" onclick="wzgl()" style="width: 100px;margin-left: 5px;cursor: pointer">文章管理</div>
+        <span style="margin-left: 50px;">文章类型：</span>
+        <select >
+            <option value="原创">原创</option>
+            <option value="转载">转载</option>
+            <option value="翻译">翻译</option>
+        </select>
+        <span>*</span>
+    </div>
+    <div class="category">
+        <span>*</span>
+        <select >
+            <option value="Python">Python</option>
+            <option value="程序人生">程序人生</option>
+            <option value="java">java</option>
+            <option value="前端">前端</option>
+            <option value="架构">架构</option>
+            <option value="区块链">区块链</option>
+            <option value="数据库">数据库</option>
+            <option value="游戏开发">游戏开发</option>
+            <option value="移动开发">移动开发</option>
+            <option value="运维">运维</option>
+            <option value="人工智能">人工智能</option>
+            <option value="安全">安全</option>
+            <option value="云计算/大数据">云计算/大数据</option>
+            <option value="研发管理">研发管理</option>
+            <option value="物联网">物联网</option>
+            <option value="计算机基础">计算机基础</option>
+            <option value="音视频开发">音视频开发</option>
+            <option value="其他">其他</option>
+        </select>
+        <span>：博客类型</span>
+
+    </div>
+
+</div>
+<div class="allContain">
+    <div class="textareaContain">
+        <textarea id="editor_id" name="content"></textarea>
+    </div>
+    <div class="folw">＜</div>
+    <div class="view">
+    </div>
+</div>
+
+</body>
+<!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
+<script src="layui/layui.all.js"></script>
+<script>
+   var blogId= getQueryString("blogId")
+    $(function () {
+        modifier(blogId)
+    })
+    // 返回文章管理
+    function wzgl(){
+        layer.open({
+            content: '系统可能不会保存您所做的更改。'
+            , btn: ['离开', '取消']
+            , yes: function (index, layero) {
+                //按钮【按钮一】的回调
+                location.href = "index.html";
+                layer.close(index);
+            }
+            , btn2: function (index, layero) {
+                layer.close(index);
+            }
+        });
+        return false;
+    }
+
+    //获取当前用户
+    function getUser() {
+        var data;
+        $.ajax({
+            url: "isEnter"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                //console.log(jsonData)
+                if (jsonData.success == 1) {
+                    data = jsonData.data;
+                }
+            }
+            , error: function (res) {
+                console.log("ajax提交错误")
+            }
+        })
+        return data;
+    }
+
+    //获取登入者ID
+    var user = getUser();
+    var userID = 0;
+    if (user) {
+        userID = user.userId
+        $(".headImg").html(`<img src="${user.headImg}" width="40px" height="40px" style="border-radius: 20px">`)
+    }else {
+        $(".headImg").text("去登入")
+    }
+    //头像点击事件
+    $(".headImg").click(function () {
+        if(user){
+            location.href = "userHomepage.html"
+        }else {
+            location.href="login.html"
+        }
+    })
+
+    // 编辑
+    //地址参数获取
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return r[2];
+        return null;
+    }
+    // KindEditor.html('#editor_id', "家在使用Vue时，一般使用{{ Mustache }}或者v-text进行插值，时渲染出来的页面如图：");
+    function modifier(){
+        $.ajax({
+            url: "/blog/"+blogId,
+            dataType: "json",
+            type: "get",
+            success: function (json) {
+                // var content=json.data.content
+                // console.log(json)
+                $(".publishForm select").val(json.data.publishForm)
+                $(".category select").val(json.data.category)
+                $(".title input").val(json.data.title)
+                KindEditor.html('#editor_id',json.data.content);
+            },
+            error: function () {
+
+            }
+        })
+
+    }
+
+    KindEditor.ready(function (K) {
+        window.editor = K.create('#editor_id', {
+            items: [
+                "redo", "|", "undo", "|", "bold", "|", "italic", "|", "strikethrough", "|", "insertorderedlist", "|",
+                "insertunorderedlist", "|", "code", "|", "formatblock", "|", "table", "|", "link", "|", "unlink", "|",
+                "image", "|", "fontname", "|", "fontsize", "|", "forecolor", "|", "preview", "|", "removeformat", "|", "fullscreen",
+                "clearhtml", "|", "quickformat"
+            ], width: '100%',
+            uploadJson: 'imgUpload',
+            allowUpload: true,
+            afterUpload: function (url) {
+                console.log(url)   //上传图片的路径
+            },
+            afterChange:function () {
+                $(".view").html(this.html())
+                SyntaxHighlighter.highlight()
+            }
+        });
+        //修改文章点击事件
+         $("button").click(function () {
+             var publishForm=$(".publishForm select").val()
+             var category=$(".category select").val()
+             var title=$(".title input").val()
+             var content=editor.html();
+             if(!user){
+                 layer.msg("请登录后再修改！")
+                 location.href="login.html"
+                 return false
+             }
+             if(!title){
+                 layer.msg("请输入文章标题再修改！")
+                 return false
+             }
+             if(title.length>50){
+                 layer.msg("标题长度不能超过50！")
+                 return false
+             }
+             if(!editor.html()){
+                 layer.msg("请输入文章正文后再修改！")
+                 return false
+             }
+             $.ajax({
+                 url: "blog/modifierBlog"
+                 , type: "post"
+                 ,data:{"title":title,"content":content,"publishForm":publishForm,"category":category,"blogId":blogId}
+                 , dataType: "json"
+                 ,async:false
+                 , success: function (jsonData) {
+                     console.log(jsonData.data)
+                     if (jsonData.success == 1) {
+                         layer.msg("修改成功！")
+                         location.href="details.html?blog_id="+jsonData.data
+                     }
+                 }
+                 , error: function (res) {
+                     console.log("取消关注事件ajax提交错误")
+                 }
+             })
+         })
+
+
+        //预览点击事件
+        $(".folw").click(function () {
+            var type = $(".folw").text()
+            if (type == "＞") {
+                type = $(".folw").text("＜")
+                $(".view").css("display", "none")
+                $(".textareaContain").css("width", "1130px")
+            } else {
+                type = $(".folw").text("＞")
+                $(".view").css("display", "block")
+                $(".textareaContain").css("width", "550px")
+
+            }
+            // $(".view").html($(".view").html())
+        })
+
+
+    });
+    $(".title input").keyup(function () {
+        $(".title span").text($(".title input").val().length)
+    })
+
+
+</script>
+<script src="assets/autoload.js"></script>
+</html>

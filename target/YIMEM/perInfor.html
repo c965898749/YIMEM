@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人主页</title>
+    <link rel="shortcut icon" href="#"/>
+    <script src="jquery/jquery.js"></script>
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <script src="js/setCookie.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/siderBar2.css">
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .siderBar {
+            left: 38%;
+        }
+        body {
+            background-color: #F5F6F7 !important;
+        }
+
+
+        .allContain {
+            width: 1010px;
+            height: 600px;
+            margin: 10px auto;
+            /*background-color: white;*/
+        }
+
+        .msgoutContain {
+            width: 840px;
+            height: 150px;
+            background-color: white;
+            padding: 30px;
+        }
+
+        .fansandattcontain {
+            width: 100px;
+            height: 200px;
+            background-color: white;
+            position: fixed;
+            margin-left: 910px;
+            top: 50px;
+        }
+
+        .fans {
+            width: 100px;
+            height: 100px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #999999;
+            text-align: center;
+            font-size: 16px;
+            padding: 28px 0;
+        }
+
+        .att {
+            width: 100px;
+            height: 100px;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 16px;
+            padding: 28px 0;
+        }
+
+        .headimgContain {
+            width: 100px;
+            height: 100px;
+            box-sizing: border-box;
+            /*border: 1px solid #F5F6F7;*/
+            float: left;
+            border-radius: 50px;
+        }
+
+        .nameAndDisc {
+            width: 300px;
+            height: 100px;
+            box-sizing: border-box;
+            /*border: 1px solid #F5F6F7;*/
+            float: left;
+            padding: 10px;
+        }
+
+        .username {
+            font-size: 25px;
+        }
+
+        .lt_button {
+            box-sizing: border-box;
+            border: 1px solid #CCCCCC;
+            border-radius: 5px;
+            width: 80px;
+            height: 30px;
+            text-align: center;
+            color: red;
+            float: right;
+            font-size: 15px;
+            line-height: 30px;
+        }
+
+        .lt_button:hover {
+            color: white;
+            background-color: red;
+            cursor: pointer;
+        }
+
+        .tabContain {
+            width: 900px;
+            height: 60px;
+            background-color: white;
+            /*padding: 0px 10px;*/
+            box-sizing: border-box;
+            border-bottom: 1px solid #F5F6F7;
+            margin-top: 10px;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .tabContain li {
+            float: left;
+            line-height: 60px;
+            font-size: 20px;
+            box-sizing: border-box;
+            padding: 0px 40px;
+            margin-left: 10px;
+        }
+
+        .tabContain li:hover {
+            color: red;
+            border-bottom: 2px solid red;
+            cursor: pointer;
+        }
+
+        .setContain {
+            width: 900px;
+            background-color: white;
+            box-sizing: border-box;
+            padding: 0 30px 40px 30px;
+
+        }
+
+        .list {
+            /*width: 900px;*/
+            height: 110px;
+            border-bottom: 1px solid #77C3F5;
+        }
+
+        .listTitle {
+            font-size: 20px;
+            text-overflow: ellipsis;
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap; /* 不换行 */
+            padding: 10px 0;
+            cursor: pointer;
+        }
+
+        .listdisc {
+            /*font-size: 20px;*/
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap; /* 不换行 */
+            padding: 10px 0;
+            color: #CCCCCC;
+        }
+
+        .timeContain {
+            float: right;
+            color: #CCCCCC;
+        }
+
+        .collectTypeContain {
+            width: 800px;
+            height: 40px;
+            background-color: white;
+            padding: 2px 15px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #F5F6F7;
+            font-size: 17px;
+            line-height: 40px;
+        }
+
+        .collectTypeContain li {
+            float: left;
+            padding: 0px 20px;
+            box-sizing: border-box;
+            margin-left: 10px;
+        }
+
+        .collectTypeContain li:hover {
+            color: red;
+            border-bottom: 2px solid red;
+            cursor: pointer;
+        }
+
+        .collectList {
+            width: 800px;
+            background-color: white;
+            padding: 0px 20px 30px 0;
+            box-sizing: border-box;
+        }
+
+        .eachList {
+
+            height: 100px;
+            background-color: white;
+            padding: 15px 32px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #F5F6F7;
+        }
+
+        .collectName {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            float: left;
+            margin: 0px 20px 0 10px;
+            color: #99B5D7;
+        }
+
+        .watch {
+            float: left;
+            margin: 0px 20px 0 10px;
+            color: #99B5D7;
+        }
+
+        .name {
+            float: left;
+            color: #77C3F5;
+        }
+
+        .atantion {
+            float: right;
+            width: 90px;
+            height: 30px;
+            text-align: center;
+            box-sizing: border-box;
+            border: 1px solid #99B5D7;
+            line-height: 30px;
+            font-size: 16px;
+            margin-top: -20px;
+        }
+
+        .atantion:hover {
+            background-color: red;
+            color: white;
+            cursor: pointer;
+        }
+        .userdisc{
+            max-height: 70px;
+            max-height: 70px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .hiddenText{
+            color:#858585;
+            max-height: 50px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div id="titleContai"></div>
+<div class="allContain">
+    <div class="msgoutContain" >
+    </div>
+    <div class="tabContain">
+        <li>TA博客</li>
+        <li>TA资源</li>
+        <li>TA论坛</li>
+        <li>TA问答</li>
+        <li>TA收藏</li>
+    </div>
+    <div class="setContain" id="setContain">
+
+    </div>
+    <div class="fansandattcontain">
+        <!--渲染代码-->
+    </div>
+    <div class="siderBar">
+        <!--<div class="siderBar-bg" ></div>-->
+        <ul>
+            <li>返回</li>
+            <li>顶部</li>
+            <div>
+                <div class="siderBar-line"></div>
+
+                <div class="siderBar-goTop" id="btn"></div>
+
+            </div>
+        </ul>
+    </div>
+</div>
+</body>
+<!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
+<script src="layui/layui.all.js"></script>
+<script>
+    var timer = null;
+    document.getElementById("btn").onclick = function () {
+        cancelAnimationFrame(timer);
+        timer = requestAnimationFrame(function fn() {
+            var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+            if (oTop > 0) {
+                scrollBy(0, -50);
+                timer = requestAnimationFrame(fn);
+            } else {
+                cancelAnimationFrame(timer);
+            }
+        });
+    }
+    //获取登入者ID
+    var user = getUser();
+    var userID;
+    //获取查看的userid
+    var viweUserId = getQueryString("viewUserId")
+    var type = "blog"
+    $(function () {
+        if (!viweUserId) {
+            viweUserId = userID;
+        }
+        if (user) {
+            userID = user.userId;
+        }
+        //个人信息渲染
+        setperinfor()
+        //引用表头
+        $("#titleContai").load('title.html')
+    })
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return r[2];
+        return null;
+    }
+
+    function setperinfor() {
+
+        $.ajax({
+            url: "perInfordata"
+            , type: "get"
+            , data: {"viewUserId": viweUserId, "userId": userID}
+            , dataType: "json"
+            , success: function (jsonData) {
+                //console.log(jsonData)
+                if (jsonData.success == 1) {
+                    jsondata = jsonData;
+                }
+                var fan = "关注";
+                if (jsondata.count != 0) {
+                    fan = "取消关注"
+                }
+                var html = `<div class="headimgContain">
+                        <img src="${jsondata.data.headImg}" width="100px" height="100px" style="border-radius:50px ">
+                    </div>
+                    <div class="nameAndDisc">
+                        <div class="username">${jsondata.data.nickname}</div>
+                        <div class="userdisc">描述：${(jsondata.data.description == null || jsondata.data.description == "") ? "" : jsondata.data.description}<span></span></div>
+                    </div>
+                    <div>
+                    <div >个人荣誉</div>
+                    <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal1.gif" alt="">
+                    <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal3.gif" alt="">
+                    <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal4.gif" alt="">
+                    <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal5.gif" alt="">
+                    <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal7.gif" alt="">
+                    <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/gtaezn.gif" alt="">
+                     <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal7.gif" alt="">
+                    <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal9.gif" alt="">
+                     <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal7.gif" alt="">
+                    <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/gtaszn.gif" alt="">
+                     <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/jcbz.gif" alt="">
+                    <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal9.gif" alt="">
+                     <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal7.gif" alt="">
+                    <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal9.gif" alt="">
+                     <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal_avatar_big.gif" alt="">
+                    <img style="margin-left: 10px;margin-bottom: 5px" src="imgs/xunzhan/medal9.gif" alt="">
+                    </div>`
+                if (viweUserId != userID) {
+                    html = html + ` <div class="lt_button">${fan}</div>`
+                }
+                var countHtml = `<div class="fans">
+                            <div>${jsondata.data.fansCount}</div>
+                            <div>TA的粉丝</div>
+                        </div>
+                        <div class="att">
+                            <div>${jsondata.data.attentionCount}</div>
+                            <div>TA的关注</div>
+                        </div>`
+                $(".msgoutContain").html(html)
+                $(".fansandattcontain").html(countHtml)
+            }
+            , error: function (res) {
+                //console.log("ajax提交错误")
+            }
+        })
+
+    }
+    //获取当前用户
+    function getUser() {
+        var data;
+        $.ajax({
+            url: "isEnter"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                ////console.log(jsonData)
+                if (jsonData.success == 1) {
+                    data = jsonData.data;
+                }
+            }
+            , error: function (res) {
+                //console.log("ajax提交错误")
+            }
+        })
+        return data;
+    }
+    //个人关注事件
+    //用户关注的事件
+    $(".allContain").on("click", ".lt_button", function () {
+        var type;
+        if ($(this).text() == "关注") {
+            type = "attention";
+        } else if ($(this).text() == "取消关注") {
+            type = "unfollow";
+        }
+        $.ajax({
+            url: "addAndremoveFans"
+            , type: "post"
+            , data: {"viweUserId": viweUserId, "userId": userID, "type": type}
+            , dataType: "json"
+            , success: function (jsonData) {
+                // //console.log(jsonData)
+                if (jsonData.success == 1) {
+                    if (type == "attention") {
+                        layer.msg("关注成功")
+                        $(".lt_button").text("取消关注")
+                    } else if (type == "unfollow") {
+                        layer.msg("取消关注成功")
+                        $(".lt_button").text("关注")
+                    }
+                }
+            }
+            , error: function (res) {
+                //console.log("详情数据获取ajax提交错误")
+            }
+        })
+
+    });
+
+    //渲染详情页面
+    // setperInfroDetail(getdetailData(type,1), "blog")
+    setperInfroDetail("blog")
+    $(".tabContain li").css("border-bottom", "none")
+    $(".tabContain li").eq(0).css("border-bottom", "2px solid red")
+    //流加载页面
+    //渲染详情页面
+    // function setperInfroDetail(jsondata, type) {
+    function setperInfroDetail(type) {
+        // var html = `<div class="listContain">`;
+        $(".setContain").empty()
+        if (type == "blog") {
+            layui.use('flow', function () {
+                var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
+                var flow = layui.flow;
+                flow.load({
+                    elem: '#setContain' //指定列表容器
+                    , done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
+                        var lis = [];
+                        //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+                        $.get('perInforDetailData?type=' + type + '&userId=' + viweUserId + '&pageNum=' + page, function (res) {
+                            //假设你的列表返回在data集合中
+                            layui.each(res.data, function (index, item) {
+                                html = `<div class="list">
+                        <div class="listTitle" data-id="${item.id}">${item.title}</div>
+                        <div  class="hiddenText">${item.content}</div>
+                        <div class="listdisc"></div>
+                        <div class="timeContain">${item.createtime}</div>
+                    </div>`
+                                lis.push(html);
+                            });
+
+                            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                            //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                            next(lis.join(''), page < res.count);
+                        });
+                    }
+                });
+            });
+
+        } else if (type == "upload") {
+            layui.use('flow', function () {
+                var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
+                var flow = layui.flow;
+                flow.load({
+                    elem: '#setContain' //指定列表容器
+                    , done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
+                        var lis = [];
+                        //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+                        $.get('perInforDetailData?type=' + type + '&userId=' + viweUserId + '&pageNum=' + page, function (res) {
+                            //假设你的列表返回在data集合中
+                            layui.each(res.data, function (index, item) {
+                                html = `<div class="list">
+                        <div class="listTitle" data-id="${item.id}">${item.title}</div>
+                        <div class="hiddenText">${item.intro}</div>
+                        <div class="listdisc"></div>
+                        <div class="timeContain">${item.createtime}</div>
+                    </div>`
+                                lis.push(html);
+                            });
+
+                            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                            //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                            next(lis.join(''), page < res.count);
+                        });
+                    }
+                });
+            });
+
+        } else if (type == "forum") {
+            layui.use('flow', function () {
+                var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
+                var flow = layui.flow;
+                flow.load({
+                    elem: '#setContain' //指定列表容器
+                    , done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
+                        var lis = [];
+                        //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+                        $.get('perInforDetailData?type=' + type + '&userId=' + viweUserId + '&pageNum=' + page, function (res) {
+                            //假设你的列表返回在data集合中
+                            layui.each(res.data, function (index, item) {
+                                html =  `<div class="list">
+                        <div class="listTitle" data-id="${item.forumId}">${item.forumTitle}</div>
+                        <div class="hiddenText">${item.forumContext}</div>
+                        <div class="listdisc"></div>
+                        <div class="timeContain">${item.forumCreatime}</div>
+                    </div>`
+                                lis.push(html);
+                            });
+
+                            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                            //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                            next(lis.join(''), page < res.count);
+                        });
+                    }
+                });
+            });
+        } else if (type == "ask") {
+            layui.use('flow', function () {
+                var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
+                var flow = layui.flow;
+                flow.load({
+                    elem: '#setContain' //指定列表容器
+                    , done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
+                        var lis = [];
+                        //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+                        $.get('perInforDetailData?type=' + type + '&userId=' + viweUserId + '&pageNum=' + page, function (res) {
+                            //假设你的列表返回在data集合中
+                            layui.each(res.data, function (index, item) {
+                                    html =`<div class="list">
+                                            <div class="listTitle" data-id="${item.askId}">${item.askName}</div>
+                                            <div class="hiddenText">${item.askText}</div>
+                                            <div class="listdisc"></div>
+                                            <div class="timeContain">${item.createTime}</div>
+                                        </div>`
+                                lis.push(html);
+                            });
+
+                            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                            //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                            next(lis.join(''), page < res.count);
+                        });
+                    }
+                });
+            });
+        } else if (type == "collect") {
+            html = `<div class="collectTypeContain">
+                    <li>TA创建的收藏夹</li>
+                    <li>TA关注的收藏夹</li>
+                </div>
+                 <div class="collectList" id="collectList">
+                  </div>`
+            $(".tabContain li").css("border-bottom", "none")
+            $(".tabContain li").eq(4).css("border-bottom", "2px solid red")
+            $(".setContain").html(html)
+            var objs = document.getElementsByClassName("listdisc")
+            $.each(objs, function (index, eachobj) {
+                var test = $(eachobj).prev().text()
+                $(eachobj).text(test.substring(0, 200))
+            })
+            setCollectHtml("myCollect")
+        }
+    }
+
+    //tab点击切换事件
+    $(".tabContain li").click(function () {
+        var clikeType = $(this).text()
+        if (clikeType == "TA博客") {
+            $(".tabContain li").css("border-bottom", "none")
+            $(".tabContain li").eq(0).css("border-bottom", "2px solid red")
+            setperInfroDetail("blog")
+        } else if (clikeType == "TA资源") {
+            $(".tabContain li").css("border-bottom", "none")
+            $(".tabContain li").eq(1).css("border-bottom", "2px solid red")
+            setperInfroDetail("upload")
+        } else if (clikeType == "TA论坛") {
+            $(".tabContain li").css("border-bottom", "none")
+            $(".tabContain li").eq(2).css("border-bottom", "2px solid red")
+            setperInfroDetail("forum")
+        } else if (clikeType == "TA问答") {
+            $(".tabContain li").css("border-bottom", "none")
+            $(".tabContain li").eq(3).css("border-bottom", "2px solid red")
+            setperInfroDetail("ask")
+        } else if (clikeType == "TA收藏") {
+            $(".tabContain li").css("border-bottom", "none")
+            $(".tabContain li").eq(4).css("border-bottom", "2px solid red")
+            setperInfroDetail("collect")
+        }
+    })
+    $(".setContain").on("click", ".listTitle", function () {
+        var id = $(this).attr("data-id");
+        if (type == "ask") {
+            location.href = "askInfor.html?askId=" + id
+        } else if (type == "blog") {
+            location.href = "details.html?blog_id=" + id
+        } else if (type == "forum") {
+            location.href = "invitation_Details.html?invitationId=" + id
+        } else if (type == "upload") {
+            location.href = "detailpage.html?id=" + id
+        }
+    })
+
+    //个人主页收藏夹数据
+    function setCollectHtml(needType) {
+        // var html = ``
+        $(".collectList").empty()
+        if (needType == "myCollect") {
+            layui.use('flow', function () {
+                var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
+                var flow = layui.flow;
+                flow.load({
+                    elem: '#collectList' //指定列表容器
+                    , done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
+                        var lis = [];
+                        //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+                        $.get('getPerInforCollectData?userId=' + viweUserId + '&page=' + page, function (res) {
+                            console.log(res)
+                            //假设你的列表返回在data集合中
+                            layui.each(res.data.myCollect, function (index, item) {
+                                var   html = `<div class="eachList">
+                                                <div class="collectName">${item.name}</div>
+                                                <div class="content"><span>${item.dataCount}</span>条内容</div>
+                                                <div class="watch"><span>${item.invCount}</span>人关注</div>
+                                                <div class="atantion" data-id="${item.id}" data-hasid="${item.userid}">关注</div>
+                                            </div>`
+                                lis.push(html);
+                            });
+
+                            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                            //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                            next(lis.join(''), page < res.data.count);
+                            // next(lis.join(''), page < 10);
+                        });
+                    }
+                });
+            });
+            $(".collectTypeContain li").eq(0).css("border-bottom", "2px solid red")
+        } else {
+            $(".collectList").empty()
+            layui.use('flow', function () {
+                var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
+                var flow = layui.flow;
+                flow.load({
+                    elem: '#collectList' //指定列表容器
+                    , done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
+                        var lis = [];
+                        //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+                        $.get('getPerInforCollectData2?userId=' + viweUserId + '&page=' + page, function (res) {
+                            console.log(res)
+                            //假设你的列表返回在data集合中
+                            layui.each(res.data.attationCollect, function (index, item) {
+                                   var html = `<div class="eachList">
+                                                <div class="collectName">${item.name}</div>
+                                                <div class="name">${item.username}</div>
+                                                <div class="content"><span>${item.dataCount}</span>条内容</div>
+                                                <div class="watch"><span>${item.invCount}</span>人关注</div>
+                                                <div class="atantion" data-id="${item.id}" data-hasid="${item.userid}">关注</div>
+                                            </div>`
+                                lis.push(html);
+                            });
+
+                            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                            //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                            next(lis.join(''), page < res.data.count);
+                            // next(lis.join(''), page < 10);
+                        });
+                    }
+                });
+            });
+            $(".collectTypeContain li").eq(1).css("border-bottom", "2px solid red")
+        }
+        // $(".collectList").html(html)
+        if (viweUserId == userID) {
+            $(".atantion").remove()
+        }
+    }
+
+    //收藏夹切换点击事件
+    $(".setContain").on("click", ".collectTypeContain li", function () {
+        var type = $(this).text();
+        $(".collectTypeContain li").css("border-bottom", "2px solid transparent")
+        if (type == "TA创建的收藏夹") {
+            setCollectHtml("myCollect")
+        } else {
+            setCollectHtml("attationCollect")
+        }
+        $(this).css("border-bottom", "2px solid red")
+    })
+    //收藏夹事件
+    $(".setContain").on("click", ".atantion", function () {
+        var collectId = $(this).attr("data-id")
+        var hasid = $(this).attr("data-hasid")
+        $.ajax({
+            url: "addFaAtt"
+            , type: "post"
+            , data: {"userId": userID, "viweUserId": hasid, "collectId": collectId}
+            , dataType: "json"
+            , success: function (jsonData) {
+                // //console.log(jsonData)
+                layer.msg(jsonData.errorMsg)
+            }
+            , error: function (res) {
+                //console.log("详情数据获取ajax提交错误")
+            }
+        })
+    })
+
+</script>
+</html>

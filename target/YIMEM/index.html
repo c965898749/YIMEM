@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一梦YIMEM</title>
+    <meta name="keywords" content="影视资源，博客，一梦，YIMEM，南柯一梦，依梦，一梦，YIMEM，yimem，资源共享，自建服务器，服务器，主机租用，独立空间，免费网站空间，程序人生，java，我的世界，CSDN，个人网站" />
+    <meta name="description" content="全球知名中文IT技术交流平台,创建于2020年,包含原创博客、精品问答、精品影视、技术论坛、资源下载等产品服务,提供原创、优质、完整内容的专业IT技术开发社区." />
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <script src="jquery/jquery.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/tangkun.css">
+    <link rel="stylesheet" href="css/siderBar2.css">
+    <link rel="stylesheet" type="text/css" href="assets/waifu.min.css?v=1.4.2"/>
+    <script src="assets/jquery.min.js?v=3.3.1"></script>
+    <!-- 实现拖动效果，需引入 JQuery UI -->
+    <script src="assets/jquery-ui.min.js?v=1.12.1"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <link rel="stylesheet" href="css/APlayer.min.css">
+    <script src="js/APlayer.min.js"></script>
+    <script src="js/setCookie.js"></script>
+    <style>
+
+        body {
+            background-color: #F5F6F7;
+
+        }
+
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+
+
+        .contents {
+            /*background-color: aqua;*/
+            width: 1200px;
+            margin: 0 auto;
+            /*position: relative;*/
+            /*display: flex;*/
+        }
+
+        .contents li {
+            margin-top: 10px;
+            font-size: 15px;
+            color: #707070;
+        }
+
+        a {
+            color: #707070;
+        }
+
+        .clearfix {
+            /*border: 2px yellow solid;*/
+            background: white;
+            width: 100px;
+            text-align: center;
+            padding: 0px;
+            /*display: inline-block;*/
+            position: fixed;
+            margin-top: 10px;
+
+        }
+
+        .contents_middle {
+            /*border: 2px black solid;*/
+            width: 760px;
+            /*margin-left: -100px;*/
+            /*height: 2000px;*/
+            /*border: 1px red solid;*/
+            /*display: inline-block;*/
+            /*float: left;*/
+
+            margin: 10px;
+            /*margin-left: 130px;*/
+
+        }
+
+        .contents_right {
+            width: 300px;
+            /*height: 2000px;*/
+            /*border: 2px red solid;*/
+            /*display: inline-block;*/
+            /*float: left;*/
+            margin: 10px;
+            /*margin-top: 800px;*/
+            /*position: fixed;*/
+            /*left: 1250px;*/
+
+
+        }
+
+        .contents_middle_sub1 {
+            /*border: 2px red solid;*/
+            height: 200px;
+            margin-top: 10px;
+        }
+
+        .contents_middle_sub1_left {
+            /*border: 2px red solid;*/
+            float: left;
+            width: 500px;
+            height: 200px;
+            /*border: 1px red solid;*/
+        }
+
+        .contents_middle_sub1_right {
+            float: right;
+            display: inline-block;
+            /*width: 250px;*/
+            /*height: 200px;*/
+            /*border: 1px red solid;*/
+        }
+
+        .contents_middle_sub2_content {
+            /*height: 100px;*/
+            background: white;
+            margin-top: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .recommend {
+            /*height: 600px;*/
+            background: white;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            width: 2px;
+            height: 15px;
+            background: red;
+            margin-left: 10px;
+            display: inline-block;
+            margin-top: 13px;
+        }
+
+        .recommend_content {
+            margin-top: 10px;
+            height: 55px;
+            cursor: pointer;
+            /*border: 1px red solid;*/
+            overflow: hidden;
+        }
+
+        .recommend_content_font span {
+            display: flex;
+            width: 210px;
+            height: 55px;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+        }
+
+        .recommend_content_font {
+            display: inline-block;
+            height: 55px;
+        }
+
+        #home {
+            border-bottom: 2px red solid;
+        }
+
+        .logined {
+            width: 30px;
+            height: 30px;
+            /*border: 1px red solid;*/
+            display: none;
+        }
+
+        .logined_sub {
+            position: absolute;
+            top: 30px;
+            right: 130px;
+            display: none;
+            background-color: white;
+            z-index: 100;
+        }
+
+        .logined_sub li {
+            margin: 10px;
+            cursor: pointer;
+            height: 20px;
+            list-style: none;
+        }
+
+        .blogcategory {
+            cursor: pointer;
+        }
+
+        #focus {
+            cursor: pointer;
+        }
+
+        .Tmylist {
+            z-index: 100;
+        }
+
+        #home_page {
+            border-bottom: 2px red solid;
+        }
+
+        #recommendAll {
+            background-color: #F44444;
+            color: white;
+        }
+
+        #clearfix > ul > li {
+            /*height: 0px;*/
+            padding: 3px;
+
+        }
+
+        #clearfix > ul > li:hover {
+            background-color: #F44444 !important;
+            color: white !important;
+        }
+
+        .jian {
+            display: inline-block;
+            width: 24px;
+            height: 23px;
+            border-radius: 4px;
+            border: 1px solid #ca0c16;
+            font-size: 14px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            font-weight: 500;
+            text-align: center;
+            color: #ca0c16;
+            line-height: 23px;
+            margin-right: 7px;
+        }
+
+        .none {
+            display: none;
+        }
+        .middle {
+            margin-top: 10px;
+            max-height: 70px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+
+    </style>
+</head>
+<body style="background-color: #F5F6F7">
+
+<div id="titleContai" >
+
+</div>
+<div class="contents" >
+    <div class="clearfix" id="clearfix">
+        <ul>
+            <li id="recommendAll" style="cursor: pointer">推荐</li>
+            <li id="focus">关注</li>
+            <li class="blogcategory">程序人生</li>
+            <li class="blogcategory">Python</li>
+            <li class="blogcategory">Java</li>
+            <li class="blogcategory">前端</li>
+            <li class="blogcategory">架构</li>
+            <li class="blogcategory">区块链</li>
+            <li class="blogcategory">数据库</li>
+            <li class="blogcategory">游戏开发</li>
+            <li class="blogcategory">运维</li>
+            <li class="blogcategory">人工智能</li>
+            <li class="blogcategory">安全</li>
+            <li class="blogcategory">云计算/大数据</li>
+            <li class="blogcategory">研发管理</li>
+            <li class="blogcategory">物联网</li>
+            <li class="blogcategory">计算机基础</li>
+            <li class="blogcategory">音视频开发</li>
+            <li class="blogcategory">其他</li>
+        </ul>
+    </div>
+    <div class="main" style="width: 1100px;margin-left: 100px;display: flex;">
+
+
+        <div class="contents_middle">
+            <img src="imgs/ad/blog/cd1.png">
+            <!--图片-->
+            <div class="contents_middle_sub1">
+                <div class="contents_middle_sub1_left">
+                    <div class="layui-carousel" id="test1">
+                        <div carousel-item>
+                            <div><img src="imgs/ad/blog/cd5.png" width="500px"></div>
+                            <div><img src="imgs/ad/blog/cd6.png" width="500px"></div>
+                            <div><img src="imgs/ad/blog/cd4.png" width="500px"></div>
+                            <div><img src="imgs/ad/blog/cd7.png" width="500px"></div>
+                            <div><img src="imgs/ad/blog/cd8.png" width="500px"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contents_middle_sub1_right">
+                    <img src="imgs/ad/blog/cd2.png" width="250" style="margin-right:-10px ">
+                    <br>
+                    <img src="imgs/ad/blog/cd3.png" width="250" style="margin-top: 2px">
+                </div>
+            </div>
+            <!--内容渲染-->
+            <div class="contents_middle_sub2" id="contents_middle_sub2">
+
+            </div>
+        </div>
+        <div class="contents_right">
+            <img src="imgs/ad/blog/cd9.png">
+            <a href="interview.html"> <img src="imgs/ad/blog/cd10.png" style="margin-top: 10px"></a>
+            <div class="recommend">
+                <p>
+                <div class="logo"></div>
+                今日推荐
+                </p>
+                <div id="recommends">
+                    <div class="recommend_content">
+
+                    </div>
+                </div>
+            </div>
+            <div class="yimem_gg">
+                <img src="imgs/ad/blog/cd17.png">
+            </div>
+            <!--<img src="imgs/introduce/csdn.png">-->
+            <div class="yimem_bz" style="background-color: white;margin-top: 10px;">
+                <div style="width:300px;margin:0 auto">
+                    <img src="imgs/gz/gz.jpg" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px" alt="">
+                    <img src="imgs/gz/eduwxfix.png" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
+                         alt="">
+                </div>
+                <div style="padding-bottom: 5px;margin: 0 auto;width: 250px ;border-bottom: 1px #E0E0E0 solid"><span
+                        style="color:#8B8B8B;margin-left: 15px">YIMEM公众号</span><span
+                        style="color:#8B8B8B;margin-left: 60px">IT学院</span></div>
+                <div style="padding-top: 5px;margin: 0 auto;width: 250px"><span
+                        style="color:#3D3D3D;font-weight: bold;margin-left: 20px">关于我们</span>
+                    <span
+                            style="color:#3D3D3D;margin-left: 20px">网站地图</span><span
+                            style="color:#3D3D3D;margin-left: 20px">广告服务</span></div>
+                <div style="width:300px;margin:0 auto; padding:20px 0;">
+                    <img src="imgs/jh/jh.png" style="margin-left: 30px;margin-top: -15px" alt=""> <a target="_blank"
+                                                                                                     href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32061202001097"
+                                                                                                     style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
+                        src="" style="float:left;"/>
+                    <!--苏公网安备</a>-->
+                    <span style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
+                        32061202001097号</span></a>
+                </div>
+            </div>
+
+        </div>
+        <div class="search_Chinese" style="display: none"></div>
+        <div class="siderBar">
+            <!--<div class="siderBar-bg" ></div>-->
+            <ul>
+                <li>返回</li>
+                <li>顶部</li>
+                <div>
+                    <div class="siderBar-line"></div>
+
+                    <div class="siderBar-goTop" id="btn"></div>
+
+                </div>
+            </ul>
+        </div>
+    </div>
+
+    <div id="aplayer"></div>
+</div>
+
+
+</body>
+<script src="layui/layui.all.js"></script>
+<script>
+    var navH = $(".yimem_gg").offset().top;
+    var timer = null;
+    document.getElementById("btn").onclick = function () {
+        cancelAnimationFrame(timer);
+        timer = requestAnimationFrame(function fn() {
+            var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+            if (oTop > 0) {
+                scrollBy(0, -50);
+                timer = requestAnimationFrame(fn);
+            } else {
+                cancelAnimationFrame(timer);
+            }
+        });
+    }
+
+    var user = getUser();
+
+    var userissd = 1;
+    if (user) {
+        userissd = user.userId
+    }
+    var focus_status;
+
+    //关注块
+
+    function fucs(bloguserid) {
+        $.ajax({
+            url: "queryIsFocus",
+            data: {"bloguserid": bloguserid},
+            type: "get",
+            dataType: "json",
+            async: false,
+            success: function (json) {
+                if (json.success != 400) {
+                    if (json.success != 0) {
+                        focus_status = 1
+                    } else {
+                        focus_status = 0
+                    }
+                } else {
+                    focus_status = 400
+                }
+
+            },
+            error: function () {
+
+            }
+        })
+
+    }
+
+    //获取当前用户
+    function getUser() {
+        var data;
+        $.ajax({
+            url: "isEnter"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                ////////////////console.log(jsonData)
+                if (jsonData.success == 1) {
+                    data = jsonData.data;
+                }
+            }
+            , error: function (res) {
+                ////////////////console.log("ajax提交错误")
+            }
+        })
+        return data;
+    }
+
+    // //引用表头
+    $("#titleContai").load("title.html")
+    //左侧导航栏变色事件绑定
+    $("#clearfix>ul>li").click(function () {
+        $("#clearfix>ul>li").css("background-color", "white")
+        $("#clearfix>ul>li").css("color", "#707070")
+        $(this).css("background-color", "#F44444")
+        $(this).css("color", "white")
+    })
+
+
+    window.onscroll = function () {
+        // ////console.log(document.documentElement.scrollLeft)
+        if (document.documentElement.scrollTop > 50) {
+            $("#clearfix").css("top", "0px")
+            $(".contents_right").css("top", "0px")
+        }
+        if (document.documentElement.scrollTop <= 50) {
+            $("#clearfix").css("top", "50px")
+            $(".contents_right").css("top", "50px")
+        }
+
+        var scroH = $(this).scrollTop();
+        if (scroH - 600 >= navH) {
+            $(".yimem_gg").css({"position": "fixed", "top": 10});
+            $(".yimem_bz").css({"position": "fixed", "top": 260});
+        } else {
+            $(".yimem_gg").css({"position": "static"});
+            $(".yimem_bz").css({"position": "static"});
+        }
+
+    }
+
+    // ////console.log(document.documentElement.scrollTop)
+    //登录状态
+    var register_Status = 1;
+
+
+    layui.use(['carousel', "flow"], function () {
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1'
+            , width: '100%' //设置容器宽度
+            , height: "200px"
+            , arrow: 'always' //始终显示箭头
+            //,anim: 'updown' //切换动画方式
+        });
+
+        var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
+        var flow = layui.flow;
+
+        var page = 0;
+        //调用流加载
+        var url_init = 'blog/requestByRecommend?page='
+        f(url_init)
+        //点击推荐渲染全部
+        $("#recommendAll").click(function () {
+            f(url_init)
+        })
+
+        function f(url) {
+            $(".contents_middle_sub2").html("")
+            flow.load({
+                elem: '#contents_middle_sub2' //指定列表容器
+                , done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
+
+                    //模拟数据插入
+                    setTimeout(function () {
+                        var lis = [];
+                        //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+                        $.get(url + page, function (res) {
+                            //假设你的列表返回在data集合中
+                            layui.each(res.data, function (index, item) {
+                                //console.log(res.data)
+                                // var text = (item.content).replace(/[^\u4e00-\u9fa5]/gi, "")
+                                var html = `<div  class="contents_middle_sub2_content" blog_id="${item.id}">
+                                            <span style="float: right;font-size: 20px;color:#ECE7E7;cursor: pointer" class="delete_blog">x</span>
+                                            <h4  style="display: flex"><span class=${item.recomment > 0 ? "jian" : "none"}>荐</span><span class=${item.userid == 1 ? "jian" : "none"}>官</span><span class=${item.readCount > 50 ? "jian" : "none"}>热</span><b style="margin-top: 3px">${item.title}</b></h4>
+
+                                           <!--<p  style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden -webkit-line-clamp: 2;"></p>-->
+                                            <div class="middle" style="color: #6B6B6B;cursor: pointer" >
+                                              ${item.content}
+                                            </div>
+                                            <p style="margin-top: 10px">
+                                            <span style="position: relative" >
+                                            <div class="userTanChuan"  id="userTanChuan"><div class="userImg" ><img src="${item.headimg}" ><div class="userIntroduce"><div class="userName">${item.username}</div><div class="userDescription">${item.userDescr != null ? item.userDescr : "博主很懒什么都没留下……"}</div></div></div><div class="bntt"><input type="button" class="focus"></input><div>粉丝数 ${item.userFansCount}</div><div style="margin-left: 50px"><a style="color: #3399ea" href="perInfor.html?viewUserId=${item.userid}&type=blog">访问他的主页</a></div></div></div>
+                                            <input type="hidden" name="hheyuserid" value="${item.userid}">
+                                             <img class="hhey" src="${item.headimg}" style="display: inline-block;width: 25px;height: 25px;border-radius:12px;margin-right: 6px;" alt=""><a href="perInfor.html?viewUserId=${item.userid}&type=blog">${item.username}</a></span>
+                                            <span style="margin-left: 30px;color: #8a8a8a">${item.createtime}</span>
+                                            <span style="float: right;margin-right: 40px"><span style="color: #157dcf;"><img src="imgs/icons/blog/likeCount.png" style="margin-right: 5px;margin-top:-5px;width: 18px;height: 18px" alt="">${item.likeCount}<img src="imgs/icons/blog/readCount.png" style="margin-top: -4px;margin-right: 5px;margin-left: 15px;width: 25px;height: 25px" alt="">${item.readCount}<img src="imgs/icons/blog/replayCount.png" style="margin-right: 5px;margin-left: 15px;width: 20px;height: 20px;margin-top:-5px" alt="">${item.replayCount}</span></span></p>
+                                        </div>`
+
+                                lis.push(html);
+
+                            });
+
+                            //执行下一页渲染，第二参数为：满足“加载更多”的条件s，即后面仍有分页
+                            //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                            next(lis.join(''), page < res.count);
+                            $(".userTanChuan").hide()
+                            $(".hhey").mouseenter(function () {
+                                // console.log("1111111111111")
+                                $(this).siblings(".userTanChuan").show()
+                                var bloguserid = $(this).siblings("input[name='hheyuserid']").val();
+                                fucs(bloguserid);
+                                // console.log(focus_status)
+
+                                if (focus_status != 400) {
+                                    if (focus_status != 0) {
+                                        // $("#focus").css("width", "100px")
+                                        $(this).siblings(".userTanChuan").find(".focus").val("取消关注")
+                                    } else {
+                                        $(this).siblings(".userTanChuan").find(".focus").val("关注")
+                                    }
+                                } else {
+                                    $(this).siblings(".userTanChuan").find(".focus").css("display", "none")
+                                }
+                                $(this).siblings(".userTanChuan").find(".focus").click(function () {
+                                    console.log("111")
+                                    console.log($(this).siblings(".userTanChuan").find(".focus"))
+                                    if (user) {
+                                        // ////console.log(userid)
+                                        //如果登陆成功，需要请求ajax访问数据库关注数据表
+                                        //首先进行关注状态的判断
+                                        //状态为关注
+                                        if (focus_status == 0) {
+
+                                            //设置为取消关注
+                                            // $("#focus").css("width", "100px")
+                                            $(".focus").val("取消关注")
+                                            focus_status = 1;
+                                            $.ajax({
+                                                url: "addFocus",
+                                                data: {"blogUserId": bloguserid},
+                                                type: "get",
+                                                dataType: "json",
+                                                success: function (json) {
+                                                }, error: function (xhr) {
+
+                                                }
+                                            })
+
+                                            //状态为关注
+                                        } else {
+                                            // $("#focus").css("width", "50px")
+                                            $(".focus").val("关注")
+                                            focus_status = 0;
+                                            $.ajax({
+                                                url: "deleteFocus",
+                                                data: {"blogUserId": bloguserid},
+                                                type: "get",
+                                                dataType: "json",
+                                                success: function (json) {
+                                                }, error: function (xhr) {
+
+                                                }
+                                            })
+                                        }
+                                    } else {
+                                        layer.msg("请先登录！")
+                                        window.location.href = "/login.html"
+                                    }
+
+
+                                })
+                                // $(".Tmylist").css("display","block")
+                            })
+
+                            $(".userTanChuan").mouseleave(function () {
+                                // console.log("22222222222222222222")
+                                // $(this).siblings(".userTanChuan").hide()
+                                $(this).hide()
+                                // $(".Tmylist").css("display","none")
+                            })
+                            $(".delete_blog").click(function () {
+                                $(this).parent().remove()
+
+                            })
+                            $("h4").click(function () {
+                                var blog_id = $(this).parent(".contents_middle_sub2_content").attr("blog_id")
+                                window.location.href = "details.html?blog_id=" + blog_id
+                            })
+                            $("p").click(function () {
+                                var blog_id = $(this).parent(".contents_middle_sub2_content").attr("blog_id")
+                                window.location.href = "details.html?blog_id=" + blog_id
+                            })
+
+                        });
+
+
+                    }, 500);
+
+                }
+            });
+        }
+
+        //点击内容跳转
+        function click_content(blogid) {
+            window.location.href = "http://www.baidu.com?blogid=" + blogid
+        }
+
+        $(".contents_middle_sub2_content").click(function () {
+            click_content(1)
+        })
+
+        var register_Status = 1;
+
+        function islogin() {
+            if (register_Status == 1) {
+                $("#login").css("display", "none")
+                $("#register").css("display", "none")
+                $("#logined").css("display", "inline-block")
+            } else {
+                $("#login").css("display", "inline-block")
+                $("#register").css("display", "inline-block")
+                $("#logined").css("display", "none")
+            }
+        }
+
+        islogin()
+
+        $("#logined").mouseover(function () {
+            $("#logined_sub").css("display", "inline-block")
+        })
+        $("#logined").mouseleave(function () {
+            $("#logined_sub").css("display", "none")
+        })
+        $("#logined_sub").mouseover(function () {
+            $("#logined_sub").css("display", "inline-block")
+        })
+        $("#logined_sub").mouseleave(function () {
+            $("#logined_sub").css("display", "none")
+        })
+
+        //注销
+        $("#exit").click(function () {
+            // ////console.log(11)
+            register_Status = 0
+            islogin()
+            $("#logined_sub").css("display", "none")
+        })
+
+        //加载页面渲染
+        // loadReq()
+        // function loadReq() {
+        //     $.ajax({
+        //         url: "/requestAll",
+        //         data: {},
+        //         type: "get",
+        //         dataType: "json",
+        //         success:function (json) {
+        //               // ////console.log(json.data)
+        //             apply_colours_to_a_drawing(json.data)
+        //         },
+        //         error:function () {
+        //
+        //         }
+        //     })
+        //
+        //
+        // }
+
+        //渲染博客方法
+        function apply_colours_to_a_drawing(data) {
+            $(".contents_middle_sub2").html("")
+            $.each(data, function (index, eachobj) {
+                //  // ////console.log(eachobj)
+                var html = `<div class="contents_middle_sub2_content" blog_id="${eachobj.id}">
+                <span style="float: right;font-size: 20px;color:#ECE7E7;cursor: pointer" class="delete_blog">x</span>
+                <h2>${eachobj.title}</h2>
+                ${eachobj.content}
+            </div>`
+
+                $(".contents_middle_sub2").append(html)
+                $(".delete_blog").click(function () {
+                    $(this).parent().remove()
+
+                })
+            })
+
+        }
+
+
+        //点击博客类别的时候渲染
+        /*function clickBlogCatalog(category) {
+            $(".contents_middle_sub2").html("")
+            $.ajax({
+                url: "",
+                data: {"category":category},
+                type: "get",
+                dataType: "json",
+                success:function (json) {
+                     // ////console.log(json)
+                },
+                error:function () {
+
+                }
+            })
+        }*/
+        //绑定点击博客类别事件
+        $(".blogcategory").click(function () {
+            // ////console.log($(this).text())
+            var category = $(this).text()
+            var url = "blog/requestByCategory?category=" + category + "&page="
+            f(url)
+        })
+
+
+        //点击关注找到查询结果，通过用户ID找到他所关注的用户，然后将该用户的博客展现出来
+        $("#focus").click(function () {
+
+            $.ajax({
+                url: "queryBlogByFansId",
+                data: {"userId": userissd},
+                dataType: "json",
+                type: "get",
+                success: function (json) {
+                    //console.log(json)
+                    focusreq(json.data)
+                },
+                error: function () {
+
+                }
+            })
+        })
+
+        //关注查询
+        function focusreq(data) {
+            $(".contents_middle_sub2").html("")
+            $.each(data, function (index, eachobj) {
+                $.each(eachobj, function (index, item) {
+
+                    var text = `${item.content}`.replace(/[^\u4e00-\u9fa5]/gi, "")
+                    //  // ////console.log(text)
+
+                    var html = `<div class="contents_middle_sub2_content" blog_id="${item.id}">
+                                            <span style="float: right;font-size: 20px;color:#ECE7E7;cursor: pointer" class="delete_blog">x</span>
+                                            <h4 style="display: flex"><span class=${item.recomment > 0 ? "jian" : "none"}>荐</span><span class=${item.userid == 1 ? "jian" : "none"}>官</span><span class=${item.readCount > 50 ? "jian" : "none"}>热</span><b style="margin-top: 3px">${item.title}</b></h4>
+                                            <div class="middle" style="color: #6B6B6B;cursor: pointer" >
+                                              ${item.content}
+                                            </div>
+                                            <p style="margin-top: 10px">
+                                            <span><img src="${item.headimg}" style="width: 25px;height: 25px;border-radius:12px;margin-right: 6px" alt="">${item.username}</span>
+                                            <span style="margin-left: 30px;color: #8a8a8a">${item.createtime}</span>
+                                            <span style="float: right;margin-right: 40px"><span style="color: #157dcf;"><img src="imgs/icons/blog/likeCount.png" style="margin-right: 5px;margin-top:-5px;width: 18px;height: 18px" alt="">${item.likeCount}<img src="imgs/icons/blog/readCount.png" style="margin-top: -4px;margin-right: 5px;margin-left: 15px;width: 25px;height: 25px" alt="">${item.readCount}<img src="imgs/icons/blog/replayCount.png" style="margin-right: 5px;margin-left: 15px;width: 20px;height: 20px;margin-top:-5px" alt="">${item.replayCount}</span></span></p>
+                                        </div>`
+                    $(".contents_middle_sub2").append(html)
+                    $(".delete_blog").click(function () {
+                        $(this).parent().remove()
+
+                    })
+                    $(".contents_middle_sub2_content").click(function () {
+                        var blog_id = $(this).attr("blog_id")
+                        window.location.href = "details.html?blog_id=" + blog_id
+                    })
+                })
+            })
+        }
+
+        //推荐查询
+        recommendReq()
+
+        function recommendReq() {
+            setTimeout(function () {
+
+                $.ajax({
+                    url: "blog/requestByRecommend",
+                    data: {"page": 1, "pageSize": 5},
+                    dataType: "json",
+                    type: "get",
+                    success: function (json) {
+                        $("#recommends").html("")
+                        // ////console.log(12)
+                        // ////console.log(json)
+                        $.each(json.data, function (index, eachobj) {
+                            var html = ` <div class="recommend_content" blog_id="${eachobj.id}">
+                <div style="display: inline-block"><img src="${eachobj.img}" height="55" width="80px"></div>
+                <div class="recommend_content_font" style="font-size: 14px;color: #3d3d3d;font-weight: bold;font-family:'Microsoft YaHei' "><span>${eachobj.title}</span></div>
+            </div>`
+                            $("#recommends").append(html)
+                            $(".recommend_content").click(function () {
+                                var blog_id = $(this).attr("blog_id")
+                                window.location.href = "details.html?blog_id=" + blog_id
+                            })
+                        })
+                    },
+                    error: function () {
+
+                    }
+                })
+
+            }, 1 * 100);//延迟5000毫秒
+
+        }
+
+
+    });
+
+    function muic(){
+        const playerOption = {// 设置播放器基本参数
+            container: document.getElementById('aplayer'),
+            fixed: true,
+            volume:0.7,
+            order:'list',
+            theme:'#988bbc',
+            listFolded:false,
+            lrcType:1,
+            audio: []
+        };
+        $.ajax({
+            url: "getPlayList",
+            data: {"listId":2151920273},
+            dataType: "json",
+            type: "get",
+            success: function (json) {
+                console.log(json);
+                playerOption.audio=json;
+                var ap = new APlayer(playerOption)
+            },
+            error: function () {
+
+            }
+        })
+    }
+    muic()
+</script>
+<script src="assets/autoload.js"></script>
+
+</html>

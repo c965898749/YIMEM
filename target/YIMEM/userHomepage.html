@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人主页</title>
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="assets/waifu.min.css?v=1.4.2"/>
+    <script src="assets/jquery.min.js?v=3.3.1"></script>
+    <!-- 实现拖动效果，需引入 JQuery UI -->
+    <script src="assets/jquery-ui.min.js?v=1.12.1"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script src="js/setCookie.js"></script>
+    <style>
+        /* 提示框 */
+
+        .tip {
+            background-color: white;
+            width: 300px;
+            height: 100px;
+            border: 1px solid #000;
+            border-radius: 8px;
+            margin-left: 350px;
+            margin-top: -150px
+        }
+
+        /* 提示框小角的小方块 */
+
+        .tip .inner {
+            background-color: #FFF;
+            width: 10px;
+            height: 10px;
+            border: 1px solid #000;
+            position: relative;
+            left: 28px;
+            top: 95px;
+            transform: rotate(45deg);
+            border-left: 0px;
+            border-top: 0px;
+        }
+
+        .tip .text {
+            /*background-color: #FFF;*/
+            position: relative;
+            left: 28px;
+            /*top: 94px;*/
+
+        }
+
+        .tip .text p {
+            line-height: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        body {
+            background-color: #E7EAED !important;
+        }
+
+        .contain {
+            width: 1200px;
+            height: 700px;
+            margin: 10px auto;
+        }
+
+        .navigationContain {
+            width: 200px;
+            height: 320px;
+            background-color: white;
+            float: left;
+        }
+
+        .navigationContain ul {
+            padding: 0;
+        }
+
+        .navigationContain li {
+            width: 100%;
+            height: 40px;
+            box-sizing: border-box;
+            padding-left: 20px;
+            line-height: 35px;
+            text-align: center;
+        }
+
+        .navigationContain li:hover {
+            cursor: pointer;
+            background-color: #FDE3E4;
+        }
+
+        .navigationContain li:nth-child(1) {
+            background-color: #B20B13;
+            color: white;
+        }
+
+        .showContain {
+            width: 995px;
+            background-color: white;
+            float: right;
+        }
+
+        .titleContain {
+            width: 900px;
+            height: 100px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            border-bottom: 1px solid #E0E0E0;
+            font-size: 25px;
+            font-weight: bold;
+            line-height: 100px;
+        }
+
+        .user_inforContain {
+            width: 900px;
+            height: 400px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .headImgContain {
+            width: 100px;
+            float: left;
+            margin-top: 20px;
+        }
+
+        .headImg {
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .modifyHeadImg {
+            width: 100px;
+            text-align: center;
+            color: #33B5F2;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .rightContain {
+            width: 765px;
+            float: right;
+            line-height: 50px;
+
+        }
+
+        .id_card {
+            width: 100%;
+            height: 50px;
+        }
+
+        .id_name {
+            float: left;
+            color: #999999;
+        }
+
+        .user_home {
+            float: right;
+            color: #33B5F2;
+            cursor: pointer;
+        }
+
+        .csdn_info {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .attention {
+            width: 70px;
+            float: left;
+        }
+
+        .fans {
+            width: 70px;
+            float: left;
+        }
+
+        .wire {
+            width: 40px;
+            float: left;
+            color: #E0E0E0
+        }
+
+        .Cbi {
+            width: 70px;
+            float: left;
+        }
+
+        .recharge {
+            cursor: pointer;
+            width: 70px;
+            float: left;
+            color: #33B5F2;
+        }
+
+        .personal_data {
+            width: 100%;
+            height: 300px;
+        }
+
+        .personal_data ul {
+            width: 600px;
+            padding: 0;
+            line-height: 35px;
+            float: left;
+        }
+
+        .modified_data {
+            text-align: right;
+
+            float: right;
+            color: #33B5F2;
+            cursor: pointer;
+        }
+
+        .tab_tiltle {
+            height: 100px;
+            box-sizing: border-box;
+            float: left;
+            font-size: 20px;
+            margin-right: 30px;
+            cursor: pointer;
+        }
+
+        .new_tab_tiltle {
+            height: 100px;
+            box-sizing: border-box;
+            float: right;
+            font-size: 18px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .listContain {
+            height: 100px;
+            width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .favoriteTextContain {
+            width: 500px;
+            height: 100%;
+            float: left;
+        }
+
+        .favoriteName {
+            line-height: 50px;
+            font-size: 18px;
+        }
+
+        .textnum {
+            line-height: 50px;
+        }
+
+        .containNum {
+            width: 90px;
+            float: left;
+            text-align: center;
+            color: #999999;
+        }
+
+        .containName {
+            box-sizing: border-box;
+            padding: 0 5px;
+            float: left;
+            text-align: center;
+            color: #999999;
+        }
+
+        .ataContain {
+            box-sizing: border-box;
+            padding: 0 20px;
+            float: left;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .go {
+            width: 50px;
+            float: right;
+            font-size: 35px;
+            line-height: 100px;
+            cursor: pointer;
+        }
+
+        .attentionTitle {
+            width: 900px;
+            height: 100px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .attentioninfor {
+            width: 900px;
+            height: 100px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .attentioninforTitle {
+            box-sizing: border-box;
+            padding: 40px 0px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .colTitle {
+            height: 30px;
+            box-sizing: border-box;
+            padding: 10px 0px;
+            font-size: 25px;
+        }
+
+        .colDis {
+            height: 30px;
+            box-sizing: border-box;
+            padding: 18px 0px;
+            color: #999999;
+        }
+
+        .coldis {
+            height: 30px;
+            box-sizing: border-box;
+            padding: 10px 0px;
+            color: #999999;
+        }
+
+        .coldis span {
+            box-sizing: border-box;
+            padding: 0px 10px 0 0;
+        }
+
+        .modi {
+            color: black;
+            cursor: pointer;
+        }
+
+        .del {
+            color: black;
+            cursor: pointer;
+        }
+
+        .colCon {
+            width: 900px;
+            height: 100px;
+            margin: 10px auto;
+            box-sizing: border-box;
+            background-color: #FAFAFA;
+            padding: 0 15px;
+        }
+
+        .colTit {
+            height: 30px;
+            box-sizing: border-box;
+            padding: 15px 0;
+        }
+
+        .colTab {
+            box-sizing: border-box;
+            border: 1px solid #E0E0E0;
+            padding: 1px 3px;
+        }
+
+        .colT {
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .cancelIn {
+            float: right;
+            cursor: pointer;
+        }
+
+        .intru {
+            width: 100%;
+            overflow: hidden;
+            margin-top: 10px;
+            text-overflow: ellipsis;
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap; /* 不换行 */
+        }
+
+        .intru span {
+            color: #999999;
+        }
+
+
+        .myAttention {
+            font-size: 25px;
+            font-weight: bold;
+            line-height: 100px;
+            float: left;
+        }
+
+        .myAttentionNum {
+            line-height: 100px;
+            float: right;
+        }
+
+        .myAttentionlistContain {
+            width: 900px;
+            height: 100px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .myAttentionlistHeadImg {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            margin-top: 25px;
+            float: left;
+            /*background: url("https://avatar.csdn.net/A/5/D/3_ysl19910806.jpg");*/
+            /*background-repeat: no-repeat;*/
+            /*background-size: 100% 100%;*/
+        }
+
+        .myAttentionName {
+            line-height: 100px;
+            float: left;
+            margin-left: 10px;
+        }
+
+        .myAttentionButton {
+            width: 100px;
+            height: 30px;
+            margin-top: 35px;
+            border-radius: 5px;
+            float: right;
+            border: 1px solid #3C7FCE;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+        }
+
+        .fansTitle {
+            width: 900px;
+            height: 100px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            border-bottom: 1px solid #E0E0E0;
+
+        }
+
+        .myfans {
+            font-size: 25px;
+            font-weight: bold;
+            line-height: 100px;
+            float: left;
+        }
+
+        .myFansNum {
+            line-height: 100px;
+            float: right;
+        }
+
+        .myFanslistContain {
+            width: 900px;
+            height: 100px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .myFanslistHeadImg {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            margin-top: 25px;
+            float: left;
+            /*background: url("https://avatar.csdn.net/A/5/D/3_ysl19910806.jpg");*/
+            /*background-repeat: no-repeat;*/
+            /*background-size: 100% 100%;*/
+        }
+
+        .myFansName {
+            line-height: 100px;
+            float: left;
+            margin-left: 10px;
+        }
+
+        .myFansButton {
+            width: 100px;
+            height: 30px;
+            margin-top: 35px;
+            border-radius: 5px;
+            float: right;
+            border: 1px solid #3C7FCE;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+        }
+
+        .myBlogTitle {
+            width: 900px;
+            height: 50px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .myBlogTitle li {
+            float: left;
+            margin-right: 20px;
+            line-height: 50px;
+            height: 50px;
+            box-sizing: border-box;
+
+            color: #999999;
+        }
+
+        .myBlogTitle li:hover {
+            color: red;
+            border-bottom: 2px solid red;
+            cursor: pointer;
+        }
+
+        .myBlogSerch {
+            width: 900px;
+            height: 50px;
+            margin: 10px auto;
+            background: #F2F5F7;
+        }
+
+        .myBlogSerchList {
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .myBlogSerchList select {
+            height: 30px;
+            margin: 10px 10px 0 0px;
+            width: 100px;
+            border-radius: 5px;
+        }
+
+        .myBlogSerchList input {
+            height: 30px;
+            width: 250px;
+            border-radius: 5px;
+            outline: none;
+            border: 1px solid #A9A9A9;
+            margin-left: 30px;
+        }
+
+        .myBlogSerchList button {
+            height: 30px;
+            width: 100px;
+            border-radius: 5px;
+            outline: none;
+            border: none;
+            color: white;
+            background: red;
+            margin-left: 30px;
+        }
+
+        .myBlogInfoContain {
+            width: 900px;
+            height: 100px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .myBlogInfoTitle {
+            height: 50px;
+            box-sizing: border-box;
+            padding: 10px;
+
+        }
+
+        .myBlogInfoTitleType {
+            width: 50px;
+            height: 20px;
+            border: 1px solid #E0E0E0;
+            float: left;
+            text-align: center;
+            line-height: 20px;
+        }
+
+        .myBlogInfoTitleText {
+            width: 815px;
+            height: 50px;
+            font-size: 20px;
+            float: left;
+            margin-left: 10px;
+            overflow: hidden;
+            line-height: 50px;
+        }
+
+        .myBlogInfoProperty {
+            height: 50px;
+            color: #E0E0E0;
+            float: left;
+        }
+
+        .myBlogDelete {
+            float: right;
+            color: red;
+            cursor: pointer;
+        }
+
+        .myBlogMotify {
+            margin-right: 10px;
+            float: right;
+            color: red;
+            cursor: pointer;
+        }
+
+        .myBlogView {
+            float: right;
+            margin-right: 10px;
+            color: red;
+            cursor: pointer;
+        }
+
+        #titleContai {
+            height: 40px;
+
+        }
+
+        #modifyopenshowContain {
+            width: 200px;
+            /*height: 110px;*/
+            /*border: 1px solid red;*/
+            display: none;
+            margin: 40px 0 0 50px;
+
+        }
+
+        #modifyopenshowContain img {
+            margin-left: 43px;
+        }
+
+        #userINfomodifyContain {
+            width: 460px;
+            height: 520px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .inputWid {
+            width: 190px;
+
+        }
+
+        .layui-input-block {
+            margin-left: 80px;
+        }
+
+        .locationWid {
+            width: 80px !important;
+        }
+
+        .collectContain {
+            width: 300px;
+            /*height: 300px;*/
+            min-height: 100px;
+            background-color: #F1F3F4;
+            position: fixed;
+            margin-left: 700px;
+            display: none;
+            box-sizing: border-box;
+            padding-left: 10px;
+        }
+
+        #donate{
+            display: none;
+        }
+        .collectinput {
+            margin: 10px 0;
+        }
+
+        .collectinput button {
+            width: 55px;
+            height: 30px;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            background-color: #1E9FFF;
+            margin: 0px 44px;
+        }
+
+        .collecdiscr {
+            margin-left: 42px;
+        }
+
+        .modcollectContain {
+            width: 300px;
+            /*height: 300px;*/
+            min-height: 100px;
+            background-color: #F1F3F4;
+            position: fixed;
+            margin: 40px 0 0 400px;
+            display: none;
+            box-sizing: border-box;
+            padding-left: 10px;
+        }
+
+        .modcollectinput {
+            margin: 10px 0;
+        }
+
+        .modcollectinput button {
+            width: 55px;
+            height: 30px;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            background-color: #1E9FFF;
+            margin: 0px 44px;
+        }
+
+        .modcollecdiscr {
+            margin-left: 42px;
+        }
+
+        .colT {
+            cursor: pointer;
+        }
+
+        /*.adContain{*/
+        /*width: 575px;*/
+        /*height: 100%;*/
+        /*!*border: 1px solid #D4D4D4;*!*/
+        /*box-sizing: border-box;*/
+        /*float: left;*/
+        /*background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566570075499&di=7afe3752f5a694c99180ccb0ef41ef6c&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1006%2F29%2Fc0%2F4360995_1277779565170_1024x1024.gif");*/
+        /*background-size: 100% 100%;*/
+        /*background-repeat: no-repeat;*/
+        /*color: red;*/
+        /*font-size: 20px;*/
+        /*}*/
+
+
+        /*.downloadImgContain{*/
+        /*width: 575px;*/
+        /*height: 424px;*/
+        /*position: absolute;*/
+        /*top: 50px;*/
+        /*background-image: url("imgs/saoma/download.png");*/
+        /*background-size: 100% 100%;*/
+        /*background-repeat: no-repeat;*/
+        /*display: none;*/
+        /*}*/
+        /*.downloadContain{*/
+        /*width: 575px;*/
+        /*height: 10%;*/
+        /*float: right;*/
+        /*margin-top: 25px;*/
+        /*}*/
+        /*.downloadContain button{*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*border: none;*/
+        /*outline: none;*/
+        /*background: red;*/
+        /*border-radius:10px;*/
+        /*font-size: 20px;*/
+        /*cursor: pointer;*/
+        /*color: white;*/
+        /*}*/
+        .fromAlign {
+            width: 70%;
+            height: 70%;
+            margin: 40px auto;
+        }
+
+        .fromAlign input {
+            width: 100%;
+            height: 50px;
+            border: 1px solid #D4D4D4;
+            outline: none;
+            font-size: 15px;
+            padding-left: 15px;
+            box-sizing: border-box;
+        }
+
+        .fromAlign button {
+            width: 100%;
+            height: 50px;
+            border: none;
+            outline: none;
+            font-size: 20px;
+            background: #D4D4D4;
+            cursor: pointer;
+        }
+
+        .loginText {
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .acountContain {
+            width: 100%;
+            margin: 15px auto;
+        }
+
+        .pawContain {
+            width: 100%;
+            margin: 15px auto;
+        }
+
+        .submitContain {
+            width: 100%;
+            text-align: center;
+            margin: 30px auto;
+        }
+
+        .errorContain {
+            width: 100%;
+            color: red;
+        }
+
+        /*.regist{*/
+        /*float: right;*/
+        /*}*/
+        .formContain {
+            width: 575px;
+            height: 85%;
+            border: 1px solid #D4D4D4;
+            box-sizing: border-box;
+            /*float: left;*/
+            /*margin: 0 auto;*/
+            margin-left: 200px;
+            background: white;
+        }
+
+        .formContain ul {
+
+            height: 300px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+        }
+
+
+        .formContain ul li {
+
+            list-style: none;
+
+            margin-left: 100px;
+            margin-top: 20px;
+            /*margin: 0 auto;*/
+
+        }
+    </style>
+</head>
+<body>
+<div id="titleContai"></div>
+<div class="contain">
+    <div id="modifyopenshowContain">
+        <div class="layui-upload">
+            <div class="layui-upload-list">
+                <img id="demo1" width="100px" height="100px">
+            </div>
+            <button type="button" class="layui-btn" id="test1">选择图片</button>
+            <button type="button" class="layui-btn layui-btn-danger" id="Lsubmit">确认上传</button>
+        </div>
+
+    </div>
+    <div class="navigationContain">
+        <ul>
+            <li>个人资料</li>
+            <li>我的收藏</li>
+            <li>我的关注</li>
+            <li>我的粉丝</li>
+            <li>我的博客</li>
+            <li>我的下载</li>
+            <li>我的论坛</li>
+            <li>安全设置</li>
+        </ul>
+    </div>
+    <div class="showContain">
+        <!--此处为渲染代码-->
+
+
+    </div>
+    <!--添加收藏夹弹出事件-->
+    <div class="collectContain">
+        <div class="collectinput">
+            <span>收藏夹名称：</span>
+            <input type="text" class="collectname">
+        </div>
+        <div class="collectinput">
+            <span>描述：</span>
+            <input type="text" class="collecdiscr">
+        </div>
+        <div class="collectinput">
+            <button class="addCollect2">添加</button>
+            <button class="clossCollect">关闭</button>
+        </div>
+    </div>
+    <!--添加收藏夹修改弹出事件-->
+    <div class="modcollectContain">
+        <div class="modcollectinput">
+            <span>收藏夹名称：</span>
+            <input type="text" class="modcollectname">
+        </div>
+        <div class="modcollectinput">
+            <span>描述：</span>
+            <input type="text" class="modcollecdiscr">
+        </div>
+        <div class="modcollectinput">
+            <button class="modCollect">修改</button>
+            <button class="modclossCollect">关闭</button>
+        </div>
+    </div>
+</div>
+
+
+<!--个人信息修改弹出层-->
+<div id="userINfomodifyContain">
+    <form id="form1" class="layui-form" method="post" onsubmit="return false">
+        <div class="layui-form-item">
+            <label class="layui-form-label">昵称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="nickname" lay-verify="nickname" value="" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">职位</label>
+            <div class="layui-input-inline">
+                <input type="text" name="job" lay-verify="job" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="男" title="男">
+                <input type="radio" name="sex" value="女" title="女">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">生日</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="birthday" id="birthday" placeholder="点击选择"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">行业</label>
+            <div class="layui-input-inline">
+                <select name="industry" id="hh">
+                    <option value=""></option>
+                    <option value="电子·微电子">电子·微电子</option>
+                    <option value="通信(设备·运营·增值服务)">通信(设备·运营·增值服务)</option>
+                    <option value="批发·零售">批发·零售</option>
+                    <option value="贸易·进出口">贸易·进出口</option>
+                    <option value="广告·会展·公关">广告·会展·公关</option>
+                    <option value="专业服务(咨询·财会·法律等)">专业服务(咨询·财会·法律等)</option>
+                    <option value="房地产开发·建筑与工程">房地产开发·建筑与工程</option>
+                    <option value="娱乐·运动·休闲">娱乐·运动·休闲</option>
+                    <option value="快速消费品(食品·饮料·日化·烟酒等)">快速消费品(食品·饮料·日化·烟酒等)</option>
+                    <option value="家电业">家电业</option>
+                    <option value="家居·室内设计·装潢">家居·室内设计·装潢</option>
+                    <option value="旅游·酒店·餐饮服务">旅游·酒店·餐饮服务</option>
+                    <option value="交通·运输·物流">交通·运输·物流</option>
+                    <option value="办公设备·用品">办公设备·用品</option>
+                    <option value="医疗设备·器械">医疗设备·器械</option>
+                    <option value="汽车·摩托车(制造·维护·配件·销售·服务)">汽车·摩托车(制造·维护·配件·销售·服务)</option>
+                    <option value="IT服务·系统集成">IT服务·系统集成</option>
+                    <option value="银行">银行</option>
+                    <option value="保险">保险</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item" id="area-picker">
+            <label class="layui-form-label">地区</label>
+            <div class="layui-input-inline" style="width: 80px;font-size: 10px">
+                <select name="provinces" class="province-selector" data-value="广东省" lay-filter="province-1">
+                    <option value="0">请选择省</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 80px;font-size: 10px">
+                <select name="city" class="city-selector" data-value="深圳市" lay-filter="city-1">
+                    <option value="">请选择市</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 80px;font-size: 10px">
+                <select name="county" class="county-selector" data-value="龙岗区" lay-filter="county-1">
+                    <option value="">请选择区</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text" style="width: 350px">
+            <label class="layui-form-label">简介</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="description"></textarea>
+            </div>
+        </div>
+        <input class="layui-input" type="hidden" name="userId">
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left: 200px">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="donate">
+    <form id="form3" class="layui-form" method="post" onsubmit="return false">
+        <div style="margin-left:55px;margin-top: 10px;margin-bottom: 10px">每赞助1元我们都将赠送你1000积分</div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px;">输入金额</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" value="1"  name="price_min" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" placeholder="￥" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid">元</div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px;">支付范式</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <select name="zfb">
+                    <option value="">支付宝</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="jquery/jquery.js"></script>
+<script src="jquery/jquery-form.js"></script>
+<script src="layui/layui.all.js"></script>
+</body>
+<script>
+    //获取登入者ID
+    var user = getUser();
+    var userID = 0;
+    if (user) {
+        userID = user.userId
+    }
+
+//赞助
+    function donate() {
+        //prompt层
+        $(".recharge").click(function () {
+            layer.open({
+                type: 1,
+                area: ['350px', '250px'],
+                content: $('#donate')
+                ,shade: [0.8, '#393D49']
+                , btn: ['确认', '取消']
+                , title: ['感谢您的支持', 'color:white;background-color:#3399ea;']
+                , yes: function (index, layero) {
+                    var price=$("input[name='price_min']").val();
+
+                    if(price === "" || price ==null){
+                        layer.msg("不好意思，您还没输入金额");
+                        return false;
+                    }
+                    var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+                    var regPos2 = /^\d+(\.\d{0,2})?$/; //非负浮点数
+                    if(!regPos.test(price)){
+                        layer.msg("不好意思，请输入正确金额格式");
+                        return false;
+                    }
+                    if(!regPos2.test(price)){
+                        layer.msg("不好意思，金额不能低于0.01");
+                        return false;
+                    }
+                    $.ajax({
+                                            type: "POST",//方法
+                                            url: "trade_precreate.do",
+                                            data:{"totalAmount":price},
+                                            success: function (josnData) {
+                                                if (josnData.success == 1) {
+                                                    layer.msg("订单生成成功……正在跳转")
+                                                    window.location.href="pay.html?outTradeNo="+josnData.data.outtradeno;
+                                                    layer.closeAll()
+                                                } else {
+                                                    layer.msg("订单生成失败")
+                                                    layer.closeAll()
+                                                }
+                                            },
+                                            error: function () {
+                                                layer.closeAll()
+                                            }
+                                        });
+
+                }
+                , btn2: function (index, layero) {
+                    //按钮【按钮二】的回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+                , cancel: function () {
+                    //右上角关闭回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+        })
+    }
+    //修改资料点击事件
+    function modifyInfo() {
+        $(".modified_data").click(function () {
+            //配置插件目录
+            layui.config({
+                base: 'layui/mods/'
+                , version: '1.0'
+            });
+            //一般直接写在一个js文件中
+            layui.use(['layer', 'form', 'layarea', 'laydate'], function () {
+                var layer = layui.layer
+                    , form = layui.form
+                    , layarea = layui.layarea
+                    , laydate = layui.laydate;
+                laydate.render({
+                    elem: '#birthday'
+                });
+                layarea.render({
+                    elem: '#area-picker',
+                    change: function (res) {
+                        //选择结果
+                        //////console.log(res);
+                    }
+                });
+                //正则
+                form.verify({
+                    nickname: function (value) { //value：表单的值、item：表单的DOM对象
+                        if (value) {
+                            if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                                return '昵称不能有特殊字符';
+                            }
+                            if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+                                return '昵称首尾不能出现下划线\'_\'';
+                            }
+                        }
+
+                    }
+                });
+                layer.open({
+                    type: 1,
+                    area: ['500px', '620px'],
+                    offset: 'auto',
+                    closeBtn: 2,
+                    title: ['修改个人资料', 'font-size:18px;'],
+                    content: $('#userINfomodifyContain')
+                });
+                //给表单附初始值
+                var nickname = $(".nickname").text()
+                var sex = $(".sex").text()
+                var birthday = $(".birthday").text()
+                var location = $(".location").text()
+                var industry = $(".industry").text()
+                var job = $(".job").text()
+                var description = $(".description").text()
+                $("input[name='nickname']").val(nickname)
+                $("input[name='job']").val(job)
+                $("input[name='birthday']").val(birthday)
+                $("textarea[name='description']").val(description)
+                $(".hidden").val(userID)
+                if (sex == '男') {
+                    $(".layui-input-block input[type='radio']").get(0).checked = true
+
+                } else if (sex == '女') {
+                    $(".layui-input-block input[type='radio']").get(1).checked = true
+                }
+                //layui样式要下面这个才能重新渲染
+                form.render()
+                form.on('submit(formDemo)', function (data) {
+                    //////console.log("form.on启动成功")
+                    ////////console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+                    ////////console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+                    //////console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+                    $.ajax({
+                        type: "POST",//方法
+                        url: "modifyUserInfor",//表单接收url
+                        data: $('#form1').serialize(),
+                        async: false,
+                        success: function (josnData) {
+                            if (josnData.success == 1) {
+                                layer.msg("修改成功")
+                            } else {
+                                layer.msg("修改失败")
+                            }
+                        },
+                        error: function () {
+                        }
+                    });
+                    setTimeout(function () {
+                        layer.closeAll();
+                        window.location.href = window.location.href
+                    }, 500);
+                    ; //关闭信息框
+                    return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                });
+
+            });
+        })
+    }
+
+    //作为数据渲染的种类
+    var type = decodeURI(location.search.substring(location.search.indexOf("=") + 1))
+
+    //引用表头
+    $.get("title.html", function (html) {
+        $("#titleContai").append(html);
+    });
+    //根据导航渲染页面
+    $(".navigationContain li").click(function () {
+        var type = $(this).text();
+        if (type == "我的下载") {
+            location.href = "download.html?type=2"
+        }
+        if (type == "我的博客") {
+            location.href = "my_home.html"
+        }
+        if (type == "我的论坛") {
+            location.href = "forum.html?type=2"
+        }
+        $(".showContain").html(setPersonalData(type, getJsondata(type)))
+        $(".navigationContain li").css("background-color", "white ").css("color", "black ")
+        $(this).css("background-color", "#B20B13").css("color", "white ")
+        //个人资料页面头像、个人资料的修改事假
+        modifyhead()
+        uploadHeadImg()
+        modifyInfo()
+        donate()
+        //我的收藏夹和关注的收藏夹点击切换事件
+        setcollectHtml()
+    })
+
+    //ajax获取渲染数据
+    function getJsondata(type) {
+        var jsondata;
+        var urlStr = "personalData";
+        if (type == "个人资料") {
+            urlStr = "personalData"
+        } else if (type == "个人资料") {
+            urlStr = "myFavorite"
+        } else if (type == "我的收藏") {
+            urlStr = "myCollect"
+        } else if (type == "我的关注") {
+            urlStr = "myInterest"
+        } else if (type == "我的粉丝") {
+            urlStr = "myFans"
+        }
+        $.ajax({
+            url: urlStr
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , data: {"userId": userID}
+            , success: function (jsonData) {
+                //////console.log(jsonData)
+                jsondata = jsonData.data;
+            }
+            , error: function (res) {
+                //////console.log("获取渲染数据ajax提交错误")
+            }
+        })
+        return jsondata;
+    }
+
+    //设置个人资料HTML
+    function setPersonalData(type, jsondata) {
+        ////console.log(jsondata)
+        var html = ``;
+        if (type == "个人资料") {
+            html = `<div class="titleContain">个人资料</div>
+                    <div class="user_inforContain">
+                        <div class="headImgContain">
+                            <div class="headImg">
+                               <img src="${jsondata.headImg}" width="100px" height="100px" >
+                            </div>
+                            <div class="modifyHeadImg">修改头像</div>
+                        </div>
+                        <div class="rightContain">
+                            <div class="id_card">
+                                <div class="id_name">用户账号:<span>${jsondata.username}</span></div>
+                                <!--<div class="user_home">个人主页＞</div>-->
+                            </div>
+                            <div class="csdn_info">
+                                <div class="attention" style="margin-left: 10px">关注<span>${jsondata.attentionCount}</span></div>
+                                <div class="fans">粉丝<span>${jsondata.fansCount}</span></div>
+                                <div class="wire">|</div>
+                                <div class="recharge" style="font-weight:bolder;font-size: 16px;margin-left: 45px">赞 助</div>
+                                <div class="tip">
+                                <div class="inner"></div>
+                                <div class="text">
+                                <p>有了你，梦网会走的更远。</p>
+                                <p>如果我们为您提供了方便或者帮助到您</p>
+                                <p>你可以自愿赞助我们</p>
+                                 <p>你的每一次赞助我们都将赠送相应积分</p>
+                                </div>
+                                </div>
+                                <div id=${jsondata.isEmil == 0 ? "ValidationEmail" : "none"} style="float: right;color: #33B5F2;cursor: pointer">${jsondata.isEmil == 0 ? "邮箱认证" : "邮箱已认证"}</div>
+                            </div>
+                            <div class="personal_data">
+                                <ul>
+                                    <li>积分：<span>${jsondata.downloadmoney}</span></li>
+                                    <li>昵称：<span class="nickname">${jsondata.nickname == null ? "" : jsondata.nickname}</span></li>
+                                    <li>性别：<span class="sex">${jsondata.sex == null ? "" : jsondata.sex}</spanclass></li>
+                                    <li>生日：<span class="birthday">${jsondata.birthday == null ? "" : jsondata.birthday}</spanclass></li>
+                                    <li>地区：<span class="location">${jsondata.provinces == null ? "" : jsondata.provinces}-${jsondata.city == null ? "" : jsondata.city}-${jsondata.county == null ? "" : jsondata.county}</spanclass></li>
+                                    <li>行业：<span class="industry">${jsondata.industry == null ? "" : jsondata.industry}</spanclass></li>
+                                    <li>职位：<span class="job">${jsondata.job == null ? "" : jsondata.job}</spanclass></li>
+                                    <li>简介：<span class="description">${jsondata.description == null ? "" : jsondata.description}</spanclass></li>
+                                </ul>
+                                <div class="modified_data" style="margin-left: 50px">修改资料</div>
+                            </div>
+
+                        </div>
+                    </div>`
+
+        } else if (type == "我的收藏") {
+            html = `<div class="titleContain">
+                        <div class="tab_tiltle" style=" border-bottom: 2px solid red;">我创建的收藏夹</div>
+                        <div class="tab_tiltle">我关注的收藏夹</div>
+                        <div class="new_tab_tiltle">＋新建收藏夹</div>
+                   </div>
+                   <div class="collectListContain">`
+            $.each(jsondata, function (index, eachCollect) {
+                html = html + `<div class="listContain" data-collectID="${eachCollect.id}">
+                                <div class="favoriteTextContain">
+                                    <div class="favoriteName">${eachCollect.name}</div>
+                                    <div class="textnum">
+                                        <div class="containNum"><span>${eachCollect.dataCount}</span>条内容</div>
+                                        <div class="containNum" style="width: 0">|</div>
+                                        <div class="containNum"><span>${eachCollect.invCount}</span>人关注</div>
+                                    </div>
+                                 </div>
+                                <div class="go">＞</div>
+                            </div>`;
+            })
+            html = html + ` </div>`
+
+        } else if (type == "我的关注") {
+            html = `<div class="attentionTitle">
+                    <div class="myAttention">我的关注</div>
+                    <div class="myAttentionNum">共<span>${jsondata.length == null ? 0 : jsondata.length}</span>人</div>
+                </div>`;
+            $.each(jsondata, function (index, obj) {
+                html = html + `<div class="myAttentionlistContain">
+                                    <div class="myAttentionlistHeadImg">
+                                        <img src="${obj.headImg}" width="50px" height="50px" style="border-radius: 25px;">
+                                    </div>
+                                    <div class="myAttentionName"><a style="color: blue" href="perInfor.html?viewUserId=${obj.userId}&type=blog">${obj.nickname}</a></div>
+                                    <div class="myAttentionButton" data-value="${obj.userId}">取消关注</div>
+                                </div>`
+            })
+
+        } else if (type == "我的粉丝") {
+            html = `<div class="fansTitle">
+                    <div class="myfans">我的粉丝</div>
+                    <div class="myFansNum">共<span>${jsondata.length}</span>人</div>
+                </div>`
+            $.each(jsondata, function (index, obj) {
+                html = html + `<div class="myFanslistContain">
+                                    <div class="myFanslistHeadImg">
+                                     <img src="${obj.headImg}" width="50px" height="50px" style="border-radius: 25px;">
+                                     </div>
+                                    <div class="myFansName"><a style="color: blue" href="perInfor.html?viewUserId=${obj.userId}&type=blog">${obj.nickname}</a></div>
+                                </div>`
+            })
+
+        } else if (type == "安全设置") {
+            html = `<div id="usetitle"></div>
+<div class="contain">
+    <div class="adContain"></div>
+    <div class="formContain">
+
+
+                    <ul>
+
+                     <li>
+                                          <div id=${jsondata.isEmil == 0 ? "ValidationEmail" : "none"} style="color: #33B5F2;cursor: pointer">${jsondata.isEmil == 0 ? "邮箱认证" : "邮箱已认证"}</div>
+                     </li>
+
+                     <li>
+                                           <div id=${jsondata.isEmil == 0 ? "ValidationEmail" : "none"} style="color: #33B5F2;cursor: pointer">${jsondata.isEmil == 0 ? "微信绑定" : "微信已认证"}</div>
+                    </li>
+                     <li>
+                                           <div id=${jsondata.isEmil == 0 ? "ValidationEmail" : "none"} style="color: #33B5F2;cursor: pointer">${jsondata.isEmil == 0 ? "微信绑定" : "手机已认证"}</div>
+                    </li>
+
+                     <li>
+                                          <a href="resetPw.html" style="color: #33B5F2;cursor: pointer">重置密码</a>
+
+                 </li>
+
+
+                    </ul>
+
+
+            </div>
+
+</div>`;
+        }
+        // } else if (type == "我的博客") {
+        //     html = `<div class="myBlogTitle">
+        //                 <ul>
+        //                     <li>全部(<span>1</span>)</li>
+        //                     <li>公开(<span>1</span>)</li>
+        //                     <li>私密(<span>1</span>)</li>
+        //                     <li>草稿箱(<span>1</span>)</li>
+        //                     <li>回收站(<span>1</span>)</li>
+        //                 </ul>
+        //             </div>
+        //             <div class="myBlogSerch">
+        //                 <div class="myBlogSerchList">筛选：</div>
+        //                 <div class="myBlogSerchList ">
+        //                     <select name="year">
+        //                         <option value="不限">不限</option>
+        //                         <option value="2019">2019</option>
+        //                     </select>
+        //                 </div>
+        //                 <div class="myBlogSerchList ">
+        //                     <select name="month">
+        //                         <option value="不限">不限</option>
+        //                         <option value="9">九月</option>
+        //                     </select>
+        //                 </div>
+        //                 <div class="myBlogSerchList ">
+        //                     <select name="textType">
+        //                         <option value="不限类型">不限类型</option>
+        //                         <option value="原创">原创</option>
+        //                         <option value="转载">转载</option>
+        //                         <option value="翻译">翻译</option>
+        //                     </select>
+        //                 </div>
+        //                 <div class="myBlogSerchList ">
+        //                     <input type="text" placeholder="请输入标题关键词">
+        //                 </div>
+        //                 <div class="myBlogSerchList ">
+        //                     <button>搜索</button>
+        //                 </div>
+        //             </div>
+        //             <div class="myBlogInfoContain">
+        //                 <div class="myBlogInfoTitle">
+        //                     <div class="myBlogInfoTitleType">私密</div>
+        //                     <div class="myBlogInfoTitleText">房管局目的港房管局目的港房管局目的港房管局目的港房管局ddd目的港房管局目的港房管局目的港房管局目的港</div>
+        //                 </div>
+        //                 <div class="myBlogInfoProperty">
+        //                     <span>原创</span>
+        //                     &nbsp;&nbsp;
+        //                     <span>2019-08-14 09:53:03</span>
+        //                     &nbsp;&nbsp;
+        //                     <span>回复5</span>
+        //                 </div>
+        //                 <div class="myBlogDelete">删除</div>
+        //                 <div class="myBlogMotify">修改</div>
+        //                 <div class="myBlogView">查看</div>
+        //             </div>`;
+        // }
+
+
+        return html;
+    }
+
+    // var wait = 60;
+    // function time(object){
+    //     if(wait==0){
+    //         object.removeAttribute("disabled");
+    //         wait = 60;
+    //         object.value = "发送邮箱验证";
+    //     }else{
+    //         object.setAttribute("disabled",true);
+    //         wait--;
+    //         object.value = wait + "秒后重新发送";
+    //         setTimeout(function(){time(object)},1000);
+    //     }
+    // }
+    // //修改点击事件
+    // $(".showContain").on("click","#submit",function () {
+    //     console.log(222)
+    //     var errorObj=$(".errorContain")
+    //     var username=$("input[name='username']").val()
+    //     var newpassword=$("input[name='newpassword']").val()
+    //     var senewpassword=$("input[name='senewpassword']").val()
+    //     var emilcode=$("input[name='emilcode']").val()
+    //     if(!username){
+    //         errorObj.text("用户名不能为空")
+    //         return false
+    //     }
+    //     if(!newpassword){
+    //         errorObj.text("新密码密码不能为空")
+    //         return false
+    //     }
+    //     if(!senewpassword){
+    //         errorObj.text("确认密码不能为空")
+    //         return false
+    //     }
+    //
+    //     if(!emilcode){
+    //         errorObj.text("验证码不能为空")
+    //         return false
+    //     }
+    //     if(senewpassword!=newpassword){
+    //         errorObj.text("两次密码不一样重新输入")
+    //         return false
+    //     }
+    //     $.ajax({
+    //         url:"midifyUser"
+    //         ,type:"post"
+    //         ,data:{"username":username,"userpassword":senewpassword,"emilcode":emilcode}
+    //         ,dataType:"json"
+    //         ,success:function (jsonData) {
+    //             if(jsonData.success==0){
+    //                 errorObj.text(jsonData.errorMsg)
+    //             }else {
+    //                 layer.msg(username+"您已修改成功！")
+    //                 if(document.referrer=== ''){
+    //                     location.href="userHomepage.html"
+    //                 }else {
+    //                     location.href=document.referrer;
+    //                 }
+    //             }
+    //         }
+    //         ,error:function (res) {
+    //             console.log("ajax提交错误")
+    //         }
+    //     })
+    // })
+    $(".showContain").on("click", "#ValidationEmail", function () {
+        layer.open({
+            type: 2,
+            area: ['610px', '270px'],
+            scrollbar: false,
+            content: ['ValidationEmail.html']
+        })
+    })
+
+    $(".showContain").on("click", "#btn", function () {
+        time(this);
+    })
+    //取消关注事件
+    $(".showContain").on("click", ".myAttentionButton", function () {
+        var fansId = $(this).attr("data-value")
+        $.ajax({
+            url: "deleteFocus"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , data: {"blogUserId": fansId}
+            , success: function (jsonData) {
+                if (jsonData.success == 1) {
+                    layer.msg("取消成功")
+                    location.href = "userHomepage.html?type=我的关注"
+                }
+            }
+            , error: function (res) {
+                //////console.log("取消关注数据ajax提交错误")
+            }
+        })
+
+    })
+
+    //页面初始渲染默认个人资料
+    var firstType = "个人资料";
+    if (location.search) {
+        firstType = decodeURI(location.search.substring(location.search.indexOf("=") + 1))
+    }
+    //////console.log(firstType);
+    $(".showContain").html(setPersonalData(firstType, getJsondata(firstType)))
+    modifyhead();
+    uploadHeadImg();
+    modifyInfo();
+    donate()
+    setcollectHtml();
+    collectInfor()
+
+    //我的收藏夹和关注的收藏夹点击切换事件
+    function setcollectHtml() {
+        $(".tab_tiltle").click(function () {
+            var collectType = this.innerText;
+            $(".tab_tiltle").css("border-bottom", "2px solid transparent")
+            $(this).css("border-bottom", "2px solid red")
+            setcollectHtmlDo(collectType)
+        })
+    }
+
+    //我的收藏夹和关注的收藏夹点击切换事件执行事件
+    function setcollectHtmlDo(collectType) {
+        if (collectType == "我创建的收藏夹") {
+            var html = ``;
+            var jsondata = getJsondata("我的收藏");
+            $.each(jsondata, function (index, eachCollect) {
+                html = html + `<div class="listContain" data-collectID="${eachCollect.id}">
+                                <div class="favoriteTextContain">
+                                    <div class="favoriteName">${eachCollect.name}</div>
+                                    <div class="textnum">
+                                        <div class="containNum"><span>${eachCollect.dataCount}</span>条内容</div>
+                                        <div class="containNum" style="width: 0">|</div>
+                                        <div class="containNum"><span>${eachCollect.invCount}</span>人关注</div>
+                                    </div>
+                                 </div>
+                                <div class="go">＞</div>
+                            </div>`;
+            })
+            $(".collectListContain").html(html)
+        } else {
+            $.ajax({
+                url: "myAtaCollect"
+                , type: "get"
+                , dataType: "json"
+                , async: false
+                , data: {"userId": userID}
+                , success: function (jsonData) {
+                    var html = ``;
+                    $.each(jsonData.data, function (index, eachCollect) {
+                        html = html + `<div class="listContain" data-collectID="${eachCollect.id}">
+                                        <div class="favoriteTextContain">
+                                            <div class="favoriteName">${eachCollect.name}</div>
+                                            <div class="textnum">
+                                                <div class="containName">${eachCollect.username}</div>
+                                                <div class="containNum"><span>${eachCollect.dataCount}</span>条内容</div>
+                                                <div class="containNum" style="width: 0">|</div>
+                                                <div class="containNum"><span>${eachCollect.invCount}</span>人关注</div>
+                                                <div class="ataContain">已关注</div>
+                                            </div>
+                                         </div>
+                                        <div class="go">＞</div>
+                                    </div>`;
+                    })
+                    $(".collectListContain").html(html)
+                }
+                , error: function (res) {
+                    //////console.log("我的收藏夹和关注的收藏夹点击切换事件ajax提交错误")
+                }
+            })
+        }
+    }
+
+    //收藏夹详情点击事件
+    function collectInfor() {
+        $(".contain").on("click", ".go", function () {
+            var collectId = $(this).parent().attr("data-collectID")
+            setCollectInfor(collectId)
+
+        })
+    }
+
+    //收藏夹详情渲染
+    function setCollectInfor(collectId) {
+        var jsondata = getCollectData(collectId)
+        var invCount = jsondata.invCount;
+        var dataCount = jsondata.dataCount;
+        var coldescribe = jsondata.collectDescribe
+        var title = jsondata.name
+        var html = `<div class="attentioninfor attentioninforTitle">＜返回我的收藏夹列表</div>
+                <div class="attentioninfor spec" data-collectID="${collectId}">
+                    <div class="colTitle">${title}</div>
+                    <div class="colDis">${(coldescribe == null || coldescribe == "") ? "" : "收藏夹描述："}<span class="coldescribe">${(coldescribe == null || coldescribe == "") ? "" : coldescribe}</span></div>
+                    <div class="coldis">
+                        <span>${dataCount}条内容</span>
+                        <span>|</span>
+                        <span>${invCount}人关注</span>
+                        <span>|</span>
+                        <span class="modi">编辑</span>
+                        <span>|</span>
+                        <span class="del">删除</span>
+                    </div>
+                </div>`;
+        $.each(jsondata.objectList, function (index, eachobj) {
+            var type;
+            var describe;
+            var username;
+            var time;
+            var id;
+            var listTitle;
+            if (eachobj.type == "ASK") {
+                type = eachobj.type;
+                describe = eachobj.askText
+                username = eachobj.username
+                id = eachobj.askId
+                listTitle = eachobj.askName;
+                time = eachobj.createTime;
+            } else if (eachobj.type == "BLOG") {
+                type = eachobj.type;
+                describe = eachobj.content
+                username = eachobj.username
+                id = eachobj.id
+                listTitle = eachobj.title;
+                time = eachobj.createtime;
+            } else {
+                type = eachobj.type;
+                describe = eachobj.forumContext
+                username = eachobj.username
+                id = eachobj.forumId
+                listTitle = eachobj.forumTitle;
+                time = eachobj.forumCreatime;
+            }
+            html = html + `
+                <div class="colCon" data-id="${id}">
+                    <div class="colTit">
+                        <span class="colTab">${type}</span>
+                        <span class="colT">${listTitle}</span>
+                        <span class="cancelIn">取消收藏</span>
+                    </div>
+                    <div hidden >${describe}</div>
+                    <div class="intru describe"></div>
+                    <div class="intru">
+                        <span >${username}</span>
+                        <span>|</span>
+                        <span >${time}</span>
+                    </div>
+                </div>`;
+        })
+        $(".showContain").html(html)
+        var objs = document.getElementsByClassName("describe")
+        $.each(objs, function (index, eachobj) {
+            var test = $(eachobj).prev().text()
+            $(eachobj).text(test.substring(0, 200))
+        })
+        clickGobackmyCol(jsondata.userid)
+        modifyCollect()
+    }
+
+    // 点击返回我的收藏夹事件
+    function clickGobackmyCol(colid) {
+        $(".contain").on("click", ".attentioninforTitle", function () {
+            $(".showContain").html(setPersonalData("我的收藏", getJsondata("我的收藏")))
+            //我的收藏夹和关注的收藏夹点击切换事件
+            setcollectHtml()
+            if (colid != userID) {
+                $(".tab_tiltle").css("border-bottom", "2px solid transparent")
+                $(".tab_tiltle ").eq(1).css("border-bottom", "2px solid red")
+                setcollectHtmlDo("我关注的收藏夹")
+            }
+        })
+    }
+
+    //收藏夹详情数据获取
+    function getCollectData(collectId) {
+        var jsondata;
+        $.ajax({
+            url: "findCollectAllInfor"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , data: {"collectId": collectId}
+            , success: function (jsonData) {
+                //////console.log(jsonData)
+                jsondata = jsonData.data;
+            }
+            , error: function (res) {
+                //////console.log("获取渲染数据ajax提交错误")
+            }
+        })
+        return jsondata;
+    }
+
+    //收藏夹修改事件
+    $(".showContain").on("click", ".modi", function () {
+        var name = $(this).parent().parent().find(".colTitle").text()
+        var discr = $(this).parent().parent().find(".coldescribe").text()
+        $(".modcollectname").val(name)
+        $(".modcollecdiscr").val(discr)
+        $(".modcollectContain").css("display", "block")
+    })
+    //修改收藏夹关闭事件
+    $(".modclossCollect").click(function () {
+        $(".modcollectContain").css("display", "none")
+    })
+
+    //修改收藏夹确认事件
+    function modifyCollect() {
+        $(".modCollect").click(function () {
+            var name = $(".modcollectname").val()
+            var collectDescribe = $(".modcollecdiscr").val()
+            var collectId = $(".spec").attr("data-collectid")
+            //////console.log(collectDescribe)
+            //////console.log(name)
+            //////console.log(collectId)
+            if (!name) {
+                layer.msg("收藏夹名不能为空！")
+                return false
+            }
+            $.ajax({
+                url: "modifyCollect"
+                , type: "post"
+                , data: {"userId": userID, "name": name, "collectDescribe": collectDescribe, "collectId": collectId}
+                , dataType: "json"
+                , success: function (jsonData) {
+                    if (jsonData.success == 1) {
+                        $(".modcollectContain").css("display", "none")
+                        setCollectInfor(collectId)
+                        layer.msg("添加成功")
+                    } else {
+                        layer.msg(jsonData.errorMsg)
+                    }
+                }
+                , error: function (res) {
+                    //////console.log("添加收藏夹ajax提交错误")
+                }
+            })
+        })
+    }
+
+    //添加收藏夹点击事件
+    $(".showContain").on("click", ".new_tab_tiltle", function () {
+        $(".collectname").val("")
+        $(".collecdiscr").val("")
+        $(".collectContain").css("display", "block")
+    })
+    //添加收藏夹关闭事件
+    $(".clossCollect").click(function () {
+        $(".collectContain").css("display", "none")
+    })
+    //添加收藏夹确认事件
+    $(".addCollect2").click(function () {
+        var name = $(".collectname").val()
+        var collectDescribe = $(".collecdiscr").val()
+        //////console.log(name)
+        if (!name) {
+            layer.msg("收藏夹名不能为空！")
+            return false
+        }
+        $.ajax({
+            url: "addNewCollect"
+            , type: "post"
+            , data: {"userid": userID, "name": name, "collectDescribe": collectDescribe}
+            , dataType: "json"
+            , success: function (jsonData) {
+                //////console.log(jsonData)
+                if (jsonData.success == 1) {
+                    $(".collectContain").css("display", "none")
+                    $(".showContain").html(setPersonalData("我的收藏", getJsondata("我的收藏")))
+                    layer.msg("添加成功")
+                } else {
+                    layer.msg(jsonData.errorMsg)
+                }
+            }
+            , error: function (res) {
+                //////console.log("添加收藏夹ajax提交错误")
+            }
+        })
+    })
+
+
+    // 修改头像弹窗事件
+
+    function modifyhead() {
+        $(".modifyHeadImg").click(function () {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    type: 1,
+                    content: $('#modifyopenshowContain')
+                    , title: ['头像修改', 'font-size:18px;']
+
+                    , area: ['300px', '300px']
+                    , success: function (layero, index) {
+                        //////console.log(layero, index);
+                    }
+                    , cancel: function (index, layero) {
+                        if (confirm('确定要关闭么')) { //只有当点击confirm框的确定时，该层才会关闭
+                            layer.close(index)
+                        }
+                        return false;
+                    }
+                });
+            });
+        })
+    }
+
+    //上传头像
+    // 上传头像点击事件
+    function uploadHeadImg() {
+        layui.use('upload', function () {
+            var $ = layui.jquery
+                , upload = layui.upload;
+            //普通图片上传
+            var uploadInst = upload.render({
+                elem: '#test1'
+                , url: 'fileUpload'
+                , auto: false
+                , bindAction: '#Lsubmit'
+                , acceptMime: 'image/*'
+                , choose: function (obj) {
+                    //预读本地文件示例，不支持ie8
+
+                    obj.preview(function (index, file, result) {
+                        $('#demo1').attr('src', result); //图片链接（base64）
+                    });
+                }
+                , done: function (res) {
+                    //console.log(res)
+                    if (res.success == 1) {
+                        layer.msg("上传成功！")
+                        updateDataBaseHeadImg(userID, res.data)
+                        setTimeout(function () {
+                            layer.closeAll();
+                        }, 1000);
+                        //上传成功渲染新的头像
+                        $(".headImg img").attr("src", res.data.url)
+                        //渲染头部头像
+                        $(".TheadImg img").attr("src", res.data.url)
+                    }
+                }
+                , error: function () {
+                    //////console.log(arguments)
+                }
+            });
+        });
+    }
+
+    //头像上传按钮点击事件(更新数据库)
+    function updateDataBaseHeadImg(userId, headImg) {
+        var src = headImg.url
+        //console.log(src)
+        $.ajax({
+            url: "modifyHeadImg"
+            , data: {"headImg": src}
+            , type: "post"
+            , dataType: "json"
+            , success: function (jsonData) {
+                ////////console.log(jsonData)
+            }
+            , error: function (res) {
+                //////console.log("ajax提交错误")
+            }
+        })
+    }
+
+    //获取当前用户
+    function getUser() {
+        var data;
+        $.ajax({
+            url: "isEnter"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                //////console.log(jsonData)
+                if (jsonData.success == 1) {
+                    data = jsonData.data;
+                }
+            }
+            , error: function (res) {
+                //////console.log("ajax提交错误")
+            }
+        })
+        return data;
+    }
+
+    //收藏夹取消关注事件
+    $(".contain").on({
+        "mouseenter": function () {
+            $(this).text("取消关注")
+        }, "mouseleave": function () {
+            $(this).text("已关注")
+        },
+        "click": function () {
+            if (confirm("你确定取消关注吗？")) {
+                var collectId = $(this).parents(".listContain").attr("data-collectid")
+                $.ajax({
+                    url: "unsubscribe"
+                    , type: "post"
+                    , data: {"userId": userID, "collectId": collectId}
+                    , dataType: "json"
+                    , async: false
+                    , success: function (jsonData) {
+                        //////console.log(jsonData)
+                        if (jsonData.success == 1) {
+                            layer.msg("取消成功！")
+                        }
+                    }
+                    , error: function (res) {
+                        //////console.log("取消关注事件ajax提交错误")
+                    }
+                })
+                $(this).parents(".listContain").eq(0).remove()
+            }
+        }
+    }, ".ataContain")
+    //博客、问答、论坛取消关注事件
+    $(".contain").on({
+        "click": function () {
+            if (confirm("你确定取消关注吗？")) {
+                var id = $(this).parents(".colCon").attr("data-id")
+                var collectId = $(".attentioninfor").eq(1).attr("data-collectid")
+                var type = $(this).parents(".colCon").find(".colTab").text()
+                $.ajax({
+                    url: "cancelCollection"
+                    , type: "post"
+                    , data: {"id": id, "collectId": collectId, "type": type}
+                    , dataType: "json"
+                    , async: false
+                    , success: function (jsonData) {
+                        //////console.log(jsonData)
+                        if (jsonData.success == 1) {
+                            layer.msg("取消成功！")
+                        }
+                    }
+                    , error: function (res) {
+                        //////console.log("取消关注事件ajax提交错误")
+                    }
+                })
+                $(this).parents(".colCon").eq(0).remove()
+            }
+        }
+    }, ".cancelIn")
+    //收藏夹删除功能
+    $(".contain").on({
+        "click": function () {
+            if (confirm("你确定删除收藏夹吗？删除后里面收藏的内容将会全部删除！")) {
+                var collectId = $(".attentioninfor").eq(1).attr("data-collectid")
+                $.ajax({
+                    url: "removeCollect"
+                    , type: "post"
+                    , data: {"collectId": collectId}
+                    , dataType: "json"
+                    , async: false
+                    , success: function (jsonData) {
+                        //////console.log(jsonData)
+                        if (jsonData.success == 1) {
+                            layer.msg("删除成功！")
+                        }
+                    }
+                    , error: function (res) {
+                        //////console.log("取消关注事件ajax提交错误")
+                    }
+                })
+                $(".showContain").html(setPersonalData("我的收藏", getJsondata("我的收藏")))
+                //我的收藏夹和关注的收藏夹点击切换事件
+                setcollectHtml()
+            }
+        }
+    }, ".del")
+    //内容跳转事件
+    $(".showContain").on("click", ".colT", function () {
+        var type = $(this).prev().text()
+        var id = $(this).parent().parent().attr("data-id")
+        if (type == "ASK") {
+            location.href = "askInfor.html?askId=" + id
+        } else if (type == "BLOG") {
+            location.href = "details.html?blog_id=" + id
+        } else {
+            location.href = "invitation_Details.html?invitationId=" + id
+        }
+    })
+    //个人主页跳转功能
+    $(".showContain").on("click", ".user_home", function () {
+        location.href = "perInfor.html?viewUserId=" + userID + "&type=blog"
+    })
+
+</script>
+<script src="assets/autoload.js"></script>
+</html>

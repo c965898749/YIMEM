@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.IntegralsMapper">
+    <!--&lt;!&ndash;查询所有&ndash;&gt;-->
+    <select id="selectByUserid" resultType="com.sy.model.Integrals">
+       select *from integrals where userid=#{userid} ORDER BY createtime DESC LIMIT #{page},#{pageSize}
+    </select>
+    <!--&lt;!&ndash;查询所有条数&ndash;&gt;-->
+    <select id="selectAllCount" resultType="java.lang.Integer">
+         SELECT COUNT(*) FROM integrals  where userid=#{userid}
+    </select>
+    <!--&lt;!&ndash;新增资源&ndash;&gt;-->
+    <update id="insert" parameterType="com.sy.model.Integrals">
+      INSERT INTO integrals (`price`, `createtime`, `title`, `userid`) VALUES ( #{price}, NOW(), #{title}, #{userid});
+    </update>
+</mapper>
