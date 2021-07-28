@@ -599,7 +599,7 @@
                          作者/分享人：<a style="text-decoration : none" href="perInfor.html?viewUserId=${eachobj.userid}&type=blog">${eachobj.user.nickname}</a> 下载数 ${eachobj.hot}
                           </span>
                 </div>
-            </div>`;
+             </div>`;
                     $(".recommend").append(html);
                     if (index > 4) {
                         return false;
@@ -712,11 +712,13 @@
         var per = Math.floor(100 * loaded / tot);   //已经上传的百分比
 
         //document.getElementById("son").innerHTML =per +"%" ;
-
-        document.getElementById("progressPersent").innerText = per + "%";
-
-        document.getElementById("progress").style.width = per + "%";
-
+        if (per >= 99) {
+            document.getElementById("progressPersent").innerText = "正在转码请稍等……(请不要刷新页面)";
+            document.getElementById("progress").style.width = per + "%";
+        } else {
+            document.getElementById("progressPersent").innerText = per + "%";
+            document.getElementById("progress").style.width = per + "%";
+        }
     }
 
     //上传文件
@@ -1001,6 +1003,24 @@
                                         path = "txt";
                                     } else if (item.leixin2 == "xlsx") {
                                         path = "xlsx";
+                                    } else if (item.leixin2 == "7z") {
+                                        path = "7z";
+                                    } else if (item.leixin2 == "gif") {
+                                        path = "gif";
+                                    } else if (item.leixin2 == "gz") {
+                                        path = "gz";
+                                    } else if (item.leixin2 == "html") {
+                                        path = "html";
+                                    } else if (item.leixin2 == "jar") {
+                                        path = "jar";
+                                    } else if (item.leixin2 == "mp4") {
+                                        path = "mp4";
+                                    } else if (item.leixin2 == "png") {
+                                        path = "png";
+                                    } else if (item.leixin2 == "pptx") {
+                                        path = "pptx";
+                                    } else if (item.leixin2 == "swf") {
+                                        path = "swf";
                                     } else {
                                         path = "unkonw";
                                     }
@@ -1010,9 +1030,10 @@
 												<div class="img-left">
 													<img src="imgs/filetype/` + path + `.svg" style="width: 42px;height: 48px;"/>
 												</div>
+												<a href="detailpage.html?id=` + item.id + `">
 												<div class="context-model">
 													<div class="title" id="title">
-													<a href="detailpage.html?id=` + item.id + `">` + item.title + `</a>
+													` + item.title + `
 														</div>
 													<div class="main">
 													` + item.intro + `
@@ -1021,6 +1042,7 @@
 														资源大小：` + daxiao + ` 上传时间：` + item.createtime + ` 上传者：` + item.user.nickname + `
 													</div>
 												</div>
+												</a>
 												<div class="img-right">
 													<span style="color: #888;font-size: 14px;">
 														积分/C币:

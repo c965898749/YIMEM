@@ -7,7 +7,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/DownloadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/DownloadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fdfs_client.conf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fdfs_client.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/222.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/222.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/detailpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/detailpage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/download.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/download.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/forumsubdivide.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/forumsubdivide.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/title.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/title.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/YIMEM.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/YIMEM.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/YIMEM/222.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/YIMEM/222.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/YIMEM/WEB-INF/classes/com/sy/controller/DownloadController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/YIMEM/WEB-INF/classes/com/sy/controller/DownloadController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/YIMEM/WEB-INF/classes/fdfs_client.conf" beforeDir="false" afterPath="$PROJECT_DIR$/target/YIMEM/WEB-INF/classes/fdfs_client.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/YIMEM/detailpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/YIMEM/detailpage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/YIMEM/download.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/YIMEM/download.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/YIMEM/file/00a58f28ead345b4b3db81dbc26700c4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/YIMEM/file/45d97a3454b449709b51e6937f2ceda8.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/YIMEM/file/c8c3be1a17f64746864a22a52a37bf37.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/YIMEM/forumsubdivide.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/YIMEM/forumsubdivide.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/YIMEM/title.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/YIMEM/title.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sy/controller/DownloadController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sy/controller/DownloadController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fdfs_client.conf" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fdfs_client.conf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,63 +57,6 @@
         <option value="HTML File" />
       </list>
     </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>dop</find>
-      <find>generator</find>
-      <find>help</find>
-      <find>pagehelper</find>
-      <find>/admin</find>
-      <find>region</find>
-      <find>selectByPid</find>
-      <find>验证码</find>
-      <find>appmak</find>
-      <find>appma</find>
-      <find>titleContai</find>
-      <find>QRCode</find>
-      <find>&lt;include src=&quot;title.html&quot;&gt;&lt;/include&gt;</find>
-      <find>isEnter</find>
-      <find>404</find>
-      <find>RequestMapping</find>
-      <find>contextMenu</find>
-      <find>K.</find>
-      <find>K</find>
-      <find>Tools</find>
-      <find>Tools.</find>
-      <find>查询该目录下是否存在子目录</find>
-      <find>uploadFile</find>
-      <find>setparams</find>
-      <find>popup</find>
-      <find>change</find>
-      <find>update_folder_name</find>
-      <find>statics</find>
-      <find>statics/</find>
-      <find>frameborder</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>likes</replace>
-      <replace>layer.msg</replace>
-      <replace>System.out.println</replace>
-      <replace>'</replace>
-      <replace>token</replace>
-      <replace>String</replace>
-      <replace>VARCHAR</replace>
-      <replace>value=</replace>
-      <replace>data-value</replace>
-      <replace>播放</replace>
-      <replace>\</replace>
-      <replace>username</replace>
-      <replace>userpassword</replace>
-      <replace>userpassword2</replace>
-      <replace>user.username</replace>
-      <replace>LocalTime</replace>
-      <replace>//console</replace>
-    </replaceStrings>
-    <dirStrings>
-      <dir>D:\VRMS-Workspace\YIMEM\src\main\webapp\statics</dir>
-      <dir>D:\VRMS-Workspace\YIMEM\src\main\webapp\statics\localjs</dir>
-    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -135,6 +99,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -142,7 +107,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1614267787642" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../work_space/xiaoying-api" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/imgs/filetype" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -153,25 +118,25 @@
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.sy.service.impl" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
+      <recent name="D:\VRMS-Workspace\YIMEM\src\main\webapp" />
+      <recent name="D:\项目\YIMEM\src\main\webapp" />
+      <recent name="D:\项目\YIMEM\src\main\webapp\js" />
+      <recent name="D:\项目\YIMEM\src\main\webapp\imgs\jh" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.sy.controller" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\YIMEM\src\main\webapp\img\chepa" />
       <recent name="D:\VRMS-Workspace\YIMEM\src\main\webapp" />
       <recent name="D:\VRMS-Workspace\YIMEM\src\main\webapp\css" />
       <recent name="D:\项目\YIMEM\src\main\webapp" />
       <recent name="D:\项目\YIMEM\src\main\webapp\imgs\saoma" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\VRMS-Workspace\YIMEM\src\main\webapp" />
-      <recent name="D:\项目\YIMEM\src\main\webapp" />
-      <recent name="D:\项目\YIMEM\src\main\webapp\js" />
-      <recent name="D:\项目\YIMEM\src\main\webapp\imgs\jh" />
-      <recent name="D:\项目\YIMEM\src\main\webapp\css" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.sy.controller" />
-    </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.sy.service.impl" />
     </key>
   </component>
   <component name="RunManager">
@@ -534,7 +499,9 @@
       <workItem from="1627020730774" duration="104000" />
       <workItem from="1627021008925" duration="2476000" />
       <workItem from="1627024751697" duration="4056000" />
-      <workItem from="1627259730776" duration="8005000" />
+      <workItem from="1627259730776" duration="11030000" />
+      <workItem from="1627364257337" duration="610000" />
+      <workItem from="1627366584810" duration="21198000" />
     </task>
     <servers />
   </component>
@@ -578,38 +545,42 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="589" y="44" key="#Tomcat_9.0.11/0.0.1920.1040@0.0.1920.1040" timestamp="1627023303455" />
-    <state x="414" y="168" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1627025769358">
+    <state x="414" y="168" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1627366934603">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="168" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1627025769358" />
-    <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1627278571430">
+    <state x="414" y="168" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1627366934603" />
+    <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1627364269544">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1627278571430" />
-    <state width="1867" height="437" key="GridCell.Tab.0.bottom" timestamp="1627291886836">
+    <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1627364269544" />
+    <state width="1867" height="459" key="GridCell.Tab.0.bottom" timestamp="1627455667885">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="437" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1627291886836" />
-    <state width="1867" height="437" key="GridCell.Tab.0.center" timestamp="1627291886836">
+    <state width="1867" height="459" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1627455667885" />
+    <state width="1867" height="459" key="GridCell.Tab.0.center" timestamp="1627455667885">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="437" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1627291886836" />
-    <state width="1867" height="437" key="GridCell.Tab.0.left" timestamp="1627291886835">
+    <state width="1867" height="459" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1627455667885" />
+    <state width="1867" height="459" key="GridCell.Tab.0.left" timestamp="1627455667884">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="437" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1627291886835" />
-    <state width="1867" height="437" key="GridCell.Tab.0.right" timestamp="1627291886836">
+    <state width="1867" height="459" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1627455667884" />
+    <state width="1867" height="459" key="GridCell.Tab.0.right" timestamp="1627455667885">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="437" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1627291886836" />
+    <state width="1867" height="459" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1627455667885" />
     <state x="337" y="98" key="SettingsEditor" timestamp="1627021047726">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="337" y="98" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1627021047726" />
-    <state x="560" y="323" key="com.intellij.ide.util.TipDialog" timestamp="1627024852053">
+    <state x="560" y="323" key="com.intellij.ide.util.TipDialog" timestamp="1627366585627">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="323" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1627024852053" />
+    <state x="560" y="323" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1627366585627" />
+    <state x="554" y="183" width="811" height="674" key="find.popup" timestamp="1627452516279">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="554" y="183" width="811" height="674" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1627452516279" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

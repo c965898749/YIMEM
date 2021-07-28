@@ -8,7 +8,9 @@ import com.sy.model.*;
 import com.sy.model.resp.BaseResp;
 import com.sy.model.resp.ResultCode;
 import com.sy.service.*;
+import com.sy.tool.Constants;
 import com.sy.tool.Xtool;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class DownloadController {
     private Logger log = Logger.getLogger(DownloadController.class.getName());
 
     @RequestMapping(value = "downloadResource", method = RequestMethod.GET)
-    public String download(Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String download(Integer id,String host, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 //        先验证用户登录
         User user = (User) request.getSession().getAttribute("user");
@@ -81,6 +83,10 @@ public class DownloadController {
 
             if (count > 0) {
                 path = upload.getSrc();
+                log.info("请求域名"+host);
+                if (Xtool.isNotNull(host)){
+                    path=path.replace(Constants.IMAGE_SERVER_URL,"http://"+host+"/");
+                }
                 //记录下载次数
                 upload.setHot(upload.getHot() + 1);
                 service.updatahot(upload);

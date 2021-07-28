@@ -1,9 +1,0 @@
-.rolelistul li{margin:5px;padding:5px;cursor: pointer;}
-.roleNameAuthority{}
-#functionList,.subfuncul{list-style: none;}
-.functiontitle{font-size:14px;font-weight: bold;}
-.subfuncul li{padding:2px;}
-#functionList li{
-	width:200px;
-	float: left;
-}

@@ -423,7 +423,7 @@
                 var path = "imgs/filetype/zip .svg";
                 var daxiao = 0;
                 //////////////console.log(item.leixin)
-                if (item.leixin == "zip") {
+                if (item.leixin2 == "zip") {
                     path = "zip";
                 } else if (item.leixin2 == "pdf") {
                     path = "pdf";
@@ -441,6 +441,24 @@
                     path = "txt";
                 } else if (item.leixin2 == "xlsx") {
                     path = "xlsx";
+                } else if (item.leixin2 == "7z") {
+                    path = "7z";
+                } else if (item.leixin2 == "gif") {
+                    path = "gif";
+                } else if (item.leixin2 == "gz") {
+                    path = "gz";
+                } else if (item.leixin2 == "html") {
+                    path = "html";
+                } else if (item.leixin2 == "jar") {
+                    path = "jar";
+                } else if (item.leixin2 == "mp4") {
+                    path = "mp4";
+                } else if (item.leixin2 == "png") {
+                    path = "png";
+                } else if (item.leixin2 == "pptx") {
+                    path = "pptx";
+                } else if (item.leixin2 == "swf") {
+                    path = "swf";
                 } else {
                     path = "unkonw";
                 }
@@ -504,7 +522,7 @@
                                     </div>
                                 </div>`;
                 var html5 = `<a href="perInfor.html?viewUserId=` + item.user.userId + `&type=blog"><img class="headimg" style="width: 48px;height: 48px;border-radius: 24px"
-                                     src="` + item.user.headImg + `"/></a>`;
+                                    src="` + item.user.headImg + `"/></a>`;
                 $(".lists").append(html);
                 catory(item.categoryid, item.categoryid2, item.title)
                 $(".header").append(html3);
@@ -672,8 +690,8 @@
                 , yes: function (index, layero) {
                     //按钮【按钮一】的回调
                     // downloadResource()
-
-                    location.href = "downloadResource?id=" + id;
+                    var host = window.location.host;
+                    location.href = "downloadResource?id=" + id+"&host="+host;
                     layer.close(index);
 
                 }
