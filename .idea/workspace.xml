@@ -7,22 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/7z.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/gif.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/gz.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/html.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/jar.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/mp4.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/pptx.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/swf.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/apk.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/7z.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/gif.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/gz.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/html.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/jar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/png.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgs/filetype/swf.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/detailpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/detailpage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/download.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/download.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,8 +100,12 @@
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.sy.service.impl" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
+      <recent name="D:\YIMEM\src\main\webapp\img\chepa" />
+      <recent name="D:\VRMS-Workspace\YIMEM\src\main\webapp" />
+      <recent name="D:\VRMS-Workspace\YIMEM\src\main\webapp\css" />
+      <recent name="D:\项目\YIMEM\src\main\webapp" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
@@ -125,12 +117,8 @@
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.sy.controller" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
-      <recent name="D:\YIMEM\src\main\webapp\img\chepa" />
-      <recent name="D:\VRMS-Workspace\YIMEM\src\main\webapp" />
-      <recent name="D:\VRMS-Workspace\YIMEM\src\main\webapp\css" />
-      <recent name="D:\项目\YIMEM\src\main\webapp" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.sy.service.impl" />
     </key>
   </component>
   <component name="RunManager">
@@ -497,6 +485,8 @@
       <workItem from="1627364257337" duration="610000" />
       <workItem from="1627366584810" duration="29922000" />
       <workItem from="1627550955972" duration="2974000" />
+      <workItem from="1627625441066" duration="4134000" />
+      <workItem from="1627864333128" duration="5707000" />
     </task>
     <servers />
   </component>
@@ -544,38 +534,38 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="414" y="168" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1627366934603" />
-    <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1627610950815">
+    <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1627868027436">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1627610950815" />
-    <state width="1867" height="457" key="GridCell.Tab.0.bottom" timestamp="1627525492649">
+    <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1627868027436" />
+    <state width="1250" height="457" key="GridCell.Tab.0.bottom" timestamp="1627893524323">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="457" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1627525492649" />
-    <state width="1867" height="457" key="GridCell.Tab.0.center" timestamp="1627525492649">
+    <state width="1250" height="457" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1627893524323" />
+    <state width="1250" height="457" key="GridCell.Tab.0.center" timestamp="1627893524323">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="457" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1627525492649" />
-    <state width="1867" height="457" key="GridCell.Tab.0.left" timestamp="1627525492649">
+    <state width="1250" height="457" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1627893524323" />
+    <state width="1250" height="457" key="GridCell.Tab.0.left" timestamp="1627893524323">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="457" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1627525492649" />
-    <state width="1867" height="457" key="GridCell.Tab.0.right" timestamp="1627525492649">
+    <state width="1250" height="457" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1627893524323" />
+    <state width="1250" height="457" key="GridCell.Tab.0.right" timestamp="1627893524323">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="457" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1627525492649" />
+    <state width="1250" height="457" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1627893524323" />
     <state x="337" y="98" key="SettingsEditor" timestamp="1627021047726">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="337" y="98" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1627021047726" />
-    <state x="560" y="323" key="com.intellij.ide.util.TipDialog" timestamp="1627551030320">
+    <state x="560" y="323" key="com.intellij.ide.util.TipDialog" timestamp="1627864421526">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="323" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1627551030320" />
-    <state x="554" y="183" width="811" height="674" key="find.popup" timestamp="1627452516279">
+    <state x="560" y="323" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1627864421526" />
+    <state x="554" y="183" width="811" height="674" key="find.popup" timestamp="1627868019376">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="554" y="183" width="811" height="674" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1627452516279" />
+    <state x="554" y="183" width="811" height="674" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1627868019376" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
