@@ -7,20 +7,22 @@
     <link rel="stylesheet" href="css/siderBar2.css">
     <script src="jquery/jquery.js"></script>
     <!--<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
-    <script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
-    <script type="text/javascript" src="syntax/scripts/shCore.js"></script>
-    <script type="text/javascript" src="syntax/scripts/shBrushJScript.js"></script>
-    <script type="text/javascript" src="syntax/scripts/shBrushXml.js"></script>
-    <script type="text/javascript" src="syntax/scripts/shBrushJava.js"></script>
-    <script type="text/javascript" src="syntax/scripts/shBrushCss.js"></script>
-    <script type="text/javascript" src="syntax/scripts/shBrushPython.js"></script>
-    <script type="text/javascript" src="syntax/scripts/shBrushPhp.js"></script>
-    <link type="text/css" rel="stylesheet" href="syntax/styles/shCoreDefault.css"/>
+        <script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+    <!--    <script type="text/javascript" src="syntax/scripts/shCore.js"></script>-->
+    <!--    <script type="text/javascript" src="syntax/scripts/shBrushJScript.js"></script>-->
+    <!--    <script type="text/javascript" src="syntax/scripts/shBrushXml.js"></script>-->
+    <!--    <script type="text/javascript" src="syntax/scripts/shBrushJava.js"></script>-->
+    <!--    <script type="text/javascript" src="syntax/scripts/shBrushCss.js"></script>-->
+    <!--    <script type="text/javascript" src="syntax/scripts/shBrushPython.js"></script>-->
+    <!--    <script type="text/javascript" src="syntax/scripts/shBrushPhp.js"></script>-->
+    <!--    <link type="text/css" rel="stylesheet" href="syntax/styles/shCoreDefault.css"/>-->
     <link rel="stylesheet" href="layui/css/layui.css">
     <link rel="stylesheet" href="css/APlayer.min.css">
     <script src="js/APlayer.min.js"></script>
     <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
     <script src="js/setCookie.js"></script>
+    <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
     <style>
         #blog_page {
             border-bottom: 2px red solid;
@@ -34,6 +36,7 @@
         body {
             background-color: #E4E6CD;
         }
+
         .navigation div {
             float: left;
             font-size: 15px;
@@ -273,7 +276,8 @@
             overflow: hidden;
 
         }
-        .content_middle_content_content img{
+
+        .content_middle_content_content img {
             max-width: 840px;
         }
 
@@ -394,14 +398,15 @@
             margin: auto;
             width: 850px;
         }
-        .show{
+
+        .show {
             display: block;
         }
     </style>
 </head>
 <body style="background-color:  #E4E6CD">
 
-<div id="titleContai" ></div>
+<div id="titleContai"></div>
 <div class="content">
     <div class="content_left">
         <div class="aside-box">
@@ -434,9 +439,11 @@
                 <img src="imgs/gz/eduwxfix.png" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
                      alt="">
             </div>
-            <div style="padding-bottom: 5px;margin: 0 auto;width: 250px ;border-bottom: 1px #E0E0E0 solid"><span style="color:#8B8B8B;margin-left: 15px">YIMEM公众号</span><span
+            <div style="padding-bottom: 5px;margin: 0 auto;width: 250px ;border-bottom: 1px #E0E0E0 solid"><span
+                    style="color:#8B8B8B;margin-left: 15px">YIMEM公众号</span><span
                     style="color:#8B8B8B;margin-left: 60px">IT学院</span></div>
-            <div style="padding-top: 5px;margin: 0 auto;width: 250px"><span style="color:#3D3D3D;font-weight: bold;margin-left: 20px">关于我们</span>
+            <div style="padding-top: 5px;margin: 0 auto;width: 250px"><span
+                    style="color:#3D3D3D;font-weight: bold;margin-left: 20px">关于我们</span>
                 <span
                         style="color:#3D3D3D;margin-left: 20px">网站地图</span><span
                         style="color:#3D3D3D;margin-left: 20px">广告服务</span></div>
@@ -461,7 +468,7 @@
         <!--<hr style="border: 2px #E4E6CD solid">-->
         <div class="replay" id="replay_1">
             <textarea cols=100 rows=4 id="licenseother" onkeypress="count()" onkeyup="count()" onblur="count();"
-                      onChange="count();"  placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论"></textarea>
+                      onChange="count();" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论"></textarea>
             <!--<textarea type="text" id="replay"></textarea>-->
             <div>
                 <div class="submit_replay" id="submit_replay">发表评论</div>
@@ -556,7 +563,7 @@
 </div>
 <div id="aplayer"></div>
 </body>
-<script type="text/javascript" id="bdshare_js" data="type=tools" ></script>
+<script type="text/javascript" id="bdshare_js" data="type=tools"></script>
 <script type="text/javascript" id="bdshell_js"></script>
 <script src="layui/layui.all.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/waifu.min.css?v=1.4.2"/>
@@ -566,7 +573,7 @@
 <script>
     //评论分页
     var navH = $(".yimem_gg").offset().top;
-    var AAA=0;
+    var AAA = 0;
     var laypage;
     var pageNum = 1;
     var register_Status = 0;
@@ -591,6 +598,7 @@
     layui.use('laypage', function () {
         laypage = layui.laypage;
     });
+
     function copyCode() {
         var activePre = $(".activePre");
         if (!activePre || activePre.length <= 0) {
@@ -615,19 +623,20 @@
             clone.remove();
         });
     }
+
     function renderPager(totalCount) {
         laypage.render({
             elem: 'pageContainer'
-            ,count: totalCount //数据总数，从服务端得到
+            , count: totalCount //数据总数，从服务端得到
             , curr: pageNum
             , limit: 5
-            ,jump: function(obj, first){
+            , jump: function (obj, first) {
                 //obj包含了当前分页的所有参数，比如：
                 //////console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
                 //////console.log(obj.limit); //得到每页显示的条数
 
                 //首次不执行
-                if(!first){
+                if (!first) {
                     //把分页值，和分页量（分页量可能会变化）
                     pageNum = obj.curr;
                     // pageSize = obj.limit;
@@ -646,10 +655,11 @@
             dataType: "json",
             type: "get",
             success: function (json) {
-                console.log(json)
-                $(".replaylist").html("")
-                $.each(json.data, function (index, eachobj) {
-                    var html = ` <div class="replays">
+                if (json.success == 1) {
+                    console.log(json)
+                    $(".replaylist").html("")
+                    $.each(json.data, function (index, eachobj) {
+                        var html = ` <div class="replays">
                                      <div style="overflow: hidden;height: 40px" >
                                        <div style="float: left">
                                         <img  src="${eachobj.user.headImg}">
@@ -659,9 +669,9 @@
                                        </div>
                                         <span style="line-height:30px;float: left;color: #999;font-size: 14px">${eachobj.time}</span>
                                          <div style="line-height:30px;float: right;color:#94b7ea">
-                                             <span>${eachobj.commentuserid==userid?"删除":""}</span>
+                                             <span>${eachobj.commentuserid == userid ? "删除" : ""}</span>
                                              <!--<span>举报</span>-->
-                                             <span class="replayson" data-value="${eachobj.id}" style="cursor: pointer" >回复${eachobj.sonreplaycount>0?'('+eachobj.sonreplaycount+')':""}</span>
+                                             <span class="replayson" data-value="${eachobj.id}" style="cursor: pointer" >回复${eachobj.sonreplaycount > 0 ? '(' + eachobj.sonreplaycount + ')' : ""}</span>
 
                                         </div>
                                      </div>
@@ -680,20 +690,26 @@
                                       </div>
                                 </div>
                             <hr>`
-                    $(".replaylist").append(html)
-                })
+                        $(".replaylist").append(html)
+                    })
+                }
 
                 $(".sss").click(function () {
-                    var blogReplay= $(this).parents(".replays").find(".replayson");
-                    var replayfson3= $(this).parents(".replays").find(".replayfson .YYY");
-                    var replayfson4= $(this).parents(".replays").find(".replayfson .ZZZ");
+                    var blogReplay = $(this).parents(".replays").find(".replayson");
+                    var replayfson3 = $(this).parents(".replays").find(".replayfson .YYY");
+                    var replayfson4 = $(this).parents(".replays").find(".replayfson .ZZZ");
                     var blog_id = getQueryString("blog_id")
-                    var blogReplayId=blogReplay.attr("data-value");
-                    var replayUserId=replayfson3.val();
-                    var comment=replayfson4.val();
+                    var blogReplayId = blogReplay.attr("data-value");
+                    var replayUserId = replayfson3.val();
+                    var comment = replayfson4.val();
                     $.ajax({
                         url: "blogReplaySonsave",
-                        data: {"blogReplayId": blogReplayId,"comment":comment,"replayUserId":replayUserId,"blogid":blog_id},
+                        data: {
+                            "blogReplayId": blogReplayId,
+                            "comment": comment,
+                            "replayUserId": replayUserId,
+                            "blogid": blog_id
+                        },
                         dataType: "json",
                         type: "post",
                         success: function (json) {
@@ -707,15 +723,15 @@
                 })
 
                 $(".replayson").click(function () {
-                   var replayfson= $(this).parents(".replays").find(".replayfson");
-                   var replayfson2= $(this).parents(".replays").find(".replayfson .replayfson2");
-                   var replayfson3= $(this).parents(".replays").find(".replayfson .YYY");
-                   var replayfson4= $(this).parents(".replays").find(".replayfson .ZZZ");
-                   var replayfson5= $(this).parents(".replays").find(".WWW");
-                    replayfson4.attr('placeholder',replayfson5.text());
+                    var replayfson = $(this).parents(".replays").find(".replayfson");
+                    var replayfson2 = $(this).parents(".replays").find(".replayfson .replayfson2");
+                    var replayfson3 = $(this).parents(".replays").find(".replayfson .YYY");
+                    var replayfson4 = $(this).parents(".replays").find(".replayfson .ZZZ");
+                    var replayfson5 = $(this).parents(".replays").find(".WWW");
+                    replayfson4.attr('placeholder', replayfson5.text());
                     replayfson3.val(replayfson2.attr("data-value"));
                     replayfson2.empty()
-                    var blogReplayId=$(this).attr("data-value")
+                    var blogReplayId = $(this).attr("data-value")
 
                     // //console.log()
                     $.ajax({
@@ -726,15 +742,15 @@
                         success: function (json) {
                             ////console.log(json)
                             $.each(json.data, function (index, eachobj) {
-                                var  html=`<div class="VVV">
+                                var html = `<div class="VVV">
                                               <img style="width: 20px;height: 20px" src="${eachobj.commentheadimg}" alt="">
                                                <a class="UUU" style="color: #2e2e2e;font-size: 14px" href="perInfor.html?viewUserId=${eachobj.commentuserid}&type=blog">${eachobj.commentnickname}:</a>
                                                <span style="line-height:30px;color: #999;font-size: 14px">${eachobj.time}</span>
-                                               <a  style="${eachobj.commentuserid==eachobj.replayUserId?"display:none":""};color: #2e2e2e;font-size: 14px" href="perInfor.html?viewUserId=${eachobj.replayUserId}&type=blog">${eachobj.replayUsernickname}</a>
+                                               <a  style="${eachobj.commentuserid == eachobj.replayUserId ? "display:none" : ""};color: #2e2e2e;font-size: 14px" href="perInfor.html?viewUserId=${eachobj.replayUserId}&type=blog">${eachobj.replayUsernickname}</a>
                                                   <div style="line-height:30px;float: right;color:#94b7ea">
-                                                     <span>${eachobj.commentuserid==userid?"删除":""}</span>
+                                                     <span>${eachobj.commentuserid == userid ? "删除" : ""}</span>
                                                      <!--<span>举报</span>-->
-                                                     <span style="${eachobj.commentuserid==userid?"display:none":""};cursor: pointer" class="sss2" data-value="${eachobj.commentuserid}">回复</span>
+                                                     <span style="${eachobj.commentuserid == userid ? "display:none" : ""};cursor: pointer" class="sss2" data-value="${eachobj.commentuserid}">回复</span>
                                                    </div>
                                            </div>
                                             <div style="word-wrap:break-word;margin-left: 30px;color: #4d4d4d"> ${eachobj.comment}</div>
@@ -743,7 +759,7 @@
                             })
                             $(".sss2").click(function () {
                                 replayfson3.val($(this).attr("data-value"));
-                                replayfson4.attr('placeholder',$(this).parents(".VVV").find(".UUU").text()+":");
+                                replayfson4.attr('placeholder', $(this).parents(".VVV").find(".UUU").text() + ":");
                             })
 
 
@@ -819,26 +835,25 @@
     // SyntaxHighlighter.highlight()
     // layui.use('layer', function () {
     //     $ = layui.jquery
-        //引用表头
-        window.onscroll = function () {
-            if (document.documentElement.scrollTop > 50) {
-                $("#content_right").css("top", "0px")
-                $(".content_left").css("top", "0px")
-            }
-            if (document.documentElement.scrollTop <= 50) {
-                $("#content_right").css("top", "60px")
-                $(".content_left").css("top", "60px")
-            }
-            var scroH = $(this).scrollTop();
-            if(scroH-600>=navH){
-                $(".yimem_gg").css({"position":"fixed","top":0});
-                $(".yimem_bz").css({"position":"fixed","top":260});
-            }else {
-                $(".yimem_gg").css({"position":"static"});
-                $(".yimem_bz").css({"position":"static"});
-            }
+    //引用表头
+    window.onscroll = function () {
+        if (document.documentElement.scrollTop > 50) {
+            $("#content_right").css("top", "0px")
+            $(".content_left").css("top", "0px")
         }
-
+        if (document.documentElement.scrollTop <= 50) {
+            $("#content_right").css("top", "60px")
+            $(".content_left").css("top", "60px")
+        }
+        var scroH = $(this).scrollTop();
+        if (scroH - 600 >= navH) {
+            $(".yimem_gg").css({"position": "fixed", "top": 0});
+            $(".yimem_bz").css({"position": "fixed", "top": 260});
+        } else {
+            $(".yimem_gg").css({"position": "static"});
+            $(".yimem_bz").css({"position": "static"});
+        }
+    }
 
 
     //获取当前用户
@@ -862,34 +877,34 @@
         return data;
     }
 
-        //页面加载渲染
-        function load() {
-            //页面加载时增加博客的阅读量
-            $.ajax({
-                url: "blog/addReadCount",
-                data: {"id": blog_id},
-                type: "GET",
-                dataType: "json",
-                success: function (json) {
-                    // //////console.log(json)
-                },
-                error: function () {
+    //页面加载渲染
+    function load() {
+        //页面加载时增加博客的阅读量
+        $.ajax({
+            url: "blog/addReadCount",
+            data: {"id": blog_id},
+            type: "GET",
+            dataType: "json",
+            success: function (json) {
+                // //////console.log(json)
+            },
+            error: function () {
 
-                }
-            })
-            //页面加载渲染博文正文
-            $.ajax({
-                url: "/blog/" + blog_id,
-                type: "GET",
-                dataType: "json",
-                success: function (json) {
+            }
+        })
+        //页面加载渲染博文正文
+        $.ajax({
+            url: "/blog/" + blog_id,
+            type: "GET",
+            dataType: "json",
+            success: function (json) {
 
-                    // ////console.log(json)
-                    //////console.log("dadadada")
-                    if (json.success = 200) {
-                        $("#categoryings").text(json.data.category)
-                        $(".content_middle_content").html("")
-                        var html = ` <div class="content_middle_content_title">
+                // ////console.log(json)
+                //////console.log("dadadada")
+                if (json.success = 200) {
+                    $("#categoryings").text(json.data.category)
+                    $(".content_middle_content").html("")
+                    var html = ` <div class="content_middle_content_title">
                 <div class="blog_type">原</div>
                 <div class="title">${json.data.title}</div>
                 <p>
@@ -916,151 +931,151 @@
 
                             <!-- Baidu Button END -->
                             </div> </div>`
-                        document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
-                        $(".content_middle_content").append(html)
+                    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
+                    $(".content_middle_content").append(html)
+                }
+
+                hljs.initHighlightingOnLoad();
+
+                $("pre").mouseover(function (e) {
+                    var _that = $(this);
+                    _that.css("position", "relative");
+                    _that.addClass("activePre");
+                    var copyBtn = _that.find('.copyBtn');
+                    if (!copyBtn || copyBtn.length <= 0) {
+                        var copyBtn = '<span onclick="copyCode()" class="copyBtn" style="position:absolute;top:2px;right:2px;z-index:999;padding:2px;font-size:13px;background-color: white;cursor: pointer;" >复制</span>';
+                        _that.append(copyBtn);
                     }
-
-                    $("pre").mouseover(function (e) {
-                        var _that = $(this);
-                        _that.css("position", "relative");
-                        _that.addClass("activePre");
-                        var copyBtn = _that.find('.copyBtn');
-                        if (!copyBtn || copyBtn.length <= 0) {
-                            var copyBtn = '<span onclick="copyCode()" class="copyBtn" style="position:absolute;top:2px;right:2px;z-index:999;padding:2px;font-size:13px;background-color: white;cursor: pointer;" >复制</span>';
-                            _that.append(copyBtn);
-                        }
-                    }).mouseout(function (e) {
-                        var _that = $(this);
-                        var copyBtn = _that.find('.copyBtn');
-                        var copyBtnHover = _that.find('.copyBtn:hover');
-                        if (copyBtnHover.length == 0) {
-                            copyBtn.remove();
-                            _that.removeClass("activePre");
-                        }
-                    });
+                }).mouseout(function (e) {
+                    var _that = $(this);
+                    var copyBtn = _that.find('.copyBtn');
+                    var copyBtnHover = _that.find('.copyBtn:hover');
+                    if (copyBtnHover.length == 0) {
+                        copyBtn.remove();
+                        _that.removeClass("activePre");
+                    }
+                });
 
 
+            },
+            error: function () {
+
+            }
+        })
+
+
+        function getUserInformation() {
+            //查找是否点赞此博文
+            $.ajax({
+                url: "/queryIsLike",
+                data: {"blogId": blog_id},
+                dataType: "json",
+                type: "get",
+                success: function (json) {
+                    // //////console.log("dadaadaadada")
+                    // //////console.log(json)
+                    if (json.success == 1) {
+
+                        $("#like").find("img").attr("src", "imgs/icons/blog/hand2.png")
+                        $("#like").find(".clike_font").text("取消")
+                        islike = 1
+
+                    }
                 },
                 error: function () {
 
                 }
             })
 
+            //渲染用户收藏夹
+            $.ajax({
+                url: "/queryCollectByUserId",
+                data: {"userId": userid, "blogId": blog_id},
+                type: "get",
+                dataType: "json",
+                success: function (json) {
+                    // //////console.log("用户id为："+userid)
+                    // //////console.log(json)
+                    $.each(json.data, function (index, eachobj) {
+                        if (eachobj.isCollectBlogId != 0) {
+                            var html = `<p style="margin-top: 20px">
+            <div style="display: inline-block; width: 180px">${eachobj.name}</div>
+            <div style="border: 1px #8B8C8C solid;width: 50px;display: inline-block;color:#8B8C8C;cursor: pointer" class="collect_button" collect_id="${eachobj.id}" isCollect="1">已收藏</div>
+            </p>
+            <hr>`
+                        } else {
+                            var html = `<p style="margin-top: 20px">
+            <div style="display: inline-block; width: 180px">${eachobj.name}</div>
+            <div style="border: 1px red solid;width: 50px;display: inline-block;color: red;cursor: pointer" class="collect_button" collect_id="${eachobj.id}" isCollect="0">收藏</div>
+            </p>
+            <hr>`
+                        }
+                        ;
 
+                        $("#collects").append(html)
 
-            function getUserInformation() {
-                        //查找是否点赞此博文
-                        $.ajax({
-                            url: "/queryIsLike",
-                            data: {"blogId": blog_id},
-                            dataType: "json",
-                            type: "get",
-                            success: function (json) {
-                                // //////console.log("dadaadaadada")
-                                // //////console.log(json)
-                                if (json.success == 1) {
-
-                                    $("#like").find("img").attr("src", "imgs/icons/blog/hand2.png")
-                                    $("#like").find(".clike_font").text("取消")
-                                    islike = 1
+                    })
+                    //点击收藏按钮
+                    $(".collect_button").click(function () {
+                        if ($(this).attr("isCollect") == 0) {
+                            var collect_id = $(this).attr("collect_id")
+                            // //////console.log(collect_id)
+                            $.ajax({
+                                url: "/addCollectitems",
+                                data: {"collectId": collect_id, "blogId": blog_id},
+                                dataType: "json",
+                                type: "get",
+                                success: function (json) {
+                                },
+                                error: function () {
 
                                 }
-                            },
-                            error: function () {
+                            })
 
-                            }
-                        })
+                            layer.msg("收藏成功！")
+                            $(this).css("border", "1px #8B8C8C solid")
+                            $(this).css("color", "#8B8C8C")
+                            $(this).text("已收藏")
+                            $(this).attr("isCollect", "1")
+                            window.location.href = "/details.html?blog_id=" + blog_id
 
-                        //渲染用户收藏夹
-                        $.ajax({
-                            url: "/queryCollectByUserId",
-                            data: {"userId": userid, "blogId": blog_id},
-                            type: "get",
-                            dataType: "json",
-                            success: function (json) {
-                                // //////console.log("用户id为："+userid)
-                                // //////console.log(json)
-                                $.each(json.data, function (index, eachobj) {
-                                    if (eachobj.isCollectBlogId != 0) {
-                                        var html = `<p style="margin-top: 20px">
-        <div style="display: inline-block; width: 180px">${eachobj.name}</div>
-        <div style="border: 1px #8B8C8C solid;width: 50px;display: inline-block;color:#8B8C8C;cursor: pointer" class="collect_button" collect_id="${eachobj.id}" isCollect="1">已收藏</div>
-        </p>
-        <hr>`
-                                    } else {
-                                        var html = `<p style="margin-top: 20px">
-        <div style="display: inline-block; width: 180px">${eachobj.name}</div>
-        <div style="border: 1px red solid;width: 50px;display: inline-block;color: red;cursor: pointer" class="collect_button" collect_id="${eachobj.id}" isCollect="0">收藏</div>
-        </p>
-        <hr>`
-                                    };
-
-                                    $("#collects").append(html)
-
-                                })
-                                //点击收藏按钮
-                                $(".collect_button").click(function () {
-                                    if ($(this).attr("isCollect") == 0) {
-                                        var collect_id = $(this).attr("collect_id")
-                                        // //////console.log(collect_id)
-                                        $.ajax({
-                                            url: "/addCollectitems",
-                                            data: {"collectId": collect_id, "blogId": blog_id},
-                                            dataType: "json",
-                                            type: "get",
-                                            success: function (json) {
-                                            },
-                                            error: function () {
-
-                                            }
-                                        })
-
-                                        layer.msg("收藏成功！")
-                                        $(this).css("border", "1px #8B8C8C solid")
-                                        $(this).css("color", "#8B8C8C")
-                                        $(this).text("已收藏")
-                                        $(this).attr("isCollect", "1")
-                                        window.location.href = "/details.html?blog_id=" + blog_id
-
-                                    } else {
-                                        var collect_id = $(this).attr("collect_id")
-                                        //////console.log(collect_id)
-                                        $.ajax({
-                                            url: "/deleteCollectitems",
-                                            data: {"collectId": collect_id, "blogId": blog_id},
-                                            dataType: "json",
-                                            type: "get",
-                                            success: function (json) {
-                                                //////console.log(json)
+                        } else {
+                            var collect_id = $(this).attr("collect_id")
+                            //////console.log(collect_id)
+                            $.ajax({
+                                url: "/deleteCollectitems",
+                                data: {"collectId": collect_id, "blogId": blog_id},
+                                dataType: "json",
+                                type: "get",
+                                success: function (json) {
+                                    //////console.log(json)
 
 
-                                            },
-                                            error: function () {
+                                },
+                                error: function () {
 
-                                            }
-                                        })
-                                        layer.msg("取消收藏成功！")
-                                        $(this).css("border", "1px red solid")
-                                        $(this).css("color", "red")
-                                        $(this).text("收藏")
-                                        $(this).attr("isCollect", "0")
-                                        // layer.msg("您已经收藏过，不用多次收藏")
-                                    }
+                                }
+                            })
+                            layer.msg("取消收藏成功！")
+                            $(this).css("border", "1px red solid")
+                            $(this).css("color", "red")
+                            $(this).text("收藏")
+                            $(this).attr("isCollect", "0")
+                            // layer.msg("您已经收藏过，不用多次收藏")
+                        }
 
-                                })
-                            },
-                            error: function () {
+                    })
+                },
+                error: function () {
 
-                            }
-                        })
-            }
-
-
+                }
+            })
+        }
 
 
-            //获取博文主人信息的方法
-            function blogUserIdReq(data) {
-                var html = `
+        //获取博文主人信息的方法
+        function blogUserIdReq(data) {
+            var html = `
             <div class="aside-box-top">
                 <img class="head_portrait" src="${data.headImg}" userid="${data.userId}" id="img_head" style="cursor: pointer">
                 <span>${data.nickname}</span>
@@ -1102,203 +1117,203 @@
                 </p>
                 <a style="float:left;color: #00A3D9;cursor: pointer;margin-top: 10px" href="blog_home.html?bloguserid=${data.userId}" >TA的个人博客</a>
                 <p style="float: right;color: #00A3D9;cursor: pointer" id="personal_homepage" userid="${data.userId}">TA的个人主页></p>
-            </div>`;
-                $(".aside-box").append(html)
-                $("#personal_homepage").click(function () {
-                    var userid = $(this).attr("userid")
-                    window.location.href = "perInfor.html?viewUserId=" + userid + "&type=blog"
+               </div>`;
+            $(".aside-box").append(html)
+            $("#personal_homepage").click(function () {
+                var userid = $(this).attr("userid")
+                window.location.href = "perInfor.html?viewUserId=" + userid + "&type=blog"
 
-                })
-                $("#img_head").click(function () {
-                    var userid = $(this).attr("userid")
-                    window.location.href = "perInfor.html?viewUserId=" + userid + "&type=blog"
-                })
-                //关注块
-                $("#focus").click(function () {
-                    if (userid != 0) {
-                        // //////console.log(userid)
-                        //如果登陆成功，需要请求ajax访问数据库关注数据表
-                        //首先进行关注状态的判断
+            })
+            $("#img_head").click(function () {
+                var userid = $(this).attr("userid")
+                window.location.href = "perInfor.html?viewUserId=" + userid + "&type=blog"
+            })
+            //关注块
+            $("#focus").click(function () {
+                if (userid != 0) {
+                    // //////console.log(userid)
+                    //如果登陆成功，需要请求ajax访问数据库关注数据表
+                    //首先进行关注状态的判断
+                    //状态为关注
+                    if (focus_status == 0) {
+
+                        //设置为取消关注
+                        $("#focus").css("width", "100px")
+                        $("#focus").text("取消关注")
+                        focus_status = 1;
+                        $.ajax({
+                            url: "addFocus",
+                            data: {"blogUserId": bloguserid},
+                            type: "get",
+                            dataType: "json",
+                            success: function (json) {
+                                //////console.log(json)
+
+                            }, error: function (xhr) {
+
+                            }
+                        })
+
                         //状态为关注
-                        if (focus_status == 0) {
-
-                            //设置为取消关注
-                            $("#focus").css("width", "100px")
-                            $("#focus").text("取消关注")
-                            focus_status = 1;
-                            $.ajax({
-                                url: "addFocus",
-                                data: {"blogUserId": bloguserid},
-                                type: "get",
-                                dataType: "json",
-                                success: function (json) {
-                                    //////console.log(json)
-
-                                }, error: function (xhr) {
-
-                                }
-                            })
-
-                            //状态为关注
-                        } else {
-                            $("#focus").css("width", "50px")
-                            $("#focus").text("关注")
-                            focus_status = 0;
-                            $.ajax({
-                                url: "deleteFocus",
-                                data: {"blogUserId": bloguserid},
-                                type: "get",
-                                dataType: "json",
-                                success: function (json) {
-                                    //////console.log(json)
-                                }, error: function (xhr) {
-
-                                }
-                            })
-                        }
                     } else {
-                        layer.msg("请先登录！")
-                        window.location.href = "/login.html"
+                        $("#focus").css("width", "50px")
+                        $("#focus").text("关注")
+                        focus_status = 0;
+                        $.ajax({
+                            url: "deleteFocus",
+                            data: {"blogUserId": bloguserid},
+                            type: "get",
+                            dataType: "json",
+                            success: function (json) {
+                                //////console.log(json)
+                            }, error: function (xhr) {
+
+                            }
+                        })
                     }
-
-                })
-
-            };
-
-            //通过博文id查找博文用户id，渲染页面，原创，粉丝，喜欢，评论
-            $.ajax({
-                url: "/blog/queryUserIdById",
-                data: {"blogId": blog_id},
-                type: "get",
-                dataType: "json",
-                success: function (json) {
-                    // //////console.log(json.data+"aaaasssss")
-                    bloguserid = json.data
-                    //
-                    $.ajax({
-                        url: "/blog/blog/" + bloguserid,
-                        type: "GET"
-                        , dataType: "json"
-                        , success: function (jsonData) {
-                            // //////console.log("----------")
-                            // //////console.log(jsonData)
-                            // //////console.log("----------")
-                            //渲染博主的信息
-                            blogUserIdReq(jsonData.data)
-
-                            //查找是否点赞此博文
-                            $.ajax({
-                                url: "/queryIsLike",
-                                data: {"blogId": blog_id, "userId": userid},
-                                dataType: "json",
-                                type: "get",
-                                success: function (json) {
-                                    // //////console.log(json)
-                                    if (json.success == 1) {
-
-                                        $("#like").find("img").attr("src", "imgs/icons/blog/hand2.png")
-                                        $("#like").find(".clike_font").text("取消")
-                                        islike = 1
-
-                                    }
-                                },
-                                error: function () {
-
-                                }
-                            })
-
-                            //查找此用户是否关注博文用户
-                            $.ajax({
-                                url: "/queryIsFocus",
-                                data: {"bloguserid": bloguserid},
-                                type: "get",
-                                dataType: "json",
-                                success: function (json) {
-                                    // //////console.log("kkkk________kkkkkkkk+++++++")
-                                    // //////console.log(json)
-                                    // //////console.log("kkkk________kkkkkkkk+++++++")
-                                    if (json.success != 400) {
-                                        if (json.success != 0) {
-                                            $("#focus").css("width", "100px")
-                                            $("#focus").text("取消关注")
-                                            focus_status = 1
-                                        }
-                                    } else {
-                                        $("#focus").css("display", "none")
-                                    }
-
-                                },
-                                error: function () {
-
-                                }
-                            })
-
-
-                        }
-                        , error: function (res) {
-                            //////console.log("ajax提交错误")
-                        }
-                    })
-                    //渲染博主的最新文章
-                    $.ajax({
-                        url: "/blog/queryByUserId",
-                        data: {"userid": bloguserid, "pageNum": 1},
-                        type: "GET"
-                        , dataType: "json"
-                        , success: function (json) {
-                            $(".new_article_content").html("")
-                            $.each(json.data, function (index, eachobj) {
-                                var html = `  <p class="new_article_items" blog_id="${eachobj.id}" style="font-size: 14px;color: #555666;font-family:'Microsoft YaHei' " >${eachobj.title}</p>`
-                                $(".new_article_content").append(html)
-                                if (index == 4) {
-                                    return false
-                                }
-                            })
-                            $(".new_article_items").click(function () {
-                                var blog_id = $(this).attr("blog_id")
-                                window.location.href = "/details.html?blog_id=" + blog_id
-                            })
-
-                        }
-                        , error: function () {
-
-                        }
-                    })
-                    //渲染博主的热门文章
-                    $.ajax({
-                        url: "/blog/queryBlogIdByUserIdAndReadCount",
-                        data: {"userId": bloguserid, "pageNum": 1},
-                        type: "GET"
-                        , dataType: "json"
-                        , success: function (json) {
-                            ////console.log(json)
-                            $(".aside-box2-content").html("")
-                            $.each(json.data, function (index, eachobj) {
-                                var html = `<p class="new_article_items" style="font-size: 14px;color: #555666;font-family:'Microsoft YaHei' " blog_id="${eachobj.id}" >${eachobj.title}</p><p style="color: #999aaa;font-size: 12px;margin-left: 10px;">阅读数：${eachobj.readCount}</p>`
-                                $(".aside-box2-content").append(html)
-                                if (index == 4) {
-                                    return false
-                                }
-                            })
-                            $(".new_article_items").click(function () {
-                                var blog_id = $(this).attr("blog_id")
-                                window.location.href = "/details.html?blog_id=" + blog_id
-                            })
-
-                        }
-                        , error: function () {
-
-                        }
-                    })
-
-                },
-                error: function () {
-
+                } else {
+                    layer.msg("请先登录！")
+                    window.location.href = "/login.html"
                 }
+
             })
 
+        };
 
-        }
+        //通过博文id查找博文用户id，渲染页面，原创，粉丝，喜欢，评论
+        $.ajax({
+            url: "/blog/queryUserIdById",
+            data: {"blogId": blog_id},
+            type: "get",
+            dataType: "json",
+            success: function (json) {
+                // //////console.log(json.data+"aaaasssss")
+                bloguserid = json.data
+                //
+                $.ajax({
+                    url: "/blog/blog/" + bloguserid,
+                    type: "GET"
+                    , dataType: "json"
+                    , success: function (jsonData) {
+                        // //////console.log("----------")
+                        // //////console.log(jsonData)
+                        // //////console.log("----------")
+                        //渲染博主的信息
+                        blogUserIdReq(jsonData.data)
+
+                        //查找是否点赞此博文
+                        $.ajax({
+                            url: "/queryIsLike",
+                            data: {"blogId": blog_id, "userId": userid},
+                            dataType: "json",
+                            type: "get",
+                            success: function (json) {
+                                // //////console.log(json)
+                                if (json.success == 1) {
+
+                                    $("#like").find("img").attr("src", "imgs/icons/blog/hand2.png")
+                                    $("#like").find(".clike_font").text("取消")
+                                    islike = 1
+
+                                }
+                            },
+                            error: function () {
+
+                            }
+                        })
+
+                        //查找此用户是否关注博文用户
+                        $.ajax({
+                            url: "/queryIsFocus",
+                            data: {"bloguserid": bloguserid},
+                            type: "get",
+                            dataType: "json",
+                            success: function (json) {
+                                // //////console.log("kkkk________kkkkkkkk+++++++")
+                                // //////console.log(json)
+                                // //////console.log("kkkk________kkkkkkkk+++++++")
+                                if (json.success != 400) {
+                                    if (json.success != 0) {
+                                        $("#focus").css("width", "100px")
+                                        $("#focus").text("取消关注")
+                                        focus_status = 1
+                                    }
+                                } else {
+                                    $("#focus").css("display", "none")
+                                }
+
+                            },
+                            error: function () {
+
+                            }
+                        })
+
+
+                    }
+                    , error: function (res) {
+                        //////console.log("ajax提交错误")
+                    }
+                })
+                //渲染博主的最新文章
+                $.ajax({
+                    url: "/blog/queryByUserId",
+                    data: {"userid": bloguserid, "pageNum": 1},
+                    type: "GET"
+                    , dataType: "json"
+                    , success: function (json) {
+                        $(".new_article_content").html("")
+                        $.each(json.data, function (index, eachobj) {
+                            var html = `  <p class="new_article_items" blog_id="${eachobj.id}" style="font-size: 14px;color: #555666;font-family:'Microsoft YaHei' " >${eachobj.title}</p>`
+                            $(".new_article_content").append(html)
+                            if (index == 4) {
+                                return false
+                            }
+                        })
+                        $(".new_article_items").click(function () {
+                            var blog_id = $(this).attr("blog_id")
+                            window.location.href = "/details.html?blog_id=" + blog_id
+                        })
+
+                    }
+                    , error: function () {
+
+                    }
+                })
+                //渲染博主的热门文章
+                $.ajax({
+                    url: "/blog/queryBlogIdByUserIdAndReadCount",
+                    data: {"userId": bloguserid, "pageNum": 1},
+                    type: "GET"
+                    , dataType: "json"
+                    , success: function (json) {
+                        ////console.log(json)
+                        $(".aside-box2-content").html("")
+                        $.each(json.data, function (index, eachobj) {
+                            var html = `<p class="new_article_items" style="font-size: 14px;color: #555666;font-family:'Microsoft YaHei' " blog_id="${eachobj.id}" >${eachobj.title}</p><p style="color: #999aaa;font-size: 12px;margin-left: 10px;">阅读数：${eachobj.readCount}</p>`
+                            $(".aside-box2-content").append(html)
+                            if (index == 4) {
+                                return false
+                            }
+                        })
+                        $(".new_article_items").click(function () {
+                            var blog_id = $(this).attr("blog_id")
+                            window.location.href = "/details.html?blog_id=" + blog_id
+                        })
+
+                    }
+                    , error: function () {
+
+                    }
+                })
+
+            },
+            error: function () {
+
+            }
+        })
+
+
+    }
 
 
         //消息
@@ -1474,35 +1489,37 @@
 
         })
 
-    // });
-            function muic(){
-                const playerOption = {// 设置播放器基本参数
-                    container: document.getElementById('aplayer'),
-                    fixed: true,
-                    volume:0.7,
-                    order:'list',
-                    theme:'#988bbc',
-                    listFolded:false,
-                    lrcType:1,
-                    audio: []
-                };
-                $.ajax({
-                    url: "getPlayList",
-                    data: {"listId":2151920273},
-                    dataType: "json",
-                    type: "get",
-                    success: function (json) {
-                        console.log(json);
-                        playerOption.audio=json;
-                        var ap = new APlayer(playerOption)
-                    },
-                    error: function () {
+    // }
 
-                    }
-                })
+    function muic() {
+        const playerOption = {// 设置播放器基本参数
+            container: document.getElementById('aplayer'),
+            fixed: true,
+            volume: 0.7,
+            order: 'list',
+            theme: '#988bbc',
+            listFolded: false,
+            lrcType: 1,
+            audio: []
+        };
+        $.ajax({
+            url: "getPlayList",
+            data: {"listId": 2151920273},
+            dataType: "json",
+            type: "get",
+            success: function (json) {
+                console.log(json);
+                playerOption.audio = json;
+                var ap = new APlayer(playerOption)
+            },
+            error: function () {
+
             }
-            muic()
+        })
+    }
+
+    muic()
 
 </script>
-<script src="assets/autoload.js"></script>
+<!--<script src="assets/autoload.js"></script>-->
 </html>

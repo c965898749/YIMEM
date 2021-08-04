@@ -729,6 +729,7 @@
         //将上传的多个文件放入formData中
 
         var picFileList = document.getElementById("pic").files;
+        console.log(picFileList);
         if ($("#pic").val() == '') {
             layer.msg("上传文件不能为空")
             return false;

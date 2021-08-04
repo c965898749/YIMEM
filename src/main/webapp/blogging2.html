@@ -224,6 +224,10 @@
 </body>
 <script src="layui/layui.all.js"></script>
 <script>
+    var blogId= getQueryString("blogId")
+    $(function () {
+        modifier(blogId)
+    })
     var content=null
     // 返回文章管理
     function wzgl() {
@@ -280,6 +284,15 @@
             location.href = "login.html"
         }
     })
+
+    // 编辑
+    //地址参数获取
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return r[2];
+        return null;
+    }
 
     $(".title input").keyup(function () {
         $(".title span").text($(".title input").val().length)
@@ -470,6 +483,26 @@
 
     editor.create()
 
+    function modifier(){
+        $.ajax({
+            url: "/blog/"+blogId,
+            dataType: "json",
+            type: "get",
+            success: function (json) {
+                // var content=json.data.content
+                // console.log(json)
+                $(".publishForm select").val(json.data.publishForm)
+                $(".category select").val(json.data.category)
+                $(".title input").val(json.data.title)
+                editor.txt.html(json.data.content) // 重新设置编辑器内容
+                // KindEditor.html('#editor_id',json.data.content);
+            },
+            error: function () {
+
+            }
+        })
+
+    }
 
     // 发布文章点击事件
     $("button").click(function () {
