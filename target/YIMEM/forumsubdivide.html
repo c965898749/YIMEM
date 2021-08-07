@@ -1,0 +1,2402 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>论坛</title>
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/css.css"/>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
+    <script type="text/javascript" src="./kindeditor/kindeditor-all.js"></script>
+    <script type="text/javascript" src="./kindeditor/lang/zh-CN.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/download.js"></script>
+    <script src="js/include.js"></script>
+    <link rel="stylesheet" type="text/css" href="jf/style_d5bab2b8_11_common.css?mC8"/>
+    <link rel="stylesheet" type="text/css" href="jf/style_d5bab2b8_11_forum_viewthread.css?mC8"/>
+    <script type="text/javascript" src="syntax/scripts/shCore.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushJava.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushCss.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushPython.js"></script>
+    <script type="text/javascript" src="syntax/scripts/shBrushPhp.js"></script>
+    <link type="text/css" rel="stylesheet" href="syntax/styles/shCoreDefault.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/waifu.min.css?v=1.4.2"/>
+    <script src="assets/jquery.min.js?v=3.3.1"></script>
+    <!-- 实现拖动效果，需引入 JQuery UI -->
+    <script src="assets/jquery-ui.min.js?v=1.12.1"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script src="js/setCookie.js"></script>
+    <style>
+
+        body {
+            background-color: white;
+        }
+
+        #forum_html {
+            border-bottom: 2px red solid;
+        }
+
+        .NAV .NAV-mian-left .top {
+            display: flex;
+            justify-content: space-between;
+            width: 890px;
+            height: 30px;
+            background-color: #E3E6E8;
+            margin-top: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .Faquality:hover .quality {
+            display: block;
+        }
+
+        .quality {
+            display: none;
+        }
+
+        /*.TOP .TOP-nav .Faquality .quality {*/
+        /*padding: 10px;*/
+        /*box-sizing: border-box;*/
+        /*!*margin-top: 5px;*!*/
+        /*}*/
+        /*.MajorBBS{*/
+        /*padding: 10px;*/
+        /*box-sizing: border-box;*/
+        /*}*/
+        .MajorBBS thead th, .MajorBBS tbody td {
+            /*background-color: white;*/
+            /*width: 890px;*/
+            /*height: 20px;*/
+            text-align: center;
+            line-height: 25px;
+        }
+
+        .MajorBBS thead th a {
+            color: #337ABD;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /*.TOP .TOP-nav .Faquality .quality thead th,*/
+        /*.TOP .TOP-nav .Faquality .quality tbody td {*/
+        /*!*margin-top: 10px;*!*/
+        /*width: 160px;*/
+        /*!*height: 20px;*!*/
+        /*text-align: center;*/
+        /*line-height: 25px;*/
+        /*}*/
+
+        /*.TOP .TOP-nav .Faquality .quality tbody td a {*/
+        /*color: #337ABD;*/
+        /*cursor: pointer;*/
+        /*font-size: 12px;*/
+        /*}*/
+
+        /*.TOP .TOP-nav .Faquality .quality tbody td:hover {*/
+        /*color: red;*/
+        /*}*/
+
+        .left-nav {
+            width: 200px;
+            min-height: 800px;
+            border: 2px #E3E6E8 solid;
+            /*background-color: #0C0C0C;*/
+            position: fixed;
+            top: 100px;
+            z-index: 99999;
+            /*overflow: hidden;*/
+        }
+
+        .shousuo {
+            position: fixed;
+            z-index: 9999999;
+            left: 200px;
+            top: 360px;
+        }
+
+        .NAV-upload {
+            background-color: white;
+            width: 960px;
+            margin: 0 auto;
+            min-height: 1000px;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .NAV-upload .textareaContain, #preview {
+            margin-top: 10px;
+            min-height: 500px;
+            width: 920px;
+            /*margin: 0 auto;*/
+            margin-bottom: 20px;
+            background-color: white;
+        }
+
+        #preview {
+            border: #CCCCCC 1px solid;
+        }
+
+        .NAV-upload .textareaContain textarea {
+            width: 100%;
+            height: 500px;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div id="titleContai">
+    <!--<include src="title.html"></include>-->
+</div>
+<div class="shousuo">
+    <input type="button"
+           style="background: url('imgs/icons/blog/_20190815190550.png');background-repeat: no-repeat;width: 20px;height: 100px;border: none"
+           value="">
+</div>
+<div class="left-nav">
+
+    <div id="treemenu" style="font-size: 12px">
+
+    </div>
+
+
+</div>
+<div class="TOP" style="height: 0px">
+</div>
+<div class="NAV">
+    <div class="NAV-mian-left">
+
+
+        <div id="hd" style="background-color: #E4E9EC;margin-top: -10px;width: 900px">
+            <div class="wp">
+                <div id="nv">
+                    <ul>
+                        <li class="a" id="mn_forum"><a href="forum.html" hidefocus="true"
+                                                       title="BBS">论坛首页<span>BBS</span></a>
+                        </li>
+                        <li id="mn_Nae05"><a href="index.html" hidefocus="true" target="_blank">官网首页</a></li>
+                        <li id="mn_N8028"><a href="questions.html" hidefocus="true">帮帮问答</a></li>
+                    </ul>
+                </div>
+                <!--<div id="mu" class="cl">-->
+                <!--</div>-->
+            </div>
+        </div>
+
+
+        <div id="wp" class="wp" style="width: 900px">
+            <style id="diy_style" type="text/css"></style>
+            <!--[diy=diynavtop]-->
+            <div id="diynavtop" class="area"></div><!--[/diy]-->
+            <div id="pt" class="bm cl">
+                <div class="z">
+                </div>
+            </div>
+            <div class="wp">
+                <!--[diy=diy1]-->
+                <div id="diy1" class="area"></div><!--[/diy]-->
+            </div>
+            <div class="boardnav">
+                <div id="ct" class="wp cl">
+                    <div class="mn">
+                        <div id="topandcount" class="bm bml pbn" style="padding: 5px">
+
+                        </div>
+
+
+                        <div class="drag">
+                            <!--[diy=diy4]-->
+                            <div id="diy4" class="area"></div><!--[/diy]-->
+                        </div>
+
+                        <div class="bm bmw">
+                            <div class="bm_h cl">
+                                <h2>推荐主题</h2>
+                            </div>
+                            <div class="bm_c cl">
+                                <div class="cl">
+                                    <ul class="xl xl2 cl">
+                                        <li>
+                                            <a href="#" style="font-weight: bold;" target="_blank">「YIMEM」客服连接地址　　　　</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" style="font-weight: bold;"
+                                               target="_blank">关于最新win10系统部分兼容问题的公告</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" style="color: #2897C5"
+                                               target="_blank">──◆◇╮　一梦官方论坛基础操作教程　◇◆°──</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" style="color: #2897C5" target="_blank">「视频中心」一键上传&amp;一键录制
+                                                教程</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" style="font-weight: bold;color: #EE1B2E" target="_blank">YIMEM更公告</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="pgt" class="bm bw0 pgs cl">
+                            <div id="test1" style="float: right;margin-top: -5px"></div>
+                            <a href="forum.html?type=3" title="发新帖"><img
+                                    src="https://res.gamebbs.qq.com/static/image/common/pn_post.png" alt="发新帖"/></a>
+                        </div>
+                        <ul id="thread_types" class="ttp bm cl">
+                            <li id="ttp_all" class="xw1 a"><a href="forum.php?mod=forumdisplay&amp;fid=37">全部</a></li>
+                            <li><a href="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>
+                            </li>
+                            <li><a href="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>
+                            </li>
+                            <li><a href="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=typeid&amp;typeid=12">游戏分享</a>
+                            </li>
+                            <li><a href="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=typeid&amp;typeid=13">新闻八卦</a>
+                            </li>
+                            <li><a href="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=typeid&amp;typeid=14">影音心情</a>
+                            </li>
+                            <li><a href="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=typeid&amp;typeid=15">心得攻略</a>
+                            </li>
+                            <li><a href="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=typeid&amp;typeid=10">版面活动</a>
+                            </li>
+                        </ul>
+                        <div id="threadlist" class="tl bm bmw">
+                            <div class="th">
+                                <table cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <th colspan="2">
+                                            <div class="tf">
+                                                <span id="atarget" onclick="setatarget(-1)" class="y atarget_1"
+                                                      title="在新窗口中打开帖子">新窗</span>
+                                                筛选:
+                                                <a id="filter_special" href="javascript:;" class="showmenu xi2"
+                                                   onclick="showMenu(this.id)">
+                                                    全部主题</a>
+                                                <a id="filter_dateline" href="javascript:;" class="showmenu xi2"
+                                                   onclick="showMenu(this.id)">
+                                                    全部时间</a>
+                                                </a><span class="pipe">|</span><a
+                                                    href="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=digest&amp;digest=1"
+                                                    class="xi2">精华</a></div>
+                                        </th>
+                                        <td class="by">作者</td>
+                                        <td class="num">回复/查看</td>
+                                        <td class="by">最后发表</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="bm_c" id="forumnew">
+
+
+                                <table summary="forum_37" cellspacing="0" cellpadding="0">
+                                    <tbody id="stickthread_123643">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=123643&amp;extra=page%3D1"
+                                               title="本版置顶主题 - 新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/pin_1.gif"
+                                                     alt="本版置顶"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=123643&amp;extra=page%3D1"
+                                               style="font-weight: bold;" onclick="atarget(this)" class="xst">关于版本更新后选择频道闪退的风哥风妹们请进！</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2017-5-11 15:06</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=123643&amp;extra=page%3D1"
+                                                class="xi2">14</a><em>4274</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E6%88%91%E6%98%AF%E7%8B%AC%E8%A1%8C%E4%BE%A0"
+                                                    c="1">我是独行侠</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=123643&goto=lastpost#lastpost">2020-4-18
+                                                10:55</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="stickthread_180908">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=180908&amp;extra=page%3D1"
+                                               title="本版置顶主题 - 新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/pin_1.gif"
+                                                     alt="本版置顶"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=180908&amp;extra=page%3D1"
+                                               style="font-weight: bold;color: #8F2A90" onclick="atarget(this)"
+                                               class="xst">「测试团」全职业长期招募，期待你的加入！</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-5-29 21:46</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=180908&amp;extra=page%3D1"
+                                                class="xi2">5</a><em>1619</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E5%B0%8F%E4%BA%8C%E3%80%83%E6%9D%A5%E5%A3%B6%E9%85%92"
+                                                    c="1">小二〃来壶酒</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=180908&goto=lastpost#lastpost">2020-3-27
+                                                17:04</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="stickthread_123594">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=123594&amp;extra=page%3D1"
+                                               title="本版置顶主题 - 新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/pin_1.gif"
+                                                     alt="本版置顶"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=123594&amp;extra=page%3D1"
+                                               style="font-weight: bold;color: #EE1B2E" onclick="atarget(this)"
+                                               class="xst">封号申诉专贴</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                            <span class="tps">&nbsp;...<a
+                                                    href="forum.php?mod=viewthread&tid=123594&amp;extra=page%3D1&amp;page=2">2</a><a
+                                                    href="forum.php?mod=viewthread&tid=123594&amp;extra=page%3D1&amp;page=3">3</a><a
+                                                    href="forum.php?mod=viewthread&tid=123594&amp;extra=page%3D1&amp;page=4">4</a><a
+                                                    href="forum.php?mod=viewthread&tid=123594&amp;extra=page%3D1&amp;page=5">5</a><a
+                                                    href="forum.php?mod=viewthread&tid=123594&amp;extra=page%3D1&amp;page=6">6</a>..<a
+                                                    href="forum.php?mod=viewthread&tid=123594&amp;extra=page%3D1&amp;page=12">12</a></span>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2017-5-9 16:00</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=123594&amp;extra=page%3D1"
+                                                class="xi2">232</a><em>15318</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=%E5%95%B8%E6%97%A0%E9%A3%8E"
+                                                     c="1">啸无风</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=123594&goto=lastpost#lastpost">2020-3-17
+                                                22:26</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="stickthread_180876">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=180876&amp;extra=page%3D1"
+                                               title="本版置顶主题 - 新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/pin_1.gif"
+                                                     alt="本版置顶"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=15">心得攻略</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=180876&amp;extra=page%3D1"
+                                               style="font-weight: bold;color: #3C9D40" onclick="atarget(this)"
+                                               class="xst">【】老玩家回归指南</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                            <img src="https://res.gamebbs.qq.com/static/image/common/digest_1.gif"
+                                                 align="absmiddle" alt="digest" title="精华 1"/>
+                                            <span class="tps">&nbsp;...<a
+                                                    href="forum.php?mod=viewthread&tid=180876&amp;extra=page%3D1&amp;page=2">2</a></span>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-3-7 14:28</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=180876&amp;extra=page%3D1"
+                                                class="xi2">37</a><em>92206</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=tx%E5%82%BB%E5%95%8A%E9%80%BC%E5%95%8A"
+                                                    c="1">tx傻啊逼啊</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=180876&goto=lastpost#lastpost">2019-9-25
+                                                22:23</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="stickthread_124171">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=124171&amp;extra=page%3D1"
+                                               title="本版置顶主题 - 新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/pin_1.gif"
+                                                     alt="本版置顶"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=124171&amp;extra=page%3D1"
+                                               style="font-weight: bold;color: #EE1B2E" onclick="atarget(this)"
+                                               class="xst">角斗场封禁申诉专帖</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2017-6-6 13:15</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=124171&amp;extra=page%3D1"
+                                                class="xi2">15</a><em>3172</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E6%8A%BD%E9%A3%8E%E7%BD%90%E5%A4%B4"
+                                                    c="1">抽风罐头</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=124171&goto=lastpost#lastpost">2018-1-3
+                                                11:17</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+
+                                    <tbody id="cc">
+                                    <tr>
+                                        <td class="icn">
+
+                                        </td>
+                                        <th class="common">
+                                            <em>版块主题</em>
+                                        </th>
+                                        <td class="by">
+                                        </td>
+                                        <td class="num"></td>
+                                        <td class="by">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+
+                                    <tbody id="normalthread_184252">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=184252&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=12">游戏分享</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=184252&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">哥我专门过来找茬的</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=5147145" c="1">是也不是</a></cite>
+                                            <em><span>2020-6-21 10:39</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=184252&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>13</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E6%98%AF%E4%B9%9F%E4%B8%8D%E6%98%AF"
+                                                    c="1">是也不是</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=184252&goto=lastpost#lastpost">2020-6-21
+                                                10:39</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_184250">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=184250&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=184250&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">版主看过了，问题很严重</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=10691819"
+                                                   c="1">nilangge2013</a></cite>
+                                            <em><span>2020-6-7 11:09</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=184250&amp;extra=page%3D1"
+                                                class="xi2">3</a><em>149</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E5%B0%8F%E6%89%8D%E9%B8%9F120"
+                                                    c="1">小才鸟120</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=184250&goto=lastpost#lastpost">2020-6-12
+                                                14:46</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_184240">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=184240&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=184240&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">3月12日更新维护公告</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2020-3-13 11:28</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=184240&amp;extra=page%3D1"
+                                                class="xi2">1</a><em>52</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=qin1212"
+                                                     c="1">qin1212</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=184240&goto=lastpost#lastpost">2020-6-8
+                                                10:15</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_121191">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=121191&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=121191&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">疾风成就</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                            <img src="https://res.gamebbs.qq.com/static/image/common/mobile-attach-1.png"
+                                                 alt="手机发帖" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=40111668"
+                                                   c="1">2016112815M77FD</a></cite>
+                                            <em><span>2017-1-1 20:12</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=121191&amp;extra=page%3D1"
+                                                class="xi2">2</a><em>323</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=%E6%B1%89%E7%8E%8B%E7%AE%80"
+                                                     c="1">汉王简</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=121191&goto=lastpost#lastpost">2020-6-4
+                                                10:06</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_180273">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=180273&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=180273&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">秘藏强化保护丝在哪里买</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=23103914"
+                                                   c="1">CF_bz75MFUXcK</a></cite>
+                                            <em><span>2018-1-25 19:49</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=180273&amp;extra=page%3D1"
+                                                class="xi2">2</a><em>541</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=dda8966"
+                                                     c="1">dda8966</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=180273&goto=lastpost#lastpost">2020-6-2
+                                                11:54</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_184242">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=184242&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=184242&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">3月12日版本更新，游戏内活动一览</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2020-3-13 11:29</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=184242&amp;extra=page%3D1"
+                                                class="xi2">2</a><em>270</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E5%86%B7%E6%B0%B4%E5%93%A5%E3%80%82%E3%80%82"
+                                                    c="1">冷水哥。。</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=184242&goto=lastpost#lastpost">2020-5-25
+                                                17:48</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181711">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181711&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181711&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">麻烦问一下，关于测试团招募的。</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=11862056"
+                                                   c="1">ai117080656</a></cite>
+                                            <em><span>2019-11-25 17:53</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181711&amp;extra=page%3D1"
+                                                class="xi2">5</a><em>1646</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=ng050j"
+                                                     c="1">ng050j</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181711&goto=lastpost#lastpost">2020-5-25
+                                                09:52</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181727">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181727&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181727&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">更新版本 能不能把官网客户端也更新了
+                                                网吧每次都要更新...</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=4609607" c="1">尛丶凡</a></cite>
+                                            <em><span>2019-12-25 11:46</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181727&amp;extra=page%3D1"
+                                                class="xi2">3</a><em>1810</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=wwh9648"
+                                                     c="1">wwh9648</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181727&goto=lastpost#lastpost">2020-5-23
+                                                17:07</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_180960">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=180960&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=180960&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">怎么升级呀，不能用药水了！</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=44089972"
+                                                   c="1">撸啊撸OOO</a></cite>
+                                            <em><span>2019-9-22 08:20</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=180960&amp;extra=page%3D1"
+                                                class="xi2">3</a><em>502</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E7%9A%87%E5%90%8E%E5%A4%A7%E9%81%93%E6%96%B0"
+                                                    c="1">皇后大道新</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=180960&goto=lastpost#lastpost">2020-5-20
+                                                17:09</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_180771">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=180771&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=180771&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">郁闷了被坑了</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=20465754" c="1">时尚~达人</a></cite>
+                                            <em><span>2018-6-15 08:31</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=180771&amp;extra=page%3D1"
+                                                class="xi2">3</a><em>1338</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E5%A5%8B%E6%96%97%E5%A5%8B%E6%96%97%E6%90%9C%E7%B4%A2"
+                                                    c="1">奋斗奋斗搜索</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=180771&goto=lastpost#lastpost">2020-5-9
+                                                11:21</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181719">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181719&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181719&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">啥时候出新玩法？</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=11842060" c="1">小小猪角</a></cite>
+                                            <em><span>2019-12-17 13:25</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181719&amp;extra=page%3D1"
+                                                class="xi2">1</a><em>399</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=trrrt433"
+                                                     c="1">trrrt433</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181719&goto=lastpost#lastpost">2020-5-8
+                                                15:25</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_184243">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=184243&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=184243&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">回归礼包只能帐号下的一个角色领取了么？？？</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=6363306"
+                                                   c="1">hanjialin</a></cite>
+                                            <em><span>2020-3-13 23:20</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=184243&amp;extra=page%3D1"
+                                                class="xi2">3</a><em>645</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=2016052303GCtx6" c="1">2016052303GCtx6</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=184243&goto=lastpost#lastpost">2020-3-21
+                                                12:39</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181720">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181720&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181720&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">游戏进不去</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=6360578" c="1">御龙灬真</a></cite>
+                                            <em><span>2019-12-23 11:20</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181720&amp;extra=page%3D1"
+                                                class="xi2">12</a><em>577</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=pkxuziang"
+                                                     c="1">pkxuziang</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181720&goto=lastpost#lastpost">2020-3-14
+                                                14:02</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_184241">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=184241&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=184241&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">3月12日新版本商城更新</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2020-3-13 11:29</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=184241&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>36</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=184241&goto=lastpost#lastpost">2020-3-13
+                                                11:29</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_184239">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=184239&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=184239&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">3月12日游戏内更新内容一览</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2020-3-13 11:28</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=184239&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>48</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=184239&goto=lastpost#lastpost">2020-3-13
+                                                11:28</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_184238">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=184238&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=184238&amp;extra=page%3D1"
+                                               style="font-weight: bold;color: #EE1B2E" onclick="atarget(this)"
+                                               class="xst">违规停封公告（第一批）</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2020-3-13 11:27</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=184238&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>114</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=184238&goto=lastpost#lastpost">2020-3-13
+                                                11:27</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_180936">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=180936&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=180936&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">4年前玩家回归，一脸懵逼状态，回归奖励请教下</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=730296" c="1">　　　　记得￠</a></cite>
+                                            <em><span>2019-7-21 15:45</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=180936&amp;extra=page%3D1"
+                                                class="xi2">9</a><em>2935</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=493447030"
+                                                     c="1">493447030</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=180936&goto=lastpost#lastpost">2020-3-2
+                                                15:09</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181721">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181721&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181721&amp;extra=page%3D1"
+                                               style="font-weight: bold;color: #EE1B2E" onclick="atarget(this)"
+                                               class="xst">闪退问题临时处理公告</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-12-24 08:28</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181721&amp;extra=page%3D1"
+                                                class="xi2">2</a><em>148</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=493447030"
+                                                     c="1">493447030</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181721&goto=lastpost#lastpost">2020-3-2
+                                                15:07</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_180748">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=180748&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=10">版面活动</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=180748&amp;extra=page%3D1"
+                                               style="font-weight: bold;color: #EE5023" onclick="atarget(this)"
+                                               class="xst">【活动】PVP巅峰对决！投出你心目中的冠军吧！</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                            <img src="https://res.gamebbs.qq.com/static/image/common/hot_1.gif"
+                                                 align="absmiddle" alt="heatlevel" title="1 级热门"/>
+                                            <span class="tps">&nbsp;...<a
+                                                    href="forum.php?mod=viewthread&tid=180748&amp;extra=page%3D1&amp;page=2">2</a><a
+                                                    href="forum.php?mod=viewthread&tid=180748&amp;extra=page%3D1&amp;page=3">3</a><a
+                                                    href="forum.php?mod=viewthread&tid=180748&amp;extra=page%3D1&amp;page=4">4</a><a
+                                                    href="forum.php?mod=viewthread&tid=180748&amp;extra=page%3D1&amp;page=5">5</a></span>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=820881" c="1">　文艺小天才ˉ</a></cite>
+                                            <em><span>2018-5-27 11:34</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=180748&amp;extra=page%3D1"
+                                                class="xi2">81</a><em>11216</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E6%9C%AB%E6%97%A5H%E9%99%A8%E8%90%BD"
+                                                    c="1">末日H陨落</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=180748&goto=lastpost#lastpost">2020-3-2
+                                                09:43</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_180928">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=180928&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=15">心得攻略</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=180928&amp;extra=page%3D1"
+                                               style="color: #2B65B7" onclick="atarget(this)" class="xst">【攻略】新职业瑞娜装备选择推荐</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/common/digest_1.gif"
+                                                 align="absmiddle" alt="digest" title="精华 1"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-7-18 10:45</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=180928&amp;extra=page%3D1"
+                                                class="xi2">2</a><em>3419</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=CF_%E9%85%B8%E7%94%9B%E6%A5%9B%E8%BE%A3"
+                                                    c="1">CF_酸甛楛辣</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=180928&goto=lastpost#lastpost">2020-2-14
+                                                08:12</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181728">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181728&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=11">互动交流</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181728&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">请问魔剑帝50级1觉技能还没有吗？</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=263384"
+                                                   c="1">1033283527</a></cite>
+                                            <em><span>2020-1-6 20:59</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181728&amp;extra=page%3D1"
+                                                class="xi2">3</a><em>724</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=2017020116SCCez" c="1">2017020116SCCez</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181728&goto=lastpost#lastpost">2020-2-7
+                                                12:51</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_180959">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=180959&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=180959&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">关于时空术士术印异常的问题</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-9-20 17:23</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=180959&amp;extra=page%3D1"
+                                                class="xi2">2</a><em>602</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=%E5%BE%B7%E4%BA%91%E4%B8%B6"
+                                                     c="1">德云丶</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=180959&goto=lastpost#lastpost">2020-1-21
+                                                12:21</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181731">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181731&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181731&amp;extra=page%3D1"
+                                               style="font-weight: bold;color: #EE1B2E" onclick="atarget(this)"
+                                               class="xst">1月16日版本更新维护公告</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2020-1-16 11:37</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181731&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>223</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181731&goto=lastpost#lastpost">2020-1-16
+                                                11:37</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181730">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181730&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181730&amp;extra=page%3D1"
+                                               style="font-weight: bold;color: #EE1B2E" onclick="atarget(this)"
+                                               class="xst">1月16日版本更新，游戏内活动一览</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2020-1-16 11:36</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181730&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>119</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181730&goto=lastpost#lastpost">2020-1-16
+                                                11:36</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181729">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181729&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181729&amp;extra=page%3D1"
+                                               style="font-weight: bold;color: #EE1B2E" onclick="atarget(this)"
+                                               class="xst">1月16日新版本商城更新</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2020-1-16 11:36</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181729&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>78</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181729&goto=lastpost#lastpost">2020-1-16
+                                                11:36</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181725">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181725&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181725&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">12月23日游戏内更新内容一览</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-12-24 08:31</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181725&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>229</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181725&goto=lastpost#lastpost">2019-12-24
+                                                08:31</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181724">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181724&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181724&amp;extra=page%3D1"
+                                               style="font-weight: bold;color: #EE1B2E" onclick="atarget(this)"
+                                               class="xst">12月23日版本更新，游戏内活动一览</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-12-24 08:30</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181724&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>150</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181724&goto=lastpost#lastpost">2019-12-24
+                                                08:30</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181723">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181723&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181723&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">12月23日版本更新公告</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-12-24 08:30</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181723&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>97</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181723&goto=lastpost#lastpost">2019-12-24
+                                                08:30</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181722">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181722&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181722&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">12月23日新版本商城更新</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-12-24 08:29</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181722&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>76</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181722&goto=lastpost#lastpost">2019-12-24
+                                                08:29</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181710">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181710&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181710&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">11月21日版本更新公告</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-11-22 08:30</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181710&amp;extra=page%3D1"
+                                                class="xi2">1</a><em>307</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=hk6622"
+                                                     c="1">hk6622</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181710&goto=lastpost#lastpost">2019-12-18
+                                                14:19</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181709">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181709&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181709&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">11月21日游戏内更新内容一览</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-11-22 08:30</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181709&amp;extra=page%3D1"
+                                                class="xi2">1</a><em>354</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=dde8866"
+                                                     c="1">dde8866</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181709&goto=lastpost#lastpost">2019-12-17
+                                                14:00</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181718">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181718&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181718&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">违规停封公告（第二批）</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-12-16 08:15</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181718&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>222</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181718&goto=lastpost#lastpost">2019-12-16
+                                                08:15</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181701">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181701&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181701&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">10月31日版本更新，游戏内活动一览</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-10-31 08:18</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181701&amp;extra=page%3D1"
+                                                class="xi2">1</a><em>265</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=akats99"
+                                                     c="1">akats99</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181701&goto=lastpost#lastpost">2019-12-7
+                                                17:07</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181707">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181707&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181707&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">11月21日新版本商城更新</a>
+                                            <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                 alt="attach_img" title="图片附件" align="absmiddle"/>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-11-22 08:29</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181707&amp;extra=page%3D1"
+                                                class="xi2">1</a><em>173</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=wwh9648"
+                                                     c="1">wwh9648</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181707&goto=lastpost#lastpost">2019-12-5
+                                                09:56</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181715">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181715&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181715&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">12月3日游戏内更新内容一览</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-12-4 08:23</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181715&amp;extra=page%3D1"
+                                                class="xi2">1</a><em>285</em></td>
+                                        <td class="by">
+                                            <cite><a href="home.php?mod=space&username=qqssazx"
+                                                     c="1">qqssazx</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181715&goto=lastpost#lastpost">2019-12-4
+                                                18:52</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181717">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181717&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181717&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">12月3日版本更新，游戏内活动一览</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-12-4 08:24</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181717&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>186</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181717&goto=lastpost#lastpost">2019-12-4
+                                                08:24</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181716">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181716&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181716&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">12月3日新版本商城更新</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-12-4 08:23</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181716&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>172</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181716&goto=lastpost#lastpost">2019-12-4
+                                                08:23</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181714">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181714&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181714&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">12月3日版本更新公告</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-12-4 08:22</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181714&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>131</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181714&goto=lastpost#lastpost">2019-12-4
+                                                08:22</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181713">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181713&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181713&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">活动异常公告</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-12-4 08:22</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181713&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>115</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181713&goto=lastpost#lastpost">2019-12-4
+                                                08:22</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody id="normalthread_181712">
+                                    <tr>
+                                        <td class="icn">
+                                            <a href="forum.php?mod=viewthread&amp;tid=181712&amp;extra=page%3D1"
+                                               title="新窗口打开" target="_blank">
+                                                <img src="https://res.gamebbs.qq.com/static/image/common/folder_common.gif"/>
+                                            </a>
+                                        </td>
+                                        <th class="common">
+                                            <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                            <a href="forum.php?mod=viewthread&amp;tid=181712&amp;extra=page%3D1"
+                                               onclick="atarget(this)" class="xst">12月4日临时维护公告</a>
+                                        </th>
+                                        <td class="by">
+                                            <cite>
+                                                <a href="home.php?mod=space&amp;uid=1691760"
+                                                   c="1">　文艺小二货ˉ</a></cite>
+                                            <em><span>2019-12-4 08:21</span></em>
+                                        </td>
+                                        <td class="num"><a
+                                                href="forum.php?mod=viewthread&amp;tid=181712&amp;extra=page%3D1"
+                                                class="xi2">0</a><em>81</em></td>
+                                        <td class="by">
+                                            <cite><a
+                                                    href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E4%BA%8C%E8%B4%A7%CB%89"
+                                                    c="1">　文艺小二货ˉ</a></cite>
+                                            <em><a href="forum.php?mod=redirect&tid=181712&goto=lastpost#lastpost">2019-12-4
+                                                08:21</a></em>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table><!-- end of table "forum_G[fid]" branch 1/3 -->
+
+                            </div>
+                        </div>
+
+                        <div id="filter_special_menu" class="p_pop" style="display:none"
+                             change="location.href='forum.php?mod=forumdisplay&fid=37&filter='+$('filter_special').value">
+                            <ul>
+                                <li><a href="forum.php?mod=forumdisplay&amp;fid=37">全部主题</a></li>
+                                <li>
+                                    <a href="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=specialtype&amp;specialtype=poll">投票</a>
+                                </li>
+                                <li>
+                                    <a href="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=specialtype&amp;specialtype=reward">悬赏</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="filter_reward_menu" class="p_pop" style="display:none"
+                             change="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=specialtype&amp;specialtype=reward&amp;rewardtype='+$('filter_reward').value">
+                            <ul>
+                                <li>
+                                    <a href="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=specialtype&amp;specialtype=reward">全部悬赏</a>
+                                </li>
+                                <li>
+                                    <a href="forum.php?mod=forumdisplay&amp;fid=37&amp;filter=specialtype&amp;specialtype=reward&amp;rewardtype=1">进行中</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="filter_dateline_menu" class="p_pop" style="display:none">
+                            <ul>
+                                <li>
+                                    <a href="forum.php?mod=forumdisplay&amp;fid=37&amp;orderby=lastpost&amp;filter=dateline">全部时间</a>
+                                </li>
+                                <li>
+                                    <a href="forum.php?mod=forumdisplay&amp;fid=37&amp;orderby=lastpost&amp;filter=dateline&amp;dateline=86400">一天</a>
+                                </li>
+                                <li>
+                                    <a href="forum.php?mod=forumdisplay&amp;fid=37&amp;orderby=lastpost&amp;filter=dateline&amp;dateline=172800">两天</a>
+                                </li>
+                                <li>
+                                    <a href="forum.php?mod=forumdisplay&amp;fid=37&amp;orderby=lastpost&amp;filter=dateline&amp;dateline=604800">一周</a>
+                                </li>
+                                <li>
+                                    <a href="forum.php?mod=forumdisplay&amp;fid=37&amp;orderby=lastpost&amp;filter=dateline&amp;dateline=2592000">一个月</a>
+                                </li>
+                                <li>
+                                    <a href="forum.php?mod=forumdisplay&amp;fid=37&amp;orderby=lastpost&amp;filter=dateline&amp;dateline=7948800">三个月</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bm bw0 pgs cl">
+                            <div id="test2" style="float: right;margin-top: -5px"></div>
+                            <a href="forum.html?type=3" title="发新帖"><img
+                                    src="https://res.gamebbs.qq.com/static/image/common/pn_post.png" alt="发新帖"/></a>
+                        </div><!--[diy=diyfastposttop]-->
+                        <div id="diyfastposttop" class="area"></div><!--[/diy]-->
+                        <div id="f_pst" class="bm">
+                            <div class="bm_h">
+                                <h2>快速发帖</h2>
+                            </div>
+                            <div class="bm_c">
+                                <div id="fastpostreturn" style="margin:-5px 0 5px"></div>
+
+                                <div class="pbt cl">
+                                    <div class="ftid">
+                                        <select name="typeid" id="typeid_fast" width="80">
+                                            <option value="0" selected="selected">选择主题分类</option>
+                                            <option value="11">互动交流</option>
+                                            <option value="12">游戏分享</option>
+                                            <option value="13">新闻八卦</option>
+                                            <option value="14">影音心情</option>
+                                            <option value="15">心得攻略</option>
+                                            <option value="10">版面活动</option>
+                                        </select>
+                                    </div>
+                                    <input type="text" id="subject" name="subject" class="px" value=""
+                                           onkeyup="strLenCalc(this, 'checklen', 80);" tabindex="11"
+                                           style="width: 25em"/>
+                                    <span>还可输入 <strong id="checklen">80</strong> 个字符</span>
+                                </div>
+
+                                <div class="cl">
+                                    <div id="fastsmiliesdiv" class="y">
+                                        <div id="fastsmiliesdiv_data">
+                                            <div id="fastsmilies"></div>
+                                        </div>
+                                    </div>
+                                    <div class="hasfsl" id="fastposteditor">
+                                        <div class="tedt">
+
+                                            <div class="textareaContain">
+
+                                                <textarea id="editor_id" name="content"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mtm sec">
+                                        <input name="sechash" type="hidden" value="SCXpzlP0"/>
+
+                                        验证码 <span id="seccodeSCXpzlP0" onclick="showMenu(this.id)"><input
+                                            name="seccodeverify" id="seccodeverify_SCXpzlP0" type="text"
+                                            autocomplete="off" style="ime-mode:disabled;width:100px"
+                                            class="txt px vm" onblur="checksec('code', 'SCXpzlP0')" tabindex="1"/>
+<a href="javascript:;" onclick="updateseccode('SCXpzlP0');doane(event);" class="xi2">换一个</a>
+<span id="checkseccodeverify_SCXpzlP0"><img src="https://res.gamebbs.qq.com/static/image/common/none.gif" width="16"
+                                            height="16" class="vm"/></span>
+</span>
+                                        <div id="seccodeSCXpzlP0_menu" class="p_pop p_opt" style="display:none">
+                                            <span id="seccode_SCXpzlP0"></span>
+                                        </div>
+
+                                    </div>
+
+                                    <input type="hidden" name="formhash" value="22347d62"/>
+                                    <input type="hidden" name="usesig" value=""/>
+                                </div>
+
+
+                                <p class="ptm pnpost">
+                                    <button type="submit" name="topicsubmit" id="fastpostsubmit" value="topicsubmit"
+                                            tabindex="13" class="pn pnc"><strong>发表帖子</strong></button>
+                                    <label class="lb"/>
+                                </p>
+                            </div>
+                        </div>
+                        <!--[diy=diyforumdisplaybottom]-->
+                        <div id="diyforumdisplaybottom" class="area"></div><!--[/diy]-->
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="wp mtn">
+                <!--[diy=diy3]-->
+                <div id="diy3" class="area"></div><!--[/diy]-->
+            </div>
+        </div>
+        <div id="ft" class="wp cl" style="width: 900px">
+            <div id="flk" class="y">
+                <p class="xs0">
+                    GMT+8, 2020-6-21 22:02<span id="debuginfo">
+, Processed in 1.138198 second(s), 24 queries
+.
+</span>
+                </p>
+            </div>
+            <div id="frt">
+                <p>Powered by <strong><a href="http://www.discuz.net" target="_blank">YIMEM!</a></strong> <em>一梦</em>
+                </p>
+                <p class="xs0">&copy; 2020-∞ <a href="http://www.comsenz.com" target="_blank"></a></p>
+            </div>
+        </div>
+
+        <div id="g_upmine_menu" class="tip tip_3" style="display:none;">
+            <div class="tip_c">
+                积分 0, 距离下一级还需 积分
+            </div>
+            <div class="tip_horn"></div>
+        </div>
+        <span id="scrolltop" onclick="window.scrollTo('0','0')">回顶部</span>
+        <div id="discuz_tips" style="display:none;"></div>
+        <script type="text/javascript">
+            var discuzSId = '22481692';
+            var discuzVersion = 'X2.5';
+            var discuzRelease = '20151208';
+            var discuzApi = '0.6';
+            var discuzIsFounder = '';
+            var discuzFixbug = '25160122';
+            var discuzAdminId = '0';
+            var discuzOpenId = '';
+            var discuzUid = '0';
+            var discuzGroupId = '7';
+            var ts = '1592800969';
+            var sig = 'eced54342c3d223617173e9a223eebea';
+            var discuzTipsCVersion = '2';
+        </script>
+
+
+    </div>
+
+    <div class="NAV-mian-right">
+        <div class="ad">
+            <img src="imgs/ad/blog/cd18.png"/>
+        </div>
+        <div class="upload" id="uploadIndex">
+
+        </div>
+        <div>
+            <img src="imgs/btn/blog/_20190815192045.png" alt="">
+        </div>
+        <div class="recommend">
+            <div class="top" style="display: flex;justify-content : space-between;">
+                <div class="left">
+                    <span style="font-size: 16px;">精品推荐</span>
+                </div>
+                <div class="right">
+								<span style="color: #888;font-size: 14px;">
+								更多
+							     </span>
+                </div>
+            </div>
+            <div class="list">
+                <div class="title">
+                    机器学习极简入门课
+                </div>
+                <div class="author" style="border-bottom: 1px #E6E6E6 solid;height: 30px;margin-top: 10px;">
+							<span style="color: #888;font-size: 14px;">
+									作者/分享人：李烨 · 微软高级软件工程师
+							     </span>
+                </div>
+            </div>
+            <div class="list">
+                <div class="title">
+                    机器学习极简入门课
+                </div>
+                <div class="author" style="border-bottom: 1px #E6E6E6 solid;height: 30px;margin-top: 10px;">
+							<span style="color: #888;font-size: 14px;">
+									作者/分享人：李烨 · 微软高级软件工程师
+							     </span>
+                </div>
+            </div>
+            <div class="list">
+                <div class="title">
+                    机器学习极简入门课
+                </div>
+                <div class="author" style="border-bottom: 1px #E6E6E6 solid;height: 30px;margin-top: 10px;">
+							<span style="color: #888;font-size: 14px;">
+									作者/分享人：李烨 · 微软高级软件工程师
+							     </span>
+                </div>
+            </div>
+        </div>
+        <div class="weichat">
+            <div class="yimem_gg">
+                <img src="imgs/ad/blog/cd17.png">
+            </div>
+            <!--<img src="imgs/introduce/csdn.png">-->
+            <div class="yimem_bz" style="background-color: white;margin-top: 10px;">
+                <div style="width:300px;margin:0 auto">
+                    <img src="imgs/gz/gz.jpg" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
+                         alt="">
+                    <img src="imgs/gz/eduwxfix.png" style="margin-top: 5px;margin-left: 30px;height: 100px;width: 100px"
+                         alt="">
+                </div>
+                <div style="padding-bottom: 5px;margin: 0 auto;width: 250px ;border-bottom: 1px #E0E0E0 solid"><span
+                        style="color:#8B8B8B;margin-left: 15px">YIMEM公众号</span><span
+                        style="color:#8B8B8B;margin-left: 60px">IT学院</span></div>
+                <div style="padding-top: 5px;margin: 0 auto;width: 250px"><span
+                        style="color:#3D3D3D;font-weight: bold;margin-left: 20px">关于我们</span>
+                    <span
+                            style="color:#3D3D3D;margin-left: 20px">网站地图</span><span
+                            style="color:#3D3D3D;margin-left: 20px">广告服务</span></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height: 53px"></div>
+<div class="flooter">
+    <div style="width:300px;margin:0 auto; padding:20px 0;">
+        <img src="imgs/jh/jh.png" style="margin-left: 30px;margin-top: -15px" alt=""> <a target="_blank"
+                                                                                         href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32061202001097"
+                                                                                         style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
+            src="" style="float:left;"/>
+        <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
+            32061202001097号</p></a>
+    </div>
+</div>
+</body>
+
+<script src="layui/layui.all.js"></script>
+<script type="text/javascript" id="bdshare_js" data="type=tools"></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script>
+    // 树状
+    var type = 0;
+    var content = null;
+    var user = getUser();
+    var userid = 0;
+    if (user) {
+        userid = user.userId
+    }
+    var page = 1;
+    var pageSize = 25;
+    var id = 'id';
+    var pid = 'pid';
+    var categoryid2 = getQueryString(id);
+    var categoryid = getQueryString(pid);
+    var invitation = null;
+    var url = null;
+    $("#titleContai").load("title.html")
+    $(function () {
+        $("#userinfo").hide()
+        renderAllinvitation()
+        $("#allupload").css("background-color", "red")
+        $("#allupload").css("color", "white")
+        $("#allupload").siblings().css("background-color", "")
+        $("#allupload").siblings().css("color", "black")
+        $(".myintegrals").hide()
+        ajaxGetCategory()
+        fenlei(categoryid, categoryid2)
+    })
+
+    //获取当前用户
+    function getUser() {
+        var data;
+        $.ajax({
+            url: "isEnter"
+            , type: "get"
+            , dataType: "json"
+            , async: false
+            , success: function (jsonData) {
+                //////////////////////console.log(jsonData)
+                if (jsonData.success == 1) {
+                    data = jsonData.data;
+                }
+            }
+            , error: function (res) {
+                //////////////////////console.log("ajax提交错误")
+            }
+        })
+        return data;
+    }
+
+
+    var tree;
+    layui.use('tree', function () {
+        tree = layui.tree;
+    });
+
+    // ajax获取资源方法
+    function ajaxGetCategory() {
+        $.ajax({
+            url: "findAllforumCategory",
+            type: "get",
+            dataType: "json",
+            success: function (jsonData) {
+                ////////console.log(jsonData)
+                Category = jsonData.data;
+                insetCategory(Category);
+            }
+        })
+
+    }
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return r[2];
+        return null;
+    }
+
+    function insetCategory(Category) {
+        // var data=[{title:"总大类",children:Category}];
+        var data = Category;
+        var inst1 = tree.render({
+            elem: '#treemenu'  //绑定元素
+            , data: data
+            , click: function (obj) {
+                ////////////console.log(obj.data); //得到当前点击的节点数据
+                ////////////console.log(obj.state); //得到当前节点的展开状态：open、close、normal
+                ////////////console.log(obj.elem); //得到当前节点元素
+                ////////////console.log(obj.data.children); //当前节点下是否有子节点
+                location.href = "forumsubdivide.html?id=" + obj.data.id + "&pid=" + obj.data.pid;
+            }
+        });
+    }
+
+
+    // 编辑器
+
+    KindEditor.ready(function (K) {
+        window.editor = K.create('#editor_id', {
+            items: [
+                "redo", "|", "undo", "|", "bold", "|", "italic", "|", "strikethrough", "|", "insertorderedlist", "|",
+                "insertunorderedlist", "|", "code", "|", "formatblock", "|", "table", "|", "link", "|", "unlink", "|",
+                "image", "|", "fontname", "|", "fontsize", "|", "insertfile"
+            ], width: '100%',
+            uploadJson: 'imgUpload',
+            fileMangerJson: './kindeditor/jsp/file_manager_json.jsp',
+            allowUpload: true,
+            afterUpload: function (url) {
+                // ////////////console.log(url)   //上传图片的路径
+            }
+        });
+
+        $("#fastpostsubmit").click(function () {
+            if (userid == 0) {
+                layer.open({
+                    content: '你还未登录'
+                    , btn: ['登录', '退出']
+                    , yes: function (index, layero) {
+                        //按钮【按钮一】的回调
+                        location.href = "login.html";
+                        layer.close(index);
+                    }
+                    , btn2: function (index, layero) {
+                        layer.close(index);
+                    }
+                });
+                return false;
+            }
+            title = $("#subject").val()
+            content = editor.html();
+            if (title == "") {
+                layer.msg("标题不能为空")
+                return false
+            }
+            if (content == "") {
+                layer.msg("内容不能为空")
+                return false
+            }
+            //////console.log(content)
+            $.ajax({
+                url: "saveInvitation",
+                data: {
+                    "title": title,
+                    "categoryid": categoryid,
+                    "categoryid2": categoryid2,
+                    "content": content
+
+                },
+                type: "POST",
+                dataType: "json",
+                success: function (jsonData) {
+
+                    var realFlag = jsonData.success;
+
+                    layer.msg(realFlag == 200 ? "发帖成功" : "发帖失败");
+                    if (realFlag == 200) {
+                        renderAllinvitation()
+                        // setTimeout(function () {
+                        //     location.href = "forumsubdivide.html?id=" + categoryid2 + "&pid=" + categoryid;
+                        // }, 1 * 800)
+                    }
+
+                },
+                error: function (xhr) {
+
+                }
+
+            })
+
+
+        })
+
+    });
+
+
+    // 渲染页面
+    function gettitle(id) {
+        var data;
+        $.ajax({
+            url: "findforumCategoryByid",
+            type: "get",
+            data: {"id": id},
+            dataType: "json",
+            async: false,
+            success: function (jsonData) {
+                data = jsonData.data;
+
+            }
+        })
+        return data;
+    }
+
+    function fenlei(categoryid, categoryid2) {
+        console.log(categoryid + "___" + categoryid2)
+        var html = ` <a href="index.html" class="nvhm" title="首页">YIMEM</a><em>&raquo;</em><a href="forum.html">论坛首页</a> <em>&rsaquo;</em>
+                    <a href="forumsubdivide.html?id=${categoryid}&pid=0">` + gettitle(categoryid).title + `论坛</a> <em>&rsaquo;</em> <a
+                        href="forumsubdivide.html?id=${categoryid}&pid=${categoryid2}"><font color=red>` + gettitle(categoryid2).title + `区块</font></a>
+                    <em>&rsaquo;</em>`;
+        $(".z").append(html)
+    }
+
+    layui.use('layer', function () {
+        layer = layui.layer;
+    });
+
+    //分页
+    function loadLayui(count) {
+        layui.use('laypage', function () {
+            var laypage = layui.laypage;
+
+            //执行一个laypage实例
+
+            laypage.render({
+                elem: 'test2' //注意，这里的 test1 是 ID，不用加 # 号
+                , count: count //数据总数，从服务端得到
+                , limit: pageSize
+                , curr: page
+                , theme: "#F3925A"
+                , jump: function (obj, first) {
+                    //obj包含了当前分页的所有参数，比如：
+                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    console.log(obj.limit);
+                    //首次不执行
+                    if (!first) {
+
+                        //把分页值，和分页量（分页量可能会变化）
+                        page = obj.curr;
+                        pageSize = obj.limit;
+
+                        renderAllinvitation()
+                    }
+                }
+            });
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+                , count: count //数据总数，从服务端得到
+                , limit: pageSize
+                , curr: page
+                , theme: "#F3925A"
+                , jump: function (obj, first) {
+                    //obj包含了当前分页的所有参数，比如：
+                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    console.log(obj.limit);
+                    //首次不执行
+                    if (!first) {
+
+                        //把分页值，和分页量（分页量可能会变化）
+                        page = obj.curr;
+                        pageSize = obj.limit;
+                        renderAllinvitation()
+
+
+                    }
+                }
+            });
+
+
+        });
+    }
+
+    function renderAllinvitation() {
+        $.ajax({
+            url: "findAllInvitations",
+            data: {"page": page, "pageSize": pageSize, "categoryid": categoryid, "categoryid2": categoryid2},
+            dataType: "json",
+            type: "GET",
+            success: function (json) {
+                console.log(json)
+                loadLayui(json.count)
+                $("#topandcount").html("")
+                $("#forumnew").html("")
+                var hmtl = `<img src="https://imgsa.baidu.com/forum/pic/item/b48f8c5494eef01ffb20eab1eefe9925bc317d8a.jpg"
+                                 style="width: 880px;height: 180px" alt="贝恩自由港（讨论）"/>
+                            <div class="bm_h cl">
+                            <span class="y">
+                            <a href="home.php?mod=spacecp&amp;ac=favorite&amp;type=forum&amp;id=37&amp;handlekey=favoriteforum"
+                               id="a_favorite" class="fa_fav"
+                               onclick="showWindow(this.id, this.href, 'get', 0);">收藏本版</a>
+                            <span class="pipe">|</span><a href="forum.php?mod=rss&amp;fid=37&amp;auth=0" class="fa_rss"
+                                                          target="_blank" title="RSS">订阅</a>
+                            </span>
+                                <h1 class="xs2">
+                                    <a>${gettitle(categoryid2).title}（讨论）</a>
+                                    <span class="xs1 xw0 i">今日: <strong class="xi1">0</strong><span
+                                            class="pipe">|</span>主题: <strong class="xi1">${json.count}</strong></span></h1>
+                            </div>
+                            <div class="bm_c cl pbn">
+                                <div>版主: <span class="xi2"><a
+                                        href="home.php?mod=space&username=%E3%80%80%E6%96%87%E8%89%BA%E5%B0%8F%E5%A4%A9%E6%89%8D%CB%89"
+                                        class="notabs" c="1">　文艺小天才ˉ</a>, <a
+                                        href="home.php?mod=space&username=%E9%99%8C%E5%B7%B2%E6%88%90%E6%AD%8C"
+                                        class="notabs" c="1">陌已成歌</a>, <a
+                                        href="home.php?mod=space&username=%E5%B0%8F%E7%89%99%E3%80%80%E3%80%80%D0%9F%C2%B0"
+                                        class="notabs" c="1">小牙　　П°</a>, <a
+                                        href="home.php?mod=space&username=%E7%96%BE%E9%A3%8EKF%E3%80%81%E5%B0%8F%E6%A5%A0"
+                                        class="notabs" c="1">疾风KF、小楠</a>, <a href="home.php?mod=space&username=z147zxc"
+                                                                             class="notabs" c="1">z147zxc</a>, <a
+                                        href="home.php?mod=space&username=%E6%A2%A6%E5%BD%B1%E9%9B%BE%E4%B9%8B%E8%8A%B1"
+                                        class="notabs" c="1">梦影雾之花</a>, <a
+                                        href="home.php?mod=space&username=%E5%B0%8F%E5%8E%A8%E6%88%BF" class="notabs"
+                                        c="1">小厨房</a></span></div>
+                            </div>`;
+                $.each(json.data, function (index, v) {
+                    var htmnl2 = `<tbody id="stickthread_123594">
+                                        <tr>
+                                            <td class="icn">
+                                                <a href="forum.php?mod=viewthread&amp;tid=123594&amp;extra=page%3D1"
+                                                   title="本版置顶主题 - 新窗口打开" target="_blank">
+                                                    <img src="https://res.gamebbs.qq.com/static/image/common/pin_1.gif"
+                                                         alt="本版置顶"/>
+                                                </a>
+                                            </td>
+                                            <th class="common" style="width: 550px;">
+                                                <em>[<a href="forum.php?mod=forumdisplay&fid=37&amp;filter=typeid&amp;typeid=9">版面公告</a>]</em>
+                                                <a href="invitation_Details.html?invitationId=${v.id}"
+                                                   style="font-weight: bold;color: #EE1B2E"
+                                                   class="xst">${v.title}</a>
+                                                <img src="https://res.gamebbs.qq.com/static/image/filetype/image_s.gif"
+                                                     alt="attach_img" title="图片附件" align="absmiddle"/>
+                                                <span class="tps">&nbsp;...<a
+                                                        href="forum.php?mod=viewthread&tid=123594&amp;extra=page%3D1&amp;page=2">2</a><a
+                                                        href="forum.php?mod=viewthread&tid=123594&amp;extra=page%3D1&amp;page=3">3</a><a
+                                                        href="forum.php?mod=viewthread&tid=123594&amp;extra=page%3D1&amp;page=4">4</a><a
+                                                        href="forum.php?mod=viewthread&tid=123594&amp;extra=page%3D1&amp;page=5">5</a><a
+                                                        href="forum.php?mod=viewthread&tid=123594&amp;extra=page%3D1&amp;page=6">6</a>..<a
+                                                        href="forum.php?mod=viewthread&tid=123594&amp;extra=page%3D1&amp;page=12">12</a></span>
+                                            </th>
+                                            <td class="by" style="width: 160px">
+                                                <cite>
+                                                    <a href="home.php?mod=space&amp;uid=1691760"
+                                                       c="1">${v.user.username}</a></cite>
+                                                <em><span>${v.createtime}</span></em>
+                                            </td>
+                                            <td class="num"><a
+                                                    href="forum.php?mod=viewthread&amp;tid=123594&amp;extra=page%3D1"
+                                                    class="xi2">${v.replaycount}</a><em>${v.readCount}</em></td>
+                                            <td class="by">
+                                                <cite><a href="home.php?mod=space&username=%E5%95%B8%E6%97%A0%E9%A3%8E"
+                                                         c="1">啸无风</a></cite>
+                                                <em><a href="forum.php?mod=redirect&tid=123594&goto=lastpost#lastpost">2020-3-17
+                                                    22:26</a></em>
+                                            </td>
+                                        </tr>
+                                        </tbody>`;
+                    $("#forumnew").append(htmnl2)
+
+                })
+                $("#topandcount").append(hmtl)
+
+            },
+            error: function () {
+
+            }
+
+        })
+    }
+</script>
+<script src="assets/autoload.js"></script>
+</html>

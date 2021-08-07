@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.PowerMapper">
+    <select id="getPowerByUserId" resultType="com.sy.model.Power">
+        SELECT upload_access_level as uploadAccessAlevel  from power where userid=#{userId}
+    </select>
+</mapper>

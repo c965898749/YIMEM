@@ -1,0 +1,446 @@
+
+.bodyz {
+    width: 1400px;
+    height: 1200px;
+    /*border: 1px solid black;*/
+    background-color: #FFFFFF;
+    padding: 10px;
+    margin: 0 auto;
+    /*background: url("../img/xiangqing/videoDetileBg4.png") no-repeat;*/
+    /*background-size: 148% 105%;*/
+}
+
+.left {
+    width: 880px;
+    height: 700px;
+    /*border: 1px solid red;*/
+    display: inline;
+    float: left;
+}
+
+.title {
+    width: 880px;
+    height: 140px;
+    /*border: 1px solid black;*/
+}
+
+.classify {
+    width: 880px;
+    height: 36px;
+    /*border: 1px solid orange;*/
+    color: darkgrey;
+    font-size: 15px;
+    text-align: left;
+    line-height: 36px;
+}
+
+.bigtitle {
+    width: 880px;
+    height: 60px;
+    /*border: 1px solid green;*/
+    font-size: 29px;
+    text-align: left;
+    line-height: 60px;
+}
+
+.smallTitle {
+    width: 880px;
+    height: 36px;
+    /*border: 1px solid orange;*/
+    color: darkgrey;
+    font-size: 15px;
+    text-align: left;
+    line-height: 36px;
+}
+
+.video {
+    width: 880px;
+    height: 550px;
+    /*border: 1px solid rebeccapurple;*/
+    display: block;
+    border-top: 1px solid #e5e9ef;
+    border-bottom: 1px solid #e5e9ef;
+    background-color: #f6f9fa
+}
+
+#Dplayer {
+
+    background-size: 100% 100%;
+
+}
+
+.smallkuang {
+    display: inline;
+    /*float: right;*/
+    /*text-align: center;*/
+    margin-top: 10px;
+    /*margin-top: 5px;*/
+    margin-bottom: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.smallkuang2 {
+    margin-left: 20px;
+}
+
+.jianjie {
+    width: 880px;
+    height: 143px;
+    /*line-height: 50px;*/
+    color: gray;
+}
+
+.talkNum {
+    width: 880px;
+    height: 50px;
+    text-align: left;
+    line-height: 50px;
+    font-weight: bolder;
+    font-family: initial;
+}
+.smallkuang2 span{
+    margin-top: 10px;
+}
+
+.ImTalk {
+    width: 880px;
+    height: 142px;
+    text-align: center;
+}
+.commInfo {
+    display: block;
+}
+
+.icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50% 50%;
+    border: 1px solid deepskyblue;
+    /*margin-top: 30px;*/
+    text-align: center;
+    line-height: 115px;
+    display: inline;
+    float: left;
+    margin-left: 20px;
+}
+
+.talkMess {
+    width: 596px;
+    height: 100px;
+    border: 1px solid transparent;
+    display: inline;
+    float: left;
+    margin-left: 20px;
+    margin-top: 19px;
+    text-align: left;
+}
+.talkMess:hover{
+
+    border: 1px solid deepskyblue;
+}
+.layui-textarea:hover{
+    background-color: #F4F5F7;
+}
+
+.button {
+    width: 145px;
+    height: 50px;
+    /*border: 1px solid red;*/
+    display: inline;
+    float: left;
+    margin-top: 29px;
+}
+
+.otherTalk {
+    width: 880px;
+    height: 880px;
+    /*border: 1px solid red;*/
+    margin-top: 28px;
+}
+
+.otherKuang {
+    width: 988px;
+    display: inline;
+    float: left;
+    margin-top: 20px;
+}
+
+.talkMess2 {
+    width: 596px;
+    height: 63px;
+    display: inline;
+    /*float: left;*/
+    margin-left: 10px;
+    /*margin-top: 35px;*/
+    text-align: left;
+}
+
+.talkTime {
+    width: 229px;
+    height: 30px;
+    margin-top: 76px;
+    margin-left: 560px;
+    line-height: 35px;
+}
+
+.layui-icon-praise{
+    vertical-align: middle;
+}
+.commLike {
+    width: 88px;
+    height: 26px;
+    margin-left: 154px;
+    margin-top: 0px;
+    display: inline;
+    /*float: left;*/
+}
+
+.reply {
+    width: 88px;
+    height: 26px;
+    /*border: 1px solid orange;*/
+    margin-left: 60px;
+    display: inline;
+    float: left;
+}
+
+.right {
+    width: 295px;
+    height: 1200px;
+    /*border: 1px solid blue;*/
+    display: inline;
+    float: right;
+}
+
+.Im {
+    width: 294px;
+    height: 133px;
+    /*border: 1px solid black;*/
+    /*background-image: url(../img/xiangqing/nameplate_new.png);*/
+    background-repeat: round;
+}
+
+.name {
+    width: 200px;
+    height: 56px;
+    display: inline;
+    float: left;
+    text-align: left;
+    line-height: 26px;
+    /*margin-top: 40px;*/
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: bolder;
+    color: #00A1D6;
+}
+.layui-tab-brief > .layui-tab-title .layui-this {
+    color: #00A1D6;
+}
+.layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after {
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px solid #00A1D6;
+}
+
+#likeLike {
+    font-size: 25px !important;
+    color: grey;
+    vertical-align: middle !important;
+}
+#collectCollect{
+    font-size: 25px !important;
+    color: grey;
+    vertical-align: sub !important;
+}
+
+.remark {
+    white-space: nowrap;
+    width: 235px;
+    height: 35px;
+    display: inline;
+    float: left;
+    text-align: left;
+    line-height: 17px;
+    margin-top: -20px;
+    margin-left: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: small;
+    color: slategray;
+}
+
+
+.bullet {
+    padding: 5px;
+    width: 289px;
+    height: 626px;
+    background-color: #F4F4F4;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 7px;
+    border: 1px solid #F4F4F4;
+}
+
+.danmuTitle {
+    width: 294px;
+    height: 50px;
+    background-color: #F4F4F4;
+    font-size: 20px;
+    text-align: left;
+    line-height: 50px;
+}
+
+.danmuList {
+    font-size: 10px;
+    width: 289px;
+    height: 549px;
+    /*text-align: left;*/
+    /*border: 1px solid red;*/
+    display: inline;
+    /*float: left;*/
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.othername{
+    width: 200px;
+    height: 20px;
+    margin-left: 150px;
+    font-family: initial;
+    font-weight: bolder;
+    color: #00A1D6;
+}
+.danmuList ul {
+    font-size: 24px !important;
+    color: red;
+    width: 294px;
+    height: 44px;
+    /*border: 1px solid red;*/
+    display: block;
+    /*float: left;*/
+}
+
+.danmuList li {
+    width: 400px;
+    height: 20px;
+    line-height: 25px;
+    font-size: 14px !important;
+    margin-top: 4px;
+    background-color: white;
+}
+
+.danmuList .currentTime {
+    width: 50px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 25px;
+}
+
+.danmuList .msg {
+    width: 170px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 25px;
+}
+
+.danmuList .createTime {
+    width: 80px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 25px;
+}
+
+.wrapper {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.button1 {
+    width: 100px;
+    height: 50px;
+line-height: 50px;
+    /*padding: 0.75em 2em;*/
+    text-align: center;
+    text-decoration: none;
+    color: #2194e0;
+    border: 2px solid #2194e0;
+    font-size: 24px;
+    display: inline-block;
+    border-radius: 0.3em;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+@-webkit-keyframes sheen {
+    0% {
+        -webkit-transform: skewY(-45deg) translateX(0);
+        transform: skewY(-45deg) translateX(0);
+    }
+    100% {
+        -webkit-transform: skewY(-45deg) translateX(12.5em);
+        transform: skewY(-45deg) translateX(12.5em);
+    }
+}
+
+@keyframes sheen {
+    0% {
+        -webkit-transform: skewY(-45deg) translateX(0);
+        transform: skewY(-45deg) translateX(0);
+    }
+    100% {
+        -webkit-transform: skewY(-45deg) translateX(12.5em);
+        transform: skewY(-45deg) translateX(12.5em);
+    }
+}
+
+.button1:before {
+    content: "";
+    background-color: rgba(295, 295, 295, 0.5);
+    height: 100%;
+    width: 3em;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -4.5em;
+    -webkit-transform: skewX(-45deg) translateX(0);
+    transform: skewX(-45deg) translateX(0);
+    transition: none;
+}
+
+.button1:hover {
+    background-color: #2194e0;
+    color: #fff;
+    border-bottom: 4px solid #1977b5;
+}
+
+.button1:hover:before {
+    -webkit-transform: skewX(-45deg) translateX(13.5em);
+    transform: skewX(-45deg) translateX(13.5em);
+    transition: all 0.5s ease-in-out;
+}
+
+.buttonKuang {
+    width: 188px;
+    height: 79px;
+    /*border: 1px solid red;*/
+    position: absolute;
+    margin-left: 1000px;
+    margin-top: -140px;
+}
+
+.reply:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+

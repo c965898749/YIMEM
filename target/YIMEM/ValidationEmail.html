@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <script src="jquery/jquery.js"></script>
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <script src="js/setCookie.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <style type="text/css">
+        /*body {*/
+        /*background-color: white;*/
+        /*}*/
+
+        .content {
+            border-radius: 5px;
+            background: white;
+            width: 550px;
+            /*height: 180px;*/
+            margin: 10px auto;
+            border: 1px solid lightgray;
+        }
+
+        input[type="text"], input[type="password"], input[type="email"] {
+
+            padding-left: 10px;
+            width: 170px;
+            height: 25px;
+            border: solid 1px lightgrey;
+            border-radius: 3px;
+        }
+
+        .left {
+            display: inline-block;
+            text-align: right;
+            width: 170px;
+        }
+
+        .in {
+            line-height: 50px;
+            width: 550px;
+            margin: 0 20px;
+            font-size: 10pt;
+        }
+
+        a {
+            font-size: 9pt;
+            text-decoration: none;
+            color: grey;
+        }
+
+        a:hover {
+            color: blue;
+        }
+
+        hr {
+            margin: 10px 20px;
+            border: none;
+            border-bottom: 1px dotted lightgrey;
+        }
+
+        .bottom {
+            /*float: right;*/
+
+            padding-right: 20px;
+            line-height: 60px;
+        }
+
+        input[type="submit"] {
+            background: rgba(22, 115, 11, 0.38);
+            border: 0 none;
+            width: 90px;
+            height: 30px;
+            border-radius: 3px;
+            color: white;
+        }
+
+        input[type="submit"]:hover {
+            background: rgb(77, 140, 70);
+        }
+
+        input[type="button"]:hover {
+            background: rgb(77, 140, 70);
+        }
+
+        input[type="button"] {
+            background: rgba(22, 115, 11, 0.38);
+            border: 0 none;
+            width: 90px;
+            height: 23px;
+            border-radius: 3px;
+            color: white;
+        }
+
+        input[type="reset"] {
+            background: rgb(179, 176, 176);
+            border: 0 none;
+            width: 90px;
+            height: 30px;
+            border-radius: 3px;
+            color: white;
+        }
+
+        input[type="reset"]:hover {
+            background: rgb(200, 200, 200);
+
+        }
+
+        .tip {
+            text-align: center;
+            font-size: 10pt;
+            color: grey;
+            background: white;
+            width: 530px;
+            /*height: 90px;*/
+            margin: 0px auto;
+            padding-left: 10px;
+            background: lightgrey;
+        }
+
+        body {
+            background: lightgrey;
+        }
+
+        .warning {
+            color: red;
+
+        }
+
+        #usernameMsg {
+            display: none;
+            width: 200px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <form action="##" method="post" onsubmit="return false">
+        <div class="in">
+            <span class="left">邮箱：</span>
+            <input type="email" required="required" placeholder="请输入有效邮箱地址" name="mail" id="mail"/>
+            <span><input type="button" value="发送验证码" id="sendidcode"></span>
+        </div>
+        <div class="in">
+            <span class="left">验证码：</span>
+            <input type="text" required="required" placeholder="请点击按钮发送验证码" name="idcode" id="idcode"/>
+            <span class="warning"></span>
+        </div>
+        <hr>
+        <div class="in">
+            <span class="left"></span>
+            <input type="submit" value="确认">
+            <input type="reset" value="重置">
+        </div>
+    </form>
+
+</div>
+<div class="tip">
+    提示：输入一个未激活的邮箱。
+</div>
+<script src="layui/layui.all.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#sendidcode").click(function () {
+            if ($("#mail").val() == "") {
+                $("#sendidcode").attr("disabled", "true");
+                $("#sendidcode").val("邮箱地址未填");
+                setTimeout(function () {
+                    $("#sendidcode").removeAttr("disabled");
+                    $("#sendidcode").val("发送验证码");
+                }, 900);
+                return;
+            }
+            var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+            if (!myreg.test($("#mail").val())) {
+                $("#sendidcode").attr("disabled", "true");
+                $("#sendidcode").val("邮箱格式错误");
+                setTimeout(function () {
+                    $("#sendidcode").removeAttr("disabled");
+                    $("#sendidcode").val("发送验证码");
+                }, 900);
+                return;
+            }
+            $("#sendidcode").attr("value", "正在发送");
+            $("#sendidcode").attr("disabled", "true");
+            $.ajax({
+                url: "sendIdCode.action",
+                type: "GET",
+                //发送数据的第一种格式，字符串...
+                data: "mail=" + $("#mail").val(),
+                timeout: 5000,
+                success: function (data) {
+                    $("#sendidcode").attr("value", "验证码已发送");
+                },
+                error: function () {
+
+                }
+            });
+        });
+        $("input[type=submit]").click(function () {
+            console.log(11111)
+            if ($("#mail").val() == "" || $("#idcode").val() == "") {
+                layer.msg("邮箱或验证码为空")
+                return false;
+            }
+            var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+            if (!myreg.test($("#mail").val())) {
+                layer.msg("邮箱格式错误")
+
+                return false;
+            }
+            $.ajax({
+                url: "regist.action",
+                type: "GET",
+                //发送数据的第一种格式，字符串...
+                data: {"mail": $("#mail").val(), "idcode": $("#idcode").val()},
+                dataType: "json",
+                success: function (data) {
+                    if (data.error == 1) {
+                        layer.msg("验证成功")
+                        $(".content").html("")
+                        var html=`<div class="in" style="height: 170px">
+            <span class="left" style="margin-top: 60px;margin-left: 140px;font-size: 16px;font-weight: bold">账号邮箱认证成功<img style="width: 30px;height: 30px;" src="imgs/btn/blog/gou.png" alt=""></span>
+        </div>`
+                        $(".content").append(html)
+                    } else {
+                        layer.msg("验证失败")
+                    }
+
+
+
+                },
+                error: function () {
+                    layer.msg("验证失败")
+
+                }
+
+
+
+
+
+            });
+        });
+
+
+    });
+</script>
+</body>
+</html>

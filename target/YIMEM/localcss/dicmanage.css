@@ -1,0 +1,31 @@
+.dllist{list-style: none;margin-left:-4px;}
+.dllist li{padding:3px; cursor: pointer;margin:5px;padding-left:10px;border:1px solid #ccc;text-align: center;
+	border-radius:6px;
+}
+.mainset{display:none;}
+.maintitle a{display:block;width:50xp;}
+.maintitle img{margin-left:5px;margin-top:10px;}
+table td .dicListContent ul{list-style: none;}
+table td .dicListContent li{width:200px;height:185px;border:1px solid #ccc;
+overflow:hidden;
+border-radius:6px;
+-webkit-border-radius:6px;
+-moz-border-radius:6px;
+-o-border-radius:6px;
+-ms-border-radius:6px;
+padding:5px;
+float:left;
+margin:5px;
+}
+table td .dicListContent li div{margin-top:3px;}
+.editdiv{border:1px dashed #ccc;padding:5px;background: #efefef;
+border-radius:6px;
+-webkit-border-radius:6px;
+-moz-border-radius:6px;
+-o-border-radius:6px;
+-ms-border-radius:6px;
+}
+.editdiv img{margin-left:50px;cursor: pointer;}
+.addDicLiBtn{text-align: center;}
+.addDicLiBtn img{margin-top:30px;cursor: pointer;}
+#addsubdicul{display:none;}

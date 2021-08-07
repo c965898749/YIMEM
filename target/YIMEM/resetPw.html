@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>重置</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+    <meta name="author" content="Muhammad Usman">
+    <!-- 不使用浏览器缓存 -->
+    <meta http-equiv="Pragma" content="no-cache">
+    <script src="js/setCookie.js"></script>
+    <!-- The styles -->
+    <link href="css/bootstrap-cerulean.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+    </style>
+    <link href="font/cheatin.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/charisma-app.css" rel="stylesheet">
+    <link href="css/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+    <link href='css/fullcalendar.css' rel='stylesheet'>
+    <link href='css/fullcalendar.print.css' rel='stylesheet' media='print'>
+    <link href='css/chosen.css' rel='stylesheet'>
+    <link href='css/uniform.default.css' rel='stylesheet'>
+    <link href='css/colorbox.css' rel='stylesheet'>
+    <link href='css/jquery.cleditor.css' rel='stylesheet'>
+    <link href='css/jquery.noty.css' rel='stylesheet'>
+    <link href='css/noty_theme_default.css' rel='stylesheet'>
+    <link href='css/elfinder.min.css' rel='stylesheet'>
+    <link href='css/elfinder.theme.css' rel='stylesheet'>
+    <link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
+    <link href='css/opa-icons.css' rel='stylesheet'>
+    <link href='css/uploadify.css' rel='stylesheet'>
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- The fav icon -->
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+
+        <div class="row-fluid">
+            <div class="span12 center login-header">
+                <h2>重置密码</h2>
+            </div><!--/span-->
+        </div><!--/row-->
+
+        <div class="row-fluid">
+            <div class="well span5 center login-box">
+                <div class="layer.msg layer.msg-info">
+                    请输入登陆账号和新密码... <a href="login.html">已有账号直接登录</a>
+
+                </div>
+
+
+                <div class="form-horizontal">
+                    <fieldset>
+                        <div class="input-prepend" title="登录账号" data-rel="tooltip">
+                            <span class="add-on"><i class="icon-user"></i></span><input autofocus
+                                                                                        class="input-large span10"
+                                                                                        name="username" id="username"
+                                                                                        type="text" value=""/>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="input-prepend" title="登陆密码" data-rel="tooltip">
+                            <span class="add-on"><i class="icon-lock"></i></span><input class="input-large span10"
+                                                                                        name="userpassword"
+                                                                                        id="userpassword"
+                                                                                        type="password" value=""/>
+                        </div>
+                        <span style="margin-right: -80px">请输入新密码</span>
+                        <div class="clearfix"></div>
+
+                        <div class="input-prepend" title="登陆密码" data-rel="tooltip">
+                            <span class="add-on"><i class="icon-lock"></i></span><input class="input-large span10"
+                                                                                        style="background-color:#E8F0FE"
+                                                                                        name="userpassword2"
+                                                                                        id="userpassword2"
+                                                                                        type="password" value=""/>
+                        </div>
+                        <span style="margin-right: -80px">请再输入一次</span>
+                        <div class="clearfix"></div>
+                        <div class="input-prepend" title="登陆密码" data-rel="tooltip">
+                            <span class="add-on"><i class="icon-lock"></i></span><input class="input-large span10"
+                                                                                        style="background-color:#E8F0FE"
+                                                                                        name="emilcode" id="emilcode"
+                                                                                        type="text" value=""/>
+                        </div>
+                        <input type="button" id="btn" value="发送邮箱验证" style="margin-right: -98px"/>
+                        <div class="clearfix"></div>
+                        <ul id="formtip"></ul>
+                        <p class="center span5">
+                            <button type="submit" class="btn btn-primary" id="loginBtn">登录</button>
+                        </p>
+
+                    </fieldset>
+                </div>
+            </div><!--/span-->
+        </div><!--/row-->
+    </div><!--/fluid-row-->
+</div><!--/.fluid-container-->
+
+<!-- external javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<!-- jQuery -->
+<script src="js/jquery-1.7.2.min.js"></script>
+<!-- jQuery UI -->
+<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
+<!-- transition / effect library -->
+<script src="js/bootstrap-transition.js"></script>
+<!-- layer.msg enhancer library -->
+<script src="js/bootstrap-layer.msg.js"></script>
+<!-- modal / dialog library -->
+<script src="js/bootstrap-modal.js"></script>
+<!-- custom dropdown library -->
+<script src="js/bootstrap-dropdown.js"></script>
+<!-- scrolspy library -->
+<script src="js/bootstrap-scrollspy.js"></script>
+<!-- library for creating tabs -->
+<script src="js/bootstrap-tab.js"></script>
+<!-- library for advanced tooltip -->
+<script src="js/bootstrap-tooltip.js"></script>
+<!-- popover effect library -->
+<script src="js/bootstrap-popover.js"></script>
+<!-- button enhancer library -->
+<script src="js/bootstrap-button.js"></script>
+<!-- accordion library (optional, not used in demo) -->
+<script src="js/bootstrap-collapse.js"></script>
+<!-- carousel slideshow library (optional, not used in demo) -->
+<script src="js/bootstrap-carousel.js"></script>
+<!-- autocomplete library -->
+<script src="js/bootstrap-typeahead.js"></script>
+<!-- tour library -->
+<script src="js/bootstrap-tour.js"></script>
+<!-- library for cookie management -->
+<script src="js/jquery.cookie.js"></script>
+<!-- calander plugin -->
+<script src='js/fullcalendar.min.js'></script>
+<!-- data table plugin -->
+<script src='js/jquery.dataTables.min.js'></script>
+
+<!-- chart libraries start -->
+<script src="js/excanvas.js"></script>
+<script src="js/jquery.flot.min.js"></script>
+<script src="js/jquery.flot.pie.min.js"></script>
+<script src="js/jquery.flot.stack.js"></script>
+<script src="js/jquery.flot.resize.min.js"></script>
+<!-- chart libraries end -->
+
+<!-- select or dropdown enhancer -->
+<script src="js/jquery.chosen.min.js"></script>
+<!-- checkbox, radio, and file input styler -->
+<script src="js/jquery.uniform.min.js"></script>
+<!-- plugin for gallery image view -->
+<script src="js/jquery.colorbox.min.js"></script>
+<!-- rich text editor library -->
+<script src="js/jquery.cleditor.min.js"></script>
+<!-- notification plugin -->
+<script src="js/jquery.noty.js"></script>
+<!-- file manager library -->
+<script src="js/jquery.elfinder.min.js"></script>
+<!-- star rating plugin -->
+<script src="js/jquery.raty.min.js"></script>
+<!-- for iOS style toggle switch -->
+<script src="js/jquery.iphone.toggle.js"></script>
+<!-- autogrowing textarea plugin -->
+<script src="js/jquery.autogrow-textarea.js"></script>
+<!-- multiple file upload plugin -->
+<script src="js/jquery.uploadify-3.1.min.js"></script>
+<!-- history.js for cross-browser state change on ajax -->
+<script src="js/jquery.history.js"></script>
+<!-- application script for Charisma demo -->
+<!--<script src="/js/charisma.js"></script>-->
+<!--<script src="/localjs/index.js"></script>-->
+
+
+</body>
+<script>
+    var wait = 60;
+
+    function time(object) {
+
+            if (wait == 0) {
+                object.removeAttribute("disabled");
+                wait = 60;
+                object.value = "发送邮箱验证";
+            } else {
+                object.setAttribute("disabled", true);
+                wait--;
+                object.value = wait + "秒后再发送";
+                setTimeout(function () {
+                    time(object)
+                }, 1000);
+            }
+
+
+    }
+
+    $(".form-horizontal").on("click", "#btn", function () {
+        time(this);
+        var user = new Object();
+        user.username = $.trim($("#username").val());
+        user.userpassword = $.trim($("#userpassword").val());
+        user.userpassword2 = $.trim($("#userpassword2").val());
+        if (user.username.indexOf("\'") != -1 || user.username.indexOf("\"") != -1 || user.username.indexOf("\\") != -1 || user.username.indexOf("/") != -1 || user.username.indexOf(";") != -1 || user.username.indexOf("%") != -1 || user.username.indexOf("#") != -1 || user.username.indexOf("(") != -1 || user.username.indexOf(")") != -1 || user.username.indexOf("*") != -1 || user.username.indexOf("&") != -1 || user.username.indexOf("|") != -1 || user.username.indexOf("<") != -1 || user.username.indexOf(">") != -1 || user.username.indexOf(",") != -1 || user.username.indexOf("$") != -1 || user.username.indexOf("^") != -1 || user.username.indexOf("{") != -1 || user.username.indexOf("}") != -1 || user.username.indexOf("[") != -1 || user.username.indexOf("]") != -1)
+        {
+            $("#username").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("用户名不能包含特殊字符！。");
+            return false;
+        }
+        if (/^\s*$/.test(user.username)) {
+            $("#username").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("对不起，登录账号不能为空。");
+        } else if (user.userpassword == "" || user.userpassword == null) {
+            $("#userpassword").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("对不起，登录密码不能为空。");
+        } else if (user.userpassword != user.userpassword2) {
+            $("#userpassword").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("第二次输入密码不一致");
+        } else if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(user.username)) {
+            $("#username").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("用户名不能有特殊字符");
+        } else if (/(^\_)|(\__)|(\_+$)/.test(user.username)) {
+            $("#username").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("用户名首尾不能出现下划线'_'");
+        } else if (/^\d+\d+\d$/.test(user.username)) {
+            $("#username").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("用户名不能全为数字");
+        } else if (!/^[a-zA-Z]\w{5,17}$/.test(user.password)) {
+            $("#userpassword").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("以字母开头，长度在6~18之间，只能包含字母、数字和下划线");
+        }  else {
+            $.ajax({
+                url: 'emilcode',
+                type: 'POST',
+                data: {"username": user.username},
+                dataType: 'json',
+                timeout: 2000,
+                cache: false,
+                error: function () {
+                    $("#formtip").css("color", "red");
+                    $("#formtip").html("服务器无响应！请重试。");
+                },
+                success: function (jsonData) {
+                    console.log(jsonData)
+                    console.log(jsonData.success)
+                    if (jsonData.success == 0) {
+                        $("#formtip").css("color", "red");
+                        $("#formtip").html(jsonData.errorMsg);
+                        $("#username").val('');
+                        $("#userpassword").val('');
+                    } else {
+                        $("#formtip").css("color", "green");
+                        $("#formtip").html("已发送!去邮箱验证");
+                    }
+                }
+            });
+        }
+    })
+    $("#loginBtn").click(function () {
+        var user = new Object();
+        user.username = $.trim($("#username").val());
+        user.userpassword = $.trim($("#userpassword").val());
+        user.userpassword2 = $.trim($("#userpassword2").val());
+        user.emilcode = $.trim($("#emilcode").val());
+        console.log(user.emilcode)
+        if (/^\s*$/.test(user.username)) {
+            $("#username").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("对不起，登录账号不能为空。");
+        } else if (user.userpassword == "" || user.userpassword == null) {
+            $("#userpassword").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("对不起，登录密码不能为空。");
+        } else if (user.userpassword != user.userpassword2) {
+            $("#userpassword").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("第二次输入密码不一致");
+        } else if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(user.username)) {
+            $("#username").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("用户名不能有特殊字符");
+        } else if (/(^\_)|(\__)|(\_+$)/.test(user.username)) {
+            $("#username").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("用户名首尾不能出现下划线'_'");
+        } else if (/^\d+\d+\d$/.test(user.username)) {
+            $("#username").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("用户名不能全为数字");
+        } else if (!/^[a-zA-Z]\w{5,17}$/.test(user.password)) {
+            $("#userpassword").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("以字母开头，长度在6~18之间，只能包含字母、数字和下划线");
+        } else if (!user.emilcode) {
+            $("#emilcode").focus();
+            $("#formtip").css("color", "red");
+            $("#formtip").html("验证码不能为空");
+        } else {
+            $("#formtip").html("");
+
+            $.ajax({
+                url: 'midifyUser',
+                type: 'POST',
+                data: {"username": user.username, "userpassword": user.userpassword, "emilcode": user.emilcode},
+                dataType: 'json',
+                timeout:2000,
+                cache: false,
+                error: function () {
+                    $("#formtip").css("color", "red");
+                    $("#formtip").html("服务器无响应！请重试。");
+                },
+                success: function (jsonData) {
+                    console.log(jsonData)
+                    console.log(jsonData.success)
+                    if (jsonData.success == 0) {
+                        $("#formtip").css("color", "red");
+                        $("#formtip").html(jsonData.errorMsg);
+                        $("#username").val('');
+                        $("#userpassword").val('');
+                    } else {
+                        $("#formtip").css("color", "green");
+                        $("#formtip").html("您已重置成功!");
+                        setTimeout(function () {
+                            location.href = "login.html"
+                        }, 2000);
+                    }
+                }
+            });
+        }
+    });
+</script>
+</html>
+
+

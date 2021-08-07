@@ -83,33 +83,43 @@ public class VerifyUploadController {
     }
 
     @RequestMapping(value = "findAllResourcess",method = RequestMethod.POST)
-    public BaseResp findAllResourcess(Upload upload, HttpServletResponse res){
+    public BaseResp findAllResourcess(Upload upload,HttpServletRequest request, HttpServletResponse res){
         BaseResp resp=new BaseResp();
-        try {
-            Integer page=upload.getPage();
-            Integer pageSize=upload.getPageSize();
-            PageHelper.startPage(page,pageSize);
-            List<Upload> lists=service.findAll(upload);
-            Page<Upload> uploadPage=(Page<Upload>)lists;
-            if (lists!=null){
-                resp.setData(lists);
-                resp.setSuccess(200);
-                res.setStatus(200);
-                resp.setCount(uploadPage.getTotal());
-                return resp;
-            }else {
-                resp.setSuccess(400);
-                res.setStatus(400);
-                resp.setErrorMsg("资源查找失败");
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            resp.setSuccess(400);
+            res.setStatus(400);
+            resp.setErrorMsg("未登入");
+            return resp;
+        } else {
+            try {
+                Integer page=upload.getPage();
+                Integer pageSize=upload.getPageSize();
+                PageHelper.startPage(page,pageSize);
+                upload.setUserid(user.getUserId());
+                List<Upload> lists=service.findAll(upload);
+                Page<Upload> uploadPage=(Page<Upload>)lists;
+                if (lists!=null){
+                    resp.setData(lists);
+                    resp.setSuccess(200);
+                    res.setStatus(200);
+                    resp.setCount(uploadPage.getTotal());
+                    return resp;
+                }else {
+                    resp.setSuccess(400);
+                    res.setStatus(400);
+                    resp.setErrorMsg("资源查找失败");
+                    return resp;
+                }
+            } catch (CsdnExpection e) {
+                resp.setSuccess(500);
+                res.setStatus(500);
+                resp.setErrorMsg(e.getMessage());
+                e.printStackTrace();
                 return resp;
             }
-        } catch (CsdnExpection e) {
-            resp.setSuccess(500);
-            res.setStatus(500);
-            resp.setErrorMsg(e.getMessage());
-            e.printStackTrace();
-            return resp;
         }
+
     }
     @RequestMapping(value = "findByIdResource",method = RequestMethod.GET)
     public BaseResp findByIdResource(Integer id,HttpServletResponse res){

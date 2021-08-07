@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>工具</title>
+    <style>
+        #loader {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 1010;
+            margin: -75px 0 0 -75px;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg)
+            }
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
+        #loader-mask {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+            z-index: 1009;
+            background-color: rgba(242, 246, 252, 0.88)
+        }
+    </style>
+    <script>var _paq = window._paq || [];
+    _paq.push(['setRequestMethod', 'POST'], ['trackPageView'], ['enableLinkTracking'], ['setSiteId', '2'],
+        ['setTrackerUrl', 'https://stats.ixarea.com/ixarea-stats/report']);</script>
+    <script async src=https://stats.ixarea.com/ixarea-stats.js></script>
+    <link href=css/app.efaf15ea.css rel=preload as=style>
+    <link href=css/chunk-vendors.a870fc53.css rel=preload as=style>
+    <link href=js/app.7646e312.js rel=preload as=script>
+    <link href=js/chunk-vendors.e2253095.js rel=preload as=script>
+    <link href=css/chunk-vendors.a870fc53.css rel=stylesheet>
+    <link href=css/app.efaf15ea.css rel=stylesheet>
+    <meta name=theme-color content=#4DBA87>
+    <meta name=apple-mobile-web-app-capable content=no>
+    <meta name=apple-mobile-web-app-status-bar-style content=default>
+    <meta name=apple-mobile-web-app-title content=unlock-music>
+    <link rel=apple-touch-icon href=img/icons/apple-touch-icon-152x152.png>
+    <link rel=mask-icon href=img/icons/safari-pinned-tab.svg color=#4DBA87>
+    <meta name=msapplication-TileImage content=img/icons/msapplication-icon-144x144.png>
+    <meta name=msapplication-TileColor content=#000000>
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <script src="jquery/jquery.js"></script>
+    <link rel="stylesheet" href="css/siderBar2.css">
+    <link rel="stylesheet" type="text/css" href="css/css.css"/>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css" media="all"/>
+    <script src="js/include.js"></script>
+    <style>
+
+        #tool_html {
+            border-bottom: 2px red solid;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div id="titleContai">
+    <!--<include src="title.html"></include>-->
+</div>
+<div class="TOP">
+    <div class="TOP-nav">
+        <div id="home" style="cursor:pointer;"><a href="tool.html">工具首页</a></div>
+    </div>
+</div>
+<div id=app ></div>
+<div class="flooter">
+    <p style="color: red;font-weight: bolder">免责提醒！！请注意！！！</p>
+    <p style="color: red;font-weight: bolder">本工具仅供个人学习使用</p>
+    <p style="color: red;font-weight: bolder">不得进行商业或盈利用途，否则后果自负。</p>
+    <div style="width:300px;margin:0 auto; padding:20px 0;">
+        <img src="imgs/jh/jh.png" style="margin-left: 30px;margin-top: -15px" alt=""> <a target="_blank"
+                                                                                         href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32061202001097"
+                                                                                         style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
+            src="" style="float:left;"/>
+        <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
+            32061202001097号</p></a>
+    </div>
+</div>
+<script src=js/chunk-vendors.e2253095.js></script>
+<script src=js/app.7646e312.js></script>
+<div class="siderBar">
+    <ul>
+        <li>返回</li>
+        <li>顶部</li>
+        <div>
+            <div class="siderBar-line"></div>
+            <div class="siderBar-goTop" id="btn"></div>
+        </div>
+    </ul>
+</div>
+
+</body>
+<script src="layui/layui.all.js"></script>
+<script>
+    $("#titleContai").load("title.html")
+</script>
+</html>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.T8DocManageMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.T8DocManage">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="folder_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="port_level" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="parent_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="is_directory" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="upd_username" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="upd_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="upd_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="crt_username" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="crt_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="crt_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="readcount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, folder_name, description, port_level, parent_id, is_directory, upd_username,
+    upd_date, upd_time, crt_username, crt_date, crt_time
+  </sql>
+  <select id="selectidByparentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select id from t8_doc_manage where parent_id = #{id}
+  </select>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t8_doc_manage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="M8610EQ008"  resultType="com.sy.model.T8DocManage">
+    SELECT folder_name,is_directory,crt_username,upd_username,crt_date,crt_time,upd_date,upd_time,src,size,type FROM t8_doc_manage WHERE id = #{id}
+  </select>
+
+  <select id="M8610EQ005"  resultType="com.sy.model.T8DocManage">
+    select folder_name,parent_id,is_directory from t8_doc_manage where id = #{id}
+  </select>
+  <select id="M8610EQ009"  resultType="com.sy.model.T8DocManage">
+    select  id,folder_name,crt_date,readcount from t8_doc_manage where is_directory = 0 order by readcount desc limit 10
+  </select>
+
+  <select id="M8610EQ006"  resultType="com.sy.model.T8DocManage">
+    select id,folder_name,is_directory from t8_doc_manage where parent_id = #{id} order by is_directory DESC,folder_name+0
+  </select>
+
+  <select id="M8610EQ007"  resultType="com.sy.model.T8DocManage">
+    select id,folder_name,is_directory from t8_doc_manage where folder_name like concat('%',#{folderName},'%') and is_directory=0 order by is_directory desc,folder_name
+  </select>
+
+  <update id="M8610EU001" parameterType="com.sy.model.T8DocManage">
+    update t8_doc_manage set description = #{description},folder_name = #{folderName},upd_username = #{username},upd_date = now(),upd_time = now() where id = #{id}
+  </update>
+
+
+  <select id="M8610EQ004"  resultType="java.lang.Integer">
+    select id from t8_doc_manage where parent_id = #{id}
+  </select>
+
+  <delete id="M8610ED001" parameterType="java.lang.Integer">
+    delete from t8_doc_manage where id = #{id}
+  </delete>
+
+
+  <insert id="M8610ES001" parameterType="com.sy.model.T8DocManage">
+    insert into t8_doc_manage( folder_name, description, port_level, parent_id, is_directory,crt_username, crt_date, crt_time, upd_username, upd_date, upd_time,src,size,type)
+     values(#{folderName},#{description},#{portLevel},#{parentId},#{isDirectory},#{username},now(),now(), NULL, NULL, NULL,#{src},#{size},#{type})
+  </insert>
+
+  <select id="selectByparentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id,folder_name,is_directory from t8_doc_manage where parent_id = #{id} order by is_directory desc,folder_name
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t8_doc_manage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sy.model.T8DocManage">
+    insert into t8_doc_manage (id, folder_name, description,
+      port_level, parent_id, is_directory,
+      upd_username, upd_date, upd_time,
+      crt_username, crt_date, crt_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{folderName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+      #{portLevel,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{isDirectory,jdbcType=VARCHAR},
+      #{updUsername,jdbcType=VARCHAR}, #{updDate,jdbcType=TIMESTAMP}, #{updTime,jdbcType=TIMESTAMP},
+      #{crtUsername,jdbcType=VARCHAR}, #{crtDate,jdbcType=TIMESTAMP}, #{crtTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.T8DocManage">
+    insert into t8_doc_manage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="folderName != null">
+        folder_name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="portLevel != null">
+        port_level,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="isDirectory != null">
+        is_directory,
+      </if>
+      <if test="updUsername != null">
+        upd_username,
+      </if>
+      <if test="updDate != null">
+        upd_date,
+      </if>
+      <if test="updTime != null">
+        upd_time,
+      </if>
+      <if test="crtUsername != null">
+        crt_username,
+      </if>
+      <if test="crtDate != null">
+        crt_date,
+      </if>
+      <if test="crtTime != null">
+        crt_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="folderName != null">
+        #{folderName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="portLevel != null">
+        #{portLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="isDirectory != null">
+        #{isDirectory,jdbcType=VARCHAR},
+      </if>
+      <if test="updUsername != null">
+        #{updUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="updDate != null">
+        #{updDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null">
+        #{updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtUsername != null">
+        #{crtUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="crtDate != null">
+        #{crtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtTime != null">
+        #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.T8DocManage">
+    update t8_doc_manage
+    <set>
+      <if test="folderName != null">
+        folder_name = #{folderName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="portLevel != null">
+        port_level = #{portLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="isDirectory != null">
+        is_directory = #{isDirectory,jdbcType=VARCHAR},
+      </if>
+      <if test="updUsername != null">
+        upd_username = #{updUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="updDate != null">
+        upd_date = #{updDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null">
+        upd_time = #{updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtUsername != null">
+        crt_username = #{crtUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="crtDate != null">
+        crt_date = #{crtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtTime != null">
+        crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.model.T8DocManage">
+    update t8_doc_manage
+    set folder_name = #{folderName,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      port_level = #{portLevel,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      is_directory = #{isDirectory,jdbcType=VARCHAR},
+      upd_username = #{updUsername,jdbcType=VARCHAR},
+      upd_date = #{updDate,jdbcType=TIMESTAMP},
+      upd_time = #{updTime,jdbcType=TIMESTAMP},
+      crt_username = #{crtUsername,jdbcType=VARCHAR},
+      crt_date = #{crtDate,jdbcType=TIMESTAMP},
+      crt_time = #{crtTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updatereadcount" parameterType="com.sy.model.T8DocManage">
+    update t8_doc_manage
+    set
+      readcount = readcount+1
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
