@@ -7,23 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/DingdingController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/entity/Dingding.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/mapper/DingdingDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/DingdingService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/DingdingServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/DingdingDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/tool/HttpUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/HttpUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/YIMEM.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/YIMEM.war" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/YIMEM/title.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/YIMEM/title.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sy/tool/HttpUtils$TrustAnyHostnameVerifier.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sy/tool/HttpUtils$TrustAnyHostnameVerifier.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sy/tool/HttpUtils$TrustAnyTrustManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sy/tool/HttpUtils$TrustAnyTrustManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sy/tool/HttpUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sy/tool/HttpUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/DingdingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/DingdingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/title.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/title.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,17 +31,6 @@
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="192.168.5.25" type="feb32156:DbDataSourceImpl" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="192.168.5.25" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="192.168.5.25" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="yimem: schema" type="76f4a085:MysqlImplModel$Schema" />
       </path>
     </expand>
     <select />
@@ -542,6 +517,7 @@
       <workItem from="1628405910796" duration="90000" />
       <workItem from="1628406035320" duration="8694000" />
       <workItem from="1628422093424" duration="325000" />
+      <workItem from="1628473183111" duration="7152000" />
     </task>
     <servers />
   </component>
@@ -610,29 +586,29 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1628221056729" />
-    <state width="1286" height="301" key="GridCell.Tab.0.bottom" timestamp="1628422567749">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1867" height="294" key="GridCell.Tab.0.bottom" timestamp="1628498977097">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1263" height="497" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1628127635424" />
+    <state width="1867" height="294" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1628498977097" />
     <state width="1286" height="301" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="1286" height="301" key="GridCell.Tab.0.center" timestamp="1628422567749">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1867" height="294" key="GridCell.Tab.0.center" timestamp="1628498977097">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1263" height="497" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1628127635424" />
+    <state width="1867" height="294" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1628498977097" />
     <state width="1286" height="301" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="1286" height="301" key="GridCell.Tab.0.left" timestamp="1628422567749">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1867" height="294" key="GridCell.Tab.0.left" timestamp="1628498977097">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1263" height="497" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1628127635424" />
+    <state width="1867" height="294" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1628498977097" />
     <state width="1286" height="301" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="1286" height="301" key="GridCell.Tab.0.right" timestamp="1628422567749">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1867" height="294" key="GridCell.Tab.0.right" timestamp="1628498977097">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1263" height="497" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1628127635424" />
+    <state width="1867" height="294" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1628498977097" />
     <state width="1286" height="301" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
     <state width="220" height="477" key="HiddenNamespacesPopup" timestamp="1628391555838">
       <screen x="0" y="0" width="1366" height="738" />

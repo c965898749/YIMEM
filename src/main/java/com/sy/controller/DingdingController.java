@@ -45,9 +45,9 @@ public class DingdingController {
 
     //每隔15分钟检测ding钉钉辅助是否正常运行
 //    @Scheduled(cron = "0 0 23 ? * MON")
-    @Scheduled(cron = "0 */15 * * * ?")
+    @Scheduled(cron = "0 */20 * * * ?")
     public void Reptilia() {
-        if (this.dingdingService.update2()<=1){
+        if (this.dingdingService.update2()<=0){
             try {
                 HttpUtils.sendGet2(" http://wxpusher.zjiecode.com/api/send/message/?appToken=AT_aY0GVMPtIhpUkwZ2TQGDR4K3LzxB5uvZ&content=qd&uid=UID_xA5O5SvdVyjWI2xMK1tcLUaqsqA6&summary="+ URLEncoder.encode("打卡辅助已掉线","utf-8"), Constants.UTF8);
             } catch (UnsupportedEncodingException e) {
