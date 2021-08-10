@@ -5,7 +5,7 @@
     <!--新增博客-->
     <insert id="insertNewBlog" parameterType="com.sy.model.Blog" useGeneratedKeys="true" keyColumn="id"
             keyProperty="id">
-        INSERT into blog(userid,title,content,publishForm,category) VALUES(#{userid},#{title},#{content},#{publishForm},#{category});
+        INSERT into blog(userid,title,content,publishForm,category,createtime) VALUES(#{userid},#{title},#{content},#{publishForm},#{category},now());
     </insert>
 
     <!--杨-->
@@ -48,7 +48,7 @@
     <update id="addReadCount">
        UPDATE blog set readCount = readCount+1 where id=#{id}
    </update>
-    <select id="queryUserIdById" resultType="java.lang.Integer">
+     <select id="queryUserIdById" resultType="java.lang.Integer">
        select userid from blog where id=#{id}
    </select>
 

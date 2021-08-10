@@ -6,10 +6,18 @@
     <select id="SelectAllUser" resultType="com.sy.model.User">
        select * from user
    </select>
-    <!--新增用户-->
-    <insert id="insertUser" parameterType="com.sy.model.User">
-        INSERT INTO user( `username`, `userpassword`, `sex`, `nickname`,`city`, `county`, `headImg`, `openid`,`provinces`) VALUES
-                       (#{username}, #{userpassword}, #{sex},#{nickname}, #{city}, #{county}, #{headImg}, #{openid},#{provinces});
+    <!--新增所有列-->
+    <insert id="insertUser" keyProperty="userid" useGeneratedKeys="true">
+        insert into yimem.user(username, userpassword, sex, nickname, birthday, provinces, city, county, description,
+                               industry, job, askSuminter, headImg, blogCount, attentionCount, fansCount, resourceCount,
+                               forumCount, askCount, collectCount, downloadmoney, commentCount, likeCount, level,
+                               visitorCount, ranking, downCount, askmoney, unreadreplaycount, readquerylikecount,
+                               unreadfanscount, openid, isEmil)
+        values (#{username}, #{userpassword}, #{sex}, #{nickname}, #{birthday}, #{provinces}, #{city}, #{county},
+                #{description}, #{industry}, #{job}, #{askSuminter}, #{headImg}, #{blogCount}, #{attentionCount},
+                #{fansCount}, #{resourceCount}, #{forumCount}, #{askCount}, #{collectCount}, #{downloadmoney},
+                #{commentCount}, #{likeCount}, #{level}, #{visitorCount}, #{ranking}, #{downCount}, #{askmoney},
+                #{unreadreplaycount}, #{readquerylikecount}, #{unreadfanscount}, #{openid}, #{isEmil})
     </insert>
     <!--修改用户头像-->
     <insert id="updateUserHeadImgByID">
@@ -253,17 +261,7 @@
 		select * from user where userId = #{userId}
     </select>
 
-    <!-- 增加用户 -->
-    <insert id="addUser" parameterType="com.sy.model.User">
-		insert into user (username,userpassword,userpassword2,sex,birthday,cardType,
-							 cardTypeName,idCard,country,mobile,email,userAddress,postCode,
-							 createTime,referId,referCode,roleId,roleName,userType,userTypeName,
-							 isStart,lastUpdateTime,lastLoginTime,bankName,accountHolder,bankAccount,idCardPicPath,bankPicPath) values
-							 (#{username},#{userpassword},#{userpassword2},#{sex},#{birthday},
-							 #{cardType},#{cardTypeName},#{idCard},#{country},#{mobile},#{email},#{userAddress},
-							 #{postCode},#{createTime},#{referId},#{referCode},#{roleId},#{roleName},#{userType},
-							 #{userTypeName},#{isStart},#{lastUpdateTime},#{lastLoginTime},#{bankName},#{accountHolder},#{bankAccount},#{idCardPicPath},#{bankPicPath})
-	</insert>
+
 
     <!-- 根据Id删除用户 -->
     <delete id="deleteUser" parameterType="com.sy.model.User">
@@ -307,10 +305,7 @@
         where id = #{id}
     </update>
 
-    <!-- 更改用户的角色名称 -->
-    <update id="modifyUserRole" parameterType="com.sy.model.User">
-		update user set roleName = #{roleName} where roleId = #{roleId}
-	</update>
+
 
 
     <!-- 更新用户的图片信息 -->
@@ -366,9 +361,7 @@
         </trim>
     </select>
 
-    <update id="madifyUserStatus">
-		update user set isstart = #{status} where userId=#{userId}
-	</update>
+
     <select id="getUserByloginCode" resultType="com.sy.model.User" parameterType="com.sy.model.User">
    select * from user where username = #{username}
    </select>

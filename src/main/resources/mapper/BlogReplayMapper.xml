@@ -3,8 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sy.mapper.BlogReplayMapper">
     <update id="addReplay">
-        INSERT INTO blog_replay ( `blog_id`, `comment`, `commentuserid`, `time`, `status`,  `replay_userid` ) VALUES
-         ( #{blogid}, #{comment}, #{commentuserid}, NOW(), #{status}, #{replayUserId});
+        INSERT INTO blog_replay ( `blog_id`, `comment`, `commentuserid`, `time`, `status`,  `replay_userid` ,blog_replay_id,son_replay_count) VALUES
+         ( #{blogid}, #{comment}, #{commentuserid}, NOW(), #{status}, #{replayUserId},0,0);
             </update>
     <select id="queryByBlogId" resultType="com.sy.model.BlogReplay">
         select * from blog_replay where blog_id = #{blog_id} and blog_replay_id=0 order by time desc

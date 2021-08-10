@@ -93,9 +93,12 @@ public class MusicController {
         URL url = new URL(lastUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         String result = getResponse(conn);
-        JSONArray arr = JSON.parseObject(result).getJSONObject("result").getJSONArray("tracks");
-        List<Music> list = getAllMusic(arr);
-        return list;
+        if (JSON.parseObject(result).getJSONObject("result")!=null){
+            JSONArray arr = JSON.parseObject(result).getJSONObject("result").getJSONArray("tracks");
+            List<Music> list = getAllMusic(arr);
+            return list;
+        }
+        return null;
     }
 
     public String getResponse(HttpURLConnection conn) throws IOException {

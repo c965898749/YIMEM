@@ -32,6 +32,9 @@ public class VerifyUploadController {
             try {
                 download.setUser(user);
                 download.setUserid(user.getUserId());
+                download.setDownloadCount(0);
+                download.setReplyCount(0);
+                download.setAppraise(0);
                 Integer count= service.save(download);
                 if (count>0){
                     resp.setSuccess(200);

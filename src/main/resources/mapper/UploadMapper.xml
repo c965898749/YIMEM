@@ -96,8 +96,8 @@ select count(*) from upload where userid=#{userid} and leixin =#{leixin}
     </select>
     <!--新增资源-->
     <insert id="insert" parameterType="com.sy.model.Upload">
-       INSERT INTO upload (`userid`, `title`, `createtime`, `appraise`, `size`, `price`, `status`, `categoryid`, `categoryid2`, `downloadCount`, `leixin`, `src`,`intro`,`name`,`leixin2`) VALUES
-(#{userid}, #{title}, NOW(), #{appraise}, #{size}, #{price}, 1,#{categoryid},#{categoryid2}, #{downloadCount}, #{leixin},#{src},#{intro},#{name},#{leixin2});
+       INSERT INTO upload (`userid`, `title`, `createtime`, `appraise`, `size`, `price`, `status`, `categoryid`, `categoryid2`, `downloadCount`, `leixin`, `src`,`intro`,`name`,`leixin2`,replyCount) VALUES
+(#{userid}, #{title}, NOW(), #{appraise}, #{size}, #{price}, 1,#{categoryid},#{categoryid2}, #{downloadCount}, #{leixin},#{src},#{intro},#{name},#{leixin2},#{replyCount});
     </insert>
     <!--更新回复数-->
     <update id="updataReplyCount" parameterType="java.lang.Integer">

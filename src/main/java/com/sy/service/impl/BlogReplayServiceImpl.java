@@ -18,6 +18,7 @@ import com.sy.tool.Constants;
 import com.sy.tool.RedisCache;
 import com.sy.tool.RedisUtil;
 
+import com.sy.tool.Xtool;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
