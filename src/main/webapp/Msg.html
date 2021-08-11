@@ -40,7 +40,7 @@
     </div>
     <div class="weui_opr_area">
         <p class="weui_btn_area">
-            <a href="javascript:;" class="weui_btn weui_btn_primary" onclick="downbtn(${json.data[0].id})">点击下载</a>
+            <a href="javascript:;" class="weui_btn weui_btn_primary" onclick="downbtn(${json.data[0].downloadid})">点击下载</a>
             <a href="javascript:;" class="weui_btn weui_btn_default">取消</a>
         </p>
     </div>
@@ -65,8 +65,7 @@
                 <div class="weui_actionsheet_cell" id="actionsheet_cancel">取消</div>
             </div>
         </div>
-    </div>
-    <!--END actionSheet-->`;
+    </div>`;
 
 
                 $("#container").append(html)

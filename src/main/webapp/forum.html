@@ -20,7 +20,7 @@
         <script type="text/javascript" src="syntax/scripts/shBrushPython.js"></script>
         <script type="text/javascript" src="syntax/scripts/shBrushPhp.js"></script>
         <link type="text/css" rel="stylesheet" href="syntax/styles/shCoreDefault.css"/>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<!--        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>-->
         <link rel="stylesheet" type="text/css" href="assets/waifu.min.css?v=1.4.2"/>
         <script src="assets/jquery.min.js?v=3.3.1"></script>
         <!-- 实现拖动效果，需引入 JQuery UI -->
@@ -533,9 +533,6 @@
     <script src="layui/layui.all.js"></script>
     <script>
         var tree;
-        layui.use('tree', function () {
-            tree = layui.tree;
-        });
         // var tree = layui.tree;
         // 树状
         var type=0;
@@ -560,7 +557,7 @@
             //     var html = ` <a href="login.html"><img src="imgs/btn/blog/_fsdfsdf.png" alt=""style="margin-left: -20px;margin-top: -20px"></a>`
             //     $("#uploadIndex").append(html)
             // } else {
-            //     //console.log(user)
+            //     //////console.log(user)
             //     var html = ` <div class="top">
             //             <div class="top-lef"><a href="perInfor.html?viewUserId=`+userid+`&type=blog"> <img class="headimg" style="width: 48px;height: 48px;border-radius: 24px;"
             //                      src="` + user.headImg + `"/></a>
@@ -603,10 +600,10 @@
                 , type: "get"
                 , dataType: "json"
                 , success: function (jsonData) {
-                    ////////////////////////console.log(jsonData)
+                    ////////////////////////////console.log(jsonData)
                     if (jsonData.success == 200) {
                       var   data = jsonData.data;
-                        //console.log(data)
+                        //////console.log(data)
                         var html='';
                         var html2='';
                         var html3='';
@@ -637,7 +634,7 @@
                                  html3='';
                                  html4='';
                             }
-                            //////console.log(data.length)
+                            //////////console.log(data.length)
                             if (data.length%3!=0&&(data.length-k)==0){
                                 html=`<table>
                                     <thead>
@@ -660,7 +657,7 @@
                     }
                 }
                 , error: function (res) {
-                    ////////////////////////console.log("ajax提交错误")
+                    ////////////////////////////console.log("ajax提交错误")
                 }
             })
 
@@ -777,13 +774,13 @@
                 , dataType: "json"
                 , async: false
                 , success: function (jsonData) {
-                    ////////////////////////console.log(jsonData)
+                    ////////////////////////////console.log(jsonData)
                     if (jsonData.success == 1) {
                         data = jsonData.data;
                     }
                 }
                 , error: function (res) {
-                    ////////////////////////console.log("ajax提交错误")
+                    ////////////////////////////console.log("ajax提交错误")
                 }
             })
             return data;
@@ -869,7 +866,7 @@
                 type: "get",
                 dataType: "json",
                 success: function (jsonData) {
-                    //////////console.log(jsonData)
+                    //////////////console.log(jsonData)
                     Category = jsonData.data;
                     insetCategory(Category);
                 }
@@ -888,8 +885,8 @@
                 dataType: "json",
                 success: function (jsonData) {
                     var  data = jsonData.data;
-                    //console.log("哈哈")
-               //console.log(data)
+                    //////console.log("哈哈")
+               //////console.log(data)
                     if (data!=null){
                         var html='';
                         $.each(data,function (k,v) {
@@ -911,8 +908,8 @@
                 dataType: "json",
                 success: function (jsonData) {
                     var  data = jsonData.data;
-                    //console.log("哈哈2")
-                    //console.log(data)
+                    //////console.log("哈哈2")
+                    //////console.log(data)
                     if (data!=null){
                         var html='';
                         $.each(data,function (k,v) {
@@ -932,8 +929,8 @@
                 dataType: "json",
                 success: function (jsonData) {
                     var  data = jsonData.data;
-                    //console.log("哈哈3")
-                //console.log(data)
+                    //////console.log("哈哈3")
+                //////console.log(data)
                     if (data!=null){
                         var html='';
                         $.each(data,function (k,v) {
@@ -955,8 +952,8 @@
                 dataType: "json",
                 success: function (jsonData) {
                     var  data = jsonData.data;
-                    //console.log("哈哈4")
-                    //console.log(data)
+                    //////console.log("哈哈4")
+                    //////console.log(data)
                     if (data!=null){
                         var html='';
                         $.each(data,function (k,v) {
@@ -970,7 +967,6 @@
 
                 }
             })
-
         }
         function getQueryString(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -985,10 +981,10 @@
                 elem: '#treemenu'  //绑定元素
                 , data: data
                 , click: function (obj) {
-                    //////////////console.log(obj.data); //得到当前点击的节点数据
-                    //////////////console.log(obj.state); //得到当前节点的展开状态：open、close、normal
-                    //////////////console.log(obj.elem); //得到当前节点元素
-                    //////////////console.log(obj.data.children); //当前节点下是否有子节点
+                    //////////////////console.log(obj.data); //得到当前点击的节点数据
+                    //////////////////console.log(obj.state); //得到当前节点的展开状态：open、close、normal
+                    //////////////////console.log(obj.elem); //得到当前节点元素
+                    //////////////////console.log(obj.data.children); //当前节点下是否有子节点
                     location.href = "forumsubdivide.html?id=" + obj.data.id + "&pid=" + obj.data.pid;
                 }
             });
@@ -998,18 +994,18 @@
 
         // 渲染二级菜单
         function getMenu() {
-            // //////console(aaaaa)
+            // //////////console(aaaaa)
             $.ajax({
                 url: "findAllforumCategory"
                 , type: "get"
                 , dataType: "json"
                 , success: function (jsonData) {
-                    //////////////////////console.log(jsonData)
+                  //console.log(jsonData)
                     var data = jsonData.data;
                     // if (jsonData.success == 1) {
                     //     data = jsonData.data;
                     // }
-                    console.log(data);
+                    ////console.log(data);
                     var html = '';
                     var html2 = '<option value="">选择大模块</option>';
                     $.each(data, function (k, v) {
@@ -1022,7 +1018,7 @@
                     form.render("select");
                 }
                 , error: function (res) {
-                    ////////////////////////console.log("ajax提交错误")
+                    ////////////////////////////console.log("ajax提交错误")
                 }
             })
         }
@@ -1036,11 +1032,11 @@
                 , dataType: "json"
                 // , async: false
                 , success: function (jsonData) {
-                    ////////////////////console.log(jsonData)
+                    ////////////////////////console.log(jsonData)
                     var data = jsonData.data;
                     var html = '<option value="">选择小模块</option>';
                     $.each(data, function (k, v) {
-                        ////////////////////console.log(v)
+                        ////////////////////////console.log(v)
                         html += ` <option value="` + v.id + `">` + v.title + `</option>`;
 
                     });
@@ -1048,7 +1044,7 @@
                     form.render("select");
                 }
                 , error: function (res) {
-                    ////////////////////////console.log("ajax提交错误")
+                    ////////////////////////////console.log("ajax提交错误")
                 }
             })
 
@@ -1070,7 +1066,7 @@
                 fileMangerJson: './kindeditor/jsp/file_manager_json.jsp',
                 allowUpload: true,
                 afterUpload: function (url) {
-                    // //////////////console.log(url)   //上传图片的路径
+                    // //////////////////console.log(url)   //上传图片的路径
                 }
             });
 
@@ -1087,30 +1083,31 @@
 
         });
 
-        layui.use(['form', 'laypage'], function () {
+        layui.use(['tree','form', 'laypage'], function () {
             laypage = layui.laypage;
             form = layui.form;
-            ////////////////////////console.log("表单、。。。。。。")
+            tree = layui.tree;
+           console.log("表单、。。。。。。")
             // form表单提交   ---  onsubmit事件阻断方案
             //此处去获取2级列表数据
-            console.log(11);
-            form.on('select(cate1)', function (data) {
-                //////////////////////console.log(data.elem); //得到select原始DOM对象
-                //////////////////////console.log(data.value); //得到被选中的值
-                //////////////////////console.log(data.othis); //得到美化后的DOM对象
-
-                //此处去获取2级列表数据
-                //console.log(11);
-                ajaxGetCategory2(data.value);
-            });
+            ////console.log(11);
+            // form.on('select(cate1)', function (data) {
+            //     //////////////////////////console.log(data.elem); //得到select原始DOM对象
+            //     //////////////////////////console.log(data.value); //得到被选中的值
+            //     //////////////////////////console.log(data.othis); //得到美化后的DOM对象
+            //
+            //     //此处去获取2级列表数据
+            //     //////console.log(11);
+            //     ajaxGetCategory2(data.value);
+            // });
 
             form.on('submit(createComment)', function (data) {
-                //////////////////////////console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-                //////////////////////////console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-                ////////////////////////console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+                //////////////////////////////console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+                //////////////////////////////console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+                ////////////////////////////console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+                console.log(data);
 
-
-                ajaxCreateComment(data.field)
+                // ajaxCreateComment(data.field)
 
 
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
@@ -1138,7 +1135,7 @@
             var categoryid = data.categoryid;
             var categoryid2 = data.categoryid2;
             content=$("#editor_id").val()
-            //////////console.log(content)
+            //////////////console.log(content)
             $.ajax({
                 url: "saveInvitation",
                 data: {

@@ -549,17 +549,21 @@
                 ,dataType:"json"
                 ,success:function (jsonData) {
                    //console.log(jsonData)
+                    if(jsonData.success==1){
+                        //刷新当前页
+                        var host = window.location.host;
+                        if(location.href.toString()=="http://"+host+"/userHomepage.html"){
+                            location.href="index.html"
+                        }else {
+                            location.href=window.location.href
+                        }
+                    }
                 }
                 ,error:function (res) {
                     //console.log("ajax提交错误")
                 }
             })
-            //刷新当前页
-            if(location.href.toString()=="http://localhost:8889/userHomepage.html"){
-                location.href="index.html"
-            }else {
-                location.href=window.location.href
-            }
+
         })
     }
 

@@ -465,14 +465,14 @@
             , type: "get"
             , dataType: "json"
             , success: function (jsonData) {
-                //////////////////////////console.log(jsonData)
+                ////////////////////////////console.log(jsonData)
                 if (jsonData.success == 1) {
                     var data = jsonData.data;
                     bandin(data)
                 }
             }
             , error: function (res) {
-                //////////////////////////console.log("ajax提交错误")
+                ////////////////////////////console.log("ajax提交错误")
             }
         })
     }
@@ -729,7 +729,7 @@
         //将上传的多个文件放入formData中
 
         var picFileList = document.getElementById("pic").files;
-        console.log(picFileList);
+        //console.log(picFileList);
         if ($("#pic").val() == '') {
             layer.msg("上传文件不能为空")
             return false;
@@ -751,11 +751,11 @@
         xhr.send(formData);
 
         xhr.onreadystatechange = function () {
-            console.log( xhr)
+            //console.log( xhr)
             if (xhr.readyState == 4 && xhr.status == 200) {
                 // 获取json数据
                 var jsoncontent = JSON.parse(xhr.responseText)
-                ////////console.log(jsoncontent)
+                //////////console.log(jsoncontent)
                 // if(xhr.responseText == "succes"){
                 if (jsoncontent.success == 1) {
                     document.getElementById("progress").style.width = "100%";
@@ -764,7 +764,7 @@
                     Date.src = jsoncontent.data.url;
                     Date.leixin2 = jsoncontent.data.type;
                     Date.size = jsoncontent.data.size;
-                    ////////console.log(Date)
+                    //////////console.log(Date)
                     ajaxCreateComment(Date)
                 } else {
 
@@ -789,21 +789,21 @@
         // var filePath=$(this).val();
         var path = "imgs/filetype/zip .svg";
         var picFileList = document.getElementById("pic").files;
-        //////////console.log(picFileList[0].size)
+        ////////////console.log(picFileList[0].size)
         // if (picFileList[0].size > 23068672) {
-        //     //////////console.log("文件过大")
+        //     ////////////console.log("文件过大")
         //     $(this).val("")
         //     $("#progressPersent").text("文件过大,请重新上传")
         //     return false;
         // }
-        //////////console.log(picFileList[0])
-        //////////console.log( picFileList[0].type)
+        ////////////console.log(picFileList[0])
+        ////////////console.log( picFileList[0].type)
         var types = picFileList[0].name.split(".")
-        //////////console.log(types)
+        ////////////console.log(types)
         var i = types.length
-        //////////console.log(i)
+        ////////////console.log(i)
         var type = types[types.length - 1];
-        //////////console.log(name)
+        ////////////console.log(name)
         if (picFileList[0].leixin2 == "zip") {
             path = "zip";
         } else if (picFileList[0].leixin2 == "pdf") {
@@ -852,25 +852,25 @@
     layui.use(['form', 'laypage'], function () {
         laypage = layui.laypage;
         form = layui.form;
-        //////////////console.log("表单、。。。。。。")
+        ////////////////console.log("表单、。。。。。。")
         // form表单提交   ---  onsubmit事件阻断方案
-        ////////////////console.log(form.on)
+        //////////////////console.log(form.on)
         //此处去获取2级列表数据
 
         form.on('select(cate1)', function (data) {
-            //////////////console.log(data.elem); //得到select原始DOM对象
-            //////////////console.log(data.value); //得到被选中的值
-            //////////////console.log(data.othis); //得到美化后的DOM对象
+            ////////////////console.log(data.elem); //得到select原始DOM对象
+            ////////////////console.log(data.value); //得到被选中的值
+            ////////////////console.log(data.othis); //得到美化后的DOM对象
 
             //此处去获取2级列表数据
-            //////////////console.log(data.value)
+            ////////////////console.log(data.value)
             ajaxGetCategory2(data.value);
         });
 
         form.on('submit(createComment)', function (data) {
-            //////////////console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-            //////////////console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-            //////////////console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            ////////////////console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            ////////////////console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            ////////////////console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
             //  先进行上传
             //  uploadFile(data.field)
             if (userid == 0) {
@@ -909,8 +909,8 @@
         var size = data.size;
         var categoryid = data.categoryid;
         var categoryid2 = data.categoryid2;
-        //////////////////////console.log(categoryid)
-        //////////////////////console.log(categoryid2)
+        ////////////////////////console.log(categoryid)
+        ////////////////////////console.log(categoryid2)
         $.ajax({
             url: "saveUploadResource",
             data: {
@@ -1000,12 +1000,12 @@
                             type: "POST",
                             dataType: "json",
                             success: function (res) {
-                                //////////////console.log(res)
+                                ////////////////console.log(res)
                                 // var data=jsonData.data;
                                 layui.each(res.data, function (index, item) {
                                     var path = "imgs/filetype/zip .svg";
                                     var daxiao = 0;
-                                   console.log(item.user.nickname)
+                                   //console.log(item.user.nickname)
                                     if (item.leixin2 == "zip") {
                                         path = "zip";
                                     } else if (item.leixin2 == "pdf") {
@@ -1078,13 +1078,13 @@
                                 });
                                 //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
                                 //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
-                                //////////////console.log(res.count)
+                                ////////////////console.log(res.count)
                                 next(lis.join(''), page < res.count); //假设总页数为 10
                                 // clik()
                                 $('.goToPageB').on('click',function() {
-                                    console.log("点击");
+                                    //console.log("点击");
                                     let leix = $(this).parents(".list").attr("data-leix");
-                                    console.log(leix);
+                                    //console.log(leix);
                                     sessionStorage.setItem("from",leix);
                                 })
                             },
@@ -1103,7 +1103,7 @@
             // function clik() {
             //     $("#downloadlist").on("click", ".title", function () {
             //         var id = $(this).parents(".list").attr("data-id");
-            //        //////////////////////////console.log(id)
+            //        ////////////////////////////console.log(id)
             //         location.href = "detailpage.html?id=" + id;
             //     })
             // }
@@ -1113,14 +1113,15 @@
 
     // 渲染二级菜单
     function getMenu() {
-        // ////console(aaaaa)
+        // //////console(aaaaa)
         $.ajax({
             url: "findAllCategory"
             , type: "get"
             , dataType: "json"
             , success: function (jsonData) {
-                ////////////////////////console.log(jsonData)
+               //console.log(jsonData)
                 var data = jsonData.data;
+                console.log(jsonData)
                 // if (jsonData.success == 1) {
                 //     data = jsonData.data;
                 // }
@@ -1136,7 +1137,7 @@
                 form.render("select");
             }
             , error: function (res) {
-                //////////////////////////console.log("ajax提交错误")
+                ////////////////////////////console.log("ajax提交错误")
             }
         })
     }
@@ -1150,11 +1151,11 @@
             , dataType: "json"
             // , async: false
             , success: function (jsonData) {
-                //////////////////////console.log(jsonData)
+                ////////////////////////console.log(jsonData)
                 var data = jsonData.data;
                 var html = '<option value="">资源类型</option>';
                 $.each(data, function (k, v) {
-                    //////////////////////console.log(v)
+                    ////////////////////////console.log(v)
                     html += ` <option value="` + v.id + `">` + v.categoryname + `</option>`;
 
                 });
@@ -1162,7 +1163,7 @@
                 form.render("select");
             }
             , error: function (res) {
-                //////////////////////////console.log("ajax提交错误")
+                ////////////////////////////console.log("ajax提交错误")
             }
         })
 
@@ -1175,7 +1176,7 @@
         $(this).css("color", "red")
         $(this).siblings().css("color", "black")
         $("#cldtop-rig").show()
-        ////////////////////////////console.log(category)
+        //////////////////////////////console.log(category)
         getResources();
         ppid = categoryid
         zicaidan(ppid)
@@ -1186,7 +1187,7 @@
         categoryid2 = $(this).find(".feilei").val()
         $(this).css("color", "red")
         $(this).siblings().css("color", "black")
-        ////////////////////////////console.log(category)
+        //////////////////////////////console.log(category)
         getResources();
     })
 
@@ -1200,18 +1201,18 @@
                 , dataType: "json"
                 // , async: false
                 , success: function (jsonData) {
-                    //////////////////////console.log(jsonData)
+                    ////////////////////////console.log(jsonData)
                     var data = jsonData.data;
                     var html = '';
                     $.each(data, function (k, v) {
-                        //////////////////////console.log(v)
+                        ////////////////////////console.log(v)
                         html += `<a href="javascript:void(0)" style="margin-left: 10px"> <input class="feilei" type="hidden" value="` + v.id + `">` + v.categoryname + `</a>`;
                     });
                     $("#cldtop-rig").html(html)
 
                 }
                 , error: function (res) {
-                    //////////////////////////console.log("ajax提交错误")
+                    ////////////////////////////console.log("ajax提交错误")
                 }
             })
         }
@@ -1233,7 +1234,7 @@
         if (value == "其他") {
             leixin = "其他"
         }
-        ////////////////////////////console.log(leixin)
+        //////////////////////////////console.log(leixin)
         $(this).css("color", "red")
         $(this).siblings().css("color", "black")
         getResources();
@@ -1242,13 +1243,13 @@
     // 搜索
     function searchbtn() {
         title = $("input[name='search']").val()
-        ////////////////////////console.log(title)
+        //////////////////////////console.log(title)
         getResources();
     }
 
     // vip
     function vipbtn() {
-        //////////////////////////console.log("vip")
+        ////////////////////////////console.log("vip")
         location.href = "vip.html"
     }
 
@@ -1263,13 +1264,13 @@
             , dataType: "json"
             , async: false
             , success: function (jsonData) {
-                //////////////////////////console.log(jsonData)
+                ////////////////////////////console.log(jsonData)
                 if (jsonData.success == 1) {
                     data = jsonData.data;
                 }
             }
             , error: function (res) {
-                //////////////////////////console.log("ajax提交错误")
+                ////////////////////////////console.log("ajax提交错误")
             }
         })
         return data;
@@ -1421,8 +1422,8 @@
             , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
             , jump: function (obj, first) {
                 //obj包含了当前分页的所有参数，比如：
-                //////////////////////console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                //////////////////////console.log(obj.limit); //得到每页显示的条数
+                ////////////////////////console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                ////////////////////////console.log(obj.limit); //得到每页显示的条数
 
                 //首次不执行
                 if (!first) {
@@ -1446,7 +1447,7 @@
     }
 
     function ajaxGetInvitation(page2, pageSize2) {
-        //console.log(status)
+        ////console.log(status)
         $.ajax({
             url: "findAllResourcess",
             data: {"page": page2, "pageSize": pageSize2, "status": status},
@@ -1454,16 +1455,16 @@
             dataType: "json",
             success: function (jsonData) {
                 var item = jsonData.data;
-                ////////console.log(jsonData)
-                ////////////////////console.log(jsonData.count)
+                //////////console.log(jsonData)
+                //////////////////////console.log(jsonData.count)
 
                 var path = "imgs/filetype/zip.svg";
                 var daxiao = 0;
                 var filesize = 0
-                //////////////////////////console.log(item.leixin2)
+                ////////////////////////////console.log(item.leixin2)
 
-                //////////////console.log(filesize)
-                //////////////console.log(item)
+                ////////////////console.log(filesize)
+                ////////////////console.log(item)
 
                 $("#Invitation").empty()
                 $.each(item, function (i, v) {
@@ -1546,13 +1547,13 @@
                             , dataType: "json"
                             , data: {"id": id}
                             , success: function (jsonData) {
-                                ////////////////console.log(jsonData)
+                                //////////////////console.log(jsonData)
                                 layer.msg(jsonData.errorMsg);
                                 ajaxGetInvitation(page2, pageSize2)
                                 resourceProp()
                             }
                             , error: function (res) {
-                                //////////////////////////console.log("ajax提交错误")
+                                ////////////////////////////console.log("ajax提交错误")
                             }
                         })}
                 })
@@ -1573,7 +1574,7 @@
             , dataType: "json"
             , data: {"userid": userid, "page": page2, "pageSize": pageSize2}
             , success: function (jsonData) {
-                ////////////////console.log(jsonData)
+                //////////////////console.log(jsonData)
                 var data = jsonData.data;
                 var html = ""
                 $("#mixi").append(html)
@@ -1594,7 +1595,7 @@
                 renderPager(jsonData.count, 2)
             }
             , error: function (res) {
-                //////////////////////////console.log("ajax提交错误")
+                ////////////////////////////console.log("ajax提交错误")
             }
         })
     }
@@ -1609,13 +1610,13 @@
             dataType: "json",
             success: function (jsonData) {
                 var item = jsonData.data;
-                ////////console.log(item)
-                ////////////////////console.log(item)
-                ////////////////////console.log(jsonData.count)
+                //////////console.log(item)
+                //////////////////////console.log(item)
+                //////////////////////console.log(jsonData.count)
 
                 var path = "imgs/filetype/zip .svg";
                 var daxiao = 0;
-                //////////////////////////console.log(item.leixin2)
+                ////////////////////////////console.log(item.leixin2)
                 var filesize = 0
                 $("#Invitation").empty()
                 $.each(item, function (i, v) {
@@ -1662,8 +1663,8 @@
                         path = "unkonw";
                     }
                     filesize = v.size;
-                    //////////////console.log(v)
-                    //////////////console.log(filesize)
+                    ////////////////console.log(v)
+                    ////////////////console.log(filesize)
                     daxiao = renderSize(filesize);
                     var html = `<div class="list"  data-id="` + v.id + `">
                     <div class="img-left">
@@ -1706,13 +1707,13 @@
             dataType: "json",
             success: function (jsonData) {
                 var item = jsonData.data;
-                //////console.log(item)
-                ////////////////////console.log(item)
-                ////////////////////console.log(jsonData.count)
+                ////////console.log(item)
+                //////////////////////console.log(item)
+                //////////////////////console.log(jsonData.count)
 
                 var path = "imgs/filetype/zip .svg";
                 var daxiao = 0;
-                //////////////////////////console.log(item.leixin2)
+                ////////////////////////////console.log(item.leixin2)
                 var filesize = 0
                 $("#Invitation").empty()
                 $.each(item, function (i, v) {
@@ -1759,8 +1760,8 @@
                         path = "unkonw";
                     }
                     filesize = v.size;
-                    ////////console.log(v)
-                    //////////////console.log(filesize)
+                    //////////console.log(v)
+                    ////////////////console.log(filesize)
                     daxiao = renderSize(filesize);
                     var html = `<div class="list"  data-id="` + v.id + `">
                     <div class="img-left">
@@ -1805,7 +1806,7 @@
                                     }
                                 }
                                 , error: function (res) {
-                                    ////////////////////console.log("ajax提交错误")
+                                    //////////////////////console.log("ajax提交错误")
                                 }
                             })
                             layer.close(index);
@@ -1826,8 +1827,8 @@
     }
 
     function ResocollectBt(dowid) {
-        //////////////console.log("按钮")
-        //////////////console.log(dowid, userid)
+        ////////////////console.log("按钮")
+        ////////////////console.log(dowid, userid)
 
     }
     function muic(){
@@ -1847,7 +1848,7 @@
             dataType: "json",
             type: "get",
             success: function (json) {
-                console.log(json);
+                //console.log(json);
                 playerOption.audio=json;
                 var ap = new APlayer(playerOption)
             },

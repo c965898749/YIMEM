@@ -7,40 +7,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/headimg/1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/headimg/2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/headimg/3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/headimg/4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/headimg/5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/headimg/6.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/MusicController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/MusicController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/VerifyUploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/VerifyUploadController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogReplayServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/BlogReplayServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/UserServicImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/UserServicImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/generatorConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/generatorConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/BlogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/BlogMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/BlogReplayMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/BlogReplayMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UploadMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UploadMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/index.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/main.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/backend/addgoodspack.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/backend/authoritymanage.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/backend/dicmanage.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/backend/goodsinfolist.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/backend/goodslist.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/backend/goodspacklist.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/backend/modifygoodspack.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/backend/rolelist.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/backend/userlist.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/backend/viewgoodspack.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/common/foot.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/common/head.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/details.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/model/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/model/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AppMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AppMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/Msg.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Msg.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/detailpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/detailpage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/download.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/download.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/forum.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/forum.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/interview.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/interview.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/title.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/title.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -560,7 +535,7 @@
       <workItem from="1628406035320" duration="8694000" />
       <workItem from="1628422093424" duration="325000" />
       <workItem from="1628473183111" duration="8541000" />
-      <workItem from="1628574009979" duration="12479000" />
+      <workItem from="1628574009979" duration="27577000" />
     </task>
     <servers />
   </component>
@@ -613,9 +588,10 @@
     </state>
     <state x="216" y="27" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.738@0.0.1366.738" timestamp="1628391666052" />
     <state x="414" y="168" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1627366934603" />
-    <state x="765" y="234" key="#com.intellij.ide.util.MemberChooser" timestamp="1628416859755">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="765" y="232" key="#com.intellij.ide.util.MemberChooser" timestamp="1628646169363">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="765" y="232" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1628646169363" />
     <state x="765" y="234" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1050@0.0.1920.1050" timestamp="1628416859755" />
     <state x="690" y="297" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1628582326395">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -634,29 +610,29 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1628221056729" />
-    <state width="1263" height="579" key="GridCell.Tab.0.bottom" timestamp="1628587547751">
+    <state width="1867" height="588" key="GridCell.Tab.0.bottom" timestamp="1628671992234">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1263" height="579" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1628587547751" />
+    <state width="1867" height="588" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1628671992234" />
     <state width="1286" height="301" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="1263" height="579" key="GridCell.Tab.0.center" timestamp="1628587547751">
+    <state width="1867" height="588" key="GridCell.Tab.0.center" timestamp="1628671992234">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1263" height="579" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1628587547751" />
+    <state width="1867" height="588" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1628671992234" />
     <state width="1286" height="301" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="1263" height="579" key="GridCell.Tab.0.left" timestamp="1628587547751">
+    <state width="1867" height="588" key="GridCell.Tab.0.left" timestamp="1628671992234">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1263" height="579" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1628587547751" />
+    <state width="1867" height="588" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1628671992234" />
     <state width="1286" height="301" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="1263" height="579" key="GridCell.Tab.0.right" timestamp="1628587547751">
+    <state width="1867" height="588" key="GridCell.Tab.0.right" timestamp="1628671992234">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1263" height="579" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1628587547751" />
+    <state width="1867" height="588" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1628671992234" />
     <state width="1286" height="301" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
     <state width="310" height="673" key="HiddenNamespacesPopup" timestamp="1628500167789">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -675,10 +651,10 @@
     <state x="398" y="229" key="com.intellij.ide.util.TipDialog/0.0.1366.738@0.0.1366.738" timestamp="1628406181834" />
     <state x="560" y="323" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628574785438" />
     <state x="559" y="326" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1628422092107" />
-    <state x="678" y="166" width="811" height="674" key="find.popup" timestamp="1628586305209">
+    <state x="678" y="166" width="811" height="674" key="find.popup" timestamp="1628666475648">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="678" y="166" width="811" height="674" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1628586305209" />
+    <state x="678" y="166" width="811" height="674" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1628666475648" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
