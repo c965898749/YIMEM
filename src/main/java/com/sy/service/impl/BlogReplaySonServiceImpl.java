@@ -11,7 +11,7 @@ import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.BlogReplaySonService;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.springframework.amqp.core.AmqpTemplate;
+//import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +26,8 @@ public class BlogReplaySonServiceImpl implements BlogReplaySonService {
     private UserMapper userMapper;
     @Autowired
     private BlogMapper blogMapper;
-    @Autowired
-    private AmqpTemplate amqpTemplate;
+//    @Autowired
+//    private AmqpTemplate amqpTemplate;
     @Autowired
     private InformationMapper informationMapper;
 
@@ -125,7 +125,7 @@ public class BlogReplaySonServiceImpl implements BlogReplaySonService {
         this.informationadd(blogReplaySon, userid);
         User user = userMapper.selectUserByUserId(userid);
         this.countjia(user);
-        amqpTemplate.convertAndSend("message.messge", JSON.toJSONString(userid));
+//        amqpTemplate.convertAndSend("message.messge", JSON.toJSONString(userid));
     }
 
     public void informationadd(BlogReplay blogReplaySon, Integer userId) {

@@ -4,7 +4,7 @@ import com.sy.model.User;
 import com.sy.tool.Constants;
 //import com.sy.tools.RedisAPI;
 import com.sy.tool.RedisUtil;
-import org.springframework.amqp.core.AmqpTemplate;
+//import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;

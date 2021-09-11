@@ -45,7 +45,9 @@
   <!--通过监听器扫描Spring中出了SpringMVC以外的配置文件-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:spring.xml,classpath:spring-rabbitmq.xml</param-value>
+<!--    <param-value>classpath:spring.xml,classpath:spring-rabbitmq.xml</param-value>-->
+<!--    不再使用消息队列-->
+    <param-value>classpath:spring.xml</param-value>
   </context-param>
 
   <listener>

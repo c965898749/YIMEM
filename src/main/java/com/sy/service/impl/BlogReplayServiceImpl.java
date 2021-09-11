@@ -20,7 +20,7 @@ import com.sy.tool.RedisUtil;
 
 import com.sy.tool.Xtool;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.springframework.amqp.core.AmqpTemplate;
+//import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -39,8 +39,8 @@ public class BlogReplayServiceImpl implements BlogReplayService {
     private UserMapper userMapper;
     @Autowired
     private BlogMapper blogMapper;
-    @Autowired
-    private AmqpTemplate amqpTemplate;
+//    @Autowired
+//    private AmqpTemplate amqpTemplate;
     @Autowired
     private InformationMapper informationMapper;
 //    private MessageSender messageSender;
@@ -75,7 +75,7 @@ public class BlogReplayServiceImpl implements BlogReplayService {
             System.out.println("评论数" + commentCount);
             user.setCommentCount(commentCount);
             userMapper.updateuser(user);
-            amqpTemplate.convertAndSend("message.messge", JSON.toJSONString(userid));
+//            amqpTemplate.convertAndSend("message.messge", JSON.toJSONString(userid));
             baseResp.setSuccess(1);
         } else {
             baseResp.setSuccess(0);
