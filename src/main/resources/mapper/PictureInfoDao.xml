@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.dao.PictureInfoDao">
+
+    <resultMap type="com.sy.entity.PictureInfo" id="PictureInfoMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="directory" column="directory" jdbcType="VARCHAR"/>
+        <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
+        <result property="fromTable" column="from_table" jdbcType="VARCHAR"/>
+        <result property="tableId" column="table_id" jdbcType="VARCHAR"/>
+        <result property="picType" column="pic_type" jdbcType="VARCHAR"/>
+        <result property="reserv1" column="reserv1" jdbcType="VARCHAR"/>
+        <result property="reserv2" column="reserv2" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PictureInfoMap">
+        select
+          id, directory, file_name, from_table, table_id, pic_type, reserv1, reserv2, create_time, create_by, update_time, update_by
+        from picture_info
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="PictureInfoMap">
+        select
+          id, directory, file_name, from_table, table_id, pic_type, reserv1, reserv2, create_time, create_by, update_time, update_by
+        from picture_info
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="directory != null and directory != ''">
+                and directory = #{directory}
+            </if>
+            <if test="fileName != null and fileName != ''">
+                and file_name = #{fileName}
+            </if>
+            <if test="fromTable != null and fromTable != ''">
+                and from_table = #{fromTable}
+            </if>
+            <if test="tableId != null and tableId != ''">
+                and table_id = #{tableId}
+            </if>
+            <if test="picType != null and picType != ''">
+                and pic_type = #{picType}
+            </if>
+            <if test="reserv1 != null and reserv1 != ''">
+                and reserv1 = #{reserv1}
+            </if>
+            <if test="reserv2 != null and reserv2 != ''">
+                and reserv2 = #{reserv2}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{createBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from picture_info
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="directory != null and directory != ''">
+                and directory = #{directory}
+            </if>
+            <if test="fileName != null and fileName != ''">
+                and file_name = #{fileName}
+            </if>
+            <if test="fromTable != null and fromTable != ''">
+                and from_table = #{fromTable}
+            </if>
+            <if test="tableId != null and tableId != ''">
+                and table_id = #{tableId}
+            </if>
+            <if test="picType != null and picType != ''">
+                and pic_type = #{picType}
+            </if>
+            <if test="reserv1 != null and reserv1 != ''">
+                and reserv1 = #{reserv1}
+            </if>
+            <if test="reserv2 != null and reserv2 != ''">
+                and reserv2 = #{reserv2}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{createBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into picture_info(directory, file_name, from_table, table_id, pic_type, reserv1, reserv2, create_time, create_by, update_time, update_by)
+        values (#{directory}, #{fileName}, #{fromTable}, #{tableId}, #{picType}, #{reserv1}, #{reserv2}, #{createTime}, #{createBy}, #{updateTime}, #{updateBy})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into picture_info(directory, file_name, from_table, table_id, pic_type, reserv1, reserv2, create_time, create_by, update_time, update_by)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.directory}, #{entity.fileName}, #{entity.fromTable}, #{entity.tableId}, #{entity.picType}, #{entity.reserv1}, #{entity.reserv2}, #{entity.createTime}, #{entity.createBy}, #{entity.updateTime}, #{entity.updateBy})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into picture_info(directory, file_name, from_table, table_id, pic_type, reserv1, reserv2, create_time, create_by, update_time, update_by)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.directory}, #{entity.fileName}, #{entity.fromTable}, #{entity.tableId}, #{entity.picType}, #{entity.reserv1}, #{entity.reserv2}, #{entity.createTime}, #{entity.createBy}, #{entity.updateTime}, #{entity.updateBy})
+        </foreach>
+        on duplicate key update
+        directory = values(directory),
+        file_name = values(file_name),
+        from_table = values(from_table),
+        table_id = values(table_id),
+        pic_type = values(pic_type),
+        reserv1 = values(reserv1),
+        reserv2 = values(reserv2),
+        create_time = values(create_time),
+        create_by = values(create_by),
+        update_time = values(update_time),
+        update_by = values(update_by)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update picture_info
+        <set>
+            <if test="directory != null and directory != ''">
+                directory = #{directory},
+            </if>
+            <if test="fileName != null and fileName != ''">
+                file_name = #{fileName},
+            </if>
+            <if test="fromTable != null and fromTable != ''">
+                from_table = #{fromTable},
+            </if>
+            <if test="tableId != null and tableId != ''">
+                table_id = #{tableId},
+            </if>
+            <if test="picType != null and picType != ''">
+                pic_type = #{picType},
+            </if>
+            <if test="reserv1 != null and reserv1 != ''">
+                reserv1 = #{reserv1},
+            </if>
+            <if test="reserv2 != null and reserv2 != ''">
+                reserv2 = #{reserv2},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from picture_info where id = #{id}
+    </delete>
+
+</mapper>
+

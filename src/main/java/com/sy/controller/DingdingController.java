@@ -45,7 +45,7 @@ public class DingdingController {
 
     //每隔15分钟检测ding钉钉辅助是否正常运行
 //    @Scheduled(cron = "0 0 23 ? * MON")
-    @Scheduled(cron = "0 */20 * * * ?")
+//    @Scheduled(cron = "0 */20 * * * ?")
     public void Reptilia() {
         if (this.dingdingService.update2()<=0){
             try {

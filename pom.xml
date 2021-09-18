@@ -353,6 +353,12 @@
       <version>1.21</version>
     </dependency>
 
+<!--    jcifs.smb实现远程发送文件到服务器-->
+    <dependency>
+      <groupId>jcifs</groupId>
+      <artifactId>jcifs</artifactId>
+      <version>1.3.17</version>
+    </dependency>
 
 
   </dependencies>

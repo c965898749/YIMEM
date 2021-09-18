@@ -45,6 +45,7 @@ public class UserController {
     private Logger log = Logger.getLogger(UserController.class.getName());
     BaseResp baseResp = new BaseResp();
     @Autowired
+
     private DownloadService downloadService;
     @Autowired
     private WeixinPostService weixinPostService;
