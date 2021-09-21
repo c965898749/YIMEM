@@ -51,42 +51,16 @@ public class SmbUtil {
         }
     }
 
-    //获取流文件
-    private static void inputStreamToFile(InputStream ins, File file) {
-        try {
-            OutputStream os = new FileOutputStream(file);
-            int bytesRead = 0;
-            byte[] buffer = new byte[8192];
-            while ((bytesRead = ins.read(buffer, 0, 8192)) != -1) {
-                os.write(buffer, 0, bytesRead);
-            }
-            os.close();
-            ins.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-
-    // 4.上传文件到服务器
-//    public int uploadFile(File file) {
     public int uploadFile(MultipartFile multipartFilefile) {
-        File file = null;
         int flag = -1;
         BufferedInputStream bf = null;
         try {
-            if (multipartFilefile.equals("") || multipartFilefile.getSize() <= 0) {
-               return 0;
-            } else {
-                InputStream ins = null;
-                ins = multipartFilefile.getInputStream();
-                file = new File(multipartFilefile.getOriginalFilename());
-                inputStreamToFile(ins, file);
-                ins.close();
-            }
+            byte [] byteArr = multipartFilefile.getBytes();
+            InputStream inputStream = new ByteArrayInputStream(byteArr);
+            bf = new BufferedInputStream(inputStream);
             this.smbOut = new SmbFileOutputStream(this.url + "/"
-                    + file.getName(), false);
-            bf = new BufferedInputStream(new FileInputStream(file));
+                    + multipartFilefile.getOriginalFilename(), false);
             byte[] bt = new byte[8192];
             int n = bf.read(bt);
             while (n != -1) {

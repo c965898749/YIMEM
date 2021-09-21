@@ -247,7 +247,8 @@ public class UploadController {
         SmbUtil smb=SmbUtil.getInstance(Constants.REMOTEURL);
         smb.uploadFile(file);
         baseResp.setSuccess(1);
-        baseResp.setData(resultMap("SUCCESS", "url", file.getSize(), "fid", "originalFilename", "extName"));
+        String extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+        baseResp.setData(resultMap("SUCCESS", "", file.getSize(), "", file.getOriginalFilename(), extName));
         baseResp.setErrorMsg("文件上传成功");
         return baseResp;
     }
