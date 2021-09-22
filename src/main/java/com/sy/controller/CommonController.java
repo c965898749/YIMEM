@@ -38,36 +38,36 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/sys/common")
+@RequestMapping("/common")
 public class CommonController {
 
 
 
 
 
-	/**
-	 * 文件上传统一方法
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@PostMapping(value = "/upload")
-	public Result<?> upload(HttpServletRequest request, HttpServletResponse response) {
-		Result<?> result = new Result<>();
-		String savePath = "";
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		MultipartFile file = multipartRequest.getFile("file");// 获取上传文件对象
-		SmbUtil smb=SmbUtil.getInstance(Constants.REMOTEURL);
-		smb.uploadFile(file);
-		if(oConvertUtils.isNotEmpty(savePath)){
-			result.setMessage(savePath);
-			result.setSuccess(true);
-		}else {
-			result.setMessage("上传失败！");
-			result.setSuccess(false);
-		}
-		return result;
-	}
+//	/**
+//	 * 文件上传统一方法
+//	 * @param request
+//	 * @param response
+//	 * @return
+//	 */
+//	@PostMapping(value = "/upload")
+//	public Result<?> upload(HttpServletRequest request, HttpServletResponse response) {
+//		Result<?> result = new Result<>();
+//		String savePath = "";
+//		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+//		MultipartFile file = multipartRequest.getFile("file");// 获取上传文件对象
+//		SmbUtil smb=SmbUtil.getInstance(Constants.REMOTEURL);
+//		smb.uploadFile(file);
+//		if(oConvertUtils.isNotEmpty(savePath)){
+//			result.setMessage(savePath);
+//			result.setSuccess(true);
+//		}else {
+//			result.setMessage("上传失败！");
+//			result.setSuccess(false);
+//		}
+//		return result;
+//	}
 
 
 
@@ -84,6 +84,7 @@ public class CommonController {
 		SmbUtil smb=SmbUtil.getInstance(Constants.REMOTEURL);
 		smb.dowloafFile(request,response);
 	}
+
 
 
 

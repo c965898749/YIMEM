@@ -24,10 +24,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 public class UploadController {
@@ -243,65 +241,77 @@ public class UploadController {
     @ResponseBody
     public BaseResp ajaxUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         BaseResp baseResp = new BaseResp();
-        String savePath = "";
-        SmbUtil smb=SmbUtil.getInstance(Constants.REMOTEURL);
-        smb.uploadFile(file);
+
+        Date date = new Date(); //
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        String savePath = formatter.format(date);
+        SmbUtil smb=SmbUtil.getInstance(Constants.REMOTEURL+"/"+savePath);
+        String name=getRandomName(file.getOriginalFilename());
+        smb.uploadFile(file,name);
+        savePath="/common/static/"+savePath+"/"+name;
         baseResp.setSuccess(1);
         String extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-        baseResp.setData(resultMap("SUCCESS", "", file.getSize(), "", file.getOriginalFilename(), extName));
+        baseResp.setData(resultMap("SUCCESS", savePath, file.getSize(), "", file.getOriginalFilename(), extName));
         baseResp.setErrorMsg("文件上传成功");
         return baseResp;
     }
 
-    @RequestMapping("imgUpload")
-    @ResponseBody
-    public ResultVO ajaximge(@RequestParam("imgFile") MultipartFile file, HttpServletRequest request) {
-        ResultVO result = new ResultVO();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            result.setError(0);
-            result.setMessage("未登陆");
-            return result;
-        } else {
-            try {
-                //接收上传的文件
-                //取扩展名
-                String originalFilename = file.getOriginalFilename();
-                String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
-                //上传到图片服务器
-                // 定义允许上传的文件扩展名
-                String dirName = request.getParameter("dir");
-                HashMap<String, String> extMap = new HashMap<String, String>();
-                extMap.put("image", "gif,jpg,jpeg,png,bmp");
-                if (!Arrays.<String>asList(extMap.get(dirName).split(",")).contains(extName)) {
-                    result.setError(1);
-                    result.setMessage("上传文件扩展名是不允许的扩展名。\n只允许" + extMap.get(dirName) + "格式。");
-                    return result;
-                }
-                // 检查文件大小
-                if (file.getSize() > Constants.Max_SIZE) {
-                    result.setError(1);
-                    result.setMessage("上传图片大小超过限制");
-                    return result;
-                }
-                FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
-                String url = fastDFSClient.uploadFile(file.getBytes(), extName);
-                url = Constants.IMAGE_SERVER_URL + url;
-                String fid = "";
-                System.out.println(url);
-                result.setError(0);
-                result.setMessage("上传成功");
-                result.setUrl(url);
-                return result;
-            } catch (Exception e) {
-                e.printStackTrace();
-                result.setError(1);
-                result.setMessage("系统故障，稍后重试！");
-                return result;
-            }
-        }
-
+    public static String getRandomName(String fileName){
+        int index=fileName.lastIndexOf(".");
+        String houzhui=fileName.substring(index);//获取后缀名
+        String uuidFileName=UUID.randomUUID().toString().replace("-","")+houzhui;
+        return uuidFileName;
     }
+
+//    @RequestMapping("imgUpload")
+//    @ResponseBody
+//    public ResultVO ajaximge(@RequestParam("imgFile") MultipartFile file, HttpServletRequest request) {
+//        ResultVO result = new ResultVO();
+//        User user = (User) request.getSession().getAttribute("user");
+//        if (user == null) {
+//            result.setError(0);
+//            result.setMessage("未登陆");
+//            return result;
+//        } else {
+//            try {
+//                //接收上传的文件
+//                //取扩展名
+//                String originalFilename = file.getOriginalFilename();
+//                String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+//                //上传到图片服务器
+//                // 定义允许上传的文件扩展名
+//                String dirName = request.getParameter("dir");
+//                HashMap<String, String> extMap = new HashMap<String, String>();
+//                extMap.put("image", "gif,jpg,jpeg,png,bmp");
+//                if (!Arrays.<String>asList(extMap.get(dirName).split(",")).contains(extName)) {
+//                    result.setError(1);
+//                    result.setMessage("上传文件扩展名是不允许的扩展名。\n只允许" + extMap.get(dirName) + "格式。");
+//                    return result;
+//                }
+//                // 检查文件大小
+//                if (file.getSize() > Constants.Max_SIZE) {
+//                    result.setError(1);
+//                    result.setMessage("上传图片大小超过限制");
+//                    return result;
+//                }
+//                FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
+//                String url = fastDFSClient.uploadFile(file.getBytes(), extName);
+//                url = Constants.IMAGE_SERVER_URL + url;
+//                String fid = "";
+//                System.out.println(url);
+//                result.setError(0);
+//                result.setMessage("上传成功");
+//                result.setUrl(url);
+//                return result;
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                result.setError(1);
+//                result.setMessage("系统故障，稍后重试！");
+//                return result;
+//            }
+//        }
+//
+//    }
 
     private Map<String, Object> resultMap(String state, String url, long size, String title, String original, String type) {
         Map<String, Object> result = new HashMap();

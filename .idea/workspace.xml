@@ -7,20 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/CommonController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/PictureInfoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/dao/PictureInfoDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/entity/OSSFile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/entity/PictureInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/IOSSFileService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/PictureInfoService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/PictureInfoServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/SmbUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/oConvertUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/vo/CommonConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sy/vo/Result.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/PictureInfoDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/YIMEM_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/YIMEM_war_exploded.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_druid_1_1_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_druid_1_1_10.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_fastjson_1_1_41.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_fastjson_1_1_41.xml" afterDir="false" />
@@ -106,12 +92,16 @@
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xpp3_xpp3_min_1_1_4c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xpp3_xpp3_min_1_1_4c.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YIMEM.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YIMEM.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/DingdingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/DingdingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/CommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/CommonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/DownloadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/DownloadController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/UploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/UploadController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/tool/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/dao/PictureInfoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/mapper/PictureInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/PictureInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/PictureInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/PictureInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/PictureInfoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/tool/SmbUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/SmbUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/PictureInfoDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/PictureInfoMapper.xml" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -133,17 +123,6 @@
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="192.168.5.25" type="feb32156:DbDataSourceImpl" />
       </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="192.168.5.25" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="192.168.5.25" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="yimem: schema" type="76f4a085:MysqlImplModel$Schema" />
-      </path>
     </expand>
     <select />
   </component>
@@ -151,8 +130,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="HTML File" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -173,6 +152,13 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="E:\apache-maven-3.6.3\rep" />
+        <option name="mavenHome" value="E:/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="E:\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
     <option name="importingSettings">
       <MavenImportingSettings>
         <option name="importAutomatically" value="true" />
@@ -192,6 +178,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
@@ -200,23 +187,19 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1614267787642" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ck-party" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../smart-party" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.5082825" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\YIMEM\src\main\webapp\imgs\headimg" />
-      <recent name="D:\YIMEM\src\main\webapp\css\wangEditor" />
-      <recent name="D:\YIMEM\src\main\webapp\js\wangEditor" />
-      <recent name="D:\YIMEM\src\main\webapp\images" />
-      <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.sy.service.impl" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
@@ -227,31 +210,30 @@
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.sy.controller" />
-      <recent name="com.sy.tool" />
-      <recent name="com.sy.vo" />
-      <recent name="com.sy.service.impl" />
-      <recent name="com.sy.service" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.sy.service.impl" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\YIMEM\src\main\webapp\imgs\headimg" />
+      <recent name="D:\YIMEM\src\main\webapp\css\wangEditor" />
+      <recent name="D:\YIMEM\src\main\webapp\js\wangEditor" />
+      <recent name="D:\YIMEM\src\main\webapp\images" />
+      <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.SmbUtil">
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.HttpUtils">
     <configuration name="HttpUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.sy.tool.HttpUtils" />
-      <module name="YIMEM" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.sy.tool.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SmbUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.sy.tool.SmbUtil" />
       <module name="YIMEM" />
       <extension name="coverage">
         <pattern>
@@ -414,22 +396,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.SmbUtil" />
         <item itemvalue="Application.HttpUtils" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -643,9 +612,20 @@
       <workItem from="1628473183111" duration="8541000" />
       <workItem from="1628574009979" duration="29278000" />
       <workItem from="1628728783967" duration="5151000" />
-      <workItem from="1631585877586" duration="1017000" />
-      <workItem from="1631937490559" duration="13582000" />
+      <workItem from="1631980716052" duration="1044000" />
+      <workItem from="1632008442664" duration="3772000" />
+      <workItem from="1632184276683" duration="2026000" />
+      <workItem from="1632267642185" duration="62000" />
+      <workItem from="1632312476056" duration="7782000" />
     </task>
+    <task id="LOCAL-00001" summary="去除mq功能">
+      <created>1632267690658</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1632267690658</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -683,12 +663,29 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="去除mq功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="去除mq功能" />
+    <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="387" y="38" key="#Notifications" timestamp="1631958822572">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="275" y="27" key="#Notifications" timestamp="1628391859546">
+      <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="275" y="27" key="#Notifications/0.0.1366.738@0.0.1366.738" timestamp="1628391859546" />
-    <state x="387" y="38" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1631958822572" />
     <state x="589" y="44" key="#Tomcat_9.0.11" timestamp="1627023303455">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -703,57 +700,57 @@
     </state>
     <state x="765" y="232" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1628646169363" />
     <state x="765" y="234" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1050@0.0.1920.1050" timestamp="1628416859755" />
-    <state x="690" y="297" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1631943949641">
+    <state x="690" y="297" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1628582326395">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="297" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1631943949641" />
+    <state x="690" y="297" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628582326395" />
     <state x="690" y="300" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1628407757089" />
     <state x="684" y="440" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1628407933740">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="684" y="440" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1628407933740" />
-    <state x="627" y="208" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1631946003572">
+    <state x="627" y="208" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1628582271179">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="627" y="208" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1631946003572" />
-    <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1631958835229">
+    <state x="627" y="208" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628582271179" />
+    <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1628818809360">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1631958835229" />
-    <state width="1867" height="267" key="GridCell.Tab.0.bottom" timestamp="1631959296538">
+    <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1628818809360" />
+    <state width="1867" height="588" key="GridCell.Tab.0.bottom" timestamp="1628818789500">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1867" height="267" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1631959296538" />
+    <state width="1867" height="588" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1628818789500" />
     <state width="1286" height="301" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="1867" height="267" key="GridCell.Tab.0.center" timestamp="1631959296538">
+    <state width="1867" height="588" key="GridCell.Tab.0.center" timestamp="1628818789500">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1867" height="267" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1631959296538" />
+    <state width="1867" height="588" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1628818789500" />
     <state width="1286" height="301" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="1867" height="267" key="GridCell.Tab.0.left" timestamp="1631959296538">
+    <state width="1867" height="588" key="GridCell.Tab.0.left" timestamp="1628818789500">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1867" height="267" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1631959296538" />
+    <state width="1867" height="588" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1628818789500" />
     <state width="1286" height="301" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="1867" height="267" key="GridCell.Tab.0.right" timestamp="1631959296538">
+    <state width="1867" height="588" key="GridCell.Tab.0.right" timestamp="1628818789500">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1867" height="267" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1631959296538" />
+    <state width="1867" height="588" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1628818789500" />
     <state width="1286" height="301" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="310" height="673" key="HiddenNamespacesPopup" timestamp="1631943712438">
+    <state width="310" height="673" key="HiddenNamespacesPopup" timestamp="1628500167789">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="220" height="477" key="HiddenNamespacesPopup/0.0.1366.738@0.0.1366.738" timestamp="1628391555838" />
-    <state width="310" height="673" key="HiddenNamespacesPopup/0.0.1920.1040@0.0.1920.1040" timestamp="1631943712438" />
-    <state x="337" y="0" key="SettingsEditor" timestamp="1631958846870">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="310" height="673" key="HiddenNamespacesPopup/0.0.1920.1040@0.0.1920.1040" timestamp="1628500167789" />
+    <state x="337" y="30" key="SettingsEditor" timestamp="1628422354325">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="240" y="21" key="SettingsEditor/0.0.1366.738@0.0.1366.738" timestamp="1628406001983" />
-    <state x="337" y="0" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1631958846870" />
+    <state x="337" y="98" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1627021047726" />
     <state x="337" y="30" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1628422354325" />
     <state x="560" y="323" key="com.intellij.ide.util.TipDialog" timestamp="1628728801158">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -761,14 +758,10 @@
     <state x="398" y="229" key="com.intellij.ide.util.TipDialog/0.0.1366.738@0.0.1366.738" timestamp="1628406181834" />
     <state x="560" y="323" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628728801158" />
     <state x="559" y="326" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1628422092107" />
-    <state x="678" y="166" width="831" height="682" key="find.popup" timestamp="1631958406315">
+    <state x="678" y="166" width="811" height="674" key="find.popup" timestamp="1628666475648">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="678" y="166" width="831" height="682" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1631958406315" />
-    <state x="532" y="237" key="run.anything.popup" timestamp="1631945977685">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="532" y="237" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1631945977685" />
+    <state x="678" y="166" width="811" height="674" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1628666475648" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

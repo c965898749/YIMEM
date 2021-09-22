@@ -40,6 +40,67 @@ public class DownloadController {
     private BulletService bulletService;
     private Logger log = Logger.getLogger(DownloadController.class.getName());
 
+//    @RequestMapping(value = "downloadResource", method = RequestMethod.GET)
+//    public String download(Integer id,String host, HttpServletRequest request, HttpServletResponse response) throws IOException {
+//
+////        先验证用户登录
+//        User user = (User) request.getSession().getAttribute("user");
+//
+//        if (user == null) {
+//            return "redirect:login.html";
+//        }
+//
+//        //        实时更新用户信息
+//        User user1 = new User();
+//        try {
+//            Integer userId = user.getUserId();
+//            user1 = (User) servic.findUserByUserId(userId).getData();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+////    再查看资源是否存在
+//        String path = null;
+//        Upload upload = new Upload();
+//        try {
+//            upload = service.findById(id);
+//            if (upload == null) {
+//                return "redirect:login.html";
+//            }
+//        } catch (CsdnExpection csdnExpection) {
+//            csdnExpection.printStackTrace();
+//            return "redirect:login.html";
+//        }
+////      判断积分是否充足
+//        Integer uploadUsrid = upload.getUserid();
+//        if (user1.getDownloadmoney() < upload.getPrice()) {
+//            return "redirect:login.html";
+//        }
+////        积分操作
+//        Integer count = 0;
+//        try {
+//            count = servic.downloadMoney(upload.getPrice(), user1.getUserId(), uploadUsrid, id);
+//
+//            if (count > 0) {
+//                path = upload.getSrc();
+//                log.info("请求域名"+host);
+//                if (Xtool.isNotNull(host)){
+//                    path=path.replace(Constants.IMAGE_SERVER_URL,"http://"+host+"/");
+//                }
+//                //记录下载次数
+//                upload.setHot(upload.getHot() + 1);
+//                service.updatahot(upload);
+//                //        开始下载
+//                return "redirect:" + path + "?attname=" + URLEncoder.encode(upload.getName(), "UTF-8");
+//            }
+//        } catch (CsdnExpection e) {
+//            e.printStackTrace();
+//            return "redirect:404.html";
+//        }
+//        return "redirect:404.html";
+//    }
+
+
     @RequestMapping(value = "downloadResource", method = RequestMethod.GET)
     public String download(Integer id,String host, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -82,16 +143,20 @@ public class DownloadController {
             count = servic.downloadMoney(upload.getPrice(), user1.getUserId(), uploadUsrid, id);
 
             if (count > 0) {
-                path = upload.getSrc();
-                log.info("请求域名"+host);
-                if (Xtool.isNotNull(host)){
-                    path=path.replace(Constants.IMAGE_SERVER_URL,"http://"+host+"/");
-                }
+//                path = upload.getSrc();
+//                log.info("请求域名"+host);
+//                if (Xtool.isNotNull(host)){
+//                    path=path.replace(Constants.IMAGE_SERVER_URL,"http://"+host+"/");
+//                }
                 //记录下载次数
                 upload.setHot(upload.getHot() + 1);
                 service.updatahot(upload);
                 //        开始下载
-                return "redirect:" + path + "?attname=" + URLEncoder.encode(upload.getName(), "UTF-8");
+//                return "redirect:" + path + "?attname=" + URLEncoder.encode(upload.getName(), "UTF-8");
+//                return "redirect:/common/static/" +upload.getSrc()+"/"+ URLEncoder.encode(upload.getName(), "UTF-8");
+//                System.out.println(host+upload.getSrc());
+//                return "redirect:http://"+host+upload.getSrc();
+                return "redirect:"+upload.getSrc();
             }
         } catch (CsdnExpection e) {
             e.printStackTrace();
@@ -99,6 +164,8 @@ public class DownloadController {
         }
         return "redirect:404.html";
     }
+
+
 
     @RequestMapping(value = "getAllapp", method = RequestMethod.GET)
     @ResponseBody

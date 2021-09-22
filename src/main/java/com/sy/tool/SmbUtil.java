@@ -41,6 +41,10 @@ public class SmbUtil {
             System.out.println("开始连接...url：" + this.url);
             smbFile = new SmbFile(this.url);
             smbFile.connect();
+            //判断远程文件夹是否存在，如果不存在则创建
+            if(!smbFile.exists()){
+                smbFile.mkdirs();
+            }
             System.out.println("连接成功...url：" + this.url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -52,7 +56,7 @@ public class SmbUtil {
     }
 
 
-    public int uploadFile(MultipartFile multipartFilefile) {
+    public int uploadFile(MultipartFile multipartFilefile,String name) {
         int flag = -1;
         BufferedInputStream bf = null;
         try {
@@ -60,7 +64,7 @@ public class SmbUtil {
             InputStream inputStream = new ByteArrayInputStream(byteArr);
             bf = new BufferedInputStream(inputStream);
             this.smbOut = new SmbFileOutputStream(this.url + "/"
-                    + multipartFilefile.getOriginalFilename(), false);
+                    + name, false);
             byte[] bt = new byte[8192];
             int n = bf.read(bt);
             while (n != -1) {

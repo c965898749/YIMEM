@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sy.dao.PictureInfoDao">
+<mapper namespace="com.sy.mapper.PictureInfoMapper">
 
     <resultMap type="com.sy.entity.PictureInfo" id="PictureInfoMap">
         <result property="id" column="id" jdbcType="VARCHAR"/>
@@ -25,51 +25,7 @@
         where id = #{id}
     </select>
 
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="PictureInfoMap">
-        select
-          id, directory, file_name, from_table, table_id, pic_type, reserv1, reserv2, create_time, create_by, update_time, update_by
-        from picture_info
-        <where>
-            <if test="id != null and id != ''">
-                and id = #{id}
-            </if>
-            <if test="directory != null and directory != ''">
-                and directory = #{directory}
-            </if>
-            <if test="fileName != null and fileName != ''">
-                and file_name = #{fileName}
-            </if>
-            <if test="fromTable != null and fromTable != ''">
-                and from_table = #{fromTable}
-            </if>
-            <if test="tableId != null and tableId != ''">
-                and table_id = #{tableId}
-            </if>
-            <if test="picType != null and picType != ''">
-                and pic_type = #{picType}
-            </if>
-            <if test="reserv1 != null and reserv1 != ''">
-                and reserv1 = #{reserv1}
-            </if>
-            <if test="reserv2 != null and reserv2 != ''">
-                and reserv2 = #{reserv2}
-            </if>
-            <if test="createTime != null">
-                and create_time = #{createTime}
-            </if>
-            <if test="createBy != null and createBy != ''">
-                and create_by = #{createBy}
-            </if>
-            <if test="updateTime != null">
-                and update_time = #{updateTime}
-            </if>
-            <if test="updateBy != null and updateBy != ''">
-                and update_by = #{updateBy}
-            </if>
-        </where>
-        limit #{pageable.offset}, #{pageable.pageSize}
-    </select>
+
 
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
