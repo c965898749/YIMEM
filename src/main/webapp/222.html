@@ -1,208 +1,207 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+<!--<!doctype html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport"-->
+<!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+<!--    <title>Document</title>-->
+<!--</head>-->
+<!--<body>-->
 
-2222
-<div id="div1" style="margin-top: 100px"></div>
-</body>
-<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet">
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<!--<script src="js/wangEditor/highlight.min.js"></script>-->
-<!--<link href="css/wangEditor/monokai_sublime.min.css" rel="stylesheet">-->
-<script
-        type="text/javascript"
-        src="js/wangEditor/wangEditor.min.js"
-></script>
-<script src="//cdn.jsdelivr.net/npm/xgplayer@2.9.6/browser/index.js" type="text/javascript"></script>
-<script type="text/javascript">
-    const E = window.wangEditor
-    const editor = new E("#div1")
-    /**
-     *内容样式
-     */
+<!--2222-->
+<!--<div id="div1" style="margin-top: 100px"></div>-->
+<!--</body>-->
+<!--<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet">-->
+<!--<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>-->
+<!--&lt;!&ndash;<script src="js/wangEditor/highlight.min.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;<link href="css/wangEditor/monokai_sublime.min.css" rel="stylesheet">&ndash;&gt;-->
+<!--<script-->
+<!--        type="text/javascript"-->
+<!--        src="js/wangEditor/wangEditor.min.js"-->
+<!--&gt;</script>-->
+<!--<script src="//cdn.jsdelivr.net/npm/xgplayer@2.9.6/browser/index.js" type="text/javascript"></script>-->
+<!--<script type="text/javascript">-->
+<!--    const E = window.wangEditor-->
+<!--    const editor = new E("#div1")-->
+<!--    /**-->
+<!--     *内容样式-->
+<!--     */-->
 
-    //插入代码语言配置
-    editor.config.languageType = [
-        'Bash',
-        'C',
-        'C#',
-        'C++',
-        'CSS',
-        'Java',
-        'JavaScript',
-        'JSON',
-        'TypeScript',
-        'Plain text',
-        'Html',
-        'XML',
-        'SQL',
-        'Go',
-        'Kotlin',
-        'Lua',
-        'Markdown',
-        'PHP',
-        'Python',
-        'Shell Session',
-        'Ruby',
-    ]
-    // 或者 const editor = new E(document.getElementById('div1'))
-    // 设置编辑区域高度为 500px
-    editor.config.height = 800
+<!--    //插入代码语言配置-->
+<!--    editor.config.languageType = [-->
+<!--        'Bash',-->
+<!--        'C',-->
+<!--        'C#',-->
+<!--        'C++',-->
+<!--        'CSS',-->
+<!--        'Java',-->
+<!--        'JavaScript',-->
+<!--        'JSON',-->
+<!--        'TypeScript',-->
+<!--        'Plain text',-->
+<!--        'Html',-->
+<!--        'XML',-->
+<!--        'SQL',-->
+<!--        'Go',-->
+<!--        'Kotlin',-->
+<!--        'Lua',-->
+<!--        'Markdown',-->
+<!--        'PHP',-->
+<!--        'Python',-->
+<!--        'Shell Session',-->
+<!--        'Ruby',-->
+<!--    ]-->
+<!--    // 或者 const editor = new E(document.getElementById('div1'))-->
+<!--    // 设置编辑区域高度为 500px-->
+<!--    editor.config.height = 800-->
 
-    // 配置全屏功能按钮是否展示
-    editor.config.showFullScreen = true
+<!--    // 配置全屏功能按钮是否展示-->
+<!--    editor.config.showFullScreen = true-->
 
-    editor.config.onchange = function (newHtml) {
-        //console.log("change 之后最新的 html", newHtml);
-    };
+<!--    editor.config.onchange = function (newHtml) {-->
+<!--        //console.log("change 之后最新的 html", newHtml);-->
+<!--    };-->
 
-    // 配置触发 onchange 的时间频率，默认为 200ms
-    editor.config.onchangeTimeout = 1500; // 修改为 500ms
+<!--    // 配置触发 onchange 的时间频率，默认为 200ms-->
+<!--    editor.config.onchangeTimeout = 1500; // 修改为 500ms-->
 
-    editor.config.onblur = function (newHtml) {
-        //console.log('onblur', newHtml) // 获取最新的 html 内容
-    }
-    editor.config.onfocus = function (newHtml) {
-        //console.log('onfocus', newHtml) // 获取最新的 html 内容
-    }
-    // 挂载highlight插件
-    editor.highlight = hljs
+<!--    editor.config.onblur = function (newHtml) {-->
+<!--        //console.log('onblur', newHtml) // 获取最新的 html 内容-->
+<!--    }-->
+<!--    editor.config.onfocus = function (newHtml) {-->
+<!--        //console.log('onfocus', newHtml) // 获取最新的 html 内容-->
+<!--    }-->
+<!--    // 挂载highlight插件-->
+<!--    editor.highlight = hljs-->
 
-    /**
-     *图片上传
-     * @type {boolean}
-     */
-    editor.config.uploadImgMaxLength = 1 // 一次最多上传 5 个图片
+<!--    /**-->
+<!--     *图片上传-->
+<!--     * @type {boolean}-->
+<!--     */-->
+<!--    editor.config.uploadImgMaxLength = 1 // 一次最多上传 5 个图片-->
 
-    //timeout 即上传接口等待的最大时间，默认是 10 秒钟，可以自己修改。
+<!--    //timeout 即上传接口等待的最大时间，默认是 10 秒钟，可以自己修改。-->
 
-    editor.config.uploadImgTimeout = 5 * 1000
+<!--    editor.config.uploadImgTimeout = 5 * 1000-->
 
-    // 配置alt选项
-    editor.config.showLinkImgAlt = false
-    // 配置超链接
-    editor.config.showLinkImgHref = false
-    // 插入网络图片的回调
-    editor.config.linkImgCallback = function (src, alt, href) {
-        //console.log('图片 src ', src)
-        //console.log('图片文字说明',alt)
-        //console.log('跳转链接',href)
-    }
+<!--    // 配置alt选项-->
+<!--    editor.config.showLinkImgAlt = false-->
+<!--    // 配置超链接-->
+<!--    editor.config.showLinkImgHref = false-->
+<!--    // 插入网络图片的回调-->
+<!--    editor.config.linkImgCallback = function (src, alt, href) {-->
+<!--        //console.log('图片 src ', src)-->
+<!--        //console.log('图片文字说明',alt)-->
+<!--        //console.log('跳转链接',href)-->
+<!--    }-->
 
 
-    //关闭样式过滤
-    editor.config.pasteFilterStyle = false
+<!--    //关闭样式过滤-->
+<!--    editor.config.pasteFilterStyle = false-->
 
-    // 配置 server 接口地址
-    // editor.config.uploadImgServer = '/upload-img'
+<!--    // 配置 server 接口地址-->
+<!--    // editor.config.uploadImgServer = '/upload-img'-->
 
-    editor.config.customUploadImg = function (resultFiles, insertImgFn) {
-        // resultFiles 是 input 中选中的文件列表
-        // insertImgFn 是获取图片 url 后，插入到编辑器的方法
-        //console.log(resultFiles);
-        var xhr = new XMLHttpRequest();
-        var formData = new FormData();
-        formData.append("file", resultFiles[0]);
+<!--    editor.config.customUploadImg = function (resultFiles, insertImgFn) {-->
+<!--        // resultFiles 是 input 中选中的文件列表-->
+<!--        // insertImgFn 是获取图片 url 后，插入到编辑器的方法-->
+<!--        //console.log(resultFiles);-->
+<!--        var xhr = new XMLHttpRequest();-->
+<!--        var formData = new FormData();-->
+<!--        formData.append("file", resultFiles[0]);-->
 
-        //监听事件
+<!--        //监听事件-->
 
-        xhr.upload.addEventListener("progress", onprogress, false);
-        xhr.overrideMimeType('multipart/form-data; charset=utf-8');
-        // xhr.addEventListener("error", uploadFailed, false);//发送文件和表单自定义参数
+<!--        xhr.upload.addEventListener("progress", onprogress, false);-->
+<!--        xhr.overrideMimeType('multipart/form-data; charset=utf-8');-->
+<!--        // xhr.addEventListener("error", uploadFailed, false);//发送文件和表单自定义参数-->
 
-        xhr.open("POST", "fileUpload", true);
+<!--      -->
 
-        //记得加入上传数据formData
+<!--        //记得加入上传数据formData-->
 
-        xhr.send(formData);
+<!--        xhr.send(formData);-->
 
-        xhr.onreadystatechange = function () {
-            console.log(xhr)
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // 获取json数据
-                var jsoncontent = JSON.parse(xhr.responseText)
-                insertImgFn(jsoncontent.data.url)
-            }
-        }
-    }
+<!--        xhr.onreadystatechange = function () {-->
+<!--            console.log(xhr)-->
+<!--            if (xhr.readyState == 4 && xhr.status == 200) {-->
+<!--                // 获取json数据-->
+<!--                var jsoncontent = JSON.parse(xhr.responseText)-->
+<!--                insertImgFn(jsoncontent.data.url)-->
+<!--            }-->
+<!--        }-->
+<!--    }-->
 
-    editor.config.languageTab = '    '
+<!--    editor.config.languageTab = '    '-->
 
-    /**
-     * 视频上传
-     */
-    //限制视频大小和类型
-    //限制大小
-    //默认限制视频大小是 1024m ，可以自己修改。
+<!--    /**-->
+<!--     * 视频上传-->
+<!--     */-->
+<!--    //限制视频大小和类型-->
+<!--    //限制大小-->
+<!--    //默认限制视频大小是 1024m ，可以自己修改。-->
 
-    editor.config.uploadVideoMaxSize = 1 * 1024 * 1024 * 1024 // 1024m
-    //限制类型
-    editor.config.uploadVideoAccept = ['mp4']
+<!--    editor.config.uploadVideoMaxSize = 1 * 1024 * 1024 * 1024 // 1024m-->
+<!--    //限制类型-->
+<!--    editor.config.uploadVideoAccept = ['mp4']-->
 
-    //timeout 即上传接口等待的最大时间，默认是 5分钟，可以自己修改。
+<!--    //timeout 即上传接口等待的最大时间，默认是 5分钟，可以自己修改。-->
 
-    editor.config.uploadVideoTimeout = 1000 * 60 * 5
+<!--    editor.config.uploadVideoTimeout = 1000 * 60 * 5-->
 
-    // 自定义检查插入视频的回调
-    editor.config.onlineVideoCallback = function (video) {
-        // 自定义回调内容，内容成功插入后会执行该函数
-        //console.log('插入视频内容', video)
-    }
+<!--    // 自定义检查插入视频的回调-->
+<!--    editor.config.onlineVideoCallback = function (video) {-->
+<!--        // 自定义回调内容，内容成功插入后会执行该函数-->
+<!--        //console.log('插入视频内容', video)-->
+<!--    }-->
 
-    editor.config.customUploadVideo = function (resultFiles, insertVideoFn) {
-        // resultFiles 是 input 中选中的文件列表
-        // insertVideoFn 是获取视频 url 后，插入到编辑器的方法
-        var xhr = new XMLHttpRequest();
-        var formData = new FormData();
-        formData.append("file", resultFiles[0]);
+<!--    editor.config.customUploadVideo = function (resultFiles, insertVideoFn) {-->
+<!--        // resultFiles 是 input 中选中的文件列表-->
+<!--        // insertVideoFn 是获取视频 url 后，插入到编辑器的方法-->
+<!--        var xhr = new XMLHttpRequest();-->
+<!--        var formData = new FormData();-->
+<!--        formData.append("file", resultFiles[0]);-->
 
-        //监听事件
+<!--        //监听事件-->
 
-        xhr.upload.addEventListener("progress", onprogress, false);
-        xhr.overrideMimeType('multipart/form-data; charset=utf-8');
-        // xhr.addEventListener("error", uploadFailed, false);//发送文件和表单自定义参数
+<!--        xhr.upload.addEventListener("progress", onprogress, false);-->
+<!--        xhr.overrideMimeType('multipart/form-data; charset=utf-8');-->
+<!--        // xhr.addEventListener("error", uploadFailed, false);//发送文件和表单自定义参数-->
 
-        xhr.open("POST", "fileUpload", true);
 
-        //记得加入上传数据formData
+<!--        //记得加入上传数据formData-->
 
-        xhr.send(formData);
+<!--        xhr.send(formData);-->
 
-        xhr.onreadystatechange = function () {
-            console.log(xhr)
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // 获取json数据
-                var jsoncontent = JSON.parse(xhr.responseText)
-                // 往编辑器插入 html 内容
-                insertVideoFn(jsoncontent.data.url)
-                // 上传视频，返回结果，将视频地址插入到编辑器中
-                editor.config.customInsertVideo = function (videoUrl) {
-                    // videoUrl 是返回的视频地址
-                    editor.cmd.do(
-                        'insertHTML',
-                        `<p>
-                            <p contenteditable=false id="mse" style="max-width:100%"></p>
-                        </p>`
-                    )
-                    // 初始化视频
-                    new Player({
-                        id: 'mse',
-                        url: videoUrl
-                    });
-                }
+<!--        xhr.onreadystatechange = function () {-->
+<!--            console.log(xhr)-->
+<!--            if (xhr.readyState == 4 && xhr.status == 200) {-->
+<!--                // 获取json数据-->
+<!--                var jsoncontent = JSON.parse(xhr.responseText)-->
+<!--                // 往编辑器插入 html 内容-->
+<!--                insertVideoFn(jsoncontent.data.url)-->
+<!--                // 上传视频，返回结果，将视频地址插入到编辑器中-->
+<!--                editor.config.customInsertVideo = function (videoUrl) {-->
+<!--                    // videoUrl 是返回的视频地址-->
+<!--                    editor.cmd.do(-->
+<!--                        'insertHTML',-->
+<!--                        `<p>-->
+<!--                            <p contenteditable=false id="mse" style="max-width:100%"></p>-->
+<!--                        </p>`-->
+<!--                    )-->
+<!--                    // 初始化视频-->
+<!--                    new Player({-->
+<!--                        id: 'mse',-->
+<!--                        url: videoUrl-->
+<!--                    });-->
+<!--                }-->
 
-            }
-        }
+<!--            }-->
+<!--        }-->
 
-    }
+<!--    }-->
 
-    editor.create()
-</script>
-</html>
+<!--    editor.create()-->
+<!--</script>-->
+<!--</html>-->

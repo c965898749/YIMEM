@@ -237,23 +237,79 @@ public class UploadController {
 //    }
 
 //     */
-    @RequestMapping("fileUpload")
+
+    /**
+     * 头像上传
+     * @param file
+     * @return
+     */
+    @RequestMapping("headimgUpload")
     @ResponseBody
-    public BaseResp ajaxUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+    public BaseResp headimgUpload(@RequestParam("file") MultipartFile file) {
+        return ajaxUpload(file,"headimg");
+
+    }
+
+    /**
+     * 博客资源上传
+     * @param file
+     * @return
+     */
+    @RequestMapping("blogUpload")
+    @ResponseBody
+    public BaseResp blogUpload(@RequestParam("file") MultipartFile file) {
+        return ajaxUpload(file,"blog");
+
+    }
+
+    /**
+     * 面试资料上传
+     * @param file
+     * @return
+     */
+    @RequestMapping("interviewUpload")
+    @ResponseBody
+    public BaseResp interviewUpload(@RequestParam("file") MultipartFile file) {
+        return ajaxUpload(file,"interview");
+
+    }
+
+
+    /**
+     * 资源上传
+     * @param file
+     * @return
+     */
+    @RequestMapping("resourceUpload")
+    @ResponseBody
+    public BaseResp resourceUpload(@RequestParam("file") MultipartFile file) {
+        return ajaxUpload(file,"resource");
+
+    }
+
+//    @RequestMapping("fileUpload")
+//    @ResponseBody
+    private  BaseResp ajaxUpload(MultipartFile file,String type) {
         BaseResp baseResp = new BaseResp();
 
         Date date = new Date(); //
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         String savePath = formatter.format(date);
-        SmbUtil smb=SmbUtil.getInstance(Constants.REMOTEURL+"/"+savePath);
+        SmbUtil smb=SmbUtil.getInstance(Constants.REMOTEURL+"/"+type+"/"+savePath);
         String name=getRandomName(file.getOriginalFilename());
-        smb.uploadFile(file,name);
-        savePath="/common/static/"+savePath+"/"+name;
-        baseResp.setSuccess(1);
-        String extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-        baseResp.setData(resultMap("SUCCESS", savePath, file.getSize(), "", file.getOriginalFilename(), extName));
-        baseResp.setErrorMsg("文件上传成功");
-        return baseResp;
+        if (smb.uploadFile(file,name)>=0){
+            savePath="/common/static/"+type+"/"+savePath+"/"+name;
+            baseResp.setSuccess(1);
+            String extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+            baseResp.setData(resultMap("SUCCESS", savePath, file.getSize(), "", file.getOriginalFilename(), extName));
+            baseResp.setErrorMsg("文件上传成功");
+            return baseResp;
+        }else {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("文件上传失败");
+            return baseResp;
+        }
+
     }
 
     public static String getRandomName(String fileName){
@@ -313,7 +369,7 @@ public class UploadController {
 //
 //    }
 
-    private Map<String, Object> resultMap(String state, String url, long size, String title, String original, String type) {
+    private static Map<String, Object> resultMap(String state, String url, long size, String title, String original, String type) {
         Map<String, Object> result = new HashMap();
         result.put("state", state);// 上传成功与否
         result.put("url", url);// 上传后图片 完整的url

@@ -92,16 +92,17 @@
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xpp3_xpp3_min_1_1_4c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xpp3_xpp3_min_1_1_4c.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YIMEM.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YIMEM.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/CommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/CommonController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/DownloadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/DownloadController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/UploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/UploadController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/dao/PictureInfoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/mapper/PictureInfoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/PictureInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/PictureInfoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/PictureInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/PictureInfoServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/tool/SmbUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/SmbUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/PictureInfoDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/PictureInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/222.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/222.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/blogging.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/blogging.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/blogging1.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/blogging1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/blogging2.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/blogging2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/download.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/download.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/interview.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/interview.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/folder.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/folder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/pdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/pdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/userHomepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/userHomepage.html" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -198,8 +199,12 @@
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.sy.service.impl" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\YIMEM\src\main\webapp\imgs\headimg" />
+      <recent name="D:\YIMEM\src\main\webapp\css\wangEditor" />
+      <recent name="D:\YIMEM\src\main\webapp\js\wangEditor" />
+      <recent name="D:\YIMEM\src\main\webapp\images" />
+      <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
@@ -211,25 +216,9 @@
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.sy.controller" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\YIMEM\src\main\webapp\imgs\headimg" />
-      <recent name="D:\YIMEM\src\main\webapp\css\wangEditor" />
-      <recent name="D:\YIMEM\src\main\webapp\js\wangEditor" />
-      <recent name="D:\YIMEM\src\main\webapp\images" />
-      <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.sy.service.impl" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Application.HttpUtils">
     <configuration name="HttpUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -399,6 +388,18 @@
         <item itemvalue="Application.HttpUtils" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -717,40 +718,40 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1628818809360" />
-    <state width="1867" height="588" key="GridCell.Tab.0.bottom" timestamp="1628818789500">
+    <state width="1867" height="267" key="GridCell.Tab.0.bottom" timestamp="1632362676076">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1867" height="588" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1628818789500" />
+    <state width="1867" height="267" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1632362676076" />
     <state width="1286" height="301" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="1867" height="588" key="GridCell.Tab.0.center" timestamp="1628818789500">
+    <state width="1867" height="267" key="GridCell.Tab.0.center" timestamp="1632362676076">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1867" height="588" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1628818789500" />
+    <state width="1867" height="267" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1632362676076" />
     <state width="1286" height="301" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="1867" height="588" key="GridCell.Tab.0.left" timestamp="1628818789500">
+    <state width="1867" height="267" key="GridCell.Tab.0.left" timestamp="1632362676076">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1867" height="588" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1628818789500" />
+    <state width="1867" height="267" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1632362676076" />
     <state width="1286" height="301" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
-    <state width="1867" height="588" key="GridCell.Tab.0.right" timestamp="1628818789500">
+    <state width="1867" height="267" key="GridCell.Tab.0.right" timestamp="1632362676076">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1286" height="166" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
-    <state width="1867" height="588" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1628818789500" />
+    <state width="1867" height="267" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1632362676076" />
     <state width="1286" height="301" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
     <state width="310" height="673" key="HiddenNamespacesPopup" timestamp="1628500167789">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="220" height="477" key="HiddenNamespacesPopup/0.0.1366.738@0.0.1366.738" timestamp="1628391555838" />
     <state width="310" height="673" key="HiddenNamespacesPopup/0.0.1920.1040@0.0.1920.1040" timestamp="1628500167789" />
-    <state x="337" y="30" key="SettingsEditor" timestamp="1628422354325">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="337" y="0" key="SettingsEditor" timestamp="1632357183269">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="240" y="21" key="SettingsEditor/0.0.1366.738@0.0.1366.738" timestamp="1628406001983" />
-    <state x="337" y="98" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1627021047726" />
+    <state x="337" y="0" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1632357183269" />
     <state x="337" y="30" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1628422354325" />
     <state x="560" y="323" key="com.intellij.ide.util.TipDialog" timestamp="1628728801158">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -758,10 +759,10 @@
     <state x="398" y="229" key="com.intellij.ide.util.TipDialog/0.0.1366.738@0.0.1366.738" timestamp="1628406181834" />
     <state x="560" y="323" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628728801158" />
     <state x="559" y="326" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1628422092107" />
-    <state x="678" y="166" width="811" height="674" key="find.popup" timestamp="1628666475648">
+    <state x="678" y="166" width="831" height="682" key="find.popup" timestamp="1632362543528">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="678" y="166" width="811" height="674" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1628666475648" />
+    <state x="678" y="166" width="831" height="682" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1632362543528" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -770,6 +771,14 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/amqp/MessageConsumer.java</url>
           <line>30</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/sy/mapper/T8DocManageMapper.java</url>
+          <line>33</line>
+          <properties class="com.sy.mapper.T8DocManageMapper" method="updatereadcount">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

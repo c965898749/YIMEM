@@ -1421,7 +1421,7 @@ function uploadfile(picFileList) {
     xhr.overrideMimeType('multipart/form-data; charset=utf-8');
     // xhr.addEventListener("error", uploadFailed, false);//发送文件和表单自定义参数
 
-    xhr.open("POST", "fileUpload", true);
+    xhr.open("POST", "interviewUpload", true);
 
     //记得加入上传数据formData
 

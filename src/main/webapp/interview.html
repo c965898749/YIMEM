@@ -178,6 +178,7 @@
     function ccc(id) {
       var rows = select("M8610EQ008", {"id": id});
       if (rows.type == 'pdf') {
+        console.log(rows.src);
         localStorage.videoUrl = rows.src;
         window.open("pdf.html")
       } else if (rows.type == 'pdf' || rows.type == 'svg' || rows.type == 'png' || rows.type == 'jpg' || rows.type == 'jpeg' || rows.type == 'gif') {

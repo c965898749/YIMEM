@@ -15,8 +15,9 @@
     reSetSize();
     window.onresize = reSetSize;
     function reSetSize() {
-        var src="http://www.yimem.com/web/viewer.html?file="
+        var src="/web/viewer.html?file="
         document.getElementById("iframe").src = src+localStorage["videoUrl"];
+        console.log(localStorage["videoUrl"]);
         document.getElementById("iframe").style.height = window.innerHeight + "px";
     }
 
