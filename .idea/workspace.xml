@@ -60,13 +60,6 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="localRepository" value="E:\apache-maven-3.6.3\rep" />
-        <option name="mavenHome" value="E:/apache-maven-3.6.3" />
-        <option name="userSettingsFile" value="E:\apache-maven-3.6.3\conf\settings.xml" />
-      </MavenGeneralSettings>
-    </option>
     <option name="importingSettings">
       <MavenImportingSettings>
         <option name="importAutomatically" value="true" />
@@ -106,25 +99,25 @@
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.sy.service.impl" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\work_space\smart-party\YIMEM\src\main\resources" />
+      <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
+      <recent name="D:\YIMEM\src\main\webapp" />
+      <recent name="D:\VRMS-Workspace\YIMEM\src\main\webapp" />
+      <recent name="D:\项目\YIMEM\src\main\webapp" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.sy.controller" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\YIMEM\src\main\webapp\imgs\headimg" />
       <recent name="D:\YIMEM\src\main\webapp\css\wangEditor" />
       <recent name="D:\YIMEM\src\main\webapp\js\wangEditor" />
       <recent name="D:\YIMEM\src\main\webapp\images" />
       <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
-      <recent name="D:\YIMEM\src\main\webapp" />
-      <recent name="D:\VRMS-Workspace\YIMEM\src\main\webapp" />
-      <recent name="D:\项目\YIMEM\src\main\webapp" />
-      <recent name="D:\项目\YIMEM\src\main\webapp\js" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.sy.controller" />
-    </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.sy.service.impl" />
     </key>
   </component>
   <component name="RunManager" selected="Application.HttpUtils">
@@ -525,6 +518,7 @@
       <workItem from="1632184276683" duration="2026000" />
       <workItem from="1632267642185" duration="62000" />
       <workItem from="1632312476056" duration="7782000" />
+      <workItem from="1632809118985" duration="535000" />
     </task>
     <task id="LOCAL-00001" summary="去除mq功能">
       <created>1632267690658</created>
@@ -540,7 +534,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632362814761</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="提供YIMEM项目完整表结构">
+      <created>1632809242954</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1632809242954</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -594,7 +595,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="去除mq功能" />
     <MESSAGE value="文件上传功能目录细分头像上传、资源上传、博客文件上传和面试资源上传" />
-    <option name="LAST_COMMIT_MESSAGE" value="文件上传功能目录细分头像上传、资源上传、博客文件上传和面试资源上传" />
+    <MESSAGE value="提供YIMEM项目完整表结构" />
+    <option name="LAST_COMMIT_MESSAGE" value="提供YIMEM项目完整表结构" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="WindowStateProjectService">
@@ -629,10 +631,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="627" y="208" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628582271179" />
-    <state x="320" y="42" key="CommitChangelistDialog2" timestamp="1632362813597">
+    <state x="320" y="42" key="CommitChangelistDialog2" timestamp="1632809242208">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="320" y="42" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1632362813597" />
+    <state x="320" y="42" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1632809242208" />
     <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1628818809360">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -666,16 +668,16 @@
     </state>
     <state width="220" height="477" key="HiddenNamespacesPopup/0.0.1366.738@0.0.1366.738" timestamp="1628391555838" />
     <state width="310" height="673" key="HiddenNamespacesPopup/0.0.1920.1040@0.0.1920.1040" timestamp="1628500167789" />
-    <state x="337" y="0" key="SettingsEditor" timestamp="1632357183269">
+    <state x="337" y="0" key="SettingsEditor" timestamp="1632809662072">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="240" y="21" key="SettingsEditor/0.0.1366.738@0.0.1366.738" timestamp="1628406001983" />
-    <state x="337" y="0" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1632357183269" />
+    <state x="337" y="0" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1632809662072" />
     <state x="337" y="30" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1628422354325" />
-    <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1632362878926">
+    <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1632809327306">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="452" y="187" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1632362878926" />
+    <state x="452" y="187" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1632809327306" />
     <state x="560" y="323" key="com.intellij.ide.util.TipDialog" timestamp="1628728801158">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
