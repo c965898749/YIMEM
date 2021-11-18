@@ -88,7 +88,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1614267787642" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -518,7 +518,10 @@
       <workItem from="1632184276683" duration="2026000" />
       <workItem from="1632267642185" duration="62000" />
       <workItem from="1632312476056" duration="7782000" />
-      <workItem from="1632809118985" duration="535000" />
+      <workItem from="1632809118985" duration="657000" />
+      <workItem from="1633761477662" duration="104000" />
+      <workItem from="1636364688118" duration="750000" />
+      <workItem from="1637053073850" duration="654000" />
     </task>
     <task id="LOCAL-00001" summary="去除mq功能">
       <created>1632267690658</created>
@@ -541,7 +544,21 @@
       <option name="project" value="LOCAL" />
       <updated>1632809242954</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="提供YIMEM项目完整表结构">
+      <created>1632809688336</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1632809688336</updated>
+    </task>
+    <task id="LOCAL-00005" summary="提供YIMEM项目完整表结构">
+      <created>1632809712805</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1632809712805</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -600,19 +617,6 @@
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="275" y="27" key="#Notifications" timestamp="1628391859546">
-      <screen x="0" y="0" width="1366" height="738" />
-    </state>
-    <state x="275" y="27" key="#Notifications/0.0.1366.738@0.0.1366.738" timestamp="1628391859546" />
-    <state x="589" y="44" key="#Tomcat_9.0.11" timestamp="1627023303455">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="589" y="44" key="#Tomcat_9.0.11/0.0.1920.1040@0.0.1920.1040" timestamp="1627023303455" />
-    <state x="216" y="27" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1628391666052">
-      <screen x="0" y="0" width="1366" height="738" />
-    </state>
-    <state x="216" y="27" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.738@0.0.1366.738" timestamp="1628391666052" />
-    <state x="414" y="168" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1627366934603" />
     <state x="765" y="232" key="#com.intellij.ide.util.MemberChooser" timestamp="1628646169363">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -622,19 +626,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="297" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628582326395" />
-    <state x="690" y="300" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1628407757089" />
-    <state x="684" y="440" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1628407933740">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state x="684" y="440" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1628407933740" />
     <state x="627" y="208" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1628582271179">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="627" y="208" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628582271179" />
-    <state x="320" y="42" key="CommitChangelistDialog2" timestamp="1632809696059">
+    <state x="320" y="42" key="CommitChangelistDialog2" timestamp="1632809712317">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="320" y="42" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1632809696059" />
+    <state x="320" y="42" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1632809712317" />
     <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1628818809360">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -642,56 +641,49 @@
     <state width="1867" height="267" key="GridCell.Tab.0.bottom" timestamp="1632362932539">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1286" height="166" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
     <state width="1867" height="267" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1632362932539" />
     <state width="1286" height="301" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
     <state width="1867" height="267" key="GridCell.Tab.0.center" timestamp="1632362932539">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1286" height="166" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
     <state width="1867" height="267" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1632362932539" />
     <state width="1286" height="301" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
     <state width="1867" height="267" key="GridCell.Tab.0.left" timestamp="1632362932539">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1286" height="166" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
     <state width="1867" height="267" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1632362932539" />
     <state width="1286" height="301" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
     <state width="1867" height="267" key="GridCell.Tab.0.right" timestamp="1632362932539">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1286" height="166" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1628395515761" />
     <state width="1867" height="267" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1632362932539" />
     <state width="1286" height="301" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1628422567749" />
     <state width="310" height="673" key="HiddenNamespacesPopup" timestamp="1628500167789">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="220" height="477" key="HiddenNamespacesPopup/0.0.1366.738@0.0.1366.738" timestamp="1628391555838" />
     <state width="310" height="673" key="HiddenNamespacesPopup/0.0.1920.1040@0.0.1920.1040" timestamp="1628500167789" />
     <state x="337" y="0" key="SettingsEditor" timestamp="1632809662072">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="240" y="21" key="SettingsEditor/0.0.1366.738@0.0.1366.738" timestamp="1628406001983" />
     <state x="337" y="0" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1632809662072" />
     <state x="337" y="30" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1628422354325" />
-    <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1632809691781">
+    <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1632809738882">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="452" y="187" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1632809691781" />
+    <state x="452" y="187" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1632809738882" />
     <state x="560" y="323" key="com.intellij.ide.util.TipDialog" timestamp="1628728801158">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="398" y="229" key="com.intellij.ide.util.TipDialog/0.0.1366.738@0.0.1366.738" timestamp="1628406181834" />
     <state x="560" y="323" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628728801158" />
     <state x="559" y="326" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1628422092107" />
-    <state x="692" y="416" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1632809142709">
+    <state x="692" y="416" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1637054382617">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="692" y="416" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1632809142709" />
-    <state x="678" y="166" width="831" height="682" key="find.popup" timestamp="1632362543528">
+    <state x="692" y="416" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1637054382617" />
+    <state x="678" y="166" width="831" height="682" key="find.popup" timestamp="1636364823388">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="678" y="166" width="831" height="682" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1632362543528" />
+    <state x="678" y="166" width="831" height="682" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1636364823388" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
