@@ -526,8 +526,9 @@
             layer.msg("请输入文章正文后再发布！")
             return false
         }
+        // String title, String content, String publishForm, String category, Integer blogId
         $.ajax({
-            url: "blog/addBlog"
+            url: "blog/modifierBlog"
             ,
             type: "post"
             ,
@@ -536,7 +537,7 @@
                 "content": content,
                 "publishForm": publishForm,
                 "category": category,
-                "userID": userID
+                "blogId": blogId
             }
             ,
             dataType: "json"

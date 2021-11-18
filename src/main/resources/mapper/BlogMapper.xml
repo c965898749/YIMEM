@@ -5,7 +5,7 @@
     <!--新增博客-->
     <insert id="insertNewBlog" parameterType="com.sy.model.Blog" useGeneratedKeys="true" keyColumn="id"
             keyProperty="id">
-        INSERT into blog(userid,title,content,publishForm,category,createtime) VALUES(#{userid},#{title},#{content},#{publishForm},#{category},now());
+        INSERT into blog(userid,title,content,publishForm,category,createtime,stick) VALUES(#{userid},#{title},#{content},#{publishForm},#{category},now(),0);
     </insert>
 
     <!--杨-->
