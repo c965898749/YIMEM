@@ -17,7 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SmbUtil {
     // 1. 声明属性
-    private String url = "smb://yimem:c866971331@192.168.5.100/lishi/";
+//    private String url = "smb://yimem:c866971331@192.168.5.100/lishi/";
+    private String url = "smb://yimem:c866971331@192.168.0.103/lishi/";
     private SmbFile smbFile = null;
     private SmbFileOutputStream smbOut = null;
     private static SmbUtil smbUtil = null; // 共享文件协议
