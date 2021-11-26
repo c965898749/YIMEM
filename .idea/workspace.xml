@@ -8,10 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/BlogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/BlogMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/blog_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/blog_home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/blogging2.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/blogging2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/my_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/my_home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/UserController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,6 +72,7 @@
   </component>
   <component name="ProjectId" id="1vebOwE4ArAWkF8yG4mHVMmM7r1" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -526,7 +524,10 @@
       <workItem from="1633761477662" duration="104000" />
       <workItem from="1636364688118" duration="750000" />
       <workItem from="1637053073850" duration="654000" />
-      <workItem from="1637216055864" duration="3832000" />
+      <workItem from="1637216055864" duration="8669000" />
+      <workItem from="1637286850183" duration="617000" />
+      <workItem from="1637308637720" duration="5645000" />
+      <workItem from="1637914168035" duration="294000" />
     </task>
     <task id="LOCAL-00001" summary="去除mq功能">
       <created>1632267690658</created>
@@ -570,7 +571,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637216075191</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="修复本地博客一些bug，layUI陪伴了我两年最终还是面对现实妥协，停止维护。好难过T_T">
+      <created>1637220231504</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1637220231504</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -625,34 +633,23 @@
     <MESSAGE value="去除mq功能" />
     <MESSAGE value="文件上传功能目录细分头像上传、资源上传、博客文件上传和面试资源上传" />
     <MESSAGE value="提供YIMEM项目完整表结构" />
-    <option name="LAST_COMMIT_MESSAGE" value="提供YIMEM项目完整表结构" />
+    <MESSAGE value="修复本地博客一些bug，layUI陪伴了我两年最终还是面对现实妥协，停止维护。好难过T_T" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复本地博客一些bug，layUI陪伴了我两年最终还是面对现实妥协，停止维护。好难过T_T" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="765" y="232" key="#com.intellij.ide.util.MemberChooser" timestamp="1628646169363">
+    <state x="320" y="42" key="CommitChangelistDialog2" timestamp="1637914656193">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="232" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1628646169363" />
-    <state x="690" y="297" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1628582326395">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="690" y="297" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628582326395" />
-    <state x="627" y="208" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1628582271179">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="627" y="208" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628582271179" />
-    <state x="320" y="42" key="CommitChangelistDialog2" timestamp="1637216074053">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="320" y="42" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1637216074053" />
+    <state x="320" y="42" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1637914656193" />
     <state x="52" y="85" key="DiffContextDialog" timestamp="1637216068706">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="52" y="85" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1637216068706" />
-    <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1628818809360">
+    <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1637543173598">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1628818809360" />
+    <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1637543173598" />
     <state width="1867" height="267" key="GridCell.Tab.0.bottom" timestamp="1637219506777">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -673,18 +670,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="337" y="0" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1632809662072" />
-    <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1637216077269">
+    <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1637220420814">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="452" y="187" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1637216077269" />
-    <state x="560" y="323" key="com.intellij.ide.util.TipDialog" timestamp="1628728801158">
+    <state x="452" y="187" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1637220420814" />
+    <state x="692" y="416" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1637541353566">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="323" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628728801158" />
-    <state x="692" y="416" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1637054382617">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="692" y="416" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1637054382617" />
+    <state x="692" y="416" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1637541353566" />
     <state x="678" y="166" width="831" height="682" key="find.popup" timestamp="1637217649628">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

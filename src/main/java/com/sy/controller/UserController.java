@@ -239,6 +239,24 @@ public class UserController {
         user.setCity(weiXinUser.getCity());
         user.setProvinces(weiXinUser.getProvince());
         user.setOpenid(weiXinUser.getOpenid());
+        user.setDownloadmoney((double)0);
+        user.setRanking(9999);
+        user.setLevel(2);
+        user.setCollectCount(0);
+        user.setBlogCount(0);
+        user.setAttentionCount(0);
+        user.setFansCount(0);
+        user.setResourceCount(0);
+        user.setForumCount(0);
+        user.setAskCount(0);
+        user.setCommentCount(0);
+        user.setLikeCount(0);
+        user.setVisitorCount(0);
+        user.setDownCount(0);
+        user.setUnreadreplaycount(0);
+        user.setReadquerylikecount(0);
+        user.setUnreadfanscount(0);
+        user.setIsEmil("0");
         int result = userMapper.insertUser(user);
         if (result > 0) {
             baseResp.setSuccess(1);
