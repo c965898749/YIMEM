@@ -6,9 +6,46 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="">
+    <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="更新数据局库">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/alsoask.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/answer_ask.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/app.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/ask.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/ask_fav.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/ask_label.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/attention.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/blog.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/blog_replay.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/collect.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/collectitems.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/dingding.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/download.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/downloadcategory.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/downloadreply.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/emil.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/fa_att.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/fans.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/favorite.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/fir_label.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/forum.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/forumcategory.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/information.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/integrals.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/invitation.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/invitationreply.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/likes.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/picture_info.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/power.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/resocollect.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/scan_record.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/se_label.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/specialist.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/sys_logininfor.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/t8_doc_manage.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/upload.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/user.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/yimemSQL/video.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +127,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1614267787642" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/yimemSQL" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -527,7 +564,8 @@
       <workItem from="1637216055864" duration="8669000" />
       <workItem from="1637286850183" duration="617000" />
       <workItem from="1637308637720" duration="5645000" />
-      <workItem from="1637914168035" duration="294000" />
+      <workItem from="1637914168035" duration="1176000" />
+      <workItem from="1637916252279" duration="1250000" />
     </task>
     <task id="LOCAL-00001" summary="去除mq功能">
       <created>1632267690658</created>
@@ -578,7 +616,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637220231504</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="修复微信注册，充值使用异常bug">
+      <created>1637914703138</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1637914703138</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -634,54 +679,55 @@
     <MESSAGE value="文件上传功能目录细分头像上传、资源上传、博客文件上传和面试资源上传" />
     <MESSAGE value="提供YIMEM项目完整表结构" />
     <MESSAGE value="修复本地博客一些bug，layUI陪伴了我两年最终还是面对现实妥协，停止维护。好难过T_T" />
-    <option name="LAST_COMMIT_MESSAGE" value="修复本地博客一些bug，layUI陪伴了我两年最终还是面对现实妥协，停止维护。好难过T_T" />
+    <MESSAGE value="修复微信注册，充值使用异常bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复微信注册，充值使用异常bug" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="320" y="42" key="CommitChangelistDialog2" timestamp="1637914656193">
+    <state x="320" y="42" key="CommitChangelistDialog2" timestamp="1637918949955">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="320" y="42" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1637914656193" />
-    <state x="52" y="85" key="DiffContextDialog" timestamp="1637216068706">
+    <state x="320" y="42" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1637918949955" />
+    <state x="52" y="85" key="DiffContextDialog" timestamp="1637918859851">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="52" y="85" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1637216068706" />
-    <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1637543173598">
+    <state x="52" y="85" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1637918859851" />
+    <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1637915343389">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1637543173598" />
-    <state width="1867" height="267" key="GridCell.Tab.0.bottom" timestamp="1637219506777">
+    <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1637915343389" />
+    <state width="1867" height="267" key="GridCell.Tab.0.bottom" timestamp="1637915349054">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="267" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1637219506777" />
-    <state width="1867" height="267" key="GridCell.Tab.0.center" timestamp="1637219506776">
+    <state width="1867" height="267" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1637915349054" />
+    <state width="1867" height="267" key="GridCell.Tab.0.center" timestamp="1637915349053">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="267" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1637219506776" />
-    <state width="1867" height="267" key="GridCell.Tab.0.left" timestamp="1637219506776">
+    <state width="1867" height="267" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1637915349053" />
+    <state width="1867" height="267" key="GridCell.Tab.0.left" timestamp="1637915349053">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="267" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1637219506776" />
-    <state width="1867" height="267" key="GridCell.Tab.0.right" timestamp="1637219506776">
+    <state width="1867" height="267" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1637915349053" />
+    <state width="1867" height="267" key="GridCell.Tab.0.right" timestamp="1637915349053">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="267" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1637219506776" />
+    <state width="1867" height="267" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1637915349053" />
     <state x="337" y="0" key="SettingsEditor" timestamp="1632809662072">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="337" y="0" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1632809662072" />
-    <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1637220420814">
+    <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1637914973371">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="452" y="187" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1637220420814" />
+    <state x="452" y="187" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1637914973371" />
     <state x="692" y="416" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1637541353566">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="692" y="416" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1637541353566" />
-    <state x="678" y="166" width="831" height="682" key="find.popup" timestamp="1637217649628">
+    <state x="694" y="286" width="831" height="682" key="find.popup" timestamp="1637916408714">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="678" y="166" width="831" height="682" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1637217649628" />
+    <state x="694" y="286" width="831" height="682" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1637916408714" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
