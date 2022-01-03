@@ -126,7 +126,7 @@
     values ( #{userid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
       #{subtitle,jdbcType=VARCHAR}, #{clickcount,jdbcType=INTEGER}, #{coverurl,jdbcType=VARCHAR}, 
       #{videourl,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{likecount,jdbcType=INTEGER}, 
-      #{classifyid,jdbcType=INTEGER}, #{createtime,jdbcType=VARCHAR}, #{collectcount,jdbcType=INTEGER}, 
+      #{classifyid,jdbcType=INTEGER}, now(), #{collectcount,jdbcType=INTEGER},
       #{actor,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, 
       #{director,jdbcType=VARCHAR}, #{douban,jdbcType=VARCHAR}, #{info,jdbcType=LONGVARCHAR}
       )

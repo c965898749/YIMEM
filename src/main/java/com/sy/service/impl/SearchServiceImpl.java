@@ -168,7 +168,7 @@ public class SearchServiceImpl implements SearchService {
         List<Ask> askList = searchMapper.queryAsk(stringBuffer.toString());
         List<Invitation> forumList = searchMapper.queryForum(stringBuffer.toString());
         List<Upload> uploadList = searchMapper.queryDownload(stringBuffer.toString());
-        List<Video> videos = searchMapper.queryVideo(stringBuffer.toString());
+//        List<Video> videos = searchMapper.queryVideo(stringBuffer.toString());
         List<T8DocManage> t8DocManages = searchMapper.queryDocManage(stringBuffer.toString());
         if (Xtool.isNotNull(blogList)) {
             map.put("Blog", blogList);
@@ -182,9 +182,9 @@ public class SearchServiceImpl implements SearchService {
         if (Xtool.isNotNull(uploadList)) {
             map.put("Upload", uploadList);
         }
-        if (Xtool.isNotNull(videos)) {
-            map.put("Video", videos);
-        }
+//        if (Xtool.isNotNull(videos)) {
+//            map.put("Video", videos);
+//        }
         if (Xtool.isNotNull(t8DocManages)) {
             map.put("t8DocManages", t8DocManages);
         }

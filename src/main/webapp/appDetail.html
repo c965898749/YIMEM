@@ -54,9 +54,11 @@
                 </div>
             </div>
 
-
-            <div class="video" style="background-image: url('imgs/loading/timg.gif');background-repeat:no-repeat;background-size:30%;background-position:center">
+            <div class="video">
+                <div  id="Dplayer" style="width: 100%;height: 100%"></div>
             </div>
+<!--            <div class="video" style="background-image: url('imgs/loading/timg.gif');background-repeat:no-repeat;background-size:30%;background-position:center">-->
+<!--            </div>-->
             <div class="tools" style="margin-top: 10px">
                 <div class="smallkuang" id="videoLike">
                     <i id="likeLike" class="layui-icon layui-icon-praise " style="font-size: 50px; color: grey;"></i>
@@ -232,7 +234,11 @@
     </div>
 </div>
 <script src="layui/layui.all.js"></script>
+<script src="js/DPlayer.min.js"></script>
+<!--渲染视频-->
+<script src="js/renderVideo.js"></script>
 <script>
+    var videoUrl;   //视频地址
     var rate = layui.rate;
     var videoid = getQueryString("videoid")
     var user = getUser();
@@ -282,29 +288,27 @@
                         html += ` <a href="/appDetail.html?videoid=${v.videoid}" target="_blank">
                         <ul class="danmuLi" style="height: 50px;margin-top: 15px">
                             <li>
-                                <div class="currentTime" style="width: 37px;color: #888888 "><img style="height: 100%;width: 100%" src="${v.coverurl}" alt=""></div>
+                                <hr style="margin-top: 20px;"/>
+                                <div class="currentTime" style="width: 37px;height: 50px;color: #888888 "><img style="height: 100%;width: 100%" src="${v.coverurl}" alt=""></div>
                             </li>
-                            <li style="margin-left: 53px;margin-top: -25px">
-                                <div class="msg" style="color: #888888 ">${v.title}</div>
-                                <div class="createTime" style="color: #888888;transform:scale(0.8)">${v.createtime}</div>
+                            <li style="margin-left: 53px;margin-top: -50px;display: flex;">
+                                 <div class="msg videotile" style="color: #888888;max-width: 150px;">${v.title}</div>
+                                <div class="createTime" style="color: #888888;transform:scale(0.8);margin-left: auto;">播放量:${v.clickcount}</div>
                             </li>
-                            <li style="margin-left: 53px;margin-top: 0px;color: #888888">
-                                <div style="width: 220px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">${v.info == null ? "" : v.info}</div>
-                            </li>
-                            <li> <hr style="margin-top: 20px"/></li>
+
                         </ul>
                     </a>`;
                     } else {
-                        var yu = "英语";
-                        if (v.director.substr(1, 2) != null) {
-                            yu = v.director.substr(1, 2);
-                        }
+                        // var yu = "英语";
+                        // if (v.director.substr(1, 2) != null) {
+                        //     yu = v.director.substr(1, 2);
+                        // }
                         html += `<a href="/appDetail.html?videoid=${v.videoid}" target="_blank">
                        <ul class="danmuLi" style="height: 25px;margin-top: 15px">
-                        <li>
-                            <div class="currentTime" style="color: #888888 ">[${yu}]</div>
-                            <div class="msg" style="color: #888888 ">${v.title}</div>
-                            <div class="createTime" style="color: #888888;transform:scale(0.8)">${v.createtime}</div>
+                        <li style="display: flex;">
+                            <div class="currentTime" style="color: #888888 ">[${v.director}]</div>
+                            <div class="msg videotile" style="color: #888888;max-width: 170px;">${v.title}</div>
+                            <div class="createTime" style="color: #888888;transform:scale(0.8);margin-left: auto;">播放量:${v.clickcount}</div>
                             <hr style="margin-top: 0px"/>
                         </li>
                     </ul></a>`;
@@ -336,12 +340,15 @@
                     var v = jsonData.data;
                     // $(".video").empty()
                     //////////////////////console.log(v)
-                    var html = `<iframe  width="100%" height="100%" src="${v.videourl}" frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen="true"></iframe>`;
+                    // var html = `<iframe  width="100%" height="100%" src="${v.videourl}" frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen="true"></iframe>`;
                     var dq = v.region.replace(/:/g, " ")
                     var type = v.type.replace(/:/g, " ")
                     $(".bigtitle").html("前位置首页 > " + dq + " > " + type + " >" + v.title);
                     $(".neiron").append(v.info);
-                    $(".video").append(html);
+                    // $(".video").append(html);;
+                    videoUrl=v.videourl;
+
+                    getDplayer(videoid);
                     if (v.director != null) {
                         var y = v.director.replace(/:/g, " ")
                         $(".yuyan").append(y);

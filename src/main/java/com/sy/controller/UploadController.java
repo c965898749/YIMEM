@@ -14,6 +14,7 @@ import com.sy.tool.*;
 
 
 import com.sy.vo.Result;
+import jcifs.smb.SmbFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,13 +81,23 @@ public class UploadController {
             List<Upload> uploads = uploadMapper.selectAll(upload);
             if (Xtool.isNotNull(uploads)) {
                 try {
-                    FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
-                    uploads.forEach(x -> {
+//                    FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
+//                    uploads.forEach(x -> {
+//                        uploadMapper.delete(user.getUserId(), x.getId());
+//                        user.setResourceCount(user.getResourceCount() - 1);
+//                        userMapper.updateuser(user);
+//                        String url = x.getSrc().replace(Constants.IMAGE_SERVER_URL + "group1/", "");
+//                        fastDFSClient.deleteFile("group1", url);
+//                    });
+//                    SmbFile = new SmbFile(remoteUrl + shareFolderPath + "/" + fileName);
+//                    if (SmbFile.exists()) {
+//                        SmbFile.delete();
+//                    }
+                    uploads.forEach(x->{
                         uploadMapper.delete(user.getUserId(), x.getId());
                         user.setResourceCount(user.getResourceCount() - 1);
                         userMapper.updateuser(user);
-                        String url = x.getSrc().replace(Constants.IMAGE_SERVER_URL + "group1/", "");
-                        fastDFSClient.deleteFile("group1", url);
+                        SmbUtil.deleteFile(Constants.REMOTEURL,x.getSrc());
                     });
                     baseResp.setSuccess(1);
                     baseResp.setErrorMsg("删除成功");

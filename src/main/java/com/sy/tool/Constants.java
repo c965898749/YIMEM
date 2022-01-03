@@ -16,6 +16,8 @@ public class Constants {
 //    public static final String REMOTEURL = "smb://yimem:c866971331@192.168.5.100/lishi/";
     public static final String REMOTEURL = "smb://yimem:c866971331@192.168.0.117/lishi/";
 
+    public static final String VV = "smb://yimem:c866971331@192.168.0.117/video/AV/";
+
     public static final String UPLOAD_ROOT_DIR = "D:/项目/YIMEM/src/main/webapp/mp4/";
     //用户图片存放路径
     public static final String ICON_DIR = "upload/iconImgs/";

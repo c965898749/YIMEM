@@ -3,6 +3,8 @@ package com.sy.tool;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
@@ -17,8 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SmbUtil {
     // 1. 声明属性
-//    private String url = "smb://yimem:c866971331@192.168.5.100/lishi/";
-    private String url = "smb://yimem:c866971331@192.168.0.103/lishi/";
+    private String url = null;
     private SmbFile smbFile = null;
     private SmbFileOutputStream smbOut = null;
     private static SmbUtil smbUtil = null; // 共享文件协议
@@ -157,14 +158,48 @@ public class SmbUtil {
         }
     }
 
-    // 5. 在main方法里面测试
-//    public static void main(String[] args) throws IOException {
-////        // 服務器地址 格式為 smb://电脑用户名:电脑密码@电脑IP地址/IP共享的文件夹
-//        String remoteUrl = "smb://yimem:c866971331@192.168.5.100/lishi/";
-////        String localFile = "D:\\ccc.txt"; // 本地要上传的文件
-////        File file = new File(localFile);
-//        SmbUtil smb = SmbUtil.getInstance(remoteUrl);
-////        smb.uploadFile(file);// 上传文件
-////        smb.dowloafFile();
-//    }
+    public static void deleteFile(String url,String shareFolderPath) {
+        SmbFile SmbFile;
+        try {
+//             smb://userName:passWord@host/path/shareFolderPath/fileName
+            String[] cc=shareFolderPath.split("/common/static");
+            if (cc.length>1){
+                SmbFile = new SmbFile(url + cc[1]);
+                if (SmbFile.exists()) {
+                    SmbFile.delete();
+                }
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (SmbException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 读取共享文件夹下的所有文件(文件夹)的名称
+     * @param remoteUrl
+     */
+    public static List<String> getSharedFileList(String remoteUrl) {
+        SmbFile smbFile;
+        List<String> list=new ArrayList<>();
+        try {
+            // smb://userName:passWord@host/path/
+            smbFile = new SmbFile(remoteUrl);
+            if (!smbFile.exists()) {
+//                System.out.println("no such folder");
+            } else {
+                SmbFile[] files = smbFile.listFiles();
+                for (SmbFile f : files) {
+                    list.add(f.getName());
+                }
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (SmbException e) {
+            e.printStackTrace();
+        }
+        return  list;
+    }
 }

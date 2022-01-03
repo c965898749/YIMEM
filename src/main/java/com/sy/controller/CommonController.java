@@ -85,7 +85,11 @@ public class CommonController {
 		smb.dowloafFile(request,response);
 	}
 
-
+	@GetMapping(value = "/video/**")
+	public void video(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		SmbUtil smb=SmbUtil.getInstance(Constants.VV);
+		smb.dowloafFile(request,response);
+	}
 
 
 }

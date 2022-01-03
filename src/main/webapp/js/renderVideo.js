@@ -1,7 +1,7 @@
 // ////console.log(" %c 该项目基于Dplayer.js", 'color:red')
 
 function getDplayer(videoId) {
-    ////console.log("这是"+videoUrl)
+     // console.log("这是"+videoUrl)
     // const userId = 1
     dp = new DPlayer({
         element: document.getElementById('Dplayer'),

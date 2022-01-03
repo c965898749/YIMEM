@@ -135,7 +135,7 @@
     <div class="content_catolog" id="download">下载</div>
     <div class="content_catolog" id="forum">论坛</div>
     <div class="content_catolog" id="ask">问答</div>
-    <div class="content_catolog" id="video">默默</div>
+<!--    <div class="content_catolog" id="video">默默</div>-->
     <div class="content_catolog" id="interview">面试</div>
     <input type="text" value="" id="search_all_value">
     <div class="search_all" id="search_all">搜一搜</div>
@@ -269,10 +269,11 @@
             data: {"key": key},
             dataType: "json",
             success: function (json) {
-                render(json.data)
                 layer.close(index)
                 if (json.success!=200){
                     layer.msg("抱歉资源未找到")
+                }else {
+                    render(json.data)
                 }
             },
             error: function (res) {
