@@ -8,4 +8,12 @@
 论坛部分框架搭好
 问答部分框架搭好
 视频部分待完成
-娱乐部分待完成
+娱乐部分待完
+
+## 捐赠
+如果你觉得本项目帮助到你的话，可以给作者买杯咖啡。
+<img src="https://github.com/c965898749/YIMEM/blob/master/src/main/webapp/images/213125.png">
+
+## License
+
+<a href="https://opensource.org/licenses/MIT" target="_blank">MIT</a>
