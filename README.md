@@ -12,7 +12,7 @@
 
 ## 捐赠
 如果你觉得本项目帮助到你的话，可以给作者买杯咖啡。
-<img src="http://czx.yimem.com:3000/common/static/resource/20220125/c8c055af76d24371a9b91bc5583a8aab.png">
+<img src="https://github.com/c965898749/YIMEM/blob/master/src/main/webapp/images/213125.png">
 
 ## License
 
