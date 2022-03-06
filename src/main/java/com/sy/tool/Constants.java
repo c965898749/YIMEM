@@ -13,7 +13,6 @@ public class Constants {
 
     //存放上传文件的根目录：
 //    public static final String UPLOAD_ROOT_DIR = "/upload/";
-//    public static final String REMOTEURL = "smb://yimem:c866971331@192.168.5.100/lishi/";
     public static final String REMOTEURL = "smb://yimem:c866971331@192.168.0.117/lishi/";
 
     public static final String VV = "smb://yimem:c866971331@192.168.0.117/video/AV/";

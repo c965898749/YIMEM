@@ -6,33 +6,13 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="安全考虑去除服务器地址">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/vvfm/640 (1).webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/vvfm/640 (10).webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/vvfm/640 (11).webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/vvfm/640 (2).webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/vvfm/640 (3).webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/vvfm/640 (4).webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/vvfm/640 (5).webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/vvfm/640 (6).webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/vvfm/640 (7).webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/vvfm/640 (8).webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/imgs/vvfm/640 (9).webp" afterDir="false" />
+    <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/CommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/CommonController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/DingdingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/DingdingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/UploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/UploadController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/SearchServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/service/impl/SearchServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/tool/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/tool/RedisUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/RedisUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/tool/SmbUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/SmbUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/VideoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/VideoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/app.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/appDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/appDetail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/renderVideo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/renderVideo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/searchResult_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/searchResult_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/title.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/title.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -115,7 +95,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1614267787642" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/imgs/vvfm" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -123,7 +103,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.5082825" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -460,7 +440,15 @@
       <workItem from="1637216055864" duration="3832000" />
       <workItem from="1637490594271" duration="218000" />
       <workItem from="1637491754197" duration="35000" />
-      <workItem from="1641169631414" duration="23623000" />
+      <workItem from="1641169631414" duration="23695000" />
+      <workItem from="1641298379766" duration="15000" />
+      <workItem from="1641298529107" duration="103000" />
+      <workItem from="1641298832982" duration="284000" />
+      <workItem from="1642430920365" duration="1648000" />
+      <workItem from="1642682047737" duration="1172000" />
+      <workItem from="1643943631053" duration="611000" />
+      <workItem from="1644721829449" duration="197000" />
+      <workItem from="1646559208033" duration="5366000" />
     </task>
     <task id="LOCAL-00001" summary="去除mq功能">
       <created>1632267690658</created>
@@ -511,7 +499,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637490743597</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="修复视频查看功能">
+      <created>1641200159153</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1641200159153</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -567,7 +562,8 @@
     <MESSAGE value="文件上传功能目录细分头像上传、资源上传、博客文件上传和面试资源上传" />
     <MESSAGE value="提供YIMEM项目完整表结构" />
     <MESSAGE value="安全考虑去除服务器地址" />
-    <option name="LAST_COMMIT_MESSAGE" value="安全考虑去除服务器地址" />
+    <MESSAGE value="修复视频查看功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复视频查看功能" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="WindowStateProjectService">
@@ -639,6 +635,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/amqp/MessageConsumer.java</url>
           <line>30</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/sy/controller/VerifyUploadController.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/sy/mapper/T8DocManageMapper.java</url>

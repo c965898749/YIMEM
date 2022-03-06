@@ -116,7 +116,7 @@ public class SmbUtil {
         if(oConvertUtils.isEmpty(imgPath) || imgPath=="null"){
             return;
         }
-//        String filePath="smb://yimem:c866971331@192.168.5.100/lishi/ccc.txt";
+//        String filePath="smb://yimem:c866971331@192.168.0.117/lishi/ccc.txt";
 //        fileName=request.getAttribute("fileName").toString();
         imgPath = imgPath.replace("..", "");
         if (imgPath.endsWith(",")) {
