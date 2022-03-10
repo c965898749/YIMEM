@@ -132,10 +132,14 @@ public class SmbUtil {
             if(!file.exists()) {
                 System.out.println("下载的文件不存在！");
             }
-            if (Constants.VV.equals(smbUtil)){
-                response.setContentType("video/mp4");
+            if (Constants.VV.equals(url)){
+                response.setContentLength(Integer.parseInt(file.length()+""));
+                response.setHeader("Content-Range", "" + Integer.valueOf(Integer.parseInt(file.length()+"") - 1));
                 response.setHeader("Accept-Ranges", "bytes");
                 response.setHeader("Etag", "W/\"9767057-1323779115364\"");
+//                response.setContentType("video/mp4");
+//                response.setHeader("Accept-Ranges", "bytes");
+//                response.setHeader("Etag", "W/\"9767057-1323779115364\"");
             }else {
                 response.setContentType("application/x-msdownload");
             }
