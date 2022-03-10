@@ -69,7 +69,7 @@ public class VideoLinkGrab {
             resultVO.setErrorMsg("未登入");
             return resultVO;
         } else {
-            if (user.getUserId()==1){
+            if (user.getLevel()==9){
                 Integer pageSize = 24;
                 PageHelper.startPage(video.getPageNum(), pageSize);
                 List<Video> videos = null;
@@ -104,7 +104,7 @@ public class VideoLinkGrab {
             resultVO.setErrorMsg("未登入");
             return resultVO;
         } else {
-            if (user.getUserId()==1){
+            if (user.getLevel()==9){
                 System.out.println(videoid);
                 Video videos = null;
                 try {
@@ -144,7 +144,7 @@ public class VideoLinkGrab {
             resultVO.setErrorMsg("未登入");
             return resultVO;
         } else {
-            if (user.getUserId()==1){
+            if (user.getLevel()==9){
                 try {
                     List<Video> videos = videoMapper.getVideohotcount();
                     resultVO.setData(videos);

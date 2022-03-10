@@ -132,7 +132,13 @@ public class SmbUtil {
             if(!file.exists()) {
                 System.out.println("下载的文件不存在！");
             }
-            response.setContentType("application/x-msdownload");
+            if (Constants.VV.equals(smbUtil)){
+                response.setContentType("video/mp4");
+                response.setHeader("Accept-Ranges", "bytes");
+                response.setHeader("Etag", "W/\"9767057-1323779115364\"");
+            }else {
+                response.setContentType("application/x-msdownload");
+            }
             response.setHeader("Content-disposition","attachment; filename="+new String(file.getName().getBytes(),"ISO8859_1"));
             in = new SmbFileInputStream(file);
             DataInputStream dis=new DataInputStream(in);

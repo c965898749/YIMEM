@@ -69,6 +69,7 @@ public class DingdingController {
     @Scheduled(cron = "0 0 1 * * ?")
     public void Reptilia() {
         List<String> list = SmbUtil.getSharedFileList("smb://yimem:c866971331@192.168.0.117/video/AV/");
+//        List<String> list = SmbUtil.getSharedFileList("smb://yimem:c866971331@192.168.5.100/video/AV/");
         if (Xtool.isNotNull(list)) {
             list.forEach(x -> {
                 System.out.println(x);

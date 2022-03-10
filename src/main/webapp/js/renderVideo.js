@@ -12,20 +12,21 @@ function getDplayer(videoId) {
             // pic: 'http://www.yimem.com/group1/M00/00/00/wKgBBV7dFPCAKpdxAAA-0c-9Y4o668.jpg'
             pic: '/imgs/loading/fm.jpg'
         },
-        danmaku: {
-            id: videoId,
-            // user: userId,
-            api: 'http://www.yimem.com/bullets/',    //这里填写弹幕地址
-            // addition: ['https://s-sh-17-dplayercdn.oss.dogecdn.com/1678963.json'],
-            // addition: ['http://localhost:8889/v3/bullets?aid='+videoId],
-            // maximum: 1000,
-            bottom: '100px',
-            // top:'100px',
-            unlimited: true,
-
-        },
+        // danmaku: {
+        //     id: videoId,
+        //     // user: userId,
+        //     api: 'http://www.yimem.com/bullets/',    //这里填写弹幕地址
+        //     // addition: ['https://s-sh-17-dplayercdn.oss.dogecdn.com/1678963.json'],
+        //     // addition: ['http://localhost:8889/v3/bullets?aid='+videoId],
+        //     // maximum: 1000,
+        //     bottom: '100px',
+        //     // top:'100px',
+        //     unlimited: true,
+        //
+        // },
         // theme: "yellow",
         // live:true,
+        autoplay:true,
         hotkey: true,
         loop: true,
         logo:'/imgs/logo.png',
@@ -42,24 +43,24 @@ function getDplayer(videoId) {
         },
      ],
     });
-    dp.danmaku.opacity(1);
-    dp.on('danmaku_send', function () {
-        if (getUser()==null){
-            layer.open({
-                content: '你还未登录'
-                , btn: ['登录', '退出']
-                , yes: function (index, layero) {
-                    //按钮【按钮一】的回调
-                    location.href = "login.html";
-                    layer.close(index);
-                }
-                , btn2: function (index, layero) {
-                    layer.close(index);
-                }
-            });
-            return false;
-        }
-    });
+    // dp.danmaku.opacity(1);
+    // dp.on('danmaku_send', function () {
+    //     if (getUser()==null){
+    //         layer.open({
+    //             content: '你还未登录'
+    //             , btn: ['登录', '退出']
+    //             , yes: function (index, layero) {
+    //                 //按钮【按钮一】的回调
+    //                 location.href = "login.html";
+    //                 layer.close(index);
+    //             }
+    //             , btn2: function (index, layero) {
+    //                 layer.close(index);
+    //             }
+    //         });
+    //         return false;
+    //     }
+    // });
 
 }
 
@@ -120,48 +121,48 @@ function readFromServer(videoID) {
  * @author qml
  */
 function addListener() {
-    ////console.log("弹幕开始")
-    //dataList默认按time升序排
-    /**
-     * 当发生跳转时，游标置0，重新开始渲染逻辑。
-     */
-    dp.video.onseeked = function () {
-        let newTime = dp.video.currentTime;
-       ////console.log("newTime:" + newTime);
-        // ////console.log("===================================");
-
-        for (let i = 0; i < danmakuList.length; i++) {
-            // ////console.log(formartSeconds(danmakuList[i].currentTime));
-            // ////console.log(formartSeconds(danmakuList[i].currentTime) > parseFloat(newTime));
-            if (formartSeconds(danmakuList[i].currentTime) > parseFloat(newTime)) {
-                dataIndex = Math.max(i - 1, 0);
-                break;
-            }
-        }
-    }
-
-    /**
-     * video当前时间该变时，动态渲染video
-     * 按video当前播放时间，添加弹幕显示
-     */
-    dp.video.ontimeupdate = function () {
-        let currentTime = formatTime(dp.video.currentTime);
-       ////console.log(dp.video.currentTime)
-        let data = danmakuList[dataIndex];
-        if (data && currentTime == data.currenttime) {
-            const danmaku = {
-                text: data.msg,
-                color: data.color,
-                type: data.type
-            }
-            dp.danmaku.draw(danmaku);
-            dataIndex++;
-        }
-    };
-    dp.on("play", function () {
-
-
-    });
+    // ////console.log("弹幕开始")
+    // //dataList默认按time升序排
+    // /**
+    //  * 当发生跳转时，游标置0，重新开始渲染逻辑。
+    //  */
+    // dp.video.onseeked = function () {
+    //     let newTime = dp.video.currentTime;
+    //    ////console.log("newTime:" + newTime);
+    //     // ////console.log("===================================");
+    //
+    //     for (let i = 0; i < danmakuList.length; i++) {
+    //         // ////console.log(formartSeconds(danmakuList[i].currentTime));
+    //         // ////console.log(formartSeconds(danmakuList[i].currentTime) > parseFloat(newTime));
+    //         if (formartSeconds(danmakuList[i].currentTime) > parseFloat(newTime)) {
+    //             dataIndex = Math.max(i - 1, 0);
+    //             break;
+    //         }
+    //     }
+    // }
+    //
+    // /**
+    //  * video当前时间该变时，动态渲染video
+    //  * 按video当前播放时间，添加弹幕显示
+    //  */
+    // dp.video.ontimeupdate = function () {
+    //     let currentTime = formatTime(dp.video.currentTime);
+    //    ////console.log(dp.video.currentTime)
+    //     let data = danmakuList[dataIndex];
+    //     if (data && currentTime == data.currenttime) {
+    //         const danmaku = {
+    //             text: data.msg,
+    //             color: data.color,
+    //             type: data.type
+    //         }
+    //         dp.danmaku.draw(danmaku);
+    //         dataIndex++;
+    //     }
+    // };
+    // dp.on("play", function () {
+    //
+    //
+    // });
 
 }
 

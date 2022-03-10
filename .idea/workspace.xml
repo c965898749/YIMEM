@@ -2,19 +2,24 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
+      <artifact name="YIMEM:war" />
       <artifact name="YIMEM:war exploded" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="">
+    <list default="true" id="a36555a7-3646-4ecd-a9e8-1144e2c34f74" name="Default Changelist" comment="安全考虑去除服务器地址">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/mp4/11.mp4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/DingdingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/DingdingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/controller/VideoLinkGrab.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/tool/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/tool/RedisUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/RedisUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sy/tool/SmbUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sy/tool/SmbUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/111.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/111.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/222.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/222.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/renderVideo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/renderVideo.js" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -95,7 +100,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1614267787642" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="D:/VRMS-Workspace/h5-video" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -106,6 +111,19 @@
     <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.sy.service.impl" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\work_space\smart-party\YIMEM\src\main\webapp\mp4" />
+      <recent name="E:\work_space\YIMEM\src\main\webapp\imgs\vvfm" />
+      <recent name="D:\work_space\smart-party\YIMEM\src\main\resources" />
+      <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
+      <recent name="D:\YIMEM\src\main\webapp" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.sy.controller" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\YIMEM\src\main\webapp\imgs\headimg" />
       <recent name="D:\YIMEM\src\main\webapp\css\wangEditor" />
@@ -113,33 +131,82 @@
       <recent name="D:\YIMEM\src\main\webapp\images" />
       <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\work_space\YIMEM\src\main\webapp\imgs\vvfm" />
-      <recent name="D:\work_space\smart-party\YIMEM\src\main\resources" />
-      <recent name="D:\YIMEM\src\main\webapp\imgs\filetype" />
-      <recent name="D:\YIMEM\src\main\webapp" />
-      <recent name="D:\VRMS-Workspace\YIMEM\src\main\webapp" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.sy.controller" />
-    </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.sy.service.impl" />
-    </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
+    <configuration name="Tomcat 9.0.11" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.11" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="1.8" nameIsGenerated="true">
+      <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="YIMEM:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="Unnamed_YIMEM" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="60078" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="YIMEM:war exploded" />
+          <artifact name="YIMEM:war" />
+        </option>
+      </method>
+    </configuration>
     <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="D:\Java\jdk1.8.0_77\jre">
       <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
       <option name="UPDATING_POLICY" value="restart-server" />
@@ -215,6 +282,24 @@
         </option>
       </method>
     </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <option name="contentProportion" value="0.1654716" />
+          <treeState>
+            <expand>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="Tomcat Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+            </expand>
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -449,6 +534,9 @@
       <workItem from="1643943631053" duration="611000" />
       <workItem from="1644721829449" duration="197000" />
       <workItem from="1646559208033" duration="5366000" />
+      <workItem from="1646810648812" duration="11782000" />
+      <workItem from="1646879571963" duration="1144000" />
+      <workItem from="1646890832389" duration="6818000" />
     </task>
     <task id="LOCAL-00001" summary="去除mq功能">
       <created>1632267690658</created>
@@ -567,66 +655,86 @@
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="765" y="232" key="#com.intellij.ide.util.MemberChooser" timestamp="1628646169363">
+    <state x="414" y="108" width="1144" height="932" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1646813897767">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="232" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1628646169363" />
-    <state x="690" y="297" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1628582326395">
+    <state x="414" y="108" width="1144" height="932" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1646813897767" />
+    <state x="613" y="317" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1646896432323">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="297" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628582326395" />
-    <state x="627" y="208" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1628582271179">
+    <state x="613" y="317" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1646896432323" />
+    <state x="478" y="150" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable" timestamp="1646813862332">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="627" y="208" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628582271179" />
-    <state x="320" y="42" key="CommitChangelistDialog2" timestamp="1637216074053">
+    <state x="478" y="150" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable/0.0.1920.1040@0.0.1920.1040" timestamp="1646813862332" />
+    <state x="438" y="56" key="CommitChangelistDialog2" timestamp="1646901822642">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="320" y="42" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1637216074053" />
-    <state x="52" y="85" key="DiffContextDialog" timestamp="1637216068706">
+    <state x="438" y="56" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1646901822642" />
+    <state x="170" y="99" key="DiffContextDialog" timestamp="1646901819291">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="52" y="85" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1637216068706" />
-    <state x="689" y="238" key="FileChooserDialogImpl" timestamp="1628818809360">
+    <state x="170" y="99" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1646901819291" />
+    <state x="690" y="234" key="FileChooserDialogImpl" timestamp="1646899120103">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="689" y="238" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1628818809360" />
-    <state width="1867" height="267" key="GridCell.Tab.0.bottom" timestamp="1637219506777">
+    <state x="690" y="234" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1646899120103" />
+    <state width="1850" height="315" key="GridCell.Tab.0.bottom" timestamp="1646901782481">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="267" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1637219506777" />
-    <state width="1867" height="267" key="GridCell.Tab.0.center" timestamp="1637219506776">
+    <state width="1850" height="315" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1646901782481" />
+    <state width="1850" height="315" key="GridCell.Tab.0.center" timestamp="1646901782480">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="267" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1637219506776" />
-    <state width="1867" height="267" key="GridCell.Tab.0.left" timestamp="1637219506776">
+    <state width="1850" height="315" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1646901782480" />
+    <state width="1850" height="315" key="GridCell.Tab.0.left" timestamp="1646901782480">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="267" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1637219506776" />
-    <state width="1867" height="267" key="GridCell.Tab.0.right" timestamp="1637219506776">
+    <state width="1850" height="315" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1646901782480" />
+    <state width="1850" height="315" key="GridCell.Tab.0.right" timestamp="1646901782480">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="267" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1637219506776" />
-    <state x="337" y="0" key="SettingsEditor" timestamp="1632809662072">
+    <state width="1850" height="315" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1646901782480" />
+    <state width="1512" height="497" key="GridCell.Tab.1.bottom" timestamp="1646873075714">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="337" y="0" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1632809662072" />
-    <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1637216077269">
+    <state width="1512" height="497" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1646873075714" />
+    <state width="1512" height="497" key="GridCell.Tab.1.center" timestamp="1646873075714">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="452" y="187" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1637216077269" />
-    <state x="560" y="323" key="com.intellij.ide.util.TipDialog" timestamp="1628728801158">
+    <state width="1512" height="497" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1646873075714" />
+    <state width="1512" height="497" key="GridCell.Tab.1.left" timestamp="1646873075714">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="323" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1628728801158" />
-    <state x="692" y="416" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1637054382617">
+    <state width="1512" height="497" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1646873075714" />
+    <state width="1512" height="497" key="GridCell.Tab.1.right" timestamp="1646873075714">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="692" y="416" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1637054382617" />
-    <state x="678" y="166" width="831" height="682" key="find.popup" timestamp="1637217649628">
+    <state width="1512" height="497" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1646873075714" />
+    <state width="1512" height="497" key="GridCell.Tab.2.bottom" timestamp="1646873075714">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="678" y="166" width="831" height="682" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1637217649628" />
+    <state width="1512" height="497" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1646873075714" />
+    <state width="1512" height="497" key="GridCell.Tab.2.center" timestamp="1646873075714">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1512" height="497" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1646873075714" />
+    <state width="1512" height="497" key="GridCell.Tab.2.left" timestamp="1646873075714">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1512" height="497" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1646873075714" />
+    <state width="1512" height="497" key="GridCell.Tab.2.right" timestamp="1646873075714">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1512" height="497" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1646873075714" />
+    <state x="552" y="318" key="com.intellij.ide.util.TipDialog" timestamp="1646891014866">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="318" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1646891014866" />
+    <state x="498" y="305" width="831" height="682" key="find.popup" timestamp="1646814937804">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="498" y="305" width="831" height="682" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1646814937804" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
