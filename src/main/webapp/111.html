@@ -1,69 +1,113 @@
 <!DOCTYPE html>
-<html>
+<!-- saved from url=(0049)http://upgrade.haogonge.com/inspection/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/DPlayer.min.css">
-    <script src="assets/jquery.min.js?v=3.3.1"></script>
-    <!-- 实现拖动效果，需引入 JQuery UI -->
-    <script src="assets/jquery-ui.min.js?v=1.12.1"></script>
+    <title>大加安全</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .item {
+            width: 50%;
+            background: #55a9ff;
+            border-radius: 5px;
+            display: flex;
+            color: #fff;
+            margin: 0 auto;
+            padding: 15px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .item img {
+            width: 30px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .shadow {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, .8);
+            display: none;
+            /* display: flex; */
+            /* align-items: center; */
+            /* justify-content: center; */
+        }
+        .pimg{
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 95%;
+        }
+    </style>
 </head>
+
 <body>
-1111111
-<div style="width: 500px;height: 500px;background-color: #0ce2ea">
-    <div id="dplayer"></div>
+<div class="wrpaper">
+    <img src="https://img-blog.csdnimg.cn/2022010622474671413.png" alt="" style="width: 100%;">
+
+    <p style="text-align: center;margin-bottom: 20px;color:#B0B0B0">版本号 :2.0.1</p>
+    <p style="text-align: center;margin-bottom: 20px;color:#B0B0B0">苹果下载请在Safari浏览器中打开</p>
+
+    <div class="item" id="an">
+        <img src="https://img-blog.csdnimg.cn/2022010622474670438.png" alt="">
+        <span>安卓下载</span>
+    </div>
+    <div class="item" id="ios">
+        <img src="https://img-blog.csdnimg.cn/2022010622474652497.png" alt="">
+        <span>苹果下载</span>
+    </div>
+
+
 </div>
-<script src="js/DPlayer.min.js"/>
-<script>
-    $(function () {
-        getDplayer()
+
+<div class="shadow" id="shadow">
+    <img src="https://img-blog.csdnimg.cn/2022010622474643717.png" alt="" class="pimg">
+
+</div>
+
+<script type="text/javascript">
+    var an = document.getElementById('an');
+    var ios = document.getElementById('ios');
+    var shadow = document.getElementById('shadow');
+    shadow.addEventListener('click', () => {
+        shadow.style.display = 'none'
     })
-    function getDplayer() {
-        console.log(333333333);
-        var dp = new DPlayer({
-            element: document.getElementById('Dplayer'),
-            // screenshot: true,
-            video: {
-                url: 'http://static.smartisanos.cn/common/video/t1-ui.mp4',
-                pic: '/imgs/loading/fm.jpg'
-            },
-            // danmaku: {
-            //     id: videoId,
-            //     // user: userId,
-            //     api: 'http://www.yimem.com/bullets/',    //这里填写弹幕地址
-            //     // addition: ['https://s-sh-17-dplayercdn.oss.dogecdn.com/1678963.json'],
-            //     // addition: ['http://localhost:8889/v3/bullets?aid='+videoId],
-            //     // maximum: 1000,
-            //     bottom: '100px',
-            //     // top:'100px',
-            //     unlimited: true,
-            //
-            // },
-            // theme: "yellow",
-            // live:true,
-            autoplay: true,
-            hotkey: true,
-            loop: true,
-            logo: '/imgs/logo.png',
-            contextmenu: [
-                {
-                    text: '观看更多……',
-                    link: 'http://www.yimem.com/app.html',
-                },
-                {
-                    text: '下载视屏',
-                    click: (player) => {
-                        location.href = "downloadResource?id=" + videoId;
-                    },
-                },
-            ],
-        });
+    ios.addEventListener('click', () => {
+        if (isWeiXin()) {
+            shadow.style.display = 'block'
+        } else {
+            window.location.href =
+                "itms-services://?action=download-manifest&url=https://upgrade.znhl360.com/inspection/inspection.plist";
+        }
+    })
+    an.addEventListener('click', () => {
+        if (isWeiXin()) {
+            shadow.style.display = 'block'
+        } else {
+            window.location.href = "http://dev-images.znhl360.com/9f0217a5-a14c-46f6-8233-2553695dd7ce.apk?Expires=4740380446&OSSAccessKeyId=uLNfGQv1BKmp6K1n&Signature=Vzqko9N4Lgsf8KJ8TS2fNt1BUz8%3D";           }
+    })
+
+    function isWeiXin() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+            return true;
+        } else {
+            window.location.href = "https://www.haogonge.com"
+            return false;
+        }
     }
 </script>
-</body>
 
-</html>
+</body></html>
