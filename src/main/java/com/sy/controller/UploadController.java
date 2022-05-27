@@ -55,13 +55,15 @@ public class UploadController {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("资源查询异常");
         }
-        if ("pdf".equals(upload.getLeixin2()) || "flac".equals(upload.getLeixin2()) || "mp3".equals(upload.getLeixin2()) || "mp4".equals(upload.getLeixin2())) {
-            baseResp.setSuccess(200);
-            baseResp.setData(upload.getSrc());
-        } else {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("该文件格式暂不支持预览");
-        }
+        baseResp.setSuccess(200);
+        baseResp.setData(upload.getSrc());
+//        if ("pdf".equals(upload.getLeixin2()) || "flac".equals(upload.getLeixin2()) || "mp3".equals(upload.getLeixin2()) || "mp4".equals(upload.getLeixin2())) {
+//            baseResp.setSuccess(200);
+//            baseResp.setData(upload.getSrc());
+//        } else {
+//            baseResp.setSuccess(0);
+//            baseResp.setErrorMsg("该文件格式暂不支持预览");
+//        }
         return baseResp;
     }
 

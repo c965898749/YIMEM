@@ -11,6 +11,7 @@
     <script src="js/jquery.js"></script>
     <script src="js/download.js"></script>
     <script src="js/include.js"></script>
+    <script src="js/base64.js"></script>
     <link rel="stylesheet" href="css/DPlayer.min.css">
     <link rel="stylesheet" href="css/video_detail.css">
     <link rel="stylesheet" type="text/css" href="assets/waifu.min.css?v=1.4.2"/>
@@ -203,6 +204,18 @@
 <!--js主入口-->
 <!--<script src="js/videoDetail/renderMain.js"></script>-->
 <script>
+    var appraise = 5;
+    var id = getQueryString("id");
+    //获取登入者ID
+    var user = getUser();
+    var userid = 0;
+    var price = 0;
+    var ting = null;
+    var bloguserid = null;
+    var focus_status = 0;
+    if (user) {
+        userid = user.userId
+    }
     var zleixin
     var userBean;
     var dataIndex = 0; //后台获取的弹幕列表的游标，用于实时渲染弹幕。
@@ -297,9 +310,26 @@
             });
 
     }
-    function bacak2(zleixin) {
-       console.log(zleixin)
-        if (zleixin=="flac"||zleixin=="mp3"||zleixin=="mp4"||zleixin=="pdf") {
+
+    //1.加密解密方法使用：
+
+    // //1.加密
+    // var str = '124中文内容';
+    // var base = new Base64();
+    // var result = base.encode(str);
+    //document.write(result);
+
+    // //2.解密
+    // var result2 = base.decode(result);
+    // document.write(result2);
+    //2.加密、解密算法封装：
+
+
+    function bacak2() {
+        // function bacak2(zleixin) {
+        // console.log(zleixin)
+        // if (zleixin=="flac"||zleixin=="mp3"||zleixin=="mp4"||zleixin=="pdf") {
+        console.log(id)
             $.ajax({
                 url: "upload/yulang",
                 data: {"id": id},
@@ -310,15 +340,16 @@
                        console.log(json);
                        videoUrl=json.data
                        console.log(videoUrl)
-                       if(zleixin=="pdf"){
-                           localStorage.videoUrl = videoUrl;
-                           window.open("pdf.html")
-                       }else {
-                           getDplayer(id)
-                           // ss()
-                           $(".video").show()
-                           $(".lists").hide()
-                       }
+                       window.open('http://czx.yimem.com:3003/onlinePreview?url=' + Base64.encode('http://czx.yimem.com:3003'+videoUrl));
+                       // if(zleixin=="pdf"){
+                       //     localStorage.videoUrl = videoUrl;
+                       //     window.open("pdf.html")
+                       // }else {
+                       //     getDplayer(id)
+                       //     // ss()
+                       //     $(".video").show()
+                       //     $(".lists").hide()
+                       // }
                    } else {
                        layer.msg(json.errorMsg)
                    }
@@ -326,10 +357,10 @@
 
                 }
             })
-
-        }else {
-            layer.msg("该文件格式暂时不支持预览。")
-        }
+        //
+        // }else {
+        //     layer.msg("该文件格式暂时不支持预览。")
+        // }
 
     }
     // 限制字符
@@ -371,18 +402,6 @@
                 cancelAnimationFrame(timer);
             }
         });
-    }
-    var appraise = 5;
-    var id = getQueryString("id");
-    //获取登入者ID
-    var user = getUser();
-    var userid = 0;
-    var price = 0;
-    var ting = null;
-    var bloguserid = null;
-    var focus_status = 0;
-    if (user) {
-        userid = user.userId
     }
     $(function () {
 
@@ -503,7 +522,6 @@
                                    <!--style="height: 36px;width: 120px;text-align: center;background-color:red;color: white;border: none;margin: 10px;border-radius: 4px;">-->
                             <input type="button" value="立即下载" class="downbtn" onclick="downbtn()"
                                    style="height: 36px;width: 120px;text-align: center;background-color:white;border: 1px red solid;color: red;margin: 10px;border-radius: 4px;">
-
 
 
                         </div>`;
