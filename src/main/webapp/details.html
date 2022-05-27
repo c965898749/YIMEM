@@ -18,7 +18,9 @@
     <!--    <link type="text/css" rel="stylesheet" href="syntax/styles/shCoreDefault.css"/>-->
     <link rel="stylesheet" href="layui/css/layui.css">
     <link rel="stylesheet" href="css/APlayer.min.css">
+    <link rel="stylesheet" href="css/imgs.css">
     <script src="js/APlayer.min.js"></script>
+    <script src="js/imgtan.js"></script>
     <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
     <script src="js/setCookie.js"></script>
     <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet">
@@ -516,6 +518,24 @@
 </div>
 
 </div>
+
+
+<!--查看图片的弹窗代码(核心)-->
+
+<div class="seeImg_mask"></div>
+<div class="seeImg_popup">
+    <div class="seeImg_close">×</div>
+    <div class="seeImg_swrieb">
+        <ul class="seeImg_list" >
+        </ul>
+    </div>
+    <div class="seeImg_fun">
+        <div class="fun_label labelLeft">«</div>
+        <div class="fun_label labelRight">»</div>
+    </div>
+</div>
+
+
 <!--弹出层-->
 <div class="collect_frame" id="collect_frame" style="display: none;">
     <div id="collects">

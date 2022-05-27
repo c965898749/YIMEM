@@ -1,0 +1,24 @@
+
+.seeImg_mask{ width:100%; height: 100%; position: fixed; top: 0px; bottom: 0px; left: 0px; right: 0px; background: rgba(0,0,0,0.7); margin: auto; z-index: 999; display: none; }
+.seeImg_popup{  width: 80%; height: 80%; background: #fff; position: fixed;  bottom: 200%; left: 10%; right: 0px; margin: auto; border: 10px rgba(0,0,0,0.2) solid; border-radius: 10px; z-index: 9999;  }
+
+.seeImg_close{ width: 40px; height: 40px; line-height: 35px; text-align: center; font-size: 28px; color: #fff; position: absolute; right: 0px; top: 0px; background: rgba(226, 36, 36, 0.72); cursor: pointer;  }
+
+.seeImg_swrieb{ width: 90%; height: 100%; margin: 0px auto; position: relative; overflow: hidden;  }
+.seeImg_list{ height: 100%; width: auto; display: flex; flex-direction: row; transition: all 0.5s; }
+.seeImg_list li{ height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden;  }
+.seeImg_list li img{
+
+    height: 90%;display: block;position: absolute; top: -160px;cursor: all-scroll;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently not supported by any browser */
+    padding: 200px 0px;
+    z-index: 555;
+}
+.seeImg_fun{ width: 100%; height: 40px; line-height: 40px; display: flex; flex-direction: row; justify-content: space-between; box-sizing: border-box; padding: 0px 15px; position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; margin: auto;   }
+.fun_label{ font-size: 50px; color: #777;  cursor: pointer;   -webkit-touch-callout: none;  -webkit-user-select: none; -khtml-user-select: none;  -moz-user-select: none; -ms-user-select: none; user-select: none; }
+
