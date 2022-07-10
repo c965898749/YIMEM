@@ -24,7 +24,7 @@ public class BlogReplayController {
     @Autowired
     private BlogReplaySonService blogReplaySonService;
 
-    @RequestMapping(value = "/addBlogReplay", method = RequestMethod.GET)
+    @RequestMapping(value = "/addBlogReplay", method = RequestMethod.POST)
 //    public BaseResp addBlogReplay(String replay_value, Integer userid, Integer blogid) {
     public BaseResp addBlogReplay(BlogReplay blogReplay,HttpServletRequest request) {
         BaseResp baseResp=new BaseResp();
