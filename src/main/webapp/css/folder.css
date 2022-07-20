@@ -66,6 +66,10 @@ body,html {
 .xls,.xlsx {
 	background:url(../images/XLS_File_Extension.png) center top no-repeat;
 }
+.exe,.msi {
+	background:url(../images/EXE_File_Extension.png) center top no-repeat;
+}
+
 .other-filetype {
 	background:url(../images/file.png) center top no-repeat;
 }
