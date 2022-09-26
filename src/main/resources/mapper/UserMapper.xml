@@ -165,7 +165,7 @@
         UPDATE user set downloadmoney=#{downloadmoney} WHERE userId=#{userId}
     </insert>
 
-    <!--//更新用户下载量-->
+    <!--//更新用户资源量-->
     <!--Integer updatedownCount(@Param("downCount") Integer downCount, @Param("userId") Integer userId);-->
     <insert id="updatedownCount">
         UPDATE user set downCount=#{downCount} WHERE userId=#{userId}

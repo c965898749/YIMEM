@@ -72,7 +72,7 @@ initModel({
         { "selector": ".recharge", "text": ["有了积分就能愉快的下资源了"] },
         { "selector": "#price", "text": ["积分可以到点击右上角头像，然后赞助我们快速获取"] },
         { "selector": "#blog_page", "text": ["去博客看看吧，说不定能遇上你的知音"] },
-        { "selector": "#down_load", "text": ["去下载看看吧，说不定能有你需要的资源"] },
+        { "selector": "#down_load", "text": ["去资源看看吧，说不定能有你需要的资源"] },
         { "selector": "#game_html", "text": ["我想玩，我想玩……ˋ( ° ▽、° )"] },
         { "selector": "#forum_html", "text": ["论坛那地方太冷了，咱们还是别去了（＞﹏＜）"] },
         { "selector": "#tool_html", "text": ["我家主人，写了好多好多工具。"] },

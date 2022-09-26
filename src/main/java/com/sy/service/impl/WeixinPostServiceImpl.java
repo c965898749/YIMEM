@@ -107,7 +107,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     } else if (content.equals("广告") || content.equals("广告租用")) {
                         String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:18932200163\n或加微信:c965898749";
                         text.setContent(tt);
-                    }else if (content.equals("App下载") || content.equals("app下载")) {
+                    }else if (content.equals("App资源") || content.equals("app资源")) {
                         String message = null;
                         Image image = new Image();
                         AccessToken token = this.getAccessToken(toUserName);
@@ -205,7 +205,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         text.setCreateTime(new Date().getTime() + "");
                         text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                         respMessage = MessageUtil.textMessageToXml(text);
-                    } else if (recvMessage.equals("App下载") || recvMessage.equals("app下载")) {
+                    } else if (recvMessage.equals("App资源") || recvMessage.equals("app资源")) {
                         String message = null;
                         Image image = new Image();
                         AccessToken token = this.getAccessToken(toUserName);

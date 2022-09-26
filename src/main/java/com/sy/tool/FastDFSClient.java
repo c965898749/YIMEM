@@ -75,7 +75,7 @@ public class FastDFSClient {
 	}
 //***************以下为自己新增***********************************************************
 	/**
-	 * 下载文件到本地  张然
+	 * 资源文件到本地  张然
 	 * @param b
 	 * @param path
 	 * @param fileName
@@ -110,7 +110,7 @@ public class FastDFSClient {
 
   	}
 	/**
-	 * 下载文件 张然
+	 * 资源文件 张然
 	 * @param group
 	 * @param pathAndFilename
 	 */

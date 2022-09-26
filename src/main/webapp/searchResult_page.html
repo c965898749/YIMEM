@@ -132,7 +132,7 @@
 <div class="content">
     <div class="content_catolog" id="all">全部</div>
     <div class="content_catolog" id="blog">博客</div>
-    <div class="content_catolog" id="download">下载</div>
+    <div class="content_catolog" id="download">资源</div>
     <div class="content_catolog" id="forum">论坛</div>
     <div class="content_catolog" id="ask">问答</div>
 <!--    <div class="content_catolog" id="video">默默</div>-->
@@ -337,7 +337,7 @@
                 $.each(dataeach, function (index, each) {
                     var text = `${each.intro}`.replace(/[^\u4e00-\u9fa5]/gi, "")
                     var html = ` <div class="search_result_sub" down_id="${each.id}" t="down">
-            <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">下载</span></p>
+            <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">资源</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${text}</p>
              日期：<span style="color: #00A3D9">${each.createtime}</span>
         </div>`
@@ -523,7 +523,7 @@
         })
     }
 
-    //点击下载
+    //点击资源
     $("#download").click(function () {
         $(this).siblings().css("border-bottom", "none")
         $(this).css("border-bottom", "red 2px solid")
@@ -531,7 +531,7 @@
         choice = 2
     })
 
-    //渲染下载搜索内容
+    //渲染资源搜索内容
     function download_req() {
         var index = layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
         $(".search_result").html("")
@@ -548,7 +548,7 @@
                     $.each(json.data, function (index, each) {
                         var text = `${each.intro}`.replace(/[^\u4e00-\u9fa5]/gi, "")
                         var html = ` <div class="search_result_sub" down_id="${each.id}" t="down">
-            <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">下载</span></p>
+            <p style="font-size: 20px">${each.title} <span style="float: right;margin-right: 10px;color: #01AAED">资源</span></p>
             <p style="height: 20px;text-overflow:ellipsis;width: 700px;white-space:nowrap;overflow: hidden">${text}</p>
             日期：<span style="color: #00A3D9">${each.createtime}</span>
         </div>`

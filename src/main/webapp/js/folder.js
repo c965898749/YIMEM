@@ -231,7 +231,7 @@ function contextMenu_folder() {
                 dele(params);
             },
             'download': function (t) {
-                //将文件夹打包下载
+                //将文件夹打包资源
                 // var folder = $(t).children("input.changename"),
                 var folder = $(t).children("textarea.changename"),
                     id = folder.attr("data-id"),
@@ -245,7 +245,7 @@ function contextMenu_folder() {
                         "parentId": parentId
                     };
                 download(params);
-                alert("下载成功!");
+                alert("资源成功!");
             },
             'copy': function (t) {
                 //复制
@@ -407,7 +407,7 @@ function contextMenu_file() {
                 dele(params);
             },
             'download': function (t) {
-                //下载单个文件
+                //资源单个文件
                 // var folder = $(t).children("input.changename"),
                 var folder = $(t).children("textarea.changename"),
                     id = folder.attr("data-id"),
@@ -425,7 +425,7 @@ function contextMenu_file() {
                 window.open(rows.src + "?attname=" + folderName)
                 // ?attname=
                 //download(params);
-                // alert("下载成功!");
+                // alert("资源成功!");
             }
         },
         onContextMenu: function (e) {
@@ -1269,7 +1269,7 @@ function getDplayer(videoUrl) {
                 link: 'http://www.yimem.com/app.html',
             },
             {
-                text: '下载视屏',
+                text: '资源视屏',
                 click: (player) => {
                     location.href = "downloadResource?id=" + videoId;
                 },
@@ -1569,7 +1569,7 @@ var deleteDoc = function (params) {
     }
 };
 
-//打包下载文件夹或文件
+//打包资源文件夹或文件
 var download = function (params) {
     // var $M8610F003 = $("#M8610F003");
     // K.form.reset($M8610F003);
@@ -1578,9 +1578,9 @@ var download = function (params) {
     // K.field.value($('#f_name'), params.folderName);
     // K.field.value($('#i_directory'), params.isDirectory);
     if (params.isDirectory == 1) {
-        confirm("是否打包下载整个文件夹?(可能需要较长时间，请耐心等待)", function (ok) {
+        confirm("是否打包资源整个文件夹?(可能需要较长时间，请耐心等待)", function (ok) {
             if (ok) {
-                //判断所下载的目录是否为空
+                //判断所资源的目录是否为空
                 Util.ajaxRequest({
                     url: "directoryIsNull.json",
                     params: params,
@@ -1588,7 +1588,7 @@ var download = function (params) {
                     afterSuccess: function (json) {
                         var msg = json.returnmsg;
                         if (msg == "目录为空") {
-                            alert("请不要下载空目录");
+                            alert("请不要资源空目录");
                         }
                         if (msg == "目录不为空") {
                             K.submit($('#M8610F003'), null, true);

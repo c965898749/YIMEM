@@ -36,7 +36,7 @@ function getDplayer(videoId) {
             link: 'http://www.yimem.com/app.html',
         },
         {
-            text: '下载视屏',
+            text: '资源视屏',
             click: (player) => {
                 location.href = "downloadResource?id=" + videoId;
             },

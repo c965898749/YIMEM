@@ -49,7 +49,7 @@ public interface UserServic {
     //    减少用户积分
     Integer minuUserMoney(Double downloadmoney, Integer userId) throws CsdnExpection;
 
-    //用户下载积分操作
+    //用户资源积分操作
     Integer downloadMoney(Double downloadmoney, Integer userId, Integer upLoadId, Integer id) throws CsdnExpection;
 
     //已读回复

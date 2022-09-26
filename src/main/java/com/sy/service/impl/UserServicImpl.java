@@ -415,7 +415,7 @@ public class UserServicImpl implements UserServic {
         return null;
     }
 
-    //    下载操作的捆绑事件
+    //    资源操作的捆绑事件
     @Override
     @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Integer downloadMoney(Double downloadmoney, Integer userId, Integer upLoadId, Integer id) throws CsdnExpection {
@@ -432,7 +432,7 @@ public class UserServicImpl implements UserServic {
             Double money2 = user2.getDownloadmoney() + downloadmoney;
             Integer count = userMapper.updateUserMoney(money1, userId);
             Integer count2 = userMapper.updateUserMoney(money2, upLoadId);
-//资源下载记录
+//资源资源记录
             Upload upload = uploadMapper.selectById(id);
             if (upload == null) {
                 throw new CsdnExpection("资源不存在");
@@ -459,7 +459,7 @@ public class UserServicImpl implements UserServic {
             integrals1.setTitle(upload.getTitle());
             integrals1.setUserid(upLoadId);
             integralsMapper.insert(integrals1);
-////        用户下载量更新
+////        用户资源量更新
             Integer downCount = user1.getDownCount();
             userMapper.updatedownCount((downCount + 1), userId);
             return count2;

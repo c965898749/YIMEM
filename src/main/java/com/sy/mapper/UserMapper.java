@@ -61,7 +61,7 @@ public interface UserMapper {
     //更新用户积分
     Integer updateUserMoney(@Param("downloadmoney") Double downloadmoney, @Param("userId") Integer userId);
 
-    //更新用户下载量
+    //更新用户资源量
     Integer updatedownCount(@Param("downCount") Integer downCount, @Param("userId") Integer userId);
 
     //    更新用户上传量

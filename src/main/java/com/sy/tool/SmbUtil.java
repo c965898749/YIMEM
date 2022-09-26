@@ -109,7 +109,7 @@ public class SmbUtil {
         return new AntPathMatcher().extractPathWithinPattern(bestMatchPattern, path);
     }
 
-    // 4.下载文件到本地
+    // 4.资源文件到本地
     public void dowloafFile(HttpServletRequest request, HttpServletResponse response) throws IOException {//        filePath=request.getAttribute("filePath").toString();
         // ISO-8859-1 ==> UTF-8 进行编码转换
         String imgPath = extractPathFromPattern(request);
@@ -130,7 +130,7 @@ public class SmbUtil {
             //java.io.File file=new java.io.File(realPath);
             SmbFile file = new SmbFile(realPath);
             if(!file.exists()) {
-                System.out.println("下载的文件不存在！");
+                System.out.println("资源的文件不存在！");
             }
             if (Constants.VV.equals(url)){
                 response.setContentLength(Integer.parseInt(file.length()+""));

@@ -210,7 +210,7 @@ $(".viewinformation").click(function(e){
 				if(jsonStrInfo.fileName != null && jsonStrInfo.fileName != "" && jsonStrInfo.filePath != null && jsonStrInfo.filePath != ""){
 					$("#viewContent").append("<li>附件类型："+jsonStrInfo.typeName+"</li>");
 					$("#viewContent").append("<li>附件名称："+jsonStrInfo.fileName+"</li>");
-					$("#viewContent").append("<li>附件存放路径：<a href='"+jsonStrInfo.filePath+"'>下载(右键另存为...)</a></li>");
+					$("#viewContent").append("<li>附件存放路径：<a href='"+jsonStrInfo.filePath+"'>资源(右键另存为...)</a></li>");
 					$("#viewContent").append("<li>附件大小："+(jsonStrInfo.fileSize/1000)+"KB</li>");
 				}else{
 					$("#viewContent").append("<li>附件：暂无</li>");
@@ -285,7 +285,7 @@ $(".modifyinformation").click(function(e){
 				$("#viewContent").append("<li>发布时间："+jsonStrInfo.publishTime+"</li>");
 				$("#viewContent").append("<li>附件类型："+jsonStrInfo.typeName+"</li>");
 				$("#viewContent").append("<li>附件名称："+jsonStrInfo.fileName+"</li>");
-				$("#viewContent").append("<li>附件存放路径：<a href='"+jsonStrInfo.filePath+"'>下载(右键另存为...)</a></li>");
+				$("#viewContent").append("<li>附件存放路径：<a href='"+jsonStrInfo.filePath+"'>资源(右键另存为...)</a></li>");
 				$("#viewContent").append("<li>附件大小："+(jsonStrInfo.fileSize/1000)+"KB</li>");
 				$("#viewContent").append("<li>上传时间："+jsonStrInfo.uploadTime+"</li>");
 				$("#viewContent").append("<li>资讯内容：<div>"+jsonStrInfo.content+"</div></li>");

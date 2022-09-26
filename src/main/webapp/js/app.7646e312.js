@@ -190,7 +190,7 @@
                 }, [e._v("立即保存")])], 1), r("el-button", {
                     attrs: {icon: "el-icon-download", plain: ""},
                     on: {click: e.handleDownloadAll}
-                }, [e._v("下载全部")]), r("el-button", {
+                }, [e._v("资源全部")]), r("el-button", {
                     attrs: {icon: "el-icon-delete", plain: "", type: "danger"},
                     on: {click: e.handleDeleteAll}
                 }, [e._v("删除全部")])], 1), r("audio", {

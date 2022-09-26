@@ -1040,7 +1040,7 @@
                             <div data-role="qrPayExplain" class="qrcode-explain fn-hide">
                                 <a href="https://mobile.alipay.com/index.htm" class="qrcode-downloadApp"
                                    data-boxUrl="https://cmspromo.alipay.com/down/new.htm" data-role="dl-app"
-                                   target="_blank" seed="NewQr_qr-pay-download">首次使用请下载手机支付宝</a>
+                                   target="_blank" seed="NewQr_qr-pay-download">首次使用请资源手机支付宝</a>
                             </div>
 
                             <div data-role="qrPayScanSuccess"

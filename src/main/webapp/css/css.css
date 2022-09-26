@@ -63,7 +63,7 @@ header
 }
 
 
-/*下载首页*/
+/*资源首页*/
 
 .NAV {
 	display: flex;
@@ -77,7 +77,7 @@ header
 }
 
 
-/*下载3级菜单*/
+/*资源3级菜单*/
 
 .NAV .NAV-mian-left .classify {
 	background-color: white;
@@ -164,7 +164,7 @@ header
 }
 
 
-/*下载类表*/
+/*资源类表*/
 
 .NAV .NAV-mian-left .downloadlist {
 	margin-top: 10px;
@@ -502,7 +502,7 @@ header
 }
 
 
-/*下载页评论*/
+/*资源页评论*/
 
 .NAV-Detail .NAV-myresouces-mian .main-lf .replay .header {
 	display: flex;

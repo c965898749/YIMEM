@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>下载</title>
+    <title>资源</title>
     <link rel="shortcut icon" href="img/favicon.ico">
     <link rel="stylesheet" type="text/css" href="css/css.css">
     <link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
@@ -38,7 +38,7 @@
 </div>
 <div class="TOP">
     <div class="TOP-nav">
-        <div id="detailhome"><a href="download.html?type=1">下载首页</a></div>
+        <div id="detailhome"><a href="download.html?type=1">资源首页</a></div>
         <div id="detailmyresources"><a href="download.html?type=2">我的资源</a></div>
         <div id="detailupload"><a href="download.html?type=3">上传资源赚积分</a></div>
     </div>
@@ -518,9 +518,9 @@
 									所需 <span id="price" style="color: #ff9358;font-size: 32px;margin-top: 10px;">
 									` + item.price + `
 								</span>积分/C币</span>
-                            <!--<input type="button" title="会员免费下载" value="申请会员" class="memberbtn" onclick="vipbtn()"-->
+                            <!--<input type="button" title="会员免费资源" value="申请会员" class="memberbtn" onclick="vipbtn()"-->
                                    <!--style="height: 36px;width: 120px;text-align: center;background-color:red;color: white;border: none;margin: 10px;border-radius: 4px;">-->
-                            <input type="button" value="立即下载" class="downbtn" onclick="downbtn()"
+                            <input type="button" value="立即资源" class="downbtn" onclick="downbtn()"
                                    style="height: 36px;width: 120px;text-align: center;background-color:white;border: 1px red solid;color: red;margin: 10px;border-radius: 4px;">
 
 
@@ -659,7 +659,7 @@
                         name2 = v.categoryname;
                     }
                 });
-                var html2 = `<p>下载>` + name1 + `>` + name2 + `>` + name3 + `</p>`;
+                var html2 = `<p>资源>` + name1 + `>` + name2 + `>` + name3 + `</p>`;
                 $(".nav").append(html2);
             }
             , error: function (res) {
@@ -677,7 +677,7 @@
         location.href = "vip.html"
     }
 
-    // 下载按钮
+    // 资源按钮
     function downbtn() {
 
         var data = getUser()
@@ -697,7 +697,7 @@
             return false;
         }
         // if (userid == $("#yanzhen").val()) {
-        //     layer.msg("你的资源不用下载")
+        //     layer.msg("你的资源不用资源")
         //     return false;
         // }
         if (user.downloadmoney >= price) {
@@ -705,7 +705,7 @@
             ////////console.log(user.downloadmoney + "h哈哈");
             ////////console.log(price)
             layer.open({
-                content: '是否下载'
+                content: '是否资源'
                 , btn: ['确定', '退出']
                 , yes: function (index, layero) {
                     //按钮【按钮一】的回调

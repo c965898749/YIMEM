@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>下载</title>
+    <title>资源</title>
     <link rel="shortcut icon" href="img/favicon.ico">
     <script src="js/qrcode.min.js"></script>
     <script src="jquery/jquery.js"></script>
@@ -44,7 +44,7 @@
 </div>
 <div class="TOP">
     <div class="TOP-nav">
-        <div id="home" style="cursor:pointer;">下载首页</div>
+        <div id="home" style="cursor:pointer;">资源首页</div>
         <div id="myresources" style="cursor:pointer;">我的资源</div>
         <div id="upload" style="cursor:pointer;">上传资源赚积分</div>
     </div>
@@ -89,7 +89,7 @@
 
         </div>
         <div class="downloadlist" id="downloadlist">
-            <div style="font-size: 16px;margin-left: 20px;height: 30px;line-height: 30px;">下载列表</div>
+            <div style="font-size: 16px;margin-left: 20px;height: 30px;line-height: 30px;">资源列表</div>
 
         </div>
     </div>
@@ -160,7 +160,7 @@
                 </div>
                 <div id="downcld"
                      style="font-size: 16px;color: red;padding-left: 20px;width: 120px;height: 42px;cursor: pointer;">
-                    下载明细
+                    资源明细
                 </div>
                 <div id="collentcld"
                      style="font-size: 16px;color: red;padding-left: 20px;width: 120px;height: 42px; cursor: pointer;">
@@ -444,7 +444,7 @@
                                 </div>
                                 <div class=="context">
 									<span style="color: #888;font-size: 12px;">
-								下载积分：
+								资源积分：
 							     </span>
                                     <span style="color: red;">` + user.downloadmoney + `</span>
                                 </div>
@@ -578,7 +578,7 @@
 
                 var html = ` <div class="top" style="display: flex;justify-content : space-between;">
                 <div class="left">
-                    <span style="font-size: 14px;color: #868B96">下载排行榜</span>
+                    <span style="font-size: 14px;color: #868B96">资源排行榜</span>
                 </div>
                 <!--<div class="right">-->
                     <!--<span style="color: #888;font-size: 14px;">-->
@@ -596,7 +596,7 @@
                 </div>
                 <div class="author" style="border-bottom: 1px #E6E6E6 solid;height: 30px;margin-top: 10px;">
                         <span style="color: #888;font-size: 14px;">
-                         作者/分享人：<a style="text-decoration : none" href="perInfor.html?viewUserId=${eachobj.userid}&type=blog">${eachobj.user.nickname}</a> 下载数 ${eachobj.hot}
+                         作者/分享人：<a style="text-decoration : none" href="perInfor.html?viewUserId=${eachobj.userid}&type=blog">${eachobj.user.nickname}</a> 资源数 ${eachobj.hot}
                           </span>
                 </div>
              </div>`;
@@ -1332,7 +1332,7 @@
                 </div>
                 <div class="integral">
                     <div class="top">
-                        下载资源
+                        资源资源
                     </div>
                     <div class="foolt" style="margin-top: 10px;">
 			<span style="color: #FF9358;font-size: 24px;">
@@ -1392,7 +1392,7 @@
         integralcld(1, 10)
     })
 
-    // 下载明细
+    // 资源明细
     $("#downcld").click(function () {
         $(".NAV-myresouces .NAV-myresouces-mian .main-lf .nav").hide()
         mokuai = 3
@@ -1675,7 +1675,7 @@
                         <a href="detailpage.html?id=` + v.dowid + `">` + v.title + `</a>
                             </div>
                         <div class="size">
-                            资源大小：` + daxiao + ` 下载时间：` + v.createtime + `
+                            资源大小：` + daxiao + ` 资源时间：` + v.createtime + `
                         </div>
                     </div>
                     <div class="img-right">
@@ -1772,7 +1772,7 @@
                         <a href="detailpage.html?id=` + v.dowid + `">` + v.title + `</a>
                             </div>
                         <div class="size">
-                            资源大小：` + daxiao + ` 下载时间：` + v.createtime + `
+                            资源大小：` + daxiao + ` 资源时间：` + v.createtime + `
                         </div>
                     </div>
                     <div class="img-right">

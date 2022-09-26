@@ -87,10 +87,10 @@ public class DownloadController {
 //                if (Xtool.isNotNull(host)){
 //                    path=path.replace(Constants.IMAGE_SERVER_URL,"http://"+host+"/");
 //                }
-//                //记录下载次数
+//                //记录资源次数
 //                upload.setHot(upload.getHot() + 1);
 //                service.updatahot(upload);
-//                //        开始下载
+//                //        开始资源
 //                return "redirect:" + path + "?attname=" + URLEncoder.encode(upload.getName(), "UTF-8");
 //            }
 //        } catch (CsdnExpection e) {
@@ -148,10 +148,10 @@ public class DownloadController {
 //                if (Xtool.isNotNull(host)){
 //                    path=path.replace(Constants.IMAGE_SERVER_URL,"http://"+host+"/");
 //                }
-                //记录下载次数
+                //记录资源次数
                 upload.setHot(upload.getHot() + 1);
                 service.updatahot(upload);
-                //        开始下载
+                //        开始资源
 //                return "redirect:" + path + "?attname=" + URLEncoder.encode(upload.getName(), "UTF-8");
 //                return "redirect:/common/static/" +upload.getSrc()+"/"+ URLEncoder.encode(upload.getName(), "UTF-8");
 //                System.out.println(host+upload.getSrc());
@@ -199,7 +199,7 @@ public class DownloadController {
         try {
             upload = service.findById(id);
             path = upload.getSrc();
-            //记录下载次数
+            //记录资源次数
             upload.setHot(upload.getHot() + 1);
             service.updatahot(upload);
             return "redirect:" + path + "?attname=" + URLEncoder.encode(upload.getName(), "UTF-8");
@@ -277,7 +277,7 @@ public class DownloadController {
         }
     }
 
-    //    查询下载最多
+    //    查询资源最多
     @RequestMapping(value = "selecthot", method = RequestMethod.GET)
     @ResponseBody
     public BaseResp selecthot(HttpServletRequest request) {
