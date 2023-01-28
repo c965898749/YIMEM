@@ -269,7 +269,7 @@
     <dependency>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-lang3</artifactId>
-    <version>3.5</version>
+    <version>3.7</version>
     </dependency>
 
     <!--分页组件-->
@@ -358,6 +358,13 @@
       <groupId>jcifs</groupId>
       <artifactId>jcifs</artifactId>
       <version>1.3.17</version>
+    </dependency>
+<!--ftp上传下载-->
+    <!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>3.6</version>
     </dependency>
 
 
