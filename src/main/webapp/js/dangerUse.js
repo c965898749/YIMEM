@@ -8,7 +8,7 @@ document.onkeydown = document.onkeyup = document.onkeypress = function (event) {
   }
 }
 function mAlert() {
-  alert("感谢使用管理平台，禁止对控制台进行操作！");
+  alert("感谢使用YiMem平台，禁止对控制台进行操作！");
 }
 
 // 防止鼠标右键浏览器‘检查’操作
