@@ -90,15 +90,38 @@ function checkCookie()
     }
 }
 function syslogininfor() {
-    $.ajax({
-        url: "syslogininfor"
-        , type: "post"
-        ,data: {"cip": returnCitySN["cip"],"name":returnCitySN["cname"],"msg":document.title}
-        , dataType: "json"
-        , success: function (jsonData) {
-        }
-        , error: function (res) {
-        }
-    })
+    //获取IP
+    fetch('https://api.ipify.org?format=json')
+        .then(res => res.json())
+        .then(data => {
+            console.log(data, "dataip")
+            // var Ip = data.ip
+            // localStorage.setItem('Ip', Ip)
+            // console.log(localStorage.getItem('Ip', Ip))
+            $.ajax({
+                url: "syslogininfor"
+                , type: "post"
+                ,data: {"cip": data.ip,"name":'',"msg":document.title}
+                , dataType: "json"
+                , success: function (jsonData) {
+                }
+                , error: function (res) {
+                }
+            })
+        })
+
+
 }
+// function syslogininfor() {
+//     $.ajax({
+//         url: "syslogininfor"
+//         , type: "post"
+//         ,data: {"cip": returnCitySN["cip"],"name":returnCitySN["cname"],"msg":document.title}
+//         , dataType: "json"
+//         , success: function (jsonData) {
+//         }
+//         , error: function (res) {
+//         }
+//     })
+// }
 syslogininfor()

@@ -120,11 +120,12 @@ public class LoginController {
 
         }
         logininfor.setIpaddr(cip);
-        if (Xtool.isNull(address)){
-            logininfor.setLoginLocation(name);
-        }else {
-            logininfor.setLoginLocation(address);
-        }
+        logininfor.setLoginLocation(address);
+//        if (Xtool.isNull(address)){
+//            logininfor.setLoginLocation(name);
+//        }else {
+//            logininfor.setLoginLocation(address);
+//        }
         logininfor.setBrowser(browser);
         logininfor.setOs(os);
         logininfor.setMsg("访问 "+msg+" 页面");

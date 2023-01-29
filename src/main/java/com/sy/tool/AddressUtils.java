@@ -49,4 +49,9 @@ public class AddressUtils
         }
         return address;
     }
+
+//    public static void main(String[] args) {
+//        AddressUtils utils=new AddressUtils();
+//        System.out.println(utils.getRealAddressByIP("56.23.52.41"));
+//    }
 }
