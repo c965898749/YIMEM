@@ -11,6 +11,15 @@
         from information where user_id=#{userId} and status !=0;
     </select>
 
+    <select id="selectpage" resultType="com.sy.model.Information">
+        select  id,blog_id as blogId,time,status,replay_userid as replayUserId,content,user_id as  userId
+        from information where user_id=#{userId} and status !=0 limit #{page},#{pageSize}
+    </select>
+    <select id="selectcount" resultType="java.lang.Integer">
+        select  count(1)
+        from information where user_id=#{userId} and status !=0;
+    </select>
+
     <update id="removecommentreq" parameterType="java.lang.Integer">
             update information set status=0 where user_id=#{userId}
     </update>

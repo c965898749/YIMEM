@@ -28,6 +28,10 @@ public interface BlogMapper {
     List<Blog> queryByCategoryByPage(@Param("category") String category, @Param("initNum") int initNum, @Param("pageSize") int pageSize);
     //通过userId去查找博客
     List<Blog> queryByUserId(Blog blog);
+
+    List<Blog> selectpage(@Param("userId") Integer userId ,@Param("page")Integer page,@Param("pageSize")Integer pageSize);
+
+   Integer selectcount(@Param("userId") Integer userId);
     //通过阅读量查找数据
     List<Blog> queryOrderByReadCount();
     //阅读量点击增加

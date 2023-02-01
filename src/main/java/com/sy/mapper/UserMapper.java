@@ -12,6 +12,8 @@ public interface UserMapper {
     int insertUser(User user);
     //修改头像
     int updateUserHeadImgByID(@Param("userId") Integer userId ,@Param("headImg") String headImg);
+
+    User selectUserByusername(@Param("username") String username);
     //修改用户信息
     int updateUserInfor(User user);
     //根据用户ID获取用户信息

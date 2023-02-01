@@ -24,6 +24,15 @@
     <select id="queryByCategoryByPage" resultType="com.sy.model.Blog">
        select * from blog where category=#{category} limit #{initNum},#{pageSize}
    </select>
+
+    <select id="selectpage" resultType="com.sy.model.Blog">
+       select * from blog where userid=#{userId}  limit #{page},#{pageSize}
+   </select>
+
+
+    <select id="selectcount" resultType="java.lang.Integer">
+       select count(1) from blog where userid=#{userId}
+   </select>
     <select id="queryByUserId" resultType="com.sy.model.Blog">
         select * from blog where userid=#{userid}
         <if test="timeCount == 1 and stick==1 and readCount!=1">

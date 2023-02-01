@@ -63,6 +63,7 @@ public class User {
     private String userTypeName;
     private String isEmil;
     private String openid;
+    private Integer status;
 
 
 

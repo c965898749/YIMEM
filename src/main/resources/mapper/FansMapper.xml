@@ -11,15 +11,27 @@
    </select>
 
     <insert id="addFocus">
-        INSERT INTO fans (`fansedid`, `fansid`) VALUES (#{fansedid},#{fansid});
+        INSERT INTO fans (`fansedid`, `fansid`,status) VALUES (#{fansedid},#{fansid},1);
 
+    </insert>
+
+    <insert id="addfocusLog">
+        INSERT INTO fans_log (`fansedid`, `fansid`,status,create_time) VALUES (#{fansedid},#{fansid},#{status},now());
     </insert>
     <delete id="deleteFocus">
         delete from fans where  fansid=#{fansid} and fansedid=#{fansedid}
     </delete>
 
+    <select id="selectcount" resultType="java.lang.Integer">
+        select count(1) from fans where fansedid=#{userId}
+    </select>
+
     <select id="queryAllFans" resultType="com.sy.model.Fans">
         select * from fans where fansedid=#{userId}
+    </select>
+
+    <select id="selectpage" resultType="com.sy.model.Fans">
+        select * from fans where fansedid=#{userId} limit #{page},#{pageSize}
     </select>
 
     <update id="removefansaa" parameterType="java.lang.Integer">

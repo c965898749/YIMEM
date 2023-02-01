@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.SimpleDateFormat;
@@ -49,37 +50,29 @@ public class UserServicImpl implements UserServic {
     public BaseResp loginVerification(String username, String userpassword) throws Exception {
 
         BaseResp baseResp = new BaseResp();
-        User user = new User();
-        user.setUsername(username);
-        user.setUserpassword(userpassword);
-        List<User> userList = userMapper.SelectAllUser();
-        List<String> usernamelist = new ArrayList<>();
-        for (User user1 : userList) {
-            usernamelist.add(user1.getUsername());
-        }
-        if (!usernamelist.contains(user.getUsername())) {
+        String password = DigestUtils.md5DigestAsHex(userpassword.getBytes());
+        User emp=userMapper.selectUserByusername(username);
+        if(emp == null){
             baseResp.setSuccess(0);
-            baseResp.setErrorMsg("用户名或密码错误!请重试。");
-            return baseResp;
-        } else {
-            for (User user1 : userList) {
-                if (username.equals(user1.getUsername())) {
-                    if (userpassword.equals(user1.getUserpassword())) {
-                        baseResp.setData(user1);
-                        baseResp.setSuccess(1);
-                        baseResp.setErrorMsg("登入成功");
-                        return baseResp;
-                    } else {
-                        baseResp.setSuccess(0);
-                        baseResp.setErrorMsg("您输入的密码有误");
-                        return baseResp;
-                    }
-                }
-            }
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("您输入的密码有误");
+            baseResp.setErrorMsg("用户名或密码错误");
             return baseResp;
         }
+        //4、密码比对，如果不一致则返回登录失败结果
+        if(!emp.getUserpassword().equals(password)){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("用户名或密码错误");
+            return baseResp;
+        }
+        //5、查看状态，如果为已禁用状态，则返回员工已禁用结果
+        if(emp.getStatus() == 0){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("账号已被禁用");
+            return baseResp;
+        }
+        baseResp.setSuccess(1);
+        baseResp.setData(emp);
+        baseResp.setErrorMsg("登录成功");
+        return baseResp;
     }
 
     //注册新用户
@@ -89,7 +82,8 @@ public class UserServicImpl implements UserServic {
         BaseResp baseResp = new BaseResp();
         User user = new User();
         user.setUsername(username);
-        user.setUserpassword(userpassword);
+        String password = DigestUtils.md5DigestAsHex(userpassword.getBytes());
+        user.setUserpassword(password);
         List<User> userList = userMapper.SelectAllUser();
         List<String> usernamelist = new ArrayList<>();
         for (User user1 : userList) {
@@ -143,6 +137,7 @@ public class UserServicImpl implements UserServic {
             user.setReadquerylikecount(0);
             user.setUnreadfanscount(0);
             user.setIsEmil("0");
+            user.setStatus(1);
             int result = userMapper.insertUser(user);
             if (result > 0) {
                 baseResp.setSuccess(1);
@@ -470,14 +465,14 @@ public class UserServicImpl implements UserServic {
 
     }
 
-    @RedisCache(Constants.REPLAY_INFORMATION)
+//    @RedisCache(Constants.REPLAY_INFORMATION)
     @Override
     @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public void readcommentreq(Integer userId) {
         informationMapper.readcommentreq(userId);
     }
 
-    @RedisCache(Constants.LIKE_INFORMATION)
+//    @RedisCache(Constants.LIKE_INFORMATION)
     @Override
     @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public void readqueryLikeId(Integer userId) {
@@ -486,7 +481,7 @@ public class UserServicImpl implements UserServic {
         likeMapper.readqueryLikeId(list);
     }
 
-    @RedisCache(Constants.FANS_INFORMATION)
+//    @RedisCache(Constants.FANS_INFORMATION)
     @Override
     @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public void readfansaa(Integer userId) {

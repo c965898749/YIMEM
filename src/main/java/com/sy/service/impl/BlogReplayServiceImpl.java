@@ -39,7 +39,7 @@ public class BlogReplayServiceImpl implements BlogReplayService {
     private UserMapper userMapper;
     @Autowired
     private BlogMapper blogMapper;
-//    @Autowired
+    //    @Autowired
 //    private AmqpTemplate amqpTemplate;
     @Autowired
     private InformationMapper informationMapper;
@@ -115,71 +115,106 @@ public class BlogReplayServiceImpl implements BlogReplayService {
     public Map<String, Object> queryByUserId(int userId, int page) {
         int pageSize = 6;
         Map<String, Object> map = new HashMap<>();
-        String key = Constants.REPLAY_INFORMATION + userId;
-        //缓存机制
-        if (RedisUtil.getJedisInstance().exists(key)) {
-            System.out.println("进入缓存");
-            List<String> json = RedisUtil.getJedisInstance().lrange(key, pageSize * (page - 1), pageSize * page - 1);
-            map.put("success", 1);
-            map.put("count", RedisUtil.getJedisInstance().get("count" + key));
-            map.put("count2", RedisUtil.getJedisInstance().llen(key));
-            map.put("data", json);
-            RedisUtil.closeJedisInstance();
-            return map;
-        } else {
-            System.out.println("进入数据库");
-            List<String> lists = new ArrayList<>();
-            //通过userId查找评论表
-            List<Information> informations = informationMapper.select(userId);
-            if (informations.size() != 0) {
-                for (Information information : informations) {
-                    int commentUserId = information.getReplayUserId();
-                    User user = userMapper.selectUserByUserId(commentUserId);
-                    String name = user.getNickname();
-                    List<String> list = new ArrayList<>();
-                    list.add(name);
-                    list.add(information.getContent());
-                    list.add(information.getBlogId() + "");
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
-                    list.add(simpleDateFormat.format(information.getTime()));
-                    if (information.getStatus() == 0) {
-                        continue;
-                    }
-                    list.add(information.getStatus() + "");
-                    list.add(user.getUserId() + "");
-                    list.add(information.getId() + "");
-                    list.add(information.getBlogId() + "");
-                    String json = JSONObject.toJSONString(list);
-                    RedisUtil.getJedisInstance().rpush(key, json);
-                    lists.add(json);
+        List<String> lists = new ArrayList<>();
+        List<Information> informations = informationMapper.selectpage(userId, page, pageSize);
+        if (informations.size() != 0) {
+            for (Information information : informations) {
+                int commentUserId = information.getReplayUserId();
+                User user = userMapper.selectUserByUserId(commentUserId);
+                String name = user.getNickname();
+                List<String> list = new ArrayList<>();
+                list.add(name);
+                list.add(information.getContent());
+                list.add(information.getBlogId() + "");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+                list.add(simpleDateFormat.format(information.getTime()));
+                if (information.getStatus() == 0) {
+                    continue;
                 }
-                map.put("count2", lists.size());
-//                list分页
-                try {
-                    map.put("data", lists.subList(pageSize * (page - 1), pageSize * page));//从下标0开始，找到第10个 即0-9
-                } catch (IndexOutOfBoundsException e) {
-                    map.put("data", lists.subList(pageSize * (page - 1), lists.size()));//数组越界异常时，取到最后一个元素
-                }
-                map.put("success", 1);
-                Integer count = userMapper.selectUserByUserId(userId).getUnreadreplaycount();
-                RedisUtil.getJedisInstance().set("count" + key, count + "");
-                RedisUtil.getJedisInstance().expire("count" + key, 600);
-                RedisUtil.getJedisInstance().expire(key, 600);
-                RedisUtil.closeJedisInstance();
-                map.put("count", count);
-            } else {
-                RedisUtil.getJedisInstance().set("count" + key, 0 + "");
-                RedisUtil.getJedisInstance().expire("count" + key, 600);
-                RedisUtil.closeJedisInstance();
-                map.put("count", 0);
-                map.put("success", 0);
+                list.add(information.getStatus() + "");
+                list.add(user.getUserId() + "");
+                list.add(information.getId() + "");
+                list.add(information.getBlogId() + "");
+                String json = JSONObject.toJSONString(list);
+                lists.add(json);
             }
-            RedisUtil.closeJedisInstance();
-            return map;
+            map.put("data", lists);
+            Integer count = userMapper.selectUserByUserId(userId).getUnreadreplaycount();
+            map.put("count", count);
+//            Integer count2=informationMapper.selectcount(userId);
+            map.put("count2", lists.size());
+        }else {
+            map.put("data", "");
+            map.put("count", 0);
+            map.put("count2", 0);
         }
+        return map;
+        //弃用redis
+//        String key = Constants.REPLAY_INFORMATION + userId;
+        //缓存机制
+//        if (RedisUtil.getJedisInstance().exists(key)) {
+//            System.out.println("进入缓存");
+//            List<String> json = RedisUtil.getJedisInstance().lrange(key, pageSize * (page - 1), pageSize * page - 1);
+//            map.put("success", 1);
+//            map.put("count", RedisUtil.getJedisInstance().get("count" + key));
+//            map.put("count2", RedisUtil.getJedisInstance().llen(key));
+//            map.put("data", json);
+//            RedisUtil.closeJedisInstance();
+//            return map;
+//        } else {
+//            System.out.println("进入数据库");
+//            List<String> lists = new ArrayList<>();
+//            //通过userId查找评论表
+//            List<Information> informations = informationMapper.select(userId);
+//            if (informations.size() != 0) {
+//                for (Information information : informations) {
+//                    int commentUserId = information.getReplayUserId();
+//                    User user = userMapper.selectUserByUserId(commentUserId);
+//                    String name = user.getNickname();
+//                    List<String> list = new ArrayList<>();
+//                    list.add(name);
+//                    list.add(information.getContent());
+//                    list.add(information.getBlogId() + "");
+//                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+//                    list.add(simpleDateFormat.format(information.getTime()));
+//                    if (information.getStatus() == 0) {
+//                        continue;
+//                    }
+//                    list.add(information.getStatus() + "");
+//                    list.add(user.getUserId() + "");
+//                    list.add(information.getId() + "");
+//                    list.add(information.getBlogId() + "");
+//                    String json = JSONObject.toJSONString(list);
+        //                    RedisUtil.getJedisInstance().rpush(key, json);
+        //                    lists.add(json);
+        //                }
+        //                map.put("count2", lists.size());
+////                list分页
+//                try {
+//                    map.put("data", lists.subList(pageSize * (page - 1), pageSize * page));//从下标0开始，找到第10个 即0-9
+//                } catch (IndexOutOfBoundsException e) {
+//                    map.put("data", lists.subList(pageSize * (page - 1), lists.size()));//数组越界异常时，取到最后一个元素
+//                }
+//                map.put("success", 1);
+//                Integer count = userMapper.selectUserByUserId(userId).getUnreadreplaycount();
+//                RedisUtil.getJedisInstance().set("count" + key, count + "");
+//                RedisUtil.getJedisInstance().expire("count" + key, 600);
+//                RedisUtil.getJedisInstance().expire(key, 600);
+//                RedisUtil.closeJedisInstance();
+//                map.put("count", count);
+//            } else {
+//                RedisUtil.getJedisInstance().set("count" + key, 0 + "");
+//                RedisUtil.getJedisInstance().expire("count" + key, 600);
+//                RedisUtil.closeJedisInstance();
+//                map.put("count", 0);
+//                map.put("success", 0);
+//            }
+//            RedisUtil.closeJedisInstance();
+//            return map;
+//        }
     }
 
-    @RedisCache(Constants.REPLAY_INFORMATION)
+//    @RedisCache(Constants.REPLAY_INFORMATION)
     @Override
     @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public void removecommentreq(int userId) {
@@ -188,20 +223,20 @@ public class BlogReplayServiceImpl implements BlogReplayService {
     }
 
 
-    @RedisCache(Constants.REPLAY_INFORMATION)
+//    @RedisCache(Constants.REPLAY_INFORMATION)
     @Override
     @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public void onclickcommentreq(int id, int userId) {
-        Integer a= informationMapper.selectStatus(id);
+        Integer a = informationMapper.selectStatus(id);
         informationMapper.onclickcommentreq(userId, id);
-       if (a==1){
-           User user = userMapper.selectUserByUserId(userId);
-           Integer unreadreplaycount = user.getUnreadreplaycount() - 1;
-           if (unreadreplaycount >= 0) {
-               user.setUnreadreplaycount(unreadreplaycount);
-               userMapper.updateuser(user);
-           }
-       }
+        if (a == 1) {
+            User user = userMapper.selectUserByUserId(userId);
+            Integer unreadreplaycount = user.getUnreadreplaycount() - 1;
+            if (unreadreplaycount >= 0) {
+                user.setUnreadreplaycount(unreadreplaycount);
+                userMapper.updateuser(user);
+            }
+        }
     }
 
 

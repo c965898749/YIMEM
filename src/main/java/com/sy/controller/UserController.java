@@ -16,6 +16,7 @@ import com.sy.tool.DESUtil;
 import com.sy.tool.Xtool;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,7 +44,6 @@ public class UserController {
     @Autowired
     private EmailService emailService;
     private Logger log = Logger.getLogger(UserController.class.getName());
-    BaseResp baseResp = new BaseResp();
     @Autowired
 
     private DownloadService downloadService;
@@ -56,6 +56,7 @@ public class UserController {
     //登录接口
     @RequestMapping(value = "loginVerification", method = RequestMethod.POST)
     public BaseResp loginVerification(String username, String userpassword, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
         try {
             Date day = new Date();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -85,6 +86,7 @@ public class UserController {
     @RequestMapping(value = "bingding", method = RequestMethod.POST)
     public BaseResp bingding(String username, String userpassword, HttpServletRequest request) {
         log.info("绑定用户账号---" + username + "---密码-----" + userpassword);
+        BaseResp baseResp = new BaseResp();
         try {
             baseResp = servic.loginVerification(username, userpassword);
             if (baseResp.getSuccess() == 1) {
@@ -125,6 +127,7 @@ public class UserController {
     @RequestMapping(value = "emilcode", method = RequestMethod.POST)
     public BaseResp emilcode(String username, HttpServletRequest request) {
         Date emilcodetime = (Date) request.getSession().getAttribute("emilcodetime");
+        BaseResp baseResp = new BaseResp();
         if (emilcodetime == null) {
             Date date = new Date();
             request.getSession().setAttribute("emilcodetime", date);
@@ -162,6 +165,7 @@ public class UserController {
     @RequestMapping(value = "midifyUser", method = RequestMethod.POST)
     public BaseResp midifyUser(String emilcode, String userpassword, String username, HttpServletRequest request) {
         String idcode = (String) request.getSession().getAttribute("idcode");
+        BaseResp baseResp = new BaseResp();
         if (Xtool.isNull(emilcode) || Xtool.isNull(userpassword) || Xtool.isNull(username) || Xtool.isNull(idcode)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("信息不全请重新刷新输入");
@@ -178,7 +182,8 @@ public class UserController {
             User user = new User();
             user.setUsername(username);
             User tt = servic.getUserByLoginCode(user);
-            baseResp = servic.midifyUserByUserId(tt.getUserId(), userpassword, username);
+            String password = DigestUtils.md5DigestAsHex(userpassword.getBytes());
+            baseResp = servic.midifyUserByUserId(tt.getUserId(), password, username);
         } catch (Exception e) {
             e.printStackTrace();
             baseResp.setSuccess(0);
@@ -190,6 +195,7 @@ public class UserController {
     //注册接口
     @RequestMapping(value = "registerServlet", method = RequestMethod.POST)
     public BaseResp registerServlet(String username, String userpassword, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
         try {
             baseResp = servic.addUser(username, userpassword);
             return baseResp;
@@ -208,6 +214,7 @@ public class UserController {
      */
     @RequestMapping(value = "weixinRegist", method = RequestMethod.POST)
     public BaseResp weixinRegist(String username, String userpassword, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
         User user = new User();
         user.setUsername(username);
         user.setUserpassword(userpassword);
@@ -272,6 +279,7 @@ public class UserController {
     //判断是否登入的接口
     @RequestMapping(value = "isEnter")
     public BaseResp isEnter(HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
         Cookie[] cookies = request.getCookies();
         String token = "";
         if (cookies != null && cookies.length > 0) {
@@ -351,6 +359,7 @@ public class UserController {
     //注销登入
     @RequestMapping(value = "logout")
     public BaseResp logout(HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
         request.getSession().invalidate();
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("注销成功");
@@ -361,6 +370,7 @@ public class UserController {
     //修改用户头像
     @RequestMapping(value = "modifyHeadImg", method = RequestMethod.POST)
     public BaseResp modifyHeadImg(String headImg, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             baseResp.setSuccess(0);
@@ -382,6 +392,7 @@ public class UserController {
     //修改用户信息
     @RequestMapping(value = "modifyUserInfor", method = RequestMethod.POST)
     public BaseResp modifyUserInfor(User user, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
         User user2 = (User) request.getSession().getAttribute("user");
         if (user2 == null) {
             baseResp.setSuccess(0);
@@ -406,6 +417,7 @@ public class UserController {
     //个人资料渲染接口
     @RequestMapping(value = "personalData", method = RequestMethod.GET)
     public BaseResp personalData(Integer userId) {
+        BaseResp baseResp = new BaseResp();
         try {
             baseResp = servic.findUserInforIncludeMsg(userId);
         } catch (Exception e) {
@@ -419,6 +431,7 @@ public class UserController {
     //根据userId查询粉丝
     @RequestMapping(value = "myFans")
     public BaseResp findAllFansByUserid(Integer userId) {
+        BaseResp baseResp = new BaseResp();
         try {
             baseResp = servic.findAllFansByUserid(userId);
         } catch (Exception e) {
@@ -432,6 +445,7 @@ public class UserController {
     //根据userId查询关注的人
     @RequestMapping(value = "myInterest")
     public BaseResp findAllreFansByUserId(Integer userId) {
+        BaseResp baseResp = new BaseResp();
         try {
             baseResp = servic.findAllreFansByUserId(userId);
         } catch (Exception e) {
@@ -445,6 +459,7 @@ public class UserController {
     //个人主页渲染数据
     @RequestMapping(value = "perInfordata")
     public BaseResp perInfordata(Integer viewUserId, Integer userId) {
+        BaseResp baseResp = new BaseResp();
         try {
             baseResp = servic.perInfordata(viewUserId, userId);
         } catch (Exception e) {
@@ -458,6 +473,7 @@ public class UserController {
     //个人主页细节数据
     @RequestMapping(value = "perInforDetailData")
     public BaseResp perInforDetailData(Integer userId, String type, Integer pageNum) {
+        BaseResp baseResp = new BaseResp();
         try {
 
             baseResp = servic.perInforDetailData(userId, type, pageNum);
@@ -473,6 +489,7 @@ public class UserController {
     //已读回复
     @RequestMapping(value = "readcommentreq", method = RequestMethod.POST)
     public BaseResp readcommentreq(HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
         User user = (User) request.getSession().getAttribute("user");
         if (user != null) {
             Integer userId = user.getUserId();
@@ -486,6 +503,7 @@ public class UserController {
     //已读点赞
     @RequestMapping(value = "readqueryLikeId", method = RequestMethod.POST)
     public BaseResp readqueryLikeId(HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
         User user = (User) request.getSession().getAttribute("user");
         if (user != null) {
             Integer userId = user.getUserId();
@@ -499,6 +517,7 @@ public class UserController {
     //已读关注
     @RequestMapping(value = "readfansaa", method = RequestMethod.POST)
     public BaseResp readfansaa(HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
         User user = (User) request.getSession().getAttribute("user");
         if (user != null) {
             Integer userId = user.getUserId();
