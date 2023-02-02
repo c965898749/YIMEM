@@ -96,7 +96,8 @@ public class LoginController {
 //        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
 //        String ip = IpUtils.getIpAddr(request);
         UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
-        String address = AddressUtils.getRealAddressByIP(cip);
+//        String address = AddressUtils.getRealAddressByIP(cip);
+        String address = AddressUtils.getAlibaba(cip);
 //        StringBuilder s = new StringBuilder();
 //                s.append(LogUtils.getBlock(ip));
 //                s.append(address);

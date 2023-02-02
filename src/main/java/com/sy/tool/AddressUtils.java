@@ -1,8 +1,13 @@
 package com.sy.tool;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 获取地址类
@@ -50,8 +55,37 @@ public class AddressUtils
         return address;
     }
 
-//    public static void main(String[] args) {
-//        AddressUtils utils=new AddressUtils();
-//        System.out.println(utils.getRealAddressByIP("56.23.52.41"));
-//    }
+    public static void main(String[] args) {
+        AddressUtils utils=new AddressUtils();
+//        System.out.println(utils.getRealAddressByIP("66.249.66.44"));
+        System.out.println(utils.getAlibaba("112.4.205.119"));
+    }
+
+    /**
+     * description ali地域查询
+     *
+     * @param ip ip地址
+     * @return java.lang.String
+     * @version 1.0
+     */
+    public static String getAlibaba(String ip) {
+        Map map = new HashMap();
+        map.put("ip", ip);
+        map.put("key", "OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77");
+//        JSONObject JSONObj = JSONObject.parseObject(JSON.toJSONString(map));
+        String md5str = DigestUtils.md5Hex("/ws/location/v1/ip?ip="+ip+"&key=LGIBZ-O7AWD-SXK4L-H5T57-2OP55-FRBO3Zs0kDAPIbdXVrb7NEet4H0CeE36eEIX");
+        String result = HttpUtils.sendGet2("https://apis.map.qq.com/ws/location/v1/ip?ip="+ip+"&key=LGIBZ-O7AWD-SXK4L-H5T57-2OP55-FRBO3&sig="+md5str, "utf-8");
+        Map valueMap = JSONObject.parseObject(result, Map.class);
+
+        // 请求成功，解析响应数据
+        if ("Success".equals(valueMap.get("message"))) {
+            Map<String, Map<String, String>> dataMap = (Map<String, Map<String, String>>) valueMap.get("result");
+            Map adInfo = dataMap.get("ad_info");
+//            String region = dataMap.get("region");
+//            String city = dataMap.get("city");
+//            return country + region + city;
+            return ""+adInfo.get("nation")+adInfo.get("province")+adInfo.get("city")+adInfo.get("district");
+        }
+        return "";
+    }
 }
