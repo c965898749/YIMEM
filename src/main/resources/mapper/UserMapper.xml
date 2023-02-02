@@ -12,12 +12,12 @@
                                industry, job, askSuminter, headImg, blogCount, attentionCount, fansCount, resourceCount,
                                forumCount, askCount, collectCount, downloadmoney, commentCount, likeCount, level,
                                visitorCount, ranking, downCount, askmoney, unreadreplaycount, readquerylikecount,
-                               unreadfanscount, openid, isEmil)
+                               unreadfanscount, openid, isEmil,status)
         values (#{username}, #{userpassword}, #{sex}, #{nickname}, #{birthday}, #{provinces}, #{city}, #{county},
                 #{description}, #{industry}, #{job}, #{askSuminter}, #{headImg}, #{blogCount}, #{attentionCount},
                 #{fansCount}, #{resourceCount}, #{forumCount}, #{askCount}, #{collectCount}, #{downloadmoney},
                 #{commentCount}, #{likeCount}, #{level}, #{visitorCount}, #{ranking}, #{downCount}, #{askmoney},
-                #{unreadreplaycount}, #{readquerylikecount}, #{unreadfanscount}, #{openid}, #{isEmil})
+                #{unreadreplaycount}, #{readquerylikecount}, #{unreadfanscount}, #{openid}, #{isEmil},#{status})
     </insert>
     <!--修改用户头像-->
     <insert id="updateUserHeadImgByID">

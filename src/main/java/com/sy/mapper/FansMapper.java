@@ -21,6 +21,8 @@ public interface FansMapper {
 
     Integer selectcount(int userId);
 
+    Integer selectNoReadCount(int userId);
+
     List<Fans> selectpage(@Param("userId") Integer userId ,@Param("page")Integer page,@Param("pageSize")Integer pageSize);
     //消除消息状态
     Integer removefansaa(@Param("fansedid") Integer fansedid);

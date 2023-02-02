@@ -141,7 +141,8 @@ public class FansServiceImpl implements FansService {
     public Map queryAllFans(int userId, int page) {
         int pageSize = 6;
         Map<String, Object> map = new HashMap<>();
-        List<Fans> fansList = fansMapper.selectpage(userId, page, pageSize);
+        //查询粉丝日志
+        List<Fans> fansList = fansMapper.selectpage(userId, page-1, pageSize);
         List<String> nameLists = new ArrayList<>();
         if (fansList.size() != 0) {
             for (Fans fans : fansList) {
@@ -160,8 +161,7 @@ public class FansServiceImpl implements FansService {
             map.put("data", nameLists);
             Integer count = userMapper.selectUserByUserId(userId).getUnreadfanscount();
             map.put("count", count);
-//            Integer count2 = fansMapper.selectcount(userId);
-            map.put("count2", nameLists.size());
+            map.put("count2", fansMapper.selectNoReadCount(userId));
         } else {
             map.put("data", "");
             map.put("count", 0);

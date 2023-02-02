@@ -69,6 +69,9 @@ public class UserServicImpl implements UserServic {
             baseResp.setErrorMsg("账号已被禁用");
             return baseResp;
         }
+        //关注未读消息
+        Integer count =fansMapper.selectNoReadCount(emp.getUserId());
+        emp.setUnreadfanscount(count);
         baseResp.setSuccess(1);
         baseResp.setData(emp);
         baseResp.setErrorMsg("登录成功");
