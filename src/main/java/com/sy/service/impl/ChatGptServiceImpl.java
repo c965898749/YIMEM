@@ -55,7 +55,7 @@ public class ChatGptServiceImpl implements ChatGptService {
             message =  RedisUtil.getJedisInstance().get(userKey);
         }
         if ("1".equals(messageContent)){
-           return message.substring(message.lastIndexOf("小小鹏:")+1).replace("小小鹏:", "小梦，");
+           return message.substring(message.lastIndexOf("小小鹏:")+1).replace("小鹏:", "小梦，");
         }
         // 拼接字符,设置回去
         message = message + human + messageContent + "\n";
