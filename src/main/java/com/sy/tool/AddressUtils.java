@@ -45,7 +45,7 @@ public class AddressUtils
                 JSONObject obj = JSONObject.parseObject(rspStr);
                 String region = obj.getString("pro");
                 String city = obj.getString("city");
-                return String.format("%s %s", region, city);
+                return String.format("%s%s", region, city);
             }
             catch (Exception e)
             {
@@ -57,8 +57,8 @@ public class AddressUtils
 
     public static void main(String[] args) {
         AddressUtils utils=new AddressUtils();
-//        System.out.println(utils.getRealAddressByIP("66.249.66.44"));
-        System.out.println(utils.getAlibaba("112.4.205.119"));
+        System.out.println(utils.getRealAddressByIP("175.27.185.112"));
+//        System.out.println(utils.getAlibaba("175.27.185.112"));
     }
 
     /**
@@ -81,10 +81,13 @@ public class AddressUtils
         if ("Success".equals(valueMap.get("message"))) {
             Map<String, Map<String, String>> dataMap = (Map<String, Map<String, String>>) valueMap.get("result");
             Map adInfo = dataMap.get("ad_info");
-//            String region = dataMap.get("region");
-//            String city = dataMap.get("city");
-//            return country + region + city;
-            return ""+adInfo.get("nation")+adInfo.get("province")+adInfo.get("city")+adInfo.get("district");
+            if ("中国".equals(""+adInfo.get("nation"))&&Xtool.isNull(""+adInfo.get("province"))){
+                AddressUtils utils=new AddressUtils();
+                String adress=utils.getRealAddressByIP(ip);
+                return "中国"+adress;
+            }else {
+                return ""+adInfo.get("nation")+adInfo.get("province")+adInfo.get("city")+adInfo.get("district");
+            }
         }
         return "";
     }

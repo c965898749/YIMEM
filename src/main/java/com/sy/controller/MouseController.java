@@ -24,8 +24,8 @@ public class MouseController implements Runnable {
 		Random random = new Random();
 		while (!isStop) {
 			//随机生成坐标。
-			x = 1473;  // 1000
-			y = 552;  //1000
+			x = 1470;  // 1000
+			y = 287;  //1000
 			//开始移动鼠标
 			robot.mouseMove(x, y);
 
@@ -39,8 +39,8 @@ public class MouseController implements Runnable {
 
 			int num=random.nextInt(20);
 			//每5秒一次操作
-			System.out.println("延迟"+(6+num)+"秒");
-			robot.delay(1000*(6+num));
+			System.out.println("延迟"+(15+num)+"秒");
+			robot.delay(1000*(15+num));
 
 		}
 

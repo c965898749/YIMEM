@@ -31,10 +31,9 @@ public class RedisUtil {
         config.setTestOnReturn(true);
         // 集群
 //        JedisShardInfo jedisShardInfo1 = new JedisShardInfo("192.168.174.101", 6379);
-//                jedisShardInfo1.setPassword("c866971331");
 //        JedisShardInfo jedisShardInfo1 = new JedisShardInfo("www.yimem.com", 6379);
 //        JedisShardInfo jedisShardInfo1 = new JedisShardInfo("192.168.5.239", 6379);
-        JedisShardInfo jedisShardInfo1 = new JedisShardInfo("127.0.0.1", 6379);
+        JedisShardInfo jedisShardInfo1 = new JedisShardInfo("192.168.0.117", 6379);
 //        JedisShardInfo jedisShardInfo1 = new JedisShardInfo("192.168.1.5", 6379);
         jedisShardInfo1.setPassword("123456");
         List<JedisShardInfo> list = new LinkedList<>();
