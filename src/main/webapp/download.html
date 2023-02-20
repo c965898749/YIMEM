@@ -91,10 +91,20 @@
             <div style="font-size: 16px;margin-left: 20px;height: 30px;line-height: 30px;">资源列表</div>
 
         </div>
+        <div class="flooter">
+            <div style="width:300px;margin:0 auto; padding:20px 0;">
+                <img src="imgs/jh/jh.png" style="margin-left: 30px;margin-top: -15px" alt=""> <a target="_blank"
+                                                                                                 href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32061202001097"
+                                                                                                 style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
+                    src="" style="float:left;"/>
+                <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
+                    32061202001097号</p></a>
+            </div>
+        </div>
     </div>
     <div class="NAV-mian-right">
         <div class="ad">
-            <img src="imgs/ad/blog/cd18.png"/>
+            <img style="width: 300px;height: 200px" src="imgs/ad/blog/cd18.png"/>
         </div>
         <div class="upload" id="uploadIndex">
 
@@ -102,9 +112,9 @@
         <div class="recommend">
 
         </div>
-        <div class="yimem_gg">
-            <img src="imgs/ad/blog/cd17.png">
-        </div>
+<!--        <div class="recommend">-->
+<!--            <img src="imgs/ad/blog/cd17.png">-->
+<!--        </div>-->
         <!--<img src="imgs/introduce/csdn.png">-->
         <div class="yimem_bz" style="background-color: white;margin-top: 10px;">
             <div style="width:300px;margin:0 auto">
@@ -119,12 +129,12 @@
                         style="color:#3D3D3D;margin-left: 20px">网站地图</span><span
                         style="color:#3D3D3D;margin-left: 20px">广告服务</span></div>
             <div style="width:300px;margin:0 auto; padding:20px 0;">
-                <img src="imgs/jh/jh.png" style="margin-left: 30px;margin-top: -15px" alt=""> <a target="_blank"
-                                                                                                 href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32061202001097"
-                                                                                                 style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
-                    src="" style="float:left;"/>
-                <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
-                    32061202001097号</p></a>
+<!--                <img src="imgs/jh/jh.png" style="margin-left: 30px;margin-top: -15px" alt=""> <a target="_blank"-->
+<!--                                                                                                 href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32061202001097"-->
+<!--                                                                                                 style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img-->
+<!--                    src="" style="float:left;"/>-->
+<!--                <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备-->
+<!--                    32061202001097号</p></a>-->
             </div>
         </div>
     </div>
@@ -207,7 +217,7 @@
                 <input type="button" value="上传资源" class="uploadbtn">
             </div>
             <div class="weichat">
-                <div class="yimem_gg">
+                <div class="recommend">
                     <img src="imgs/ad/blog/cd17.png">
                 </div>
                 <!--<img src="imgs/introduce/csdn.png">-->
@@ -382,7 +392,7 @@
         qrcode.makeCode(url);
         // qrcode.makeCode('https://www.baidu.com');
     }
-    var navH = $(".yimem_gg").offset().top;
+    var navH = $(".recommend").offset().top;
     var page = 1;
     var pageSize = 4;
     var status = 1;
@@ -480,10 +490,10 @@
 
         var scroH = $(this).scrollTop();
         if(scroH-600>=navH){
-            $(".yimem_gg").css({"position":"fixed","top":10});
-            $(".yimem_bz").css({"position":"fixed","top":260});
+            $(".recommend").css({"position":"fixed","top":50});
+            $(".yimem_bz").css({"position":"fixed","top":550});
         }else {
-            $(".yimem_gg").css({"position":"static"});
+            $(".recommend").css({"position":"static"});
             $(".yimem_bz").css({"position":"static"});
         }
 

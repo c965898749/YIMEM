@@ -161,6 +161,8 @@ header
 	width: 880px;
 	height: 90px;
 	background: url(../imgs/ad/blog/cd13.jpg);
+	/*background-repeat: no-repeat;*/
+	/*background-size: 100% 100%;*/
 }
 
 
