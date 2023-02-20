@@ -1,2 +1,9 @@
 .idea
 target
+src/main/webapp/build
+src/main/webapp/kindeditor/php/JSON.php
+src/main/webapp/js/chunk-vendors.e2253095.js
+src/main/webapp/js/chunk-vendors.e2253095.js.map
+src/main/webapp/js/e495d03829e7f9f45920.worker.js
+src/main/webapp/js/e495d03829e7f9f45920.worker.js.map
+src/main/webapp/web/viewer.js.map
