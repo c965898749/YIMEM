@@ -25,6 +25,7 @@
     <!-- log4j日志文件管理包版本 -->
     <slf4j.version>1.7.7</slf4j.version>
     <log4j.version>1.2.17</log4j.version>
+    <oshi.version>6.4.0</oshi.version>
   </properties>
 
   <dependencies>
@@ -351,6 +352,13 @@
       <groupId>eu.bitwalker</groupId>
       <artifactId>UserAgentUtils</artifactId>
       <version>1.21</version>
+    </dependency>
+
+    <!-- 获取系统信息 -->
+    <dependency>
+      <groupId>com.github.oshi</groupId>
+      <artifactId>oshi-core</artifactId>
+      <version>${oshi.version}</version>
     </dependency>
 
 <!--    jcifs.smb实现远程发送文件到服务器-->
