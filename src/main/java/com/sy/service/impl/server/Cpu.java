@@ -1,6 +1,7 @@
 package com.sy.service.impl.server;
 
-import com.ruoyi.common.utils.Arith;
+
+import com.sy.tool.Arith;
 
 /**
  * CPU相关信息

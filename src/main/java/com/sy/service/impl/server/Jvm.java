@@ -1,7 +1,9 @@
 package com.sy.service.impl.server;
 
-import com.ruoyi.common.utils.Arith;
-import com.ruoyi.common.utils.DateUtils;
+
+
+import com.sy.tool.Arith;
+import com.sy.tool.DateUtils;
 
 import java.lang.management.ManagementFactory;
 
