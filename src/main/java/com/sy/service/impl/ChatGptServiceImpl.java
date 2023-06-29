@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
+import com.sy.entity.ChatGptToken;
 import com.sy.entity.MessageResponseBody;
 import com.sy.entity.MessageSendBody;
 import com.sy.service.ChatGptService;
+import com.sy.service.ChatGptTokenService;
 import com.sy.tool.Constants;
 import com.sy.tool.HttpUtil;
 import com.sy.tool.RedisUtil;
@@ -32,6 +34,9 @@ public class ChatGptServiceImpl implements ChatGptService {
 
 //    @Value("${openapi.key}")
 //    private String apiKey;
+
+    @Resource
+    private ChatGptTokenService chatGptTokenService;
     /**
      * 接口请求地址
      */
@@ -113,7 +118,12 @@ public class ChatGptServiceImpl implements ChatGptService {
         String url = this.url;
         Map<String, String> header = new HashMap();
 //        header.put("Authorization", "Bearer " + apiKey);
-        header.put("Authorization", "Bearer " + Constants.apiKey);
+        List<ChatGptToken> chatGptTokens=chatGptTokenService.selectALL();
+        if (Xtool.isNull(chatGptTokens)){
+            return null;
+        }
+//        header.put("Authorization", "Bearer " + Constants.apiKey);
+        header.put("Authorization", "Bearer " + chatGptTokens.get(0).getToken());
         header.put("Content-Type", "application/json");
         MessageSendBody messageSendBody = buildConfig();
         messageSendBody.setPrompt(message);
