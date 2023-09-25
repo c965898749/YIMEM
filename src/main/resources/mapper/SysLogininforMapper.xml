@@ -64,6 +64,21 @@
       <if test="msg != null">
         msg,
       </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="isp != null">
+        isp,
+      </if>
         login_time,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -90,6 +105,21 @@
       </if>
       <if test="msg != null">
         #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+         #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+         #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+         #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+         #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="isp != null">
+        #{isp,jdbcType=VARCHAR},
       </if>
        now(),
     </trim>
