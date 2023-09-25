@@ -19,6 +19,7 @@ import sun.misc.MessageUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 @Controller
@@ -130,6 +131,16 @@ public class LoginController {
         logininfor.setBrowser(browser);
         logininfor.setOs(os);
         logininfor.setMsg("访问 "+msg+" 页面");
+        //ip2region数据解析
+        int[] index = {0,1,2, 3,4};
+        List<String> parse = IpUtils.parse(cip, index);
+        if (Xtool.isNotNull(parse)){
+            logininfor.setCountry(parse.get(0));
+            logininfor.setRegion(parse.get(1));
+            logininfor.setProvince(parse.get(2));
+            logininfor.setCity(parse.get(3));
+            logininfor.setIsp(parse.get(4));
+        }
         // 插入数据
         SpringUtils.getBean(ISysLogininforService.class).insertLogininfor(logininfor);
     }
