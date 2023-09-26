@@ -64,6 +64,7 @@
       <if test="msg != null">
         msg,
       </if>
+        login_time,
       <if test="country != null">
         country,
       </if>
@@ -79,7 +80,6 @@
       <if test="isp != null">
         isp,
       </if>
-        login_time,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="infoId != null">
@@ -106,22 +106,22 @@
       <if test="msg != null">
         #{msg,jdbcType=VARCHAR},
       </if>
+       now(),
       <if test="country != null">
-         #{country,jdbcType=VARCHAR},
+        #{country,jdbcType=VARCHAR},
       </if>
       <if test="region != null">
-         #{region,jdbcType=VARCHAR},
+        #{region,jdbcType=VARCHAR},
       </if>
       <if test="province != null">
-         #{province,jdbcType=VARCHAR},
+        #{province,jdbcType=VARCHAR},
       </if>
       <if test="city != null">
-         #{city,jdbcType=VARCHAR},
+        #{city,jdbcType=VARCHAR},
       </if>
       <if test="isp != null">
         #{isp,jdbcType=VARCHAR},
       </if>
-       now(),
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.SysLogininfor">

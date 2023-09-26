@@ -103,13 +103,6 @@ public class IpUtils {
     }
 
 
-    public static void main(String[] args) {
-        //只获取省,市
-        int[] index = {0,1,2, 3,4};
-        List<String> parse = parse("101.67.29.171", index);
-        System.out.println(parse);
-    }
-
 
 
 
