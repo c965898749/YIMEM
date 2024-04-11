@@ -1223,7 +1223,8 @@ function dbclick() {
 
 function prewdoc(url) {
     $(".back3").css("display", "block");
-    $("<iframe src='https://view.officeapps.live.com/op/view.aspx?src=" + url + "' width='100%' height='900px' >").appendTo($(".cccc"));
+    var p=encodeURIComponent(Base64.encode("http://czx.yimem.com:3000/"+url))
+    $("<iframe src='https://view.officeapps.live.com/op/view.aspx?src=" + p + "' width='100%' height='900px' >").appendTo($(".cccc"));
 }
 
 function canclePrew2() {
