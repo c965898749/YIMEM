@@ -1214,7 +1214,8 @@ function dbclick() {
         } else if (rows.type == 'doc' || rows.type == 'docx' || rows.type == 'xlsx' || rows.type == 'pptx') {
             prewdoc(rows.src)
         } else {
-            alert("该文件格式不支持在线预览");
+            prewdoc(rows.src)
+            // alert("该文件格式不支持在线预览");
         }
 
         // init(folder.attr("data-id"), 6);
@@ -1223,8 +1224,10 @@ function dbclick() {
 
 function prewdoc(url) {
     $(".back3").css("display", "block");
-    var p=encodeURIComponent(Base64.encode("http://czx.yimem.com:3000/"+url))
-    $("<iframe src='https://view.officeapps.live.com/op/view.aspx?src=" + p + "' width='100%' height='900px' >").appendTo($(".cccc"));
+    // var p=encodeURIComponent(Base64.encode("http://czx.yimem.com:3000/"+url))
+    var p=encodeURIComponent("http://czx.yimem.com:3000/"+url)
+    // $("<iframe src='https://view.xdocin.com/view?src=" + p + "' width='100%' height='900px' >").appendTo($(".cccc"));
+    window.open("https://view.xdocin.com/view?src=" + p);
 }
 
 function canclePrew2() {
