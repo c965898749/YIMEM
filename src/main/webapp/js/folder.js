@@ -1223,7 +1223,7 @@ function dbclick() {
 }
 
 function prewdoc(url) {
-    $(".back3").css("display", "block");
+    // $(".back3").css("display", "block");
     // var p=encodeURIComponent(Base64.encode("http://czx.yimem.com:3000/"+url))
     var p=encodeURIComponent("http://czx.yimem.com:3000/"+url)
     // $("<iframe src='https://view.xdocin.com/view?src=" + p + "' width='100%' height='900px' >").appendTo($(".cccc"));
