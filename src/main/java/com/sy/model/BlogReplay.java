@@ -1,10 +1,11 @@
 package com.sy.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-
+@Data
 public class BlogReplay {
     private Integer id;
     private Integer blogid;
@@ -19,6 +20,7 @@ public class BlogReplay {
     private Integer replayUserId;
     private Integer sonreplaycount;
     private Integer blogReplayId;
+    private Integer isRead;
 
     public Integer getBlogReplayId() {
         return blogReplayId;

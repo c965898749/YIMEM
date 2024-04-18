@@ -1,6 +1,7 @@
 package com.sy.mapper;
 
 import com.sy.model.BlogReplay;
+import com.sy.model.Information;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -16,10 +17,14 @@ public interface BlogReplayMapper {
     Integer readcommentreq(@Param("userId")Integer userId );
     Integer onclickcommentreq(@Param("blog_id") Integer blog_id);
     Integer queryReplayCountByBlogId(@Param("blog_id") Integer blog_id);
+
+    Integer queryReplayCountByUserId(@Param("userId") Integer userId);
     BlogReplay queryByBlogReplayId(@Param("id") Integer id);
     Integer updateCount(@Param("id") Integer id);
     List<BlogReplay> queryreplayByUserId(@Param("userId") Integer userId);
     Integer insert(BlogReplay blogReplaySon);
     List<BlogReplay> queryBlogReplaySonByReplayId(@Param("blogReplayId")Integer blogReplayId);
     Integer queryUserIdById(@Param("id")Integer id);
+    List<BlogReplay> selectpage(@Param("userId") Integer userId , @Param("page")Integer page, @Param("pageSize")Integer pageSize);
+
 }

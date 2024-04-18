@@ -345,7 +345,7 @@
     function messageAlert(){
         if(usermsg.success==1){
             $(".divright").empty()
-            var count=usermsg.data.unreadreplaycount+usermsg.data.readquerylikecount+usermsg.data.unreadfanscount;
+            var count=usermsg.data.unreadreplaycount+usermsg.data.unReadQueryLikecount+usermsg.data.unreadfanscount;
             //console.log("数字"+count)
             if (count<=0){
                 $(".divright").hide()

@@ -43,6 +43,10 @@
     <select id="selectFansCountbyUserId" resultType="java.lang.Integer">
         select count(*) from fans where  fansedid=#{userId}
     </select>
+
+    <select id="selectFansUnRreadCountbyUserId" resultType="java.lang.Integer">
+        select count(*) from fans where  fansedid=#{userId} and status= 1
+    </select>
     <!--根据用户ID查询博客的数量-->
     <select id="selectBlogCountbyUserId" resultType="java.lang.Integer">
         select count(*) from blog  where  userid=#{userId}

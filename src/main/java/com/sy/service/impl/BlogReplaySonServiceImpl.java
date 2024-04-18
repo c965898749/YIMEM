@@ -41,79 +41,17 @@ public class BlogReplaySonServiceImpl implements BlogReplaySonService {
     public BaseResp insert(BlogReplay blogReplaySon) {
 
         BaseResp baseResp = new BaseResp();
-        blogReplaySon.setStatus(1);
+        blogReplaySon.setStatus(0);
         blogReplaySon.setComment(StringEscapeUtils.escapeHtml4(blogReplaySon.getComment()));
         blogReplayMapper.updateCount(blogReplaySon.getBlogReplayId());
-        Integer count = blogReplayMapper.insert(blogReplaySon);
-
-//            获取帖子博主id
         Integer userid = blogMapper.queryUserIdById(blogReplaySon.getBlogid());
-//            获取评论者的id
-        Integer useridd = blogReplayMapper.queryUserIdById(blogReplaySon.getBlogReplayId());
-
-
-        if (userid != blogReplaySon.getCommentuserid()) {
-
-
-//                1.如果回复的人不是博主自己
-//                2.则给博主发消息
-            this.faxiaoxi(blogReplaySon, userid);
-
-//            1.如果回复的人不是评论自己且不是博主
-//            2.则给评论者发消息
-            if (blogReplaySon.getCommentuserid() != useridd
-             &&useridd!=userid) {
-                this.faxiaoxi(blogReplaySon, useridd);
-
-//            1.如果回复的人的对象不是自己且不是博主且不是评论者
-//            2.则给回复对象发消息
-                if (blogReplaySon.getCommentuserid()!=blogReplaySon.getReplayUserId()
-                &&blogReplaySon.getReplayUserId()!=userid
-                &&blogReplaySon.getReplayUserId()!=useridd){
-                    this.faxiaoxi(blogReplaySon,blogReplaySon.getReplayUserId());
-                }
-            }else {
-
-//            1.如果回复的人的对象不是自己且不是博主且不是评论者
-//            2.则给回复对象发消息
-                if (blogReplaySon.getCommentuserid()!=blogReplaySon.getReplayUserId()
-                        &&blogReplaySon.getReplayUserId()!=userid
-                        &&blogReplaySon.getReplayUserId()!=useridd){
-                    this.faxiaoxi(blogReplaySon,blogReplaySon.getReplayUserId());
-                }
-            }
-
+        if(userid!=blogReplaySon.getCommentuserid()){
+            blogReplaySon.setStatus(1);
+        }
+        if (blogReplayMapper.addReplay(blogReplaySon) != 0) {
+            baseResp.setSuccess(1);
         } else {
-//            1.如果回复的人是博主自己
-//            2.则给回复+1
-            User user = userMapper.selectUserByUserId(userid);
-            Integer commentCount = user.getCommentCount() + 1;
-            user.setCommentCount(commentCount);
-            userMapper.updateuser(user);
-
-//            1.如果回复的人不是评论自己且不总是博主
-//            2.则给评论者发消息
-            if (blogReplaySon.getCommentuserid() != useridd
-            &&useridd!=userid) {
-                this.faxiaoxi(blogReplaySon, useridd);
-
-//            1.如果回复的人的对象不是自己且不是博主且不是评论者
-//            2.则给回复对象发消息
-                if (blogReplaySon.getCommentuserid()!=blogReplaySon.getReplayUserId()
-                        &&blogReplaySon.getReplayUserId()!=userid
-                        &&blogReplaySon.getReplayUserId()!=useridd){
-                    this.faxiaoxi(blogReplaySon,blogReplaySon.getReplayUserId());
-                }
-            }else {
-
-//            1.如果回复的人的对象不是自己且不是博主且不是评论者
-//            2.则给回复对象发消息
-                if (blogReplaySon.getCommentuserid()!=blogReplaySon.getReplayUserId()
-                        &&blogReplaySon.getReplayUserId()!=userid
-                        &&blogReplaySon.getReplayUserId()!=useridd){
-                    this.faxiaoxi(blogReplaySon,blogReplaySon.getReplayUserId());
-                }
-            }
+            baseResp.setSuccess(0);
         }
         baseResp.setSuccess(0);
         baseResp.setErrorMsg("回复成功");

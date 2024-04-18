@@ -5,13 +5,14 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+
 @Data
-public class User {
+public class UserVO {
     private Integer userId;
 
     private String username;
 
-    private String userpassword;
+
 
     private String sex;
 

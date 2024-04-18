@@ -338,8 +338,13 @@
                    if (json.success=200){
                        console.log(json);
                        videoUrl=json.data
-                       console.log(videoUrl)
-                       window.open('http://czx.yimem.com:3003/onlinePreview?url=' + Base64.encode('http://czx.yimem.com:3000'+videoUrl));
+                       // console.log(videoUrl)
+                       // $(".back3").css("display", "block");
+                       // var p=encodeURIComponent(Base64.encode("http://czx.yimem.com:3000/"+url))
+                       var p=encodeURIComponent("http://czx.yimem.com:3000/"+videoUrl)
+                       // $("<iframe src='https://view.xdocin.com/view?src=" + p + "' width='100%' height='900px' >").appendTo($(".cccc"));
+                       window.open("https://view.xdocin.com/view?src=" + p);
+                       // window.open('http://czx.yimem.com:3003/onlinePreview?url=' + Base64.encode('http://czx.yimem.com:3000'+videoUrl));
                        // if(zleixin=="pdf"){
                        //     localStorage.videoUrl = videoUrl;
                        //     window.open("pdf.html")

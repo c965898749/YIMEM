@@ -48,34 +48,15 @@ public class BlogReplayServiceImpl implements BlogReplayService {
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public BaseResp addReplay(BlogReplay blogReplay) {
-        Integer status = 0;
         BaseResp baseResp = new BaseResp();
-        Integer replayUserId = blogMapper.queryUserIdById(blogReplay.getBlogid());
-        Integer userid = blogMapper.queryUserIdById(blogReplay.getBlogid());
-        User user = userMapper.selectUserByUserId(userid);
-        if (blogReplay.getCommentuserid() != replayUserId) {
-            Integer unreadreplaycount = user.getUnreadreplaycount() + 1;
-            user.setUnreadreplaycount(unreadreplaycount);
-            blogReplay.setReplayUserId(replayUserId);
-            status = 1;
-        }
-        blogReplay.setStatus(status);
+        blogReplay.setStatus(0);
 //        StringEscapeUtils对html转义
+        Integer userid = blogMapper.queryUserIdById(blogReplay.getBlogid());
+        if(userid!=blogReplay.getCommentuserid()){
+            blogReplay.setStatus(1);
+        }
         blogReplay.setComment(StringEscapeUtils.escapeHtml4(blogReplay.getComment()));
-        int result = blogReplayMapper.addReplay(blogReplay);
-        Information information = new Information();
-        information.setBlogId(blogReplay.getBlogid());
-        information.setContent(blogReplay.getComment());
-        information.setReplayUserId(blogReplay.getCommentuserid());
-        information.setUserId(blogReplay.getReplayUserId());
-        Integer c = informationMapper.insert(information);
-        if (result != 0) {
-            System.out.println(userid);
-            Integer commentCount = user.getCommentCount() + 1;
-            System.out.println("评论数" + commentCount);
-            user.setCommentCount(commentCount);
-            userMapper.updateuser(user);
-//            amqpTemplate.convertAndSend("message.messge", JSON.toJSONString(userid));
+        if (blogReplayMapper.addReplay(blogReplay) != 0) {
             baseResp.setSuccess(1);
         } else {
             baseResp.setSuccess(0);
@@ -116,32 +97,30 @@ public class BlogReplayServiceImpl implements BlogReplayService {
         int pageSize = 6;
         Map<String, Object> map = new HashMap<>();
         List<String> lists = new ArrayList<>();
-        List<Information> informations = informationMapper.selectpage(userId, page, pageSize);
+        page=page-1;
+//        List<Information> informations = informationMapper.selectpage(userId, page, pageSize);
+        List<BlogReplay> informations = blogReplayMapper.selectpage(userId, page, pageSize);
         if (informations.size() != 0) {
-            for (Information information : informations) {
-                int commentUserId = information.getReplayUserId();
+            for (BlogReplay information : informations) {
+                int commentUserId = information.getCommentuserid();
                 User user = userMapper.selectUserByUserId(commentUserId);
                 String name = user.getNickname();
                 List<String> list = new ArrayList<>();
                 list.add(name);
-                list.add(information.getContent());
-                list.add(information.getBlogId() + "");
+                list.add(information.getComment());
+                list.add(information.getBlogid() + "");
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
                 list.add(simpleDateFormat.format(information.getTime()));
-                if (information.getStatus() == 0) {
-                    continue;
-                }
                 list.add(information.getStatus() + "");
                 list.add(user.getUserId() + "");
                 list.add(information.getId() + "");
-                list.add(information.getBlogId() + "");
+                list.add(information.getBlogid() + "");
                 String json = JSONObject.toJSONString(list);
                 lists.add(json);
             }
             map.put("data", lists);
-            Integer count = userMapper.selectUserByUserId(userId).getUnreadreplaycount();
+            Integer count=blogReplayMapper.queryReplayCountByUserId(userId);
             map.put("count", count);
-//            Integer count2=informationMapper.selectcount(userId);
             map.put("count2", lists.size());
         }else {
             map.put("data", "");

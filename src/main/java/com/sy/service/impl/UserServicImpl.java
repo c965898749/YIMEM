@@ -11,6 +11,7 @@ import com.sy.tool.Constants;
 import com.sy.tool.RandomName;
 import com.sy.tool.RedisCache;
 import com.sy.tool.Xtool;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -191,12 +192,24 @@ public class UserServicImpl implements UserServic {
     public BaseResp findUserByUserId(Integer userId) throws Exception {
         BaseResp baseResp = new BaseResp();
         User user = userMapper.selectUserByUserId(userId);
+        //粉丝数
         Integer fansCount=userMapper.selectFansCountbyUserId(userId);
+        //未读数
+        Integer unReadFansCount=userMapper.selectFansUnRreadCountbyUserId(userId);
+        System.out.println("未读数"+unReadFansCount);
+        //评论数
+        Integer repalyCount=blogReplayMapper.queryReplayCountByUserId(userId);
         if (user != null) {
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("获取成功");
             user.setFansCount(fansCount);
-            baseResp.setData(user);
+            user.setUnreadreplaycount(repalyCount);
+            user.setUnreadfanscount(unReadFansCount);
+            user.setUnReadQueryLikecount(0);
+            UserVO vo=new UserVO();
+            BeanUtils.copyProperties(user,vo);
+            baseResp.setData(vo);
+            System.out.println(vo.toString());
         } else {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("获取失败");

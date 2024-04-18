@@ -32,6 +32,16 @@
 
     </select>
 
+    <!--查询博客回复数-->
+    <select id="queryReplayCountByUserId" resultType="java.lang.Integer">
+
+        SELECT count(1) FROM blog_replay
+        where commentuserid != #{userId}
+        and is_read=1
+        and replay_userid=#{userId}
+
+    </select>
+
     <!--查询单条回复-->
     <select id="queryByBlogReplayId" resultType="com.sy.model.BlogReplay">
         select * from blog_replay where id = #{id}
@@ -60,6 +70,14 @@
     <!--查询评论的评论对象id-->
     <select id="queryUserIdById" resultType="java.lang.Integer">
 select commentuserid from blog_replay where id =#{id}
+    </select>
+
+    <select id="selectpage" resultType="com.sy.model.BlogReplay">
+        SELECT
+        *
+        FROM
+            blog_replay
+        where replay_userid=#{userId} and commentuserid != #{userId} limit #{page},#{pageSize}
     </select>
 </mapper>
 

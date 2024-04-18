@@ -22,6 +22,8 @@ public interface UserMapper {
 //    int selectAttentionCountbyUserId(Integer userId);
     //根据用户ID查询粉丝的总人数
     int selectFansCountbyUserId(Integer userId);
+    //关注未读数
+    int selectFansUnRreadCountbyUserId(Integer userId);
     //根据用户ID查询博客的数量
     int selectBlogCountbyUserId(Integer userId);
     //根据用户ID查询资源的数量

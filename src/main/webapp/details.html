@@ -738,7 +738,8 @@
                             "blogReplayId": blogReplayId,
                             "comment": comment,
                             "replayUserId": replayUserId,
-                            "blogid": blog_id
+                            "blogid": blog_id,
+                            "isRead": 1
                         },
                         dataType: "json",
                         type: "post",
@@ -1468,7 +1469,7 @@
                     // //////console.log(replay_value)
                     $.ajax({
                         url: "/addBlogReplay",
-                        data: {"comment": replay_value, "blogid": blog_id},
+                        data: {"comment": replay_value, "blogid": blog_id,"isRead":1,"sonReplayCount":0},
                         dataType: "json",
                         type: "post",
                         success: function (json) {
