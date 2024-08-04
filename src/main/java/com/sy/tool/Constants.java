@@ -36,7 +36,8 @@ public class Constants {
     public static final String VIDEO_CACHE_DIR = "upload/videotemp";
 
 //    public static final String ffmpegpath = "/usr/local/ffmpeg/ffmpeg";        // ffmpeg工具安装位置
-    public static final String ffmpegpath = "D:/ffmpeg/bin/ffmpeg.exe";        // ffmpeg工具安装位置
+//    public static final String ffmpegpath = "D:/ffmpeg/bin/ffmpeg.exe";        // ffmpeg工具安装位置
+    public static final String ffmpegpath = "E:/ffmpeg-20200831-4a11a6f-win64-static/bin/ffmpeg.exe";        // ffmpeg工具安装位置
     public static final String mencoderpath = "D:/ffmpeg/bin/mencoder";    // mencoder工具安装的位置
 
 //    public static String videofolder = "D:/VRMS-Workspace/YIMEM/src/main/webapp/mp4/";    // 需要被转换格式的视频目录

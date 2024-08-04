@@ -114,8 +114,7 @@ public class DownloadController {
         //        实时更新用户信息
         User user1 = new User();
         try {
-            Integer userId = user.getUserId();
-            user1 = (User) servic.findUserByUserId(userId).getData();
+            user1 = servic.getUserById(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
