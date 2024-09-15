@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.ActivationKeyMapper">
+
+
+    <insert id="insert" parameterType="com.sy.entity.ActivationKey">
+      INSERT INTO `activation_key` (`code`, `type`, `act_code`, `time`, `status`) VALUES (#{code}, #{type}, #{actCode}, now(), 0);
+  </insert>
+    <delete id="remove" parameterType="com.sy.entity.ActivationKey">
+    delete from activation_key
+    where `type` = #{type} and `code`=#{code}
+  </delete>
+  <select id="queryBytype" resultType="com.sy.entity.ActivationKey">
+        select * from activation_key   where `type` = #{type} and `code`=#{code} limit 1
+  </select>
+</mapper>

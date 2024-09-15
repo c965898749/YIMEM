@@ -82,9 +82,17 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 TextMessage text = new TextMessage();
                 text.setMsgType(msgType);
                 System.out.println(content);
-
-//                    text.setContent(this.getTextMessage(content).toString());
-                if (content.equals("账号绑定") || content.equals("账号") || content.equals("绑定") || content.equals("绑账号") || content.equals("绑")) {
+                if (content.contains("请复制本消息并打开VMOS。防盗密钥")) {
+                    // 找到字符'A'的位置
+                    int index = content.indexOf(":");
+                    content = content.substring(index + 1);
+                    // 找到字符'A'的位置
+                    index = content.indexOf("Now");
+                    content = content.substring(0, index);
+                    content=content.trim();
+                    text.setContent(content);
+                    text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                }else if (content.equals("账号绑定") || content.equals("账号") || content.equals("绑定") || content.equals("绑账号") || content.equals("绑")) {
                     if (Constants.TO_USER_NAME.equals(toUserName)) {
                         text.setContent("请点击下方菜单 绑定账号");
                         text.setToUserName(fromUserName);
@@ -147,7 +155,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     }
 
                 } else {
-                    text.setContent(this.getResult(content,fromUserName));
+                    text.setContent(this.getResult(content, fromUserName));
                 }
                 text.setToUserName(fromUserName);
                 text.setFromUserName(toUserName);
@@ -356,19 +364,20 @@ public class WeixinPostServiceImpl implements WeixinPostService {
 
                 }
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             System.out.println("error......");
             log.info("微信异常---------------" + e.getMessage());
         }
         return respMessage;
     }
 
-    private String getResult(String content,String fromUserName){
+    private String getResult(String content, String fromUserName) {
         String result = "小梦，正在思考……10秒后打个1我继续回答";
         final ExecutorService exec = Executors.newFixedThreadPool(1);
         Callable<String> call = new Callable<String>() {
             public String call() throws InterruptedException {
-                return chatGptService.reply(content,fromUserName);
+                return chatGptService.reply(content, fromUserName);
             }
         };
 
