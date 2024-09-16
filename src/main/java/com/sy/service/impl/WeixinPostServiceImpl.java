@@ -85,7 +85,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                     if (content.contains("天卡")){
                         int index = content.indexOf("天卡");
-                        content = content.substring(index + 1);
+                        content = content.substring(0, index);
                         content=content.trim();
                         key.setCode(content);
                         key.setType("1");
@@ -96,7 +96,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     }
                     if (content.contains("月卡")){
                         int index = content.indexOf("月卡");
-                        content = content.substring(index + 1);
+                        content = content.substring(0, index);
                         content=content.trim();
                         key.setCode(content);
                         key.setType("2");
@@ -108,7 +108,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
 
                     if (content.contains("永久卡")){
                         int index = content.indexOf("永久卡");
-                        content = content.substring(index + 1);
+                        content = content.substring(0, index);
                         content=content.trim();
                         key.setCode(content);
                         key.setType("3");
