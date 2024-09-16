@@ -248,4 +248,13 @@ public class Constants {
      * 资源映射路径 前缀
      */
     public static final String RESOURCE_PREFIX = "/profile";
+
+    /**
+    文心一言
+     */
+    public static final String apibuKey = "bRzZmiRAZrR1nfihnzxNPHRc";
+    public static final String secretKey = "bVn6u1lbvndaRzS9sNOt7ZoLVUMOODra";
+    public static final String tokenUrl = "https://aip.baidubce.com/oauth/2.0/token";
+//    public static final String chatUrl = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions";
+    public static final String chatUrl = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie-speed-128k";
 }

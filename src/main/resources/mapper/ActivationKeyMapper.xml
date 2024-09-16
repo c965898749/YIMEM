@@ -11,6 +11,8 @@
     where `type` = #{type} and `code`=#{code}
   </delete>
   <select id="queryBytype" resultType="com.sy.entity.ActivationKey">
-        select * from activation_key   where `type` = #{type} and `code`=#{code} limit 1
+        select * from activation_key   where `type` = #{type} and `code`=#{code}
+         and DATE_FORMAT(now(), '%Y-%m-%d')>  DATE_FORMAT(`time`, '%Y-%m-%d')
+         limit 1
   </select>
 </mapper>

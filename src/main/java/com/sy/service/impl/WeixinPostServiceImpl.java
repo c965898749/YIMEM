@@ -1,19 +1,17 @@
 package com.sy.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.sy.entity.ActivationKey;
+import com.sy.mapper.ActivationKeyMapper;
+import com.sy.mapper.BlogReplayMapper;
 import com.sy.model.*;
 import com.sy.model.resp.BaseResp;
 import com.sy.model.weixin.Image;
 import com.sy.model.weixin.ImageMessage;
 import com.sy.model.weixin.TextMessage;
-import com.sy.service.ChatGptService;
-import com.sy.service.SearchService;
-import com.sy.service.UserServic;
-import com.sy.service.WeixinPostService;
-import com.sy.tool.Constants;
-import com.sy.tool.MessageUtil;
-import com.sy.tool.MySessionContext;
-import com.sy.tool.Xtool;
+import com.sy.service.*;
+import com.sy.tool.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -32,10 +30,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 
 @Service
@@ -45,7 +40,9 @@ public class WeixinPostServiceImpl implements WeixinPostService {
     @Autowired
     private SearchService searchService;
     @Autowired
-    private ChatGptService chatGptService;
+    private ActivationKeyMapper activationKeyMapper;
+    @Autowired
+    private BlogReplayMapper blogReplayService;
     private Logger log = Logger.getLogger(WeixinPostServiceImpl.class.getName());
 
     /**
@@ -82,7 +79,47 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 TextMessage text = new TextMessage();
                 text.setMsgType(msgType);
                 System.out.println(content);
-                if (content.contains("请复制本消息并打开VMOS。防盗密钥")) {
+                if (content.contains("天卡")||content.contains("月卡")||content.contains("永久卡")) {
+                    ActivationKey key=new ActivationKey();
+                    text.setContent("激活码已过期重新启动");
+                    text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                    if (content.contains("天卡")){
+                        int index = content.indexOf("天卡");
+                        content = content.substring(index + 1);
+                        content=content.trim();
+                        key.setCode(content);
+                        key.setType("1");
+                        ActivationKey activationKey=activationKeyMapper.queryBytype(key);
+                        if (activationKey!=null&&Xtool.isNotNull(activationKey.getActCode())){
+                            text.setContent(activationKey.getActCode());
+                        }
+                    }
+                    if (content.contains("月卡")){
+                        int index = content.indexOf("月卡");
+                        content = content.substring(index + 1);
+                        content=content.trim();
+                        key.setCode(content);
+                        key.setType("2");
+                        ActivationKey activationKey=activationKeyMapper.queryBytype(key);
+                        if (activationKey!=null&&Xtool.isNotNull(activationKey.getActCode())){
+                            text.setContent(activationKey.getActCode());
+                        }
+                    }
+
+                    if (content.contains("永久卡")){
+                        int index = content.indexOf("永久卡");
+                        content = content.substring(index + 1);
+                        content=content.trim();
+                        key.setCode(content);
+                        key.setType("3");
+                        ActivationKey activationKey=activationKeyMapper.queryBytype(key);
+                        if (activationKey!=null&&Xtool.isNotNull(activationKey.getActCode())){
+                            text.setContent(activationKey.getActCode());
+                        }
+                    }
+
+
+                }else if (content.contains("请复制本消息并打开VMOS。防盗密钥")) {
                     // 找到字符'A'的位置
                     int index = content.indexOf(":");
                     content = content.substring(index + 1);
@@ -92,6 +129,15 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     content=content.trim();
                     text.setContent(content);
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                    BlogReplay replay=new BlogReplay();
+                    replay.setBlogid(119);
+                    replay.setComment(content);
+                    replay.setCommentuserid(1);
+                    replay.setTime(new Date());
+                    replay.setStatus(0);
+                    replay.setBlogReplayId(0);
+                    replay.setSonreplaycount(0);
+                    blogReplayService.addReplay(replay);
                 }else if (content.equals("账号绑定") || content.equals("账号") || content.equals("绑定") || content.equals("绑账号") || content.equals("绑")) {
                     if (Constants.TO_USER_NAME.equals(toUserName)) {
                         text.setContent("请点击下方菜单 绑定账号");
@@ -118,7 +164,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         return message;
                     }
                 } else if (content.equals("广告") || content.equals("广告租用")) {
-                    String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:18932200163\n或加微信:c965898749";
+                    String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:---------\n或加微信:----------";
                     text.setContent(tt);
                 } else if (content.equals("App资源") || content.equals("app资源")) {
                     String message = null;
@@ -213,7 +259,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                             return message;
                         }
                     } else if (recvMessage.equals("广告") || recvMessage.equals("广告租用")) {
-                        String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:18932200163\n或加微信:c965898749";
+                        String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:--------\n或加微信:---------";
                         text.setContent(tt);
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
@@ -329,7 +375,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     String eventKey = requestMap.get("EventKey");// 事件KEY值，与创建自定义菜单时指定的KEY值对应
                     if (eventKey.equals("customer_telephone")) {
                         TextMessage text = new TextMessage();
-                        String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:18932200163\n或加微信:c965898749";
+                        String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:--------\n或加微信:--------";
                         text.setContent(tt);
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
@@ -372,27 +418,41 @@ public class WeixinPostServiceImpl implements WeixinPostService {
         return respMessage;
     }
 
-    private String getResult(String content, String fromUserName) {
-        String result = "小梦，正在思考……10秒后打个1我继续回答";
-        final ExecutorService exec = Executors.newFixedThreadPool(1);
-        Callable<String> call = new Callable<String>() {
-            public String call() throws InterruptedException {
-                return chatGptService.reply(content, fromUserName);
-            }
-        };
+    public static void main(String[] args) {
+        getResult("我是谁?", "");
+    }
 
+    private static String getResult(String question, String fromUserName) {
+        String url = Constants.tokenUrl+"?client_id="+Constants.apibuKey+"&client_secret="+Constants.secretKey+"&grant_type=client_credentials";
+        //向access_token接口发送POST请求，获取响应结果
+        Map<String, String> paramMap = new HashMap<>();
+        String response = null;
         try {
-            Future<String> future = exec.submit(call);
-            result = future.get(1000 * 4, TimeUnit.MILLISECONDS); //任务处理超时时间设为 3 秒
-        } catch (TimeoutException ex) {
-            System.out.println("调用接口，处理超时......");
-            ex.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("调用接口，处理失败......");
+            response = HttpClientUtil.doPost(url, paramMap);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        // 关闭线程池
-        exec.shutdown();
+        //将响应结果中的access_token获取出来
+        JSONObject jsonObject = JSON.parseObject(response);
+        String token = jsonObject.getString("access_token");
+        System.out.println("token:---------"+token);
+
+        //下面携带access_token请求文心服务器
+        //编写请求体，把前端传进来的问题拼入
+        String paramJson = String.format("{\"messages\": [{\"role\": \"user\", \"content\": \"%s\"}]}", question);
+        String request = null;
+        //发送POST请求，获取请求结果字符串
+        try {
+            request = HttpClientUtil.doPostWithJson(Constants.chatUrl+"?access_token=" + token, paramJson);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //截取请求结果中文心一言的回答部分
+        JSONObject jsonResponse = JSON.parseObject(request);
+        String result = jsonResponse.getString("result");
+        //打印输出
+        System.out.println("输出结果:" + result);
+        //返回结果
         return result;
     }
 
