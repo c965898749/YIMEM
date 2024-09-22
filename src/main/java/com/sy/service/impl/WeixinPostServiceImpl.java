@@ -124,8 +124,15 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     int index = content.indexOf(":");
                     content = content.substring(index + 1);
                     // 找到字符'A'的位置
-                    index = content.indexOf("Now");
-                    content = content.substring(0, index);
+                    index = content.indexOf("WeiXin");
+                    if (index>0){
+                        content = content.substring(0, index);
+                    }else {
+                        index = content.indexOf("Now");
+                        if (index>0){
+                            content = content.substring(0, index);
+                        }
+                    }
                     content=content.trim();
                     text.setContent(content);
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
