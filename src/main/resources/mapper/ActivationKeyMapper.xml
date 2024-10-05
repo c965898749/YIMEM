@@ -15,16 +15,27 @@
          and DATE_FORMAT(now(), '%Y-%m-%d') =  DATE_FORMAT(`time`, '%Y-%m-%d')
          limit 1
   </select>
-    <update id="update" parameterType="com.sy.entity.ActivationKey">
+    <update id="updateOpenId" parameterType="com.sy.entity.ActivationKey">
         UPDATE `yimem`.`activation_key`
         SET `open_id`=#{openId},
         `type`=#{type},
         `status`=#{status}
         WHERE `code`=#{code} AND `type`=#{type}
     </update>
+    <update id="update" parameterType="com.sy.entity.ActivationKey">
+        UPDATE `yimem`.`activation_key`
+        SET
+        `status`=#{status}
+        WHERE `code`=#{code} AND `type`=#{type}
+    </update>
     <select id="queryBystatus" resultType="java.lang.Integer">
          select count(1) from activation_key   where `type` = #{type} and `code`=#{code}
          and status='1'
+         limit 1
+    </select>
+
+    <select id="queryByOpenId" resultType="com.sy.entity.ActivationKey">
+         select * from activation_key   where `type` = #{type} and `open_id`=#{openId}
          limit 1
     </select>
 </mapper>

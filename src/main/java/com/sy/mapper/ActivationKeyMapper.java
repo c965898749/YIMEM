@@ -7,5 +7,7 @@ public interface ActivationKeyMapper {
     int insert(ActivationKey record);
     ActivationKey queryBytype(ActivationKey record);
     int update(ActivationKey record);
+    int updateOpenId(ActivationKey record);
     int queryBystatus(ActivationKey record);
+    ActivationKey queryByOpenId(ActivationKey record);
 }
