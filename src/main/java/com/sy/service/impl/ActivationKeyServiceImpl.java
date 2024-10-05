@@ -14,8 +14,16 @@ public class ActivationKeyServiceImpl implements ActivationKeyService {
     private ActivationKeyMapper activationKeyMapper;
     @Override
     public int insert(ActivationKey record) {
-        activationKeyMapper.remove(record);
-        return activationKeyMapper.insert(record);
+        if (activationKeyMapper.queryBystatus(record)<=0){
+            activationKeyMapper.remove(record);
+            return activationKeyMapper.insert(record);
+        }
+        return 0;
+    }
+
+    @Override
+    public int update(ActivationKey record) {
+        return activationKeyMapper.update(record);
     }
 
     @Override

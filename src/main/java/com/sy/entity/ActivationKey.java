@@ -12,4 +12,5 @@ public class ActivationKey {
     private String actCode;
     private Date time;
     private String status;
+    private String openId;
 }

@@ -35,9 +35,19 @@ public class ServerController
     public ResultVO insertCode(ActivationKey data)
     {
         ResultVO resultVO = new ResultVO();
+        data.setStatus("1");
         activationKeyService.insert(data);
         return resultVO;
     }
+
+    @RequestMapping(value = "updateCode", method = RequestMethod.POST)
+    public ResultVO updateCode(ActivationKey data)
+    {
+        ResultVO resultVO = new ResultVO();
+        activationKeyService.update(data);
+        return resultVO;
+    }
+
 
     @RequestMapping(value = "getActCode", method = RequestMethod.GET)
     public BaseResp getActCode(ActivationKey data)

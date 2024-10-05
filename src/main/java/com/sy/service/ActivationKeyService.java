@@ -6,5 +6,7 @@ import com.sy.model.resp.BaseResp;
 public interface ActivationKeyService {
     int insert(ActivationKey record);
 
+    int update(ActivationKey record);
+
     BaseResp queryBytype(ActivationKey record);
 }

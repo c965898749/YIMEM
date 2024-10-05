@@ -79,9 +79,9 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 TextMessage text = new TextMessage();
                 text.setMsgType(msgType);
                 System.out.println(content);
-                if (content.contains("天卡")||content.contains("月卡")||content.contains("永久卡")) {
+                if (content.contains("天卡")||content.contains("月卡")||content.contains("永久卡")||content.contains("机器码")) {
                     ActivationKey key=new ActivationKey();
-                    text.setContent("激活码已过期重新启动");
+                    text.setContent("激活码已过期，请重新启动辅助点确认");
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                     if (content.contains("天卡")){
                         int index = content.indexOf("天卡");
@@ -94,7 +94,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                             text.setContent(activationKey.getActCode());
                         }
                     }
-                    if (content.contains("月卡")){
+                    if (content.contains("月卡")||content.contains("机器码")){
                         int index = content.indexOf("月卡");
                         content = content.substring(0, index);
                         content=content.trim();
@@ -102,7 +102,14 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         key.setType("2");
                         ActivationKey activationKey=activationKeyMapper.queryBytype(key);
                         if (activationKey!=null&&Xtool.isNotNull(activationKey.getActCode())){
-                            text.setContent(activationKey.getActCode());
+                            if ("1".equals(activationKey.getStatus())){
+                                text.setContent("免费激活码已激活使用，如已经过期请点购买https://m.tb.cn/h.gqJuwjv?tk=jtIv37ZWO80");
+                            }else {
+                                text.setContent(activationKey.getActCode());
+                                activationKey.setOpenId(fromUserName);
+                                activationKeyMapper.update(activationKey);
+                            }
+
                         }
                     }
 
