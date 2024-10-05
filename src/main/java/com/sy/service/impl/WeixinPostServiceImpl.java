@@ -94,8 +94,20 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                             text.setContent(activationKey.getActCode());
                         }
                     }
-                    if (content.contains("月卡")||content.contains("机器码")){
+                    if (content.contains("月卡")){
                         int index = content.indexOf("月卡");
+                        content = content.substring(0, index);
+                        content=content.trim();
+                        key.setCode(content);
+                        key.setType("2");
+                        ActivationKey activationKey=activationKeyMapper.queryBytype(key);
+                        if (activationKey!=null&&Xtool.isNotNull(activationKey.getActCode())){
+                            text.setContent(activationKey.getActCode());
+                        }
+                    }
+
+                    if (content.contains("机器码")){
+                        int index = content.indexOf("机器码");
                         content = content.substring(0, index);
                         content=content.trim();
                         key.setCode(content);

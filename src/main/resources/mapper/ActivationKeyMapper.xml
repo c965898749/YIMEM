@@ -20,7 +20,7 @@
         SET `open_id`=#{openId},
         `type`=#{type},
         `status`=#{status}
-        WHERE `code`=#{status} AND `type`=#{type}
+        WHERE `code`=#{code} AND `type`=#{type}
     </update>
     <select id="queryBystatus" resultType="java.lang.Integer">
          select count(1) from activation_key   where `type` = #{type} and `code`=#{code}

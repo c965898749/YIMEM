@@ -35,7 +35,6 @@ public class ServerController
     public ResultVO insertCode(ActivationKey data)
     {
         ResultVO resultVO = new ResultVO();
-        data.setStatus("1");
         activationKeyService.insert(data);
         return resultVO;
     }
@@ -44,6 +43,7 @@ public class ServerController
     public ResultVO updateCode(ActivationKey data)
     {
         ResultVO resultVO = new ResultVO();
+        data.setStatus("1");
         activationKeyService.update(data);
         return resultVO;
     }
