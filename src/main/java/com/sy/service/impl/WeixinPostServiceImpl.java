@@ -147,8 +147,27 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                             text.setContent(activationKey.getActCode());
                         }
                     }
-
-
+                }else if (content.contains("再次激活")) {
+                    ActivationKey key=new ActivationKey();
+                    int index = content.indexOf("再次激活");
+                    content = content.substring(0, index);
+                    content = content.trim();
+                    key.setRandomCode(content);
+                    key.setType("2");
+                    key.setOpenId(fromUserName);
+                    if (activationKeyMapper.activationUpdate(key)>0){
+                        text.setContent("谢谢使用");
+                    }else {
+                        text.setContent("激活失败或已激活");
+                    }
+                    text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                }else if (content.contains("今日四位码")) {
+                    ActivationKey cc = new ActivationKey();
+                    cc.setOpenId(fromUserName);
+                    cc.setType("2");
+                    ActivationKey activationKeyOld = activationKeyMapper.queryByOpenId(cc);
+                    text.setContent(activationKeyOld.getRandomCode());
+                    text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                 }else if (content.contains("请复制本消息并打开VMOS。防盗密钥")) {
                     // 找到字符'A'的位置
                     int index = content.indexOf(":");

@@ -27,6 +27,11 @@ public class ActivationKeyServiceImpl implements ActivationKeyService {
     }
 
     @Override
+    public int updateRandomCode(String randomCode) {
+        return activationKeyMapper.updateRandomCode(randomCode);
+    }
+
+    @Override
     public BaseResp queryBytype(ActivationKey record) {
         BaseResp baseResp = new BaseResp();
         ActivationKey activationKey=activationKeyMapper.queryBytype(record);

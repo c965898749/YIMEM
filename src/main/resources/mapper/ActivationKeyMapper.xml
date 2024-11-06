@@ -38,4 +38,15 @@
          select * from activation_key   where `type` = #{type} and `open_id`=#{openId}
          limit 1
     </select>
+    <update id="updateRandomCode" parameterType="com.sy.entity.ActivationKey">
+        UPDATE `yimem`.`activation_key`
+        SET
+        `randomCode`=#{randomCode}
+    </update>
+    <update id="activationUpdate" parameterType="com.sy.entity.ActivationKey">
+        UPDATE `yimem`.`activation_key`
+        SET
+        `status`=#{status}
+        WHERE `open_id`=#{openId} AND `type`=#{type} and random_code=#{randomCode} and status='1'
+    </update>
 </mapper>

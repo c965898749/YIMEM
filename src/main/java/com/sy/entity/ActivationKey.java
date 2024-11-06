@@ -13,4 +13,5 @@ public class ActivationKey {
     private Date time;
     private String status;
     private String openId;
+    private String randomCode;
 }

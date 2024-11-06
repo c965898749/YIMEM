@@ -8,6 +8,8 @@ public interface ActivationKeyMapper {
     ActivationKey queryBytype(ActivationKey record);
     int update(ActivationKey record);
     int updateOpenId(ActivationKey record);
+    int activationUpdate(ActivationKey record);
+    int updateRandomCode(String randomCode);
     int queryBystatus(ActivationKey record);
     ActivationKey queryByOpenId(ActivationKey record);
 }

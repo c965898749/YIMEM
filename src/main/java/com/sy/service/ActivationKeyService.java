@@ -8,5 +8,7 @@ public interface ActivationKeyService {
 
     int update(ActivationKey record);
 
+    int updateRandomCode(String randomCode);
+
     BaseResp queryBytype(ActivationKey record);
 }

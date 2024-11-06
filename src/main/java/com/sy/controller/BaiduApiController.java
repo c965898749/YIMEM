@@ -1,8 +1,13 @@
 package com.sy.controller;
+import com.sy.mapper.ActivationKeyMapper;
 import com.sy.tool.BaiduApiUtil;
 import com.sy.tool.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+
+import java.util.Random;
+
 /**
  * @author CZX
  * @version 1.0
@@ -10,7 +15,8 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class BaiduApiController {
-
+    @Autowired
+    private ActivationKeyMapper activationKeyMapper;
     /**
      * 每天定时向百度推送主页
      */
@@ -26,5 +32,23 @@ public class BaiduApiController {
         System.out.println(BaiduApiUtil.Post(Constants.SITE, Constants.BAITOKEN, urlsStr));
     }
 
+    /**
+     * 每天定时跟新4位码
+     */
+    @Scheduled(cron = "0 0 1 * * ?")
+    public  void updateCode() {
+        String randomString = generateRandomString(4);
+        activationKeyMapper.updateRandomCode(randomString);
+    }
 
+    public  String generateRandomString(int length) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            // 可以根据需要调整字符范围
+            char c = (char) ('a' + random.nextInt(26));
+            sb.append(c);
+        }
+        return sb.toString();
+    }
 }
