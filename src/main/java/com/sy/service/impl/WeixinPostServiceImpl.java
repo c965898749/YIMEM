@@ -106,31 +106,30 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         }
                     }
 
-                    if (content.contains("机器码")){
+                    if (content.contains("机器码")) {
                         int index = content.indexOf("机器码");
                         content = content.substring(0, index);
-                        content=content.trim();
+                        content = content.trim();
                         key.setCode(content);
                         key.setType("2");
-                        ActivationKey cc=new ActivationKey();
+                        ActivationKey cc = new ActivationKey();
                         cc.setOpenId(fromUserName);
                         cc.setType("2");
-                        ActivationKey activationKeyOld=activationKeyMapper.queryByOpenId(cc);
-                        if (activationKeyOld!=null&&!activationKeyOld.getCode().equals(content)){
-                            text.setContent("该微信已经免费领取 "+activationKeyOld.getCode()+" 机器码的激活码\n无法再为其他机器码免费领取激活码！\n如需再次激活请购买https://m.tb.cn/h.gqJuwjv?tk=jtIv37ZWO80");
+                        ActivationKey activationKeyOld = activationKeyMapper.queryByOpenId(cc);
+                        if (activationKeyOld != null && !activationKeyOld.getCode().equals(content)) {
+                            text.setContent("该微信已绑定【 " + activationKeyOld.getCode() + " 】机器码\n请勿再绑定其他机器码");
+                        } else if (activationKeyOld != null && activationKeyOld.getCode().equals(content)){
+                            text.setContent(activationKeyOld.getActCode());
                         }else {
                             cc.setCode(content);
-                            if (activationKeyMapper.queryBystatus(cc)>0){
-                                text.setContent("免费激活码已激活使用.\n如已经过期请点购买https://m.tb.cn/h.gqJuwjv?tk=jtIv37ZWO80");
-                            }else {
-                                ActivationKey activationKey=activationKeyMapper.queryBytype(key);
-                                if (activationKey!=null&&Xtool.isNotNull(activationKey.getActCode())){
-                                    text.setContent(activationKey.getActCode());
-                                    activationKey.setOpenId(fromUserName);
-                                    activationKeyMapper.updateOpenId(activationKey);
-                                } else {
-                                    text.setContent("激活码已经使用有效期.\n请直接启动辅助获取机器码！");
-                                }
+                            ActivationKey activationKey=activationKeyMapper.queryBytype(key);
+                            if (activationKey!=null&&Xtool.isNotNull(activationKey.getActCode())){
+                                text.setContent(activationKey.getActCode());
+                                activationKey.setOpenId(fromUserName);
+                                activationKey.setStatus("1");
+                                activationKeyMapper.updateOpenId(activationKey);
+                            } else {
+                                text.setContent("激活码已经使用有效期.\n请启动辅助点击【启动浮窗】！弹出机器码后再来获取激活码");
                             }
 
                         }
