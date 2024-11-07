@@ -41,7 +41,7 @@
     <update id="updateRandomCode" parameterType="com.sy.entity.ActivationKey">
         UPDATE `yimem`.`activation_key`
         SET
-        `randomCode`=#{randomCode}
+        `random_code`=#{randomCode}
     </update>
     <update id="activationUpdate" parameterType="com.sy.entity.ActivationKey">
         UPDATE `yimem`.`activation_key`
