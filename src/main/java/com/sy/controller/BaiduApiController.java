@@ -4,7 +4,7 @@ import com.sy.tool.BaiduApiUtil;
 import com.sy.tool.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
@@ -13,7 +13,7 @@ import java.util.Random;
  * @version 1.0
  * @date 2021/5/5 0005 7:11
  */
-@Controller
+@Component
 public class BaiduApiController {
     @Autowired
     private ActivationKeyMapper activationKeyMapper;
@@ -35,7 +35,8 @@ public class BaiduApiController {
     /**
      * 每天定时跟新4位码
      */
-    @Scheduled(cron = "0 0 1 * * ?")
+//    @Scheduled(cron = "0 0 1 * * ?")
+    @Scheduled(cron = "0 * * ?") // 每小时的第0分触发
     public  void updateCode() {
         String randomString = generateRandomString(4);
         activationKeyMapper.updateRandomCode(randomString);
