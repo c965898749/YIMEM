@@ -36,7 +36,7 @@ public class BaiduApiController {
      * 每天定时跟新4位码
      */
 //    @Scheduled(cron = "0 0 1 * * ?")
-    @Scheduled(cron = "0 * * ?") // 每小时的第0分触发
+    @Scheduled(cron = "0 0 */1 * * ?" )  // 每小时的第0分触发
     public  void updateCode() {
         String randomString = generateRandomString(4);
         activationKeyMapper.updateRandomCode(randomString);

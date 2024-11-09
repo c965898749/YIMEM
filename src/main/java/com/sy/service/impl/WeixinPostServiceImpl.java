@@ -162,10 +162,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     }
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                 }else if (content.contains("今日四位码")) {
-                    ActivationKey cc = new ActivationKey();
-                    cc.setOpenId(fromUserName);
-                    cc.setType("2");
-                    ActivationKey activationKeyOld = activationKeyMapper.queryByOpenId(cc);
+                    ActivationKey activationKeyOld = activationKeyMapper.queryNew();
                     text.setContent(activationKeyOld.getRandomCode());
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                 }else if (content.contains("请复制本消息并打开VMOS。防盗密钥")) {

@@ -38,6 +38,10 @@
          select * from activation_key   where `type` = #{type} and `open_id`=#{openId}
          limit 1
     </select>
+    <select id="queryNew" resultType="com.sy.entity.ActivationKey">
+         select * from activation_key
+         limit 1
+    </select>
     <update id="updateRandomCode" parameterType="com.sy.entity.ActivationKey">
         UPDATE `yimem`.`activation_key`
         SET
