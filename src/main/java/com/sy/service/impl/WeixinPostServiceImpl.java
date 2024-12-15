@@ -163,7 +163,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                 }else if (content.contains("今日四位码")) {
                     ActivationKey activationKeyOld = activationKeyMapper.queryNew();
-                    text.setContent(activationKeyOld.getRandomCode());
+                    text.setContent(activationKeyOld.getRandomCode()+"再次激活");
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                 }else if (content.contains("请复制本消息并打开VMOS。防盗密钥")) {
                     // 找到字符'A'的位置
