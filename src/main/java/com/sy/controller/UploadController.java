@@ -1,5 +1,6 @@
 package com.sy.controller;
 
+import cn.hutool.core.io.FileUtil;
 import com.sy.expection.CsdnExpection;
 import com.sy.mapper.UploadMapper;
 import com.sy.mapper.UserMapper;
@@ -259,8 +260,9 @@ public class UploadController {
      */
     @RequestMapping("headimgUpload")
     @ResponseBody
-    public BaseResp headimgUpload(@RequestParam("file") MultipartFile file) {
-        return ajaxUpload(file,"headimg");
+    public BaseResp headimgUpload(@RequestParam("file") MultipartFile file) throws IOException {
+//        return ajaxUpload(file,"headimg");
+        return ajaxUpload2(file,"headimg");
 
     }
 
@@ -271,8 +273,9 @@ public class UploadController {
      */
     @RequestMapping("blogUpload")
     @ResponseBody
-    public BaseResp blogUpload(@RequestParam("file") MultipartFile file) {
-        return ajaxUpload(file,"blog");
+    public BaseResp blogUpload(@RequestParam("file") MultipartFile file) throws IOException {
+//        return ajaxUpload(file,"blog");
+        return ajaxUpload2(file,"blog");
 
     }
 
@@ -283,8 +286,9 @@ public class UploadController {
      */
     @RequestMapping("interviewUpload")
     @ResponseBody
-    public BaseResp interviewUpload(@RequestParam("file") MultipartFile file) {
-        return ajaxUpload(file,"interview");
+    public BaseResp interviewUpload(@RequestParam("file") MultipartFile file) throws IOException {
+//        return ajaxUpload(file,"interview");
+        return ajaxUpload2(file,"interview");
 
     }
 
@@ -296,8 +300,9 @@ public class UploadController {
      */
     @RequestMapping("resourceUpload")
     @ResponseBody
-    public BaseResp resourceUpload(@RequestParam("file") MultipartFile file) {
-        return ajaxUpload(file,"resource");
+    public BaseResp resourceUpload(@RequestParam("file") MultipartFile file) throws IOException {
+//        return ajaxUpload(file,"resource");
+        return ajaxUpload2(file,"resource");
 
     }
 
@@ -325,6 +330,36 @@ public class UploadController {
         }
 
     }
+
+    public BaseResp ajaxUpload2(MultipartFile file,String type) throws IOException {
+        BaseResp baseResp = new BaseResp();
+
+        Date date = new Date(); //
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        String savePath = formatter.format(date);
+
+        String originalFilename = file.getOriginalFilename(); // aaa.jpg
+//    String mainName = FileUtil.mainName(originalFilename); aaa 文件名
+//    String ext = FileUtil.extName(originalFilename); jpg 文件后缀
+        String name=getRandomName(file.getOriginalFilename());
+        String fullPath = Constants.ROOT_PATH+"/"+type+"/"+savePath;
+
+        if (!FileUtil.exist(Constants.ROOT_PATH)){
+            FileUtil.mkdir(Constants.ROOT_PATH); // 父目录不存在则创建
+        }
+        if (FileUtil.exist(fullPath)){
+            fullPath = Constants.ROOT_PATH + File.separator + System.currentTimeMillis() + originalFilename; // 文件重复则重新指定文件名
+        }
+        file.transferTo(new File(fullPath)); // 存储文件到本地
+        savePath="/common/static/"+type+"/"+savePath+"/"+name;
+        baseResp.setSuccess(1);
+        String extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+        baseResp.setData(resultMap("SUCCESS", savePath, file.getSize(), "", file.getOriginalFilename(), extName));
+        baseResp.setErrorMsg("文件上传成功");
+        return baseResp;
+    }
+
+
 
     public static String getRandomName(String fileName){
         int index=fileName.lastIndexOf(".");

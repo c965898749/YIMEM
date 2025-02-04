@@ -1,5 +1,7 @@
 package com.sy.tool;
 
+import java.io.File;
+
 public class Constants {
     //chatGPT 人工AI
     public static final String apiKey="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UaEVOVUpHTkVNMVFURTRNMEZCTWpkQ05UZzVNRFUxUlRVd1FVSkRNRU13UmtGRVFrRXpSZyJ9.eyJodHRwczovL2FwaS5vcGVuYWkuY29tL3Byb2ZpbGUiOnsiZW1haWwiOiJjMTg5MzIyMDAxNjNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImdlb2lwX2NvdW50cnkiOiJKUCJ9LCJodHRwczovL2FwaS5vcGVuYWkuY29tL2F1dGgiOnsidXNlcl9pZCI6InVzZXItVE9HdUpyd3Q2bE9rTXRkS0ZRbGF0cTFRIn0sImlzcyI6Imh0dHBzOi8vYXV0aDAub3BlbmFpLmNvbS8iLCJzdWIiOiJhdXRoMHw2M2VjNDI1ZDEwYmU3NmFjZmVhNmI5ZDAiLCJhdWQiOlsiaHR0cHM6Ly9hcGkub3BlbmFpLmNvbS92MSIsImh0dHBzOi8vb3BlbmFpLm9wZW5haS5hdXRoMGFwcC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc2NDUwODkyLCJleHAiOjE2Nzc2NjA0OTIsImF6cCI6IlRkSkljYmUxNldvVEh0Tjk1bnl5d2g1RTR5T282SXRHIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBtb2RlbC5yZWFkIG1vZGVsLnJlcXVlc3Qgb3JnYW5pemF0aW9uLnJlYWQgb2ZmbGluZV9hY2Nlc3MifQ.n6wuuaMhB9XGOngqervRdID8BT3750UDb1ir90LbQTbEVsGsNLeoJ6HGvGH_9-kJ8yDewYDZxDLPL_LW3KlPhfns8f5fUquNH1ovd4zok_lEblV580w4OWSYD6o3l4nzNVBcggXeNTj78BsVQqPZJnQE-70EqAN1tShyAE_csKiRbWX0-X82fKlHD2Msk4MLoOegUKNf3dByFj431kSlp7vMpyIc24QdosEcTBUtqyp8qIEQLFpAqTkWREi_ha8Mh_Iog4i9eLyl8ye9O84xVIFhfu9NXLxeJ5d1_uMZRgd-49OHCuVdbs2vVRsdKWQu2EJZTj2xfeYhY4BDkA03rw";
@@ -12,6 +14,8 @@ public class Constants {
     //手机号正则表达式
     public static final String PHONE_REG = "^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\\d{8}$";
 
+
+    public static final String ROOT_PATH =  File.separator +"volume1"+File.separator + "lishi";
 
     //存放上传文件的根目录：
 //    public static final String UPLOAD_ROOT_DIR = "/upload/";

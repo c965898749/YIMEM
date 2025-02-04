@@ -1,5 +1,6 @@
 package com.sy.controller;
 
+import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sy.tool.Constants;
@@ -79,17 +80,57 @@ public class CommonController {
 	 * @param request
 	 * @param response
 	 */
+//	@GetMapping(value = "/static/**")
+//	public void view(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		SmbUtil smb=SmbUtil.getInstance(Constants.REMOTEURL);
+//		smb.dowloafFile(request,response);
+//	}
+
 	@GetMapping(value = "/static/**")
 	public void view(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		SmbUtil smb=SmbUtil.getInstance(Constants.REMOTEURL);
-		smb.dowloafFile(request,response);
+		download(request,response);
 	}
+
+
+	public void download(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		String imgPath = extractPathFromPattern(request);
+		if(oConvertUtils.isEmpty(imgPath) || imgPath=="null"){
+			return;
+		}
+		imgPath = imgPath.replace("..", "");
+		if (imgPath.endsWith(",")) {
+			imgPath = imgPath.substring(0, imgPath.length() - 1);
+		}
+		String fullPath = Constants.ROOT_PATH + File.separator + imgPath;
+		OutputStream outputStream = response.getOutputStream(); // 获取输出流
+		outputStream = new BufferedOutputStream(outputStream); // 创建缓冲输出流
+
+		if (!FileUtil.exist(fullPath)){
+			return;
+		}
+
+		byte[] bytes = FileUtil.readBytes(fullPath); // 读取文件
+
+		outputStream.write(bytes); // 输出文件;
+		outputStream.flush();
+		outputStream.close();
+	}
+
+	private static String extractPathFromPattern(final HttpServletRequest request) {
+		String path = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+		String bestMatchPattern = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+		return new AntPathMatcher().extractPathWithinPattern(bestMatchPattern, path);
+	}
+//	@GetMapping(value = "/video/**")
+//	public void video(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		SmbUtil smb=SmbUtil.getInstance(Constants.VV);
+//		smb.dowloafFile(request,response);
+//	}
 
 	@GetMapping(value = "/video/**")
 	public void video(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		SmbUtil smb=SmbUtil.getInstance(Constants.VV);
-		smb.dowloafFile(request,response);
+		download(request,response);
 	}
-
 
 }
