@@ -88,8 +88,9 @@ public class MessageUtil {
      */
     public static String textMessageToXml(TextMessage textMessage) {
         XStream xstream = new XStream();
-        xstream.alias("xml", textMessage.getClass());
-        return xstream.toXML(textMessage);
+        xstream.processAnnotations(TextMessage.class);
+        String xml = xstream.toXML(textMessage);
+        return xml;
     }
 
     /**

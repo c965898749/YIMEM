@@ -7,11 +7,10 @@ import com.sy.mapper.ActivationKeyMapper;
 import com.sy.mapper.BlogReplayMapper;
 import com.sy.model.*;
 import com.sy.model.resp.BaseResp;
-import com.sy.model.weixin.Image;
-import com.sy.model.weixin.ImageMessage;
-import com.sy.model.weixin.TextMessage;
+import com.sy.model.weixin.*;
 import com.sy.service.*;
 import com.sy.tool.*;
+import com.thoughtworks.xstream.XStream;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -196,7 +195,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         text.setContent("请点击下方菜单 绑定账号");
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
-                        text.setCreateTime(new Date().getTime() + "");
+                        text.setCreateTime(System.currentTimeMillis()/1000);
                         text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                         respMessage = MessageUtil.textMessageToXml(text);
                     } else {
@@ -211,7 +210,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         imageMessage.setFromUserName(toUserName);
                         imageMessage.setToUserName(fromUserName);
                         imageMessage.setMsgType("image");
-                        imageMessage.setCreateTime(new Date().getTime() + "");
+                        imageMessage.setCreateTime(System.currentTimeMillis()/1000);
                         imageMessage.setImage(image);
                         message = MessageUtil.textMessageToXml(imageMessage);
                         return message;
@@ -231,34 +230,80 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     imageMessage.setFromUserName(toUserName);
                     imageMessage.setToUserName(fromUserName);
                     imageMessage.setMsgType("image");
-                    imageMessage.setCreateTime(new Date().getTime() + "");
+                    imageMessage.setCreateTime(System.currentTimeMillis()/1000);
                     imageMessage.setImage(image);
                     message = MessageUtil.textMessageToXml(imageMessage);
                     return message;
-                } else if (content.equals("我的音乐")) {
-                    if (Constants.TO_USER_NAME.equals(toUserName)) {
-                        text.setContent("<a href='http://www.yimem.com/Cell.html?type='mymusic''>点击播放</a>");
-                        text.setToUserName(fromUserName);
-                        text.setFromUserName(toUserName);
-                        text.setCreateTime(new Date().getTime() + "");
-                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-                        respMessage = MessageUtil.textMessageToXml(text);
+                } else if (content.equals("我的音乐")||content.equals("6")) {
+                    text.setContent("<a href='http://www.yimem.com/Cell.html?type='mymusic''>点击播放</a>");
+                    text.setToUserName(fromUserName);
+                    text.setFromUserName(toUserName);
+                    text.setCreateTime(System.currentTimeMillis()/1000);
+                    text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                    respMessage = MessageUtil.textMessageToXml(text);
 
-                    } else {
-                        text.setContent("请关注本站测试公众\n\n输入或语音 账号绑定");
-                        text.setToUserName(fromUserName);
-                        text.setFromUserName(toUserName);
-                        text.setCreateTime(new Date().getTime() + "");
-                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-                        respMessage = MessageUtil.textMessageToXml(text);
-                    }
+                }else if (content.equals("笑话大全")||content.equals("3")) {
+                    text.setContent(JokesUtil.printC());
+                    text.setToUserName(fromUserName);
+                    text.setFromUserName(toUserName);
+                    text.setCreateTime(System.currentTimeMillis()/1000);
+                    text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                    respMessage = MessageUtil.textMessageToXml(text);
 
-                } else {
+                }else if (content.equals("小梦")||content.equals("1")) {
+                    NewsMessage newsMessage = new NewsMessage();
+                    newsMessage.setToUserName(fromUserName);
+                    newsMessage.setFromUserName(toUserName);
+                    newsMessage.setMsgType("news");
+                    newsMessage.setCreateTime(System.currentTimeMillis()/1000);
+                    newsMessage.setArticleCount(1);
+                    List<Article> articles = new ArrayList<>();
+                    Article article = new Article();
+                    article.setTitle("YIMEM个人网站");
+                    article.setDescription("小梦的个人中心，个人笔记、学习记录");
+                    article.setUrl("http://www.yimem.com");
+                    article.setPicUrl("http://www.yimem.com/imgs/gz/gz.jpg");
+                    articles.add(article);
+                    newsMessage.setArticles(articles);
+                    //XStream将Java对象转换成xml字符串
+                    XStream xStream = new XStream();
+                    xStream.processAnnotations(NewsMessage.class);
+                    String xml = xStream.toXML(newsMessage);
+                    return xml;
+                }else if (content.equals("图片文字识别")||content.equals("2")) {
+                    text.setContent("您发送一个带文字的图片，小梦就可以帮您识别文字！");
+                    text.setToUserName(fromUserName);
+                    text.setFromUserName(toUserName);
+                    text.setCreateTime(System.currentTimeMillis()/1000);
+                    text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                    respMessage = MessageUtil.textMessageToXml(text);
+                }else if (content.equals("谜语大全")||content.equals("4")) {
+                    text.setContent(RddleUtil.getRddle());
+                    text.setToUserName(fromUserName);
+                    text.setFromUserName(toUserName);
+                    text.setCreateTime(System.currentTimeMillis()/1000);
+                    text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                    respMessage = MessageUtil.textMessageToXml(text);
+                }else if (content.equals("心灵鸡汤")||content.equals("5")) {
+                    text.setContent(SoupUtil.getSoup());
+                    text.setToUserName(fromUserName);
+                    text.setFromUserName(toUserName);
+                    text.setCreateTime(System.currentTimeMillis()/1000);
+                    text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                    respMessage = MessageUtil.textMessageToXml(text);
+                }else if (content.equals("激活码")||content.equals("7")) {
+                    text.setContent("输入格式: XXXXXXXXX机器码");
+                    text.setToUserName(fromUserName);
+                    text.setFromUserName(toUserName);
+                    text.setCreateTime(System.currentTimeMillis()/1000);
+                    text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                    respMessage = MessageUtil.textMessageToXml(text);
+                }else {
                     text.setContent(this.getResult(content, fromUserName));
                 }
                 text.setToUserName(fromUserName);
                 text.setFromUserName(toUserName);
-                text.setCreateTime(new Date().getTime() + "");
+                text.setCreateTime(System.currentTimeMillis()/1000);
 
                 respMessage = MessageUtil.textMessageToXml(text);
 
@@ -291,7 +336,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                             text.setContent(tt);
                             text.setToUserName(fromUserName);
                             text.setFromUserName(toUserName);
-                            text.setCreateTime(new Date().getTime() + "");
+                            text.setCreateTime(System.currentTimeMillis()/1000);
                             text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                             respMessage = MessageUtil.textMessageToXml(text);
                         } else {
@@ -306,7 +351,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                             imageMessage.setFromUserName(toUserName);
                             imageMessage.setToUserName(fromUserName);
                             imageMessage.setMsgType("image");
-                            imageMessage.setCreateTime(new Date().getTime() + "");
+                            imageMessage.setCreateTime(System.currentTimeMillis()/1000);
                             imageMessage.setImage(image);
                             message = MessageUtil.textMessageToXml(imageMessage);
                             return message;
@@ -316,7 +361,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         text.setContent(tt);
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
-                        text.setCreateTime(new Date().getTime() + "");
+                        text.setCreateTime(System.currentTimeMillis()/1000);
                         text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                         respMessage = MessageUtil.textMessageToXml(text);
                     } else if (recvMessage.equals("App资源") || recvMessage.equals("app资源")) {
@@ -331,41 +376,81 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         imageMessage.setFromUserName(toUserName);
                         imageMessage.setToUserName(fromUserName);
                         imageMessage.setMsgType("image");
-                        imageMessage.setCreateTime(new Date().getTime() + "");
+                        imageMessage.setCreateTime(System.currentTimeMillis()/1000);
                         imageMessage.setImage(image);
                         message = MessageUtil.textMessageToXml(imageMessage);
                         return message;
-                    } else if (recvMessage.equals("我的音乐")) {
-                        if (Constants.TO_USER_NAME.equals(toUserName)) {
-                            text.setContent("<a href='http://www.yimem.com/Cell2.html'>点击播放</a>");
-                            text.setToUserName(fromUserName);
-                            text.setFromUserName(toUserName);
-                            text.setCreateTime(new Date().getTime() + "");
-                            text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-                            respMessage = MessageUtil.textMessageToXml(text);
-
-                        } else {
-                            text.setContent("请关注本站测试公众\n\n输入或语音 账号绑定");
-                            text.setToUserName(fromUserName);
-                            text.setFromUserName(toUserName);
-                            text.setCreateTime(new Date().getTime() + "");
-                            text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-                            respMessage = MessageUtil.textMessageToXml(text);
-                        }
-                    } else {
-
-                        StringBuffer stringBuffer = this.getTextMessage(recvMessage);
-                        log.info("微信输出信息-------------" + stringBuffer.toString());
+                    } else if (recvMessage.equals("我的音乐")||recvMessage.equals("6")) {
+                        text.setContent("<a href='http://www.yimem.com/Cell.html?type='mymusic''>点击播放</a>");
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
-                        text.setCreateTime(new Date().getTime() + "");
-                        text.setContent(stringBuffer.toString());
+                        text.setCreateTime(System.currentTimeMillis()/1000);
+                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                         respMessage = MessageUtil.textMessageToXml(text);
+
+                    }else if (recvMessage.equals("笑话大全")||recvMessage.equals("3")) {
+                        text.setContent(JokesUtil.printC());
+                        text.setToUserName(fromUserName);
+                        text.setFromUserName(toUserName);
+                        text.setCreateTime(System.currentTimeMillis()/1000);
+                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                        respMessage = MessageUtil.textMessageToXml(text);
+
+                    }else if (recvMessage.equals("小梦")||recvMessage.equals("1")) {
+                        NewsMessage newsMessage = new NewsMessage();
+                        newsMessage.setToUserName(fromUserName);
+                        newsMessage.setFromUserName(toUserName);
+                        newsMessage.setMsgType("news");
+                        newsMessage.setCreateTime(System.currentTimeMillis()/1000);
+                        newsMessage.setArticleCount(1);
+                        List<Article> articles = new ArrayList<>();
+                        Article article = new Article();
+                        article.setTitle("YIMEM个人网站");
+                        article.setDescription("小梦的个人中心，个人笔记、学习记录");
+                        article.setUrl("http://www.yimem.com");
+                        article.setPicUrl("http://www.yimem.com/imgs/gz/gz.jpg");
+                        articles.add(article);
+                        newsMessage.setArticles(articles);
+                        //XStream将Java对象转换成xml字符串
+                        XStream xStream = new XStream();
+                        xStream.processAnnotations(NewsMessage.class);
+                        String xml = xStream.toXML(newsMessage);
+                        return xml;
+                    }else if (recvMessage.equals("图片文字识别")||recvMessage.equals("2")) {
+                        text.setContent("您发送一个带文字的图片，小梦就可以帮您识别文字！");
+                        text.setToUserName(fromUserName);
+                        text.setFromUserName(toUserName);
+                        text.setCreateTime(System.currentTimeMillis()/1000);
+                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                        respMessage = MessageUtil.textMessageToXml(text);
+                    }else if (recvMessage.equals("谜语大全")||recvMessage.equals("4")) {
+                        text.setContent(RddleUtil.getRddle());
+                        text.setToUserName(fromUserName);
+                        text.setFromUserName(toUserName);
+                        text.setCreateTime(System.currentTimeMillis()/1000);
+                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                        respMessage = MessageUtil.textMessageToXml(text);
+                    }else if (recvMessage.equals("心灵鸡汤")||recvMessage.equals("5")) {
+                        text.setContent(SoupUtil.getSoup());
+                        text.setToUserName(fromUserName);
+                        text.setFromUserName(toUserName);
+                        text.setCreateTime(System.currentTimeMillis()/1000);
+                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                        respMessage = MessageUtil.textMessageToXml(text);
+                    }else if (recvMessage.equals("激活码")||recvMessage.equals("7")) {
+                        text.setContent("输入格式: XXXXXXXXX机器码");
+                        text.setToUserName(fromUserName);
+                        text.setFromUserName(toUserName);
+                        text.setCreateTime(System.currentTimeMillis()/1000);
+                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                        respMessage = MessageUtil.textMessageToXml(text);
+                    }else {
+                        text.setContent(this.getResult(content, fromUserName));
                     }
                 } else {
                     text.setToUserName(fromUserName);
                     text.setFromUserName(toUserName);
-                    text.setCreateTime(new Date().getTime() + "");
+                    text.setCreateTime(System.currentTimeMillis()/1000);
                     text.setContent("小梦没听清，能不能重新说下呢？");
                     respMessage = MessageUtil.textMessageToXml(text);
 //                    respContent = "您说的太模糊了，能不能重新说下呢？";
@@ -375,11 +460,17 @@ public class WeixinPostServiceImpl implements WeixinPostService {
             //拍照功能
             else if (msgType.equals("pic_sysphoto")) {
 
+            } else if (msgType.equals("image"))
+            {
+                TextMessage text = new TextMessage();
+                text.setMsgType(MessageUtil.REQ_MESSAGE_TYPE_TEXT);
+                text.setContent(ImageUtil.handleImage(requestMap));
+                text.setToUserName(fromUserName);
+                text.setFromUserName(toUserName);
+                text.setCreateTime(System.currentTimeMillis()/1000);
+                text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                respMessage = MessageUtil.textMessageToXml(text);
             }
-//            else if ()
-//            {
-//                return MessageResponse.getTextMessage(fromUserName , toUserName , "返回为空");
-//            }
             // 事件推送
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
                 String eventType = requestMap.get("Event");// 事件类型
@@ -388,10 +479,14 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
 
                     TextMessage text = new TextMessage();
-                    text.setContent("欢迎关注，我是小梦\n\n您可以对我语音或者文字\n\n(>‿◠)✌我将为您查询本站相关内容\n\n如需微信号绑定登录请说 \n绑定账号\n\n如需网站广告租用请说 \n广告租用");
+                    text.setContent("欢迎关注，我是小梦\n\n您可以对我语音或者文字\n\n(>‿◠)✌小梦可以为您服务的有：\\r\\n（1）小梦：小梦简介。\n" +
+                                    "\\r\\n（2）图片文字识别：您发送一个带文字的图片，小梦就可以帮您识别文字！\\r\\n（3）笑话大全：可能不好笑，但小梦还是希望大佬能哈哈哈哈！\n" +
+                                    "\\r\\n（4）谜语大全：快点来猜猜看吧，不能偷看答案哦！\\r\\n（5）心灵鸡汤：让小弟用鸡汤来安抚您吧，当然鸡汤可能不咋地！\n" +
+                                    "\\r\\n（6）我的音乐：快乐点歌！\\r\\n（7）激活码：输入格式: XXXXXXXXX机器码\n" +
+                                    "\\r\\n大佬注意了：给小梦一个关注好不好，小梦求个关注，谢谢大佬！");
                     text.setToUserName(fromUserName);
                     text.setFromUserName(toUserName);
-                    text.setCreateTime(new Date().getTime() + "");
+                    text.setCreateTime(System.currentTimeMillis()/1000);
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                     respMessage = MessageUtil.textMessageToXml(text);
 
@@ -407,7 +502,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         text.setContent("您的账号还未绑定\n\n请点击下方菜单 绑定账号");
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
-                        text.setCreateTime(new Date().getTime() + "");
+                        text.setCreateTime(System.currentTimeMillis()/1000);
                         text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                         respMessage = MessageUtil.textMessageToXml(text);
                     } else {
@@ -432,7 +527,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         text.setContent(tt);
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
-                        text.setCreateTime(new Date().getTime() + "");
+                        text.setCreateTime(System.currentTimeMillis()/1000);
                         text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                         respMessage = MessageUtil.textMessageToXml(text);
                     } else if (eventKey.equals("jiechu")) {
@@ -450,7 +545,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         }
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
-                        text.setCreateTime(new Date().getTime() + "");
+                        text.setCreateTime(System.currentTimeMillis()/1000);
                         text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                         respMessage = MessageUtil.textMessageToXml(text);
                     } else {
