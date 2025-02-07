@@ -324,6 +324,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
             else if (msgType.equals("voice")) {
                 String recvMessage = requestMap.get("Recognition");
                 //respContent = "收到的语音解析结果："+recvMessage;
+                log.info("微信声音"+recvMessage);
                 TextMessage text = new TextMessage();
                 text.setMsgType(MessageUtil.REQ_MESSAGE_TYPE_TEXT);
                 if (Xtool.isNotNull(recvMessage)) {
@@ -479,11 +480,11 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
 
                     TextMessage text = new TextMessage();
-                    text.setContent("欢迎关注，我是小梦\n\n您可以对我语音或者文字\n\n(>‿◠)✌小梦可以为您服务的有：\\r\\n（1）小梦：小梦简介。\n" +
-                                    "\\r\\n（2）图片文字识别：您发送一个带文字的图片，小梦就可以帮您识别文字！\\r\\n（3）笑话大全：可能不好笑，但小梦还是希望大佬能哈哈哈哈！\n" +
-                                    "\\r\\n（4）谜语大全：快点来猜猜看吧，不能偷看答案哦！\\r\\n（5）心灵鸡汤：让小弟用鸡汤来安抚您吧，当然鸡汤可能不咋地！\n" +
-                                    "\\r\\n（6）我的音乐：快乐点歌！\\r\\n（7）激活码：输入格式: XXXXXXXXX机器码\n" +
-                                    "\\r\\n大佬注意了：给小梦一个关注好不好，小梦求个关注，谢谢大佬！");
+                    text.setContent("欢迎关注，我是小梦\n\n(>‿◠)✌小梦可以为您服务的有：\r\n（1）小梦：小梦简介。" +
+                                    "\r\n（2）图片文字识别：您发送一个带文字的图片，小梦就可以帮您识别文字！\r\n（3）笑话大全：可能不好笑，但小梦还是希望大佬能哈哈哈哈！" +
+                                    "\r\n（4）谜语大全：快点来猜猜看吧，不能偷看答案哦！\r\n（5）心灵鸡汤：让小弟用鸡汤来安抚您吧，当然鸡汤可能不咋地！" +
+                                    "\r\n（6）我的音乐：快乐点歌！\r\n（7）激活码：输入格式: XXXXXXXXX机器码" +
+                                    "\r\n大佬注意了：给小梦一个关注好不好，小梦求个关注，谢谢大佬！");
                     text.setToUserName(fromUserName);
                     text.setFromUserName(toUserName);
                     text.setCreateTime(System.currentTimeMillis()/1000);

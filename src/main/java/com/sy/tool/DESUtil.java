@@ -8,8 +8,7 @@ import javax.crypto.KeyGenerator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import java.util.Base64;
 
 /**
  * DES是一种对称加密算法，所谓对称加密算法:加密和解密使用相同的秘钥的算法
@@ -49,22 +48,27 @@ public class DESUtil {
      * @return
      */
     public static String getEncryptString(String str){
-        //基于BASE64编码，接收byte[]并转换成String
-        BASE64Encoder base64Encoder=new BASE64Encoder();
-        try {
-            // 按UTF8编码
-            byte[] bytes = str.getBytes(CHARSETNAME);
-            // 获取加密对象
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            // 初始化密码信息
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            // 加密
-            byte[] doFinal = cipher.doFinal(bytes);
-            // byte[]to encode好的String并返回
-            return base64Encoder.encode(doFinal);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        String originalString = "Hello World";
+        return Base64.getEncoder().encodeToString(str.getBytes());
+//        String decodedString = new String(Base64.getDecoder().decode(encodedString));
+//        System.out.println("Encoded: " + encodedString);
+//        System.out.println("Decoded: " + decodedString);
+//        //基于BASE64编码，接收byte[]并转换成String
+//        BASE64Encoder base64Encoder=new BASE64Encoder();
+//        try {
+//            // 按UTF8编码
+//            byte[] bytes = str.getBytes(CHARSETNAME);
+//            // 获取加密对象
+//            Cipher cipher = Cipher.getInstance(ALGORITHM);
+//            // 初始化密码信息
+//            cipher.init(Cipher.ENCRYPT_MODE, key);
+//            // 加密
+//            byte[] doFinal = cipher.doFinal(bytes);
+//            // byte[]to encode好的String并返回
+//            return base64Encoder.encode(doFinal);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     /**
@@ -74,23 +78,28 @@ public class DESUtil {
      * @return
      */
     public static String getDecryptString(String str) {
+//        String originalString = "Hello World";
+//        String encodedString = Base64.getEncoder().encodeToString(originalString.getBytes());
+        return new String(Base64.getDecoder().decode(str));
+//        System.out.println("Encoded: " + encodedString);
+//        System.out.println("Decoded: " + decodedString);
         // 基于BASE64编码，接收byte[]并转换成String
-        BASE64Decoder base64decoder = new BASE64Decoder();
-        try {
-            // 将字符串decode成byte[]
-            byte[] bytes = base64decoder.decodeBuffer(str);
-            // 获取解密对象
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            // 初始化解密信息
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            // 解密
-            byte[] doFinal = cipher.doFinal(bytes);
-            // 返回解密之后的信息
-            return new String(doFinal, CHARSETNAME);
-        } catch (Exception e) {
-           return null;
-        }finally {
-        }
+//        BASE64Decoder base64decoder = new BASE64Decoder();
+//        try {
+//            // 将字符串decode成byte[]
+//            byte[] bytes = base64decoder.decodeBuffer(str);
+//            // 获取解密对象
+//            Cipher cipher = Cipher.getInstance(ALGORITHM);
+//            // 初始化解密信息
+//            cipher.init(Cipher.DECRYPT_MODE, key);
+//            // 解密
+//            byte[] doFinal = cipher.doFinal(bytes);
+//            // 返回解密之后的信息
+//            return new String(doFinal, CHARSETNAME);
+//        } catch (Exception e) {
+//           return null;
+//        }finally {
+//        }
     }
 
 //    public static void main(String[] args) {
