@@ -331,7 +331,9 @@ function contextMenu_file() {
                     getDplayer(rows.src)
                 } else if (rows.type == 'doc' || rows.type == 'docx' || rows.type == 'xlsx' || rows.type == 'pptx') {
                     prewdoc(rows.src)
-                } else {
+                } else if (rows.type == 'mp3') {
+                    muic(rows)
+                }  else {
                     alert("该文件格式不支持在线预览");
                 }
 
@@ -702,7 +704,7 @@ function load() {
                 var doc_fullname = rows[i].folderName,
                     doc_name = doc_fullname.substring(0, doc_fullname.lastIndexOf('.')),
                     doc_type = doc_fullname.substring(doc_fullname.lastIndexOf('.') + 1),
-                    doc_type_class = $.inArray(doc_type, ["cab", "rar", "tar", "zip", "pptx", "svg", "png", "jpg", "jpeg", "gif", "doc", "docx", "xls", "xlsx", "pdf", "mp4", "avi", "rm", "mkv", "asf", "vob", "asx", "fla", "mpe", "mov", "flv", "swf", "wmv", "mpg", "rmvb", "mpeg","exe","msi"]) != -1 ? doc_type : "other-filetype";
+                    doc_type_class = $.inArray(doc_type, ["cab", "rar", "tar", "zip", "pptx", "svg", "png", "jpg", "jpeg", "gif", "doc", "docx", "xls", "xlsx", "pdf", "mp4", "avi", "rm", "mkv", "asf", "vob", "asx", "fla", "mpe", "mov", "flv", "swf", "wmv", "mpg", "rmvb", "mpeg","exe","msi","mp3"]) != -1 ? doc_type : "other-filetype";
                 // str += "<li class='file " + doc_type_class + "' title='" + rows[i].folderName + "' index='" + i + "'><input type='text' class='changename' value='";
                 // str += doc_name;
                 // str += "' data-id='" + rows[i].id + "' data-filetype='" + doc_type + "' disabled='disabled' data-last-value='" + rows[i].folderName + "'/></li>";
@@ -1213,7 +1215,9 @@ function dbclick() {
             getDplayer(rows.src)
         } else if (rows.type == 'doc' || rows.type == 'docx' || rows.type == 'xlsx' || rows.type == 'pptx') {
             prewdoc(rows.src)
-        } else {
+        } else if (rows.type == 'mp3') {
+            muic(rows)
+        }  else {
             prewdoc(rows.src)
             // alert("该文件格式不支持在线预览");
         }
@@ -1272,6 +1276,7 @@ function getDplayer(videoUrl) {
         logo: '/imgs/logo.png',
         contextmenu: [
             {
+
                 text: '观看更多……',
                 link: 'http://www.yimem.com/app.html',
             },
@@ -1285,6 +1290,26 @@ function getDplayer(videoUrl) {
     });
 }
 
+function muic(row){
+    var ran2 = Math.floor(Math.random() * 4) + 1;
+   var audio= {
+        name: row.folderMame,
+        artist: 'artist',
+        url: row.src,
+        cover: '/imgs/headimg/"'+ran2+'".jpg'
+    }
+    const playerOption = {// 设置播放器基本参数
+        container: document.getElementById('aplayer'),
+        volume:0.7,
+        order:'list',
+        theme:'#988bbc',
+        listFolded:false,
+        lrcType:1,
+        audio: []
+    };
+    playerOption.audio=audio;
+    ap = new APlayer(playerOption)
+}
 
 function keydown() {
     $(document).keydown(function (event) {

@@ -190,6 +190,8 @@
         getDplayer(rows.src)
       } else if (rows.type == 'doc' || rows.type == 'docx' || rows.type == 'xlsx' || rows.type == 'pptx') {
         prewdoc(rows.src)
+      } else if (rows.type == 'mp3') {
+        muic(rows)
       } else {
         alert("该文件格式不支持在线预览");
       }
