@@ -223,17 +223,20 @@
     $(function () {
         runEvery10Sec()
         $.ajax({
-            url: '/wechat/getURL2',
-            type: 'GET',
-            dataType: 'text',
+            url: 'wechat/getURL2',
+            type: "get"
+            , dataType: "json"
+            , async: false,
             error: function(){
 
             },
             success: function(jsonData){
                 var url_ticket = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=";
-                if (jsonData!=null){
-                    var html=`<img src="${url_ticket+jsonData}" alt=""></div>`;
-                // console.log(jsonData)
+                if (jsonData.success == 1) {
+                    var html=`<img src="${url_ticket+jsonData.data.ticket}" alt=""></div>`;
+                    var  token = jsonData.data.token;
+                    // 写入Cookie
+                    setCookie('token',token,30)
                 }
                 $("#qrcode").append(html)
                 // //初始化存放二维码的div

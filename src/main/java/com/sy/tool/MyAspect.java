@@ -62,10 +62,10 @@ public class MyAspect {
         if (!StringUtils.equals(userIdNum, "null")) {
             Integer id=Integer.parseInt(userIdNum);
             String key=value+id;
-            if (RedisUtil.getJedisInstance().exists(key)){
-                RedisUtil.getJedisInstance().del(key);
-                RedisUtil.closeJedisInstance();
-            }
+//            if (RedisUtil.getJedisInstance().exists(key)){
+//                RedisUtil.getJedisInstance().del(key);
+//                RedisUtil.closeJedisInstance();
+//            }
         }
 
     }

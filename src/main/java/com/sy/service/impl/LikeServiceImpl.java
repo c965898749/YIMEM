@@ -11,7 +11,7 @@ import com.sy.model.resp.BaseResp;
 import com.sy.service.LikeService;
 import com.sy.tool.Constants;
 import com.sy.tool.RedisCache;
-import com.sy.tool.RedisUtil;
+//import com.sy.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;

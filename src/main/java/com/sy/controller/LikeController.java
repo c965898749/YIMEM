@@ -3,6 +3,7 @@ package com.sy.controller;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.LikeService;
+import com.sy.service.UserServic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,12 +17,14 @@ import java.util.Map;
 public class LikeController {
     @Autowired
     private LikeService likeService;
+    @Autowired
+    UserServic servic;
     @RequestMapping(value = "/queryIsLike",method = RequestMethod.GET)
-    public BaseResp queryIsLike(Integer blogId, HttpServletRequest request){
+    public BaseResp queryIsLike(Integer blogId, HttpServletRequest request) throws Exception {
 
         BaseResp baseResp = new BaseResp();
-        User user=(User) request.getSession().getAttribute("user");
-        if (user !=null){
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
             baseResp = likeService.query(blogId,user.getUserId());
         }else {
             baseResp.setSuccess(0);
@@ -45,10 +48,10 @@ public class LikeController {
 
     //查找所有给我点赞的人
     @RequestMapping(value = "/queryLikeId",method = RequestMethod.GET)
-    public Map queryLikeId(HttpServletRequest request,Integer pageNum){
+    public Map queryLikeId(HttpServletRequest request,Integer pageNum) throws Exception {
         Map<String, Object> map = new HashMap<>();
-        User user = (User) request.getSession().getAttribute("user");
-        if(user!=null){
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
             map = likeService.queryLikeInformation(user.getUserId(),pageNum);
         }else {
             map.put("success", 0);
@@ -58,9 +61,9 @@ public class LikeController {
 
     //清除评论消息
     @RequestMapping(value = "removequeryLikeId", method = RequestMethod.POST)
-    public BaseResp removequeryLikeId(HttpServletRequest request) {
+    public BaseResp removequeryLikeId(HttpServletRequest request) throws Exception {
         BaseResp baseResp=new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
+        User user = servic.getUserByRedis(request);
         if (user != null) {
             Integer userId = user.getUserId();
 //            blogReplayService.removecommentreq(userId);
@@ -74,9 +77,9 @@ public class LikeController {
 
     //点击评论消息已读
     @RequestMapping(value = "onclickqueryLikeId", method = RequestMethod.POST)
-    public BaseResp onclickqueryLikeId(Integer blog_id,HttpServletRequest request) {
+    public BaseResp onclickqueryLikeId(Integer blog_id,HttpServletRequest request) throws Exception {
         BaseResp baseResp=new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
+        User user = servic.getUserByRedis(request);
         if (user != null) {
             Integer userId = user.getUserId();
 //            blogReplayService.onclickcommentreq(blog_id,userId);

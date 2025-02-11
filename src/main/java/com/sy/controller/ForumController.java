@@ -3,6 +3,7 @@ package com.sy.controller;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.ForumService;
+import com.sy.service.UserServic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 public class ForumController {
     @Autowired
     private ForumService forumService;
+    @Autowired
+    UserServic servic;
     //通过论坛Id查找
     @RequestMapping(value = "/queryByInvitation",method = RequestMethod.GET)
     public BaseResp queryByInvitation(Integer invitationId){
@@ -28,10 +31,10 @@ public class ForumController {
     }
     //添加帖子回复
     @RequestMapping(value = "/addInvitationReplay",method = RequestMethod.POST)
-    public BaseResp addReplay(Integer invitationId, String comment, HttpServletRequest request){
+    public BaseResp addReplay(Integer invitationId, String comment, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user!=null){
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
           baseResp = forumService.addReplay(user.getUserId(),invitationId,comment);
         }else {
             baseResp.setSuccess(0);
@@ -41,10 +44,10 @@ public class ForumController {
         return baseResp;
     }
     @RequestMapping(value = "/queryAllInvitationByuserId",method = RequestMethod.POST)
-    public BaseResp queryAllInvitationByuserId(HttpServletRequest request, Integer pageNum){
+    public BaseResp queryAllInvitationByuserId(HttpServletRequest request, Integer pageNum) throws Exception {
         BaseResp baseResp  =  new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user!=null){
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
             baseResp = forumService.queryallInvitationByUserId(user.getUserId(), pageNum);
         }else {
             baseResp.setSuccess(404);

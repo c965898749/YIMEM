@@ -1,5 +1,7 @@
 package com.sy.service.impl;
 
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sy.expection.CsdnExpection;
@@ -7,12 +9,11 @@ import com.sy.mapper.*;
 import com.sy.model.*;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.UserServic;
-import com.sy.tool.Constants;
-import com.sy.tool.RandomName;
-import com.sy.tool.RedisCache;
-import com.sy.tool.Xtool;
+import com.sy.tool.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,10 +21,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional(readOnly = true)
@@ -46,9 +49,10 @@ public class UserServicImpl implements UserServic {
     private FansMapper fansMapper;
     @Autowired
     private InformationMapper informationMapper;
-
+    @Autowired
+    public RedisTemplate redisTemplate;
     @Override
-    public BaseResp loginVerification(String username, String userpassword) throws Exception {
+    public BaseResp loginVerification(String username, String userpassword, HttpServletRequest request) throws Exception {
 
         BaseResp baseResp = new BaseResp();
         String password = DigestUtils.md5DigestAsHex(userpassword.getBytes());
@@ -76,7 +80,46 @@ public class UserServicImpl implements UserServic {
         baseResp.setSuccess(1);
         baseResp.setData(emp);
         baseResp.setErrorMsg("登录成功");
+        //                Date date = new Date();
+        //时间+账号+密码进行DES加密
+//                String token = DESUtil.getEncryptString(date + ";" + username + ";" + userpassword);
+//                String token = DESUtil.getEncryptString(username + ";" + userpassword);
+        String token = IdUtil.simpleUUID();
+        ;
+        ValueOperations opsForValue = redisTemplate.opsForValue();
+        opsForValue.set(token, JSONUtil.toJsonStr(emp), 3600, TimeUnit.SECONDS);
+        baseResp.setErrorMsg(token);
+        System.out.println("生成token:    " + token);
+//        request.getSession().setAttribute("user", baseResp.getData());
         return baseResp;
+    }
+
+    @Override
+    public void updateUserRedis(Integer userId, HttpServletRequest request) throws Exception {
+        String token= CookieUitl.getToken(request);
+        if (Xtool.isNotNull(token)){
+            User emp=userMapper.selectUserByUserId(userId);
+            if (emp!=null){
+                redisTemplate.delete(token);
+                ValueOperations opsForValue = redisTemplate.opsForValue();
+                opsForValue.set(token, JSONUtil.toJsonStr(emp), 3600, TimeUnit.SECONDS);
+            }
+        }
+    }
+
+    @Override
+    public User getUserByRedis(HttpServletRequest request) throws Exception {
+        String token=CookieUitl.getToken(request);
+        if (Xtool.isNotNull(token)) {
+            String userStr= (String) redisTemplate.opsForValue().get(token);
+            if (Xtool.isNotNull(userStr)) {
+                User user = JSONUtil.toBean(userStr, User.class);
+                if (user!=null){
+                    return user;
+                }
+            }
+        }
+        return null;
     }
 
     //注册新用户
@@ -158,12 +201,13 @@ public class UserServicImpl implements UserServic {
     //修改用户头像
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public BaseResp modifyHeadImgByUserid(Integer userId, String headImg) throws Exception {
+    public BaseResp modifyHeadImgByUserid(Integer userId, String headImg,HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         int result = userMapper.updateUserHeadImgByID(userId, headImg);
         if (result > 0) {
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("修改成功");
+            this.updateUserRedis(userId,request);
         } else {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("修改失败");

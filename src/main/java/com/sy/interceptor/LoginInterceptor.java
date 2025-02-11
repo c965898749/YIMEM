@@ -3,7 +3,7 @@ package com.sy.interceptor;
 import com.sy.model.User;
 import com.sy.tool.Constants;
 //import com.sy.tools.RedisAPI;
-import com.sy.tool.RedisUtil;
+//import com.sy.tool.RedisUtil;
 //import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -30,14 +30,14 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         String key = Constants.FUNURLS+sessionUser.getRoleId();
 
-        String allowedUrls = RedisUtil.getJedisInstance().get(key);
+//        String allowedUrls = RedisUtil.getJedisInstance().get(key);
 
-        if("".equals(allowedUrls)||allowedUrls==null||!allowedUrls.contains(reqUrl)){
-            //跳转到401.jsp
-            request.getRequestDispatcher("/WEB-INF/pages/401.jsp").
-                    forward(request, response);
-            return false;
-        }
+//        if("".equals(allowedUrls)||allowedUrls==null||!allowedUrls.contains(reqUrl)){
+//            //跳转到401.jsp
+//            request.getRequestDispatcher("/WEB-INF/pages/401.jsp").
+//                    forward(request, response);
+//            return false;
+//        }
 
         return true;
     }

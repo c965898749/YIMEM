@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.GameMesageMapper">
+
+
+    <insert id="insert" parameterType="com.sy.entity.GameMesage">
+INSERT INTO `yimem`.`game_mesge` (`status`, `uid`, `time`, `content`, `type`, `app_token`, `verify_pay_type`, `summary`, `content_type`)
+VALUES (0, #{uid}, now(), #{content}, #{type}, #{appToken}, 0, #{summary}, #{contentType});
+  </insert>
+</mapper>

@@ -5,6 +5,7 @@ import com.sy.model.Emil;
 import com.sy.model.User;
 import com.sy.model.resp.ResultVO;
 import com.sy.service.EmailService;
+import com.sy.service.UserServic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,23 +20,14 @@ public class AjaxSendIdCodeController {
     private EmailService emailService;
     @Autowired
     private EmilMapper emilMapper;
+    @Autowired
+    UserServic servic;
+
     @RequestMapping("sendIdCode.action")
     @ResponseBody
-    public ResultVO AjaxSendIdCode(String mail, HttpServletRequest request) {
+    public ResultVO AjaxSendIdCode(String mail, HttpServletRequest request) throws Exception {
         ResultVO resultVO = new ResultVO();
-        User user = (User) request.getSession().getAttribute("user");
-        Date emilcodetime = (Date) request.getSession().getAttribute("sendIdCode");
-        if (emilcodetime == null) {
-            Date date = new Date();
-            request.getSession().setAttribute("sendIdCode", date);
-        } else {
-            Date date = new Date();
-            if ((date.getTime() - emilcodetime.getTime()) < 60) {
-                resultVO.setError(0);
-                resultVO.setMessage((date.getTime() - emilcodetime.getTime()) + "秒后重新发送邮件");
-                return resultVO;
-            }
-        }
+        User user = servic.getUserByRedis(request);
         if (user == null) {
             resultVO.setError(0);
             resultVO.setMessage("你还未登录！");
@@ -44,10 +36,9 @@ public class AjaxSendIdCodeController {
         Emil emil = emilMapper.selectByPrimaryKey(user.getUserId());
         if (emil != null) {
             resultVO.setError(0);
-            resultVO.setMessage("该邮箱已注册过！");
+            resultVO.setMessage("你已绑定过邮箱！");
             return resultVO;
         }
-        System.out.println(mail);
         return emailService.emailManage(mail, user, request);
 
 

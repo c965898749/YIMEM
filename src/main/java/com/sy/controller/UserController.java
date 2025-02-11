@@ -1,5 +1,7 @@
 package com.sy.controller;
 
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.json.JSONUtil;
 import com.sy.mapper.EmilMapper;
 import com.sy.mapper.UserMapper;
 import com.sy.model.Download;
@@ -12,10 +14,13 @@ import com.sy.service.DownloadService;
 import com.sy.service.EmailService;
 import com.sy.service.UserServic;
 import com.sy.service.WeixinPostService;
-import com.sy.tool.DESUtil;
+//import com.sy.tool.DESUtil;
+import com.sy.tool.CookieUitl;
 import com.sy.tool.Xtool;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.XMLFormatter;
 
 @RestController
@@ -52,6 +58,8 @@ public class UserController {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    public RedisTemplate redisTemplate;
 
     //登录接口
     @RequestMapping(value = "loginVerification", method = RequestMethod.POST)
@@ -60,19 +68,12 @@ public class UserController {
         try {
             Date day = new Date();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            baseResp = servic.loginVerification(username, userpassword);
+            baseResp = servic.loginVerification(username, userpassword,request);
             if (baseResp.getSuccess() == 1) {
                 User user = (User) baseResp.getData();
                 if (Xtool.isNotNull(user.getOpenid())) {
                     weixinPostService.sendTemplate(user.getOpenid(), user.getUsername(), df.format(day));
                 }
-//                Date date = new Date();
-                //时间+账号+密码进行DES加密
-//                String token = DESUtil.getEncryptString(date + ";" + username + ";" + userpassword);
-                String token = DESUtil.getEncryptString(username + ";" + userpassword);
-                baseResp.setErrorMsg(token);
-                System.out.println("生成token:    " + token);
-                request.getSession().setAttribute("user", baseResp.getData());
             }
             return baseResp;
         } catch (Exception e) {
@@ -88,7 +89,7 @@ public class UserController {
         log.info("绑定用户账号---" + username + "---密码-----" + userpassword);
         BaseResp baseResp = new BaseResp();
         try {
-            baseResp = servic.loginVerification(username, userpassword);
+//            baseResp = servic.loginVerification(username, userpassword);
             if (baseResp.getSuccess() == 1) {
                 WeiXinUser weiXinUser = (WeiXinUser) request.getSession().getAttribute("weiXinUser");
                 if (weiXinUser == null) {
@@ -246,7 +247,7 @@ public class UserController {
         user.setCity(weiXinUser.getCity());
         user.setProvinces(weiXinUser.getProvince());
         user.setOpenid(weiXinUser.getOpenid());
-        user.setDownloadmoney((double)0);
+        user.setDownloadmoney((double) 0);
         user.setRanking(9999);
         user.setLevel(2);
         user.setCollectCount(0);
@@ -278,89 +279,27 @@ public class UserController {
 
     //判断是否登入的接口
     @RequestMapping(value = "isEnter")
-    public BaseResp isEnter(HttpServletRequest request) {
+    public BaseResp isEnter(HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        Cookie[] cookies = request.getCookies();
-        String token = "";
-        if (cookies != null && cookies.length > 0) {
-            for (Cookie cookie : cookies) {
-
-                switch (cookie.getName()) {
-                    //对cookie进行解码
-                    case "token":
-                        token = cookie.getValue();
-                        break;
-                    default:
-                        break;
-                }
-            }
+        User user=servic.getUserByRedis(request);
+        if (user!=null){
+            baseResp.setSuccess(1);
+            baseResp.setData(user);
+            return baseResp;
         }
-        try {
-            token = URLEncoder.encode(token, "UTF-8");
-            token = URLDecoder.decode(token, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-//        System.out.println("token2   " + token);
-        if (Xtool.isNotNull(token)) {
-            String key = DESUtil.getDecryptString(token);
-            if (Xtool.isNotNull(key)) {
-//                System.out.println(1111);
-                String[] str = key.split(";");
-                try {
-                    baseResp = servic.loginVerification(str[0], str[1]);
-                    if (baseResp.getSuccess() == 1) {
-                        request.getSession().setAttribute("user", baseResp.getData());
-                        return baseResp;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-//                Date ss = new Date(str[0]);
-//                Date edate = new Date();
-//                long betweendays = (long) ((edate.getTime() - ss.getTime()) / (1000 * 60 * 60 * 24) + 0.5);//天数间隔
-//            System.out.println(betweendays);
-//                if (betweendays < 30) {
-//                    try {
-//                        System.out.println(str[1] + "--------------" + str[2]);
-//                        baseResp = servic.loginVerification(str[1], str[2]);
-//                        if (baseResp.getSuccess() == 1) {
-//                            request.getSession().setAttribute("user", baseResp.getData());
-//                            return baseResp;
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-            }
-        }
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("未登入");
-        } else {
-            try {
-//                获取最新客户信息
-                Integer userId = user.getUserId();
-                baseResp.setData(servic.findUserByUserId(userId).getData());
-                request.getSession().setAttribute("user", baseResp.getData());
-                baseResp.setSuccess(1);
-                baseResp.setErrorMsg("已登入");
-                return baseResp;
-            } catch (Exception e) {
-                e.printStackTrace();
-                baseResp.setData(user);
-            }
-
-        }
+        baseResp.setSuccess(0);
+        baseResp.setErrorMsg("未登入");
         return baseResp;
     }
 
     //注销登入
     @RequestMapping(value = "logout")
     public BaseResp logout(HttpServletRequest request) {
+        String token= CookieUitl.getToken(request);
+        if (Xtool.isNotNull(token)&&redisTemplate.hasKey(token)){
+            redisTemplate.delete(token);
+        }
         BaseResp baseResp = new BaseResp();
-        request.getSession().invalidate();
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("注销成功");
         return baseResp;
@@ -371,47 +310,44 @@ public class UserController {
     @RequestMapping(value = "modifyHeadImg", method = RequestMethod.POST)
     public BaseResp modifyHeadImg(String headImg, HttpServletRequest request) {
         BaseResp baseResp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("未登入");
-            return baseResp;
-        } else {
-            try {
-                baseResp = servic.modifyHeadImgByUserid(user.getUserId(), headImg);
-                return baseResp;
-            } catch (Exception e) {
-                e.printStackTrace();
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("服务器异常");
+        try {
+            User user=servic.getUserByRedis(request);
+            if (user!=null){
+                baseResp = servic.modifyHeadImgByUserid(user.getUserId(), headImg,request);
                 return baseResp;
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("服务器异常");
+            return baseResp;
         }
+        baseResp.setSuccess(0);
+        baseResp.setErrorMsg("未登入");
+        return baseResp;
     }
 
     //修改用户信息
     @RequestMapping(value = "modifyUserInfor", method = RequestMethod.POST)
     public BaseResp modifyUserInfor(User user, HttpServletRequest request) {
         BaseResp baseResp = new BaseResp();
-        User user2 = (User) request.getSession().getAttribute("user");
-        if (user2 == null) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("未登入");
-            return baseResp;
-        } else {
-            try {
+        try {
+            User user2=servic.getUserByRedis(request);
+            if (user!=null){
                 user.setUserId(user2.getUserId());
                 baseResp = servic.modifyUserInfor(user);
-//                System.out.println(baseResp);
-            } catch (Exception e) {
-                e.printStackTrace();
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("服务器异常");
+                return baseResp;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("服务器异常");
             return baseResp;
         }
-
-
+        baseResp.setSuccess(0);
+        baseResp.setErrorMsg("未登入");
+        return baseResp;
     }
 
     //个人资料渲染接口
@@ -488,12 +424,12 @@ public class UserController {
 
     //已读回复
     @RequestMapping(value = "readcommentreq", method = RequestMethod.POST)
-    public BaseResp readcommentreq(HttpServletRequest request) {
+    public BaseResp readcommentreq(HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user != null) {
-            Integer userId = user.getUserId();
-            servic.readcommentreq(userId);
+        User user=servic.getUserByRedis(request);
+        if (user!=null){
+            servic.readcommentreq(user.getUserId());
+            servic.updateUserRedis(user.getUserId(),request);
         }
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("已读回复");
@@ -502,12 +438,12 @@ public class UserController {
 
     //已读点赞
     @RequestMapping(value = "readqueryLikeId", method = RequestMethod.POST)
-    public BaseResp readqueryLikeId(HttpServletRequest request) {
+    public BaseResp readqueryLikeId(HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user != null) {
-            Integer userId = user.getUserId();
-            servic.readqueryLikeId(userId);
+        User user=servic.getUserByRedis(request);
+        if (user!=null){
+            servic.readqueryLikeId(user.getUserId());
+            servic.updateUserRedis(user.getUserId(),request);
         }
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("已读点赞");
@@ -516,12 +452,12 @@ public class UserController {
 
     //已读关注
     @RequestMapping(value = "readfansaa", method = RequestMethod.POST)
-    public BaseResp readfansaa(HttpServletRequest request) {
+    public BaseResp readfansaa(HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user != null) {
-            Integer userId = user.getUserId();
-            servic.readfansaa(userId);
+        User user=servic.getUserByRedis(request);
+        if (user!=null){
+            servic.readfansaa(user.getUserId());
+            servic.updateUserRedis(user.getUserId(),request);
         }
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("已读点赞");

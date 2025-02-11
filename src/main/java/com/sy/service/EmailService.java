@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface EmailService {
-    ResultVO sendEmail(MailModel mail);
+    ResultVO sendEmail(MailModel mail,Integer idcode);
     ResultVO emailManage(String mail, User user, HttpServletRequest request);
     ResultVO registSendIdCode(String mail, String idcode,HttpServletResponse response, HttpServletRequest request);
 }

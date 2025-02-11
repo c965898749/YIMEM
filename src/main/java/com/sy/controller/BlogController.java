@@ -8,6 +8,7 @@ import com.sy.service.BlogService;
 import com.sy.service.UserServic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -18,6 +19,8 @@ public class BlogController {
     BlogService blogService;
     @Autowired
     private UserServic userServic;
+    @Autowired
+    UserServic servic;
 
     @RequestMapping(value = "addBlog", method = RequestMethod.POST)
     public BaseResp addBlog(String title, String content, String publishForm, String category, Integer userID) {
@@ -33,14 +36,10 @@ public class BlogController {
     }
 
     @RequestMapping(value = "modifierBlog", method = RequestMethod.POST)
-    public BaseResp modifierBlog(HttpServletRequest request,String title, String content, String publishForm, String category, Integer blogId) {
+    public BaseResp modifierBlog(HttpServletRequest request, String title, String content, String publishForm, String category, Integer blogId) throws Exception {
         BaseResp baseResp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("未登入");
-            return baseResp;
-        } else {
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
             try {
                 baseResp = blogService.modifierBlog(title, content, publishForm, category, blogId);
             } catch (Exception e) {
@@ -50,7 +49,9 @@ public class BlogController {
             }
             return baseResp;
         }
-
+        baseResp.setSuccess(0);
+        baseResp.setErrorMsg("未登入");
+        return baseResp;
     }
 
     //下方杨
@@ -127,7 +128,7 @@ public class BlogController {
 
     //通过userId查找博文
     @RequestMapping(value = "/queryByUserId", method = RequestMethod.GET)
-    public BaseResp queryBlogByUserId(  Blog blog) {
+    public BaseResp queryBlogByUserId(Blog blog) {
 //        System.out.println(blog);
         BaseResp baseResp = new BaseResp();
         baseResp = blogService.queryByUserId(blog);
@@ -144,36 +145,35 @@ public class BlogController {
 
     //通过blogId置顶帖子
     @RequestMapping(value = "/StickBlogid", method = RequestMethod.GET)
-    public BaseResp StickBlogid(Integer blogid, HttpServletRequest request) {
+    public BaseResp StickBlogid(Integer blogid, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("未登入");
-            return baseResp;
-        } else {
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("已登入");
             blogService.StickBlogid(blogid);
             return baseResp;
         }
-
-    }
-//    删除帖子
-@RequestMapping(value = "/deleteBlog", method = RequestMethod.GET)
-public BaseResp deleteBlog(Integer blogid, HttpServletRequest request) {
-    BaseResp baseResp = new BaseResp();
-    User user = (User) request.getSession().getAttribute("user");
-    if (user == null) {
         baseResp.setSuccess(0);
         baseResp.setErrorMsg("未登入");
         return baseResp;
-    } else {
-        baseResp.setSuccess(1);
-        baseResp.setErrorMsg("已登入");
-        blogService.deleteBlog(blogid);
-        return baseResp;
+
     }
 
-}
+    //    删除帖子
+    @RequestMapping(value = "/deleteBlog", method = RequestMethod.GET)
+    public BaseResp deleteBlog(Integer blogid, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
+            baseResp.setSuccess(1);
+            baseResp.setErrorMsg("已登入");
+            blogService.deleteBlog(blogid);
+            return baseResp;
+        }
+        baseResp.setSuccess(0);
+        baseResp.setErrorMsg("未登入");
+        return baseResp;
+
+    }
 }

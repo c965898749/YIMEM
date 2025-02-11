@@ -5,17 +5,22 @@ import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import org.apache.ibatis.annotations.Param;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface UserServic {
     //登录验证
-    BaseResp loginVerification(String username, String userpassword) throws Exception;
+    BaseResp loginVerification(String username, String userpassword, HttpServletRequest request) throws Exception;
+
+    void updateUserRedis(Integer userId, HttpServletRequest request) throws Exception;
+
+    User getUserByRedis(HttpServletRequest request) throws Exception;
 
     //注册新用户
     BaseResp addUser(String username, String userpassword) throws Exception;
 
     //修改用户头像
-    BaseResp modifyHeadImgByUserid(Integer userId, String headImg) throws Exception;
+    BaseResp modifyHeadImgByUserid(Integer userId, String headImg,HttpServletRequest request) throws Exception;
 
     //修改用户信息
     BaseResp modifyUserInfor(User user) throws Exception;

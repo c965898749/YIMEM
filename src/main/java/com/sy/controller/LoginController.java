@@ -4,7 +4,7 @@ import com.sy.model.SysLogininfor;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.ISysLogininforService;
-import com.sy.service.MenuService;
+//import com.sy.service.MenuService;
 
 import com.sy.service.UserServic;
 import com.sy.tool.*;
@@ -26,11 +26,13 @@ import java.util.List;
 public class LoginController {
 
     //private Logger logger = Logger.getLogger(LoginController.class);
+//    @Autowired
+//    public RedisTemplate redisTemplate;
 
     @Autowired
     private UserServic userService;
-    @Autowired
-    private MenuService menuService;
+//    @Autowired
+//    private MenuService menuService;
 
     //2.织入公告service
     //3.织入资讯service
@@ -76,8 +78,8 @@ public class LoginController {
             if (null != currentUser) {
                 //跳转到main.jsp
                 //把List<Menu>转化为json,前端通过JS解析该数据
-                String menus = menuService.makeMenus(currentUser.getRoleId());
-                session.setAttribute("menus", menus);
+//                String menus = menuService.makeMenus(currentUser.getRoleId());
+//                session.setAttribute("menus", menus);
                 session.setAttribute(Constants.SESSION_USER, currentUser);
                 return Constants.LOGIN_SUCCESS;
             }
@@ -161,11 +163,11 @@ public class LoginController {
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("已登入");
             try {
-                String menus = menuService.makeMenus(user.getRoleId());
-                System.out.println(menus);
+//                String menus = menuService.makeMenus(user.getRoleId());
+//                System.out.println(menus);
 //                实时更新用户
                 User user1 = userService.getLoginUser(user);
-                user1.setMenus(menus);
+//                user1.setMenus(menus);
                 baseResp.setData(user1);
             } catch (Exception e) {
                 e.printStackTrace();

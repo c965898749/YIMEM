@@ -1,7 +1,9 @@
 package com.sy.controller;
 
+import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.sy.model.User;
+import com.sy.model.resp.BaseResp;
 import com.sy.model.weixin.WeiXin;
 import com.sy.model.weixin.WeiXinUser;
 import com.sy.service.UserServic;
@@ -24,6 +26,8 @@ import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/wechat")
@@ -71,8 +75,8 @@ public class WechatController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/getURL2", method = RequestMethod.GET)
-    @ResponseBody
+//    @RequestMapping(value = "/getURL2", method = RequestMethod.GET)
+//    @ResponseBody
     public String getURL2(HttpServletRequest request) throws Exception {
         String state = weixinPostService.getTicketData(request.getSession().getId());
         log.info("Ticket号是：" + state + "---Sessionid是：" + request.getSession().getId());
@@ -82,6 +86,23 @@ public class WechatController {
 //        return state;
     }
 
+    /**
+     * 2025/2/10 不再使用session单点登录，改成token
+     */
+    @RequestMapping(value = "/getURL2", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResp getURL3() throws Exception {
+        BaseResp baseResp = new BaseResp();
+        String token = IdUtil.simpleUUID();
+        String state = weixinPostService.getTicketData(token);
+        log.info("Ticket号是：" + state + "---token：" + token);
+        Map map=new HashMap();
+        map.put("ticket",state);
+        map.put("token",token);
+        baseResp.setSuccess(1);
+        baseResp.setData(map);
+        return baseResp;
+    }
 
     /**
      * 2020/8/10 后不再使用的扫码登录方式 改造成账号绑定机制

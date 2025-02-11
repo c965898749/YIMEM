@@ -7,6 +7,7 @@ import com.sy.model.resp.BaseResp;
 import com.sy.service.BlogReplayService;
 import com.sy.service.BlogReplaySonService;
 
+import com.sy.service.UserServic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,21 +24,20 @@ public class BlogReplayController {
     private BlogReplayService blogReplayService;
     @Autowired
     private BlogReplaySonService blogReplaySonService;
-
+    @Autowired
+    UserServic servic;
     @RequestMapping(value = "/addBlogReplay", method = RequestMethod.POST)
 //    public BaseResp addBlogReplay(String replay_value, Integer userid, Integer blogid) {
-    public BaseResp addBlogReplay(BlogReplay blogReplay,HttpServletRequest request) {
+    public BaseResp addBlogReplay(BlogReplay blogReplay,HttpServletRequest request) throws Exception {
         BaseResp baseResp=new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("未登入");
-            return baseResp;
-        } else {
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
             blogReplay.setCommentuserid(user.getUserId());
             return blogReplayService.addReplay(blogReplay);
         }
-
+        baseResp.setSuccess(0);
+        baseResp.setErrorMsg("未登入");
+        return baseResp;
     }
 
     @RequestMapping(value = "/queryReplayByBlogId", method = RequestMethod.GET)
@@ -48,9 +48,9 @@ public class BlogReplayController {
 
     //查找评论用户的信息
     @RequestMapping(value = "/queryReplayInformation", method = RequestMethod.GET)
-    public Map queryReplayInformation(HttpServletRequest request,Integer pageNum) {
-        User user = (User) request.getSession().getAttribute("user");
+    public Map queryReplayInformation(HttpServletRequest request,Integer pageNum) throws Exception {
         Map<String, Object> map = new HashMap<>();
+        User user = servic.getUserByRedis(request);
         if (user != null) {
             map = blogReplayService.queryByUserId(user.getUserId(),pageNum);
         } else {
@@ -61,9 +61,9 @@ public class BlogReplayController {
 
     //清除评论消息
     @RequestMapping(value = "removecommentreq", method = RequestMethod.POST)
-    public BaseResp removecommentreq(HttpServletRequest request) {
+    public BaseResp removecommentreq(HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
+        User user = servic.getUserByRedis(request);
         if (user != null) {
             Integer userId = user.getUserId();
             blogReplayService.removecommentreq(userId);
@@ -76,9 +76,9 @@ public class BlogReplayController {
 
     //点击评论消息已读
     @RequestMapping(value = "onclickcommentreq", method = RequestMethod.POST)
-    public BaseResp onclickcommentreq(Integer blog_id, HttpServletRequest request) {
+    public BaseResp onclickcommentreq(Integer blog_id, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
+        User user = servic.getUserByRedis(request);
         if (user != null) {
             Integer userId = user.getUserId();
             System.out.println(blog_id);
@@ -92,10 +92,10 @@ public class BlogReplayController {
 
     //评论对评论插入
     @RequestMapping(value = "blogReplaySonsave", method = RequestMethod.POST)
-    public BaseResp blogReplaySonsave(BlogReplay blogReplaySon, HttpServletRequest request){
+    public BaseResp blogReplaySonsave(BlogReplay blogReplaySon, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("未登入");
             return baseResp;

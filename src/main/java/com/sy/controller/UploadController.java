@@ -11,6 +11,7 @@ import com.sy.model.resp.BaseResp;
 import com.sy.model.resp.ResultVO;
 import com.sy.service.PowerService;
 import com.sy.service.UploadService;
+import com.sy.service.UserServic;
 import com.sy.tool.*;
 
 
@@ -40,6 +41,8 @@ public class UploadController {
     private UserMapper userMapper;
     @Autowired
     private UploadService uploadService;
+    @Autowired
+    UserServic servic;
 
     @RequestMapping("/upload/yulang")
     @ResponseBody
@@ -70,14 +73,10 @@ public class UploadController {
 
     @RequestMapping("/upload/remove")
     @ResponseBody
-    public BaseResp remove(Integer id, HttpServletRequest request) {
+    public BaseResp remove(Integer id, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("未登入");
-            return baseResp;
-        } else {
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
             Upload upload = new Upload();
             upload.setId(id);
             upload.setUserid(user.getUserId());
@@ -96,11 +95,11 @@ public class UploadController {
 //                    if (SmbFile.exists()) {
 //                        SmbFile.delete();
 //                    }
-                    uploads.forEach(x->{
+                    uploads.forEach(x -> {
                         uploadMapper.delete(user.getUserId(), x.getId());
                         user.setResourceCount(user.getResourceCount() - 1);
                         userMapper.updateuser(user);
-                        SmbUtil.deleteFile(Constants.REMOTEURL,x.getSrc());
+                        SmbUtil.deleteFile(Constants.REMOTEURL, x.getSrc());
                     });
                     baseResp.setSuccess(1);
                     baseResp.setErrorMsg("删除成功");
@@ -118,11 +117,15 @@ public class UploadController {
             }
 
         }
+        baseResp.setSuccess(0);
+        baseResp.setErrorMsg("未登入");
+        return baseResp;
     }
 
     /**
-//     * ajax上传
-//     */
+     * //     * ajax上传
+     * //
+     */
 //    @RequestMapping("interviewUpload")
 //    @ResponseBody
     public BaseResp ajaxUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
@@ -208,7 +211,7 @@ public class UploadController {
 ////                    boolean isDelSourseFile = false;
                     boolean isDelSourseFile = true;
 //                    System.out.println(Constants.videoRealPath + originalFilename);
-                    String targetExtension = ".mp4";  				//设置转换的格式
+                    String targetExtension = ".mp4";                //设置转换的格式
                     zout.beginConver(targetExtension, isDelSourseFile);
 //                    if (zout.beginConver(targetExtension, isDelSourseFile)) {
 ////                        System.out.println("ok----删除临时文件");
@@ -255,6 +258,7 @@ public class UploadController {
 
     /**
      * 头像上传
+     *
      * @param file
      * @return
      */
@@ -262,12 +266,13 @@ public class UploadController {
     @ResponseBody
     public BaseResp headimgUpload(@RequestParam("file") MultipartFile file) throws IOException {
 //        return ajaxUpload(file,"headimg");
-        return ajaxUpload2(file,"headimg");
+        return ajaxUpload2(file, "headimg");
 
     }
 
     /**
      * 博客资源上传
+     *
      * @param file
      * @return
      */
@@ -275,12 +280,13 @@ public class UploadController {
     @ResponseBody
     public BaseResp blogUpload(@RequestParam("file") MultipartFile file) throws IOException {
 //        return ajaxUpload(file,"blog");
-        return ajaxUpload2(file,"blog");
+        return ajaxUpload2(file, "blog");
 
     }
 
     /**
      * 面试资料上传
+     *
      * @param file
      * @return
      */
@@ -288,13 +294,14 @@ public class UploadController {
     @ResponseBody
     public BaseResp interviewUpload(@RequestParam("file") MultipartFile file) throws IOException {
 //        return ajaxUpload(file,"interview");
-        return ajaxUpload2(file,"interview");
+        return ajaxUpload2(file, "interview");
 
     }
 
 
     /**
      * 资源上传
+     *
      * @param file
      * @return
      */
@@ -302,28 +309,28 @@ public class UploadController {
     @ResponseBody
     public BaseResp resourceUpload(@RequestParam("file") MultipartFile file) throws IOException {
 //        return ajaxUpload(file,"resource");
-        return ajaxUpload2(file,"resource");
+        return ajaxUpload2(file, "resource");
 
     }
 
-//    @RequestMapping("fileUpload")
+    //    @RequestMapping("fileUpload")
 //    @ResponseBody
-    private  BaseResp ajaxUpload(MultipartFile file,String type) {
+    private BaseResp ajaxUpload(MultipartFile file, String type) {
         BaseResp baseResp = new BaseResp();
 
         Date date = new Date(); //
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         String savePath = formatter.format(date);
-        SmbUtil smb=SmbUtil.getInstance(Constants.REMOTEURL+"/"+type+"/"+savePath);
-        String name=getRandomName(file.getOriginalFilename());
-        if (smb.uploadFile(file,name)>=0){
-            savePath="/common/static/"+type+"/"+savePath+"/"+name;
+        SmbUtil smb = SmbUtil.getInstance(Constants.REMOTEURL + "/" + type + "/" + savePath);
+        String name = getRandomName(file.getOriginalFilename());
+        if (smb.uploadFile(file, name) >= 0) {
+            savePath = "/common/static/" + type + "/" + savePath + "/" + name;
             baseResp.setSuccess(1);
             String extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
             baseResp.setData(resultMap("SUCCESS", savePath, file.getSize(), "", file.getOriginalFilename(), extName));
             baseResp.setErrorMsg("文件上传成功");
             return baseResp;
-        }else {
+        } else {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("文件上传失败");
             return baseResp;
@@ -331,7 +338,7 @@ public class UploadController {
 
     }
 
-    public BaseResp ajaxUpload2(MultipartFile file,String type) throws IOException {
+    public BaseResp ajaxUpload2(MultipartFile file, String type) throws IOException {
         BaseResp baseResp = new BaseResp();
 
         Date date = new Date(); //
@@ -341,17 +348,17 @@ public class UploadController {
         String originalFilename = file.getOriginalFilename(); // aaa.jpg
 //    String mainName = FileUtil.mainName(originalFilename); aaa 文件名
 //    String ext = FileUtil.extName(originalFilename); jpg 文件后缀
-        String name=getRandomName(file.getOriginalFilename());
-        String fullPath = Constants.ROOT_PATH+"/"+type+"/"+savePath;
+        String name = getRandomName(file.getOriginalFilename());
+        String fullPath = Constants.ROOT_PATH + "/" + type + "/" + savePath;
 
-        if (!FileUtil.exist(Constants.ROOT_PATH)){
-            FileUtil.mkdir(Constants.ROOT_PATH); // 父目录不存在则创建
+        if (!FileUtil.exist(fullPath)) {
+            FileUtil.mkdir(fullPath); // 父目录不存在则创建
         }
-        if (FileUtil.exist(fullPath)){
-            fullPath = Constants.ROOT_PATH + File.separator + System.currentTimeMillis() + originalFilename; // 文件重复则重新指定文件名
+        if (FileUtil.exist(fullPath)) {
+            fullPath = fullPath + File.separator + name; // 文件重复则重新指定文件名
         }
         file.transferTo(new File(fullPath)); // 存储文件到本地
-        savePath="/common/static/"+type+"/"+savePath+"/"+name;
+        savePath = "/common/static/" + type + "/" + savePath + "/" + name;
         baseResp.setSuccess(1);
         String extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
         baseResp.setData(resultMap("SUCCESS", savePath, file.getSize(), "", file.getOriginalFilename(), extName));
@@ -360,11 +367,10 @@ public class UploadController {
     }
 
 
-
-    public static String getRandomName(String fileName){
-        int index=fileName.lastIndexOf(".");
-        String houzhui=fileName.substring(index);//获取后缀名
-        String uuidFileName=UUID.randomUUID().toString().replace("-","")+houzhui;
+    public static String getRandomName(String fileName) {
+        int index = fileName.lastIndexOf(".");
+        String houzhui = fileName.substring(index);//获取后缀名
+        String uuidFileName = UUID.randomUUID().toString().replace("-", "") + houzhui;
         return uuidFileName;
     }
 

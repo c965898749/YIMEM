@@ -38,55 +38,10 @@ public class MusicServiceImpl implements MusicService {
     @Override
     public BaseResp selectByPams(Map<String,String> param) {
         BaseResp baseResp=new BaseResp();
-        if(!param.isEmpty()){
-
-            try {
-
-                int pageNum = Integer.parseInt(param.get("pageNum"));
-                int pageSize = Integer.parseInt(param.get("pageSize"));
-                if (Xtool.isNotNull(pageNum)&&Xtool.isNotNull(pageSize)){
-                    Music music=new Music();
-                    music.setArtist(param.get("name"));
-                    music.setUserid(Integer.parseInt(param.get("usrid")));
-                    PageHelper.startPage(pageNum,pageSize);
-//                    PageHelper.startPage(1,5);
-                    System.out.println(music);
-                    List<Music> list=musicMapper.selectByPams(music);
-                    Page<Music> page = (Page<Music>)list;
-                    if (Xtool.isNotNull(list)){
-                        List arrayList=new ArrayList();
-                        list.forEach(x->{
-                            Map map=new HashMap();
-                            map.put("name",x.getName());
-                            map.put("url",x.getUrl());
-                            map.put("artist",x.getArtist());
-                            map.put("cover",x.getCover());
-                            map.put("lrc",x.getLrc());
-                            arrayList.add(map);
-                        });
-                        baseResp.setSuccess(200);
-                        baseResp.setData(arrayList);
-                        baseResp.setCount(page.getTotal());
-                        return baseResp;
-                    }else {
-                        baseResp.setSuccess(0);
-                        baseResp.setErrorMsg("未找到资源");
-                        return baseResp;
-                    }
-                }
-
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("服务器异常");
-                return baseResp;
-
-            }
-
-
-        }
-        baseResp.setSuccess(0);
-        baseResp.setErrorMsg("服务器异常");
+        Music music=new Music();
+        List<Music> list=musicMapper.selectByPams(music);
+        baseResp.setSuccess(200);
+        baseResp.setData(list);
         return baseResp;
     }
 }

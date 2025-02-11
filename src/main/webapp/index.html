@@ -867,19 +867,33 @@
             audio: []
         };
         $.ajax({
-            url: "getPlayList",
-            data: {"listId":2151920273},
+            url: "getMymusic",
+            data: {},
             dataType: "json",
             type: "get",
             success: function (json) {
-                console.log(json);
-                playerOption.audio=json;
-                var ap = new APlayer(playerOption)
+                console.log(json.data);
+                playerOption.audio=json.data;
+                ap = new APlayer(playerOption)
             },
             error: function () {
 
             }
         })
+        // $.ajax({
+        //     url: "getPlayList",
+        //     data: {"listId":2151920273},
+        //     dataType: "json",
+        //     type: "get",
+        //     success: function (json) {
+        //         console.log(json);
+        //         playerOption.audio=json;
+        //         var ap = new APlayer(playerOption)
+        //     },
+        //     error: function () {
+        //
+        //     }
+        // })
     }
     muic()
 </script>

@@ -1,8 +1,10 @@
 package com.sy.controller.monitor;
 import com.sy.entity.ActivationKey;
+import com.sy.entity.GameMesage;
 import com.sy.model.resp.BaseResp;
 import com.sy.model.resp.ResultVO;
 import com.sy.service.ActivationKeyService;
+import com.sy.service.GameMesageService;
 import com.sy.service.impl.Server;
 import com.sy.vo.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class ServerController
 {
     @Autowired
     private ActivationKeyService activationKeyService;
+    @Autowired
+    private GameMesageService gameMesageService;
 
     @RequestMapping(value = "serverDetials", method = RequestMethod.GET)
     public AjaxResult getInfo() throws Exception
@@ -31,6 +35,17 @@ public class ServerController
         return AjaxResult.success(server);
     }
 
+    //插入挂机消息
+    @RequestMapping(value = "insertMessage", method = RequestMethod.POST)
+    public ResultVO insertMessage(GameMesage mesage)
+    {
+        ResultVO resultVO = new ResultVO();
+        gameMesageService.insert(mesage);
+        return resultVO;
+    }
+
+
+    //插入激活码
     @RequestMapping(value = "insertCode", method = RequestMethod.POST)
     public ResultVO insertCode(ActivationKey data)
     {
@@ -39,6 +54,7 @@ public class ServerController
         return resultVO;
     }
 
+    //更新激活码
     @RequestMapping(value = "updateCode", method = RequestMethod.POST)
     public ResultVO updateCode(ActivationKey data)
     {
@@ -48,7 +64,7 @@ public class ServerController
         return resultVO;
     }
 
-
+    //获取激活码
     @RequestMapping(value = "getActCode", method = RequestMethod.GET)
     public BaseResp getActCode(ActivationKey data)
     {

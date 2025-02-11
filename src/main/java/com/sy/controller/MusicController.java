@@ -9,6 +9,7 @@ import com.sy.model.Music;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.MusicService;
+import com.sy.service.UserServic;
 import com.sy.tool.Xtool;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -34,47 +35,28 @@ public class MusicController {
 
     @Autowired
     private MusicService musicService;
-
+    @Autowired
+    UserServic servic;
     private final String prefixUrl = "http://music.163.com/api/playlist/detail?id=";
     private final String playUrl = "http://music.163.com/song/media/outer/url?id=";
     private final String lyricUrl = "http://music.163.com/api/song/lyric?os=pc&lv=-1&kv=-1&tv=-1&id=";
+
     @RequestMapping("getMymusic")
-    public BaseResp getMymusic(@RequestParam Map<String,String> param, HttpServletRequest request){
-        System.out.println("进入");
-        System.out.println(param);
-        BaseResp baseResp=new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("未登入");
-            return baseResp;
-        } else {
-            param.put("usrid",user.getUserId()+"");
-            try {
-                baseResp=musicService.selectByPams(param);
-                return baseResp;
-            } catch (Exception e) {
-                e.printStackTrace();
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("服务器异常");
-                return baseResp;
-            }
-        }
+    public BaseResp getMymusic(@RequestParam Map<String, String> param, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        baseResp = musicService.selectByPams(param);
+        return baseResp;
     }
 
     @PostMapping("addMymusic")
-    public BaseResp addMymusic( Music music, HttpServletRequest request){
-        BaseResp baseResp=new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("未登入");
-            return baseResp;
-        } else {
+    public BaseResp addMymusic(Music music, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
             music.setUserid(user.getUserId());
             try {
-                Integer count=musicService.insertSelective(music);
-                return count>0?new BaseResp(200,"插入成功"):new BaseResp(0,"插入失败");
+                Integer count = musicService.insertSelective(music);
+                return count > 0 ? new BaseResp(200, "插入成功") : new BaseResp(0, "插入失败");
             } catch (Exception e) {
                 e.printStackTrace();
                 baseResp.setSuccess(0);
@@ -82,6 +64,9 @@ public class MusicController {
                 return baseResp;
             }
         }
+        baseResp.setSuccess(0);
+        baseResp.setErrorMsg("未登入");
+        return baseResp;
     }
 
     @GetMapping("/getPlayList")
@@ -93,7 +78,7 @@ public class MusicController {
         URL url = new URL(lastUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         String result = getResponse(conn);
-        if (JSON.parseObject(result).getJSONObject("result")!=null){
+        if (JSON.parseObject(result).getJSONObject("result") != null) {
             JSONArray arr = JSON.parseObject(result).getJSONObject("result").getJSONArray("tracks");
             List<Music> list = getAllMusic(arr);
             return list;
@@ -125,7 +110,7 @@ public class MusicController {
         return sb.toString();
     }
 
-    public List<Music> getAllMusic(JSONArray arr) throws IOException{
+    public List<Music> getAllMusic(JSONArray arr) throws IOException {
         List<Music> list = new ArrayList<>();
         for (int i = 0; i < arr.size(); i++) {
             JSONObject obj = arr.getJSONObject(i);

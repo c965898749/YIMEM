@@ -71,7 +71,7 @@
 
         .navigationContain {
             width: 200px;
-            height: 320px;
+            height: 360px;
             background-color: white;
             float: left;
         }
@@ -892,6 +892,7 @@
             <li>我的资源</li>
             <li>我的论坛</li>
             <li>安全设置</li>
+            <li>我的音乐</li>
         </ul>
     </div>
     <div class="showContain">
@@ -1248,6 +1249,9 @@
         }
         if (type == "我的论坛") {
             location.href = "forum.html?type=2"
+        }
+        if (type == "我的音乐") {
+            location.href = "mymusic.html"
         }
         $(".showContain").html(setPersonalData(type, getJsondata(type)))
         $(".navigationContain li").css("background-color", "white ").css("color", "black ")

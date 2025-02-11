@@ -1,5 +1,6 @@
 package com.sy.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sy.entity.ActivationKey;
@@ -20,6 +21,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -43,7 +46,8 @@ public class WeixinPostServiceImpl implements WeixinPostService {
     @Autowired
     private BlogReplayMapper blogReplayService;
     private Logger log = Logger.getLogger(WeixinPostServiceImpl.class.getName());
-
+    @Autowired
+    public RedisTemplate redisTemplate;
     /**
      * 处理微信发来的请求
      *
@@ -494,8 +498,8 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 }
                 // TODO 2020/8/10 扫码登录方案
                 else if (eventType.equals(MessageUtil.SCAN)) {
-                    HttpSession session = MySessionContext.getSession(EventKey);
-
+//                    HttpSession session = MySessionContext.getSession(EventKey);
+                    String token=EventKey;
                     User user = userServic.getUserByopenid(fromUserName);
 
                     if (user == null) {
@@ -507,7 +511,8 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                         respMessage = MessageUtil.textMessageToXml(text);
                     } else {
-                        session.setAttribute("user", user);
+                        ValueOperations opsForValue = redisTemplate.opsForValue();
+                        opsForValue.set(token, JSONUtil.toJsonStr(user), 3600, TimeUnit.SECONDS);
                         Date day = new Date();
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         this.sendTemplate(fromUserName, user.getUsername(), df.format(day));

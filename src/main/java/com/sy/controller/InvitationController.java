@@ -4,6 +4,7 @@ import com.sy.model.Invitation;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.InvitationService;
+import com.sy.service.UserServic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,16 +20,14 @@ public class InvitationController {
     private InvitationService service;
     @Autowired
     private InvitationService invitationService;
+    @Autowired
+    UserServic servic;
 
     @RequestMapping(value = "saveInvitation", method = RequestMethod.POST)
-    public BaseResp saveInvitation(Invitation invitation, HttpServletResponse res, HttpServletRequest request) {
+    public BaseResp saveInvitation(Invitation invitation, HttpServletResponse res, HttpServletRequest request) throws Exception {
         BaseResp resp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            resp.setSuccess(0);
-            resp.setErrorMsg("未登入");
-            return resp;
-        } else {
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
             invitation.setUserid(user.getUserId());
             Integer count = service.save(invitation);
             if (count > 0) {
@@ -42,6 +41,9 @@ public class InvitationController {
                 return resp;
             }
         }
+        resp.setSuccess(0);
+        resp.setErrorMsg("未登入");
+        return resp;
     }
 
     @RequestMapping(value = "findMaxreadCountInvitation", method = RequestMethod.GET)
@@ -126,8 +128,6 @@ public class InvitationController {
         }
 
     }
-
-
 
 
 }

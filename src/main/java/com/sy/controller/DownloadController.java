@@ -102,11 +102,10 @@ public class DownloadController {
 
 
     @RequestMapping(value = "downloadResource", method = RequestMethod.GET)
-    public String download(Integer id,String host, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String download(Integer id,String host, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 //        先验证用户登录
-        User user = (User) request.getSession().getAttribute("user");
-
+        User user = servic.getUserByRedis(request);
         if (user == null) {
             return "redirect:login.html";
         }
@@ -228,8 +227,8 @@ public class DownloadController {
     public String postv3(@RequestBody Map<String, String> param, HttpServletRequest request) throws Exception {
         Map map = new HashMap();
 //        System.out.println(param);
-        User user = (User) request.getSession().getAttribute("user");
         Bullet bullet = new Bullet();
+        User user = servic.getUserByRedis(request);
         if (user != null && param != null && !param.isEmpty()) {
             bullet.setUserid(user.getUserId());
             bullet.setColor(param.get("color"));
@@ -301,14 +300,11 @@ public class DownloadController {
 
     @RequestMapping(value = "resourceProp", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResp resourceProp(HttpServletRequest request) {
+    public BaseResp resourceProp(HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("未登入");
-            return baseResp;
-        } else {
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
+
 
             try {
                 Map<String, Integer> map = service.resourceProp(user.getUserId());
@@ -321,5 +317,8 @@ public class DownloadController {
             }
             return baseResp;
         }
+        baseResp.setSuccess(0);
+        baseResp.setErrorMsg("未登入");
+        return baseResp;
     }
 }

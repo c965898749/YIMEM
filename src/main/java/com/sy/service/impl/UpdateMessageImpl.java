@@ -10,7 +10,7 @@ import com.sy.model.Information;
 import com.sy.model.User;
 import com.sy.service.UpdateMessage;
 import com.sy.tool.Constants;
-import com.sy.tool.RedisUtil;
+//import com.sy.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +31,12 @@ public class UpdateMessageImpl implements UpdateMessage {
 
     @Override
     public Integer delRediskey(int userId) {
-        if (RedisUtil.getJedisInstance().exists(Constants.REPLAY_INFORMATION + userId)) {
-            RedisUtil.getJedisInstance().del(Constants.REPLAY_INFORMATION + userId);
-            RedisUtil.getJedisInstance().del("count" + userId);
-            RedisUtil.closeJedisInstance();
-            return 1;
-        }
+//        if (RedisUtil.getJedisInstance().exists(Constants.REPLAY_INFORMATION + userId)) {
+//            RedisUtil.getJedisInstance().del(Constants.REPLAY_INFORMATION + userId);
+//            RedisUtil.getJedisInstance().del("count" + userId);
+//            RedisUtil.closeJedisInstance();
+//            return 1;
+//        }
         return 0;
     }
 
@@ -66,18 +66,18 @@ public class UpdateMessageImpl implements UpdateMessage {
                 list.add(blog_replay.getId() + "");
                 list.add(blog_replay.getBlogId() + "");
                 String json = JSONObject.toJSONString(list);
-                RedisUtil.getJedisInstance().rpush(key, json);
+//                RedisUtil.getJedisInstance().rpush(key, json);
                 lists.add(json);
             }
             Integer count = userMapper.selectUserByUserId(userId).getUnreadreplaycount();
-            RedisUtil.getJedisInstance().set("count" + key, count + "");
-            RedisUtil.getJedisInstance().expire("count" + key, 600);
-            RedisUtil.getJedisInstance().expire(key, 600);
-            RedisUtil.closeJedisInstance();
-            RedisUtil.getJedisInstance().set("count" + key, 0 + "");
-            RedisUtil.getJedisInstance().expire("count" + key, 600);
-            RedisUtil.closeJedisInstance();
+//            RedisUtil.getJedisInstance().set("count" + key, count + "");
+//            RedisUtil.getJedisInstance().expire("count" + key, 600);
+//            RedisUtil.getJedisInstance().expire(key, 600);
+//            RedisUtil.closeJedisInstance();
+//            RedisUtil.getJedisInstance().set("count" + key, 0 + "");
+//            RedisUtil.getJedisInstance().expire("count" + key, 600);
+//            RedisUtil.closeJedisInstance();
         }
-        RedisUtil.closeJedisInstance();
+//        RedisUtil.closeJedisInstance();
     }
 }

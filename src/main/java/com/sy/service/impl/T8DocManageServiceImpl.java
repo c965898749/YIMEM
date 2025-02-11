@@ -4,7 +4,7 @@ import com.sy.mapper.T8DocManageMapper;
 import com.sy.model.T8DocManage;
 import com.sy.service.T8DocManageService;
 import com.sy.tool.Constants;
-import com.sy.tool.FastDFSClient;
+//import com.sy.tool.FastDFSClient;
 import com.sy.tool.Xtool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,16 +84,16 @@ public class T8DocManageServiceImpl implements T8DocManageService {
 
     @Override
     public Integer M8610ED001(T8DocManage record) {
-        try {
-            FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
-            T8DocManage t8DocManage=t8DocManageMapper.M8610EQ008(record);
-            if ("0".equals(t8DocManage.getIsDirectory())&& Xtool.isNotNull(t8DocManage.getSrc())){
-                String url = t8DocManage.getSrc().replace(Constants.IMAGE_SERVER_URL + "group1/", "");
-                fastDFSClient.deleteFile("group1",url);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            FastDFSClient fastDFSClient = new FastDFSClient("classpath:fdfs_client.conf");
+//            T8DocManage t8DocManage=t8DocManageMapper.M8610EQ008(record);
+//            if ("0".equals(t8DocManage.getIsDirectory())&& Xtool.isNotNull(t8DocManage.getSrc())){
+//                String url = t8DocManage.getSrc().replace(Constants.IMAGE_SERVER_URL + "group1/", "");
+//                fastDFSClient.deleteFile("group1",url);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         return t8DocManageMapper.M8610ED001(record);
     }
 

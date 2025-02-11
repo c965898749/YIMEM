@@ -10,8 +10,11 @@ import com.sy.vo.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.AntPathMatcher;
@@ -26,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,12 +82,16 @@ public class CommonController {
 	 * 请求地址：http://localhost:8080/common/static/{user/20190119/e1fe9925bc315c60addea1b98eb1cb1349547719_1547866868179.jpg}
 	 *
 	 * @param request
-	 * @param response
 	 */
 //	@GetMapping(value = "/static/**")
 //	public void view(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //		SmbUtil smb=SmbUtil.getInstance(Constants.REMOTEURL);
 //		smb.dowloafFile(request,response);
+//	}
+
+//	@GetMapping(value = "/static/**")
+//	public void view(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		download(request,response);
 //	}
 
 	@GetMapping(value = "/static/**")
@@ -102,19 +110,31 @@ public class CommonController {
 		if (imgPath.endsWith(",")) {
 			imgPath = imgPath.substring(0, imgPath.length() - 1);
 		}
-		String fullPath = Constants.ROOT_PATH + File.separator + imgPath;
-		OutputStream outputStream = response.getOutputStream(); // 获取输出流
-		outputStream = new BufferedOutputStream(outputStream); // 创建缓冲输出流
-
-		if (!FileUtil.exist(fullPath)){
-			return;
+		System.out.println("地址----------"+imgPath);
+		String filePath = Constants.ROOT_PATH + File.separator + imgPath;
+		File file = new File(filePath);
+		// 设置响应头信息
+		String filename = file.getName();
+		// 设置response的Header
+		response.setCharacterEncoding("UTF-8");
+		// 指定下载文件名(attachment-以下载方式保存到本地，inline-在线预览)
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+		// 告知浏览器文件的大小
+		response.addHeader("Content-Length", "" + file.length());
+		// 内容类型为通用类型，表示二进制数据流
+		response.setContentType("application/octet-stream");
+		try(InputStream is = new FileInputStream(file);
+			BufferedInputStream bis = new BufferedInputStream(is);
+			BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream())){
+			byte[] buff = new byte[2048];
+			int len;
+			while ((len = bis.read(buff)) != -1){
+				bos.write(buff, 0, len);
+			}
+			bos.flush();
+		} catch (IOException e){
+			throw e;
 		}
-
-		byte[] bytes = FileUtil.readBytes(fullPath); // 读取文件
-
-		outputStream.write(bytes); // 输出文件;
-		outputStream.flush();
-		outputStream.close();
 	}
 
 	private static String extractPathFromPattern(final HttpServletRequest request) {
@@ -128,9 +148,9 @@ public class CommonController {
 //		smb.dowloafFile(request,response);
 //	}
 
-	@GetMapping(value = "/video/**")
-	public void video(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		download(request,response);
-	}
+//	@GetMapping(value = "/video/**")
+//	public void video(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		download(request,response);
+//	}
 
 }

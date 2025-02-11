@@ -3,6 +3,7 @@ package com.sy.controller;
 import com.sy.model.User;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.CollectService;
+import com.sy.service.UserServic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 public class CollectController {
     @Autowired
     private CollectService collectService;
+    @Autowired
+    UserServic servic;
     BaseResp baseResp = new BaseResp();
 //    @RequestMapping("/queryCollectByUserId")
 //    public BaseResp queryAll(Integer userId){
@@ -179,10 +182,10 @@ public BaseResp unsubscribe(Integer userId,Integer collectId){
 
     //杨
     @RequestMapping(value = "/queryCollectByUserId",method = RequestMethod.GET)
-    public BaseResp queryAll(Integer blogId, HttpServletRequest request){
+    public BaseResp queryAll(Integer blogId, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        User user=(User) request.getSession().getAttribute("user");
-        if (user!=null){
+        User user = servic.getUserByRedis(request);
+        if (user != null) {
             baseResp = collectService.queryByUserId(user.getUserId(),blogId);
         }else {
             baseResp.setSuccess(0);

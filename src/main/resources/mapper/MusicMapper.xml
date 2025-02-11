@@ -63,7 +63,7 @@
   </select>
 
   <select id="selectByPams" parameterType="com.sy.model.Music" resultMap="BaseResultMap">
-    select name,url,artist,cover,lrc from music
+    select * from music
     <trim prefix="where" prefixOverrides="and | or">
       <if test="name != null and name!=''">
        and name like  concat('%',${name},'%')
