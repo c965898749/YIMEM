@@ -1308,7 +1308,8 @@ function muic(row){
         audio: []
     };
     playerOption.audio=audio;
-    ap = new APlayer(playerOption)
+    var ap = new APlayer(playerOption)
+    ap.init();
 }
 
 function keydown() {

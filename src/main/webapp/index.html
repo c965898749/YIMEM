@@ -875,7 +875,8 @@
             success: function (json) {
                 console.log(json.data);
                 playerOption.audio=json.data;
-                ap = new APlayer(playerOption)
+               var ap = new APlayer(playerOption)
+                ap.init();
             },
             error: function () {
 
