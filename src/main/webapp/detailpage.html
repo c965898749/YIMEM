@@ -977,22 +977,23 @@
         const playerOption = {// 设置播放器基本参数
             container: document.getElementById('aplayer'),
             fixed: true,
+            autoplay:true,
             volume:0.7,
             order:'list',
             theme:'#988bbc',
             listFolded:false,
-            lrcType:1,
+            lrcType:3,
             audio: []
         };
         $.ajax({
-            url: "getPlayList",
-            data: {"listId":2151920273},
+            url: "getMymusic",
+            data: {},
             dataType: "json",
             type: "get",
             success: function (json) {
-                //console.log(json);
-                playerOption.audio=json;
-                var ap = new APlayer(playerOption)
+                console.log(json.data);
+                playerOption.audio=json.data;
+                ap = new APlayer(playerOption)
             },
             error: function () {
 

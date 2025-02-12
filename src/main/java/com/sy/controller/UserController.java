@@ -83,46 +83,7 @@ public class UserController {
         }
     }
 
-    //    绑定接口
-    @RequestMapping(value = "bingding", method = RequestMethod.POST)
-    public BaseResp bingding(String username, String userpassword, HttpServletRequest request) {
-        log.info("绑定用户账号---" + username + "---密码-----" + userpassword);
-        BaseResp baseResp = new BaseResp();
-        try {
-//            baseResp = servic.loginVerification(username, userpassword);
-            if (baseResp.getSuccess() == 1) {
-                WeiXinUser weiXinUser = (WeiXinUser) request.getSession().getAttribute("weiXinUser");
-                if (weiXinUser == null) {
-                    baseResp.setSuccess(0);
-                    baseResp.setErrorMsg("暂未授权该公众号！");
-                    return baseResp;
-                }
-                User xx = servic.getUserByopenid(weiXinUser.getOpenid());
-                if (xx != null) {
-                    baseResp.setSuccess(0);
-                    baseResp.setErrorMsg("该微信号已绑定过公众号！");
-                    return baseResp;
-                }
-                User user2 = new User();
-                user2.setUsername(username);
-                user2.setUserpassword(userpassword);
-                User user = servic.getLoginUser(user2);
-                if (user != null) {
-                    System.out.println(user.getUsername());
-                    user.setOpenid(weiXinUser.getOpenid());
-                    servic.updateuser(user);
-                } else {
-                    baseResp.setSuccess(0);
-                    baseResp.setErrorMsg("账号密码有误！");
-                }
-            }
-            return baseResp;
-        } catch (Exception e) {
-            baseResp.setErrorMsg("服务器异常！");
-            baseResp.setSuccess(0);
-            return baseResp;
-        }
-    }
+
 
     //发送邮箱验证码
     @RequestMapping(value = "emilcode", method = RequestMethod.POST)

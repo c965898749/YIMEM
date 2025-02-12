@@ -276,6 +276,11 @@
 		delete from user where userId = #{userId}
 	</delete>
 
+    <!-- 根据Id删除用户 -->
+    <delete id="deleteUserByopenId" parameterType="java.lang.String">
+		delete from user where openid = #{openid}
+	</delete>
+
 
     <!-- 修改用户 -->
     <update id="modifyUser" parameterType="com.sy.model.User">

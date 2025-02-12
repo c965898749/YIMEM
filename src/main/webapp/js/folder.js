@@ -8,6 +8,7 @@ var operation_history = new DbList({
     is_shift_down = false,
     focus_index = -1;
 var dp = null;
+var ap = null;
 /*mode:1->复制  2->剪切
  * id:被复制或剪切的文件或文件夹的id
  * parentId:被复制文件的上级目录id
@@ -180,6 +181,9 @@ function closetanchuan() {
     $("#background").css("display", "none");
     if (dp != null) {
         dp.pause()
+    }
+    if (ap!=null){
+        ap.destroy()
     }
 
 }
@@ -1046,8 +1050,12 @@ function leftClick() {
         $("#background").css("display", "none");
         $("#background2").css("display", "none");
         $("#background3").css("display", "none");
+        $("#background4").css("display", "none");
         if (dp != null) {
             dp.pause()
+        }
+        if (ap!=null){
+            ap.destroy()
         }
         $("#divall").find("li").each(function (index) {
             $(this).removeClass("focus");
@@ -1061,8 +1069,12 @@ function leftClick() {
         $("#background").css("display", "none");
         $("#background2").css("display", "none");
         $("#background3").css("display", "none");
+        $("#background4").css("display", "none");
         if (dp != null) {
             dp.pause()
+        }
+        if (ap!=null){
+            ap.destroy()
         }
         //console.log("backward click");
         var currNode = find_active_node();
@@ -1077,8 +1089,12 @@ function leftClick() {
         $("#background").css("display", "none");
         $("#background2").css("display", "none");
         $("#background3").css("display", "none");
+        $("#background4").css("display", "none");
         if (dp != null) {
             dp.pause()
+        }
+        if (ap!=null){
+            ap.destroy()
         }
         //console.log("forward click");
         var currNode = find_active_node();
@@ -1093,8 +1109,12 @@ function leftClick() {
         $("#background").css("display", "none");
         $("#background2").css("display", "none");
         $("#background3").css("display", "none");
+        $("#background4").css("display", "none");
         if (dp != null) {
             dp.pause()
+        }
+        if (ap!=null){
+            ap.destroy()
         }
         //console.log("home click");
         if ($("#navigation").val() != 1) {
@@ -1106,8 +1126,12 @@ function leftClick() {
         $("#background").css("display", "none");
         $("#background2").css("display", "none");
         $("#background3").css("display", "none");
+        $("#background4").css("display", "none");
         if (dp != null) {
             dp.pause()
+        }
+        if (ap!=null){
+            ap.destroy()
         }
         //console.log("gotopre click");
         if ($("#navigation").val() != 1) {
@@ -1126,8 +1150,12 @@ function leftClick() {
         $("#background").css("display", "none");
         $("#background2").css("display", "none");
         $("#background3").css("display", "none");
+        $("#background4").css("display", "none");
         if (dp != null) {
             dp.pause()
+        }
+        if (ap!=null){
+            ap.destroy()
         }
         var parentId = $(this).attr("data-id");
         if ($("#navigation").val() != parentId) {
@@ -1291,6 +1319,10 @@ function getDplayer(videoUrl) {
 }
 
 function muic(row){
+    if (ap!=null){
+        ap.destroy()
+    }
+    $("#background4").css("display", "block");
     var ran2 = Math.floor(Math.random() * 4) + 1;
    var audio= {
         name: row.folderMame,
@@ -1308,8 +1340,8 @@ function muic(row){
         audio: []
     };
     playerOption.audio=audio;
-    var ap = new APlayer(playerOption)
-    ap.init();
+    ap= new APlayer(playerOption)
+    ap.play();
 }
 
 function keydown() {

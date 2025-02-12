@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.sy.entity.ActivationKey;
 import com.sy.mapper.ActivationKeyMapper;
 import com.sy.mapper.BlogReplayMapper;
+import com.sy.mapper.UserMapper;
 import com.sy.model.*;
 import com.sy.model.resp.BaseResp;
 import com.sy.model.weixin.*;
@@ -34,6 +35,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 @Service
 public class WeixinPostServiceImpl implements WeixinPostService {
@@ -48,6 +50,8 @@ public class WeixinPostServiceImpl implements WeixinPostService {
     private Logger log = Logger.getLogger(WeixinPostServiceImpl.class.getName());
     @Autowired
     public RedisTemplate redisTemplate;
+    @Autowired
+    private UserMapper userMapper;
     /**
      * 处理微信发来的请求
      *
@@ -194,31 +198,6 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     replay.setBlogReplayId(0);
                     replay.setSonreplaycount(0);
                     blogReplayService.addReplay(replay);
-                }else if (content.equals("账号绑定") || content.equals("账号") || content.equals("绑定") || content.equals("绑账号") || content.equals("绑")) {
-                    if (Constants.TO_USER_NAME.equals(toUserName)) {
-                        text.setContent("请点击下方菜单 绑定账号");
-                        text.setToUserName(fromUserName);
-                        text.setFromUserName(toUserName);
-                        text.setCreateTime(System.currentTimeMillis()/1000);
-                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-                        respMessage = MessageUtil.textMessageToXml(text);
-                    } else {
-                        String message = null;
-                        Image image = new Image();
-                        AccessToken token = this.getAccessToken(toUserName);
-//                        log.info("access_token为---------"+token.getToken());
-                        String path = request.getSession().getServletContext().getRealPath("/imgs/gz/eduwxfix.png");
-                        image.setMediaId(this.upload(path, token.getToken(), "image"));
-//                        log.info("MediaId为---------"+image.getMediaId());
-                        ImageMessage imageMessage = new ImageMessage();
-                        imageMessage.setFromUserName(toUserName);
-                        imageMessage.setToUserName(fromUserName);
-                        imageMessage.setMsgType("image");
-                        imageMessage.setCreateTime(System.currentTimeMillis()/1000);
-                        imageMessage.setImage(image);
-                        message = MessageUtil.textMessageToXml(imageMessage);
-                        return message;
-                    }
                 } else if (content.equals("广告") || content.equals("广告租用")) {
                     String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:---------\n或加微信:----------";
                     text.setContent(tt);
@@ -303,7 +282,12 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                     respMessage = MessageUtil.textMessageToXml(text);
                 }else {
-                    text.setContent(this.getResult(content, fromUserName));
+                    String reslut= getTextMessage(content).toString();
+                    if (Xtool.isNull(reslut)){
+                        text.setContent(this.getResult(content, fromUserName));
+                    }else {
+                        text.setContent(reslut);
+                    }
                 }
                 text.setToUserName(fromUserName);
                 text.setFromUserName(toUserName);
@@ -312,19 +296,9 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 respMessage = MessageUtil.textMessageToXml(text);
 
 
-            } /*else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {// 事件推送
-                String eventType = requestMap.get("Event");// 事件类型
-
-                if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {// 订阅
-                    respContent = "欢迎关注xxx公众号！";
-                    return MessageResponse.getTextMessage(fromUserName , toUserName , respContent);
-                } else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {// 自定义菜单点击事件
-                    String eventKey = requestMap.get("EventKey");// 事件KEY值，与创建自定义菜单时指定的KEY值对应
-                     System.out.println("eventKey is:" +eventKey);
-                    return xxx;
-                }
-            }*/
+            }
             //开启微信声音识别测试 2015-3-30
+            //语音识别微信已经下架
             else if (msgType.equals("voice")) {
                 String recvMessage = requestMap.get("Recognition");
                 //respContent = "收到的语音解析结果："+recvMessage;
@@ -458,9 +432,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     text.setCreateTime(System.currentTimeMillis()/1000);
                     text.setContent("小梦没听清，能不能重新说下呢？");
                     respMessage = MessageUtil.textMessageToXml(text);
-//                    respContent = "您说的太模糊了，能不能重新说下呢？";
                 }
-//                return MessageResponse.getTextMessage(fromUserName , toUserName , respContent);
             }
             //拍照功能
             else if (msgType.equals("pic_sysphoto")) {
@@ -494,7 +466,51 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     text.setCreateTime(System.currentTimeMillis()/1000);
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                     respMessage = MessageUtil.textMessageToXml(text);
-
+                    //20250212 关注公众默认注册账号并支持后续的扫码登录
+                    User user = new User();
+                    //设置昵称
+                    String nickname = null;
+                    Integer flag = 1;
+                    Integer len = 4;
+                    List<User> userList = userMapper.SelectAllUser();
+                    List<String> usernamelist=userList.stream().filter(x->Xtool.isNotNull(x.getNickname())).map(User::getNickname).collect(Collectors.toList());
+                    while (flag != 0) {
+                        nickname = RandomName.randomName(false, len);
+                        if (!usernamelist.contains(nickname)) {
+                            flag = 0;
+                        } else {
+                            flag++;
+                            if (flag > 1100000000 && flag < 2100000000) {
+                                len++;
+                                flag = 1;
+                            }
+                        }
+                    }
+                    user.setNickname(nickname);
+                    int max=6,min=1;
+                    int ran2 = (int) (Math.random()*(max-min)+min);
+                    String url="/imgs/headimg/"+ran2+".jpg";
+                    user.setHeadImg(url);
+                    user.setDownloadmoney((double)0);
+                    user.setRanking(9999);
+                    user.setLevel(2);
+                    user.setCollectCount(0);
+                    user.setBlogCount(0);
+                    user.setAttentionCount(0);
+                    user.setFansCount(0);
+                    user.setResourceCount(0);
+                    user.setForumCount(0);
+                    user.setAskCount(0);
+                    user.setCommentCount(0);
+                    user.setLikeCount(0);
+                    user.setVisitorCount(0);
+                    user.setDownCount(0);
+                    user.setUnreadreplaycount(0);
+                    user.setReadquerylikecount(0);
+                    user.setUnreadfanscount(0);
+                    user.setIsEmil("0");
+                    user.setStatus(1);
+                    int result = userMapper.insertUser(user);
                 }
                 // TODO 2020/8/10 扫码登录方案
                 else if (eventType.equals(MessageUtil.SCAN)) {
@@ -504,7 +520,7 @@ public class WeixinPostServiceImpl implements WeixinPostService {
 
                     if (user == null) {
                         TextMessage text = new TextMessage();
-                        text.setContent("您的账号还未绑定\n\n请点击下方菜单 绑定账号");
+                        text.setContent("您的账号异常\n\n请取消关注并重新关注");
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
                         text.setCreateTime(System.currentTimeMillis()/1000);
@@ -536,19 +552,13 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         text.setCreateTime(System.currentTimeMillis()/1000);
                         text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                         respMessage = MessageUtil.textMessageToXml(text);
-                    } else if (eventKey.equals("jiechu")) {
+                    } else if (eventKey.equals("menu")) {
                         TextMessage text = new TextMessage();
-                        User user = userServic.getUserByopenid(fromUserName);
-                        if (user != null) {
-                            try {
-                                userServic.delUserByopenid(fromUserName);
-                                text.setContent("解绑成功");
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            text.setContent("该微信未绑定账号");
-                        }
+                        text.setContent("嗨，我是小梦\n\n(>‿◠)✌小梦可以为您服务的有：\r\n（1）小梦：小梦简介。" +
+                                "\r\n（2）图片文字识别：您发送一个带文字的图片，小梦就可以帮您识别文字！\r\n（3）笑话大全：可能不好笑，但小梦还是希望大佬能哈哈哈哈！" +
+                                "\r\n（4）谜语大全：快点来猜猜看吧，不能偷看答案哦！\r\n（5）心灵鸡汤：让小弟用鸡汤来安抚您吧，当然鸡汤可能不咋地！" +
+                                "\r\n（6）我的音乐：快乐点歌！\r\n（7）激活码：输入格式: XXXXXXXXX机器码" +
+                                "\r\n大佬注意了：给小梦一个关注好不好，小梦求个关注，谢谢大佬！");
                         text.setToUserName(fromUserName);
                         text.setFromUserName(toUserName);
                         text.setCreateTime(System.currentTimeMillis()/1000);
@@ -682,11 +692,6 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                 }
                 stringBuffer.append("\n\n<a href='http://www.yimem.com/searchResult_page.html?key=" + recvMessage + "'>点击查询更多</a>");
             }
-            if (Xtool.isNull(blogList) && Xtool.isNull(videos) && Xtool.isNull(uploadList)) {
-                stringBuffer.append("\n\n抱歉暂未找到你想要的资源T_T");
-            }
-        } else {
-            stringBuffer.append("\n\n抱歉暂未找到你想要的资源T_T");
         }
         return stringBuffer;
     }

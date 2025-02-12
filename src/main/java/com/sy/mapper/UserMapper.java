@@ -146,6 +146,8 @@ public interface UserMapper {
      */
     public int deleteUser(User user);
 
+    public int deleteUserByopenId(String openid);
+
     /**
      * 分页查询用户数
      * @param user
