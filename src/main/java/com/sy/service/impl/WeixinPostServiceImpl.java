@@ -467,50 +467,53 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
                     respMessage = MessageUtil.textMessageToXml(text);
                     //20250212 关注公众默认注册账号并支持后续的扫码登录
-                    User user = new User();
-                    //设置昵称
-                    String nickname = null;
-                    Integer flag = 1;
-                    Integer len = 4;
-                    List<User> userList = userMapper.SelectAllUser();
-                    List<String> usernamelist=userList.stream().filter(x->Xtool.isNotNull(x.getNickname())).map(User::getNickname).collect(Collectors.toList());
-                    while (flag != 0) {
-                        nickname = RandomName.randomName(false, len);
-                        if (!usernamelist.contains(nickname)) {
-                            flag = 0;
-                        } else {
-                            flag++;
-                            if (flag > 1100000000 && flag < 2100000000) {
-                                len++;
-                                flag = 1;
+                    User userOld = userServic.getUserByopenid(fromUserName);
+                    if (userOld == null) {
+                        User user = new User();
+                        //设置昵称
+                        String nickname = null;
+                        Integer flag = 1;
+                        Integer len = 4;
+                        List<User> userList = userMapper.SelectAllUser();
+                        List<String> usernamelist=userList.stream().filter(x->Xtool.isNotNull(x.getNickname())).map(User::getNickname).collect(Collectors.toList());
+                        while (flag != 0) {
+                            nickname = RandomName.randomName(false, len);
+                            if (!usernamelist.contains(nickname)) {
+                                flag = 0;
+                            } else {
+                                flag++;
+                                if (flag > 1100000000 && flag < 2100000000) {
+                                    len++;
+                                    flag = 1;
+                                }
                             }
                         }
+                        user.setNickname(nickname);
+                        int max=6,min=1;
+                        int ran2 = (int) (Math.random()*(max-min)+min);
+                        String url="/imgs/headimg/"+ran2+".jpg";
+                        user.setHeadImg(url);
+                        user.setDownloadmoney((double)0);
+                        user.setRanking(9999);
+                        user.setLevel(2);
+                        user.setCollectCount(0);
+                        user.setBlogCount(0);
+                        user.setAttentionCount(0);
+                        user.setFansCount(0);
+                        user.setResourceCount(0);
+                        user.setForumCount(0);
+                        user.setAskCount(0);
+                        user.setCommentCount(0);
+                        user.setLikeCount(0);
+                        user.setVisitorCount(0);
+                        user.setDownCount(0);
+                        user.setUnreadreplaycount(0);
+                        user.setReadquerylikecount(0);
+                        user.setUnreadfanscount(0);
+                        user.setIsEmil("0");
+                        user.setStatus(1);
+                        int result = userMapper.insertUser(user);
                     }
-                    user.setNickname(nickname);
-                    int max=6,min=1;
-                    int ran2 = (int) (Math.random()*(max-min)+min);
-                    String url="/imgs/headimg/"+ran2+".jpg";
-                    user.setHeadImg(url);
-                    user.setDownloadmoney((double)0);
-                    user.setRanking(9999);
-                    user.setLevel(2);
-                    user.setCollectCount(0);
-                    user.setBlogCount(0);
-                    user.setAttentionCount(0);
-                    user.setFansCount(0);
-                    user.setResourceCount(0);
-                    user.setForumCount(0);
-                    user.setAskCount(0);
-                    user.setCommentCount(0);
-                    user.setLikeCount(0);
-                    user.setVisitorCount(0);
-                    user.setDownCount(0);
-                    user.setUnreadreplaycount(0);
-                    user.setReadquerylikecount(0);
-                    user.setUnreadfanscount(0);
-                    user.setIsEmil("0");
-                    user.setStatus(1);
-                    int result = userMapper.insertUser(user);
                 }
                 // TODO 2020/8/10 扫码登录方案
                 else if (eventType.equals(MessageUtil.SCAN)) {
