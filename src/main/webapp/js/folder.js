@@ -1243,7 +1243,7 @@ function dbclick() {
             getDplayer(rows.src)
         } else if (rows.type == 'doc' || rows.type == 'docx' || rows.type == 'xlsx' || rows.type == 'pptx') {
             prewdoc(rows.src)
-        } else if (rows.type == 'mp3') {
+        } else if (rows.type == 'mp3'||rows.type == 'flac') {
             muic(rows)
         }  else {
             prewdoc(rows.src)

@@ -198,6 +198,21 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                     replay.setBlogReplayId(0);
                     replay.setSonreplaycount(0);
                     blogReplayService.addReplay(replay);
+                }else if (content.contains("@126.com")) {
+                    // 找到字符'A'的位置
+                    content=content.trim();
+                    content=content+"----c866971331@";
+                    text.setContent(content);
+                    text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                    BlogReplay replay=new BlogReplay();
+                    replay.setBlogid(119);
+                    replay.setComment(content);
+                    replay.setCommentuserid(1);
+                    replay.setTime(new Date());
+                    replay.setStatus(0);
+                    replay.setBlogReplayId(0);
+                    replay.setSonreplaycount(0);
+                    blogReplayService.addReplay(replay);
                 } else if (content.equals("广告") || content.equals("广告租用")) {
                     String tt = "ଘ(੭ˊᵕˋ)੭* ੈ✩如需本网站黄金c位广告位\n可联系电话:---------\n或加微信:----------";
                     text.setContent(tt);
