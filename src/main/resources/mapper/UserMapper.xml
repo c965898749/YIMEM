@@ -162,6 +162,9 @@
             <if test="openid!=null ">
                 openid=#{openid},
             </if>
+            <if test="diamond!=null ">
+                diamond=#{diamond},
+            </if>
         </set>
         where userId=#{userId}
     </update>

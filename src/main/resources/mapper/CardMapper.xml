@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.CardMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.Card">
+    <constructor>
+      <idArg column="uuid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="weight" javaType="java.lang.Double" jdbcType="DOUBLE" />
+      <arg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="star" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    uuid, name, weight, id, star
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from card
+    where uuid = #{uuid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from card
+    where uuid = #{uuid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sy.model.game.Card">
+    insert into card (uuid, name, weight, 
+      id, star)
+    values (#{uuid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{weight,jdbcType=DOUBLE}, 
+      #{id,jdbcType=INTEGER}, #{star,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.game.Card">
+    insert into card
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="id != null">
+        id,
+      </if>
+      <if test="star != null">
+        star,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="star != null">
+        #{star,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.Card">
+    update card
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="star != null">
+        star = #{star,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uuid = #{uuid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.model.game.Card">
+    update card
+    set name = #{name,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DOUBLE},
+      id = #{id,jdbcType=INTEGER},
+      star = #{star,jdbcType=VARCHAR}
+    where uuid = #{uuid,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectAll"  resultType="com.sy.model.game.Card">
+    select
+    *
+    from card
+  </select>
+</mapper>

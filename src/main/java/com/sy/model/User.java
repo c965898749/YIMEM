@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.util.Date;
 @Data
 public class User {
@@ -66,8 +67,15 @@ public class User {
     private String openid;
     private Integer status;
 
+//游戏字段
+    private BigDecimal lv;
+    private BigDecimal exp;
+    private BigDecimal gold;
+    private BigDecimal diamond;
+    private BigDecimal soul;
 
-
-
+    //20251007
+    private Integer gameRanking;
+    private Integer winCount;
 
 }
