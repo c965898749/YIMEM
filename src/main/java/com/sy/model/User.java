@@ -78,4 +78,7 @@ public class User {
     private Integer gameRanking;
     private Integer winCount;
 
+    //20251016
+    private Integer signCount;
+    private Date signTime;
 }

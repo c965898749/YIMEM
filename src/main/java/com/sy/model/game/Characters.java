@@ -16,8 +16,17 @@ public class Characters {
     private Date createTime;
     private Date updateTime;
     private Integer goIntoNum;//位置，是否上阵0
+    private Integer maxLv;//最大等级
     //关联数据
     private String name;
     private Integer onStage;
     private String camp;
+    private BigDecimal HpGrowth;
+    private BigDecimal AttackGrowth;
+    private BigDecimal DefenceGrowth;
+    private BigDecimal PierceGrowth;
+    private BigDecimal SpeedGrowth;
+    private String passiveIntroduceOne;
+    private String passiveIntroduceTwo;
+    private String passiveIntroduceThree;
 }

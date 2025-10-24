@@ -43,4 +43,5 @@ public class UserInfo {
     private String token;
     //卡池数量
     private String useCardCount;
+    private Integer signCount;
 }

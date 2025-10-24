@@ -7,4 +7,5 @@ public class TokenDto {
     private String token;
     private String userId;
     private String id;
+    private String str;
 }

@@ -7,8 +7,11 @@ import lombok.Data;
 
 @Data
 public class Buff {
-    private BuffType type;
-    private int value;
-    private int duration;
-    private String scope; // 影响范围(场上/场下/全体)
+    // 每回合扣多少血
+    private Integer roundReduceBleed;
+    private String name;
+    private Boolean isDeBuff;
+    //每回合开始造成指定伤害
+    private String introduce;
+    private Integer roundNum;//可持续多少回合
 }

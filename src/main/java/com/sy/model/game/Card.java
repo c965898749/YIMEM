@@ -17,4 +17,20 @@ public class Card {
     private BigDecimal star;
 
     private String camp;
+
+    private BigDecimal HpGrowth;
+
+    private BigDecimal AttackGrowth;
+
+    private BigDecimal DefenceGrowth;
+
+    private BigDecimal PierceGrowth;
+
+    private BigDecimal SpeedGrowth;
+
+    private String passiveIntroduceOne;
+
+    private String passiveIntroduceTwo;
+
+    private String passiveIntroduceThree;
 }

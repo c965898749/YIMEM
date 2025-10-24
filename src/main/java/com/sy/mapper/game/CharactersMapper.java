@@ -21,7 +21,9 @@ public interface CharactersMapper {
 
     List<Characters> selectByUserId(Integer userId);
 
+    int updateGoNuM(String userId);
 
+    int updateGoNuM2(@Param("num") Integer num,@Param("id") String id,@Param("userId") String userId);
 
     List<Characters> listById(@Param("userId") String userId,@Param("id") String id);
 

@@ -152,4 +152,31 @@ public class GameContoller {
         }
     }
 
+    @PostMapping("signUp")
+    @CrossOrigin
+    public BaseResp qiangdao(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.qiangdao(token,request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    @RequestMapping(value = "itemUpdate", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp itemUpdate(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.itemUpdate(token,request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
 }

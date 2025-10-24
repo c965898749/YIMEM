@@ -2,29 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sy.mapper.game.CharactersMapper">
-  <resultMap id="BaseResultMap" type="com.sy.model.game.Characters">
-    <constructor>
-      <idArg column="uuid" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="lv" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="stack_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.sy.model.game.Characters">
+        <constructor>
+            <idArg column="uuid" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="lv" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="stack_count" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     uuid, user_id, id, lv, stack_count,go_into_num
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from characters
-    where uuid = #{uuid,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from characters
+        where uuid = #{uuid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from  characters
     where uuid = #{uuid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.sy.model.game.Characters">
+    <insert id="insert" parameterType="com.sy.model.game.Characters">
     insert into  characters (user_id, id,
       lv, stack_count,create_time
       )
@@ -32,62 +32,74 @@
       #{lv,jdbcType=INTEGER}, #{stackCount,jdbcType=INTEGER},now()
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.sy.model.game.Characters">
-    insert into  characters
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="uuid != null">
-        uuid,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="id != null">
-        id,
-      </if>
-      <if test="lv != null">
-        lv,
-      </if>
-      <if test="stackCount != null">
-        stack_count,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="uuid != null">
-        #{uuid,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="lv != null">
-        #{lv,jdbcType=INTEGER},
-      </if>
-      <if test="stackCount != null">
-        #{stackCount,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.Characters">
+    <insert id="insertSelective" parameterType="com.sy.model.game.Characters">
+        insert into characters
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                uuid,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="lv != null">
+                lv,
+            </if>
+            <if test="stackCount != null">
+                stack_count,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                #{uuid,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="lv != null">
+                #{lv,jdbcType=INTEGER},
+            </if>
+            <if test="stackCount != null">
+                #{stackCount,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.Characters">
+        update characters
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="id != null">
+                id = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="lv != null">
+                lv = #{lv,jdbcType=INTEGER},
+            </if>
+            <if test="stackCount != null">
+                stack_count = #{stackCount,jdbcType=INTEGER},
+            </if>
+        </set>
+        where uuid = #{uuid,jdbcType=INTEGER}
+    </update>
+    <update id="updateGoNuM">
     update  characters
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="id != null">
-        id = #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="lv != null">
-        lv = #{lv,jdbcType=INTEGER},
-      </if>
-      <if test="stackCount != null">
-        stack_count = #{stackCount,jdbcType=INTEGER},
-      </if>
-    </set>
-    where uuid = #{uuid,jdbcType=INTEGER}
+    set go_into_num = '0',
+      update_time= now()
+    where user_id = #{userId}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sy.model.game.Characters">
+    <update id="updateGoNuM2">
+    update  characters
+    set go_into_num = #{num},
+      update_time= now()
+    where user_id = #{userId} and  id = #{id}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.sy.model.game.Characters">
     update  characters
     set user_id = #{userId,jdbcType=INTEGER},
       id = #{id,jdbcType=VARCHAR},
@@ -97,7 +109,7 @@
       update_time= now()
     where uuid = #{uuid,jdbcType=INTEGER}
   </update>
-  <select id="selectByUserId" parameterType="com.sy.model.game.Characters" resultType="com.sy.model.game.Characters">
+    <select id="selectByUserId" parameterType="com.sy.model.game.Characters" resultType="com.sy.model.game.Characters">
     select
     cs.uuid,
     cs.user_id,
@@ -107,12 +119,20 @@
     cs.stack_count,
     cs.go_into_num,
     cd.name,
-    cd.camp
+    cd.camp,
+    cd.hp_growth,
+    cd.attack_growth,
+    cd.defence_growth,
+    cd.pierce_growth,
+    cd.speed_growth,
+    cd.passive_introduce_one,
+    cd.passive_introduce_two,
+    cd.passive_introduce_three
     from   characters cs
     left  join card cd on cd.id=cs.id
     where cs.user_id = #{userId}
   </select>
-  <select id="listById" resultType="com.sy.model.game.Characters">
+    <select id="listById" resultType="com.sy.model.game.Characters">
     select
     cs.uuid,
     cs.user_id,
@@ -122,14 +142,22 @@
     cs.stack_count,
     cs.go_into_num,
     cd.name,
-    cd.camp
+    cd.camp,
+    cd.hp_growth,
+    cd.attack_growth,
+    cd.defence_growth,
+    cd.pierce_growth,
+    cd.speed_growth,
+    cd.passive_introduce_one,
+    cd.passive_introduce_two,
+    cd.passive_introduce_three
     from   characters cs
     left  join card cd on cd.id=cs.id
     where cs.user_id = #{userId} and   cs.id = #{id}
   </select>
 
 
-  <select id="goIntoListById" resultType="com.sy.model.game.Characters">
+    <select id="goIntoListById" resultType="com.sy.model.game.Characters">
     select
     cs.uuid,
     cs.user_id,
@@ -139,13 +167,21 @@
     cs.stack_count,
     cs.go_into_num,
     cd.name,
-    cd.camp
+    cd.camp,
+    cd.hp_growth,
+    cd.attack_growth,
+    cd.defence_growth,
+    cd.pierce_growth,
+    cd.speed_growth,
+    cd.passive_introduce_one,
+    cd.passive_introduce_two,
+    cd.passive_introduce_three
     from   characters cs
     left  join card cd on cd.id=cs.id
     where cs.user_id = #{userId} and  cs.go_into_num &lt;&gt; 0
   </select>
 
-  <select id="goIntoListByIds" resultType="com.sy.model.game.Characters">
+    <select id="goIntoListByIds" resultType="com.sy.model.game.Characters">
     select
     cs.uuid,
     cs.user_id,
@@ -155,7 +191,15 @@
     cs.stack_count,
     cs.go_into_num,
     cd.name,
-    cd.camp
+    cd.camp,
+    cd.hp_growth,
+    cd.attack_growth,
+    cd.defence_growth,
+    cd.pierce_growth,
+    cd.speed_growth,
+    cd.passive_introduce_one,
+    cd.passive_introduce_two,
+    cd.passive_introduce_three
     from   characters cs
     left  join card cd on cd.id=cs.id
     where find_in_set(cs.user_id,#{userIds})and  cs.go_into_num &lt;&gt; 0

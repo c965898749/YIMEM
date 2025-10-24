@@ -2,6 +2,7 @@ package com.sy.model.game;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,10 +10,18 @@ import java.util.List;
 public class Character {
     private String id;
     private String name;
-    private int hp;
-    private int attack;
-    private int defense;
-    private boolean isAlive = true;
-    private List<Buff> buffs = new ArrayList<>();
-    private Integer position; // 场上/场下
+    private Integer hp;
+    private Integer maxHp;
+    private Integer attack;
+    private Integer speed;
+    private Integer goIntoNum;//位置
+    private String goON;//是否在场上
+    private String passiveIntroduceOne;
+    private String passiveIntroduceTwo;
+    private String passiveIntroduceThree;
+    private String direction;//左0右1
+    private List<Buff> buff;
+    private String isAction="1";//我能不能动//0不能1能
+    private String isDead="0";
+    private String camp;
 }

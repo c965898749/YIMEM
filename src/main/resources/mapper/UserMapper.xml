@@ -37,7 +37,7 @@
     <!--</select>-->
     <!--根据用户ID查询粉丝的总人数-->
     <select id="selectUserByusername" resultType="com.sy.model.User">
-        select * from user where  username=#{username}
+        select * from user where  binary username=#{username}
     </select>
 
     <select id="selectFansCountbyUserId" resultType="java.lang.Integer">
@@ -164,6 +164,18 @@
             </if>
             <if test="diamond!=null ">
                 diamond=#{diamond},
+            </if>
+            <if test="diamond!=null ">
+                diamond=#{diamond},
+            </if>
+            <if test="signCount!=null ">
+            sign_count = #{signCount},
+            </if>
+            <if test="signTime!=null ">
+            sign_time = #{signTime},
+            </if>
+            <if test="gold!=null ">
+            gold = #{gold},
             </if>
         </set>
         where userId=#{userId}
