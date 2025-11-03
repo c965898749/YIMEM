@@ -12,7 +12,7 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    uuid, user_id, id, lv, stack_count,go_into_num
+    uuid, user_id, id, lv, stack_count,go_into_num,exp,max_lv
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -93,6 +93,12 @@
       update_time= now()
     where user_id = #{userId}
   </update>
+    <update id="updateDelte">
+    update  characters
+    set is_delete = '1',
+      update_time= now()
+    where uuid = #{uuid}
+  </update>
     <update id="updateGoNuM2">
     update  characters
     set go_into_num = #{num},
@@ -106,6 +112,7 @@
       lv = #{lv,jdbcType=INTEGER},
       stack_count = #{stackCount,jdbcType=INTEGER},
       go_into_num = #{goIntoNum,jdbcType=INTEGER},
+      exp = #{exp,jdbcType=INTEGER},
       update_time= now()
     where uuid = #{uuid,jdbcType=INTEGER}
   </update>
@@ -118,6 +125,8 @@
     cd.star,
     cs.stack_count,
     cs.go_into_num,
+    cs.exp,
+    cs.max_lv,
     cd.name,
     cd.camp,
     cd.hp_growth,
@@ -130,7 +139,7 @@
     cd.passive_introduce_three
     from   characters cs
     left  join card cd on cd.id=cs.id
-    where cs.user_id = #{userId}
+    where cs.user_id = #{userId} and cs.is_delete='0'
   </select>
     <select id="listById" resultType="com.sy.model.game.Characters">
     select
@@ -141,6 +150,8 @@
     cd.star,
     cs.stack_count,
     cs.go_into_num,
+    cs.exp,
+     cs.max_lv,
     cd.name,
     cd.camp,
     cd.hp_growth,
@@ -153,7 +164,7 @@
     cd.passive_introduce_three
     from   characters cs
     left  join card cd on cd.id=cs.id
-    where cs.user_id = #{userId} and   cs.id = #{id}
+    where cs.user_id = #{userId} and   cs.id = #{id} and cs.is_delete='0'
   </select>
 
 
@@ -166,6 +177,8 @@
     cd.star,
     cs.stack_count,
     cs.go_into_num,
+    cs.exp,
+     cs.max_lv,
     cd.name,
     cd.camp,
     cd.hp_growth,
@@ -178,7 +191,7 @@
     cd.passive_introduce_three
     from   characters cs
     left  join card cd on cd.id=cs.id
-    where cs.user_id = #{userId} and  cs.go_into_num &lt;&gt; 0
+    where cs.user_id = #{userId} and  cs.go_into_num &lt;&gt; 0  and cs.is_delete='0'
   </select>
 
     <select id="goIntoListByIds" resultType="com.sy.model.game.Characters">
@@ -190,6 +203,8 @@
     cd.star,
     cs.stack_count,
     cs.go_into_num,
+    cs.exp,
+     cs.max_lv,
     cd.name,
     cd.camp,
     cd.hp_growth,
@@ -202,6 +217,6 @@
     cd.passive_introduce_three
     from   characters cs
     left  join card cd on cd.id=cs.id
-    where find_in_set(cs.user_id,#{userIds})and  cs.go_into_num &lt;&gt; 0
+    where find_in_set(cs.user_id,#{userIds})and  cs.go_into_num &lt;&gt; 0  and cs.is_delete='0'
   </select>
 </mapper>

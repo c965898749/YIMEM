@@ -2,6 +2,8 @@ package com.sy.model.game;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class TokenDto {
     private String token;

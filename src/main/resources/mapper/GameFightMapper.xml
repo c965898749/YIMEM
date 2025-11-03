@@ -13,7 +13,7 @@
   </sql>
   <select id="selectByPrimaryKey"  resultType="com.sy.model.game.GameFight">
     select 
-    <include refid="Base_Column_List" />
+   *
     from game_fight
     where id = #{id}
   </select>
@@ -22,9 +22,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.sy.model.game.GameFight">
-    insert into game_fight (id, user_id, to_user_id
+    insert into game_fight (id, user_id, to_user_id,fightter,user_name,to_user_name,type,createtime,is_win
       )
-    values (#{id}, #{userId}, #{toUserId}
+    values (#{id}, #{userId}, #{toUserId}, #{fightter}, #{userName}, #{toUserName}, #{type},now(),#{isWin}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.sy.model.game.GameFight">

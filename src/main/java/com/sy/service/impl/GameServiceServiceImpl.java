@@ -1,16 +1,16 @@
 package com.sy.service.impl;
 
 import cn.hutool.core.util.IdUtil;
-import com.sy.mapper.game.CardMapper;
-import com.sy.mapper.game.CharactersMapper;
+import com.sy.expection.CsdnExpection;
+import com.sy.mapper.game.*;
 import com.sy.mapper.UserMapper;
-import com.sy.mapper.game.GameFightMapper;
 import com.sy.model.User;
 import com.sy.model.game.*;
 import com.sy.model.game.Character;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.GameServiceService;
 import com.sy.service.UserServic;
+import com.sy.tool.JsonUtils;
 import com.sy.tool.Xtool;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -41,7 +44,15 @@ public class GameServiceServiceImpl implements GameServiceService {
     @Autowired
     private GameFightMapper gameFightMapper;
     @Autowired
+    private QqCardExpMapper qqCardExpMapper;
+    @Autowired
     UserServic servic;
+    @Autowired
+    private PveDetailMapper pveDetailMapper;
+    // 最大体力值
+    private static final int MAX_STAMINA = 720;
+    // 每10分钟恢复1点体力
+    private static final long RECOVER_INTERVAL_MINUTES = 10;
 
     @Override
     public BaseResp loginGame(User user, HttpServletRequest request) throws Exception {
@@ -75,7 +86,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("账号已被禁用");
             return baseResp;
         }
-
+        updateStaminaOnLogin(emp);
         //先判断今天是否签到
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         if (emp.getSignTime() != null) {
@@ -92,7 +103,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         List<Characters> characterList = charactersMapper.selectByUserId(emp.getUserId());
         //卡池数量
         List<Card> cardList = cardMapper.selectAll();
-        info.setUseCardCount(characterList.size() + "/" + cardList.size());
+        info.setUseCardCount(cardList.size() + "");
         info.setCharacterList(characterList);
         String token = IdUtil.simpleUUID();
         info.setToken(token);
@@ -101,6 +112,34 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setData(info);
         baseResp.setErrorMsg("登录成功");
         return baseResp;
+    }
+
+    public void updateStaminaOnLogin(User user) {
+        Integer stamina = user.getTiliCount();
+        if (user.getTiliCountTime() == null) {
+            user.setTiliCount(720);
+            user.setTiliCountTime(new Date());
+        } else {
+            LocalDateTime now = LocalDateTime.now();
+            // 计算上次更新到现在的时间差（分钟）
+            LocalDateTime lastStaminaUpdateTime = user.getTiliCountTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+            long minutesPassed = Duration.between(lastStaminaUpdateTime, now).toMinutes();
+
+            // 计算可恢复的体力值（每10分钟1点）
+            int recoverStamina = (int) (minutesPassed / RECOVER_INTERVAL_MINUTES);
+
+            // 更新体力（不超过最大值）
+            int newStamina = Math.min(stamina + recoverStamina, MAX_STAMINA);
+
+            // 只有体力有变化时才更新时间（优化处理）
+            if (newStamina != stamina) {
+                stamina = newStamina;
+            }
+            user.setTiliCount(stamina);
+            user.setTiliCountTime(new Date());
+        }
+        userMapper.updateuser(user);
     }
 
     @Override
@@ -141,6 +180,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        updateStaminaOnLogin(user);
         //先判断今天是否签到
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         if (user.getSignTime() != null) {
@@ -158,7 +198,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         info.setCharacterList(characterList);
         //卡池数量
         List<Card> cardList = cardMapper.selectAll();
-        info.setUseCardCount(characterList.size() + "/" + cardList.size());
+        info.setUseCardCount(cardList.size() + "");
         info.setCharacterList(characterList);
         baseResp.setData(info);
         baseResp.setErrorMsg("更新成功");
@@ -208,6 +248,193 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        baseResp.setSuccess(1);
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        //获取卡牌数据
+        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+        info.setCharacterList(characterList);
+        baseResp.setData(info);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp pveDetail(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        if (Xtool.isNull(token.getId())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("请选择关卡");
+            return baseResp;
+        }
+        PveDetail pveDetail = pveDetailMapper.selectById(token.getId());
+        if (pveDetail == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("关卡不存在");
+            return baseResp;
+        }
+        baseResp.setSuccess(1);
+//        UserInfo info = new UserInfo();
+//        BeanUtils.copyProperties(user, info);
+//        //获取卡牌数据
+//        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+//        info.setCharacterList(characterList);
+        baseResp.setData(pveDetail);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
+    @Transactional
+    public BaseResp cardLevelUp(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        if (Xtool.isNull(userId)) {
+//            baseResp.setSuccess(0);
+//            baseResp.setErrorMsg("登录过期");
+//            return baseResp;
+//        }
+        if (Xtool.isNull(token.getId())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("卡牌不存在");
+            return baseResp;
+        }
+        List<Characters> charactersList = charactersMapper.listById(userId, token.getId());
+        if (Xtool.isNull(charactersList)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("卡牌不存在");
+            return baseResp;
+        }
+
+        if (Xtool.isNull(token.getStr())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("卡牌不存在");
+            return baseResp;
+        }
+        List<String> ids = Arrays.asList(token.getStr().split(","));
+        ;
+        List<Characters> charactersList2 = new ArrayList<>();
+        for (String id : ids) {
+            List<Characters> charactersLists = charactersMapper.listById(userId, id);
+            if (Xtool.isNull(charactersLists)) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("卡牌不存在");
+                return baseResp;
+            }
+            charactersList2.addAll(charactersLists);
+        }
+        //获取总经验
+        BigDecimal sumExp = new BigDecimal(0);
+        for (Characters characters : charactersList2) {
+            //卡牌经验+单卡经验
+            sumExp = sumExp.add(new BigDecimal(characters.getExp())).add(new BigDecimal(5).multiply(new BigDecimal(characters.getStackCount())));
+
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        //银两
+        BigDecimal gold = user.getGold();
+        if (gold.compareTo(BigDecimal.ZERO) < 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("银两不足");
+            return baseResp;
+        }
+        //TODO 获取主卡
+        Characters zhuCharacters = charactersList.get(0);
+        //最大等级
+        Integer maxLv = zhuCharacters.getMaxLv();
+//        //当前等级
+//        Integer lv=zhuCharacters.getLv();
+        //累加到主卡
+        BigDecimal zhuEpx = new BigDecimal(zhuCharacters.getExp()).add(sumExp);
+        zhuCharacters.setExp(Integer.parseInt(zhuEpx.toString()));
+        //根据技能表推断升级情况
+        List<QqCardExp> qqCardExpList = qqCardExpMapper.findbyStar(zhuCharacters.getStar().stripTrailingZeros() + "");
+        for (QqCardExp qqCardExp : qqCardExpList) {
+            if (qqCardExp.getLevel() + 1 >= maxLv) {
+                zhuCharacters.setLv(maxLv);
+                break;
+            }
+            zhuEpx = zhuEpx.subtract(new BigDecimal(qqCardExp.getUpgradeExp()));
+            if (zhuEpx.compareTo(BigDecimal.ZERO) == 0) {
+                zhuCharacters.setLv(qqCardExp.getLevel() + 1);
+                break;
+            } else if (zhuEpx.compareTo(BigDecimal.ZERO) < 0) {
+                zhuCharacters.setLv(qqCardExp.getLevel());
+                break;
+            }
+            gold = gold.subtract(new BigDecimal(qqCardExp.getGold()));
+
+
+        }
+        //判断银两是否充足
+        if (gold.compareTo(BigDecimal.ZERO) < 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("强化还需银两" + gold.multiply(new BigDecimal("-1")));
+            return baseResp;
+        }
+        if (user.getLv().compareTo(new BigDecimal(zhuCharacters.getLv()).multiply(new BigDecimal(2))) < 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("强化等级不得超过人物等级2倍");
+            return baseResp;
+        }
+        user.setGold(gold);
+        userMapper.updateuser(user);
+        for (Characters characters : charactersList2) {
+            //并删除这些卡
+            charactersMapper.updateDelte(characters.getUuid());
+        }
+        charactersMapper.updateByPrimaryKey(zhuCharacters);
+        baseResp.setSuccess(1);
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        //获取卡牌数据
+        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+        info.setCharacterList(characterList);
+        baseResp.setData(info);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp changerHeader(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        if (Xtool.isNull(token.getStr())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("头像跟换异常");
+            return baseResp;
+        }
+
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        user.setGameImg(token.getStr());
+        userMapper.updateuser(user);
         baseResp.setSuccess(1);
         UserInfo info = new UserInfo();
         BeanUtils.copyProperties(user, info);
@@ -274,6 +501,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             userMapper.updateuser(user);
         }
         List<Card> cardList = cardMapper.selectAll();
+        cardList = cardList.stream().filter(x -> x.getWeight() > 0).collect(Collectors.toList());
         CardPool pool = new CardPool();
         for (Card card : cardList) {
             pool.addCard(card);
@@ -305,7 +533,6 @@ public class GameServiceServiceImpl implements GameServiceService {
         //卡池数量
         UserInfo info = new UserInfo();
         BeanUtils.copyProperties(user, info);
-        info.setUseCardCount(nowCharactersList.size() + "/" + cardList.size());
         baseResp.setSuccess(1);
         Map map = new HashMap();
         map.put("user", info);
@@ -332,6 +559,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             userMapper.updateuser(user);
         }
         List<Card> cardList = cardMapper.selectAll();
+        cardList = cardList.stream().filter(x -> x.getWeight() > 0).collect(Collectors.toList());
         CardPool pool = new CardPool();
         for (Card card : cardList) {
             pool.addCard(card);
@@ -374,7 +602,6 @@ public class GameServiceServiceImpl implements GameServiceService {
         //卡池数量
         UserInfo info = new UserInfo();
         BeanUtils.copyProperties(user, info);
-        info.setUseCardCount(nowCharactersList.size() + "/" + cardList.size());
         map.put("user", info);
         map.put("dto", dto);
         baseResp.setData(map);
@@ -400,6 +627,55 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
         //自己的战队
+        List<Characters> leftCharacter = charactersMapper.goIntoListById(user.getUserId()+"");
+        if (Xtool.isNull(leftCharacter)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("你没有配置战队无法战斗");
+            return baseResp;
+        }
+        Collections.sort(leftCharacter, Comparator.comparing(Characters::getGoIntoNum));
+        //对手战队
+        User user1 = userMapper.selectUserByUserId(Integer.parseInt(token.getUserId()));
+        List<Characters> rightCharacter = charactersMapper.goIntoListById(token.getUserId()+"");
+        if (Xtool.isNull(rightCharacter)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("对方没有配置战队无法战斗");
+            return baseResp;
+        }
+
+        baseResp.setSuccess(1);
+        Battle battle=this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), "1");
+        if (battle.getIsWin()==0){
+            user.setWinCount(user.getWinCount()+1);
+        }
+        baseResp.setData(battle);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp start2(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        BigDecimal exp = user.getExp().add(new BigDecimal(50));
+        if (exp.compareTo(new BigDecimal(1000)) >= 0) {
+            user.setLv(user.getLv().add(new BigDecimal(1)));
+            user.setExp(exp.subtract(new BigDecimal(1000)));
+        } else {
+            user.setExp(exp);
+        }
+        //自己的战队
         List<Characters> leftCharacter = charactersMapper.selectByUserId(user.getUserId());
         if (Xtool.isNull(leftCharacter)) {
             baseResp.setSuccess(0);
@@ -414,14 +690,14 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("对方没有配置战队无法战斗");
             return baseResp;
         }
-        GameFight fight = new GameFight();
-        String simpleUUID = IdUtil.simpleUUID();
-        fight.setId(simpleUUID);
-        fight.setToUserId(Integer.parseInt(token.getUserId()));
-        fight.setUserId(Integer.parseInt(userId));
-        gameFightMapper.insert(fight);
+//        GameFight fight = new GameFight();
+//        String simpleUUID = IdUtil.simpleUUID();
+//        fight.setId(simpleUUID);
+//        fight.setToUserId(Integer.parseInt(token.getUserId()));
+//        fight.setUserId(Integer.parseInt(userId));
+//        gameFightMapper.insert(fight);
         baseResp.setSuccess(1);
-        baseResp.setData(fight);
+//        baseResp.setData(this.battle());
         return baseResp;
     }
 
@@ -455,6 +731,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setData(map);
         return baseResp;
     }
+
     // 计算技能等级的方法
     public static int[] calculateSkillLevels(int characterLevel) {
         // 计算总共有多少个"5级段"（每5级为一个单位）
@@ -475,7 +752,16 @@ public class GameServiceServiceImpl implements GameServiceService {
 
     @Override
     public BaseResp playBattle(TokenDto token, HttpServletRequest request) throws Exception {
+        GameFight gameFight = gameFightMapper.selectByPrimaryKey(token.getId());
+        BaseResp baseResp = new BaseResp();
+        baseResp.setData(JsonUtils.fromJsonToObjList(gameFight.getFightter()));
+        baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    public Battle battle(List<Characters> leftCharacters, Integer userId, String name0, List<Characters> rightCharacters, Integer toUserId, String name1, String type) throws Exception {
         Map map = new HashMap();
+        Integer isWin = 0;
         //战斗过程
         List<Map> list = new ArrayList<>();
         // 所有存活的角色
@@ -485,14 +771,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         // 当前回合数
         Integer currentRound = 1;
 
-        GameFight gameFight = gameFightMapper.selectByPrimaryKey(token.getId());
 //        gameFight.setToUserId(593);
-        //自己的战队
-        User user = userMapper.selectUserByUserId(gameFight.getUserId());
-        map.put("name0", user.getNickname());
-        User user1 = userMapper.selectUserByUserId(gameFight.getToUserId());
-        map.put("name1", user1.getNickname());
-        List<Characters> leftCharacters = charactersMapper.goIntoListById(gameFight.getUserId() + "");
         for (Characters characters : leftCharacters) {
             // 设置角色
             Character character = reasonableData(characters, leftCharacters);
@@ -502,8 +781,6 @@ public class GameServiceServiceImpl implements GameServiceService {
             leftCharacter.add(character333);
             allLiveCharacter.add(character);
         }
-        //对手战队
-        List<Characters> rightCharacters = charactersMapper.goIntoListById(gameFight.getToUserId() + "");
         for (Characters characters : rightCharacters) {
             // 设置角色
             Character character = reasonableData(characters, rightCharacters);
@@ -627,7 +904,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     if ("1".equals(character.getGoON())) {
                         //仙塔庇护 Lv1
                         //在场,每回合恢复自身25点生命值
-                        if ("仙塔庇护".equals(character.getPassiveIntroduceOne()) || "仙塔庇护".equals(character.getPassiveIntroduceOne())) {
+                        if ("仙塔庇护".equals(character.getPassiveIntroduceOne()) || "仙塔庇护".equals(character.getPassiveIntroduceTwo())) {
                             if ("0".equals(character.getDirection())) {
                                 //大于0时才能治疗
                                 if (leftCharters1.getHp() > 0 && "sacred".equals(leftCharters1.getCamp())) {
@@ -690,11 +967,13 @@ public class GameServiceServiceImpl implements GameServiceService {
                         mapProsse.put("fightterList", fightterList);
                         list.add(mapProsse);
                         map.put("result", false);
+                        isWin=1;
                         break outerLoop; // 直接跳出外层循环
                     } else if (allLiveCharacter.stream().filter(x -> "1".equals(x.getDirection())).count() <= 0) {
                         mapProsse.put("fightterList", fightterList);
                         list.add(mapProsse);
                         map.put("result", true);
+                        isWin=0;
                         break outerLoop; // 直接跳出外层循环
                     }
                 }
@@ -905,7 +1184,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             for (Character character : allLiveCharacterNew) {
                 if (!allLiveCharacter.contains(character)) continue;
                 if ("0".equals(character.getGoON())) {
-                    if ("续命".equals(character.getPassiveIntroduceOne()) || "续命".equals(character.getPassiveIntroduceOne())) {
+                    if ("续命".equals(character.getPassiveIntroduceOne()) || "续命".equals(character.getPassiveIntroduceTwo())) {
                         if ("0".equals(character.getDirection())) {
                             //大于0时才能治疗
                             if (leftCharters1.getHp() > 0 && "sacred".equals(leftCharters1.getCamp())) {
@@ -994,11 +1273,13 @@ public class GameServiceServiceImpl implements GameServiceService {
                     mapProsse.put("fightterList", fightterList);
                     list.add(mapProsse);
                     map.put("result", false);
+                    isWin=1;
                     break outerLoop; // 直接跳出外层循环
                 } else if (allLiveCharacter.stream().filter(x -> "1".equals(x.getDirection())).count() <= 0) {
                     mapProsse.put("fightterList", fightterList);
                     list.add(mapProsse);
                     map.put("result", true);
+                    isWin=0;
                     break outerLoop; // 直接跳出外层循环
                 }
             }
@@ -1025,9 +1306,11 @@ public class GameServiceServiceImpl implements GameServiceService {
             // 判断是否结束
             if (allLiveCharacter.stream().filter(x -> "0".equals(x.getDirection())).count() <= 0) {
                 map.put("result", false);
+                isWin=1;
                 break outerLoop; // 直接跳出外层循环
             } else if (allLiveCharacter.stream().filter(x -> "1".equals(x.getDirection())).count() <= 0) {
                 map.put("result", true);
+                isWin=0;
                 break outerLoop; // 直接跳出外层循环
             }
 
@@ -1036,10 +1319,25 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("fightProcess", list);
         map.put("leftCharacter", leftCharacter);
         map.put("rightCharacter", rightCharacter);
-        BaseResp baseResp = new BaseResp();
-        baseResp.setData(map);
-        baseResp.setSuccess(1);
-        return baseResp;
+        map.put("name0", name0);
+        map.put("name1", name1);
+        GameFight fight = new GameFight();
+        String simpleUUID = IdUtil.simpleUUID();
+        fight.setId(simpleUUID);
+        fight.setToUserId(toUserId);
+        fight.setUserId(userId);
+        fight.setToUserName(name1);
+        fight.setUserName(name0);
+        fight.setIsWin(isWin);
+        fight.setType(type);
+        //将map转json存储
+        String json = JsonUtils.toJson(map);
+        fight.setFightter(json);
+        gameFightMapper.insert(fight);
+        Battle battle = new Battle();
+        battle.setIsWin(isWin);
+        battle.setId(fight.getId());
+        return battle;
     }
 
     public void goON() {
@@ -1247,10 +1545,6 @@ public class GameServiceServiceImpl implements GameServiceService {
         BeanUtils.copyProperties(user2, info);
         //获取卡牌数据
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        info.setCharacterList(characterList);
-        //卡池数量
-        List<Card> cardList = cardMapper.selectAll();
-        info.setUseCardCount(characterList.size() + "/" + cardList.size());
         info.setCharacterList(characterList);
         baseResp.setData(info);
         baseResp.setErrorMsg("更新成功");

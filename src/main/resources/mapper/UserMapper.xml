@@ -177,6 +177,15 @@
             <if test="gold!=null ">
             gold = #{gold},
             </if>
+            <if test="gameImg!=null ">
+                game_img = #{gameImg},
+            </if>
+            <if test="tiliCount!=null ">
+                tili_count = #{tiliCount},
+            </if>
+            <if test="tiliCountTime!=null ">
+                tili_count_time = #{tiliCountTime},
+            </if>
         </set>
         where userId=#{userId}
     </update>

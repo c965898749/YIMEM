@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.QqCardExpMapper">
+    <resultMap id="BaseResultMap" type="com.sy.model.game.QqCardExp">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="level" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="upgrade_type" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="upgrade_exp" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="gold" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="skill_exp" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, level, upgrade_type, upgrade_exp, gold, skill_exp
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from qq_card_exp
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from qq_card_exp
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.sy.model.game.QqCardExp">
+    insert into qq_card_exp (id, level, upgrade_type, 
+      upgrade_exp, gold, skill_exp
+      )
+    values (#{id,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{upgradeType,jdbcType=VARCHAR}, 
+      #{upgradeExp,jdbcType=INTEGER}, #{gold,jdbcType=INTEGER}, #{skillExp,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.sy.model.game.QqCardExp">
+        insert into qq_card_exp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="level != null">
+                level,
+            </if>
+            <if test="upgradeType != null">
+                upgrade_type,
+            </if>
+            <if test="upgradeExp != null">
+                upgrade_exp,
+            </if>
+            <if test="gold != null">
+                gold,
+            </if>
+            <if test="skillExp != null">
+                skill_exp,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=INTEGER},
+            </if>
+            <if test="upgradeType != null">
+                #{upgradeType,jdbcType=VARCHAR},
+            </if>
+            <if test="upgradeExp != null">
+                #{upgradeExp,jdbcType=INTEGER},
+            </if>
+            <if test="gold != null">
+                #{gold,jdbcType=INTEGER},
+            </if>
+            <if test="skillExp != null">
+                #{skillExp,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.QqCardExp">
+        update qq_card_exp
+        <set>
+            <if test="level != null">
+                level = #{level,jdbcType=INTEGER},
+            </if>
+            <if test="upgradeType != null">
+                upgrade_type = #{upgradeType,jdbcType=VARCHAR},
+            </if>
+            <if test="upgradeExp != null">
+                upgrade_exp = #{upgradeExp,jdbcType=INTEGER},
+            </if>
+            <if test="gold != null">
+                gold = #{gold,jdbcType=INTEGER},
+            </if>
+            <if test="skillExp != null">
+                skill_exp = #{skillExp,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sy.model.game.QqCardExp">
+    update qq_card_exp
+    set level = #{level,jdbcType=INTEGER},
+      upgrade_type = #{upgradeType,jdbcType=VARCHAR},
+      upgrade_exp = #{upgradeExp,jdbcType=INTEGER},
+      gold = #{gold,jdbcType=INTEGER},
+      skill_exp = #{skillExp,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="findbyStar" resultType="com.sy.model.game.QqCardExp">
+    SELECT * FROM qq_card_exp
+    WHERE upgrade_type=#{star}
+     ORDER BY `level`
+  </select>
+</mapper>

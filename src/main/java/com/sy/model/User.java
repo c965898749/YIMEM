@@ -81,4 +81,12 @@ public class User {
     //20251016
     private Integer signCount;
     private Date signTime;
+
+    //20251028
+    private String gameImg;
+    //20251102
+    private Integer tiliCount;
+    private Date tiliCountTime;
+    //20251103
+    private String chapter;
 }

@@ -23,6 +23,8 @@ public interface CharactersMapper {
 
     int updateGoNuM(String userId);
 
+    int updateDelte(Integer uuid);
+
     int updateGoNuM2(@Param("num") Integer num,@Param("id") String id,@Param("userId") String userId);
 
     List<Characters> listById(@Param("userId") String userId,@Param("id") String id);

@@ -44,4 +44,11 @@ public class UserInfo {
     //卡池数量
     private String useCardCount;
     private Integer signCount;
+
+    //20251028
+    private String gameImg;
+    //20251112
+    private Integer tiliCount;
+    //20251103
+    private String chapter;
 }
