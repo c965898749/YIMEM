@@ -19,6 +19,12 @@
     from card
     where uuid = #{uuid,jdbcType=INTEGER}
   </select>
+  <select id="selectByid" resultType="com.sy.model.game.Card">
+    select
+  *
+    from card
+    where id = #{id}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from card
     where uuid = #{uuid,jdbcType=INTEGER}

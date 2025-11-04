@@ -54,6 +54,12 @@ public class GameServiceServiceImpl implements GameServiceService {
     // 每10分钟恢复1点体力
     private static final long RECOVER_INTERVAL_MINUTES = 10;
 
+    // 关卡结构定义：第一层5个，第二层6个，第三层10个
+    private static final int LAYER1_MAX = 5;
+    private static final int LAYER2_MAX = 6;
+    private static final int LAYER3_MAX = 10;
+    private static final int MAX_LEVEL = 50;
+
     @Override
     public BaseResp loginGame(User user, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
@@ -627,7 +633,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
         //自己的战队
-        List<Characters> leftCharacter = charactersMapper.goIntoListById(user.getUserId()+"");
+        List<Characters> leftCharacter = charactersMapper.goIntoListById(user.getUserId() + "");
         if (Xtool.isNull(leftCharacter)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("你没有配置战队无法战斗");
@@ -636,7 +642,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         Collections.sort(leftCharacter, Comparator.comparing(Characters::getGoIntoNum));
         //对手战队
         User user1 = userMapper.selectUserByUserId(Integer.parseInt(token.getUserId()));
-        List<Characters> rightCharacter = charactersMapper.goIntoListById(token.getUserId()+"");
+        List<Characters> rightCharacter = charactersMapper.goIntoListById(token.getUserId() + "");
         if (Xtool.isNull(rightCharacter)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("对方没有配置战队无法战斗");
@@ -644,9 +650,9 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
 
         baseResp.setSuccess(1);
-        Battle battle=this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), "1");
-        if (battle.getIsWin()==0){
-            user.setWinCount(user.getWinCount()+1);
+        Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), "1");
+        if (battle.getIsWin() == 0) {
+            user.setWinCount(user.getWinCount() + 1);
         }
         baseResp.setData(battle);
         return baseResp;
@@ -676,29 +682,130 @@ public class GameServiceServiceImpl implements GameServiceService {
             user.setExp(exp);
         }
         //自己的战队
-        List<Characters> leftCharacter = charactersMapper.selectByUserId(user.getUserId());
+        List<Characters> leftCharacter = charactersMapper.goIntoListById(user.getUserId() + "");
         if (Xtool.isNull(leftCharacter)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("你没有配置战队无法战斗");
             return baseResp;
         }
-        Collections.sort(leftCharacter, Comparator.comparing(Characters::getGoIntoNum));
-        //对手战队
-        List<Characters> rightCharacter = charactersMapper.selectByUserId(user.getUserId());
-        if (Xtool.isNull(rightCharacter)) {
+        PveDetail pveDetail = pveDetailMapper.selectById(token.getStr());
+        if (pveDetail == null) {
             baseResp.setSuccess(0);
-            baseResp.setErrorMsg("对方没有配置战队无法战斗");
+            baseResp.setErrorMsg("关卡已探索完！");
             return baseResp;
         }
-//        GameFight fight = new GameFight();
-//        String simpleUUID = IdUtil.simpleUUID();
-//        fight.setId(simpleUUID);
-//        fight.setToUserId(Integer.parseInt(token.getUserId()));
-//        fight.setUserId(Integer.parseInt(userId));
-//        gameFightMapper.insert(fight);
         baseResp.setSuccess(1);
-//        baseResp.setData(this.battle());
+        List<String> list = Arrays.asList(token.getStr().split("-"));
+        Integer num1 = Integer.parseInt(list.get(0));
+        Integer num2 = Integer.parseInt(list.get(1));
+        Integer num3 = Integer.parseInt(list.get(2));
+        List<Characters> rightCharacter = new ArrayList<>();
+        Card card = cardMapper.selectByid(1);
+        for (int i = 0; i < 5; i++) {
+            Characters characters = new Characters();
+            BeanUtils.copyProperties(card, characters);
+            int lv = getBossLevel(token.getStr());
+            characters.setGoIntoNum(i + 1);
+            characters.setLv(lv);
+            characters.setUuid(i);
+            rightCharacter.add(characters);
+        }
+        Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, 0, pveDetail.getGuanName(), "1");
+        if (battle.getIsWin() == 0) {
+            if (num3 + 1 > 10) {
+                if (num2 + 1 > 6) {
+                    if (num1 + 1 > 5) {
+
+                    } else {
+                        num1 = num1 + 1;
+                        num2 = 1;
+                        num3 = 1;
+                    }
+                } else {
+                    num2 = num2 + 1;
+                    num3 = 1;
+                }
+            } else {
+                num3 = num3 + 1;
+            }
+            battle.setChapter(num1 + "-" + num2 + "-" + num3);
+            if (!isCandidateGreater(battle.getChapter(),user.getChapter())){
+                user.setChapter(battle.getChapter());
+            }
+        }
+        user.setTiliCount(user.getTiliCount() - 2);
+        user.setTiliCountTime(new Date());
+        Map map = new HashMap();
+        PveDetail pveDetail2 = pveDetailMapper.selectById(user.getChapter());
+        userMapper.updateuser(user);
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(user, userInfo);
+        map.put("user", userInfo);
+        map.put("battle", battle);
+        map.put("pveDetail", pveDetail2);
+        baseResp.setData(map);
+        baseResp.setSuccess(1);
         return baseResp;
+    }
+
+    private  boolean isCandidateGreater(String current, String candidate) {
+        String[] currentParts = current.split("-");
+        String[] candidateParts = candidate.split("-");
+
+        int maxLength = Math.max(currentParts.length, candidateParts.length);
+
+        for (int i = 0; i < maxLength; i++) {
+            int currentNum = (i < currentParts.length) ? Integer.parseInt(currentParts[i]) : 0;
+            int candidateNum = (i < candidateParts.length) ? Integer.parseInt(candidateParts[i]) : 0;
+
+            if (candidateNum > currentNum) {
+                return true;
+            } else if (candidateNum < currentNum) {
+                return false;
+            }
+        }
+        // 版本号完全相同
+        return false;
+    }
+
+
+    public int getBossLevel(String level) {
+        // 校验输入格式
+        if (level == null || !level.matches("^\\d+-\\d+-\\d+$")) {
+            return -1;
+        }
+
+        // 拆分关卡编号
+        String[] parts = level.split("-");
+        if (parts.length != 3) {
+            return -1;
+        }
+
+        try {
+            // 转换为数字（x, y, z）
+            int x = Integer.parseInt(parts[0]);
+            int y = Integer.parseInt(parts[1]);
+            int z = Integer.parseInt(parts[2]);
+
+            // 校验关卡范围有效性
+            if (x < 1 || x > LAYER1_MAX ||
+                    y < 1 || y > LAYER2_MAX ||
+                    z < 1 || z > LAYER3_MAX) {
+                return -1;
+            }
+
+            // 计算序号（从0开始）
+            int index = (x - 1) * LAYER2_MAX * LAYER3_MAX
+                    + (y - 1) * LAYER3_MAX
+                    + (z - 1);
+
+            // 计算等级（上限50级）
+            return Math.min(index + 1, MAX_LEVEL);
+
+        } catch (NumberFormatException e) {
+            // 数字转换失败（非整数）
+            return -1;
+        }
     }
 
     @Override
@@ -967,13 +1074,13 @@ public class GameServiceServiceImpl implements GameServiceService {
                         mapProsse.put("fightterList", fightterList);
                         list.add(mapProsse);
                         map.put("result", false);
-                        isWin=1;
+                        isWin = 1;
                         break outerLoop; // 直接跳出外层循环
                     } else if (allLiveCharacter.stream().filter(x -> "1".equals(x.getDirection())).count() <= 0) {
                         mapProsse.put("fightterList", fightterList);
                         list.add(mapProsse);
                         map.put("result", true);
-                        isWin=0;
+                        isWin = 0;
                         break outerLoop; // 直接跳出外层循环
                     }
                 }
@@ -1273,13 +1380,13 @@ public class GameServiceServiceImpl implements GameServiceService {
                     mapProsse.put("fightterList", fightterList);
                     list.add(mapProsse);
                     map.put("result", false);
-                    isWin=1;
+                    isWin = 1;
                     break outerLoop; // 直接跳出外层循环
                 } else if (allLiveCharacter.stream().filter(x -> "1".equals(x.getDirection())).count() <= 0) {
                     mapProsse.put("fightterList", fightterList);
                     list.add(mapProsse);
                     map.put("result", true);
-                    isWin=0;
+                    isWin = 0;
                     break outerLoop; // 直接跳出外层循环
                 }
             }
@@ -1306,11 +1413,11 @@ public class GameServiceServiceImpl implements GameServiceService {
             // 判断是否结束
             if (allLiveCharacter.stream().filter(x -> "0".equals(x.getDirection())).count() <= 0) {
                 map.put("result", false);
-                isWin=1;
+                isWin = 1;
                 break outerLoop; // 直接跳出外层循环
             } else if (allLiveCharacter.stream().filter(x -> "1".equals(x.getDirection())).count() <= 0) {
                 map.put("result", true);
-                isWin=0;
+                isWin = 0;
                 break outerLoop; // 直接跳出外层循环
             }
 
@@ -1389,7 +1496,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
 //        生生不息 Lv1
 //        场下，每当有生物死亡时治疗我方全体90点生命，只能治疗仙界生物
-        allLiveCharacter.removeIf(x -> x.getDirection().equals(character.getDirection()) && x.getId().equals(character.getId()));
+        allLiveCharacter.removeIf(x -> x.getDirection().equals(character.getDirection()) && x.getId().equals(character.getId()) && x.getUuid().equals(character.getUuid()));
     }
 
     /**

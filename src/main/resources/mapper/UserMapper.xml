@@ -186,6 +186,12 @@
             <if test="tiliCountTime!=null ">
                 tili_count_time = #{tiliCountTime},
             </if>
+            <if test="exp!=null ">
+                exp = #{exp},
+            </if>
+            <if test="chapter!=null ">
+                chapter = #{chapter},
+            </if>
         </set>
         where userId=#{userId}
     </update>

@@ -24,4 +24,5 @@ public class Character {
     private String isAction="1";//我能不能动//0不能1能
     private String isDead="0";
     private String camp;
+    private Integer uuid;//主键
 }

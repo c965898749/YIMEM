@@ -6,4 +6,5 @@ import lombok.Data;
 public class Battle {
     private Integer isWin;
     private String id;
+    private String chapter;
 }
