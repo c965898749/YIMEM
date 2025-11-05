@@ -16,6 +16,7 @@ public interface GameServiceService {
     BaseResp changerHeader(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp itemUpdate(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp danChou(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp soulChou(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp shiChou(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start2(TokenDto token, HttpServletRequest request) throws Exception;

@@ -51,4 +51,6 @@ public class UserInfo {
     private Integer tiliCount;
     //20251103
     private String chapter;
+    //20251104
+    private Integer levelUp;
 }

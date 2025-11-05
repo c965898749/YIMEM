@@ -549,6 +549,63 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp soulChou(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        String userId = token.getUserId();
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+
+        BigDecimal number = new BigDecimal("30");
+        if (user.getSoul().compareTo(number) < 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("当前魂珠小于30");
+            return baseResp;
+        } else {
+            user.setSoul(user.getSoul().subtract(number));
+            userMapper.updateuser(user);
+        }
+        List<Card> cardList = cardMapper.selectAll();
+        cardList = cardList.stream().filter(x -> x.getWeight() > 0 && x.getStar().compareTo(new BigDecimal(4)) < 0).collect(Collectors.toList());
+        CardPool pool = new CardPool();
+        for (Card card : cardList) {
+            pool.addCard(card);
+        }
+        Card drawnCard = pool.draw();
+        List<Characters> charactersList = charactersMapper.listById(userId, drawnCard.getId());
+        if (Xtool.isNotNull(charactersList)) {
+            Characters characters1 = charactersList.get(0);
+            characters1.setStackCount(characters1.getStackCount() + 1);
+            charactersMapper.updateByPrimaryKey(characters1);
+        } else {
+            Characters characters = new Characters();
+            characters.setStackCount(0);
+            characters.setId(drawnCard.getId());
+            characters.setLv(1);
+            characters.setUserId(Integer.parseInt(userId));
+            characters.setStar(drawnCard.getStar());
+            charactersMapper.insert(characters);
+        }
+        CardDto dto = new CardDto();
+        dto.setHero(drawnCard);
+        ValueOperations opsForValue = redisTemplate.opsForValue();
+        if (drawnCard.getStar().compareTo(new BigDecimal(3)) > 0) {
+            Date date = new Date();
+            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 魂珠召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
+        }
+        List<Characters> nowCharactersList = charactersMapper.selectByUserId(Integer.parseInt(userId));
+        dto.setCharacters(nowCharactersList);
+        //卡池数量
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        baseResp.setSuccess(1);
+        Map map = new HashMap();
+        map.put("user", info);
+        map.put("dto", dto);
+        baseResp.setData(map);
+        baseResp.setErrorMsg("单抽成功");
+        return baseResp;
+    }
+
+    @Override
     @Transactional
     public BaseResp shiChou(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
@@ -660,6 +717,8 @@ public class GameServiceServiceImpl implements GameServiceService {
 
     @Override
     public BaseResp start2(TokenDto token, HttpServletRequest request) throws Exception {
+        Integer levelUp = 0;
+        Map map = new HashMap();
         //先获取当前用户战队
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -678,6 +737,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         if (exp.compareTo(new BigDecimal(1000)) >= 0) {
             user.setLv(user.getLv().add(new BigDecimal(1)));
             user.setExp(exp.subtract(new BigDecimal(1000)));
+            levelUp = user.getLv().intValue();
         } else {
             user.setExp(exp);
         }
@@ -700,7 +760,12 @@ public class GameServiceServiceImpl implements GameServiceService {
         Integer num2 = Integer.parseInt(list.get(1));
         Integer num3 = Integer.parseInt(list.get(2));
         List<Characters> rightCharacter = new ArrayList<>();
-        Card card = cardMapper.selectByid(1);
+        // 创建Random实例
+        Random random = new Random();
+
+        // 生成1-5之间的随机整数（包含1和5）
+        int randomNumber = random.nextInt(5) + 1;
+        Card card = cardMapper.selectByid(randomNumber);
         for (int i = 0; i < 5; i++) {
             Characters characters = new Characters();
             BeanUtils.copyProperties(card, characters);
@@ -729,17 +794,49 @@ public class GameServiceServiceImpl implements GameServiceService {
                 num3 = num3 + 1;
             }
             battle.setChapter(num1 + "-" + num2 + "-" + num3);
-            if (!isCandidateGreater(battle.getChapter(),user.getChapter())){
+            if (!isCandidateGreater(battle.getChapter(), user.getChapter())) {
                 user.setChapter(battle.getChapter());
             }
+            //TODO 临时固定奖励随机奖励
+            // 定义4个物品
+            List<String> items = Arrays.asList("10000", "天兵", "20", "3000");
+
+            // 随机选择1~4个物品
+            List<String> rewards = selectRandomItems(items);
+            for (String s : rewards) {
+                if ("10000".equals(s)) {
+                    user.setGold(user.getGold().add(new BigDecimal(10000)));
+                } else if ("天兵".equals(s)) {
+                    List<Characters> charactersList = charactersMapper.listById(userId, "1003");
+                    if (Xtool.isNotNull(charactersList)) {
+                        Characters characters1 = charactersList.get(0);
+                        characters1.setStackCount(characters1.getStackCount() + 1);
+                        charactersMapper.updateByPrimaryKey(characters1);
+                    } else {
+                        Characters characters = new Characters();
+                        characters.setStackCount(0);
+                        characters.setId("1003");
+                        characters.setLv(1);
+                        characters.setUserId(Integer.parseInt(userId));
+                        characters.setStar(new BigDecimal(1));
+                        charactersMapper.insert(characters);
+                    }
+                } else if ("20".equals(s)) {
+                    user.setSoul(user.getSoul().add(new BigDecimal(20)));
+                } else if ("3000".equals(s)) {
+                    user.setGold(user.getGold().add(new BigDecimal(3000)));
+                }
+            }
+            map.put("rewards", rewards);
         }
         user.setTiliCount(user.getTiliCount() - 2);
         user.setTiliCountTime(new Date());
-        Map map = new HashMap();
-        PveDetail pveDetail2 = pveDetailMapper.selectById(user.getChapter());
+        PveDetail pveDetail2 = pveDetailMapper.selectById(battle.getChapter());
         userMapper.updateuser(user);
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(user, userInfo);
+        userInfo.setLevelUp(levelUp);
+        map.put("levelUp", levelUp);
         map.put("user", userInfo);
         map.put("battle", battle);
         map.put("pveDetail", pveDetail2);
@@ -748,7 +845,29 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
-    private  boolean isCandidateGreater(String current, String candidate) {
+    /**
+     * 从列表中随机选择1~n个物品（n为列表长度）
+     */
+    public static <T> List<T> selectRandomItems(List<T> items) {
+        if (items == null || items.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        Random random = new Random();
+        int total = items.size();
+
+        // 随机生成选择的数量（1到总数量之间）
+        int selectCount = random.nextInt(total) + 1; // 生成1~4的随机数
+
+        // 复制原列表并打乱顺序
+        List<T> shuffled = new ArrayList<>(items);
+        Collections.shuffle(shuffled, random);
+
+        // 取前selectCount个元素作为结果
+        return shuffled.subList(0, selectCount);
+    }
+
+    private boolean isCandidateGreater(String current, String candidate) {
         String[] currentParts = current.split("-");
         String[] candidateParts = candidate.split("-");
 

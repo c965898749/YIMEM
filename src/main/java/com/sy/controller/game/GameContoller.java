@@ -55,6 +55,19 @@ public class GameContoller {
             return baseResp;
         }
     }
+    @RequestMapping(value = "soulChou", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp soulChou(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.soulChou(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
 
     @RequestMapping(value = "shiChou", method = RequestMethod.POST)
     @CrossOrigin

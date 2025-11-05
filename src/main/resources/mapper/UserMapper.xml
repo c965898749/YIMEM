@@ -192,6 +192,12 @@
             <if test="chapter!=null ">
                 chapter = #{chapter},
             </if>
+            <if test="lv!=null ">
+                lv = #{lv},
+            </if>
+            <if test="soul!=null ">
+                soul = #{soul},
+            </if>
         </set>
         where userId=#{userId}
     </update>
