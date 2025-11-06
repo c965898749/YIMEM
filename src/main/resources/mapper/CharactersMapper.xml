@@ -113,6 +113,7 @@
       stack_count = #{stackCount,jdbcType=INTEGER},
       go_into_num = #{goIntoNum,jdbcType=INTEGER},
       exp = #{exp,jdbcType=INTEGER},
+      is_delete = #{isDelete},
       update_time= now()
     where uuid = #{uuid,jdbcType=INTEGER}
   </update>

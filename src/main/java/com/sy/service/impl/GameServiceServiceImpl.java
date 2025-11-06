@@ -350,8 +350,12 @@ public class GameServiceServiceImpl implements GameServiceService {
         BigDecimal sumExp = new BigDecimal(0);
         for (Characters characters : charactersList2) {
             //卡牌经验+单卡经验
-            sumExp = sumExp.add(new BigDecimal(characters.getExp())).add(new BigDecimal(5).multiply(new BigDecimal(characters.getStackCount())));
-
+            sumExp = sumExp.add(new BigDecimal(characters.getExp())).add(new BigDecimal(5));
+            if (characters.getStackCount()>0){
+                characters.setStackCount(characters.getStackCount()-1);
+            }else {
+                characters.setIsDelete("1");
+            }
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
         //银两
@@ -404,7 +408,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         userMapper.updateuser(user);
         for (Characters characters : charactersList2) {
             //并删除这些卡
-            charactersMapper.updateDelte(characters.getUuid());
+            charactersMapper.updateByPrimaryKey(characters);
         }
         charactersMapper.updateByPrimaryKey(zhuCharacters);
         baseResp.setSuccess(1);
