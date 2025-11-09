@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.GameGiftMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.GameGift">
+    <constructor>
+      <idArg column="gift_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="gift_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="gift_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="gift_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="total_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="remaining_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="start_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="is_active" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.sy.model.game.GameGift">
+    <constructor>
+      <idArg column="gift_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="gift_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="gift_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="gift_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="total_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="remaining_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="start_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="is_active" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="description" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    gift_id, gift_code, gift_name, gift_type, total_quantity, remaining_quantity, start_time, 
+    end_time, is_active, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from game_gift
+    where gift_id = #{giftId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from game_gift
+    where gift_id = #{giftId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sy.model.game.GameGift">
+    insert into game_gift (gift_id, gift_code, gift_name, 
+      gift_type, total_quantity, remaining_quantity, 
+      start_time, end_time, is_active, 
+      create_time, update_time, description
+      )
+    values (#{giftId,jdbcType=BIGINT}, #{giftCode,jdbcType=VARCHAR}, #{giftName,jdbcType=VARCHAR}, 
+      #{giftType,jdbcType=TINYINT}, #{totalQuantity,jdbcType=INTEGER}, #{remainingQuantity,jdbcType=INTEGER}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isActive,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{description,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.game.GameGift">
+    insert into game_gift
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="giftId != null">
+        gift_id,
+      </if>
+      <if test="giftCode != null">
+        gift_code,
+      </if>
+      <if test="giftName != null">
+        gift_name,
+      </if>
+      <if test="giftType != null">
+        gift_type,
+      </if>
+      <if test="totalQuantity != null">
+        total_quantity,
+      </if>
+      <if test="remainingQuantity != null">
+        remaining_quantity,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="isActive != null">
+        is_active,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="giftId != null">
+        #{giftId,jdbcType=BIGINT},
+      </if>
+      <if test="giftCode != null">
+        #{giftCode,jdbcType=VARCHAR},
+      </if>
+      <if test="giftName != null">
+        #{giftName,jdbcType=VARCHAR},
+      </if>
+      <if test="giftType != null">
+        #{giftType,jdbcType=TINYINT},
+      </if>
+      <if test="totalQuantity != null">
+        #{totalQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="remainingQuantity != null">
+        #{remainingQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isActive != null">
+        #{isActive,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.GameGift">
+    update game_gift
+    <set>
+      <if test="giftCode != null">
+        gift_code = #{giftCode,jdbcType=VARCHAR},
+      </if>
+      <if test="giftName != null">
+        gift_name = #{giftName,jdbcType=VARCHAR},
+      </if>
+      <if test="giftType != null">
+        gift_type = #{giftType,jdbcType=TINYINT},
+      </if>
+      <if test="totalQuantity != null">
+        total_quantity = #{totalQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="remainingQuantity != null">
+        remaining_quantity = #{remainingQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isActive != null">
+        is_active = #{isActive,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where gift_id = #{giftId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sy.model.game.GameGift">
+    update game_gift
+    set gift_code = #{giftCode,jdbcType=VARCHAR},
+      gift_name = #{giftName,jdbcType=VARCHAR},
+      gift_type = #{giftType,jdbcType=TINYINT},
+      total_quantity = #{totalQuantity,jdbcType=INTEGER},
+      remaining_quantity = #{remainingQuantity,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_active = #{isActive,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where gift_id = #{giftId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.model.game.GameGift">
+    update game_gift
+    set gift_code = #{giftCode,jdbcType=VARCHAR},
+      gift_name = #{giftName,jdbcType=VARCHAR},
+      gift_type = #{giftType,jdbcType=TINYINT},
+      total_quantity = #{totalQuantity,jdbcType=INTEGER},
+      remaining_quantity = #{remainingQuantity,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_active = #{isActive,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where gift_id = #{giftId,jdbcType=BIGINT}
+  </update>
+  <select id="selectValidGifts" resultType="com.sy.model.game.GameGift">
+    SELECT * FROM game_gift
+    WHERE is_active = 1
+    AND start_time &lt;= #{now}
+    AND end_time &gt;= #{now}
+    AND (remaining_quantity = -1 OR remaining_quantity > 0)
+  </select>
+
+  <select id="selectByGiftCode" resultType="com.sy.model.game.GameGift">
+    SELECT * FROM game_gift
+    WHERE is_active = 1 and gift_code = #{giftCode} limit 1
+  </select>
+</mapper>

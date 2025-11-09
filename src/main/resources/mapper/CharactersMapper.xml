@@ -12,7 +12,7 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    uuid, user_id, id, lv, stack_count,go_into_num,exp,max_lv
+    uuid, user_id, id, lv, stack_count,go_into_num,exp,is_delete,max_lv
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -137,6 +137,7 @@
     cd.speed_growth,
     cd.passive_introduce_one,
     cd.passive_introduce_two,
+    cs.is_delete,
     cd.passive_introduce_three
     from   characters cs
     left  join card cd on cd.id=cs.id
@@ -152,7 +153,7 @@
     cs.stack_count,
     cs.go_into_num,
     cs.exp,
-     cs.max_lv,
+    cs.max_lv,
     cd.name,
     cd.camp,
     cd.hp_growth,
@@ -162,10 +163,11 @@
     cd.speed_growth,
     cd.passive_introduce_one,
     cd.passive_introduce_two,
+    cs.is_delete,
     cd.passive_introduce_three
     from   characters cs
     left  join card cd on cd.id=cs.id
-    where cs.user_id = #{userId} and   cs.id = #{id} and cs.is_delete='0'
+    where cs.user_id = #{userId} and   cs.id = #{id} and cs.is_delete='0' limit 1
   </select>
 
 
@@ -187,6 +189,7 @@
     cd.defence_growth,
     cd.pierce_growth,
     cd.speed_growth,
+    cs.is_delete,
     cd.passive_introduce_one,
     cd.passive_introduce_two,
     cd.passive_introduce_three
@@ -213,6 +216,7 @@
     cd.defence_growth,
     cd.pierce_growth,
     cd.speed_growth,
+    cs.is_delete,
     cd.passive_introduce_one,
     cd.passive_introduce_two,
     cd.passive_introduce_three

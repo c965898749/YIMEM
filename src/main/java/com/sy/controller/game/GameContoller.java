@@ -1,6 +1,8 @@
 package com.sy.controller.game;
 
 import com.sy.model.User;
+import com.sy.model.game.GiftListItemVO;
+import com.sy.model.game.LevelUpResult;
 import com.sy.model.game.TokenDto;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.GameServiceService;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 public class GameContoller {
@@ -110,6 +113,20 @@ public class GameContoller {
             return baseResp;
         }
     }
+    @RequestMapping(value = "cardLevelUp2", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp cardLevelUp2(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.cardLevelUp2(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
 
     @RequestMapping(value = "changeState", method = RequestMethod.POST)
     @CrossOrigin
@@ -153,6 +170,35 @@ public class GameContoller {
             return baseResp;
         }
     }
+    @PostMapping("ranking")
+    @CrossOrigin
+    public BaseResp ranking(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.ranking(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    @PostMapping("ranking100")
+    @CrossOrigin
+    public BaseResp ranking100(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.ranking100(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+
 
     @PostMapping("battle2")
     @CrossOrigin
@@ -183,12 +229,81 @@ public class GameContoller {
         }
     }
 
+    @PostMapping("messageList")
+    @CrossOrigin
+    public BaseResp messageList(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.messageList(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    @PostMapping("receive")
+    @CrossOrigin
+    public BaseResp receive(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.receive(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    @PostMapping("checkHechen")
+    @CrossOrigin
+    public BaseResp checkHechen(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.checkHechen(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    @PostMapping("findHechenCard")
+    @CrossOrigin
+    public BaseResp findHechenCard(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.findHechenCard(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+
     @PostMapping("playBattle")
     @CrossOrigin
     public BaseResp playBattle(@RequestBody TokenDto token, HttpServletRequest request) {
         BaseResp baseResp = new BaseResp();
         try {
             baseResp = gameServiceService.playBattle(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    @PostMapping("tuPuhenchenList")
+    @CrossOrigin
+    public BaseResp tuPuhenchenList(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.tuPuhenchenList(token, request);
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();

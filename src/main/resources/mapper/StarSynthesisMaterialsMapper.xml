@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.StarSynthesisMaterialsMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.StarSynthesisMaterials">
+    <constructor>
+      <arg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="synthesis_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="material_star" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="material_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="material_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <insert id="insert" parameterType="com.sy.model.game.StarSynthesisMaterials">
+    insert into star_synthesis_materials (id, synthesis_id, material_star, 
+      material_quantity, material_type, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{synthesisId,jdbcType=INTEGER}, #{materialStar,jdbcType=INTEGER}, 
+      #{materialQuantity,jdbcType=INTEGER}, #{materialType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.game.StarSynthesisMaterials">
+    insert into star_synthesis_materials
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="synthesisId != null">
+        synthesis_id,
+      </if>
+      <if test="materialStar != null">
+        material_star,
+      </if>
+      <if test="materialQuantity != null">
+        material_quantity,
+      </if>
+      <if test="materialType != null">
+        material_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="synthesisId != null">
+        #{synthesisId,jdbcType=INTEGER},
+      </if>
+      <if test="materialStar != null">
+        #{materialStar,jdbcType=INTEGER},
+      </if>
+      <if test="materialQuantity != null">
+        #{materialQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="materialType != null">
+        #{materialType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectall" resultType="com.sy.model.game.StarSynthesisMaterials">
+    select * from star_synthesis_materials where synthesis_id=#{synthesisId}
+  </select>
+</mapper>

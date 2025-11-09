@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.GameGiftContentMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.GameGiftContent">
+    <constructor>
+      <idArg column="content_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="gift_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="item_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="item_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="item_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    content_id, gift_id, item_type, item_id, item_quantity, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from game_gift_content
+    where content_id = #{contentId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from game_gift_content
+    where content_id = #{contentId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sy.model.game.GameGiftContent">
+    insert into game_gift_content (content_id, gift_id, item_type, 
+      item_id, item_quantity, create_time
+      )
+    values (#{contentId,jdbcType=BIGINT}, #{giftId,jdbcType=BIGINT}, #{itemType,jdbcType=TINYINT}, 
+      #{itemId,jdbcType=BIGINT}, #{itemQuantity,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.game.GameGiftContent">
+    insert into game_gift_content
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="contentId != null">
+        content_id,
+      </if>
+      <if test="giftId != null">
+        gift_id,
+      </if>
+      <if test="itemType != null">
+        item_type,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="itemQuantity != null">
+        item_quantity,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="contentId != null">
+        #{contentId,jdbcType=BIGINT},
+      </if>
+      <if test="giftId != null">
+        #{giftId,jdbcType=BIGINT},
+      </if>
+      <if test="itemType != null">
+        #{itemType,jdbcType=TINYINT},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="itemQuantity != null">
+        #{itemQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.GameGiftContent">
+    update game_gift_content
+    <set>
+      <if test="giftId != null">
+        gift_id = #{giftId,jdbcType=BIGINT},
+      </if>
+      <if test="itemType != null">
+        item_type = #{itemType,jdbcType=TINYINT},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="itemQuantity != null">
+        item_quantity = #{itemQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where content_id = #{contentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.model.game.GameGiftContent">
+    update game_gift_content
+    set gift_id = #{giftId,jdbcType=BIGINT},
+      item_type = #{itemType,jdbcType=TINYINT},
+      item_id = #{itemId,jdbcType=BIGINT},
+      item_quantity = #{itemQuantity,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where content_id = #{contentId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByGiftId" resultType="com.sy.model.game.GameGiftContent">
+    select * from game_gift_content where gift_id = #{giftId}
+  </select>
+</mapper>

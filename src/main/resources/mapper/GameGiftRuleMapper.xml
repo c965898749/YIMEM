@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.GameGiftRuleMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.GameGiftRule">
+    <constructor>
+      <idArg column="rule_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="gift_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="min_level" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="max_level" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="is_new_user" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="max_get_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="platform_limit" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    rule_id, gift_id, min_level, max_level, is_new_user, max_get_count, platform_limit, 
+    create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from game_gift_rule
+    where rule_id = #{ruleId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from game_gift_rule
+    where rule_id = #{ruleId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sy.model.game.GameGiftRule">
+    insert into game_gift_rule (rule_id, gift_id, min_level, 
+      max_level, is_new_user, max_get_count, 
+      platform_limit, create_time)
+    values (#{ruleId,jdbcType=BIGINT}, #{giftId,jdbcType=BIGINT}, #{minLevel,jdbcType=INTEGER}, 
+      #{maxLevel,jdbcType=INTEGER}, #{isNewUser,jdbcType=TINYINT}, #{maxGetCount,jdbcType=INTEGER}, 
+      #{platformLimit,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.game.GameGiftRule">
+    insert into game_gift_rule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ruleId != null">
+        rule_id,
+      </if>
+      <if test="giftId != null">
+        gift_id,
+      </if>
+      <if test="minLevel != null">
+        min_level,
+      </if>
+      <if test="maxLevel != null">
+        max_level,
+      </if>
+      <if test="isNewUser != null">
+        is_new_user,
+      </if>
+      <if test="maxGetCount != null">
+        max_get_count,
+      </if>
+      <if test="platformLimit != null">
+        platform_limit,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ruleId != null">
+        #{ruleId,jdbcType=BIGINT},
+      </if>
+      <if test="giftId != null">
+        #{giftId,jdbcType=BIGINT},
+      </if>
+      <if test="minLevel != null">
+        #{minLevel,jdbcType=INTEGER},
+      </if>
+      <if test="maxLevel != null">
+        #{maxLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isNewUser != null">
+        #{isNewUser,jdbcType=TINYINT},
+      </if>
+      <if test="maxGetCount != null">
+        #{maxGetCount,jdbcType=INTEGER},
+      </if>
+      <if test="platformLimit != null">
+        #{platformLimit,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.GameGiftRule">
+    update game_gift_rule
+    <set>
+      <if test="giftId != null">
+        gift_id = #{giftId,jdbcType=BIGINT},
+      </if>
+      <if test="minLevel != null">
+        min_level = #{minLevel,jdbcType=INTEGER},
+      </if>
+      <if test="maxLevel != null">
+        max_level = #{maxLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isNewUser != null">
+        is_new_user = #{isNewUser,jdbcType=TINYINT},
+      </if>
+      <if test="maxGetCount != null">
+        max_get_count = #{maxGetCount,jdbcType=INTEGER},
+      </if>
+      <if test="platformLimit != null">
+        platform_limit = #{platformLimit,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where rule_id = #{ruleId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.model.game.GameGiftRule">
+    update game_gift_rule
+    set gift_id = #{giftId,jdbcType=BIGINT},
+      min_level = #{minLevel,jdbcType=INTEGER},
+      max_level = #{maxLevel,jdbcType=INTEGER},
+      is_new_user = #{isNewUser,jdbcType=TINYINT},
+      max_get_count = #{maxGetCount,jdbcType=INTEGER},
+      platform_limit = #{platformLimit,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where rule_id = #{ruleId,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByGiftId" resultType="com.sy.model.game.GameGiftRule">
+        select * from game_gift_rule where gift_id = #{giftId}
+  </select>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.StarSynthesisMainMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.StarSynthesisMain">
+    <constructor>
+      <arg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="target_star" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="success_probability" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="fail_penalty" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="extra_item_required" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="extra_cost" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="unlock_condition" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <insert id="insert" parameterType="com.sy.model.game.StarSynthesisMain">
+    insert into star_synthesis_main (id, target_star, success_probability, 
+      fail_penalty, extra_item_required, extra_cost, 
+      unlock_condition, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{targetStar,jdbcType=INTEGER}, #{successProbability,jdbcType=DECIMAL}, 
+      #{failPenalty,jdbcType=VARCHAR}, #{extraItemRequired,jdbcType=VARCHAR}, #{extraCost,jdbcType=DECIMAL}, 
+      #{unlockCondition,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.game.StarSynthesisMain">
+    insert into star_synthesis_main
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="targetStar != null">
+        target_star,
+      </if>
+      <if test="successProbability != null">
+        success_probability,
+      </if>
+      <if test="failPenalty != null">
+        fail_penalty,
+      </if>
+      <if test="extraItemRequired != null">
+        extra_item_required,
+      </if>
+      <if test="extraCost != null">
+        extra_cost,
+      </if>
+      <if test="unlockCondition != null">
+        unlock_condition,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="targetStar != null">
+        #{targetStar,jdbcType=INTEGER},
+      </if>
+      <if test="successProbability != null">
+        #{successProbability,jdbcType=DECIMAL},
+      </if>
+      <if test="failPenalty != null">
+        #{failPenalty,jdbcType=VARCHAR},
+      </if>
+      <if test="extraItemRequired != null">
+        #{extraItemRequired,jdbcType=VARCHAR},
+      </if>
+      <if test="extraCost != null">
+        #{extraCost,jdbcType=DECIMAL},
+      </if>
+      <if test="unlockCondition != null">
+        #{unlockCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectAll">
+    select * from star_synthesis_main
+  </select>
+</mapper>

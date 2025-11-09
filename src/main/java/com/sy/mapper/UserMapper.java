@@ -179,4 +179,9 @@ public interface UserMapper {
     User getUserByopenid(@Param("openid") String openid);
 //    解除微信绑定
     Integer delUserByopenid(@Param("openid")String openid);
+
+    User getMyRankig(@Param("userId")String userId);
+    List<User> getMyRankig100();
+
+    List<User> findByUserIds(List<Integer> userIds);
 }

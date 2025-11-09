@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.GameGiftExchangeCodeMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.GameGiftExchangeCode">
+    <constructor>
+      <idArg column="exchange_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="gift_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="exchange_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="is_used" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="use_user_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="use_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    exchange_id, gift_id, exchange_code, is_used, use_user_id, use_time, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from game_gift_exchange_code
+    where exchange_id = #{exchangeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from game_gift_exchange_code
+    where exchange_id = #{exchangeId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sy.model.game.GameGiftExchangeCode">
+    insert into game_gift_exchange_code (exchange_id, gift_id, exchange_code, 
+      is_used, use_user_id, use_time, 
+      create_time)
+    values (#{exchangeId,jdbcType=BIGINT}, #{giftId,jdbcType=BIGINT}, #{exchangeCode,jdbcType=VARCHAR}, 
+      #{isUsed,jdbcType=TINYINT}, #{useUserId,jdbcType=BIGINT}, #{useTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.game.GameGiftExchangeCode">
+    insert into game_gift_exchange_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="exchangeId != null">
+        exchange_id,
+      </if>
+      <if test="giftId != null">
+        gift_id,
+      </if>
+      <if test="exchangeCode != null">
+        exchange_code,
+      </if>
+      <if test="isUsed != null">
+        is_used,
+      </if>
+      <if test="useUserId != null">
+        use_user_id,
+      </if>
+      <if test="useTime != null">
+        use_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="exchangeId != null">
+        #{exchangeId,jdbcType=BIGINT},
+      </if>
+      <if test="giftId != null">
+        #{giftId,jdbcType=BIGINT},
+      </if>
+      <if test="exchangeCode != null">
+        #{exchangeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsed != null">
+        #{isUsed,jdbcType=TINYINT},
+      </if>
+      <if test="useUserId != null">
+        #{useUserId,jdbcType=BIGINT},
+      </if>
+      <if test="useTime != null">
+        #{useTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.GameGiftExchangeCode">
+    update game_gift_exchange_code
+    <set>
+      <if test="giftId != null">
+        gift_id = #{giftId,jdbcType=BIGINT},
+      </if>
+      <if test="exchangeCode != null">
+        exchange_code = #{exchangeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsed != null">
+        is_used = #{isUsed,jdbcType=TINYINT},
+      </if>
+      <if test="useUserId != null">
+        use_user_id = #{useUserId,jdbcType=BIGINT},
+      </if>
+      <if test="useTime != null">
+        use_time = #{useTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where exchange_id = #{exchangeId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.model.game.GameGiftExchangeCode">
+    update game_gift_exchange_code
+    set gift_id = #{giftId,jdbcType=BIGINT},
+      exchange_code = #{exchangeCode,jdbcType=VARCHAR},
+      is_used = #{isUsed,jdbcType=TINYINT},
+      use_user_id = #{useUserId,jdbcType=BIGINT},
+      use_time = #{useTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where exchange_id = #{exchangeId,jdbcType=BIGINT}
+  </update>
+</mapper>

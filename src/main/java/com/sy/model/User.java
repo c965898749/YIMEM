@@ -89,4 +89,7 @@ public class User {
     private Date tiliCountTime;
     //20251103
     private String chapter;
+    //20251109
+    private Integer huoliCount;
+    private Date huoliCountTime;
 }

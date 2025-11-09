@@ -1,6 +1,8 @@
 package com.sy.model.game;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -23,4 +25,8 @@ public class GameFight {
     private Date createtime;
 
     private Integer isWin;//0赢1输
+
+    private String img;
+
+    private String timeStr;
 }

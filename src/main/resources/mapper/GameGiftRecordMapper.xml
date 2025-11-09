@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.GameGiftRecordMapper">
+    <resultMap id="BaseResultMap" type="com.sy.model.game.GameGiftRecord">
+        <constructor>
+            <idArg column="record_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="user_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="gift_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="gift_code" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="get_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="fail_reason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="platform" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="ip_address" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    record_id, user_id, gift_id, gift_code, get_time, status, fail_reason, platform, 
+    ip_address
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from game_gift_record
+        where record_id = #{recordId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from game_gift_record
+    where record_id = #{recordId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.sy.model.game.GameGiftRecord">
+    insert into game_gift_record (record_id, user_id, gift_id, 
+      gift_code, get_time, status, 
+      fail_reason, platform, ip_address
+      )
+    values (#{recordId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{giftId,jdbcType=BIGINT}, 
+      #{giftCode,jdbcType=VARCHAR}, #{getTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
+      #{failReason,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR}, #{ipAddress,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.sy.model.game.GameGiftRecord">
+        insert into game_gift_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">
+                record_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="giftId != null">
+                gift_id,
+            </if>
+            <if test="giftCode != null">
+                gift_code,
+            </if>
+            <if test="getTime != null">
+                get_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="failReason != null">
+                fail_reason,
+            </if>
+            <if test="platform != null">
+                platform,
+            </if>
+            <if test="ipAddress != null">
+                ip_address,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">
+                #{recordId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="giftId != null">
+                #{giftId,jdbcType=BIGINT},
+            </if>
+            <if test="giftCode != null">
+                #{giftCode,jdbcType=VARCHAR},
+            </if>
+            <if test="getTime != null">
+                #{getTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="failReason != null">
+                #{failReason,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null">
+                #{platform,jdbcType=VARCHAR},
+            </if>
+            <if test="ipAddress != null">
+                #{ipAddress,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.GameGiftRecord">
+        update game_gift_record
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="giftId != null">
+                gift_id = #{giftId,jdbcType=BIGINT},
+            </if>
+            <if test="giftCode != null">
+                gift_code = #{giftCode,jdbcType=VARCHAR},
+            </if>
+            <if test="getTime != null">
+                get_time = #{getTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="failReason != null">
+                fail_reason = #{failReason,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null">
+                platform = #{platform,jdbcType=VARCHAR},
+            </if>
+            <if test="ipAddress != null">
+                ip_address = #{ipAddress,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where record_id = #{recordId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sy.model.game.GameGiftRecord">
+    update game_gift_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      gift_id = #{giftId,jdbcType=BIGINT},
+      gift_code = #{giftCode,jdbcType=VARCHAR},
+      get_time = #{getTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+      fail_reason = #{failReason,jdbcType=VARCHAR},
+      platform = #{platform,jdbcType=VARCHAR},
+      ip_address = #{ipAddress,jdbcType=VARCHAR}
+    where record_id = #{recordId,jdbcType=BIGINT}
+  </update>
+
+    <select id="countByUserIdAndGiftId" resultType="java.lang.Integer">
+            SELECT COUNT(*) FROM game_gift_record
+            WHERE user_id = #{userId} AND gift_id = #{giftId} AND status = 1
+  </select>
+</mapper>

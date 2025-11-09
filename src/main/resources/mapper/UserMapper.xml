@@ -169,13 +169,13 @@
                 diamond=#{diamond},
             </if>
             <if test="signCount!=null ">
-            sign_count = #{signCount},
+                sign_count = #{signCount},
             </if>
             <if test="signTime!=null ">
-            sign_time = #{signTime},
+                sign_time = #{signTime},
             </if>
             <if test="gold!=null ">
-            gold = #{gold},
+                gold = #{gold},
             </if>
             <if test="gameImg!=null ">
                 game_img = #{gameImg},
@@ -197,6 +197,15 @@
             </if>
             <if test="soul!=null ">
                 soul = #{soul},
+            </if>
+            <if test="winCount!=null ">
+                win_count = #{winCount},
+            </if>
+            <if test="huoliCount!=null ">
+                huoli_count = #{huoliCount},
+            </if>
+            <if test="huoliCountTime!=null ">
+                huoli_count_time = #{huoliCountTime},
             </if>
         </set>
         where userId=#{userId}
@@ -306,7 +315,6 @@
     </select>
 
 
-
     <!-- 根据Id删除用户 -->
     <delete id="deleteUser" parameterType="com.sy.model.User">
 		delete from user where userId = #{userId}
@@ -353,8 +361,6 @@
         </set>
         where id = #{id}
     </update>
-
-
 
 
     <!-- 更新用户的图片信息 -->
@@ -419,9 +425,27 @@
     <select id="getUserByopenid" resultType="com.sy.model.User" parameterType="java.lang.String">
   select * from user where openid = #{openid}
     </select>
-  <!--解除微信绑定-->
+    <!--解除微信绑定-->
     <update id="delUserByopenid" parameterType="com.sy.model.User">
 		update user set openid = '0' where openid = #{openid}
 	</update>
 
+    <select id="getMyRankig" resultType="com.sy.model.User">
+        SELECT
+          win_count,
+          RANK() OVER (ORDER BY win_count DESC) AS game_ranking
+        FROM `user`
+        WHERE userId = #{userId}
+    </select>
+    <select id="getMyRankig100" resultType="com.sy.model.User">
+        SELECT
+          win_count,
+            nickname,
+            lv,
+            game_img,
+          RANK() OVER (ORDER BY win_count DESC) AS game_ranking
+        FROM `user`
+        order by game_ranking asc
+        limit 100
+    </select>
 </mapper>

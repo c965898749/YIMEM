@@ -1,70 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sy.mapper.game.GameFightMapper">
-  <resultMap id="BaseResultMap" type="com.sy.model.game.GameFight">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="to_user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.sy.model.game.GameFight">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="to_user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, user_id, to_user_id
   </sql>
-  <select id="selectByPrimaryKey"  resultType="com.sy.model.game.GameFight">
+    <select id="selectByPrimaryKey" resultType="com.sy.model.game.GameFight">
     select 
    *
     from game_fight
     where id = #{id}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectAll" resultType="com.sy.model.game.GameFight">
+    select
+    id,
+    user_id,
+    to_user_id,
+    user_name,
+    to_user_name,
+    `type`,
+    createtime,
+    is_win,
+    img
+    from game_fight
+    where user_id = #{userId} or to_user_id = #{userId} order by createtime desc limit 100
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from game_fight
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.sy.model.game.GameFight">
-    insert into game_fight (id, user_id, to_user_id,fightter,user_name,to_user_name,type,createtime,is_win
+    <insert id="insert" parameterType="com.sy.model.game.GameFight">
+    insert into game_fight (id, user_id, to_user_id,fightter,user_name,to_user_name,type,createtime,is_win,img
       )
-    values (#{id}, #{userId}, #{toUserId}, #{fightter}, #{userName}, #{toUserName}, #{type},now(),#{isWin}
+    values (#{id}, #{userId}, #{toUserId}, #{fightter}, #{userName}, #{toUserName}, #{type},now(),#{isWin},#{img}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.sy.model.game.GameFight">
-    insert into game_fight
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="toUserId != null">
-        to_user_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="toUserId != null">
-        #{toUserId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.GameFight">
-    update game_fight
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="toUserId != null">
-        to_user_id = #{toUserId,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.sy.model.game.GameFight">
+    <insert id="insertSelective" parameterType="com.sy.model.game.GameFight">
+        insert into game_fight
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="toUserId != null">
+                to_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="toUserId != null">
+                #{toUserId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.GameFight">
+        update game_fight
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="toUserId != null">
+                to_user_id = #{toUserId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sy.model.game.GameFight">
     update game_fight
     set user_id = #{userId,jdbcType=INTEGER},
       to_user_id = #{toUserId,jdbcType=INTEGER}

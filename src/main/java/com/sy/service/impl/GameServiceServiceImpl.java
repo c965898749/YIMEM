@@ -1,7 +1,6 @@
 package com.sy.service.impl;
 
 import cn.hutool.core.util.IdUtil;
-import com.sy.expection.CsdnExpection;
 import com.sy.mapper.game.*;
 import com.sy.mapper.UserMapper;
 import com.sy.model.User;
@@ -10,6 +9,7 @@ import com.sy.model.game.Character;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.GameServiceService;
 import com.sy.service.UserServic;
+import com.sy.tool.Constants;
 import com.sy.tool.JsonUtils;
 import com.sy.tool.Xtool;
 import org.springframework.beans.BeanUtils;
@@ -19,14 +19,18 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -49,6 +53,18 @@ public class GameServiceServiceImpl implements GameServiceService {
     UserServic servic;
     @Autowired
     private PveDetailMapper pveDetailMapper;
+    @Autowired
+    private GameGiftMapper gameGiftMapper;
+    @Autowired
+    private GameGiftContentMapper gameGiftContentMapper;
+    @Autowired
+    private GameGiftRecordMapper gameGiftRecordMapper;
+    @Autowired
+    private GameGiftRuleMapper gameGiftRuleMapper;
+    @Autowired
+    private StarSynthesisMainMapper starSynthesisMainMapper;
+    @Autowired
+    private StarSynthesisMaterialsMapper starSynthesisMaterialsMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -145,6 +161,29 @@ public class GameServiceServiceImpl implements GameServiceService {
             user.setTiliCount(stamina);
             user.setTiliCountTime(new Date());
         }
+        if (user.getHuoliCountTime() == null) {
+            user.setHuoliCount(720);
+            user.setHuoliCountTime(new Date());
+        } else {
+            LocalDateTime now = LocalDateTime.now();
+            // 计算上次更新到现在的时间差（分钟）
+            LocalDateTime lastStaminaUpdateTime = user.getHuoliCountTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+            long minutesPassed = Duration.between(lastStaminaUpdateTime, now).toMinutes();
+
+            // 计算可恢复的体力值（每10分钟1点）
+            int recoverStamina = (int) (minutesPassed / RECOVER_INTERVAL_MINUTES);
+
+            // 更新体力（不超过最大值）
+            int newStamina = Math.min(stamina + recoverStamina, MAX_STAMINA);
+
+            // 只有体力有变化时才更新时间（优化处理）
+            if (newStamina != stamina) {
+                stamina = newStamina;
+            }
+            user.setHuoliCount(stamina);
+            user.setHuoliCountTime(new Date());
+        }
         userMapper.updateuser(user);
     }
 
@@ -225,13 +264,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        List<Characters> charactersList = charactersMapper.listById(userId, token.getId());
-        if (Xtool.isNull(charactersList)) {
+        Characters characters = charactersMapper.listById(userId, token.getId());
+        if (characters == null) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("卡牌不存在");
             return baseResp;
         }
-        Characters characters = charactersList.get(0);
         if (characters.getGoIntoNum() != 0) {
             characters.setGoIntoNum(0);
             this.charactersMapper.updateByPrimaryKey(characters);
@@ -301,122 +339,189 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
+
+    /**
+     * 构造函数
+     *
+     * @param experienceTable 升级经验表（index为当前等级，value为升级到下一级所需经验）
+     * @param silverTable     升级银两消耗表（index为当前等级，value为升级到下一级所需银两）
+     * @param maxLevel        最高等级限制（不能超过此等级）
+    //     */
+//    public GameServiceServiceImpl(int[] experienceTable, int[] silverTable, int maxLevel) {
+//        // 验证参数合法性
+//        if (experienceTable == null || experienceTable.length == 0) {
+//            throw new IllegalArgumentException("经验表不能为空");
+//        }
+//        if (silverTable == null || silverTable.length == 0) {
+//            throw new IllegalArgumentException("银两消耗表不能为空");
+//        }
+//        if (experienceTable.length != silverTable.length) {
+//            throw new IllegalArgumentException("经验表和银两消耗表长度必须一致");
+//        }
+//        if (maxLevel <= 0) {
+//            throw new IllegalArgumentException("最高等级必须大于0");
+//        }
+//        if (experienceTable.length < maxLevel) {
+//            throw new IllegalArgumentException("经验表长度不足，无法支持到最高等级" + maxLevel);
+//        }
+//        this.experienceTable = experienceTable;
+//        this.silverTable = silverTable;
+//        this.maxLevel = maxLevel;
+//    }
+
+    /**
+     * 计算主卡使用材料卡后能升级到的等级、剩余经验及消耗的银两
+     *
+     * @param mainCardLevel 主卡当前等级（不能超过最高等级）
+     * @param mainCardExp   主卡当前等级的经验值
+     * @param materialCards 材料卡列表
+     * @return 包含最终等级、剩余经验和总消耗银两的结果对象
+     */
+    public LevelUpResult calculateLevelUp(int mainCardLevel, int mainCardExp, List<MaterialCard> materialCards, List<Integer> expTable, List<Integer> silverTable, Integer maxLevel, String id, String str) {
+
+        // 验证主卡参数
+        if (mainCardLevel < 1) {
+            throw new IllegalArgumentException("主卡等级不能小于1");
+        }
+        if (mainCardLevel > maxLevel) {
+            throw new IllegalArgumentException("主卡等级不能超过最高等级" + maxLevel);
+        }
+        if (mainCardExp < 0) {
+            throw new IllegalArgumentException("经验值不能为负数");
+        }
+
+        // 计算材料卡总经验
+        int totalMaterialExp = 0;
+        if (materialCards != null) {
+            for (MaterialCard card : materialCards) {
+                if (card.getExperience() < 0) {
+                    throw new IllegalArgumentException("材料卡经验值不能为负数");
+                }
+                totalMaterialExp += card.getExperience();
+            }
+        }
+
+        // 初始化计算参数
+        int currentLevelExp = mainCardExp;  // 当前等级的经验
+        int currentLevel = mainCardLevel;   // 当前等级
+        int remainingExp = totalMaterialExp; // 剩余可分配经验
+        int totalSilverSpent = 0;           // 总消耗银两（整级升级部分）
+        double partialSilver = 0;           // 部分升级的银两消耗
+
+        // 循环升级直到经验不足或达到最高等级
+        while (remainingExp > 0 && currentLevel < maxLevel) {
+            int requiredExp = expTable.get(currentLevel);
+            int requiredSilver = silverTable.get(currentLevel);
+
+            if (currentLevelExp + remainingExp < requiredExp) {
+                // 经验不足一整级，计算部分升级的银两消耗
+                int totalGainedExp = currentLevelExp + remainingExp;
+                // 按经验比例计算银两消耗（保留两位小数）
+                partialSilver = (double) totalGainedExp / requiredExp * requiredSilver;
+                currentLevelExp = totalGainedExp;
+                remainingExp = 0;
+            } else {
+                // 完成整级升级，消耗全额银两
+                totalSilverSpent += requiredSilver;
+                remainingExp -= (requiredExp - currentLevelExp);
+                currentLevel++;
+                currentLevelExp = 0; // 升级后经验清零
+                partialSilver = 0;   // 重置部分银两（进入下一级）
+            }
+        }
+
+        // 达到最高等级后，剩余经验全部保留（不消耗银两）
+        if (currentLevel >= maxLevel) {
+            currentLevelExp += remainingExp;
+            remainingExp = 0;
+            partialSilver = 0;
+        }
+
+        // 总银两消耗 = 整级消耗 + 部分消耗（四舍五入保留整数）
+        int totalSilver = totalSilverSpent + (int) Math.round(partialSilver);
+
+
+        return new LevelUpResult(currentLevel, currentLevelExp, totalSilver, id, str);
+    }
+
+    // 材料卡类
+    public static class MaterialCard {
+        private final int level;
+        private final int experience;
+
+        public MaterialCard(int level, int experience) {
+            this.level = level;
+            this.experience = experience;
+        }
+
+        public int getLevel() {
+            return level;
+        }
+
+        public int getExperience() {
+            return experience;
+        }
+    }
+
+
     @Override
     @Transactional
     public BaseResp cardLevelUp(TokenDto token, HttpServletRequest request) throws Exception {
-        BaseResp baseResp = new BaseResp();
-        if (token == null || Xtool.isNull(token.getToken())) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("登录过期");
-            return baseResp;
-        }
-        String userId = token.getUserId();
-//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
-//        if (Xtool.isNull(userId)) {
-//            baseResp.setSuccess(0);
-//            baseResp.setErrorMsg("登录过期");
-//            return baseResp;
-//        }
-        if (Xtool.isNull(token.getId())) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("卡牌不存在");
-            return baseResp;
-        }
-        List<Characters> charactersList = charactersMapper.listById(userId, token.getId());
-        if (Xtool.isNull(charactersList)) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("卡牌不存在");
-            return baseResp;
-        }
-
-        if (Xtool.isNull(token.getStr())) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("卡牌不存在");
-            return baseResp;
+        Characters character = charactersMapper.listById(token.getUserId(), token.getId());
+        List<QqCardExp> qqCardExpList = qqCardExpMapper.findbyStar(character.getStar().stripTrailingZeros() + "");
+        List<Integer> expTable = new ArrayList<>();
+        List<Integer> silverTable = new ArrayList<>();
+        List<MaterialCard> materials = new ArrayList<>();
+        for (QqCardExp qqCardExp : qqCardExpList) {
+            expTable.add(qqCardExp.getUpgradeExp());
+            silverTable.add(qqCardExp.getGold());
         }
         List<String> ids = Arrays.asList(token.getStr().split(","));
-        ;
-        List<Characters> charactersList2 = new ArrayList<>();
+        List<Characters> charactersList = new ArrayList<>();
         for (String id : ids) {
-            List<Characters> charactersLists = charactersMapper.listById(userId, id);
-            if (Xtool.isNull(charactersLists)) {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("卡牌不存在");
-                return baseResp;
-            }
-            charactersList2.addAll(charactersLists);
+            Characters characterCong = charactersMapper.listById(token.getUserId(), id);
+            charactersList.add(characterCong);
+            materials.add(new MaterialCard(characterCong.getLv(), characterCong.getExp()));
         }
-        //获取总经验
-        BigDecimal sumExp = new BigDecimal(0);
-        for (Characters characters : charactersList2) {
-            //卡牌经验+单卡经验
-            sumExp = sumExp.add(new BigDecimal(characters.getExp())).add(new BigDecimal(5));
-            if (characters.getStackCount()>0){
-                characters.setStackCount(characters.getStackCount()-1);
-            }else {
+        int maxLevel = character.getMaxLv(); // 最高等级5级
+        // 主卡：当前2级，已有30经验
+        int mainLevel = character.getLv();
+        int mainExp = character.getExp();
+
+        LevelUpResult result = this.calculateLevelUp(mainLevel, mainExp, materials, expTable, silverTable, maxLevel, token.getId(), token.getStr());
+        BaseResp baseResp = new BaseResp();
+        baseResp.setSuccess(1);
+        baseResp.setData(result);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp cardLevelUp2(TokenDto token, HttpServletRequest request) throws Exception {
+        List<String> ids = Arrays.asList(token.getStr().split(","));
+        for (String id : ids) {
+            Characters characters = charactersMapper.listById(token.getUserId(), id);
+            if (characters.getStackCount() > 0) {
+                characters.setStackCount(characters.getStackCount() - 1);
+                characters.setExp(5);
+            } else {
                 characters.setIsDelete("1");
             }
-        }
-        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
-        //银两
-        BigDecimal gold = user.getGold();
-        if (gold.compareTo(BigDecimal.ZERO) < 0) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("银两不足");
-            return baseResp;
-        }
-        //TODO 获取主卡
-        Characters zhuCharacters = charactersList.get(0);
-        //最大等级
-        Integer maxLv = zhuCharacters.getMaxLv();
-//        //当前等级
-//        Integer lv=zhuCharacters.getLv();
-        //累加到主卡
-        BigDecimal zhuEpx = new BigDecimal(zhuCharacters.getExp()).add(sumExp);
-        zhuCharacters.setExp(Integer.parseInt(zhuEpx.toString()));
-        //根据技能表推断升级情况
-        List<QqCardExp> qqCardExpList = qqCardExpMapper.findbyStar(zhuCharacters.getStar().stripTrailingZeros() + "");
-        for (QqCardExp qqCardExp : qqCardExpList) {
-            if (qqCardExp.getLevel() + 1 >= maxLv) {
-                zhuCharacters.setLv(maxLv);
-                break;
-            }
-            zhuEpx = zhuEpx.subtract(new BigDecimal(qqCardExp.getUpgradeExp()));
-            if (zhuEpx.compareTo(BigDecimal.ZERO) == 0) {
-                zhuCharacters.setLv(qqCardExp.getLevel() + 1);
-                break;
-            } else if (zhuEpx.compareTo(BigDecimal.ZERO) < 0) {
-                zhuCharacters.setLv(qqCardExp.getLevel());
-                break;
-            }
-            gold = gold.subtract(new BigDecimal(qqCardExp.getGold()));
-
-
-        }
-        //判断银两是否充足
-        if (gold.compareTo(BigDecimal.ZERO) < 0) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("强化还需银两" + gold.multiply(new BigDecimal("-1")));
-            return baseResp;
-        }
-        if (user.getLv().compareTo(new BigDecimal(zhuCharacters.getLv()).multiply(new BigDecimal(2))) < 0) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("强化等级不得超过人物等级2倍");
-            return baseResp;
-        }
-        user.setGold(gold);
-        userMapper.updateuser(user);
-        for (Characters characters : charactersList2) {
-            //并删除这些卡
             charactersMapper.updateByPrimaryKey(characters);
         }
-        charactersMapper.updateByPrimaryKey(zhuCharacters);
-        baseResp.setSuccess(1);
-        UserInfo info = new UserInfo();
-        BeanUtils.copyProperties(user, info);
-        //获取卡牌数据
+        Characters characters = charactersMapper.listById(token.getUserId(), token.getId());
+        characters.setExp(token.getRemainingExp());
+        characters.setLv(token.getFinalLevel());
+        charactersMapper.updateByPrimaryKey(characters);
+        User user = userMapper.selectUserByUserId(Integer.parseInt(token.getUserId()));
+        user.setGold(user.getGold().subtract(new BigDecimal(token.getTotalSilverSpent())));
+        userMapper.updateuser(user);
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+        UserInfo info = new UserInfo();
+        BaseResp baseResp = new BaseResp();
+        BeanUtils.copyProperties(user, info);
         info.setCharacterList(characterList);
+        baseResp.setSuccess(1);
         baseResp.setData(info);
         baseResp.setErrorMsg("更新成功");
         return baseResp;
@@ -495,6 +600,536 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp messageList(TokenDto token, HttpServletRequest request) throws Exception {
+        if ("1".equals(token.getStr())) {
+            return warReport(token, request);
+        } else if ("2".equals(token.getStr())) {
+            BaseResp baseResp = new BaseResp();
+            baseResp.setData(new ArrayList<>());
+            return baseResp;
+        } else if ("3".equals(token.getStr())) {
+            return userGiftService(token, request);
+        }
+        return null;
+    }
+
+    @Override
+    public BaseResp receive(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        int userLevel = Integer.parseInt(user.getLv() + "");
+        boolean isNewUser = false;
+        if (userLevel == 1) {
+            isNewUser = true;
+        }
+        String giftCode = token.getStr();
+//        String platform = request.getPlatform();
+//        String ip = request.getIpAddress();
+
+        // 1. 查询礼包基础信息
+        GameGift gift = gameGiftMapper.selectByGiftCode(giftCode);
+        if (gift == null || gift.getIsActive() != 1) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg(Constants.GIFT_NOT_EXIST_OR_DISABLED);
+            return baseResp;
+        }
+        Long giftId = gift.getGiftId();
+
+        // 2. 校验有效期
+        Date now = new Date();
+        if (now.before(gift.getStartTime()) || now.after(gift.getEndTime())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg(Constants.GIFT_NOT_IN_VALID_TIME);
+            return baseResp;
+        }
+
+        // 3. 校验剩余数量（非不限量时）
+        if (gift.getRemainingQuantity() != -1 && gift.getRemainingQuantity() <= 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg(Constants.GIFT_OUT_OF_STOCK);
+            return baseResp;
+        }
+
+        // 4. 校验领取规则（满足任一规则即可）
+        List<GameGiftRule> rules = gameGiftRuleMapper.selectByGiftId(giftId);
+        if (!checkRuleSatisfied(userLevel, isNewUser, rules)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg(Constants.GIFT_RULE_NOT_SATISFIED);
+            return baseResp;
+        }
+
+        // 5. 校验用户领取次数（是否超过单用户上限）
+        int userReceiveCount = gameGiftRecordMapper.countByUserIdAndGiftId(userId, giftId);
+        Integer maxGetCount = rules.stream()
+                .map(GameGiftRule::getMaxGetCount)
+                .min(Comparator.naturalOrder()) // 取最严格的限制
+                .orElse(1);
+        if (maxGetCount != -1 && userReceiveCount >= maxGetCount) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg(Constants.GIFT_RECEIVE_COUNT_EXCEEDED);
+            return baseResp;
+        }
+
+        // 6. 分布式锁：防止并发超领（以giftId为锁键）
+//        RLock lock = redissonClient.getLock("gift:receive:" + giftId);
+//        try {
+//            lock.lock(5, TimeUnit.SECONDS); // 5秒自动释放
+//
+//            // 再次校验剩余数量（防止锁等待期间被领完）
+//            Gift latestGift = giftMapper.selectById(giftId);
+//            if (latestGift.getRemainingQuantity() != -1 && latestGift.getRemainingQuantity() <= 0) {
+//                throw new GiftException(ErrorCode.GIFT_OUT_OF_STOCK);
+//            }
+//
+//            // 7. 扣减剩余数量（非不限量时）
+//            if (latestGift.getRemainingQuantity() != -1) {
+//                int rows = giftMapper.decrementRemainingQuantity(giftId);
+//                if (rows <= 0) {
+//                    throw new GiftException(ErrorCode.GIFT_OUT_OF_STOCK);
+//                }
+//            }
+
+        // 8. 记录领取记录
+        GameGiftRecord record = new GameGiftRecord();
+        record.setUserId(Long.parseLong(userId));
+        record.setGiftId(giftId);
+        record.setGiftCode(giftCode);
+        record.setGetTime(now);
+        record.setStatus(1); // 1：成功
+        record.setPlatform("");
+        record.setIpAddress("");
+        gameGiftRecordMapper.insert(record);
+
+        // 9. 发放奖励（调用道具/金币发放接口，此处简化）
+        List<GameGiftContent> contents = gameGiftContentMapper.selectByGiftId(giftId);
+        for (GameGiftContent content : contents) {
+            if ("1".equals(content.getItemType() + "")) {
+                //钻石
+                user.setDiamond(user.getDiamond().add(new BigDecimal(content.getItemQuantity())));
+            } else if ("2".equals(content.getItemType() + "")) {
+                user.setGold(user.getGold().add(new BigDecimal(content.getItemQuantity())));
+            } else if ("3".equals(content.getItemType() + "")) {
+                user.setSoul(user.getSoul().add(new BigDecimal(content.getItemQuantity())));
+            } else if ("4".equals(content.getItemType() + "")) {
+                Characters characters1 = charactersMapper.listById(userId, content.getItemId() + "");
+                if (characters1 != null) {
+                    characters1.setStackCount(characters1.getStackCount() + content.getItemQuantity());
+                    charactersMapper.updateByPrimaryKey(characters1);
+                } else {
+                    Characters characters = new Characters();
+                    characters.setStackCount(content.getItemQuantity() - 1);
+                    characters.setId(content.getItemId() + "");
+                    characters.setLv(1);
+                    characters.setUserId(Integer.parseInt(userId));
+                    characters.setStar(new BigDecimal(1));
+                    charactersMapper.insert(characters);
+                }
+            }
+        }
+        userMapper.updateuser(user);
+        baseResp.setSuccess(1);
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        //获取卡牌数据
+        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+        info.setCharacterList(characterList);
+        baseResp.setData(info);
+        baseResp.setSuccess(1);
+        baseResp.setErrorMsg("领取成功");
+        return baseResp;
+//        } finally {
+//            if (lock.isHeldByCurrentThread()) {
+//                lock.unlock();
+//            }
+//        }
+    }
+
+    @Override
+    public BaseResp checkHechen(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        List<String> ids = Arrays.asList(token.getStr().split(","));
+        List<Characters> charactersList = new ArrayList<>();
+        for (String id : ids) {
+            Characters characters = charactersMapper.listById(token.getUserId(), id);
+            charactersList.add(characters);
+        }
+        if (charactersList.size() < 5) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("卡牌数量不足");
+            return baseResp;
+        }
+
+        if (Xtool.isNotNull(charactersList.stream().filter(x -> x.getLv() < x.getMaxLv()).collect(Collectors.toList()))) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("卡牌未满级");
+            return baseResp;
+        }
+
+        baseResp.setData(calculateStar(charactersList.stream().map(Characters::getStar).collect(Collectors.toList())));
+        baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp tuPuhenchenList(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        List<StarSynthesisMain> mainList=starSynthesisMainMapper.selectAll();
+        for (StarSynthesisMain starSynthesisMain : mainList) {
+            List<StarSynthesisMaterials> materials=starSynthesisMaterialsMapper.selectall(starSynthesisMain.getId());
+            starSynthesisMain.setMaterials(materials);
+        }
+        baseResp.setData(mainList);
+        baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp findHechenCard(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        List<String> ids = Arrays.asList(token.getStr().split(","));
+        List<Characters> charactersList = new ArrayList<>();
+        for (String id : ids) {
+            Characters characters = charactersMapper.listById(token.getUserId(), id);
+            charactersList.add(characters);
+        }
+        if (charactersList.size() < 5) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("卡牌数量不足");
+            return baseResp;
+        }
+
+        if (Xtool.isNotNull(charactersList.stream().filter(x -> x.getLv() < x.getMaxLv()).collect(Collectors.toList()))) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("卡牌未满级");
+            return baseResp;
+        }
+
+        BigDecimal star = calculateStar(charactersList.stream().map(Characters::getStar).collect(Collectors.toList()));
+        if (star.compareTo(new BigDecimal(5))>=0){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("5星卡还未开放敬请期待");
+            return baseResp;
+        }
+        BigDecimal gold= getValue(star);
+        if (gold.compareTo(user.getGold())>0){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("合成银两不足");
+            return baseResp;
+        }
+        for (Characters characters : charactersList) {
+            if (characters.getStackCount() > 0) {
+                characters.setStackCount(characters.getStackCount() - 1);
+                characters.setExp(5);
+                characters.setLv(1);
+            } else {
+                characters.setIsDelete("1");
+            }
+            charactersMapper.updateByPrimaryKey(characters);
+        }
+        List<Card> cardList = cardMapper.selectAll();
+        cardList = cardList.stream().filter(x -> x.getStar().compareTo(star)==0).collect(Collectors.toList());
+        Random random = new Random();
+        int randomIndex = random.nextInt(cardList.size()); // 生成0到集合大小-1的随机索引
+        Card drawnCard= cardList.get(randomIndex);
+        Characters characters1 = charactersMapper.listById(userId, drawnCard.getId());
+        if (characters1 != null) {
+            characters1.setStackCount(characters1.getStackCount() + 1);
+            charactersMapper.updateByPrimaryKey(characters1);
+        } else {
+            Characters characters = new Characters();
+            characters.setStackCount(0);
+            characters.setId(drawnCard.getId());
+            characters.setLv(1);
+            characters.setUserId(Integer.parseInt(userId));
+            characters.setStar(drawnCard.getStar());
+            charactersMapper.insert(characters);
+        }
+        CardDto dto = new CardDto();
+        dto.setHero(drawnCard);
+        ValueOperations opsForValue = redisTemplate.opsForValue();
+        if (drawnCard.getStar().compareTo(new BigDecimal(3)) > 0) {
+            Date date = new Date();
+            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 合成召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
+        }
+        List<Characters> nowCharactersList = charactersMapper.selectByUserId(Integer.parseInt(userId));
+        dto.setCharacters(nowCharactersList);
+        //卡池数量
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        baseResp.setSuccess(1);
+        Map map = new HashMap();
+        map.put("user", info);
+        map.put("dto", dto);
+        baseResp.setData(map);
+        baseResp.setErrorMsg("单抽成功");
+        return baseResp;
+    }
+    // 常量定义（避免魔法值，提高可读性）
+    private static final BigDecimal MIN_VALUE = new BigDecimal("1");
+    private static final BigDecimal MAX_VALUE = new BigDecimal("5");
+    private static final BigDecimal STEP = new BigDecimal("0.5");
+    private static final BigDecimal BASE_VALUE = new BigDecimal("5000");
+
+    public  BigDecimal  getValue(BigDecimal num) {
+
+        // 计算倍数：(数值 - 1) / 0.5 + 1
+        BigDecimal subtractOne = num.subtract(MIN_VALUE); // 数值 - 1
+        BigDecimal divideStep = subtractOne.divide(STEP); // 除以0.5
+        BigDecimal multiple = divideStep.add(BigDecimal.ONE); // 加1
+
+        // 计算结果：倍数 * 5000
+        return multiple.multiply(BASE_VALUE);
+    }
+
+    // 常量定义
+    private static final BigDecimal INCREMENT = new BigDecimal("0.5");
+    private static final BigDecimal MAX_STAR_LIMIT = new BigDecimal("5");
+    private static final BigDecimal MIN_STAR_LIMIT = new BigDecimal("1");
+    private static final int REQUIRED_SIZE = 5;
+
+    /**
+     * 计算星级结果
+     * 规则：
+     * - 全相同星级：结果 = 星级 + 0.5（最高不超过5.0）
+     * - 星级不同：结果 = 最高星级 - 0.5（最低不低于1.0）
+     *
+     * @param starList 包含5个元素的星级集合（元素为BigDecimal类型，范围1.0-5.0，步长0.5）
+     * @return 计算后的星级结果
+     * @throws IllegalArgumentException 当集合为空、大小不是5、包含null元素或星级值无效时抛出
+     */
+    public static BigDecimal calculateStar(List<BigDecimal> starList) {
+        // 验证输入集合有效性
+        validateStarList(starList);
+
+        // 获取第一个星级作为参考
+        BigDecimal firstStar = starList.get(0);
+        boolean allSame = true;
+        BigDecimal maxStar = firstStar;
+
+        // 遍历集合，判断是否所有星级相同并寻找最大值
+        for (int i = 1; i < starList.size(); i++) {
+            BigDecimal currentStar = starList.get(i);
+
+            // 更新最大星级
+            if (currentStar.compareTo(maxStar) > 0) {
+                maxStar = currentStar;
+            }
+
+            // 检查是否与第一个星级不同
+            if (currentStar.compareTo(firstStar) != 0) {
+                allSame = false;
+            }
+        }
+
+        // 根据判断结果计算最终星级
+        BigDecimal result;
+        if (allSame) {
+            // 全相同时加0.5，不超过5.0
+            result = firstStar.add(INCREMENT);
+            if (result.compareTo(MAX_STAR_LIMIT) > 0) {
+                result = MAX_STAR_LIMIT;
+            }
+        } else {
+            // 不同时最高星减0.5，不低于1.0
+            result = maxStar.subtract(INCREMENT);
+            if (result.compareTo(MIN_STAR_LIMIT) < 0) {
+                result = MIN_STAR_LIMIT;
+            }
+        }
+
+        // 确保结果保留一位小数（处理精度问题）
+        return result.setScale(1, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * 验证星级集合的有效性
+     */
+    private static void validateStarList(List<BigDecimal> starList) {
+        if (starList == null) {
+            throw new IllegalArgumentException("星级集合不能为null");
+        }
+        if (starList.size() != REQUIRED_SIZE) {
+            throw new IllegalArgumentException("星级集合必须包含" + REQUIRED_SIZE + "个元素");
+        }
+        // 验证每个星级的有效性
+        for (BigDecimal star : starList) {
+            validateSingleStar(star);
+        }
+    }
+
+    /**
+     * 验证单个星级的有效性（范围1.0-5.0，步长0.5）
+     */
+    private static void validateSingleStar(BigDecimal star) {
+        if (star == null) {
+            throw new IllegalArgumentException("星级不能为null");
+        }
+        // 检查是否在1.0-5.0范围内
+        if (star.compareTo(MIN_STAR_LIMIT) < 0 || star.compareTo(MAX_STAR_LIMIT) > 0) {
+            throw new IllegalArgumentException("星级必须在1.0-5.0之间");
+        }
+        // 检查是否为0.5的整数倍（确保是合法星级值：1.0,1.5,2.0...5.0）
+        BigDecimal remainder = star.multiply(new BigDecimal("2")).remainder(BigDecimal.ONE);
+        if (remainder.compareTo(BigDecimal.ZERO) != 0) {
+            throw new IllegalArgumentException("星级必须为0.5的整数倍（如1.0,1.5,2.0...）");
+        }
+    }
+
+    public BaseResp userGiftService(TokenDto token, HttpServletRequest request) throws Exception {
+//        Long userId = request.getUserId();
+//        String platform = request.getPlatform();
+//
+//        // 1. 查询用户信息（等级、是否新用户）
+//        User user = userService.getUserById(userId);
+//        if (user == null) {
+//            throw new GiftException(ErrorCode.USER_NOT_EXIST);
+//        }
+//        int userLevel = user.getLevel();
+//        boolean isNewUser = user.isNewUser();
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        int userLevel = Integer.parseInt(user.getLv() + "");
+        boolean isNewUser = false;
+        if (userLevel == 1) {
+            isNewUser = true;
+        }
+        // 2. 查询所有有效礼包（启用、在有效期内、剩余数量充足）
+        LocalDateTime now = LocalDateTime.now();
+        List<GameGift> validGifts = gameGiftMapper.selectValidGifts(now);
+        if (Xtool.isNull(validGifts)) {
+            baseResp.setSuccess(1);
+            baseResp.setData(validGifts);
+            return baseResp;
+        }
+
+        // 3. 筛选符合用户领取规则的礼包
+        List<GiftListItemVO> result = new ArrayList<>();
+        for (GameGift gift : validGifts) {
+            Long giftId = gift.getGiftId();
+
+            // 3.1 校验用户是否已达领取上限
+            int userReceiveCount = gameGiftRecordMapper.countByUserIdAndGiftId(userId, giftId);
+            List<GameGiftRule> rules = gameGiftRuleMapper.selectByGiftId(giftId);
+            Integer maxGetCount = rules.stream()
+                    .map(GameGiftRule::getMaxGetCount)
+                    .min(Comparator.naturalOrder()) // 取最严格的限制
+                    .orElse(1);
+            if (maxGetCount != -1 && userReceiveCount >= maxGetCount) {
+                continue; // 已达领取上限，跳过
+            }
+
+            // 3.2 校验是否满足任一领取规则
+            boolean isRuleSatisfied = checkRuleSatisfied(userLevel, isNewUser, rules);
+            if (!isRuleSatisfied) {
+                continue;
+            }
+
+            // 3.3 封装礼包信息（含内容）
+            GiftListItemVO vo = convertToVO(gift);
+            result.add(vo);
+        }
+        baseResp.setSuccess(1);
+        baseResp.setData(result);
+        return baseResp;
+    }
+
+
+    /**
+     * 校验用户是否满足礼包的任一领取规则
+     */
+    private boolean checkRuleSatisfied(int userLevel, boolean isNewUser, List<GameGiftRule> rules) {
+        if (Xtool.isNull(rules)) {
+            return true; // 无规则即满足
+        }
+        for (GameGiftRule rule : rules) {
+            // 校验等级范围
+            if (userLevel < rule.getMinLevel()) {
+                continue;
+            }
+            if (rule.getMaxLevel() != -1 && userLevel > rule.getMaxLevel()) {
+                continue;
+            }
+
+            // 校验新用户限制
+            if (rule.getIsNewUser() == 1 && !isNewUser) {
+                continue;
+            }
+            if (rule.getIsNewUser() == 0 && isNewUser) {
+                continue;
+            }
+
+//            // 校验平台限制
+//            if (StringUtils.hasText(rule.getPlatformLimit())) {
+//                List<String> allowedPlatforms = Arrays.asList(rule.getPlatformLimit().split(","));
+//                if (!allowedPlatforms.contains(platform)) {
+//                    continue;
+//                }
+//            }
+
+            // 满足当前规则
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 转换Gift实体为VO（含礼包内容）
+     */
+    private GiftListItemVO convertToVO(GameGift gift) {
+        GiftListItemVO vo = new GiftListItemVO();
+        BeanUtils.copyProperties(gift, vo);
+
+        // 补充礼包内容（查询物品名称）
+        List<GameGiftContent> contents = gameGiftContentMapper.selectByGiftId(gift.getGiftId());
+        List<GiftContentVO> contentVOs = contents.stream().map(content -> {
+            GiftContentVO contentVO = new GiftContentVO();
+            contentVO.setItemType(content.getItemType());
+            contentVO.setItemQuantity(content.getItemQuantity());
+            // 查询物品名称（从物品表获取，此处简化）
+//            String itemName = itemService.getItemName(content.getItemType(), content.getItemId());
+//            contentVO.setItemName(content.getItemName());
+            return contentVO;
+        }).collect(Collectors.toList());
+        vo.setContents(contentVOs);
+
+        return vo;
+    }
+
+    @Override
     @Transactional
     public BaseResp danChou(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
@@ -517,9 +1152,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             pool.addCard(card);
         }
         Card drawnCard = pool.draw();
-        List<Characters> charactersList = charactersMapper.listById(userId, drawnCard.getId());
-        if (Xtool.isNotNull(charactersList)) {
-            Characters characters1 = charactersList.get(0);
+        Characters characters1 = charactersMapper.listById(userId, drawnCard.getId());
+        if (characters1 != null) {
             characters1.setStackCount(characters1.getStackCount() + 1);
             charactersMapper.updateByPrimaryKey(characters1);
         } else {
@@ -552,6 +1186,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
+
     @Override
     public BaseResp soulChou(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
@@ -574,9 +1209,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             pool.addCard(card);
         }
         Card drawnCard = pool.draw();
-        List<Characters> charactersList = charactersMapper.listById(userId, drawnCard.getId());
-        if (Xtool.isNotNull(charactersList)) {
-            Characters characters1 = charactersList.get(0);
+        Characters characters1 = charactersMapper.listById(userId, drawnCard.getId());
+        if (characters1 != null) {
             characters1.setStackCount(characters1.getStackCount() + 1);
             charactersMapper.updateByPrimaryKey(characters1);
         } else {
@@ -642,9 +1276,8 @@ public class GameServiceServiceImpl implements GameServiceService {
                 Date date = new Date();
                 opsForValue.set("notice_" + date.getTime(), "恭喜 " + user.getNickname() + " 高级召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
             }
-            List<Characters> charactersList = charactersMapper.listById(userId, drawnCard.getId());
-            if (Xtool.isNotNull(charactersList)) {
-                Characters characters1 = charactersList.get(0);
+            Characters characters1 = charactersMapper.listById(userId, drawnCard.getId());
+            if (characters1 != null) {
                 characters1.setStackCount(characters1.getStackCount() + 1);
                 characters1.setUpdateTime(new Date());
                 charactersMapper.updateByPrimaryKey(characters1);
@@ -711,11 +1344,30 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
 
         baseResp.setSuccess(1);
-        Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), "1");
+        Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), user.getGameImg(), "1");
         if (battle.getIsWin() == 0) {
             user.setWinCount(user.getWinCount() + 1);
         }
+        user.setTiliCount(user.getHuoliCount() - 10);
+        user.setTiliCountTime(new Date());
+        userMapper.updateuser(user);
         baseResp.setData(battle);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp ranking(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        baseResp.setData(userMapper.getMyRankig(token.getUserId()));
+        baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp ranking100(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        baseResp.setData(userMapper.getMyRankig100());
+        baseResp.setSuccess(1);
         return baseResp;
     }
 
@@ -779,7 +1431,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             characters.setUuid(i);
             rightCharacter.add(characters);
         }
-        Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, 0, pveDetail.getGuanName(), "1");
+        Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, 0, pveDetail.getGuanName(), user.getGameImg(), "0");
         if (battle.getIsWin() == 0) {
             if (num3 + 1 > 10) {
                 if (num2 + 1 > 6) {
@@ -811,9 +1463,8 @@ public class GameServiceServiceImpl implements GameServiceService {
                 if ("10000".equals(s)) {
                     user.setGold(user.getGold().add(new BigDecimal(10000)));
                 } else if ("天兵".equals(s)) {
-                    List<Characters> charactersList = charactersMapper.listById(userId, "1003");
-                    if (Xtool.isNotNull(charactersList)) {
-                        Characters characters1 = charactersList.get(0);
+                    Characters characters1 = charactersMapper.listById(userId, "1003");
+                    if (characters1 != null) {
                         characters1.setStackCount(characters1.getStackCount() + 1);
                         charactersMapper.updateByPrimaryKey(characters1);
                     } else {
@@ -989,7 +1640,62 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
-    public Battle battle(List<Characters> leftCharacters, Integer userId, String name0, List<Characters> rightCharacters, Integer toUserId, String name1, String type) throws Exception {
+    public BaseResp warReport(TokenDto token, HttpServletRequest request) throws Exception {
+        List<GameFight> list = gameFightMapper.selectAll(token.getUserId());
+        list.stream().map(x -> {
+            x.setTimeStr(formatTime(x.getCreatetime()));
+            return x;
+        }).collect(Collectors.toList());
+        BaseResp baseResp = new BaseResp();
+        baseResp.setData(list);
+        baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    /**
+     * 格式化 Date 类型的时间
+     *
+     * @param targetDate 目标时间（java.util.Date）
+     * @return 格式化后的字符串（如"刚刚"、"1小时内"、"今日"等）
+     */
+    public String formatTime(Date targetDate) {
+        // 1. 将 Date 转换为 LocalDateTime（关键：指定时区，避免默认时区问题）
+        // 推荐使用 Asia/Shanghai 时区（北京时间），避免系统时区影响
+        LocalDateTime targetTime = LocalDateTime.ofInstant(
+                targetDate.toInstant(),
+                ZoneId.of("Asia/Shanghai") // 固定时区，确保一致性
+        );
+
+        // 2. 后续逻辑与之前一致，复用时间差计算和判断
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Shanghai"));
+        long diffHours = Math.abs(ChronoUnit.HOURS.between(targetTime, now));
+
+        if (diffHours <= 1) {
+            return "刚刚";
+        } else if (diffHours <= 2) {
+            return "1小时内";
+        } else if (diffHours <= 3) {
+            return "2小时内";
+        } else if (diffHours <= 4) {
+            return "3小时内";
+        }
+
+        LocalDate targetLocalDate = targetTime.toLocalDate();
+        LocalDate today = now.toLocalDate();
+        LocalDate yesterday = today.minusDays(1);
+
+        if (targetLocalDate.isEqual(today)) {
+            return "今日";
+        } else if (targetLocalDate.isEqual(yesterday)) {
+            return "昨日";
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return targetLocalDate.format(formatter);
+        }
+    }
+
+
+    public Battle battle(List<Characters> leftCharacters, Integer userId, String name0, List<Characters> rightCharacters, Integer toUserId, String name1, String img, String type) throws Exception {
         Map map = new HashMap();
         Integer isWin = 0;
         //战斗过程
@@ -1560,6 +2266,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         fight.setUserName(name0);
         fight.setIsWin(isWin);
         fight.setType(type);
+        fight.setImg(img);
         //将map转json存储
         String json = JsonUtils.toJson(map);
         fight.setFightter(json);
@@ -1715,11 +2422,10 @@ public class GameServiceServiceImpl implements GameServiceService {
             user.setSignTime(new Date());
         } else if (user.getSignCount() == 1) {
             //获得洛神
-            List<Characters> charactersList = charactersMapper.listById(userId, "1030");
-            if (Xtool.isNotNull(charactersList)) {
-                Characters characters = charactersList.get(0);
-                characters.setStackCount(characters.getStackCount() + 1);
-                charactersMapper.updateByPrimaryKey(characters);
+            Characters characters1 = charactersMapper.listById(userId, "1030");
+            if (characters1 != null) {
+                characters1.setStackCount(characters1.getStackCount() + 1);
+                charactersMapper.updateByPrimaryKey(characters1);
             } else {
                 Characters characters = new Characters();
                 characters.setStackCount(0);
@@ -1750,11 +2456,10 @@ public class GameServiceServiceImpl implements GameServiceService {
             user.setSignTime(new Date());
         } else if (user.getSignCount() == 6) {
             //获得瑶池仙女
-            List<Characters> charactersList = charactersMapper.listById(userId, "1040");
-            if (Xtool.isNotNull(charactersList)) {
-                Characters characters = charactersList.get(0);
-                characters.setStackCount(characters.getStackCount() + 1);
-                charactersMapper.updateByPrimaryKey(characters);
+            Characters characters1 = charactersMapper.listById(userId, "1040");
+            if (characters1 != null) {
+                characters1.setStackCount(characters1.getStackCount() + 1);
+                charactersMapper.updateByPrimaryKey(characters1);
             } else {
                 Characters characters = new Characters();
                 characters.setStackCount(0);

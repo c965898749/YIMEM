@@ -27,7 +27,7 @@ public interface CharactersMapper {
 
     int updateGoNuM2(@Param("num") Integer num,@Param("id") String id,@Param("userId") String userId);
 
-    List<Characters> listById(@Param("userId") String userId,@Param("id") String id);
+    Characters listById(@Param("userId") String userId,@Param("id") String id);
 
     List<Characters> goIntoListById(@Param("userId") String userId);
 
