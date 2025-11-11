@@ -8,9 +8,9 @@ import java.util.List;
 
 @Data
 public class StarSynthesisMain {
-    private Integer id;
+    private String id;
 
-    private Integer targetStar;
+    private BigDecimal targetStar;
 
     private BigDecimal successProbability;
 
@@ -27,4 +27,5 @@ public class StarSynthesisMain {
     private Date updateTime;
 
     private List<StarSynthesisMaterials> materials;
+
 }

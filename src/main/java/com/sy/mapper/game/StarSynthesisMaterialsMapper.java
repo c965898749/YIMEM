@@ -9,5 +9,5 @@ public interface StarSynthesisMaterialsMapper {
 
     int insertSelective(StarSynthesisMaterials record);
 
-    List<StarSynthesisMaterials> selectall(Integer synthesisId);
+    List<StarSynthesisMaterials> selectall(String synthesisId);
 }

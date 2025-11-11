@@ -86,7 +86,7 @@
     </trim>
   </insert>
 
-  <select id="selectAll">
+  <select id="selectAll" resultType="com.sy.model.game.StarSynthesisMain">
     select * from star_synthesis_main
   </select>
 </mapper>

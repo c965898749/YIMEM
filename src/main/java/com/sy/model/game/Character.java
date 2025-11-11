@@ -25,4 +25,5 @@ public class Character {
     private String isDead="0";
     private String camp;
     private Integer uuid;//主键
+    private Integer lv;
 }
