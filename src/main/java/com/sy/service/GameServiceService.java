@@ -14,12 +14,14 @@ public interface GameServiceService {
     BaseResp changeState(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp pveDetail(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp cardLevelUp(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp stopLevel(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp cardLevelUp2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp changerHeader(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp itemUpdate(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp danChou(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp messageList(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp receive(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp giftExchangeCode(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp checkHechen(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp tuPuhenchenList(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp findHechenCard(TokenDto token, HttpServletRequest request) throws Exception;

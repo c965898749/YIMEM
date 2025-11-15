@@ -213,7 +213,19 @@ public class GameContoller {
             return baseResp;
         }
     }
-
+    @PostMapping("stopLevel")
+    @CrossOrigin
+    public BaseResp stopLevel(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.stopLevel(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
 
     @PostMapping("jingji")
     @CrossOrigin
@@ -249,6 +261,20 @@ public class GameContoller {
         BaseResp baseResp = new BaseResp();
         try {
             baseResp = gameServiceService.receive(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    @PostMapping("giftExchangeCode")
+    @CrossOrigin
+    public BaseResp giftExchangeCode(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.giftExchangeCode(token, request);
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();

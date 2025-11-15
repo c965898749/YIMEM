@@ -31,6 +31,10 @@
     from game_fight
     where user_id = #{userId} or to_user_id = #{userId} order by createtime desc limit 100
   </select>
+    <delete id="deleteByTime"  parameterType="java.lang.Integer">
+        DELETE FROM game_fight
+        WHERE createtime &lt; DATE_SUB(NOW(), INTERVAL 3 MONTH);
+    </delete>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from game_fight
     where id = #{id,jdbcType=INTEGER}

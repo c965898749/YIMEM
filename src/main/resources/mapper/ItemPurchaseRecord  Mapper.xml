@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.ItemPurchaseRecord  Mapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.ItemPurchaseRecord  ">
+    <constructor>
+      <arg column="record_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="player_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="purchase_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="pay_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="pay_amount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="purchase_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <insert id="insert" parameterType="com.sy.model.game.ItemPurchaseRecord">
+    insert into item_purchase_record (record_id, player_id, item_id, 
+      purchase_time, pay_type, pay_amount, 
+      purchase_quantity)
+    values (#{recordId,jdbcType=INTEGER}, #{playerId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, 
+      #{purchaseTime,jdbcType=TIMESTAMP}, #{payType,jdbcType=VARCHAR}, #{payAmount,jdbcType=INTEGER}, 
+      #{purchaseQuantity,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.game.ItemPurchaseRecord">
+    insert into item_purchase_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="playerId != null">
+        player_id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="purchaseTime != null">
+        purchase_time,
+      </if>
+      <if test="payType != null">
+        pay_type,
+      </if>
+      <if test="payAmount != null">
+        pay_amount,
+      </if>
+      <if test="purchaseQuantity != null">
+        purchase_quantity,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="playerId != null">
+        #{playerId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseTime != null">
+        #{purchaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmount != null">
+        #{payAmount,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseQuantity != null">
+        #{purchaseQuantity,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

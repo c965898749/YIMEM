@@ -207,6 +207,9 @@
             <if test="huoliCountTime!=null ">
                 huoli_count_time = #{huoliCountTime},
             </if>
+            <if test="stopLevel!=null and stopLevel!=''">
+                stop_level=  #{stopLevel}
+            </if>
         </set>
         where userId=#{userId}
     </update>

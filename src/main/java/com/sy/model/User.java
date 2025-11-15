@@ -92,4 +92,6 @@ public class User {
     //20251109
     private Integer huoliCount;
     private Date huoliCountTime;
+    //20251113
+    private String stopLevel;
 }

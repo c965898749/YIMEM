@@ -55,4 +55,5 @@ public class UserInfo {
     //20251104
     private Integer levelUp;
     private Integer winCount;
+    private String stopLevel;
 }

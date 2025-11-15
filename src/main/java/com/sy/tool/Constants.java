@@ -264,7 +264,7 @@ public class Constants {
 //    public static final String chatUrl = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions";
     public static final String chatUrl = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie-speed-128k";
 
-    public static final String GIFT_CODE_DUPLICATE="礼包码已存在";
+    public static final String GIFT_CODE_DUPLICATE="无效礼包码";
     public static final String GIFT_NOT_EXIST_OR_DISABLED="礼包不存在或已禁用";
     public static final String GIFT_NOT_IN_VALID_TIME="礼包不在有效期内";
     public static final String GIFT_OUT_OF_STOCK="礼包已领完";

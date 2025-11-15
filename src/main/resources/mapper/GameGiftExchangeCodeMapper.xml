@@ -116,4 +116,12 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where exchange_id = #{exchangeId,jdbcType=BIGINT}
   </update>
+  <select id="selectByUserCode" resultType="com.sy.model.game.GameGiftExchangeCode">
+    select * from game_gift_exchange_code where
+  gift_id = #{giftId} and  is_used = '0' and   exchange_code = #{exchangeCode} and  use_user_id = #{useUserId}
+  </select>
+  <select id="selectByUserCode2" resultType="com.sy.model.game.GameGiftExchangeCode">
+    select * from game_gift_exchange_code where
+  gift_id = #{giftId}  and   exchange_code = #{exchangeCode} and  use_user_id = #{useUserId}
+  </select>
 </mapper>

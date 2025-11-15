@@ -7,6 +7,8 @@ import java.util.List;
 public interface GameFightMapper {
     int deleteByPrimaryKey(Integer id);
 
+    int deleteByTime();
+
     int insert(GameFight record);
 
     int insertSelective(GameFight record);

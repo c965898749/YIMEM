@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.PlayerBackpackMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.PlayerBackpack">
+    <constructor>
+      <arg column="backpack_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="player_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="item_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="get_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="is_bound" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="durability" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <insert id="insert" parameterType="com.sy.model.game.PlayerBackpack">
+    insert into player_backpack (backpack_id, player_id, item_id, 
+      item_quantity, get_time, is_bound, 
+      durability)
+    values (#{backpackId,jdbcType=INTEGER}, #{playerId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, 
+      #{itemQuantity,jdbcType=INTEGER}, #{getTime,jdbcType=TIMESTAMP}, #{isBound,jdbcType=INTEGER}, 
+      #{durability,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.game.PlayerBackpack">
+    insert into player_backpack
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="backpackId != null">
+        backpack_id,
+      </if>
+      <if test="playerId != null">
+        player_id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="itemQuantity != null">
+        item_quantity,
+      </if>
+      <if test="getTime != null">
+        get_time,
+      </if>
+      <if test="isBound != null">
+        is_bound,
+      </if>
+      <if test="durability != null">
+        durability,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="backpackId != null">
+        #{backpackId,jdbcType=INTEGER},
+      </if>
+      <if test="playerId != null">
+        #{playerId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemQuantity != null">
+        #{itemQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="getTime != null">
+        #{getTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isBound != null">
+        #{isBound,jdbcType=INTEGER},
+      </if>
+      <if test="durability != null">
+        #{durability,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>
