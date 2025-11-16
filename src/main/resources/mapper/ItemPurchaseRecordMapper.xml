@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sy.mapper.game.ItemPurchaseRecord  Mapper">
-  <resultMap id="BaseResultMap" type="com.sy.model.game.ItemPurchaseRecord  ">
+<mapper namespace="com.sy.mapper.game.ItemPurchaseRecordMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.ItemPurchaseRecord">
     <constructor>
       <arg column="record_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="player_id" javaType="java.lang.Integer" jdbcType="INTEGER" />

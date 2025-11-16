@@ -9,10 +9,7 @@ import com.sy.model.game.Character;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.GameServiceService;
 import com.sy.service.UserServic;
-import com.sy.tool.Constants;
-import com.sy.tool.JsonUtils;
-import com.sy.tool.SkillLevelUtil;
-import com.sy.tool.Xtool;
+import com.sy.tool.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -68,6 +65,8 @@ public class GameServiceServiceImpl implements GameServiceService {
     private StarSynthesisMaterialsMapper starSynthesisMaterialsMapper;
     @Autowired
     private GameGiftExchangeCodeMapper gameGiftExchangeCodeMapper;
+    @Autowired
+    private GameItemShopMapper gameItemShopMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -714,18 +713,18 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
 
         //判断 如果是兑换礼包查询是否有兑换记录
-        if ("4".equals(gift.getGiftType())){
-            GameGiftExchangeCode record=new GameGiftExchangeCode();
+        if ("4".equals(gift.getGiftType())) {
+            GameGiftExchangeCode record = new GameGiftExchangeCode();
             record.setGiftId(giftId);
             record.setUseUserId(Long.parseLong(userId));
             record.setExchangeCode(gift.getGiftCode());
-            List<GameGiftExchangeCode> codeList= gameGiftExchangeCodeMapper.selectByUserCode(record);
-            if (Xtool.isNull(codeList)){
+            List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode(record);
+            if (Xtool.isNull(codeList)) {
                 baseResp.setSuccess(0);
                 baseResp.setErrorMsg(Constants.GIFT_RECEIVE_COUNT_EXCEEDED);
                 return baseResp;
-            }else {
-                GameGiftExchangeCode code=codeList.get(0);
+            } else {
+                GameGiftExchangeCode code = codeList.get(0);
                 code.setIsUsed(1);
                 code.setUseTime(new Date());
                 gameGiftExchangeCodeMapper.updateByPrimaryKey(code);
@@ -786,6 +785,87 @@ public class GameServiceServiceImpl implements GameServiceService {
 //            }
 //        }
     }
+
+    @Override
+    public BaseResp getStore(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        List<GameItemShop> gameItemShopList = gameItemShopMapper.selectAll();
+        DynamicItemPicker picker = new DynamicItemPicker();
+        for (GameItemShop gameItemShop : gameItemShopList) {
+            picker.addItem(gameItemShop);
+        }
+        // 尝试获取16个物品（种类不足，会重复获取）
+        List<GameItemShop> picked = picker.pickRandomItems(16);
+        baseResp.setSuccess(1);
+        baseResp.setData(picked);
+        baseResp.setErrorMsg("成功");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp buyStore(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        GameItemShop gameItemShop = gameItemShopMapper.selectByItemId(token.getId());
+        if (gameItemShop == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("商品不存在或已下架");
+            return baseResp;
+        }
+        if (gameItemShop.getGoldEdgePrice() != 0) {
+            BigDecimal gold = user.getGold().subtract(new BigDecimal(gameItemShop.getGoldEdgePrice()));
+            if (gold.compareTo(BigDecimal.ZERO) < 0) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("银两不足");
+                return baseResp;
+            }
+            user.setGold(gold);
+        } else {
+            BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(gameItemShop.getGemPrice()));
+            if (diamond.compareTo(BigDecimal.ZERO) < 0) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("钻石不足");
+                return baseResp;
+            }
+            user.setDiamond(diamond);
+        }
+        Characters characters1 = charactersMapper.listById(userId, token.getId());
+        if (characters1 != null) {
+            characters1.setStackCount(characters1.getStackCount() + 1);
+            charactersMapper.updateByPrimaryKey(characters1);
+        } else {
+            Characters characters = new Characters();
+            characters.setStackCount(0);
+            characters.setId(token.getId());
+            characters.setLv(1);
+            characters.setUserId(Integer.parseInt(userId));
+            characters.setStar(new BigDecimal(1));
+            charactersMapper.insert(characters);
+        }
+        userMapper.updateuser(user);
+        baseResp.setSuccess(1);
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        //获取卡牌数据
+        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+        info.setCharacterList(characterList);
+        baseResp.setData(info);
+        baseResp.setSuccess(1);
+        baseResp.setErrorMsg("领取成功");
+        return baseResp;
+    }
+
 
     @Override
     public BaseResp giftExchangeCode(TokenDto token, HttpServletRequest request) throws Exception {
@@ -854,18 +934,18 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg(Constants.GIFT_RECEIVE_COUNT_EXCEEDED);
             return baseResp;
         }
-        if (!"4".equals(gift.getGiftType()+"")){
+        if (!"4".equals(gift.getGiftType() + "")) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg(Constants.GIFT_CODE_DUPLICATE);
             return baseResp;
         }
         //判断 如果是兑换礼包查询是否有兑换记录
-        GameGiftExchangeCode record=new GameGiftExchangeCode();
+        GameGiftExchangeCode record = new GameGiftExchangeCode();
         record.setGiftId(giftId);
         record.setUseUserId(Long.parseLong(userId));
         record.setExchangeCode(gift.getGiftCode());
-        List<GameGiftExchangeCode> codeList= gameGiftExchangeCodeMapper.selectByUserCode2(record);
-        if (Xtool.isNotNull(codeList)){
+        List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+        if (Xtool.isNotNull(codeList)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg(Constants.GIFT_RECEIVE_COUNT_EXCEEDED);
             return baseResp;
@@ -1182,15 +1262,15 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
 
             //判断 如果是兑换礼包查询是否有兑换记录
-            if ("4".equals(gift.getGiftType()+"")){
-                GameGiftExchangeCode record=new GameGiftExchangeCode();
+            if ("4".equals(gift.getGiftType() + "")) {
+                GameGiftExchangeCode record = new GameGiftExchangeCode();
                 record.setGiftId(giftId);
                 record.setUseUserId(Long.parseLong(userId));
                 record.setExchangeCode(gift.getGiftCode());
-               List<GameGiftExchangeCode> codeList= gameGiftExchangeCodeMapper.selectByUserCode(record);
-               if (Xtool.isNull(codeList)){
-                   continue;
-               }
+                List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode(record);
+                if (Xtool.isNull(codeList)) {
+                    continue;
+                }
             }
             // 3.3 封装礼包信息（含内容）
             GiftListItemVO vo = convertToVO(gift);
@@ -1523,7 +1603,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
-        if (user.getLv().compareTo(new BigDecimal(100))<0){
+        if (user.getLv().compareTo(new BigDecimal(100)) < 0) {
             BigDecimal exp = user.getExp().add(new BigDecimal(50));
             if (exp.compareTo(new BigDecimal(1000)) >= 0) {
                 user.setLv(user.getLv().add(new BigDecimal(1)));
@@ -1963,10 +2043,10 @@ public class GameServiceServiceImpl implements GameServiceService {
 
 //            苦痛箭 Lv1
 //            场下每回合对同位置敌人造成35点真实伤害
-           isWin= castskill("苦痛箭",isWin, map,list ,mapProsse,rightCharters1,leftCharters1 ,
-                    allLiveCharacter ,allLiveCharacterNew ,fightterList);
+            isWin = castskill("苦痛箭", isWin, map, list, mapProsse, rightCharters1, leftCharters1,
+                    allLiveCharacter, allLiveCharacterNew, fightterList);
 
-                //TODO 角色行动1
+            //TODO 角色行动1
             if (leftCharters1.getSpeed() >= rightCharters1.getSpeed()) {
                 //TODO 回合开始
 
@@ -2254,8 +2334,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
 
             //TODO 角色行动2
-            isWin= castskill("续命",isWin, map,list ,mapProsse,rightCharters1,leftCharters1 ,
-                    allLiveCharacter ,allLiveCharacterNew ,fightterList);
+            isWin = castskill("续命", isWin, map, list, mapProsse, rightCharters1, leftCharters1,
+                    allLiveCharacter, allLiveCharacterNew, fightterList);
 
             //TODO 回合结束
 
@@ -2314,23 +2394,23 @@ public class GameServiceServiceImpl implements GameServiceService {
         return battle;
     }
 
-    public Integer castskill(String skillStr,Integer isWin, Map map,List<Map> list ,Map mapProsse,Character rightCharters1,Character leftCharters1 ,
-                          List<Character> allLiveCharacter ,List<Character> allLiveCharacterNew , List<Fightter>  fightterList){
+    public Integer castskill(String skillStr, Integer isWin, Map map, List<Map> list, Map mapProsse, Character rightCharters1, Character leftCharters1,
+                             List<Character> allLiveCharacter, List<Character> allLiveCharacterNew, List<Fightter> fightterList) {
         List<String> skills = Arrays.asList(skillStr.split(","));
         outerLoop:
         for (Character character : allLiveCharacterNew) {
             //英雄1技能释放
             if (!allLiveCharacter.contains(character)) continue;
             if ("0".equals(character.getGoON())) {
-                if (skills.contains("苦痛箭")){
+                if (skills.contains("苦痛箭")) {
                     //英雄1技能释放
                     //TODO 场下每回合对同位置敌人造成35点真实伤害
                     if ("苦痛箭".equals(character.getPassiveIntroduceOne()) && SkillLevelUtil.getSkill1Level(character.getLv()) > 0) {
                         if ("0".equals(character.getDirection())) {
                             //TODO 筛出对位
-                            List<Character> characters=allLiveCharacterNew.stream().filter(x->"1".equals(x.getDirection()+"")&&(character.getGoIntoNum()+"").equals(x.getGoIntoNum()+"")).collect(Collectors.toList());
-                            if (Xtool.isNotNull(characters)){
-                                Character character1=characters.get(0);
+                            List<Character> characters = allLiveCharacterNew.stream().filter(x -> "1".equals(x.getDirection() + "") && (character.getGoIntoNum() + "").equals(x.getGoIntoNum() + "")).collect(Collectors.toList());
+                            if (Xtool.isNotNull(characters)) {
+                                Character character1 = characters.get(0);
                                 if (character1.getHp() > 0) {
                                     Fightter fightter = new Fightter();
                                     if (character1.getHp() - 35 * SkillLevelUtil.getSkill1Level(character.getLv()) <= 0) {
@@ -2366,9 +2446,9 @@ public class GameServiceServiceImpl implements GameServiceService {
 
                         } else {
                             //TODO 筛出对位
-                            List<Character> characters=allLiveCharacterNew.stream().filter(x->"0".equals(x.getDirection())&&(character.getGoIntoNum()+"").equals(x.getGoIntoNum()+"")).collect(Collectors.toList());
-                            if (Xtool.isNotNull(characters)){
-                                Character character1=characters.get(0);
+                            List<Character> characters = allLiveCharacterNew.stream().filter(x -> "0".equals(x.getDirection()) && (character.getGoIntoNum() + "").equals(x.getGoIntoNum() + "")).collect(Collectors.toList());
+                            if (Xtool.isNotNull(characters)) {
+                                Character character1 = characters.get(0);
                                 if (character1.getHp() > 0) {
                                     Fightter fightter = new Fightter();
                                     if (character1.getHp() - 35 * SkillLevelUtil.getSkill1Level(character.getLv()) <= 0) {
@@ -2408,9 +2488,9 @@ public class GameServiceServiceImpl implements GameServiceService {
                     if ("苦痛箭".equals(character.getPassiveIntroduceTwo()) && SkillLevelUtil.getSkill2Level(character.getLv()) > 0) {
                         if ("0".equals(character.getDirection())) {
                             //TODO 筛出对位
-                            List<Character> characters=allLiveCharacterNew.stream().filter(x->"1".equals(character.getDirection())&&(character.getGoIntoNum()+"").equals(x.getGoIntoNum()+"")).collect(Collectors.toList());
-                            if (Xtool.isNotNull(characters)){
-                                Character character1=characters.get(0);
+                            List<Character> characters = allLiveCharacterNew.stream().filter(x -> "1".equals(character.getDirection()) && (character.getGoIntoNum() + "").equals(x.getGoIntoNum() + "")).collect(Collectors.toList());
+                            if (Xtool.isNotNull(characters)) {
+                                Character character1 = characters.get(0);
                                 if (character1.getHp() > 0) {
                                     Fightter fightter = new Fightter();
                                     if (character1.getHp() - 35 * SkillLevelUtil.getSkill2Level(character.getLv()) <= 0) {
@@ -2446,9 +2526,9 @@ public class GameServiceServiceImpl implements GameServiceService {
 
                         } else {
                             //TODO 筛出对位
-                            List<Character> characters=allLiveCharacterNew.stream().filter(x->"0".equals(character.getDirection())&&(character.getGoIntoNum()+"").equals(x.getGoIntoNum()+"")).collect(Collectors.toList());
-                            if (Xtool.isNotNull(characters)){
-                                Character character1=characters.get(0);
+                            List<Character> characters = allLiveCharacterNew.stream().filter(x -> "0".equals(character.getDirection()) && (character.getGoIntoNum() + "").equals(x.getGoIntoNum() + "")).collect(Collectors.toList());
+                            if (Xtool.isNotNull(characters)) {
+                                Character character1 = characters.get(0);
                                 if (character1.getHp() > 0) {
                                     Fightter fightter = new Fightter();
                                     if (character1.getHp() - 35 * SkillLevelUtil.getSkill2Level(character.getLv()) <= 0) {
@@ -2484,7 +2564,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                         }
                     }
                 }
-                if (skills.contains("续命")){
+                if (skills.contains("续命")) {
                     if ("续命".equals(character.getPassiveIntroduceOne()) && SkillLevelUtil.getSkill1Level(character.getLv()) > 0) {
                         if ("0".equals(character.getDirection())) {
                             //大于0时才能治疗

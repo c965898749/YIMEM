@@ -269,6 +269,34 @@ public class GameContoller {
         }
     }
 
+    @PostMapping("getStore")
+    @CrossOrigin
+    public BaseResp getStore(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.getStore(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    @PostMapping("buyStore")
+    @CrossOrigin
+    public BaseResp buyStore(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.buyStore(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
     @PostMapping("giftExchangeCode")
     @CrossOrigin
     public BaseResp giftExchangeCode(@RequestBody TokenDto token, HttpServletRequest request) {

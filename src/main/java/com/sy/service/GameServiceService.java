@@ -21,6 +21,8 @@ public interface GameServiceService {
     BaseResp danChou(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp messageList(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp receive(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp getStore(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp buyStore(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp giftExchangeCode(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp checkHechen(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp tuPuhenchenList(TokenDto token, HttpServletRequest request) throws Exception;

@@ -2,8 +2,14 @@ package com.sy.mapper.game;
 
 import com.sy.model.game.GameItemShop;
 
-public interface GameItemShop Mapper {
+import java.util.List;
+
+public interface GameItemShopMapper {
     int insert(GameItemShop record);
 
     int insertSelective(GameItemShop record);
+
+    List<GameItemShop> selectAll();
+
+    GameItemShop selectByItemId(String itemId);
 }
