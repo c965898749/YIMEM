@@ -40,6 +40,10 @@
         select * from user where  binary username=#{username}
     </select>
 
+    <select id="selectUserByNickName" resultType="java.lang.Integer">
+          select count(*) from user where  nickname=#{nickName} and userId &lt;&gt; #{userId}
+    </select>
+
     <select id="selectFansCountbyUserId" resultType="java.lang.Integer">
         select count(*) from fans where  fansedid=#{userId}
     </select>
@@ -208,7 +212,10 @@
                 huoli_count_time = #{huoliCountTime},
             </if>
             <if test="stopLevel!=null and stopLevel!=''">
-                stop_level=  #{stopLevel}
+                stop_level=  #{stopLevel},
+            </if>
+            <if test="nickname!=null and nickname!=''">
+                nickname=  #{nickname},
             </if>
         </set>
         where userId=#{userId}

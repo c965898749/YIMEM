@@ -12,7 +12,12 @@ public interface GameServiceService {
     BaseResp registerGame(User user, HttpServletRequest request) throws Exception;
     BaseResp updateGame(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp changeState(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp changeName(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp getActivityList(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp getTodayRecords(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp getUserActivityDetail(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp pveDetail(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp participate(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp cardLevelUp(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp stopLevel(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp cardLevelUp2(TokenDto token, HttpServletRequest request) throws Exception;

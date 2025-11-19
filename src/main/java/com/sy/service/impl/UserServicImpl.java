@@ -220,7 +220,36 @@ public class UserServicImpl implements UserServic {
     @Transactional(propagation = Propagation.REQUIRED)
     public BaseResp modifyUserInfor(User user) throws Exception {
         BaseResp baseResp = new BaseResp();
-
+        if (Xtool.isNull(user.getNickname())){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("昵称不能为空");
+            return baseResp;
+        }
+        if (user.getNickname().length()>10){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("昵称长度不得超过10个字");
+            return baseResp;
+        }
+        //检测敏感信息
+        SensitiveWord sw = new SensitiveWord("CensorWords.txt");
+        sw.InitializationWork();
+        String nickName = sw.filterInfo(user.getNickname());
+        if (!user.getNickname().equals(nickName)){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("昵称出现敏感词汇");
+            return baseResp;
+        }
+        String description = sw.filterInfo(user.getDescription());
+        if (!user.getDescription().equals(description)){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("简介出现敏感词汇");
+            return baseResp;
+        }
+        if (userMapper.selectUserByNickName(nickName,user.getUserId())>0){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("该昵称已存在");
+            return baseResp;
+        }
         int result = userMapper.updateUserInfor(user);
         if (result > 0) {
             baseResp.setSuccess(1);

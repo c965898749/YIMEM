@@ -23,10 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -67,6 +64,14 @@ public class GameServiceServiceImpl implements GameServiceService {
     private GameGiftExchangeCodeMapper gameGiftExchangeCodeMapper;
     @Autowired
     private GameItemShopMapper gameItemShopMapper;
+    @Autowired
+    private UserActivityRecordsMapper recordMapper;
+    @Autowired
+    private ActivityConfigMapper configMapper;
+    @Autowired
+    private ActivityRewardMapper rewardMapper;  // 新增奖励表Mapper
+    @Autowired
+    private ActivityDetailMapper activityDetailMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -77,6 +82,7 @@ public class GameServiceServiceImpl implements GameServiceService {
     private static final int LAYER2_MAX = 6;
     private static final int LAYER3_MAX = 10;
     private static final int MAX_LEVEL = 50;
+    // 有效难度等级白名单
 
     @Override
     public BaseResp loginGame(User user, HttpServletRequest request) throws Exception {
@@ -306,6 +312,146 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp changeName(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        if (Xtool.isNull(token.getStr())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("昵称不能为空");
+            return baseResp;
+        }
+        if (token.getStr().length() > 10) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("昵称长度不得超过10个字");
+            return baseResp;
+        }
+        SensitiveWord sw = new SensitiveWord("CensorWords.txt");
+        sw.InitializationWork();
+        String nickName = sw.filterInfo(token.getStr());
+        if (!token.getStr().equals(nickName)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("昵称出现敏感词汇");
+            return baseResp;
+        }
+
+        if (userMapper.selectUserByNickName(nickName, Integer.parseInt(userId)) > 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("该昵称已存在");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(500));
+        if (diamond.compareTo(BigDecimal.ZERO) < 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("钻石不足");
+            return baseResp;
+        }
+        user.setDiamond(diamond);
+        user.setNickname(nickName);
+        userMapper.updateuser(user);
+        baseResp.setSuccess(1);
+        baseResp.setErrorMsg("修改成功");
+        baseResp.setData(user);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp getActivityList(TokenDto token, HttpServletRequest request) throws Exception {
+        List<ActivityConfig> activityConfigList = configMapper.selectAll();
+        BaseResp baseResp = new BaseResp();
+        baseResp.setSuccess(1);
+        baseResp.setData(activityConfigList);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp getTodayRecords(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        if (userId == null || token.getStr() == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        List<UserActivityRecords> records = recordMapper.listTodayRecords(userId, token.getStr());
+        baseResp.setSuccess(1);
+        baseResp.setData(records);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp getUserActivityDetail(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        if (Xtool.isNull(token.getStr())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+
+        ActivityConfig config = configMapper.getByCode(token.getStr());
+        // 获取当前日期
+        LocalDate today = LocalDate.now();
+        // 获取星期几（返回DayOfWeek枚举）
+        DayOfWeek dayOfWeek = today.getDayOfWeek();
+        List<ActivityDetail> details = new ArrayList<>();
+        if (1 == config.getIsPermanent()) {
+            details = activityDetailMapper.getByCodde2(token.getStr(), dayOfWeek.getValue());
+
+        } else {
+            details = activityDetailMapper.getByCodde(token.getStr());
+        }
+        for (ActivityDetail detail : details) {
+            List<ActivityReward> rewardList = rewardMapper.getByCodde(detail.getDetailCode());
+            List<UserActivityRecords> records = recordMapper.listTodayRecords(userId, detail.getDetailCode());
+            detail.setRewardList(rewardList);
+            detail.setRecords(records);
+        }
+        config.setDetails(details);
+        if (config == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("活动已结束");
+            return baseResp;
+        }
+        baseResp.setSuccess(1);
+        baseResp.setData(config);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
     public BaseResp pveDetail(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -341,6 +487,165 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
+    @Override
+    @Transactional
+    public BaseResp participate(TokenDto token, HttpServletRequest request) throws Exception {
+        Integer levelUp = 0;
+        Map map = new HashMap();
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        // 1. 基础参数非空校验
+        if (Xtool.isNull(token.getStr())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        ActivityDetail activityDetail = activityDetailMapper.getByCodde3(token.getStr());
+        String activityCode = activityDetail.getActivityCode();
+        // 2. 校验活动配置
+        ActivityConfig config = configMapper.getByCode(activityCode);
+        if (config == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("活动不存在");
+            return baseResp;
+        }
+        // 校验活动状态（常驻活动忽略时间，非常驻校验时间范围）
+        Date today = new Date();
+        if (config.getStatus() != 1) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("活动已结束");
+            return baseResp;
+        }
+        if (config.getIsPermanent() == 0) {
+            if (today.before(config.getStartDate()) || today.after(config.getEndDate())) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("活动已结束");
+                return baseResp;
+            }
+        }
+
+
+        // 6. 校验当日参与次数
+        int todayCount = recordMapper.countTodayValidRecords(userId, activityCode);
+        if (todayCount >= activityDetail.getDailyMaxTimes()) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("今日参与次数已达上限（" + config.getDailyMaxTimes() + "次）");
+            return baseResp;
+        }
+        if (user.getLv().compareTo(new BigDecimal(100)) < 0) {
+            BigDecimal exp = user.getExp().add(new BigDecimal(50));
+            if (exp.compareTo(new BigDecimal(1000)) >= 0) {
+                user.setLv(user.getLv().add(new BigDecimal(1)));
+                user.setExp(exp.subtract(new BigDecimal(1000)));
+                levelUp = user.getLv().intValue();
+            } else {
+                user.setExp(exp);
+            }
+        }
+        //自己的战队
+        List<Characters> leftCharacter = charactersMapper.goIntoListById(user.getUserId() + "");
+        if (Xtool.isNull(leftCharacter)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("你没有配置战队无法战斗");
+            return baseResp;
+        }
+
+        List<Characters> rightCharacter = new ArrayList<>();
+        Card card = cardMapper.selectByid(activityDetail.getBossId());
+        Characters character = new Characters();
+        BeanUtils.copyProperties(card, character);
+        character.setGoIntoNum(1);
+        character.setLv(Integer.parseInt(activityDetail.getDifficultyLevel()));
+        character.setUuid(1);
+        rightCharacter.add(character);
+        String[] luminaryMap = {
+                 // 0: 星期日（太阳）
+                "太阴星君",  // 1: 星期一（太阴/月亮）
+                "荧惑星君",          // 2: 星期二
+                "水星真君",          // 3: 星期三
+                "木星真君",          // 4: 星期四
+                "金星真君",          // 5: 星期五
+                "土星真君",
+                "太阳星君",// 6: 星期六
+        };
+        // 获取当前日期
+        LocalDate today2 = LocalDate.now();
+        // 获取星期几（返回DayOfWeek枚举）
+        DayOfWeek dayOfWeek = today2.getDayOfWeek();
+        String name=luminaryMap[dayOfWeek.getValue()]+activityDetail.getDifficultyLevel();
+        Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, 0,name, user.getGameImg(), "0");
+        if (battle.getIsWin()==0){
+            // 7. 插入参与记录
+            UserActivityRecords record = new UserActivityRecords();
+            record.setUserId(userId);
+            record.setDetailCode(activityDetail.getDetailCode());
+            record.setStarLevel(token.getFinalLevel());
+            record.setDifficultyLevel(token.getDifficultyLevel());
+            record.setParticipationDate(new Date());
+            record.setDifficultyLevel(activityDetail.getDifficultyLevel());
+            record.setParticipationTime(new Date());
+            record.setStatus(1);
+            int rows = recordMapper.insert(record);
+
+            // 8. 查询并发放奖励（模拟发放，实际需关联用户资产表）
+            List<ActivityReward> rewardList = rewardMapper.getByCodde(token.getStr());
+            for (ActivityReward content : rewardList) {
+                if ("1".equals(content.getRewardType() + "")) {
+                    //钻石
+                    user.setDiamond(user.getDiamond().add(new BigDecimal(content.getRewardAmount())));
+                } else if ("2".equals(content.getRewardType() + "")) {
+                    user.setGold(user.getGold().add(new BigDecimal(content.getRewardAmount())));
+                } else if ("3".equals(content.getRewardType() + "")) {
+                    user.setSoul(user.getSoul().add(new BigDecimal(content.getRewardAmount())));
+                } else if ("4".equals(content.getRewardType() + "")) {
+                    Characters characters1 = charactersMapper.listById(userId, content.getItemId() + "");
+                    if (characters1 != null) {
+                        characters1.setStackCount(characters1.getStackCount() + content.getRewardAmount());
+                        charactersMapper.updateByPrimaryKey(characters1);
+                    } else {
+                        Characters characters = new Characters();
+                        characters.setStackCount(content.getRewardAmount() - 1);
+                        characters.setId(content.getItemId() + "");
+                        characters.setLv(1);
+                        characters.setUserId(Integer.parseInt(userId));
+                        characters.setStar(new BigDecimal(1));
+                        charactersMapper.insert(characters);
+                    }
+                }
+            }
+        }
+        user.setTiliCount(user.getTiliCount() - 2);
+        user.setTiliCountTime(new Date());
+        userMapper.updateuser(user);
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(user, userInfo);
+        userInfo.setLevelUp(levelUp);
+        map.put("levelUp", levelUp);
+        map.put("user", userInfo);
+        map.put("battle", battle);
+        baseResp.setData(map);
+        baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    private Integer getTodayQiyaoxingStar() {
+        LocalDate today = LocalDate.now();
+        // 获取本周第几天（1=周一，7=周日），对应星级1-7
+        int dayOfWeek = today.getDayOfWeek().getValue();
+        return dayOfWeek;
+    }
 
     /**
      * 构造函数

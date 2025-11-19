@@ -141,13 +141,66 @@ public class GameContoller {
             return baseResp;
         }
     }
-
+    @RequestMapping(value = "changeName", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp changeName(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.changeName(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
     @RequestMapping(value = "pveDetail", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp pveDetail(@RequestBody TokenDto token, HttpServletRequest request) {
         BaseResp baseResp = new BaseResp();
         try {
             baseResp = gameServiceService.pveDetail(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    @RequestMapping(value = "getActivityList", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp getActivityList(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.getActivityList(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+
+    @RequestMapping(value = "getUserActivityDetail", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp getUserActivityDetail(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.getUserActivityDetail(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    @RequestMapping(value = "participate", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp participate(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.participate(token, request);
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();

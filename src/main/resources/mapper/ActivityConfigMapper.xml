@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.ActivityConfigMapper">
+    <resultMap id="BaseResultMap" type="com.sy.model.game.ActivityConfig">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="activity_code" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="activity_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="start_date" javaType="java.util.Date" jdbcType="DATE"/>
+            <arg column="end_date" javaType="java.util.Date" jdbcType="DATE"/>
+            <arg column="daily_max_times" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="star_count" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, activity_code, activity_name, start_date, end_date, daily_max_times, star_count, 
+    status, description, create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from activity_config
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from activity_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.sy.model.game.ActivityConfig">
+    insert into activity_config (id, activity_code, activity_name, 
+      start_date, end_date, daily_max_times, 
+      star_count, status, description, 
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{activityCode,jdbcType=VARCHAR}, #{activityName,jdbcType=VARCHAR}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{dailyMaxTimes,jdbcType=TINYINT}, 
+      #{starCount,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.sy.model.game.ActivityConfig">
+        insert into activity_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="activityCode != null">
+                activity_code,
+            </if>
+            <if test="activityName != null">
+                activity_name,
+            </if>
+            <if test="startDate != null">
+                start_date,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+            <if test="dailyMaxTimes != null">
+                daily_max_times,
+            </if>
+            <if test="starCount != null">
+                star_count,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="activityCode != null">
+                #{activityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="activityName != null">
+                #{activityName,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                #{startDate,jdbcType=DATE},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=DATE},
+            </if>
+            <if test="dailyMaxTimes != null">
+                #{dailyMaxTimes,jdbcType=TINYINT},
+            </if>
+            <if test="starCount != null">
+                #{starCount,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.ActivityConfig">
+        update activity_config
+        <set>
+            <if test="activityCode != null">
+                activity_code = #{activityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="activityName != null">
+                activity_name = #{activityName,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                start_date = #{startDate,jdbcType=DATE},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate,jdbcType=DATE},
+            </if>
+            <if test="dailyMaxTimes != null">
+                daily_max_times = #{dailyMaxTimes,jdbcType=TINYINT},
+            </if>
+            <if test="starCount != null">
+                star_count = #{starCount,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sy.model.game.ActivityConfig">
+    update activity_config
+    set activity_code = #{activityCode,jdbcType=VARCHAR},
+      activity_name = #{activityName,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      daily_max_times = #{dailyMaxTimes,jdbcType=TINYINT},
+      star_count = #{starCount,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectAll" resultType="com.sy.model.game.ActivityConfig">
+    select * from activity_config
+    where is_permanent='1' or (
+        start_date &lt;= now()
+        AND end_date &gt;= now()
+    )
+  </select>
+</mapper>

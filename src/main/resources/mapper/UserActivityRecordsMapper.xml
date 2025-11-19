@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.UserActivityRecordsMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.UserActivityRecords">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="user_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="activity_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="participation_date" javaType="java.util.Date" jdbcType="DATE" />
+      <arg column="star_level" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="difficulty_level" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="participation_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, activity_code, participation_date, star_level, difficulty_level, participation_time, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_activity_records
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_activity_records
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sy.model.game.UserActivityRecords">
+    insert into user_activity_records (id, user_id, detail_code,
+      participation_date, star_level, difficulty_level, 
+      participation_time, status)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{detailCode,jdbcType=VARCHAR},
+      #{participationDate,jdbcType=DATE}, #{starLevel,jdbcType=TINYINT}, #{difficultyLevel,jdbcType=VARCHAR}, 
+      #{participationTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.game.UserActivityRecords">
+    insert into user_activity_records
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="activityCode != null">
+        activity_code,
+      </if>
+      <if test="participationDate != null">
+        participation_date,
+      </if>
+      <if test="starLevel != null">
+        star_level,
+      </if>
+      <if test="difficultyLevel != null">
+        difficulty_level,
+      </if>
+      <if test="participationTime != null">
+        participation_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="activityCode != null">
+        #{activityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="participationDate != null">
+        #{participationDate,jdbcType=DATE},
+      </if>
+      <if test="starLevel != null">
+        #{starLevel,jdbcType=TINYINT},
+      </if>
+      <if test="difficultyLevel != null">
+        #{difficultyLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="participationTime != null">
+        #{participationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.UserActivityRecords">
+    update user_activity_records
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="activityCode != null">
+        activity_code = #{activityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="participationDate != null">
+        participation_date = #{participationDate,jdbcType=DATE},
+      </if>
+      <if test="starLevel != null">
+        star_level = #{starLevel,jdbcType=TINYINT},
+      </if>
+      <if test="difficultyLevel != null">
+        difficulty_level = #{difficultyLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="participationTime != null">
+        participation_time = #{participationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.model.game.UserActivityRecords">
+    update user_activity_records
+    set user_id = #{userId,jdbcType=VARCHAR},
+      activity_code = #{activityCode,jdbcType=VARCHAR},
+      participation_date = #{participationDate,jdbcType=DATE},
+      star_level = #{starLevel,jdbcType=TINYINT},
+      difficulty_level = #{difficultyLevel,jdbcType=VARCHAR},
+      participation_time = #{participationTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -20,4 +20,5 @@ public interface CardMapper {
     List<Card> selectAll();
 
     Card selectByid(Integer id);
+
 }
