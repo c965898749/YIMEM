@@ -1,13 +1,14 @@
 package com.sy.tool;
 
 import com.sy.model.game.*;
-
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+
+
 /**
- * 卡牌5v5战斗核心工具类（优化日志输出）
+ * 卡牌5v5战斗核心工具类
  */
 public class CardBattleTool {
     private static final Map<String, List<BattleLog>> BATTLE_LOG_CACHE = new ConcurrentHashMap<>();
@@ -39,20 +40,44 @@ public class CardBattleTool {
         if (fieldA != null) {
             fieldA.setOnField(true);
             battleLogs.add(new BattleLog(battleId, 0, "登场", fieldA.getName(), "场上",
-                    0, EffectType.BUFF));
+                    0, EffectType.BUFF, null));
+            triggerOffFieldEnterSkill(teamA, teamB, battleLogs, battleId, 0);
             triggerOnEnterSkill(fieldA, teamA, teamB, battleLogs, battleId, 0);
+            triggerEvent(new BattleEvent(EventType.UNIT_ENTER, fieldA.getId(), null, 0),
+                    teamA, teamB, battleLogs, battleId, 0);
+
+            // 触发敌方厚土娘娘大地净化
+            teamB.stream()
+                    .filter(Objects::nonNull)
+                    .filter(g -> g.getName().equals("厚土娘娘") && g.isOnField() && g.isAlive())
+                    .forEach(g -> g.triggerEarthPurification(battleLogs, battleId, 0));
         }
+
         if (fieldB != null) {
             fieldB.setOnField(true);
             battleLogs.add(new BattleLog(battleId, 0, "登场", fieldB.getName(), "场上",
-                    0, EffectType.BUFF));
+                    0, EffectType.BUFF, null));
+            triggerOffFieldEnterSkill(teamB, teamA, battleLogs, battleId, 0);
             triggerOnEnterSkill(fieldB, teamB, teamA, battleLogs, battleId, 0);
+            triggerEvent(new BattleEvent(EventType.UNIT_ENTER, fieldB.getId(), null, 0),
+                    teamB, teamA, battleLogs, battleId, 0);
+
+            // 触发敌方厚土娘娘大地净化
+            teamA.stream()
+                    .filter(Objects::nonNull)
+                    .filter(g -> g.getName().equals("厚土娘娘") && g.isOnField() && g.isAlive())
+                    .forEach(g -> g.triggerEarthPurification(battleLogs, battleId, 0));
         }
 
         while (round < MAX_ROUNDS && status == BattleStatus.ONGOING) {
             round++;
             battleLogs.add(new BattleLog(battleId, round, "回合开始", "系统", "",
-                    0, EffectType.BUFF));
+                    0, EffectType.BUFF, null));
+
+            triggerLuoshenLifeTransfer(teamA, battleLogs, battleId, round);
+            triggerLuoshenLifeTransfer(teamB, battleLogs, battleId, round);
+
+            triggerYanluoWangLifeBook(teamA, teamB, battleLogs, battleId, round);
 
             triggerOffFieldStartSkill(teamA, teamB, battleLogs, battleId, round);
             triggerOffFieldStartSkill(teamB, teamA, battleLogs, battleId, round);
@@ -63,13 +88,13 @@ public class CardBattleTool {
             if (isTeamAllDead(teamA)) {
                 status = BattleStatus.LOSE;
                 battleLogs.add(new BattleLog(battleId, round, "战斗结束", "系统", "A队全灭",
-                        0, EffectType.BUFF));
+                        0, EffectType.BUFF, null));
                 break;
             }
             if (isTeamAllDead(teamB)) {
                 status = BattleStatus.WIN;
                 battleLogs.add(new BattleLog(battleId, round, "战斗结束", "系统", "B队全灭",
-                        0, EffectType.BUFF));
+                        0, EffectType.BUFF, null));
                 break;
             }
             if (fieldA == null || fieldB == null) break;
@@ -85,18 +110,24 @@ public class CardBattleTool {
             List<Guardian> attackerTeam = attacker == fieldA ? teamA : teamB;
             List<Guardian> defenderTeam = defender == fieldA ? teamA : teamB;
 
+            if (attacker.getName().equals("圣灵天将")) {
+                attacker.triggerHolyArray(teamA, teamB, battleLogs, battleId, round);
+            }
+
             triggerEvent(new BattleEvent(EventType.ATTACK, attacker.getId(), defender.getId(), 0),
                     attackerTeam, defenderTeam, battleLogs, battleId, round);
 
             attackProcess(attacker, defender, attackerTeam, defenderTeam, battleLogs, battleId, round);
+
+            triggerPostAttackSkills(attacker, defender, attackerTeam, defenderTeam, battleLogs, battleId, round);
 
             triggerEvent(new BattleEvent(EventType.TURN_END, null, null, 0),
                     teamA, teamB, battleLogs, battleId, round);
             triggerEvent(new BattleEvent(EventType.TURN_END, null, null, 0),
                     teamB, teamA, battleLogs, battleId, round);
 
-            teamA.forEach(Guardian::cleanExpiredBuffs);
-            teamB.forEach(Guardian::cleanExpiredBuffs);
+            teamA.forEach(g -> g.cleanExpiredBuffs());
+            teamB.forEach(g -> g.cleanExpiredBuffs());
         }
 
         if (status == BattleStatus.ONGOING) {
@@ -112,19 +143,154 @@ public class CardBattleTool {
             if (totalHpA > totalHpB) {
                 status = BattleStatus.WIN;
                 battleLogs.add(new BattleLog(battleId, round, "回合上限结束", "系统", "A队胜利（总血量高）",
-                        totalHpA - totalHpB, EffectType.BUFF));
+                        totalHpA - totalHpB, EffectType.BUFF, null));
             } else if (totalHpB > totalHpA) {
                 status = BattleStatus.LOSE;
                 battleLogs.add(new BattleLog(battleId, round, "回合上限结束", "系统", "B队胜利（总血量高）",
-                        totalHpB - totalHpA, EffectType.BUFF));
+                        totalHpB - totalHpA, EffectType.BUFF, null));
             } else {
                 status = BattleStatus.DRAW;
                 battleLogs.add(new BattleLog(battleId, round, "回合上限结束", "系统", "平局（总血量相同）",
-                        0, EffectType.BUFF));
+                        0, EffectType.BUFF, null));
             }
         }
 
         return battleId;
+    }
+
+    private void triggerOffFieldEnterSkill(List<Guardian> ownTeam, List<Guardian> enemyTeam,
+                                           List<BattleLog> battleLogs, String battleId, int round) {
+        ownTeam.stream()
+                .filter(Objects::nonNull)
+                .filter(g -> !g.isOnField() && g.isAlive())
+                .forEach(g -> {
+                    if (g.getName().equals("阎罗王")) {
+                        g.triggerNetherJudgment(enemyTeam, battleLogs, battleId, round);
+                    }
+                    else if (g.getName().equals("妲己")) {
+                        if (enemyTeam != null && g.getRandom().nextDouble() < 0.1 * g.getLevel()) {
+                            List<Guardian> aliveEnemies = enemyTeam.stream()
+                                    .filter(Objects::nonNull)
+                                    .filter(Guardian::isAlive)
+                                    .collect(Collectors.toList());
+
+                            if (!aliveEnemies.isEmpty()) {
+                                Guardian target = aliveEnemies.get(g.getRandom().nextInt(aliveEnemies.size()));
+                                Buff stunBuff = new Buff(Buff.BuffType.STUNNED, 1, 0);
+                                target.addBuff(stunBuff);
+
+                                String remainingTurns = stunBuff.isPermanent() ? "永久" : String.valueOf(stunBuff.getRemainingTurns());
+                                battleLogs.add(new BattleLog(battleId, round, "九尾魅惑（妲己）", g.getName(), target.getName(),
+                                        0, EffectType.DEBUFF, null,
+                                        "眩晕，剩余回合：" + remainingTurns));
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void triggerPostAttackSkills(Guardian attacker, Guardian defender, List<Guardian> attackerTeam,
+                                         List<Guardian> defenderTeam, List<BattleLog> battleLogs, String battleId, int round) {
+        if (attacker.getName().equals("牛魔王")) {
+            attacker.triggerLavaBurst(defenderTeam, battleLogs, battleId, round);
+        }
+
+        if (attacker.getName().equals("铁扇公主") && defenderTeam != null) {
+            List<String> fanTargets = defenderTeam.stream()
+                    .filter(Objects::nonNull)
+                    .filter(Guardian::isAlive)
+                    .map(Guardian::getName)
+                    .collect(Collectors.toList());
+
+            if (!fanTargets.isEmpty()) {
+                int fireDamage = 36 * attacker.getLevel();
+                addMultiTargetLog(battleLogs, battleId, round, "芭蕉扇（铁扇公主）",
+                        attacker.getName(), fanTargets, fireDamage,
+                        EffectType.DAMAGE, DamageType.FIRE);
+
+                defenderTeam.stream()
+                        .filter(Objects::nonNull)
+                        .filter(Guardian::isAlive)
+                        .forEach(g -> takeDamageWithEvent(g, fireDamage, DamageType.FIRE,
+                                attackerTeam, defenderTeam, battleLogs,
+                                battleId, round, attacker.getId()));
+            }
+        }
+
+        if (attacker.getName().equals("聂小倩") && defenderTeam != null && defender.getBuffs().stream()
+                .filter(Objects::nonNull)
+                .anyMatch(b -> b.getType() == Buff.BuffType.POISONED)) {
+
+            List<String> poisonTargets = new ArrayList<>();
+            int extraDamage = 60 * attacker.getLevel();
+
+            defenderTeam.stream()
+                    .filter(Objects::nonNull)
+                    .filter(Guardian::isAlive)
+                    .forEach(g -> {
+                        Buff poisonBuff = new Buff(Buff.BuffType.POISONED, 2, extraDamage);
+                        g.addBuff(poisonBuff);
+                        poisonTargets.add(g.getName());
+
+                        String remainingTurns = poisonBuff.isPermanent() ? "永久" : String.valueOf(poisonBuff.getRemainingTurns());
+                        battleLogs.add(new BattleLog(battleId, round, "剧毒蔓延（聂小倩）", attacker.getName(), g.getName(),
+                                extraDamage, EffectType.DEBUFF, DamageType.POISON,
+                                "中毒+"+extraDamage+"，剩余回合：" + remainingTurns));
+                    });
+        }
+
+        if (attacker.getName().equals("燃灯道人") && attackerTeam != null) {
+            List<String> blessTargets = attackerTeam.stream()
+                    .filter(Objects::nonNull)
+                    .filter(g -> g.getPosition() > attacker.getPosition() && g.isAlive())
+                    .map(Guardian::getName)
+                    .collect(Collectors.toList());
+
+            if (!blessTargets.isEmpty()) {
+                int attackBoost = 66 * attacker.getLevel();
+                addMultiTargetLog(battleLogs, battleId, round, "仙人指路（燃灯道人）",
+                        attacker.getName(), blessTargets, attackBoost,
+                        EffectType.ATTACK_UP, null);
+
+                attackerTeam.stream()
+                        .filter(Objects::nonNull)
+                        .filter(g -> g.getPosition() > attacker.getPosition() && g.isAlive())
+                        .forEach(g -> {
+                            g.addAttack(attackBoost);
+                            Buff attackBuff = new Buff(Buff.BuffType.ATTACK_UP, 2, attackBoost);
+                            g.addBuff(attackBuff);
+
+                            String remainingTurns = attackBuff.isPermanent() ? "永久" : String.valueOf(attackBuff.getRemainingTurns());
+                            battleLogs.add(new BattleLog(battleId, round, "攻击提升", attacker.getName(), g.getName(),
+                                    attackBoost, EffectType.BUFF, null,
+                                    "攻击+"+attackBoost+"，剩余回合：" + remainingTurns));
+                        });
+            }
+        }
+    }
+
+    private void triggerLuoshenLifeTransfer(List<Guardian> team, List<BattleLog> battleLogs,
+                                            String battleId, int round) {
+        team.stream()
+                .filter(Objects::nonNull)
+                .filter(Guardian::isAlive)
+                .filter(g -> g.getName().equals("洛神"))
+                .forEach(g -> g.triggerLifeTransfer(team, battleLogs, battleId, round));
+    }
+
+    private void triggerYanluoWangLifeBook(List<Guardian> teamA, List<Guardian> teamB,
+                                           List<BattleLog> battleLogs, String battleId, int round) {
+        teamA.stream()
+                .filter(Objects::nonNull)
+                .filter(Guardian::isAlive)
+                .filter(g -> g.getName().equals("阎罗王"))
+                .forEach(g -> g.triggerLifeBook(teamA, teamB, battleLogs, battleId, round));
+
+        teamB.stream()
+                .filter(Objects::nonNull)
+                .filter(Guardian::isAlive)
+                .filter(g -> g.getName().equals("阎罗王"))
+                .forEach(g -> g.triggerLifeBook(teamA, teamB, battleLogs, battleId, round));
     }
 
     private void addMultiTargetLog(List<BattleLog> battleLogs, String battleId, int round,
@@ -174,6 +340,22 @@ public class CardBattleTool {
         }
     }
 
+    private void handleUnitDeath(Guardian deadUnit, List<Guardian> deadUnitTeam, List<Guardian> otherTeam,
+                                 boolean isEnemyDeathForA, boolean isEnemyDeathForB,
+                                 List<BattleLog> battleLogs, String battleId, int round) {
+        deadUnitTeam.stream()
+                .filter(Objects::nonNull)
+                .filter(Guardian::isAlive)
+                .forEach(g -> g.handleDeathEvent(new BattleEvent(EventType.UNIT_DEATH, null, deadUnit.getId(), 0),
+                        deadUnitTeam, otherTeam, !isEnemyDeathForA, battleLogs, battleId, round));
+
+        otherTeam.stream()
+                .filter(Objects::nonNull)
+                .filter(Guardian::isAlive)
+                .forEach(g -> g.handleDeathEvent(new BattleEvent(EventType.UNIT_DEATH, null, deadUnit.getId(), 0),
+                        otherTeam, deadUnitTeam, isEnemyDeathForB, battleLogs, battleId, round));
+    }
+
     private int takeDamageWithEvent(Guardian target, int damage, DamageType type,
                                     List<Guardian> attackerTeam, List<Guardian> defenderTeam,
                                     List<BattleLog> battleLogs, String battleId, int round,
@@ -196,6 +378,13 @@ public class CardBattleTool {
         }
 
         if (!target.isAlive() && oldHp > 0) {
+            boolean isEnemyDeathForAttacker = defenderTeam != null && defenderTeam.contains(target);
+            boolean isEnemyDeathForDefender = attackerTeam != null && attackerTeam.contains(target);
+
+            handleUnitDeath(target, defenderTeam, attackerTeam,
+                    isEnemyDeathForAttacker, isEnemyDeathForDefender,
+                    battleLogs, battleId, round);
+
             triggerEvent(new BattleEvent(EventType.UNIT_DEATH, sourceId, target.getId(), 0),
                     attackerTeam, defenderTeam, battleLogs, battleId, round);
 
@@ -259,11 +448,14 @@ public class CardBattleTool {
         }
 
         if (currentField != null && !currentField.isAlive()) {
+            handleUnitDeath(currentField, team, enemyTeam, true, true,
+                    battleLogs, battleId, round);
+
             triggerEvent(new BattleEvent(EventType.UNIT_DEATH, null, currentField.getId(), 0),
                     team, enemyTeam, battleLogs, battleId, round);
 
             battleLogs.add(new BattleLog(battleId, round, "单位阵亡", currentField.getName(), "战场",
-                    0, EffectType.BUFF));
+                    0, EffectType.BUFF, null));
         }
 
         if (currentField == null || !currentField.isAlive()) {
@@ -276,8 +468,21 @@ public class CardBattleTool {
             if (newField != null) {
                 newField.setOnField(true);
                 battleLogs.add(new BattleLog(battleId, round, "登场", newField.getName(), "场上",
-                        0, EffectType.BUFF));
+                        0, EffectType.BUFF, null));
+
+                // 触发敌方厚土娘娘大地净化
+                enemyTeam.stream()
+                        .filter(Objects::nonNull)
+                        .filter(g -> g.getName().equals("厚土娘娘") && g.isOnField() && g.isAlive())
+                        .forEach(g -> g.triggerEarthPurification(battleLogs, battleId, round));
+
+                triggerOffFieldEnterSkill(team, enemyTeam, battleLogs, battleId, round);
+
                 triggerOnEnterSkill(newField, team, enemyTeam, battleLogs, battleId, round);
+
+                triggerEvent(new BattleEvent(EventType.UNIT_ENTER, newField.getId(), null, 0),
+                        team, enemyTeam, battleLogs, battleId, round);
+
                 return newField;
             }
         }
@@ -320,7 +525,7 @@ public class CardBattleTool {
                     }
                 }
                 battleLogs.add(new BattleLog(battleId, round, "仙塔庇护（被动）", guardian.getName(), "自身",
-                        25 * guardian.getLevel(), EffectType.HEAL));
+                        25 * guardian.getLevel(), EffectType.HEAL, null));
                 break;
 
             case "牛魔王":
@@ -347,7 +552,7 @@ public class CardBattleTool {
 
                 guardian.getBuffs().removeIf(buff -> buff != null && buff.getType().isDebuff());
                 battleLogs.add(new BattleLog(battleId, round, "大地净化（登场）", guardian.getName(), "自身",
-                        debuffCount, EffectType.BUFF));
+                        debuffCount, EffectType.BUFF, null));
                 break;
 
             case "长生大帝":
@@ -390,25 +595,6 @@ public class CardBattleTool {
             }
 
             switch (guardian.getName()) {
-                case "妲己":
-                    if (enemyTeam != null && guardian.getRandom().nextDouble() < 0.1 * guardian.getLevel()) {
-                        List<String> charmedTargets = enemyTeam.stream()
-                                .filter(Objects::nonNull)
-                                .filter(Guardian::isAlive)
-                                .map(Guardian::getName)
-                                .collect(Collectors.toList());
-
-                        if (!charmedTargets.isEmpty()) {
-                            aoeSkills.put("群体魅惑（场下）-" + guardian.getName(), charmedTargets);
-
-                            enemyTeam.stream()
-                                    .filter(Objects::nonNull)
-                                    .filter(Guardian::isAlive)
-                                    .forEach(g -> g.addBuff(new Buff(BuffType.STUNNED, 1, 0)));
-                        }
-                    }
-                    break;
-
                 case "玄冥":
                     if (enemyTeam != null) {
                         List<String> poisonedTargets = enemyTeam.stream()
@@ -424,21 +610,15 @@ public class CardBattleTool {
                             enemyTeam.stream()
                                     .filter(Objects::nonNull)
                                     .filter(Guardian::isAlive)
-                                    .forEach(g -> g.addBuff(new Buff(BuffType.POISONED, -1, poisonDamage)));
-                        }
-                    }
-                    break;
+                                    .forEach(g -> {
+                                        Buff poisonBuff = new Buff(Buff.BuffType.POISONED, 2, poisonDamage);
+                                        g.addBuff(poisonBuff);
 
-                case "阎罗王":
-                    if (enemyTeam != null) {
-                        List<String> judgedTargets = enemyTeam.stream()
-                                .filter(Objects::nonNull)
-                                .filter(Guardian::isAlive)
-                                .map(Guardian::getName)
-                                .collect(Collectors.toList());
-
-                        if (!judgedTargets.isEmpty()) {
-                            aoeSkills.put("生死判决（场下）-" + guardian.getName(), judgedTargets);
+                                        String remainingTurns = poisonBuff.isPermanent() ? "永久" : String.valueOf(poisonBuff.getRemainingTurns());
+                                        battleLogs.add(new BattleLog(battleId, round, "瘟疫扩散（玄冥）", guardian.getName(), g.getName(),
+                                                poisonDamage, EffectType.DEBUFF, DamageType.POISON,
+                                                "中毒+"+poisonDamage+"，剩余回合：" + remainingTurns));
+                                    });
                         }
                     }
                     break;
@@ -464,8 +644,8 @@ public class CardBattleTool {
                     }
                     break;
 
-                default:
-                    if (guardian.getName().equals("镇元子") && enemyTeam != null) {
+                case "镇元子":
+                    if (enemyTeam != null) {
                         Guardian enemyField = enemyTeam.stream()
                                 .filter(Objects::nonNull)
                                 .filter(Guardian::isOnField)
@@ -505,6 +685,12 @@ public class CardBattleTool {
         Map<String, List<String>> dotEffects = new HashMap<>();
         Map<String, Integer> dotDamage = new HashMap<>();
 
+        // 触发厚土娘娘后土聚能
+        ownTeam.stream()
+                .filter(Objects::nonNull)
+                .filter(g -> g.getName().equals("厚土娘娘") && g.isOnField() && g.isAlive())
+                .forEach(g -> g.triggerHoutuAccumulation(battleLogs, battleId, round));
+
         for (Guardian guardian : enemyTeam) {
             if (guardian == null || !guardian.isAlive()) {
                 continue;
@@ -512,14 +698,20 @@ public class CardBattleTool {
 
             Optional<Buff> poisonBuff = guardian.getBuffs().stream()
                     .filter(Objects::nonNull)
-                    .filter(b -> b.getType() == BuffType.POISONED)
+                    .filter(b -> b.getType() == Buff.BuffType.POISONED)
                     .findFirst();
 
             if (poisonBuff.isPresent()) {
-                int damage = poisonBuff.get().getValue();
+                Buff buff = poisonBuff.get();
+                int damage = buff.getValue();
                 int finalDamage = takeDamageWithEvent(guardian, damage, DamageType.POISON,
                         ownTeam, enemyTeam, battleLogs, battleId, round,
                         "system");
+
+                String remainingTurns = buff.isPermanent() ? "永久" : String.valueOf(buff.getRemainingTurns());
+                battleLogs.add(new BattleLog(battleId, round, "中毒效果", "系统", guardian.getName(),
+                        finalDamage, EffectType.DAMAGE, DamageType.POISON,
+                        "剩余回合：" + remainingTurns));
 
                 String key = "中毒效果";
                 if (!dotEffects.containsKey(key)) {
@@ -531,14 +723,20 @@ public class CardBattleTool {
 
             Optional<Buff> diseaseBuff = guardian.getBuffs().stream()
                     .filter(Objects::nonNull)
-                    .filter(b -> b.getType() == BuffType.DISEASED)
+                    .filter(b -> b.getType() == Buff.BuffType.DISEASED)
                     .findFirst();
 
             if (diseaseBuff.isPresent()) {
-                int damage = diseaseBuff.get().getValue();
+                Buff buff = diseaseBuff.get();
+                int damage = buff.getValue();
                 int finalDamage = takeDamageWithEvent(guardian, damage, DamageType.POISON,
                         ownTeam, enemyTeam, battleLogs, battleId, round,
                         "system");
+
+                String remainingTurns = buff.isPermanent() ? "永久" : String.valueOf(buff.getRemainingTurns());
+                battleLogs.add(new BattleLog(battleId, round, "疾病效果", "系统", guardian.getName(),
+                        finalDamage, EffectType.DAMAGE, DamageType.POISON,
+                        "剩余回合：" + remainingTurns));
 
                 String key = "疾病效果";
                 if (!dotEffects.containsKey(key)) {
@@ -546,74 +744,42 @@ public class CardBattleTool {
                     dotDamage.put(key, damage);
                 }
                 dotEffects.get(key).add(guardian.getName());
-
-                diseaseBuff.get().reduceDuration();
-            }
-        }
-
-        for (Map.Entry<String, List<String>> entry : dotEffects.entrySet()) {
-            String effectName = entry.getKey();
-            List<String> targets = entry.getValue();
-
-            if (!targets.isEmpty()) {
-                addMultiTargetLog(battleLogs, battleId, round, effectName, "系统",
-                        targets, dotDamage.get(effectName),
-                        EffectType.DAMAGE, DamageType.POISON);
-            }
-        }
-
-        if (ownTeam != null) {
-            for (Guardian guardian : ownTeam) {
-                if (guardian != null && guardian.isOnField() && guardian.isAlive() &&
-                        guardian.getName().equals("托塔天王")) {
-
-                    int healAmount = 25 * guardian.getLevel();
-                    int actualHeal = guardian.heal(healAmount);
-                    battleLogs.add(new BattleLog(battleId, round, "仙塔庇护（回合中）", guardian.getName(), "自身",
-                            actualHeal, EffectType.HEAL));
-                }
             }
         }
     }
 
     private void triggerHoutuSkill(Guardian guardian, List<BattleLog> battleLogs, String battleId, int round) {
-        if (guardian == null || !guardian.getName().equals("厚土娘娘") ||
-                !guardian.isOnField() || !guardian.isAlive() || battleLogs == null || battleId == null) {
+        if (guardian == null || !guardian.isAlive() || !guardian.getName().equals("厚土娘娘")) {
             return;
         }
 
-        int stack = guardian.getSkillTriggers().getOrDefault("后土聚能", 0);
-        if (stack < 99) {
-            int addHp = 197 * guardian.getLevel();
-            int addAtk = 67 * guardian.getLevel();
+        int currentStacks = guardian.getSkillTriggers().getOrDefault("后土聚能", 0);
+        currentStacks++;
+        guardian.getSkillTriggers().put("后土聚能", currentStacks);
 
-            guardian.addMaxHp(addHp);
-            int actualHeal = guardian.heal(addHp);
-            guardian.addAttack(addAtk);
-
-            guardian.getSkillTriggers().put("后土聚能", stack + 1);
-
-            battleLogs.add(new BattleLog(battleId, round, "后土聚能", guardian.getName(), "自身",
-                    0, EffectType.BUFF));
+        if (currentStacks >= 3) {
+            int healAmount = 200 * guardian.getLevel();
+            guardian.heal(healAmount);
+            battleLogs.add(new BattleLog(battleId, round, "后土之愈（厚土娘娘）", guardian.getName(), "自身",
+                    healAmount, EffectType.HEAL, null));
+            guardian.getSkillTriggers().put("后土聚能", 0);
         }
     }
 
     private void attackProcess(Guardian attacker, Guardian defender, List<Guardian> attackerTeam,
                                List<Guardian> defenderTeam, List<BattleLog> battleLogs, String battleId, int round) {
-        if (attacker == null || defender == null || battleLogs == null || battleId == null) {
+        if (attacker == null || defender == null || !attacker.isAlive() || !defender.isAlive()) {
             return;
         }
 
-        triggerPreAttackSkill(attacker, defender, defenderTeam, attackerTeam, battleLogs, battleId, round);
-
+        // 检查是否被眩晕
         boolean isStunned = attacker.getBuffs().stream()
                 .filter(Objects::nonNull)
-                .anyMatch(b -> b.getType() == BuffType.STUNNED);
+                .anyMatch(b -> b.getType() == Buff.BuffType.STUNNED);
 
         if (isStunned) {
-            battleLogs.add(new BattleLog(battleId, round, "眩晕效果", attacker.getName(), "自身",
-                    0, EffectType.DEBUFF));
-            attacker.getBuffs().removeIf(buff -> buff != null && buff.getType() == BuffType.STUNNED);
+            battleLogs.add(new BattleLog(battleId, round, "被眩晕无法攻击", attacker.getName(), "",
+                    0, EffectType.DEBUFF, null));
             return;
         }
 
@@ -625,225 +791,24 @@ public class CardBattleTool {
         battleLogs.add(new BattleLog(battleId, round, "普通攻击", attacker.getName(), defender.getName(),
                 finalDamage, EffectType.DAMAGE, DamageType.PHYSICAL));
 
-        if (attacker.getName().equals("牛魔王") && defenderTeam != null) {
-            List<String> splashTargets = new ArrayList<>();
-            int splashDamage = (int) (baseDamage * 0.3);
-
-            defenderTeam.stream()
-                    .filter(Objects::nonNull)
-                    .filter(g -> !g.getId().equals(defender.getId()) && g.isAlive())
-                    .forEach(g -> {
-                        takeDamageWithEvent(g, splashDamage, DamageType.PHYSICAL,
-                                attackerTeam, defenderTeam, battleLogs, battleId, round,
-                                attacker.getId());
-                        splashTargets.add(g.getName());
-                    });
-
-            if (!splashTargets.isEmpty()) {
-                addMultiTargetLog(battleLogs, battleId, round, "溅射伤害",
-                        attacker.getName(), splashTargets,
-                        splashDamage, EffectType.DAMAGE, DamageType.PHYSICAL);
-            }
-        }
-
-        triggerPostAttackSkill(attacker, defender, attackerTeam, defenderTeam, battleLogs, battleId, round);
-
-        if (defender.getName().equals("聂小倩") && defender.isAlive()) {
-            int poisonDamage = 8 * defender.getLevel();
-            attacker.addBuff(new Buff(BuffType.POISONED, -1, poisonDamage));
-            battleLogs.add(new BattleLog(battleId, round, "幽灵毒击（受击）", defender.getName(), attacker.getName(),
-                    poisonDamage, EffectType.DEBUFF, DamageType.POISON));
-        }
-
-        if (defender.getName().equals("刑天") && defender.isAlive()) {
-            int addAtk = 118 * defender.getLevel();
-            int addSpd = 20 * defender.getLevel();
-            defender.addBuff(new Buff(BuffType.BLOODLUST, -1, addAtk));
-            defender.addBuff(new Buff(BuffType.SPEED_UP, -1, addSpd));
-
-            battleLogs.add(new BattleLog(battleId, round, "嗜血（受击）", defender.getName(), "自身",
-                    addAtk, EffectType.ATTACK_UP));
+        // 触发圣灵斩
+        if (attacker.getName().equals("圣灵天将")) {
+            attacker.triggerHolySlash(defender, battleLogs, battleId, round);
         }
     }
 
-    // 修复triggerPreAttackSkill方法签名，添加defenderTeam参数
-    private void triggerPreAttackSkill(Guardian attacker, Guardian defender, List<Guardian> defenderTeam,
-                                       List<Guardian> attackerTeam, List<BattleLog> battleLogs,
-                                       String battleId, int round) {
-        if (attacker == null || defender == null || !defender.isAlive() || battleLogs == null || battleId == null) {
-            return;
-        }
-
-        switch (attacker.getName()) {
-            case "齐天大圣":
-                // 大闹天宫（对敌方全体造成伤害）
-                if (defenderTeam != null) {
-                    List<String> monkeyTargets = new ArrayList<>();
-                    int monkeyDamage = (int) (defender.getCurrentHp() * 0.03);
-
-                    defenderTeam.stream()
-                            .filter(Objects::nonNull)
-                            .filter(Guardian::isAlive)
-                            .forEach(g -> {
-                                takeDamageWithEvent(g, monkeyDamage, DamageType.TRUE_DAMAGE,
-                                        attackerTeam, defenderTeam, battleLogs, battleId, round,
-                                        attacker.getId());
-                                monkeyTargets.add(g.getName());
-                            });
-
-                    if (!monkeyTargets.isEmpty()) {
-                        addMultiTargetLog(battleLogs, battleId, round, "大闹天宫（攻击前）",
-                                attacker.getName(), monkeyTargets,
-                                monkeyDamage, EffectType.DAMAGE, DamageType.TRUE_DAMAGE);
-                    }
-                }
-                break;
-
-            case "白骨精":
-                if (attacker.getRandom().nextDouble() < 0.5 * attacker.getLevel()) {
-                    int boneDamage = 80 * attacker.getLevel();
-                    int finalDamage = takeDamageWithEvent(defender, boneDamage, DamageType.PHYSICAL,
-                            attackerTeam, defenderTeam, battleLogs, battleId, round,
-                            attacker.getId());
-                    battleLogs.add(new BattleLog(battleId, round, "骨刺突袭（攻击前）", attacker.getName(), defender.getName(),
-                            finalDamage, EffectType.DAMAGE, DamageType.PHYSICAL));
-                }
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    private void triggerPostAttackSkill(Guardian attacker, Guardian defender, List<Guardian> attackerTeam,
-                                        List<Guardian> defenderTeam, List<BattleLog> battleLogs, String battleId, int round) {
-        if (attacker == null || battleLogs == null || battleId == null) {
-            return;
-        }
-
-        switch (attacker.getName()) {
-            case "铁扇公主":
-                if (defenderTeam != null) {
-                    List<String> fanTargets = defenderTeam.stream()
-                            .filter(Objects::nonNull)
-                            .filter(Guardian::isAlive)
-                            .map(Guardian::getName)
-                            .collect(Collectors.toList());
-
-                    if (!fanTargets.isEmpty()) {
-                        addMultiTargetLog(battleLogs, battleId, round, "芭蕉扇（攻击后）",
-                                attacker.getName(), fanTargets,
-                                36 * attacker.getLevel(), EffectType.DAMAGE, DamageType.FIRE);
-
-                        defenderTeam.stream()
-                                .filter(Objects::nonNull)
-                                .filter(Guardian::isAlive)
-                                .forEach(g -> takeDamageWithEvent(g, 36 * attacker.getLevel(),
-                                        DamageType.FIRE, attackerTeam,
-                                        defenderTeam, battleLogs, battleId,
-                                        round, attacker.getId()));
-                    }
-                }
-                break;
-
-            case "聂小倩":
-                if (defenderTeam != null && defender.getBuffs().stream()
-                        .filter(Objects::nonNull)
-                        .anyMatch(b -> b.getType() == BuffType.POISONED)) {
-
-                    List<String> poisonTargets = new ArrayList<>();
-                    int extraDamage = 60 * attacker.getLevel();
-
-                    defenderTeam.stream()
-                            .filter(Objects::nonNull)
-                            .filter(Guardian::isAlive)
-                            .forEach(g -> {
-                                g.addBuff(new Buff(BuffType.POISONED, -1, extraDamage));
-                                poisonTargets.add(g.getName());
-                            });
-
-                    if (!poisonTargets.isEmpty()) {
-                        addMultiTargetLog(battleLogs, battleId, round, "剧毒蔓延（攻击后）",
-                                attacker.getName(), poisonTargets,
-                                extraDamage, EffectType.DEBUFF, DamageType.POISON);
-                    }
-                }
-                break;
-
-            case "燃灯道人":
-                if (attackerTeam != null) {
-                    List<String> blessTargets = attackerTeam.stream()
-                            .filter(Objects::nonNull)
-                            .filter(g -> g.getPosition() > attacker.getPosition() && g.isAlive())
-                            .map(Guardian::getName)
-                            .collect(Collectors.toList());
-
-                    if (!blessTargets.isEmpty()) {
-                        addMultiTargetLog(battleLogs, battleId, round, "仙人指路（群体祝福）",
-                                attacker.getName(), blessTargets,
-                                66 * attacker.getLevel(), EffectType.ATTACK_UP, null);
-
-                        attackerTeam.stream()
-                                .filter(Objects::nonNull)
-                                .filter(g -> g.getPosition() > attacker.getPosition() && g.isAlive())
-                                .forEach(g -> g.addAttack(66 * attacker.getLevel()));
-                    }
-                }
-                break;
-
-            default:
-                break;
-        }
-    }
-
+    // 获取战斗日志
     public List<BattleLog> getBattleLogs(String battleId) {
         return BATTLE_LOG_CACHE.getOrDefault(battleId, new ArrayList<>());
     }
 
-    public void printBattleLogs(String battleId) {
-        if (battleId == null) {
-            System.out.println("无效的战斗ID");
-            return;
-        }
-
-        List<BattleLog> logs = getBattleLogs(battleId);
-        System.out.println("\n===== 战斗记录 [" + battleId + "] =====");
-
-        Map<Integer, List<BattleLog>> logsByRound = logs.stream()
-                .collect(Collectors.groupingBy(BattleLog::getRound));
-
-        logsByRound.forEach((round, roundLogs) -> {
-            System.out.println(String.format("\n--- 第%d回合 ---", round));
-            roundLogs.forEach(log -> System.out.println(log.toString()));
-        });
-
-        System.out.println("\n==============================\n");
+    // 清理战斗日志缓存
+    public void clearBattleLogs(String battleId) {
+        BATTLE_LOG_CACHE.remove(battleId);
     }
 
-    public static void main(String[] args) {
-        try {
-            CardBattleTool battleTool = new CardBattleTool();
-
-            List<Guardian> teamA = new ArrayList<>();
-            teamA.add(new Guardian("牛魔王", Profession.WARRIOR, Race.DEMON_RACE, 3, 1));
-            teamA.add(new Guardian("厚土娘娘", Profession.IMMORTAL, Race.IMMORTAL_RACE, 3, 2));
-            teamA.add(new Guardian("铁扇公主", Profession.IMMORTAL, Race.DEMON_RACE, 3, 3));
-            teamA.add(new Guardian("聂小倩", Profession.IMMORTAL, Race.DEMON_RACE, 3, 4));
-            teamA.add(new Guardian("燃灯道人", Profession.GOD, Race.IMMORTAL_RACE, 3, 5));
-
-            List<Guardian> teamB = new ArrayList<>();
-            teamB.add(new Guardian("齐天大圣", Profession.GOD, Race.DEMON_RACE, 3, 1));
-            teamB.add(new Guardian("玄冥", Profession.IMMORTAL, Race.DEMON_RACE, 3, 2));
-            teamB.add(new Guardian("长生大帝", Profession.IMMORTAL, Race.IMMORTAL_RACE, 3, 3));
-            teamB.add(new Guardian("阎罗王", Profession.GOD, Race.DEMON_RACE, 3, 4));
-            teamB.add(new Guardian("妲己", Profession.IMMORTAL, Race.DEMON_RACE, 3, 5));
-
-            String battleId = battleTool.startBattle(teamA, teamB);
-            battleTool.printBattleLogs(battleId);
-
-        } catch (Exception e) {
-            System.err.println("战斗过程中发生错误: " + e.getMessage());
-            e.printStackTrace();
-        }
+    // 清理所有战斗日志缓存
+    public void clearAllBattleLogs() {
+        BATTLE_LOG_CACHE.clear();
     }
 }
