@@ -1,10 +1,13 @@
 package com.sy.model.game;
 
 public enum EffectType {
-    DAMAGE("伤害"), HEAL("加血"), BUFF("增益"), DEBUFF("减益"),
-    HP_UP("生命上限提升"), HP_DOWN("生命上限降低"), ATTACK_UP("攻击提升"), SPEED_UP("速度提升"),
-    SYNERGY("协同加成"), PROTECT("保护效果");;
-    private final String desc;
+    POISON("中毒"), BURN("灼烧"), SILENCE("沉默"), STUN("眩晕"), WEAKEN("衰弱"),
+    BLOODTHIRST("嗜血"), HEAL_BOOST("治疗加成"), FIRE_RESIST("火焰抗性"),
+    ATTACK_UP("攻击提升"), HP_UP("生命上限提升"), SPEED_UP("速度提升"),
+    HEAL("治疗"), DAMAGE("伤害"), DRAIN("吸血"), TRUE_DAMAGE("真实伤害"),
+    FIRE_DAMAGE("火焰伤害"), MISSILE_DAMAGE("飞弹伤害"), MAX_HP_DOWN("生命上限降低"),
+    HP_RECOVER("生命恢复"), SILENCE_IMMUNE("沉默免疫");
+
+    private String desc;
     EffectType(String desc) { this.desc = desc; }
-    public String getDesc() { return desc; }
 }

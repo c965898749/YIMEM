@@ -26,4 +26,22 @@ public class Character {
     private String camp;
     private Integer uuid;//主键
     private Integer lv;
+    public Character(){
+
+    };
+    public Character(String id,String name, Camp camp, int position, Profession profession, Race race,
+                    int maxHp, int attack, int speed) {
+        this.id = id;
+        this.name = name;
+//        this.camp = camp;
+//        this.position = position;
+        this.goIntoNum = position;
+//        this.race = race;
+//        this.level = 1;
+        this.maxHp = maxHp;
+        this.attack = attack;
+        this.speed = speed;
+//        this.isDead = false;
+//        this.isOnField = false;
+    }
 }

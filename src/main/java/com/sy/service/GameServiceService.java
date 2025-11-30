@@ -42,4 +42,5 @@ public interface GameServiceService {
     BaseResp playBattle(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp qiangdao(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp notice(HttpServletRequest request) throws Exception;
+    BaseResp playBattle2(TokenDto token, HttpServletRequest request) throws Exception;
 }

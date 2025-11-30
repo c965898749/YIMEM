@@ -1,8 +1,7 @@
 package com.sy.model.game;
 
 public enum DamageType {
-    PHYSICAL("物理"), FIRE("火焰"), MISSILE("飞弹"), POISON("毒素"), TRUE_DAMAGE("真实");
-    private final String desc;
-    DamageType(String desc) { this.desc = desc; }
-    public String getDesc() { return desc; }
+    PHYSICAL("物理"), MAGIC("魔法"), TRUE("真实"), FIRE("火焰"), POISON("毒素"), MISSILE("飞弹");
+    private String name;
+    DamageType(String name) { this.name = name; }
 }

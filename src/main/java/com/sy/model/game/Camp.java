@@ -1,4 +1,5 @@
 package com.sy.model.game;
 
-public class Buff {
+public enum Camp {
+    A, B
 }

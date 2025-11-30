@@ -405,6 +405,19 @@ public class GameContoller {
             return baseResp;
         }
     }
+    @PostMapping("playBattle2")
+    @CrossOrigin
+    public BaseResp playBattle2(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.playBattle2(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
     @PostMapping("tuPuhenchenList")
     @CrossOrigin
     public BaseResp tuPuhenchenList(@RequestBody TokenDto token, HttpServletRequest request) {

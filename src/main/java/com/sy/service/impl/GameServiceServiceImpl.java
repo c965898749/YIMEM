@@ -3280,6 +3280,111 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
+    @Override
+    public BaseResp playBattle2(TokenDto token, HttpServletRequest request) throws Exception {
+        // 创建战斗缓存
+        Map<String, BattleManager> battleCache = new HashMap<>();
+
+        // 创建A队护法
+        List<Guardian> campA = new ArrayList<>();
+        List<Character> copyCampA = new ArrayList<>();
+        campA.add(new Guardian("牛魔王", Camp.A, 1, Profession.WARRIOR, Race.DEMON, 2000, 300, 100));
+        campA.add(new Guardian("厚土娘娘", Camp.A, 2, Profession.IMMORTAL, Race.IMMORTAL, 2500, 200, 80));
+        campA.add(new Guardian("烛龙", Camp.A, 3, Profession.GOD, Race.DEMON, 1800, 250, 90));
+        campA.add(new Guardian("妲己", Camp.A, 4, Profession.IMMORTAL, Race.DEMON, 1500, 180, 120));
+        campA.add(new Guardian("长生大帝", Camp.A, 5, Profession.GOD, Race.IMMORTAL, 2200, 150, 80));
+
+        copyCampA.add(new Character("1027","牛魔王", Camp.A, 1, Profession.WARRIOR, Race.DEMON, 2000, 300, 100));
+        copyCampA.add(new Character("1012","厚土娘娘", Camp.A, 2, Profession.IMMORTAL, Race.IMMORTAL, 2500, 200, 80));
+        copyCampA.add(new Character("1013","烛龙", Camp.A, 3, Profession.GOD, Race.DEMON, 1800, 250, 90));
+        copyCampA.add(new Character("1005","妲己", Camp.A, 4, Profession.IMMORTAL, Race.DEMON, 1500, 180, 120));
+        copyCampA.add(new Character("1020","长生大帝", Camp.A, 5, Profession.GOD, Race.IMMORTAL, 2200, 150, 80));
+        // 创建B队护法
+        List<Guardian> campB = new ArrayList<>();
+        List<Character> copyCampB = new ArrayList<>();
+        campB.add(new Guardian("阎王", Camp.B, 1, Profession.GOD, Race.DEMON, 1500, 220, 85));
+        campB.add(new Guardian("聂小倩", Camp.B, 2, Profession.IMMORTAL, Race.DEMON, 1200, 180, 110));
+        campB.add(new Guardian("托塔天王", Camp.B, 3, Profession.GOD, Race.IMMORTAL, 2200, 280, 95));
+        campB.add(new Guardian("齐天大圣", Camp.B, 4, Profession.WARRIOR, Race.DEMON, 1800, 320, 130));
+        campB.add(new Guardian("铁扇公主", Camp.B, 5, Profession.IMMORTAL, Race.DEMON, 1600, 200, 90));
+
+        copyCampB.add(new Character("1035","阎王", Camp.B, 1, Profession.GOD, Race.DEMON, 1500, 220, 85));
+        copyCampB.add(new Character("1007","聂小倩", Camp.B, 2, Profession.IMMORTAL, Race.DEMON, 1200, 180, 110));
+        copyCampB.add(new Character("1002","托塔天王", Camp.B, 3, Profession.GOD, Race.IMMORTAL, 2200, 280, 95));
+        copyCampB.add(new Character("1010","齐天大圣", Camp.B, 4, Profession.WARRIOR, Race.DEMON, 1800, 320, 130));
+        copyCampB.add(new Character("1006","铁扇公主", Camp.B, 5, Profession.IMMORTAL, Race.DEMON, 1600, 200, 90));
+
+        // 开始战斗
+        String battleId = "BATTLE_20251130_001";
+        BattleManager battle = new BattleManager(battleId, campA, campB);
+        battleCache.put(battleId, battle);
+        battle.startBattle();
+
+        // 打印优化后的日志
+        printEnhancedBattleLogs(battle.getBattleLogs());
+        BaseResp baseResp = new BaseResp();
+        baseResp.setSuccess(1);
+        Map map=new HashMap();
+        map.put("campA",copyCampA);
+        map.put("campB",copyCampB);
+        map.put("battleLogs",battle.getBattleLogs());
+        baseResp.setData(map);
+        return baseResp;
+    }
+    // 增强的日志打印格式
+    private static void printEnhancedBattleLogs(List<BattleLog> logs) {
+        for (BattleLog log : logs) {
+            System.out.println("======================================================================");
+            System.out.printf("[%s][回合%03d]%s\n", log.getBattleId(), log.getRound(), log.getEventType());
+
+            // 来源单位信息
+            if (log.getSourceUnit() != null) {
+                System.out.printf("来源: %s[%s] HP:%d→%d ATK:%d→%d SPEED:%d→%d\n",
+                        log.getSourceUnit(),
+                        log.getSourceCamp() != null ? log.getSourceCamp() : "",
+                        log.getSourceHpBefore(),
+                        log.getSourceHpAfter(),
+                        log.getSourceAttackBefore(),
+                        log.getSourceAttackAfter(),
+                        log.getSourceSpeedBefore(),
+                        log.getSourceSpeedAfter());
+            }
+
+            // 目标单位信息
+            if (log.getTargetUnit() != null) {
+                System.out.printf("目标: %s[%s] HP:%d→%d ATK:%d→%d SPEED:%d→%d\n",
+                        log.getTargetUnit(),
+                        log.getTargetCamp() != null ? log.getTargetCamp() : "",
+                        log.getTargetHpBefore(),
+                        log.getTargetHpAfter(),
+                        log.getTargetAttackBefore(),
+                        log.getTargetAttackAfter(),
+                        log.getTargetSpeedBefore(),
+                        log.getTargetSpeedAfter());
+            } else if (log.getTargetUnitList() != null && !log.getTargetUnitList().isEmpty()) {
+                System.out.printf("目标列表: %s\n", log.getTargetUnitList());
+            }
+
+            // 在场单位状态
+            if (log.getFieldUnitsStatus() != null && !log.getFieldUnitsStatus().isEmpty()) {
+                System.out.printf("在场单位: %s\n", log.getFieldUnitsStatus());
+            }
+
+            // 其他信息
+            if (log.getValue() > 0) {
+                System.out.printf("数值: %d\n", log.getValue());
+            }
+            if (log.getEffectType() != null) {
+                System.out.printf("效果: %s\n", log.getEffectType());
+            }
+            if (log.getDamageType() != null) {
+                System.out.printf("伤害类型: %s\n", log.getDamageType());
+            }
+            if (log.getExtraDesc() != null) {
+                System.out.printf("描述: %s\n", log.getExtraDesc());
+            }
+        }
+    }
     public static Set<Integer> getRandomElements(Set<Integer> set, int count) {
         if (count > set.size()) {
             throw new IllegalArgumentException("请求数量超过集合大小");
