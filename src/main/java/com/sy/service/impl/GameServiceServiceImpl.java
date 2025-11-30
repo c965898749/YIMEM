@@ -3321,7 +3321,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         battle.startBattle();
 
         // 打印优化后的日志
-        printEnhancedBattleLogs(battle.getBattleLogs());
+        printFinalBattleLogs(battle.getBattleLogs());
         BaseResp baseResp = new BaseResp();
         baseResp.setSuccess(1);
         Map map=new HashMap();
@@ -3331,17 +3331,18 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setData(map);
         return baseResp;
     }
-    // 增强的日志打印格式
-    private static void printEnhancedBattleLogs(List<BattleLog> logs) {
+    // 最终版日志打印格式（包含位置信息）
+    private static void printFinalBattleLogs(List<BattleLog> logs) {
         for (BattleLog log : logs) {
             System.out.println("======================================================================");
             System.out.printf("[%s][回合%03d]%s\n", log.getBattleId(), log.getRound(), log.getEventType());
 
-            // 来源单位信息
+            // 来源单位信息（包含位置）
             if (log.getSourceUnit() != null) {
-                System.out.printf("来源: %s[%s] HP:%d→%d ATK:%d→%d SPEED:%d→%d\n",
+                System.out.printf("来源: %s[%s%d号位] HP:%d→%d ATK:%d→%d SPEED:%d→%d\n",
                         log.getSourceUnit(),
                         log.getSourceCamp() != null ? log.getSourceCamp() : "",
+                        log.getSourcePosition(),
                         log.getSourceHpBefore(),
                         log.getSourceHpAfter(),
                         log.getSourceAttackBefore(),
@@ -3350,11 +3351,12 @@ public class GameServiceServiceImpl implements GameServiceService {
                         log.getSourceSpeedAfter());
             }
 
-            // 目标单位信息
+            // 目标单位信息（包含位置）
             if (log.getTargetUnit() != null) {
-                System.out.printf("目标: %s[%s] HP:%d→%d ATK:%d→%d SPEED:%d→%d\n",
+                System.out.printf("目标: %s[%s%d号位] HP:%d→%d ATK:%d→%d SPEED:%d→%d\n",
                         log.getTargetUnit(),
                         log.getTargetCamp() != null ? log.getTargetCamp() : "",
+                        log.getTargetPosition(),
                         log.getTargetHpBefore(),
                         log.getTargetHpAfter(),
                         log.getTargetAttackBefore(),
@@ -3365,7 +3367,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 System.out.printf("目标列表: %s\n", log.getTargetUnitList());
             }
 
-            // 在场单位状态
+            // 在场单位状态（包含位置）
             if (log.getFieldUnitsStatus() != null && !log.getFieldUnitsStatus().isEmpty()) {
                 System.out.printf("在场单位: %s\n", log.getFieldUnitsStatus());
             }

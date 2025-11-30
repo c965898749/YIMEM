@@ -45,17 +45,19 @@ public class BattleManager {
                 .orElse(null);
     }
 
-    // 获取在场单位状态描述
+    // 获取在场单位状态描述（包含位置）
     private String getFieldUnitsStatus() {
         StringBuilder sb = new StringBuilder();
         if (fieldA != null) {
-            sb.append(String.format("A[%s:HP=%d/%d,ATK=%d,SPEED=%d] ",
-                    fieldA.getName(), fieldA.getCurrentHp(), fieldA.getMaxHp(),
+            sb.append(String.format("A[%d号位:%s:HP=%d/%d,ATK=%d,SPEED=%d] ",
+                    fieldA.getPosition(), fieldA.getName(),
+                    fieldA.getCurrentHp(), fieldA.getMaxHp(),
                     fieldA.getAttack(), fieldA.getSpeed()));
         }
         if (fieldB != null) {
-            sb.append(String.format("B[%s:HP=%d/%d,ATK=%d,SPEED=%d] ",
-                    fieldB.getName(), fieldB.getCurrentHp(), fieldB.getMaxHp(),
+            sb.append(String.format("B[%d号位:%s:HP=%d/%d,ATK=%d,SPEED=%d] ",
+                    fieldB.getPosition(), fieldB.getName(),
+                    fieldB.getCurrentHp(), fieldB.getMaxHp(),
                     fieldB.getAttack(), fieldB.getSpeed()));
         }
         return sb.toString().trim();
@@ -65,9 +67,9 @@ public class BattleManager {
     public void startBattle() {
         while (currentRound < 100 && !isBattleEnd()) {
             currentRound++;
-            addLog("ROUND_START", "SYSTEM", null,
+            addLog("ROUND_START", "SYSTEM", null, 0,
                     0, 0, 0, 0, 0, 0,
-                    null, null,
+                    null, null, 0,
                     0, 0, 0, 0, 0, 0,
                     getFieldUnitsStatus(),
                     0, null, null, "回合开始");
@@ -115,11 +117,11 @@ public class BattleManager {
         defender.setCurrentHp(defender.getCurrentHp() - damage);
 
         addLog("NORMAL_ATTACK",
-                attacker.getName(), attacker.getCamp(),
+                attacker.getName(), attacker.getCamp(), attacker.getPosition(),
                 attackerHpBefore, attacker.getCurrentHp(),
                 attackerAttackBefore, attacker.getAttack(),
                 attackerSpeedBefore, attacker.getSpeed(),
-                defender.getName(), defender.getCamp(),
+                defender.getName(), defender.getCamp(), defender.getPosition(),
                 defenderHpBefore, defender.getCurrentHp(),
                 defenderAttackBefore, defender.getAttack(),
                 defenderSpeedBefore, defender.getSpeed(),
@@ -136,11 +138,11 @@ public class BattleManager {
             defender.setOnField(false);
 
             addLog("UNIT_DEATH",
-                    defender.getName(), defender.getCamp(),
+                    defender.getName(), defender.getCamp(), defender.getPosition(),
                     defender.getCurrentHp(), 0,
                     defender.getAttack(), defender.getAttack(),
                     defender.getSpeed(), defender.getSpeed(),
-                    defender.getName(), defender.getCamp(),
+                    defender.getName(), defender.getCamp(), defender.getPosition(),
                     defender.getCurrentHp(), 0,
                     defender.getAttack(), defender.getAttack(),
                     defender.getSpeed(), defender.getSpeed(),
@@ -171,11 +173,11 @@ public class BattleManager {
                     enemy.setCurrentHp(enemy.getCurrentHp() - damage);
 
                     addLog("镇妖塔",
-                            guardian.getName(), guardian.getCamp(),
+                            guardian.getName(), guardian.getCamp(), guardian.getPosition(),
                             sourceHpBefore, guardian.getCurrentHp(),
                             sourceAttackBefore, guardian.getAttack(),
                             sourceSpeedBefore, guardian.getSpeed(),
-                            enemy.getName(), enemy.getCamp(),
+                            enemy.getName(), enemy.getCamp(), enemy.getPosition(),
                             enemyHpBefore, enemy.getCurrentHp(),
                             enemy.getAttack(), enemy.getAttack(),
                             enemy.getSpeed(), enemy.getSpeed(),
@@ -191,11 +193,11 @@ public class BattleManager {
                 guardian.setCurrentHp(guardian.getCurrentHp() + heal);
 
                 addLog("大圣降临",
-                        guardian.getName(), guardian.getCamp(),
+                        guardian.getName(), guardian.getCamp(), guardian.getPosition(),
                         sourceHpBefore, guardian.getCurrentHp(),
                         sourceAttackBefore, guardian.getAttack(),
                         sourceSpeedBefore, guardian.getSpeed(),
-                        guardian.getName(), guardian.getCamp(),
+                        guardian.getName(), guardian.getCamp(), guardian.getPosition(),
                         sourceHpBefore, guardian.getCurrentHp(),
                         sourceAttackBefore, guardian.getAttack(),
                         sourceSpeedBefore, guardian.getSpeed(),
@@ -209,11 +211,11 @@ public class BattleManager {
                 guardian.getEffects().clear();
 
                 addLog("大地净化",
-                        guardian.getName(), guardian.getCamp(),
+                        guardian.getName(), guardian.getCamp(), guardian.getPosition(),
                         sourceHpBefore, guardian.getCurrentHp(),
                         sourceAttackBefore, guardian.getAttack(),
                         sourceSpeedBefore, guardian.getSpeed(),
-                        guardian.getName(), guardian.getCamp(),
+                        guardian.getName(), guardian.getCamp(), guardian.getPosition(),
                         sourceHpBefore, guardian.getCurrentHp(),
                         sourceAttackBefore, guardian.getAttack(),
                         sourceSpeedBefore, guardian.getSpeed(),
@@ -231,11 +233,11 @@ public class BattleManager {
                     target.setAttack(target.getAttack() - weaken);
 
                     addLog("致命衰竭",
-                            guardian.getName(), guardian.getCamp(),
+                            guardian.getName(), guardian.getCamp(), guardian.getPosition(),
                             sourceHpBefore, guardian.getCurrentHp(),
                             sourceAttackBefore, guardian.getAttack(),
                             sourceSpeedBefore, guardian.getSpeed(),
-                            target.getName(), target.getCamp(),
+                            target.getName(), target.getCamp(), target.getPosition(),
                             target.getCurrentHp(), target.getCurrentHp(),
                             targetAttackBefore, target.getAttack(),
                             target.getSpeed(), target.getSpeed(),
@@ -255,11 +257,11 @@ public class BattleManager {
                     randomEnemy.getEffects().put(EffectType.POISON, poisonValue);
 
                     addLog("幽冥审判",
-                            guardian.getName(), guardian.getCamp(),
+                            guardian.getName(), guardian.getCamp(), guardian.getPosition(),
                             sourceHpBefore, guardian.getCurrentHp(),
                             sourceAttackBefore, guardian.getAttack(),
                             sourceSpeedBefore, guardian.getSpeed(),
-                            randomEnemy.getName(), randomEnemy.getCamp(),
+                            randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
                             enemyHpBefore, randomEnemy.getCurrentHp(),
                             randomEnemy.getAttack(), randomEnemy.getAttack(),
                             randomEnemy.getSpeed(), randomEnemy.getSpeed(),
@@ -286,11 +288,11 @@ public class BattleManager {
                     defender.setCurrentHp(defender.getCurrentHp() - damage);
 
                     addLog("定海神针",
-                            attacker.getName(), attacker.getCamp(),
+                            attacker.getName(), attacker.getCamp(), attacker.getPosition(),
                             attackerHpBefore, attacker.getCurrentHp(),
                             attackerAttackBefore, attacker.getAttack(),
                             attackerSpeedBefore, attacker.getSpeed(),
-                            defender.getName(), defender.getCamp(),
+                            defender.getName(), defender.getCamp(), defender.getPosition(),
                             defenderHpBefore, defender.getCurrentHp(),
                             defender.getAttack(), defender.getAttack(),
                             defender.getSpeed(), defender.getSpeed(),
@@ -308,11 +310,11 @@ public class BattleManager {
                     defender.setCurrentHp(defender.getCurrentHp() - burnDamage);
 
                     addLog("斩杀",
-                            attacker.getName(), attacker.getCamp(),
+                            attacker.getName(), attacker.getCamp(), attacker.getPosition(),
                             attackerHpBefore, attacker.getCurrentHp(),
                             attackerAttackBefore, attacker.getAttack(),
                             attackerSpeedBefore, attacker.getSpeed(),
-                            defender.getName(), defender.getCamp(),
+                            defender.getName(), defender.getCamp(), defender.getPosition(),
                             defenderHpBefore, defender.getCurrentHp(),
                             defender.getAttack(), defender.getAttack(),
                             defender.getSpeed(), defender.getSpeed(),
@@ -339,11 +341,11 @@ public class BattleManager {
                     attacker.getEffects().put(EffectType.POISON, poisonValue);
 
                     addLog("幽灵毒击",
-                            defender.getName(), defender.getCamp(),
+                            defender.getName(), defender.getCamp(), defender.getPosition(),
                             defenderHpBefore, defender.getCurrentHp(),
                             defenderAttackBefore, defender.getAttack(),
                             defenderSpeedBefore, defender.getSpeed(),
-                            attacker.getName(), attacker.getCamp(),
+                            attacker.getName(), attacker.getCamp(), attacker.getPosition(),
                             attackerHpBefore, attacker.getCurrentHp(),
                             attacker.getAttack(), attacker.getAttack(),
                             attacker.getSpeed(), attacker.getSpeed(),
@@ -363,19 +365,19 @@ public class BattleManager {
                 if (!aliveEnemies.isEmpty()) {
                     int fireDamage = 54 * defender.getLevel();
                     List<String> targetNames = new ArrayList<>();
-                    Map<String, int[]> targetStatus = new HashMap<>();
+                    Map<String, Object[]> targetStatus = new HashMap<>();
 
                     // 记录目标状态并执行伤害
                     aliveEnemies.forEach(g -> {
                         targetNames.add(g.getName());
                         int hpBefore = g.getCurrentHp();
                         g.setCurrentHp(g.getCurrentHp() - fireDamage);
-                        targetStatus.put(g.getName(), new int[]{hpBefore, g.getCurrentHp()});
+                        targetStatus.put(g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
                     });
 
                     // 单条日志记录多目标
                     addMultiTargetLog("烛火燎原",
-                            defender.getName(), defender.getCamp(),
+                            defender.getName(), defender.getCamp(), defender.getPosition(),
                             defenderHpBefore, defender.getCurrentHp(),
                             defenderAttackBefore, defender.getAttack(),
                             defenderSpeedBefore, defender.getSpeed(),
@@ -389,24 +391,22 @@ public class BattleManager {
 
             case "真武大帝":
                 // 绝地反击：造成敌方攻击10%的伤害
-                if (1==1){
-                    int attackerHpBefore = attacker.getCurrentHp();
-                    int counterDamage = (int) (attacker.getAttack() * 0.1);
-                    attacker.setCurrentHp(attacker.getCurrentHp() - counterDamage);
+                int attackerHpBefore = attacker.getCurrentHp();
+                int counterDamage = (int) (attacker.getAttack() * 0.1);
+                attacker.setCurrentHp(attacker.getCurrentHp() - counterDamage);
 
-                    addLog("绝地反击",
-                            defender.getName(), defender.getCamp(),
-                            defenderHpBefore, defender.getCurrentHp(),
-                            defenderAttackBefore, defender.getAttack(),
-                            defenderSpeedBefore, defender.getSpeed(),
-                            attacker.getName(), attacker.getCamp(),
-                            attackerHpBefore, attacker.getCurrentHp(),
-                            attacker.getAttack(), attacker.getAttack(),
-                            attacker.getSpeed(), attacker.getSpeed(),
-                            getFieldUnitsStatus(),
-                            counterDamage, EffectType.DAMAGE, DamageType.TRUE,
-                            defender.getName() + "触发绝地反击");
-                }
+                addLog("绝地反击",
+                        defender.getName(), defender.getCamp(), defender.getPosition(),
+                        defenderHpBefore, defender.getCurrentHp(),
+                        defenderAttackBefore, defender.getAttack(),
+                        defenderSpeedBefore, defender.getSpeed(),
+                        attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                        attackerHpBefore, attacker.getCurrentHp(),
+                        attacker.getAttack(), attacker.getAttack(),
+                        attacker.getSpeed(), attacker.getSpeed(),
+                        getFieldUnitsStatus(),
+                        counterDamage, EffectType.DAMAGE, DamageType.TRUE,
+                        defender.getName() + "触发绝地反击");
                 break;
         }
     }
@@ -425,11 +425,11 @@ public class BattleManager {
                 defender.setCurrentHp(defender.getCurrentHp() - fireDamage);
 
                 addLog("芭蕉扇",
-                        attacker.getName(), attacker.getCamp(),
+                        attacker.getName(), attacker.getCamp(), attacker.getPosition(),
                         attackerHpBefore, attacker.getCurrentHp(),
                         attackerAttackBefore, attacker.getAttack(),
                         attackerSpeedBefore, attacker.getSpeed(),
-                        defender.getName(), defender.getCamp(),
+                        defender.getName(), defender.getCamp(), defender.getPosition(),
                         defenderHpBefore, defender.getCurrentHp(),
                         defender.getAttack(), defender.getAttack(),
                         defender.getSpeed(), defender.getSpeed(),
@@ -447,18 +447,18 @@ public class BattleManager {
                 if (!offFieldEnemies.isEmpty()) {
                     int lavaDamage = 62 * attacker.getLevel();
                     List<String> targetNames = new ArrayList<>();
-                    Map<String, int[]> targetStatus = new HashMap<>();
+                    Map<String, Object[]> targetStatus = new HashMap<>();
 
                     offFieldEnemies.forEach(g -> {
                         targetNames.add(g.getName());
                         int hpBefore = g.getCurrentHp();
                         g.setCurrentHp(g.getCurrentHp() - lavaDamage);
-                        targetStatus.put(g.getName(), new int[]{hpBefore, g.getCurrentHp()});
+                        targetStatus.put(g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
                     });
 
                     // 单条日志记录多目标
                     addMultiTargetLog("熔岩爆发",
-                            attacker.getName(), attacker.getCamp(),
+                            attacker.getName(), attacker.getCamp(), attacker.getPosition(),
                             attackerHpBefore, attacker.getCurrentHp(),
                             attackerAttackBefore, attacker.getAttack(),
                             attackerSpeedBefore, attacker.getSpeed(),
@@ -484,11 +484,11 @@ public class BattleManager {
             deadGuardian.setMaxHp(deadGuardian.getMaxHp() + 117);
 
             addLog("鲜血盛宴",
-                    deadGuardian.getName(), deadGuardian.getCamp(),
+                    deadGuardian.getName(), deadGuardian.getCamp(), deadGuardian.getPosition(),
                     hpBefore, deadGuardian.getCurrentHp(),
                     attackBefore, deadGuardian.getAttack(),
                     deadGuardian.getSpeed(), deadGuardian.getSpeed(),
-                    deadGuardian.getName(), deadGuardian.getCamp(),
+                    deadGuardian.getName(), deadGuardian.getCamp(), deadGuardian.getPosition(),
                     hpBefore, deadGuardian.getCurrentHp(),
                     attackBefore, deadGuardian.getAttack(),
                     deadGuardian.getSpeed(), deadGuardian.getSpeed(),
@@ -510,17 +510,17 @@ public class BattleManager {
             if (!immortalAllies.isEmpty()) {
                 int heal = 90;
                 List<String> targetNames = new ArrayList<>();
-                Map<String, int[]> targetStatus = new HashMap<>();
+                Map<String, Object[]> targetStatus = new HashMap<>();
 
                 immortalAllies.forEach(g -> {
                     targetNames.add(g.getName());
                     int hpBefore = g.getCurrentHp();
                     g.setCurrentHp(g.getCurrentHp() + heal);
-                    targetStatus.put(g.getName(), new int[]{hpBefore, g.getCurrentHp()});
+                    targetStatus.put(g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
                 });
 
                 addMultiTargetLog("生生不息",
-                        changsheng.getName(), Camp.A,
+                        changsheng.getName(), Camp.A, changsheng.getPosition(),
                         changsheng.getCurrentHp(), changsheng.getCurrentHp(),
                         changsheng.getAttack(), changsheng.getAttack(),
                         changsheng.getSpeed(), changsheng.getSpeed(),
@@ -544,17 +544,17 @@ public class BattleManager {
             if (!immortalAllies.isEmpty()) {
                 int heal = 90;
                 List<String> targetNames = new ArrayList<>();
-                Map<String, int[]> targetStatus = new HashMap<>();
+                Map<String, Object[]> targetStatus = new HashMap<>();
 
                 immortalAllies.forEach(g -> {
                     targetNames.add(g.getName());
                     int hpBefore = g.getCurrentHp();
                     g.setCurrentHp(g.getCurrentHp() + heal);
-                    targetStatus.put(g.getName(), new int[]{hpBefore, g.getCurrentHp()});
+                    targetStatus.put(g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
                 });
 
                 addMultiTargetLog("生生不息",
-                        changsheng.getName(), Camp.B,
+                        changsheng.getName(), Camp.B, changsheng.getPosition(),
                         changsheng.getCurrentHp(), changsheng.getCurrentHp(),
                         changsheng.getAttack(), changsheng.getAttack(),
                         changsheng.getSpeed(), changsheng.getSpeed(),
@@ -580,11 +580,11 @@ public class BattleManager {
             fieldA.setAttack(fieldA.getAttack() + 67);
 
             addLog("后土聚能",
-                    fieldA.getName(), fieldA.getCamp(),
+                    fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
                     hpBefore, fieldA.getCurrentHp(),
                     attackBefore, fieldA.getAttack(),
                     fieldA.getSpeed(), fieldA.getSpeed(),
-                    fieldA.getName(), fieldA.getCamp(),
+                    fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
                     hpBefore, fieldA.getCurrentHp(),
                     attackBefore, fieldA.getAttack(),
                     fieldA.getSpeed(), fieldA.getSpeed(),
@@ -603,11 +603,11 @@ public class BattleManager {
             fieldB.setAttack(fieldB.getAttack() + 67);
 
             addLog("后土聚能",
-                    fieldB.getName(), fieldB.getCamp(),
+                    fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
                     hpBefore, fieldB.getCurrentHp(),
                     attackBefore, fieldB.getAttack(),
                     fieldB.getSpeed(), fieldB.getSpeed(),
-                    fieldB.getName(), fieldB.getCamp(),
+                    fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
                     hpBefore, fieldB.getCurrentHp(),
                     attackBefore, fieldB.getAttack(),
                     fieldB.getSpeed(), fieldB.getSpeed(),
@@ -633,17 +633,17 @@ public class BattleManager {
             if (!aliveUnits.isEmpty()) {
                 int reduce = 100;
                 List<String> targetNames = new ArrayList<>();
-                Map<String, int[]> targetStatus = new HashMap<>();
+                Map<String, Object[]> targetStatus = new HashMap<>();
 
                 aliveUnits.forEach(g -> {
                     targetNames.add(g.getName());
                     int maxHpBefore = g.getMaxHp();
                     g.setMaxHp(g.getMaxHp() - reduce);
-                    targetStatus.put(g.getName(), new int[]{maxHpBefore, g.getMaxHp()});
+                    targetStatus.put(g.getName(), new Object[]{g.getPosition(), maxHpBefore, g.getMaxHp()});
                 });
 
                 addMultiTargetLog("生死簿",
-                        yanwang.getName(), Camp.A,
+                        yanwang.getName(), Camp.A, yanwang.getPosition(),
                         yanwang.getCurrentHp(), yanwang.getCurrentHp(),
                         yanwang.getAttack(), yanwang.getAttack(),
                         yanwang.getSpeed(), yanwang.getSpeed(),
@@ -671,17 +671,17 @@ public class BattleManager {
             if (!aliveUnits.isEmpty()) {
                 int reduce = 100;
                 List<String> targetNames = new ArrayList<>();
-                Map<String, int[]> targetStatus = new HashMap<>();
+                Map<String, Object[]> targetStatus = new HashMap<>();
 
                 aliveUnits.forEach(g -> {
                     targetNames.add(g.getName());
                     int maxHpBefore = g.getMaxHp();
                     g.setMaxHp(g.getMaxHp() - reduce);
-                    targetStatus.put(g.getName(), new int[]{maxHpBefore, g.getMaxHp()});
+                    targetStatus.put(g.getName(), new Object[]{g.getPosition(), maxHpBefore, g.getMaxHp()});
                 });
 
                 addMultiTargetLog("生死簿",
-                        yanwang.getName(), Camp.B,
+                        yanwang.getName(), Camp.B, yanwang.getPosition(),
                         yanwang.getCurrentHp(), yanwang.getCurrentHp(),
                         yanwang.getAttack(), yanwang.getAttack(),
                         yanwang.getSpeed(), yanwang.getSpeed(),
@@ -716,7 +716,7 @@ public class BattleManager {
 
         if (!poisonedUnits.isEmpty()) {
             List<String> targetNames = new ArrayList<>();
-            Map<String, int[]> targetStatus = new HashMap<>();
+            Map<String, Object[]> targetStatus = new HashMap<>();
             List<String> deadUnits = new ArrayList<>();
 
             poisonedUnits.forEach(g -> {
@@ -724,7 +724,7 @@ public class BattleManager {
                 int hpBefore = g.getCurrentHp();
                 int poisonDamage = g.getEffects().get(EffectType.POISON);
                 g.setCurrentHp(g.getCurrentHp() - poisonDamage);
-                targetStatus.put(g.getName(), new int[]{hpBefore, g.getCurrentHp()});
+                targetStatus.put(g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
 
                 if (g.getCurrentHp() <= 0) {
                     g.setDead(true);
@@ -735,7 +735,7 @@ public class BattleManager {
 
             // 中毒伤害日志（批量）
             addMultiTargetLog("POISON",
-                    "SYSTEM", null,
+                    "SYSTEM", null, 0,
                     0, 0, 0, 0, 0, 0,
                     targetNames, null,
                     targetStatus,
@@ -745,13 +745,13 @@ public class BattleManager {
 
             // 中毒阵亡日志
             if (!deadUnits.isEmpty()) {
-                Map<String, int[]> deadStatus = new HashMap<>();
+                Map<String, Object[]> deadStatus = new HashMap<>();
                 deadUnits.forEach(unit -> {
-                    deadStatus.put(unit, new int[]{0, 0});
+                    deadStatus.put(unit, new Object[]{0, 0, 0});
                 });
 
                 addMultiTargetLog("UNIT_DEATH",
-                        "SYSTEM", null,
+                        "SYSTEM", null, 0,
                         0, 0, 0, 0, 0, 0,
                         deadUnits, null,
                         deadStatus,
@@ -780,11 +780,11 @@ public class BattleManager {
                 fieldB.getEffects().put(EffectType.STUN, 1);
 
                 addLog("妖狐蔽天",
-                        daji.getName(), Camp.A,
+                        daji.getName(), Camp.A, daji.getPosition(),
                         dajiHpBefore, daji.getCurrentHp(),
                         dajiAttackBefore, daji.getAttack(),
                         dajiSpeedBefore, daji.getSpeed(),
-                        fieldB.getName(), Camp.B,
+                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
                         targetHpBefore, fieldB.getCurrentHp(),
                         fieldB.getAttack(), fieldB.getAttack(),
                         fieldB.getSpeed(), fieldB.getSpeed(),
@@ -805,11 +805,11 @@ public class BattleManager {
                 randomEnemy.getEffects().put(EffectType.POISON, poisonValue);
 
                 addLog("谄媚噬魂",
-                        daji.getName(), Camp.A,
+                        daji.getName(), Camp.A, daji.getPosition(),
                         dajiHpBefore, daji.getCurrentHp(),
                         dajiAttackBefore, daji.getAttack(),
                         dajiSpeedBefore, daji.getSpeed(),
-                        randomEnemy.getName(), Camp.B,
+                        randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
                         targetHpBefore, randomEnemy.getCurrentHp(),
                         randomEnemy.getAttack(), randomEnemy.getAttack(),
                         randomEnemy.getSpeed(), randomEnemy.getSpeed(),
@@ -835,11 +835,11 @@ public class BattleManager {
                 fieldA.getEffects().put(EffectType.STUN, 1);
 
                 addLog("妖狐蔽天",
-                        daji.getName(), Camp.B,
+                        daji.getName(), Camp.B, daji.getPosition(),
                         dajiHpBefore, daji.getCurrentHp(),
                         dajiAttackBefore, daji.getAttack(),
                         dajiSpeedBefore, daji.getSpeed(),
-                        fieldA.getName(), Camp.A,
+                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
                         targetHpBefore, fieldA.getCurrentHp(),
                         fieldA.getAttack(), fieldA.getAttack(),
                         fieldA.getSpeed(), fieldA.getSpeed(),
@@ -860,11 +860,11 @@ public class BattleManager {
                 randomEnemy.getEffects().put(EffectType.POISON, poisonValue);
 
                 addLog("谄媚噬魂",
-                        daji.getName(), Camp.B,
+                        daji.getName(), Camp.B, daji.getPosition(),
                         dajiHpBefore, daji.getCurrentHp(),
                         dajiAttackBefore, daji.getAttack(),
                         dajiSpeedBefore, daji.getSpeed(),
-                        randomEnemy.getName(), Camp.A,
+                        randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
                         targetHpBefore, randomEnemy.getCurrentHp(),
                         randomEnemy.getAttack(), randomEnemy.getAttack(),
                         randomEnemy.getSpeed(), randomEnemy.getSpeed(),
@@ -884,11 +884,11 @@ public class BattleManager {
             fieldA.setCurrentHp(fieldA.getCurrentHp() + heal);
 
             addLog("仙塔庇护",
-                    fieldA.getName(), fieldA.getCamp(),
+                    fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
                     hpBefore, fieldA.getCurrentHp(),
                     fieldA.getAttack(), fieldA.getAttack(),
                     fieldA.getSpeed(), fieldA.getSpeed(),
-                    fieldA.getName(), fieldA.getCamp(),
+                    fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
                     hpBefore, fieldA.getCurrentHp(),
                     fieldA.getAttack(), fieldA.getAttack(),
                     fieldA.getSpeed(), fieldA.getSpeed(),
@@ -903,11 +903,11 @@ public class BattleManager {
             fieldB.setCurrentHp(fieldB.getCurrentHp() + heal);
 
             addLog("仙塔庇护",
-                    fieldB.getName(), fieldB.getCamp(),
+                    fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
                     hpBefore, fieldB.getCurrentHp(),
                     fieldB.getAttack(), fieldB.getAttack(),
                     fieldB.getSpeed(), fieldB.getSpeed(),
-                    fieldB.getName(), fieldB.getCamp(),
+                    fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
                     hpBefore, fieldB.getCurrentHp(),
                     fieldB.getAttack(), fieldB.getAttack(),
                     fieldB.getSpeed(), fieldB.getSpeed(),
@@ -926,11 +926,11 @@ public class BattleManager {
                 fieldA.setOnField(true);
 
                 addLog("UNIT_ENTER",
-                        fieldA.getName(), fieldA.getCamp(),
+                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
                         fieldA.getCurrentHp(), fieldA.getCurrentHp(),
                         fieldA.getAttack(), fieldA.getAttack(),
                         fieldA.getSpeed(), fieldA.getSpeed(),
-                        fieldA.getName(), fieldA.getCamp(),
+                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
                         fieldA.getCurrentHp(), fieldA.getCurrentHp(),
                         fieldA.getAttack(), fieldA.getAttack(),
                         fieldA.getSpeed(), fieldA.getSpeed(),
@@ -949,11 +949,11 @@ public class BattleManager {
                 fieldB.setOnField(true);
 
                 addLog("UNIT_ENTER",
-                        fieldB.getName(), fieldB.getCamp(),
+                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
                         fieldB.getCurrentHp(), fieldB.getCurrentHp(),
                         fieldB.getAttack(), fieldB.getAttack(),
                         fieldB.getSpeed(), fieldB.getSpeed(),
-                        fieldB.getName(), fieldB.getCamp(),
+                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
                         fieldB.getCurrentHp(), fieldB.getCurrentHp(),
                         fieldB.getAttack(), fieldB.getAttack(),
                         fieldB.getSpeed(), fieldB.getSpeed(),
@@ -988,9 +988,9 @@ public class BattleManager {
         }
 
         addLog("BATTLE_END",
-                "SYSTEM", null,
+                "SYSTEM", null, 0,
                 0, 0, 0, 0, 0, 0,
-                null, null,
+                null, null, 0,
                 0, 0, 0, 0, 0, 0,
                 getFieldUnitsStatus(),
                 0, null, null,
@@ -999,13 +999,13 @@ public class BattleManager {
                         " B队剩余总血量：" + totalHpB);
     }
 
-    // 添加单目标日志
+    // 添加单目标日志（包含位置）
     private void addLog(String eventType,
-                        String sourceUnit, Camp sourceCamp,
+                        String sourceUnit, Camp sourceCamp, int sourcePosition,
                         int sourceHpBefore, int sourceHpAfter,
                         int sourceAttackBefore, int sourceAttackAfter,
                         int sourceSpeedBefore, int sourceSpeedAfter,
-                        String targetUnit, Camp targetCamp,
+                        String targetUnit, Camp targetCamp, int targetPosition,
                         int targetHpBefore, int targetHpAfter,
                         int targetAttackBefore, int targetAttackAfter,
                         int targetSpeedBefore, int targetSpeedAfter,
@@ -1017,6 +1017,7 @@ public class BattleManager {
                 eventType,
                 sourceUnit,
                 sourceCamp,
+                sourcePosition,
                 sourceHpBefore,
                 sourceHpAfter,
                 sourceAttackBefore,
@@ -1026,6 +1027,7 @@ public class BattleManager {
                 targetUnit,
                 null,
                 targetCamp,
+                targetPosition,
                 targetHpBefore,
                 targetHpAfter,
                 targetAttackBefore,
@@ -1040,20 +1042,23 @@ public class BattleManager {
         ));
     }
 
-    // 添加多目标日志
+    // 添加多目标日志（包含位置）
     private void addMultiTargetLog(String eventType,
-                                   String sourceUnit, Camp sourceCamp,
+                                   String sourceUnit, Camp sourceCamp, int sourcePosition,
                                    int sourceHpBefore, int sourceHpAfter,
                                    int sourceAttackBefore, int sourceAttackAfter,
                                    int sourceSpeedBefore, int sourceSpeedAfter,
                                    List<String> targetUnitList, Camp targetCamp,
-                                   Map<String, int[]> targetStatus,
+                                   Map<String, Object[]> targetStatus,
                                    String fieldUnitsStatus,
                                    int value, EffectType effectType, DamageType damageType, String extraDesc) {
-        // 构建目标状态描述
+        // 构建目标状态描述（包含位置）
         StringBuilder targetDesc = new StringBuilder();
         targetStatus.forEach((unit, status) -> {
-            targetDesc.append(String.format("%s[HP:%d→%d],", unit, status[0], status[1]));
+            if (status.length >= 3) {
+                targetDesc.append(String.format("%s[%d号位:HP:%d→%d],",
+                        unit, status[0], status[1], status[2]));
+            }
         });
 
         if (targetDesc.length() > 0) {
@@ -1066,6 +1071,7 @@ public class BattleManager {
                 eventType,
                 sourceUnit,
                 sourceCamp,
+                sourcePosition,
                 sourceHpBefore,
                 sourceHpAfter,
                 sourceAttackBefore,
@@ -1075,6 +1081,7 @@ public class BattleManager {
                 null,
                 targetUnitList,
                 targetCamp,
+                0,
                 0,
                 0,
                 0,
