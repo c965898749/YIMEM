@@ -3,8 +3,7 @@ package com.sy.model.game;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import java.util.*;
-import java.util.stream.Collectors;
+
 
 /**
  * 护法（卡牌）实体类
@@ -30,17 +29,20 @@ public class Guardian {
     private Map<String, Integer> skillTriggers;
     private Random random;
 
-    // 新增技能叠加属性
+    // 技能叠加属性
     private int luoshenAttackStacks;
-    private int niumoWangHpStacks;
 
-    // 新增状态标记
-    private boolean isHpProtected;
+    // 牛魔王叠加属性
+    private int niumoWangHpStacks;  // 鲜血盛宴生命上限叠加层数
+    private static final int NIUMOWANG_MAX_STACKS = 3; // 牛魔王最大叠加层数
 
     // 厚土娘娘叠加属性
     private int houtuHpStacks;      // 后土聚能生命上限叠加层数
     private int houtuAttackStacks;  // 后土聚能攻击叠加层数
     private static final int HOUTU_MAX_STACKS = 99; // 最大叠加层数
+
+    // 状态标记
+    private boolean isHpProtected;
 
     public Guardian(String name, Profession profession, Race race, int level, int position) {
         this.id = UUID.randomUUID().toString().substring(0, 8);
@@ -57,12 +59,9 @@ public class Guardian {
         this.random = new Random();
         this.luoshenAttackStacks = 0;
         this.niumoWangHpStacks = 0;
-        this.isHpProtected = false;
-
-        // 初始化厚土娘娘叠加属性
         this.houtuHpStacks = 0;
         this.houtuAttackStacks = 0;
-
+        this.isHpProtected = false;
         initBaseAttributes();
         initSynergyTargets();
         initSkillTriggers();
@@ -248,8 +247,25 @@ public class Guardian {
                     .anyMatch(g -> g.getName().equals(targetName) && g.isAlive());
 
             if (hasSynergy) {
+                // 牛魔王与众妖皆狂协同效果
+                if (name.equals("牛魔王") && targetName.equals("圣婴大王")) {
+                    int addHp = 352;    // Lv1固定352点生命上限
+                    int addAtk = 176;   // Lv1固定176点攻击
+                    int addSpd = 176;   // Lv1固定176点速度
+
+                    this.currentMaxHp += addHp;
+                    this.currentAttack += addAtk;
+                    this.currentSpeed += addSpd;
+
+                    battleLogs.add(new BattleLog(battleId, round, "众妖皆狂（协同）", this.name, targetName,
+                            addHp, EffectType.HP_UP, null));
+                    battleLogs.add(new BattleLog(battleId, round, "众妖皆狂（协同）", this.name, targetName,
+                            addAtk, EffectType.ATTACK_UP, null));
+                    battleLogs.add(new BattleLog(battleId, round, "众妖皆狂（协同）", this.name, targetName,
+                            addSpd, EffectType.SPEED_UP, null));
+                }
                 // 厚土娘娘与燃灯道人协同效果
-                if (name.equals("厚土娘娘") && targetName.equals("燃灯道人")) {
+                else if (name.equals("厚土娘娘") && targetName.equals("燃灯道人")) {
                     int addHp = 453 * level;
                     int addAtk = 158 * level;
                     int addSpd = 158 * level;
@@ -263,23 +279,6 @@ public class Guardian {
                     battleLogs.add(new BattleLog(battleId, round, "道法自然（协同）", this.name, targetName,
                             addAtk, EffectType.ATTACK_UP, null));
                     battleLogs.add(new BattleLog(battleId, round, "道法自然（协同）", this.name, targetName,
-                            addSpd, EffectType.SPEED_UP, null));
-                }
-                // 牛魔王与圣婴大王协同效果
-                else if (name.equals("牛魔王") && targetName.equals("圣婴大王")) {
-                    int addHp = 352 * level;
-                    int addAtk = 176 * level;
-                    int addSpd = 176 * level;
-
-                    this.currentMaxHp += addHp;
-                    this.currentAttack += addAtk;
-                    this.currentSpeed += addSpd;
-
-                    battleLogs.add(new BattleLog(battleId, round, "众妖皆狂（协同）", this.name, targetName,
-                            addHp, EffectType.HP_UP, null));
-                    battleLogs.add(new BattleLog(battleId, round, "众妖皆狂（协同）", this.name, targetName,
-                            addAtk, EffectType.ATTACK_UP, null));
-                    battleLogs.add(new BattleLog(battleId, round, "众妖皆狂（协同）", this.name, targetName,
                             addSpd, EffectType.SPEED_UP, null));
                 }
                 // 圣灵天将与瑶池仙女协同效果
@@ -328,6 +327,46 @@ public class Guardian {
             battleLogs.add(new BattleLog(battleId, round, "不动如山（位置加成）", this.name, "自身",
                     addSpd, EffectType.SPEED_UP, null));
         }
+    }
+
+    /**
+     * 触发牛魔王熔岩爆发技能（攻击后对场下敌方造成62点火焰伤害）
+     */
+    public void triggerLavaBurst(List<Guardian> enemyTeam, List<BattleLog> battleLogs, String battleId, int round) {
+        if (!isAlive() || !isOnField || enemyTeam == null) return;
+
+        List<String> damagedTargets = new ArrayList<>();
+        int damageAmount = 62; // Lv1固定62点伤害
+
+        enemyTeam.stream()
+                .filter(Objects::nonNull)
+                .filter(g -> !g.isOnField() && g.isAlive())
+                .forEach(g -> {
+                    int finalDamage = g.takeDamage(damageAmount, DamageType.FIRE);
+                    if (finalDamage > 0) {
+                        damagedTargets.add(g.getName());
+                    }
+                });
+
+        if (!damagedTargets.isEmpty()) {
+            battleLogs.add(new BattleLog(battleId, round, "熔岩爆发（牛魔王）", this.name,
+                    damagedTargets, damageAmount, EffectType.DAMAGE, DamageType.FIRE));
+        }
+    }
+
+    /**
+     * 触发牛魔王鲜血盛宴技能（生物死亡时增加生命上限）
+     */
+    public void triggerBloodFeast(List<BattleLog> battleLogs, String battleId, int round) {
+        if (!isAlive() || !isOnField || niumoWangHpStacks >= NIUMOWANG_MAX_STACKS) return;
+
+        int hpIncrease = 117; // Lv1固定117点生命上限
+        this.currentMaxHp += hpIncrease;
+        niumoWangHpStacks++;
+
+        battleLogs.add(new BattleLog(battleId, round, "鲜血盛宴（牛魔王）", this.name, "自身",
+                hpIncrease, EffectType.HP_UP, null,
+                "生命上限+" + hpIncrease + "（当前层数：" + niumoWangHpStacks + "/" + NIUMOWANG_MAX_STACKS + "）"));
     }
 
     /**
@@ -394,28 +433,6 @@ public class Guardian {
                 battleLogs.add(new BattleLog(battleId, round, "续命（洛神）", this.name, fieldAlly.getName(),
                         healAmount, EffectType.HEAL, null));
             }
-        }
-    }
-
-    public void triggerLavaBurst(List<Guardian> enemyTeam, List<BattleLog> battleLogs, String battleId, int round) {
-        if (!isAlive() || !isOnField || enemyTeam == null) return;
-
-        List<String> damagedTargets = new ArrayList<>();
-        int damageAmount = 62 * level;
-
-        enemyTeam.stream()
-                .filter(Objects::nonNull)
-                .filter(g -> !g.isOnField() && g.isAlive())
-                .forEach(g -> {
-                    int finalDamage = g.takeDamage(damageAmount, DamageType.FIRE);
-                    if (finalDamage > 0) {
-                        damagedTargets.add(g.getName());
-                    }
-                });
-
-        if (!damagedTargets.isEmpty()) {
-            battleLogs.add(new BattleLog(battleId, round, "熔岩爆发（牛魔王）", this.name,
-                    damagedTargets, damageAmount, EffectType.DAMAGE, DamageType.FIRE));
         }
     }
 
@@ -534,6 +551,11 @@ public class Guardian {
                                  boolean isEnemyDeath, List<BattleLog> battleLogs, String battleId, int round) {
         if (!isAlive()) return;
 
+        // 牛魔王鲜血盛宴触发
+        if (name.equals("牛魔王")) {
+            triggerBloodFeast(battleLogs, battleId, round);
+        }
+
         if (name.equals("洛神") && isEnemyDeath && luoshenAttackStacks < 3) {
             Guardian fieldAlly = ownTeam.stream()
                     .filter(Objects::nonNull)
@@ -550,15 +572,6 @@ public class Guardian {
                 battleLogs.add(new BattleLog(battleId, round, "洛水歌声（叠加" + luoshenAttackStacks + "层）",
                         this.name, fieldAlly.getName(), attackBoost, EffectType.ATTACK_UP, null));
             }
-        }
-
-        if (name.equals("牛魔王") && niumoWangHpStacks < 3) {
-            int hpBoost = 117 * level;
-            this.currentMaxHp += hpBoost;
-            niumoWangHpStacks++;
-
-            battleLogs.add(new BattleLog(battleId, round, "鲜血盛宴（叠加" + niumoWangHpStacks + "层）",
-                    this.name, "自身", hpBoost, EffectType.HP_UP, null));
         }
 
         if (name.equals("白骨精") && isEnemyDeath) {
@@ -750,6 +763,10 @@ public class Guardian {
     public Random getRandom() { return random; }
     public boolean isHpProtected() { return isHpProtected; }
     public void setHpProtected(boolean isHpProtected) { this.isHpProtected = isHpProtected; }
+
+    // 牛魔王叠加属性Getter/Setter
+    public int getNiumoWangHpStacks() { return niumoWangHpStacks; }
+    public void resetNiumoWangStacks() { this.niumoWangHpStacks = 0; }
 
     // 厚土娘娘叠加属性Getter/Setter
     public int getHoutuHpStacks() { return houtuHpStacks; }
