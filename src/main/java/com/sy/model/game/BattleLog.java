@@ -34,4 +34,5 @@ public class BattleLog {
     private EffectType effectType;          // 效果类型
     private DamageType damageType;          // 伤害类型（如果适用）
     private String extraDesc;               // 额外描述信息
+    private String aoe;                     // aoe技能
 }

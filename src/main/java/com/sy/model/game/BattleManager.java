@@ -370,9 +370,9 @@ public class BattleManager {
                     // 记录目标状态并执行伤害
                     aliveEnemies.forEach(g -> {
                         targetNames.add(g.getName());
-                        int hpBefore = g.getCurrentHp();
+                        int hpBefore = g.getMaxHp();
                         g.setCurrentHp(g.getCurrentHp() - fireDamage);
-                        targetStatus.put(g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
+                        targetStatus.put(g.getCamp()+g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
                     });
 
                     // 单条日志记录多目标
@@ -439,10 +439,10 @@ public class BattleManager {
                 break;
 
             case "牛魔王":
-                // 熔岩爆发：对场下敌方造成火焰伤害（多目标整合）
+                // 熔岩爆发：对敌方全体造成火焰伤害（多目标整合）
                 List<Guardian> offFieldEnemies = defender.getCamp() == Camp.A ?
-                        campA.stream().filter(g -> !g.isOnField() && !g.isDead()).collect(Collectors.toList()) :
-                        campB.stream().filter(g -> !g.isOnField() && !g.isDead()).collect(Collectors.toList());
+                        campA.stream().filter(g ->!g.isDead()).collect(Collectors.toList()) :
+                        campB.stream().filter(g ->!g.isDead()).collect(Collectors.toList());
 
                 if (!offFieldEnemies.isEmpty()) {
                     int lavaDamage = 62 * attacker.getLevel();
@@ -451,9 +451,9 @@ public class BattleManager {
 
                     offFieldEnemies.forEach(g -> {
                         targetNames.add(g.getName());
-                        int hpBefore = g.getCurrentHp();
+                        int hpBefore = g.getMaxHp();
                         g.setCurrentHp(g.getCurrentHp() - lavaDamage);
-                        targetStatus.put(g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
+                        targetStatus.put(g.getCamp()+g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
                     });
 
                     // 单条日志记录多目标
@@ -466,7 +466,7 @@ public class BattleManager {
                             targetStatus,
                             getFieldUnitsStatus(),
                             lavaDamage, EffectType.FIRE_DAMAGE, DamageType.FIRE,
-                            attacker.getName() + "触发熔岩爆发，对场下敌方造成火焰伤害");
+                            attacker.getName() + "触发熔岩爆发，攻击后对全体造成火焰伤害");
                 }
                 break;
         }
@@ -514,9 +514,9 @@ public class BattleManager {
 
                 immortalAllies.forEach(g -> {
                     targetNames.add(g.getName());
-                    int hpBefore = g.getCurrentHp();
+                    int hpBefore = g.getMaxHp();
                     g.setCurrentHp(g.getCurrentHp() + heal);
-                    targetStatus.put(g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
+                    targetStatus.put(g.getCamp()+g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
                 });
 
                 addMultiTargetLog("生生不息",
@@ -548,9 +548,9 @@ public class BattleManager {
 
                 immortalAllies.forEach(g -> {
                     targetNames.add(g.getName());
-                    int hpBefore = g.getCurrentHp();
+                    int hpBefore = g.getMaxHp();
                     g.setCurrentHp(g.getCurrentHp() + heal);
-                    targetStatus.put(g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
+                    targetStatus.put(g.getCamp()+g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
                 });
 
                 addMultiTargetLog("生生不息",
@@ -639,7 +639,7 @@ public class BattleManager {
                     targetNames.add(g.getName());
                     int maxHpBefore = g.getMaxHp();
                     g.setMaxHp(g.getMaxHp() - reduce);
-                    targetStatus.put(g.getName(), new Object[]{g.getPosition(), maxHpBefore, g.getMaxHp()});
+                    targetStatus.put(g.getCamp()+g.getName(), new Object[]{g.getPosition(), maxHpBefore, g.getMaxHp()});
                 });
 
                 addMultiTargetLog("生死簿",
@@ -677,7 +677,7 @@ public class BattleManager {
                     targetNames.add(g.getName());
                     int maxHpBefore = g.getMaxHp();
                     g.setMaxHp(g.getMaxHp() - reduce);
-                    targetStatus.put(g.getName(), new Object[]{g.getPosition(), maxHpBefore, g.getMaxHp()});
+                    targetStatus.put(g.getCamp()+g.getName(), new Object[]{g.getPosition(), maxHpBefore, g.getMaxHp()});
                 });
 
                 addMultiTargetLog("生死簿",
@@ -721,7 +721,7 @@ public class BattleManager {
 
             poisonedUnits.forEach(g -> {
                 targetNames.add(g.getName());
-                int hpBefore = g.getCurrentHp();
+                int hpBefore = g.getMaxHp();
                 int poisonDamage = g.getEffects().get(EffectType.POISON);
                 g.setCurrentHp(g.getCurrentHp() - poisonDamage);
                 targetStatus.put(g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
@@ -1038,7 +1038,8 @@ public class BattleManager {
                 value,
                 effectType,
                 damageType,
-                extraDesc
+                extraDesc,
+                "0"
         ));
     }
 
@@ -1092,7 +1093,8 @@ public class BattleManager {
                 value,
                 effectType,
                 damageType,
-                extraDesc + " - " + targetDesc.toString()
+                extraDesc + " - " + targetDesc.toString(),
+                "1"
         ));
     }
 

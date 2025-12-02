@@ -2,8 +2,6 @@ package com.sy.model.game;
 
 import java.util.HashMap;
 import java.util.Map;
-
-
 public class Guardian {
     private String name;
     private Camp camp;
@@ -17,9 +15,8 @@ public class Guardian {
     private int speed;
     private boolean isDead;
     private boolean isOnField;
-    private Map<EffectType, Integer> effects = new HashMap<>();
-    private int buffStacks = 0;
-    private int chargeTurns = 0;
+    private int buffStacks;
+    private Map<EffectType, Integer> effects;
 
     // 构造函数
     public Guardian(String name, Camp camp, int position, Profession profession, Race race,
@@ -31,61 +28,56 @@ public class Guardian {
         this.race = race;
         this.level = 1;
         this.maxHp = maxHp;
-        this.currentHp = maxHp;
+        this.currentHp = maxHp;  // 初始当前血量等于血量上限
         this.attack = attack;
         this.speed = speed;
         this.isDead = false;
         this.isOnField = false;
+        this.buffStacks = 0;
+        this.effects = new HashMap<>();
     }
 
-    // Getter和Setter方法
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public Camp getCamp() { return camp; }
-    public void setCamp(Camp camp) { this.camp = camp; }
-
-    public int getPosition() { return position; }
-    public void setPosition(int position) { this.position = position; }
-
-    public Profession getProfession() { return profession; }
-    public void setProfession(Profession profession) { this.profession = profession; }
-
-    public Race getRace() { return race; }
-    public void setRace(Race race) { this.race = race; }
-
-    public int getLevel() { return level; }
-    public void setLevel(int level) { this.level = level; }
-
-    public int getMaxHp() { return maxHp; }
-    public void setMaxHp(int maxHp) { this.maxHp = maxHp; }
-
-    public int getCurrentHp() { return currentHp; }
-    public void setCurrentHp(int currentHp) {
-        this.currentHp = Math.max(0, Math.min(currentHp, this.maxHp));
-        if (this.currentHp <= 0) {
-            this.isDead = true;
+    // 设置血量上限（联动调整当前血量）
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+        // 如果当前血量超过新的上限，调整为上限值
+        if (this.currentHp > this.maxHp) {
+            this.currentHp = this.maxHp;
         }
     }
 
+    // 设置当前血量（确保不超过上限）
+    public void setCurrentHp(int currentHp) {
+        this.currentHp = Math.min(currentHp, this.maxHp);  // 不超过上限
+        this.currentHp = Math.max(this.currentHp, 0);      // 不低于0
+
+        // 如果血量为0，标记为死亡
+        if (this.currentHp <= 0) {
+            this.isDead = true;
+            this.currentHp = 0;
+        }
+    }
+
+    // 其他getter和setter方法
+    public String getName() { return name; }
+    public Camp getCamp() { return camp; }
+    public int getPosition() { return position; }
+    public Profession getProfession() { return profession; }
+    public Race getRace() { return race; }
+    public int getLevel() { return level; }
+    public void setLevel(int level) { this.level = level; }
+    public int getMaxHp() { return maxHp; }
+    public int getCurrentHp() { return currentHp; }
     public int getAttack() { return attack; }
     public void setAttack(int attack) { this.attack = attack; }
-
     public int getSpeed() { return speed; }
     public void setSpeed(int speed) { this.speed = speed; }
-
     public boolean isDead() { return isDead; }
     public void setDead(boolean dead) { isDead = dead; }
-
     public boolean isOnField() { return isOnField; }
     public void setOnField(boolean onField) { isOnField = onField; }
-
-    public Map<EffectType, Integer> getEffects() { return effects; }
-    public void setEffects(Map<EffectType, Integer> effects) { this.effects = effects; }
-
     public int getBuffStacks() { return buffStacks; }
     public void setBuffStacks(int buffStacks) { this.buffStacks = buffStacks; }
-
-    public int getChargeTurns() { return chargeTurns; }
-    public void setChargeTurns(int chargeTurns) { this.chargeTurns = chargeTurns; }
+    public Map<EffectType, Integer> getEffects() { return effects; }
 }
+

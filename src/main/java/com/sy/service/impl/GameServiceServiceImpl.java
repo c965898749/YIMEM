@@ -3290,13 +3290,13 @@ public class GameServiceServiceImpl implements GameServiceService {
         List<Character> copyCampA = new ArrayList<>();
         campA.add(new Guardian("牛魔王", Camp.A, 1, Profession.WARRIOR, Race.DEMON, 2000, 300, 100));
         campA.add(new Guardian("厚土娘娘", Camp.A, 2, Profession.IMMORTAL, Race.IMMORTAL, 2500, 200, 80));
-        campA.add(new Guardian("烛龙", Camp.A, 3, Profession.GOD, Race.DEMON, 1800, 250, 90));
+        campA.add(new Guardian("镇元子", Camp.A, 3, Profession.GOD, Race.DEMON, 1800, 250, 90));
         campA.add(new Guardian("妲己", Camp.A, 4, Profession.IMMORTAL, Race.DEMON, 1500, 180, 120));
         campA.add(new Guardian("长生大帝", Camp.A, 5, Profession.GOD, Race.IMMORTAL, 2200, 150, 80));
 
         copyCampA.add(new Character("1027","牛魔王", Camp.A, 1, Profession.WARRIOR, Race.DEMON, 2000, 300, 100));
         copyCampA.add(new Character("1012","厚土娘娘", Camp.A, 2, Profession.IMMORTAL, Race.IMMORTAL, 2500, 200, 80));
-        copyCampA.add(new Character("1013","烛龙", Camp.A, 3, Profession.GOD, Race.DEMON, 1800, 250, 90));
+        copyCampA.add(new Character("1016","镇元子", Camp.A, 3, Profession.GOD, Race.IMMORTAL, 1800, 250, 90));
         copyCampA.add(new Character("1005","妲己", Camp.A, 4, Profession.IMMORTAL, Race.DEMON, 1500, 180, 120));
         copyCampA.add(new Character("1020","长生大帝", Camp.A, 5, Profession.GOD, Race.IMMORTAL, 2200, 150, 80));
         // 创建B队护法
@@ -3312,7 +3312,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         copyCampB.add(new Character("1007","聂小倩", Camp.B, 2, Profession.IMMORTAL, Race.DEMON, 1200, 180, 110));
         copyCampB.add(new Character("1002","托塔天王", Camp.B, 3, Profession.GOD, Race.IMMORTAL, 2200, 280, 95));
         copyCampB.add(new Character("1010","齐天大圣", Camp.B, 4, Profession.WARRIOR, Race.DEMON, 1800, 320, 130));
-        copyCampB.add(new Character("1006","铁扇公主", Camp.B, 5, Profession.IMMORTAL, Race.DEMON, 1600, 200, 90));
+        copyCampB.add(new Character("1030","洛神", Camp.B, 5, Profession.IMMORTAL, Race.IMMORTAL, 1600, 200, 90));
 
         // 开始战斗
         String battleId = "BATTLE_20251130_001";
