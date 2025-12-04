@@ -132,6 +132,8 @@ public class BattleManager {
         // 触发受击技能
         triggerOnAttackedSkills(defender, attacker);
 
+        // 攻击后技能触发
+        triggerPostAttackSkills(attacker, defender);
         // 检查阵亡
         if (defender.getCurrentHp() <= 0) {
             defender.setDead(true);
@@ -153,8 +155,7 @@ public class BattleManager {
             triggerOnDeathSkills(defender);
         }
 
-        // 攻击后技能触发
-        triggerPostAttackSkills(attacker, defender);
+
     }
 
     // 触发登场技能
@@ -637,9 +638,9 @@ public class BattleManager {
 
                 aliveUnits.forEach(g -> {
                     targetNames.add(g.getName());
-                    int maxHpBefore = g.getMaxHp();
+                    int maxHpBefore = g.getMaxHp()- reduce;
                     g.setMaxHp(g.getMaxHp() - reduce);
-                    targetStatus.put(g.getCamp()+g.getName(), new Object[]{g.getPosition(), maxHpBefore, g.getMaxHp()});
+                    targetStatus.put(g.getCamp()+g.getName(), new Object[]{g.getPosition(), maxHpBefore, g.getCurrentHp()});
                 });
 
                 addMultiTargetLog("生死簿",
@@ -675,9 +676,9 @@ public class BattleManager {
 
                 aliveUnits.forEach(g -> {
                     targetNames.add(g.getName());
-                    int maxHpBefore = g.getMaxHp();
+                    int maxHpBefore = g.getMaxHp()-reduce;
                     g.setMaxHp(g.getMaxHp() - reduce);
-                    targetStatus.put(g.getCamp()+g.getName(), new Object[]{g.getPosition(), maxHpBefore, g.getMaxHp()});
+                    targetStatus.put(g.getCamp()+g.getName(), new Object[]{g.getPosition(), maxHpBefore, g.getCurrentHp()});
                 });
 
                 addMultiTargetLog("生死簿",
@@ -729,7 +730,7 @@ public class BattleManager {
                 if (g.getCurrentHp() <= 0) {
                     g.setDead(true);
                     g.setOnField(false);
-                    deadUnits.add(g.getName());
+                    deadUnits.add(g.getName()+"_"+g.getPosition());
                 }
             });
 
@@ -746,8 +747,9 @@ public class BattleManager {
             // 中毒阵亡日志
             if (!deadUnits.isEmpty()) {
                 Map<String, Object[]> deadStatus = new HashMap<>();
-                deadUnits.forEach(unit -> {
-                    deadStatus.put(unit, new Object[]{0, 0, 0});
+                deadUnits.forEach(x -> {
+                    List<String> strings=Arrays.asList(x.split("_"));
+                    deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
                 });
 
                 addMultiTargetLog("UNIT_DEATH",
