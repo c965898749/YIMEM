@@ -99,11 +99,11 @@ public class BattleManager {
     // 处理攻击流程
     private void processAttack(Guardian attacker, Guardian defender) {
         // 记录攻击前状态
-        int attackerHpBefore = attacker.getCurrentHp();
+        int attackerHpBefore = attacker.getMaxHp();
         int attackerAttackBefore = attacker.getAttack();
         int attackerSpeedBefore = attacker.getSpeed();
 
-        int defenderHpBefore = defender.getCurrentHp();
+        int defenderHpBefore = defender.getMaxHp();
         int defenderAttackBefore = defender.getAttack();
         int defenderSpeedBefore = defender.getSpeed();
 
@@ -160,7 +160,7 @@ public class BattleManager {
 
     // 触发登场技能
     private void triggerOnEnterSkills(Guardian guardian) {
-        int sourceHpBefore = guardian.getCurrentHp();
+        int sourceHpBefore = guardian.getMaxHp();
         int sourceAttackBefore = guardian.getAttack();
         int sourceSpeedBefore = guardian.getSpeed();
 
@@ -183,7 +183,7 @@ public class BattleManager {
                             enemy.getAttack(), enemy.getAttack(),
                             enemy.getSpeed(), enemy.getSpeed(),
                             getFieldUnitsStatus(),
-                            damage, EffectType.DAMAGE, DamageType.MISSILE,
+                            damage, EffectType.MISSILE_DAMAGE, DamageType.MISSILE,
                             guardian.getName() + "登场触发镇妖塔");
                 }
                 break;
@@ -276,7 +276,7 @@ public class BattleManager {
 
     // 触发攻击前技能
     private void triggerPreAttackSkills(Guardian attacker, Guardian defender) {
-        int attackerHpBefore = attacker.getCurrentHp();
+        int attackerHpBefore = attacker.getMaxHp();
         int attackerAttackBefore = attacker.getAttack();
         int attackerSpeedBefore = attacker.getSpeed();
 
@@ -329,7 +329,7 @@ public class BattleManager {
 
     // 触发受击技能
     private void triggerOnAttackedSkills(Guardian defender, Guardian attacker) {
-        int defenderHpBefore = defender.getCurrentHp();
+        int defenderHpBefore = defender.getMaxHp();
         int defenderAttackBefore = defender.getAttack();
         int defenderSpeedBefore = defender.getSpeed();
 
@@ -414,7 +414,7 @@ public class BattleManager {
 
     // 触发攻击后技能
     private void triggerPostAttackSkills(Guardian attacker, Guardian defender) {
-        int attackerHpBefore = attacker.getCurrentHp();
+        int attackerHpBefore = attacker.getMaxHp();
         int attackerAttackBefore = attacker.getAttack();
         int attackerSpeedBefore = attacker.getSpeed();
 
@@ -725,12 +725,12 @@ public class BattleManager {
                 int hpBefore = g.getMaxHp();
                 int poisonDamage = g.getEffects().get(EffectType.POISON);
                 g.setCurrentHp(g.getCurrentHp() - poisonDamage);
-                targetStatus.put(g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
+                targetStatus.put(g.getCamp()+g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
 
                 if (g.getCurrentHp() <= 0) {
                     g.setDead(true);
                     g.setOnField(false);
-                    deadUnits.add(g.getName()+"_"+g.getPosition());
+                    deadUnits.add(g.getCamp()+g.getName()+"_"+g.getPosition());
                 }
             });
 
@@ -778,7 +778,7 @@ public class BattleManager {
 
             // 妖狐蔽天：3%几率眩晕当前敌人
             if (random.nextDouble() < 0.03 && fieldB != null) {
-                int targetHpBefore = fieldB.getCurrentHp();
+                int targetHpBefore = fieldB.getMaxHp();
                 fieldB.getEffects().put(EffectType.STUN, 1);
 
                 addLog("妖狐蔽天",
@@ -802,7 +802,7 @@ public class BattleManager {
 
             if (!enemies.isEmpty()) {
                 Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                int targetHpBefore = randomEnemy.getCurrentHp();
+                int targetHpBefore = randomEnemy.getMaxHp();
                 int poisonValue = 7;
                 randomEnemy.getEffects().put(EffectType.POISON, poisonValue);
 
@@ -833,7 +833,7 @@ public class BattleManager {
 
             // 妖狐蔽天：3%几率眩晕当前敌人
             if (random.nextDouble() < 0.03 && fieldA != null) {
-                int targetHpBefore = fieldA.getCurrentHp();
+                int targetHpBefore = fieldA.getMaxHp();
                 fieldA.getEffects().put(EffectType.STUN, 1);
 
                 addLog("妖狐蔽天",
@@ -857,7 +857,7 @@ public class BattleManager {
 
             if (!enemies.isEmpty()) {
                 Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                int targetHpBefore = randomEnemy.getCurrentHp();
+                int targetHpBefore = randomEnemy.getMaxHp();
                 int poisonValue = 7;
                 randomEnemy.getEffects().put(EffectType.POISON, poisonValue);
 
