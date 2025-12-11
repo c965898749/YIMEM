@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.FriendRelationMapper">
+    <select id="findCount"  resultType="java.lang.Integer">
+    select count(1)  from friend_relation
+    where
+    user_id = #{userId}
+  </select>
+    <select id="findByUserid"  resultType="com.sy.model.game.FriendRelation">
+    select *   from friend_relation
+    where
+    user_id = #{userId} and friend_id = #{friendId}
+  </select>
+    <select id="findByid"  resultType="com.sy.model.User">
+             SELECT u.*,fr.id FROM `user` u
+            LEFT JOIN friend_relation fr on fr.friend_id=u.userId
+            where fr.user_id=#{userId} and fr.status=#{status}
+  </select>
+    <select id="findMessage"  resultType="com.sy.model.User">
+             SELECT u.*,fr.id FROM `user` u
+            LEFT JOIN friend_relation fr on fr.user_id=u.userId
+            where fr.friend_id=#{userId} and fr.status=#{status}
+  </select>
+</mapper>

@@ -8,6 +8,8 @@ import java.util.List;
 public interface UserMapper {
     //查询所有用户
     List<User> SelectAllUser();
+    //随机查询5个人
+    List<User> SelectRandUser();
     //新增用户
     int insertUser(User user);
     //修改头像

@@ -56,4 +56,6 @@ public class UserInfo {
     private Integer levelUp;
     private Integer winCount;
     private String stopLevel;
+    //
+    private String id;
 }

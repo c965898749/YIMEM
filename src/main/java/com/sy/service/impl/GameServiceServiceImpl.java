@@ -1,6 +1,7 @@
 package com.sy.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.sy.mapper.game.*;
 import com.sy.mapper.UserMapper;
 import com.sy.model.User;
@@ -10,6 +11,7 @@ import com.sy.model.resp.BaseResp;
 import com.sy.service.GameServiceService;
 import com.sy.service.UserServic;
 import com.sy.tool.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,7 +19,6 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -30,6 +31,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class GameServiceServiceImpl implements GameServiceService {
     @Autowired
@@ -72,6 +74,8 @@ public class GameServiceServiceImpl implements GameServiceService {
     private ActivityRewardMapper rewardMapper;  // 新增奖励表Mapper
     @Autowired
     private ActivityDetailMapper activityDetailMapper;
+    @Autowired
+    private FriendRelationMapper friendRelationMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -428,7 +432,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         DayOfWeek dayOfWeek = today.getDayOfWeek();
         List<ActivityDetail> details = new ArrayList<>();
         if (1 == config.getIsPermanent()) {
-            details = activityDetailMapper.getByCodde2(token.getStr(), dayOfWeek.getValue());
+            details = activityDetailMapper.getByCodde2(token.getStr(), dayOfWeek.getValue() - 1);
 
         } else {
             details = activityDetailMapper.getByCodde(token.getStr());
@@ -498,12 +502,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
-        if (Xtool.isNull(userId)) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("登录过期");
-            return baseResp;
-        }
+        String userId = token.getUserId();
+//        if (Xtool.isNull(userId)) {
+//            baseResp.setSuccess(0);
+//            baseResp.setErrorMsg("登录过期");
+//            return baseResp;
+//        }
 
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
         // 1. 基础参数非空校验
@@ -571,7 +575,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         character.setUuid(1);
         rightCharacter.add(character);
         String[] luminaryMap = {
-                 // 0: 星期日（太阳）
+                // 0: 星期日（太阳）
                 "太阴星君",  // 1: 星期一（太阴/月亮）
                 "荧惑星君",          // 2: 星期二
                 "水星真君",          // 3: 星期三
@@ -584,9 +588,9 @@ public class GameServiceServiceImpl implements GameServiceService {
         LocalDate today2 = LocalDate.now();
         // 获取星期几（返回DayOfWeek枚举）
         DayOfWeek dayOfWeek = today2.getDayOfWeek();
-        String name=luminaryMap[dayOfWeek.getValue()]+activityDetail.getDifficultyLevel();
-        Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, 0,name, user.getGameImg(), "0");
-        if (battle.getIsWin()==0){
+        String name = luminaryMap[dayOfWeek.getValue() - 1] + activityDetail.getDifficultyLevel();
+        Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, 0, name, user.getGameImg(), "0");
+        if (battle.getIsWin() == 0) {
             // 7. 插入参与记录
             UserActivityRecords record = new UserActivityRecords();
             record.setUserId(userId);
@@ -940,8 +944,20 @@ public class GameServiceServiceImpl implements GameServiceService {
         if ("1".equals(token.getStr())) {
             return warReport(token, request);
         } else if ("2".equals(token.getStr())) {
+            Map map = new HashMap();
+            map.put("friend_id", token.getUserId());
+            map.put("status", 0);
+            List<FriendRelation> friendRelations = friendRelationMapper.selectByMap(map);
+            List<UserInfo> userList = new ArrayList<>();
+            for (FriendRelation friendRelation : friendRelations) {
+                User user = userMapper.selectUserByUserId(friendRelation.getUserId());
+                UserInfo userInfo=new UserInfo();
+                BeanUtils.copyProperties(user,userInfo);
+                userInfo.setId(friendRelation.getId()+"");
+                userList.add(userInfo);
+            }
             BaseResp baseResp = new BaseResp();
-            baseResp.setData(new ArrayList<>());
+            baseResp.setData(userList);
             return baseResp;
         } else if ("3".equals(token.getStr())) {
             return userGiftService(token, request);
@@ -1875,6 +1891,45 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp start3(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        if (Xtool.isNull(userId)) {
+//            baseResp.setSuccess(0);
+//            baseResp.setErrorMsg("登录过期");
+//            return baseResp;
+//        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(token.getUserId()));
+        //自己的战队
+        List<Characters> leftCharacter = charactersMapper.goIntoListById(user.getUserId() + "");
+        if (Xtool.isNull(leftCharacter)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("你没有配置战队无法战斗");
+            return baseResp;
+        }
+        Collections.sort(leftCharacter, Comparator.comparing(Characters::getGoIntoNum));
+        //对手战队
+        User user1 = userMapper.selectUserByUserId(Integer.parseInt(token.getId()));
+        List<Characters> rightCharacter = charactersMapper.goIntoListById(user1.getUserId() + "");
+        if (Xtool.isNull(rightCharacter)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("对方没有配置战队无法战斗");
+            return baseResp;
+        }
+
+        baseResp.setSuccess(1);
+        Battle battle = this.battle(leftCharacter, user.getUserId(), user.getNickname(), rightCharacter, user1.getUserId(), user1.getNickname(), user.getGameImg(), "3");
+        baseResp.setData(battle);
+        return baseResp;
+    }
+
+    @Override
     public BaseResp ranking(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         baseResp.setData(userMapper.getMyRankig(token.getUserId()));
@@ -1950,6 +2005,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             characters.setGoIntoNum(i + 1);
             characters.setLv(lv);
             characters.setUuid(i);
+            characters.setName(characters.getName() + i);
             rightCharacter.add(characters);
         }
         Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, 0, pveDetail.getGuanName(), user.getGameImg(), "0");
@@ -2004,6 +2060,8 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
             }
             map.put("rewards", rewards);
+        } else {
+            battle.setChapter(token.getStr());
         }
         user.setTiliCount(user.getTiliCount() - 2);
         user.setTiliCountTime(new Date());
@@ -2120,17 +2178,138 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
         //随机获取有队伍的5个人
-        List<User> users = userMapper.SelectAllUser();
-        String userIds = users.stream().map(User::getUserId).map(String::valueOf).collect(Collectors.joining(","));
-        List<Characters> charactersList = charactersMapper.goIntoListByIds(userIds);
-        Set<Integer> userIds2 = charactersList.stream().map(Characters::getUserId).collect(Collectors.toSet());
-        Set<Integer> userIds3 = getRandomElements(userIds2, 5);
-        List<User> parking = users.stream().filter(x -> userIds3.contains(x.getUserId())).collect(Collectors.toList());
+        List<User> users = userMapper.SelectRandUser();
+        for (User user1 : users) {
+            List<FriendRelation> friendRelations = friendRelationMapper.findByUserid(userId, user1.getUserId());
+            if (Xtool.isNotNull(friendRelations)) {
+                user1.setFriendStatus(friendRelations.get(0).getStatus());
+            }
+        }
         baseResp.setSuccess(1);
         Map map = new HashMap();
         map.put("user", user);
-        map.put("parking", parking);
+        map.put("parking", users);
         baseResp.setData(map);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp friendAllList(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        List<User> users = friendRelationMapper.findByid(token.getUserId(), 1);
+        baseResp.setSuccess(1);
+        Map map = new HashMap();
+        map.put("friends", users);
+        baseResp.setData(map);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp invitationSend(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        if (userMapper.selectUserByUserId(Integer.parseInt(token.getUserId())) == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("未找到该玩家");
+            return baseResp;
+        }
+        //判断好友是否上限
+        if (friendRelationMapper.findCount(userId) >= 40) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("你的好友已上限");
+            return baseResp;
+        }
+        if (friendRelationMapper.findCount(token.getUserId()) >= 40) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("对方好友已上限");
+            return baseResp;
+        }
+        Wrapper<FriendRelation> wrapper = new Wrapper<FriendRelation>() {
+            @Override
+            public String getSqlSegment() {
+                return "user_id like 1";
+            }
+        };
+
+        List<FriendRelation> friendRelationList = friendRelationMapper.selectList(new Wrapper<FriendRelation>() {
+            @Override
+            public String getSqlSegment() {
+                return "where user_id =" + userId + " and friend_id =" + token.getUserId();
+            }
+        });
+        if (Xtool.isNotNull(friendRelationList)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("请勿重复结伴");
+            return baseResp;
+        } else {
+            FriendRelation friendRelation = new FriendRelation();
+            friendRelation.setCreateTime(new Date());
+            friendRelation.setFriendId(Integer.parseInt(token.getUserId() + ""));
+            friendRelation.setUserId(Integer.parseInt(userId + ""));
+            friendRelation.setStatus(0);
+            friendRelation.setCreateTime(new Date());
+            friendRelationMapper.insert(friendRelation);
+        }
+        baseResp.setSuccess(1);
+        baseResp.setErrorMsg("结伴中");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp invitationHandle(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        // 1. 查找申请记录（applyUserId发起的，userId是被申请人）
+        FriendRelation relationOpt = friendRelationMapper.selectById(token.getId());
+        if (relationOpt == null || relationOpt.getStatus() != 0 || !userId.equals(relationOpt.getFriendId() + "")) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("无待处理的好友申请");
+            return baseResp;
+        }
+        if ("1".equals(token.getStr())) {
+            // 2. 同意：更新状态为1（已好友），并创建反向关系
+            relationOpt.setStatus(1);
+            friendRelationMapper.updateById(relationOpt);
+
+            FriendRelation reverseRelation = new FriendRelation();
+            reverseRelation.setUserId(Integer.parseInt(userId));
+            reverseRelation.setFriendId(relationOpt.getUserId());
+            reverseRelation.setStatus(1);
+            friendRelationMapper.insert(reverseRelation);
+        } else {
+            // 3. 拒绝：删除申请记录
+            friendRelationMapper.deleteById(token.getId());
+        }
+        baseResp.setSuccess(1);
+        baseResp.setErrorMsg("操作成功");
         return baseResp;
     }
 
@@ -2213,935 +2392,6 @@ public class GameServiceServiceImpl implements GameServiceService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             return targetLocalDate.format(formatter);
         }
-    }
-
-
-    public Battle battle(List<Characters> leftCharacters, Integer userId, String name0, List<Characters> rightCharacters, Integer toUserId, String name1, String img, String type) throws Exception {
-        Map map = new HashMap();
-        Integer isWin = 0;
-        //战斗过程
-        List<Map> list = new ArrayList<>();
-        // 所有存活的角色
-        List<Character> allLiveCharacter = new ArrayList();
-        List<Character> leftCharacter = new ArrayList<>();
-        List<Character> rightCharacter = new ArrayList<>();
-        // 当前回合数
-        Integer currentRound = 1;
-
-//        gameFight.setToUserId(593);
-        for (Characters characters : leftCharacters) {
-            // 设置角色
-            Character character = reasonableData(characters, leftCharacters);
-            character.setDirection("0");
-            Character character333 = new Character();
-            BeanUtils.copyProperties(character, character333);
-            leftCharacter.add(character333);
-            allLiveCharacter.add(character);
-        }
-        for (Characters characters : rightCharacters) {
-            // 设置角色
-            Character character = reasonableData(characters, rightCharacters);
-            character.setDirection("1");
-            Character character333 = new Character();
-            BeanUtils.copyProperties(character, character333);
-            rightCharacter.add(character333);
-            allLiveCharacter.add(character);
-        }
-        //TODO 调用战斗开始回调
-        //TODO 装备buff待开发
-        outerLoop:
-        while (currentRound <= 99) {
-            Map mapProsse = new HashMap();
-            List<Fightter> fightterList = new ArrayList<>();
-            //TODO  排序：先按position升序，相同position按speed降序
-            List<Character> allLiveCharacterNew = allLiveCharacter.stream()
-                    .sorted(Comparator
-                            .comparingInt(Character::getGoIntoNum)
-                            .thenComparing(Comparator.comparingDouble(Character::getSpeed).reversed())
-                    )
-                    .collect(Collectors.toList());
-            //设置战场护法//左0右1
-            List<Character> leftCharters = allLiveCharacterNew.stream().filter(x -> "0".equals(x.getDirection()) && allLiveCharacter.contains(x)).map(p -> {
-                p.setGoON("0");
-                return p;
-            }).collect(Collectors.toList());
-            List<Character> rightCharters = allLiveCharacterNew.stream().filter(x -> "1".equals(x.getDirection()) && allLiveCharacter.contains(x)).map(p -> {
-                p.setGoON("0");
-                return p;
-            }).collect(Collectors.toList());
-            Character leftCharters1 = leftCharters.get(0);
-            leftCharters1.setGoON("1");
-            Character rightCharters1 = rightCharters.get(0);
-            rightCharters1.setGoON("1");
-            Character character111 = new Character();
-            BeanUtils.copyProperties(leftCharters1, character111);
-            mapProsse.put("leftCharter", character111);
-            Character character222 = new Character();
-            BeanUtils.copyProperties(rightCharters1, character222);
-            mapProsse.put("rightCharter", character222);
-            //TODO 调用回合任务
-//            for (const task of this.allRoundQueue.get(this.currentRound) || []) await task()
-            //TODO 回合开始函数
-            //TODO 装备buff待开发
-
-
-            //TODO 状态buff
-//            for (Character character : allLiveCharacterNew) {
-//                if (!allLiveCharacter.contains(character)) break;
-//                if (Xtool.isNotNull(character.getBuff())) {
-//                    for (int i = character.getBuff().size() - 1; i >= 0; i--) {
-//                        Buff buff = character.getBuff().get(i);
-//                        if ("中毒".equals(buff.getName())) {
-//                            Fightter fightter = new Fightter();
-//                            Integer hurt = buff.getRoundReduceBleed();
-//                            fightter.setStr("中毒" + "-" + hurt);
-//                            fightter.setDirection(character.getDirection());
-//                            fightter.setGoON(character.getGoON());
-//                            fightter.setAttack(character.getAttack());
-//                            if (character.getHp() - hurt <= 0) {
-//                                character.setHp(0);
-//                                dead(character, allLiveCharacter);
-//                            } else {
-//                                character.setHp(character.getHp() - hurt);
-//                            }
-//                            if (buff.getRoundNum() - 1 <= 0) {
-//                                //buff失效则移除
-//                                character.getBuff().remove(i);
-//                                fightter.setIsbuff(0);
-//                            } else {
-//                                buff.setRoundNum(buff.getRoundNum() - 1);
-//                                fightter.setIsbuff(1);
-//                            }
-//                            fightter.setHp(character.getHp());
-//                            fightter.setSpeed(character.getSpeed());
-//                            fightter.setIsAction(0);
-//                            fightter.setIsDead("1");
-//                            fightterList.add(fightter);
-//                        } else if ("眩晕".equals(buff.getName())) {
-//                            Fightter fightter = new Fightter();
-//                            fightter.setDirection(character.getDirection());
-//                            fightter.setGoON(character.getGoON());
-//                            fightter.setAttack(character.getAttack());
-//                            if (buff.getRoundNum() - 1 <= 0) {
-//                                //buff失效则移除
-//                                character.getBuff().remove(i);
-//                                fightter.setIsbuff(0);
-//                                character.setIsAction("1");
-//                            } else {
-//                                buff.setRoundNum(buff.getRoundNum() - 1);
-//                                fightter.setIsbuff(1);
-//                                character.setIsAction("0");
-//                            }
-//                            fightter.setHp(character.getHp());
-//                            fightter.setSpeed(character.getSpeed());
-//                            fightter.setIsAction(0);
-//                            fightterList.add(fightter);
-//                        } else {
-//
-//
-//                        }
-//                    }
-//                }
-//
-//            }
-
-
-//            苦痛箭 Lv1
-//            场下每回合对同位置敌人造成35点真实伤害
-            isWin = castskill("苦痛箭", isWin, map, list, mapProsse, rightCharters1, leftCharters1,
-                    allLiveCharacter, allLiveCharacterNew, fightterList);
-
-            //TODO 角色行动1
-            if (leftCharters1.getSpeed() >= rightCharters1.getSpeed()) {
-                //TODO 回合开始
-
-//            后土聚能 Lv1
-//            场上，每回合提高自身生命上限197点、攻击67点，最多叠加99层
-                for (Character character : allLiveCharacterNew) {
-                    if (!allLiveCharacter.contains(character)) continue;
-                    if ("1".equals(character.getGoON())) {
-                        //仙塔庇护 Lv1
-                        //在场,每回合恢复自身25点生命值
-                        if ("仙塔庇护".equals(character.getPassiveIntroduceOne()) || "仙塔庇护".equals(character.getPassiveIntroduceTwo())) {
-                            if ("0".equals(character.getDirection())) {
-                                //大于0时才能治疗
-                                if (leftCharters1.getHp() > 0 && "sacred".equals(leftCharters1.getCamp())) {
-                                    Fightter fightter = new Fightter();
-                                    fightter.setDirection(leftCharters1.getDirection());
-                                    character.setHp(leftCharters1.getHp() + 25 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                    fightter.setGoON(leftCharters1.getGoON());
-                                    fightter.setAttack(leftCharters1.getAttack());
-                                    fightter.setHp(leftCharters1.getHp());
-                                    fightter.setMaxHp(leftCharters1.getMaxHp());
-                                    fightter.setSpeed(leftCharters1.getSpeed());
-                                    fightter.setIsAction(1);
-                                    fightter.setGoIntoNum(leftCharters1.getGoIntoNum());
-                                    fightter.setStr("+" + (25 * SkillLevelUtil.getSkill1Level(character.getLv())));
-                                    fightter.setBuff("仙塔庇护");
-                                    fightter.setIsSkill(1);
-                                    //
-                                    fightter.setDirectionFace(rightCharters1.getDirection());
-                                    fightter.setGoONFace(rightCharters1.getGoON());
-                                    fightter.setAttackFace(rightCharters1.getAttack());
-                                    fightter.setHpFace(rightCharters1.getHp());
-                                    fightter.setMaxHpFace(rightCharters1.getMaxHp());
-                                    fightter.setSpeedFace(rightCharters1.getSpeed());
-                                    fightter.setIsActionFace(0);
-                                    fightter.setGoIntoNumFace(rightCharters1.getGoIntoNum());
-                                    fightterList.add(fightter);
-                                }
-                            } else {
-                                //大于0时才能治疗
-                                if (rightCharters1.getHp() > 0 && "sacred".equals(rightCharters1.getCamp())) {
-                                    Fightter fightter = new Fightter();
-                                    fightter.setDirection(rightCharters1.getDirection());
-                                    character.setHp(rightCharters1.getHp() + 25 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                    fightter.setGoON(rightCharters1.getGoON());
-                                    fightter.setAttack(rightCharters1.getAttack());
-                                    fightter.setHp(rightCharters1.getHp());
-                                    fightter.setMaxHp(rightCharters1.getMaxHp());
-                                    fightter.setSpeed(rightCharters1.getSpeed());
-                                    fightter.setIsAction(1);
-                                    fightter.setGoIntoNum(rightCharters1.getGoIntoNum());
-                                    fightter.setStr("+" + 25 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                    fightter.setBuff("仙塔庇护");
-                                    fightter.setIsSkill(1);
-                                    //
-                                    fightter.setDirectionFace(leftCharters1.getDirection());
-                                    fightter.setGoONFace(leftCharters1.getGoON());
-                                    fightter.setAttackFace(leftCharters1.getAttack());
-                                    fightter.setHpFace(leftCharters1.getHp());
-                                    fightter.setMaxHpFace(leftCharters1.getMaxHp());
-                                    fightter.setSpeedFace(leftCharters1.getSpeed());
-                                    fightter.setIsActionFace(0);
-                                    fightter.setGoIntoNumFace(leftCharters1.getGoIntoNum());
-                                    fightterList.add(fightter);
-                                }
-                            }
-                        }
-                    }
-                    // 判断是否结束
-                    if (allLiveCharacter.stream().filter(x -> "0".equals(x.getDirection())).count() <= 0) {
-                        mapProsse.put("fightterList", fightterList);
-                        list.add(mapProsse);
-                        map.put("result", false);
-                        isWin = 1;
-                        break outerLoop; // 直接跳出外层循环
-                    } else if (allLiveCharacter.stream().filter(x -> "1".equals(x.getDirection())).count() <= 0) {
-                        mapProsse.put("fightterList", fightterList);
-                        list.add(mapProsse);
-                        map.put("result", true);
-                        isWin = 0;
-                        break outerLoop; // 直接跳出外层循环
-                    }
-                }
-
-
-                //TODO 回合开始2
-//            妖狐蔽天 Lv1
-//            场下，每回合开始有3%几率使当前敌人眩晕，持续1回合
-
-//                ‌倩女幽魂 Lv1
-//            场下，每回合令随机一名敌方中毒，每回合损失7点生命
-
-
-//            谄媚噬魂 Lv1
-//            场下，每回合令随机一名敌方中毒，每回合损失7点生命
-
-//            毒入骨髓 Lv1
-//            场下，每回合令随机敌方中毒每回损失16点生命
-
-//            报复神箭 Lv1
-//            场下，每回合对场上敌方造成106
-
-
-                //TODO 攻击前技能
-//                定海神针 Lv1
-//                普通攻击前对敌人造成当前生命值的6%的伤害
-
-
-                //左边先打
-                Fightter fightter = new Fightter();
-                if (rightCharters1.getHp() - leftCharters1.getAttack() <= 0) {
-                    rightCharters1.setHp(0);
-                    //死亡
-                    dead(rightCharters1, allLiveCharacter);
-                    fightter.setIsDead("1");
-                } else {
-                    rightCharters1.setHp(rightCharters1.getHp() - leftCharters1.getAttack());
-                }
-
-                fightter.setDirection(leftCharters1.getDirection());
-                fightter.setGoON(leftCharters1.getGoON());
-                fightter.setAttack(leftCharters1.getAttack());
-                fightter.setHp(leftCharters1.getHp());
-                fightter.setMaxHp(leftCharters1.getMaxHp());
-                fightter.setSpeed(leftCharters1.getSpeed());
-                fightter.setGoIntoNum(leftCharters1.getGoIntoNum());
-                fightter.setIsAction(1);
-                //
-                fightter.setDirectionFace(rightCharters1.getDirection());
-                fightter.setGoONFace(rightCharters1.getGoON());
-                fightter.setAttackFace(rightCharters1.getAttack());
-                fightter.setHpFace(rightCharters1.getHp());
-                fightter.setMaxHpFace(rightCharters1.getMaxHp());
-                fightter.setSpeedFace(rightCharters1.getSpeed());
-                fightter.setGoIntoNumFace(rightCharters1.getGoIntoNum());
-                fightter.setIsActionFace(0);
-                fightterList.add(fightter);
-
-                //TODO 攻击后技能
-//                芭蕉扇 Lv1
-//                场上，每次普通攻击后对当前敌人造成36点火焰伤害
-
-//                斩杀 Lv1
-//                普通攻击有13%几率对目标造成220点火焰伤害，如果目标是武圣则有几率一击必杀，替代普通攻击
-
-                if ("0".equals(fightter.getIsDead())) {
-
-                    //TODO 攻击前技能2
-
-                    Fightter fightter2 = new Fightter();
-                    if (leftCharters1.getHp() - rightCharters1.getAttack() <= 0) {
-                        leftCharters1.setHp(0);
-                        //死亡
-                        dead(leftCharters1, allLiveCharacter);
-                        fightter2.setIsDead("1");
-                    } else {
-                        leftCharters1.setHp(leftCharters1.getHp() - rightCharters1.getAttack());
-                    }
-                    fightter2.setDirection(rightCharters1.getDirection());
-                    fightter2.setGoON(rightCharters1.getGoON());
-                    fightter2.setAttack(rightCharters1.getAttack());
-                    fightter2.setHp(rightCharters1.getHp());
-                    fightter2.setMaxHp(rightCharters1.getMaxHp());
-                    fightter2.setSpeed(rightCharters1.getSpeed());
-                    fightter2.setGoIntoNum(rightCharters1.getGoIntoNum());
-                    fightter2.setIsAction(1);
-                    //
-                    fightter2.setDirectionFace(leftCharters1.getDirection());
-                    fightter2.setGoONFace(leftCharters1.getGoON());
-                    fightter2.setAttackFace(leftCharters1.getAttack());
-                    fightter2.setHpFace(leftCharters1.getHp());
-                    fightter2.setMaxHpFace(leftCharters1.getMaxHp());
-                    fightter2.setSpeedFace(leftCharters1.getSpeed());
-                    fightter2.setGoIntoNumFace(leftCharters1.getGoIntoNum());
-                    fightter2.setIsActionFace(0);
-                    fightterList.add(fightter2);
-
-                    //TODO 攻击后技能2
-
-                }
-
-            } else {
-
-
-                //TODO 回合开始
-                //仙塔庇护 Lv1
-                //在场,每回合恢复自身25点生命值
-
-//            后土聚能 Lv1
-//            场上，每回合提高自身生命上限197点、攻击67点，最多叠加99层
-
-                //TODO 回合开始2
-//            妖狐蔽天 Lv1
-//            场下，每回合开始有3%几率使当前敌人眩晕，持续1回合
-
-//                ‌倩女幽魂 Lv1
-//            场下，每回合令随机一名敌方中毒，每回合损失7点生命
-
-
-//            谄媚噬魂 Lv1
-//            场下，每回合令随机一名敌方中毒，每回合损失7点生命
-
-//            毒入骨髓 Lv1
-//            场下，每回合令随机敌方中毒每回损失16点生命
-
-//            报复神箭 Lv1
-//            场下，每回合对场上敌方造成106
-
-
-                //TODO 攻击前技能
-
-
-                Fightter fightter2 = new Fightter();
-                if (leftCharters1.getHp() - rightCharters1.getAttack() <= 0) {
-                    leftCharters1.setHp(0);
-                    //死亡
-                    dead(leftCharters1, allLiveCharacter);
-                    fightter2.setIsDead("1");
-                } else {
-                    leftCharters1.setHp(leftCharters1.getHp() - rightCharters1.getAttack());
-                }
-                fightter2.setDirection(rightCharters1.getDirection());
-                fightter2.setGoON(rightCharters1.getGoON());
-                fightter2.setAttack(rightCharters1.getAttack());
-                fightter2.setHp(rightCharters1.getHp());
-                fightter2.setMaxHp(rightCharters1.getMaxHp());
-                fightter2.setSpeed(rightCharters1.getSpeed());
-                fightter2.setGoIntoNum(rightCharters1.getGoIntoNum());
-                fightter2.setIsAction(1);
-                //
-                fightter2.setDirectionFace(leftCharters1.getDirection());
-                fightter2.setGoONFace(leftCharters1.getGoON());
-                fightter2.setAttackFace(leftCharters1.getAttack());
-                fightter2.setHpFace(leftCharters1.getHp());
-                fightter2.setMaxHpFace(leftCharters1.getMaxHp());
-                fightter2.setSpeedFace(leftCharters1.getSpeed());
-                fightter2.setGoIntoNumFace(leftCharters1.getGoIntoNum());
-                fightter2.setIsActionFace(0);
-                fightterList.add(fightter2);
-
-
-                //TODO 攻击后技能
-
-
-                if ("0".equals(fightter2.getIsDead())) {
-                    //TODO 攻击前技能2
-
-
-                    //左边先打
-                    Fightter fightter = new Fightter();
-                    if (rightCharters1.getHp() - leftCharters1.getAttack() <= 0) {
-                        rightCharters1.setHp(0);
-                        //死亡
-                        dead(rightCharters1, allLiveCharacter);
-                        fightter.setIsDead("1");
-                    } else {
-                        rightCharters1.setHp(rightCharters1.getHp() - leftCharters1.getAttack());
-                    }
-
-                    fightter.setDirection(leftCharters1.getDirection());
-                    fightter.setGoON(leftCharters1.getGoON());
-                    fightter.setAttack(leftCharters1.getAttack());
-                    fightter.setHp(leftCharters1.getHp());
-                    fightter.setMaxHp(leftCharters1.getMaxHp());
-                    fightter.setSpeed(leftCharters1.getSpeed());
-                    fightter.setGoIntoNum(leftCharters1.getGoIntoNum());
-                    fightter.setIsAction(1);
-                    //
-                    fightter.setDirectionFace(rightCharters1.getDirection());
-                    fightter.setGoONFace(rightCharters1.getGoON());
-                    fightter.setAttackFace(rightCharters1.getAttack());
-                    fightter.setHpFace(rightCharters1.getHp());
-                    fightter.setMaxHpFace(rightCharters1.getMaxHp());
-                    fightter.setSpeedFace(rightCharters1.getSpeed());
-                    fightter.setGoIntoNumFace(rightCharters1.getGoIntoNum());
-                    fightter.setIsActionFace(0);
-                    fightterList.add(fightter);
-
-
-                    //TODO 攻击后技能2
-
-                }
-
-
-            }
-
-            //TODO 角色行动2
-            isWin = castskill("续命", isWin, map, list, mapProsse, rightCharters1, leftCharters1,
-                    allLiveCharacter, allLiveCharacterNew, fightterList);
-
-            //TODO 回合结束
-
-
-            //TODO 回合结束2
-
-
-            //TODO 调用回合结束回调
-//            for (const character of allLiveCharacter) {
-//                if (this.allLiveCharacter.indexOf(character) === -1) break
-//                for (const buff of character.state.buff)
-//                await buff.OnRoundEnd(buff, roundState, this)
-//                for (const equipment of character.state.equipment)
-//                await equipment.OnRoundEnd(equipment, roundState, this)
-//                await character.state.OnRoundEnd(character.state, roundState, this)
-//            }
-            currentRound++;
-            mapProsse.put("fightterList", fightterList);
-            list.add(mapProsse);
-            // 判断是否结束
-            // 判断是否结束
-            if (allLiveCharacter.stream().filter(x -> "0".equals(x.getDirection())).count() <= 0) {
-                map.put("result", false);
-                isWin = 1;
-                break outerLoop; // 直接跳出外层循环
-            } else if (allLiveCharacter.stream().filter(x -> "1".equals(x.getDirection())).count() <= 0) {
-                map.put("result", true);
-                isWin = 0;
-                break outerLoop; // 直接跳出外层循环
-            }
-
-        }
-
-        map.put("fightProcess", list);
-        map.put("leftCharacter", leftCharacter);
-        map.put("rightCharacter", rightCharacter);
-        map.put("name0", name0);
-        map.put("name1", name1);
-        GameFight fight = new GameFight();
-        String simpleUUID = IdUtil.simpleUUID();
-        fight.setId(simpleUUID);
-        fight.setToUserId(toUserId);
-        fight.setUserId(userId);
-        fight.setToUserName(name1);
-        fight.setUserName(name0);
-        fight.setIsWin(isWin);
-        fight.setType(type);
-        fight.setImg(img);
-        //将map转json存储
-        String json = JsonUtils.toJson(map);
-        fight.setFightter(json);
-        gameFightMapper.insert(fight);
-        Battle battle = new Battle();
-        battle.setIsWin(isWin);
-        battle.setId(fight.getId());
-        return battle;
-    }
-
-    public Integer castskill(String skillStr, Integer isWin, Map map, List<Map> list, Map mapProsse, Character rightCharters1, Character leftCharters1,
-                             List<Character> allLiveCharacter, List<Character> allLiveCharacterNew, List<Fightter> fightterList) {
-        List<String> skills = Arrays.asList(skillStr.split(","));
-        outerLoop:
-        for (Character character : allLiveCharacterNew) {
-            //英雄1技能释放
-            if (!allLiveCharacter.contains(character)) continue;
-            if ("0".equals(character.getGoON())) {
-                if (skills.contains("苦痛箭")) {
-                    //英雄1技能释放
-                    //TODO 场下每回合对同位置敌人造成35点真实伤害
-                    if ("苦痛箭".equals(character.getPassiveIntroduceOne()) && SkillLevelUtil.getSkill1Level(character.getLv()) > 0) {
-                        if ("0".equals(character.getDirection())) {
-                            //TODO 筛出对位
-                            List<Character> characters = allLiveCharacterNew.stream().filter(x -> "1".equals(x.getDirection() + "") && (character.getGoIntoNum() + "").equals(x.getGoIntoNum() + "")).collect(Collectors.toList());
-                            if (Xtool.isNotNull(characters)) {
-                                Character character1 = characters.get(0);
-                                if (character1.getHp() > 0) {
-                                    Fightter fightter = new Fightter();
-                                    if (character1.getHp() - 35 * SkillLevelUtil.getSkill1Level(character.getLv()) <= 0) {
-                                        character1.setHp(0);
-                                        //死亡
-                                        dead(character1, allLiveCharacter);
-                                        fightter.setIsDead("1");
-                                    } else {
-                                        character1.setHp(character1.getHp() - 35 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                    }
-                                    fightter.setDirection(character.getDirection());
-                                    fightter.setGoON(character.getGoON());
-                                    fightter.setAttack(character.getAttack());
-                                    fightter.setHp(character.getHp());
-                                    fightter.setMaxHp(character.getMaxHp());
-                                    fightter.setSpeed(character.getSpeed());
-                                    fightter.setIsAction(1);
-                                    fightter.setGoIntoNum(character.getGoIntoNum());
-                                    fightter.setBuff("苦痛箭");
-                                    //
-                                    fightter.setDirectionFace(character1.getDirection());
-                                    fightter.setGoONFace(character1.getGoON());
-                                    fightter.setAttackFace(character1.getAttack());
-                                    fightter.setHpFace(character1.getHp());
-                                    fightter.setMaxHpFace(character1.getMaxHp());
-                                    fightter.setSpeedFace(character1.getSpeed());
-                                    fightter.setIsActionFace(0);
-                                    fightter.setGoIntoNumFace(character1.getGoIntoNum());
-                                    fightter.setStr("-" + 35 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                    fightterList.add(fightter);
-                                }
-                            }
-
-                        } else {
-                            //TODO 筛出对位
-                            List<Character> characters = allLiveCharacterNew.stream().filter(x -> "0".equals(x.getDirection()) && (character.getGoIntoNum() + "").equals(x.getGoIntoNum() + "")).collect(Collectors.toList());
-                            if (Xtool.isNotNull(characters)) {
-                                Character character1 = characters.get(0);
-                                if (character1.getHp() > 0) {
-                                    Fightter fightter = new Fightter();
-                                    if (character1.getHp() - 35 * SkillLevelUtil.getSkill1Level(character.getLv()) <= 0) {
-                                        character1.setHp(0);
-                                        //死亡
-                                        dead(character1, allLiveCharacter);
-                                        fightter.setIsDead("1");
-                                    } else {
-                                        character1.setHp(character1.getHp() - 35 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                    }
-                                    fightter.setDirection(character.getDirection());
-                                    fightter.setGoON(character.getGoON());
-                                    fightter.setAttack(character.getAttack());
-                                    fightter.setHp(character.getHp());
-                                    fightter.setMaxHp(character.getMaxHp());
-                                    fightter.setSpeed(character.getSpeed());
-                                    fightter.setGoIntoNum(character.getGoIntoNum());
-                                    fightter.setIsAction(1);
-                                    fightter.setBuff("苦痛箭");
-                                    //
-                                    fightter.setDirectionFace(character1.getDirection());
-                                    fightter.setGoONFace(character1.getGoON());
-                                    fightter.setAttackFace(character1.getAttack());
-                                    fightter.setHpFace(character1.getHp());
-                                    fightter.setMaxHpFace(character1.getMaxHp());
-                                    fightter.setSpeedFace(character1.getSpeed());
-                                    fightter.setGoIntoNumFace(character1.getGoIntoNum());
-                                    fightter.setIsActionFace(0);
-                                    fightter.setStr("-" + 35 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                    fightterList.add(fightter);
-                                }
-                            }
-                        }
-                    }
-                    //英雄1技能释放
-                    //TODO 场下每回合对同位置敌人造成35点真实伤害
-                    if ("苦痛箭".equals(character.getPassiveIntroduceTwo()) && SkillLevelUtil.getSkill2Level(character.getLv()) > 0) {
-                        if ("0".equals(character.getDirection())) {
-                            //TODO 筛出对位
-                            List<Character> characters = allLiveCharacterNew.stream().filter(x -> "1".equals(character.getDirection()) && (character.getGoIntoNum() + "").equals(x.getGoIntoNum() + "")).collect(Collectors.toList());
-                            if (Xtool.isNotNull(characters)) {
-                                Character character1 = characters.get(0);
-                                if (character1.getHp() > 0) {
-                                    Fightter fightter = new Fightter();
-                                    if (character1.getHp() - 35 * SkillLevelUtil.getSkill2Level(character.getLv()) <= 0) {
-                                        character1.setHp(0);
-                                        //死亡
-                                        dead(character1, allLiveCharacter);
-                                        fightter.setIsDead("1");
-                                    } else {
-                                        character1.setHp(character1.getHp() - 35 * SkillLevelUtil.getSkill2Level(character.getLv()));
-                                    }
-                                    fightter.setDirection(character.getDirection());
-                                    fightter.setGoON(character.getGoON());
-                                    fightter.setAttack(character.getAttack());
-                                    fightter.setHp(character.getHp());
-                                    fightter.setMaxHp(character.getMaxHp());
-                                    fightter.setSpeed(character.getSpeed());
-                                    fightter.setIsAction(1);
-                                    fightter.setGoIntoNum(character.getGoIntoNum());
-                                    fightter.setBuff("苦痛箭");
-                                    //
-                                    fightter.setDirectionFace(character1.getDirection());
-                                    fightter.setGoONFace(character1.getGoON());
-                                    fightter.setAttackFace(character1.getAttack());
-                                    fightter.setHpFace(character1.getHp());
-                                    fightter.setMaxHpFace(character1.getMaxHp());
-                                    fightter.setSpeedFace(character1.getSpeed());
-                                    fightter.setIsActionFace(0);
-                                    fightter.setGoIntoNumFace(character1.getGoIntoNum());
-                                    fightter.setStr("-" + 35 * SkillLevelUtil.getSkill2Level(character.getLv()));
-                                    fightterList.add(fightter);
-                                }
-                            }
-
-                        } else {
-                            //TODO 筛出对位
-                            List<Character> characters = allLiveCharacterNew.stream().filter(x -> "0".equals(character.getDirection()) && (character.getGoIntoNum() + "").equals(x.getGoIntoNum() + "")).collect(Collectors.toList());
-                            if (Xtool.isNotNull(characters)) {
-                                Character character1 = characters.get(0);
-                                if (character1.getHp() > 0) {
-                                    Fightter fightter = new Fightter();
-                                    if (character1.getHp() - 35 * SkillLevelUtil.getSkill2Level(character.getLv()) <= 0) {
-                                        character1.setHp(0);
-                                        //死亡
-                                        dead(character1, allLiveCharacter);
-                                        fightter.setIsDead("1");
-                                    } else {
-                                        character1.setHp(character1.getHp() - 35 * SkillLevelUtil.getSkill2Level(character.getLv()));
-                                    }
-                                    fightter.setDirection(character.getDirection());
-                                    fightter.setGoON(character.getGoON());
-                                    fightter.setAttack(character.getAttack());
-                                    fightter.setHp(character.getHp());
-                                    fightter.setMaxHp(character.getMaxHp());
-                                    fightter.setSpeed(character.getSpeed());
-                                    fightter.setGoIntoNum(character.getGoIntoNum());
-                                    fightter.setIsAction(1);
-                                    fightter.setBuff("苦痛箭");
-                                    //
-                                    fightter.setDirectionFace(character1.getDirection());
-                                    fightter.setGoONFace(character1.getGoON());
-                                    fightter.setAttackFace(character1.getAttack());
-                                    fightter.setHpFace(character1.getHp());
-                                    fightter.setMaxHpFace(character1.getMaxHp());
-                                    fightter.setSpeedFace(character1.getSpeed());
-                                    fightter.setGoIntoNumFace(character1.getGoIntoNum());
-                                    fightter.setIsActionFace(0);
-                                    fightter.setStr("-" + 35 * SkillLevelUtil.getSkill2Level(character.getLv()));
-                                    fightterList.add(fightter);
-                                }
-                            }
-                        }
-                    }
-                }
-                if (skills.contains("续命")) {
-                    if ("续命".equals(character.getPassiveIntroduceOne()) && SkillLevelUtil.getSkill1Level(character.getLv()) > 0) {
-                        if ("0".equals(character.getDirection())) {
-                            //大于0时才能治疗
-                            if (leftCharters1.getHp() > 0 && "sacred".equals(leftCharters1.getCamp())) {
-                                Fightter fightter = new Fightter();
-                                if (character.getHp() - 40 * SkillLevelUtil.getSkill1Level(character.getLv()) <= 0) {
-                                    character.setHp(0);
-                                    //死亡
-                                    dead(character, allLiveCharacter);
-                                    fightter.setIsDead("1");
-                                } else {
-                                    character.setHp(character.getHp() - 40 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                }
-                                if (leftCharters1.getHp() + 40 * SkillLevelUtil.getSkill1Level(character.getLv()) > leftCharters1.getMaxHp()) {
-                                    leftCharters1.setHp(leftCharters1.getMaxHp());
-                                } else {
-                                    leftCharters1.setHp(leftCharters1.getHp() + 40 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                }
-                                fightter.setDirection(character.getDirection());
-                                fightter.setGoON(character.getGoON());
-                                fightter.setAttack(character.getAttack());
-                                fightter.setHp(character.getHp());
-                                fightter.setMaxHp(character.getMaxHp());
-                                fightter.setSpeed(character.getSpeed());
-                                fightter.setIsAction(1);
-                                fightter.setGoIntoNum(character.getGoIntoNum());
-                                fightter.setStr("-" + 40 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                fightter.setBuff("续命");
-                                //
-                                fightter.setDirectionFace(leftCharters1.getDirection());
-                                fightter.setGoONFace(leftCharters1.getGoON());
-                                fightter.setAttackFace(leftCharters1.getAttack());
-                                fightter.setHpFace(leftCharters1.getHp());
-                                fightter.setMaxHpFace(leftCharters1.getMaxHp());
-                                fightter.setSpeedFace(leftCharters1.getSpeed());
-                                fightter.setIsActionFace(0);
-                                fightter.setGoIntoNumFace(leftCharters1.getGoIntoNum());
-                                fightter.setStr("" + 40 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                fightter.setBuff("续命");
-                                fightterList.add(fightter);
-                            }
-                        } else {
-                            //大于0时才能治疗
-                            if (rightCharters1.getHp() > 0 && "sacred".equals(rightCharters1.getCamp())) {
-                                Fightter fightter = new Fightter();
-                                if (character.getHp() - 40 * SkillLevelUtil.getSkill1Level(character.getLv()) <= 0) {
-                                    character.setHp(0);
-                                    //死亡
-                                    dead(character, allLiveCharacter);
-                                    fightter.setIsDead("1");
-                                } else {
-                                    character.setHp(character.getHp() - 40 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                }
-                                if (rightCharters1.getHp() + 40 * SkillLevelUtil.getSkill1Level(character.getLv()) > rightCharters1.getMaxHp()) {
-                                    rightCharters1.setHp(rightCharters1.getMaxHp());
-                                } else {
-                                    rightCharters1.setHp(rightCharters1.getHp() + 40 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                }
-                                fightter.setDirection(character.getDirection());
-                                fightter.setGoON(character.getGoON());
-                                fightter.setAttack(character.getAttack());
-                                fightter.setHp(character.getHp());
-                                fightter.setMaxHp(character.getMaxHp());
-                                fightter.setSpeed(character.getSpeed());
-                                fightter.setGoIntoNum(character.getGoIntoNum());
-                                fightter.setIsAction(1);
-                                fightter.setStr("-" + 40 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                fightter.setBuff("续命");
-                                //
-                                fightter.setDirectionFace(rightCharters1.getDirection());
-                                fightter.setGoONFace(rightCharters1.getGoON());
-                                fightter.setAttackFace(rightCharters1.getAttack());
-                                fightter.setHpFace(rightCharters1.getHp());
-                                fightter.setMaxHpFace(rightCharters1.getMaxHp());
-                                fightter.setSpeedFace(rightCharters1.getSpeed());
-                                fightter.setGoIntoNumFace(rightCharters1.getGoIntoNum());
-                                fightter.setIsActionFace(0);
-                                fightter.setStr("" + 40 * SkillLevelUtil.getSkill1Level(character.getLv()));
-                                fightter.setBuff("续命");
-                                fightterList.add(fightter);
-                            }
-                        }
-                    }
-                    //英雄2技能释放
-                    if ("续命".equals(character.getPassiveIntroduceTwo()) && SkillLevelUtil.getSkill2Level(character.getLv()) > 0) {
-                        if ("0".equals(character.getDirection())) {
-                            //大于0时才能治疗
-                            if (leftCharters1.getHp() > 0 && "sacred".equals(leftCharters1.getCamp())) {
-                                Fightter fightter = new Fightter();
-                                if (character.getHp() - 40 * SkillLevelUtil.getSkill2Level(character.getLv()) <= 0) {
-                                    character.setHp(0);
-                                    //死亡
-                                    dead(character, allLiveCharacter);
-                                    fightter.setIsDead("1");
-                                } else {
-                                    character.setHp(character.getHp() - 40 * SkillLevelUtil.getSkill2Level(character.getLv()));
-                                }
-                                if (leftCharters1.getHp() + 40 * SkillLevelUtil.getSkill2Level(character.getLv()) > leftCharters1.getMaxHp()) {
-                                    leftCharters1.setHp(leftCharters1.getMaxHp());
-                                } else {
-                                    leftCharters1.setHp(leftCharters1.getHp() + 40 * SkillLevelUtil.getSkill2Level(character.getLv()));
-                                }
-                                fightter.setDirection(character.getDirection());
-                                fightter.setGoON(character.getGoON());
-                                fightter.setAttack(character.getAttack());
-                                fightter.setHp(character.getHp());
-                                fightter.setMaxHp(character.getMaxHp());
-                                fightter.setSpeed(character.getSpeed());
-                                fightter.setIsAction(1);
-                                fightter.setGoIntoNum(character.getGoIntoNum());
-                                fightter.setStr("-" + 40 * SkillLevelUtil.getSkill2Level(character.getLv()));
-                                fightter.setBuff("续命");
-                                //
-                                fightter.setDirectionFace(leftCharters1.getDirection());
-                                fightter.setGoONFace(leftCharters1.getGoON());
-                                fightter.setAttackFace(leftCharters1.getAttack());
-                                fightter.setHpFace(leftCharters1.getHp());
-                                fightter.setMaxHpFace(leftCharters1.getMaxHp());
-                                fightter.setSpeedFace(leftCharters1.getSpeed());
-                                fightter.setIsActionFace(0);
-                                fightter.setGoIntoNumFace(leftCharters1.getGoIntoNum());
-                                fightter.setStr("" + 40 * SkillLevelUtil.getSkill2Level(character.getLv()));
-                                fightter.setBuff("续命");
-                                fightterList.add(fightter);
-                            }
-                        } else {
-                            //大于0时才能治疗
-                            if (rightCharters1.getHp() > 0 && "sacred".equals(rightCharters1.getCamp())) {
-                                Fightter fightter = new Fightter();
-                                if (character.getHp() - 40 * SkillLevelUtil.getSkill2Level(character.getLv()) <= 0) {
-                                    character.setHp(0);
-                                    //死亡
-                                    dead(character, allLiveCharacter);
-                                    fightter.setIsDead("1");
-                                } else {
-                                    character.setHp(character.getHp() - 40 * SkillLevelUtil.getSkill2Level(character.getLv()));
-                                }
-                                if (rightCharters1.getHp() + 40 * SkillLevelUtil.getSkill2Level(character.getLv()) > rightCharters1.getMaxHp()) {
-                                    rightCharters1.setHp(rightCharters1.getMaxHp());
-                                } else {
-                                    rightCharters1.setHp(rightCharters1.getHp() + 40 * SkillLevelUtil.getSkill2Level(character.getLv()));
-                                }
-                                fightter.setDirection(character.getDirection());
-                                fightter.setGoON(character.getGoON());
-                                fightter.setAttack(character.getAttack());
-                                fightter.setHp(character.getHp());
-                                fightter.setMaxHp(character.getMaxHp());
-                                fightter.setSpeed(character.getSpeed());
-                                fightter.setGoIntoNum(character.getGoIntoNum());
-                                fightter.setIsAction(1);
-                                fightter.setStr("-" + 40 * SkillLevelUtil.getSkill2Level(character.getLv()));
-                                fightter.setBuff("续命");
-                                //
-                                fightter.setDirectionFace(rightCharters1.getDirection());
-                                fightter.setGoONFace(rightCharters1.getGoON());
-                                fightter.setAttackFace(rightCharters1.getAttack());
-                                fightter.setHpFace(rightCharters1.getHp());
-                                fightter.setMaxHpFace(rightCharters1.getMaxHp());
-                                fightter.setSpeedFace(rightCharters1.getSpeed());
-                                fightter.setGoIntoNumFace(rightCharters1.getGoIntoNum());
-                                fightter.setIsActionFace(0);
-                                fightter.setStr("" + 40 * SkillLevelUtil.getSkill2Level(character.getLv()));
-                                fightter.setBuff("续命");
-                                fightterList.add(fightter);
-                            }
-                        }
-                    }
-                }
-            }
-            // 判断是否结束
-            if (allLiveCharacter.stream().filter(x -> "0".equals(x.getDirection())).count() <= 0) {
-                mapProsse.put("fightterList", fightterList);
-                list.add(mapProsse);
-                map.put("result", false);
-                isWin = 1;
-                break outerLoop; // 直接跳出外层循环
-            } else if (allLiveCharacter.stream().filter(x -> "1".equals(x.getDirection())).count() <= 0) {
-                mapProsse.put("fightterList", fightterList);
-                list.add(mapProsse);
-                map.put("result", true);
-                isWin = 0;
-                break outerLoop; // 直接跳出外层循环
-            }
-        }
-        return isWin;
-    }
-
-    public void goON() {
-
-        //TODO 登场技能（瞬发）
-        //镇妖塔 Lv1
-        //每当新单位入场时，对场上敌方造成69点飞弹
-
-//            致命衰竭 Lv1
-//            场上，有单位登场时为目标添加衰弱状态，攻击减少10%，持续99回合
-
-//            北极剑意 Lv1
-//            登场时对场上敌方造成最大生命4%的真实伤害
-
-
-//            大圣降临 Lv1
-//            登场时回复自身生命值20%
-
-//            大地净化 Lv1
-//            场上，每当敌方单位登场，驱散自身减益效果
-
-        //TODO 登场技能2（瞬发）
-//            疫病侵染 Lv1
-//            场下，我方单位登场时为场上敌人收到疾病效果，疾病令其受到治疗减少2%
-
-
-//            魂力飞弹 Lv1
-//            场下，每当新单位入场时，对场上敌人造成178点飞弹伤害
-
-//            禁心咒 Lv1
-//            场下，每当有单位登场，有17%几率令场上英雄沉默2回合
-
-//            魂力飞弹 Lv1
-//            场下，每当新单位入场时，对场上敌人造成178点飞弹伤害
-    }
-
-    /**
-     * 死亡函数
-     * 死亡时调用
-     */
-    public void dead(Character character, List<Character> allLiveCharacter) {
-        //TODO 死亡时触发技能
-//        ‌离魂 Lv1
-//        死亡时，给场给全体护法增加13点攻击
-
-//        背水一战 Lv1
-//        我方单位死亡时，增加自身攻击50，最多叠加4次
-
-
-//        生生不息 Lv1
-//        场下，每当有生物死亡时治疗我方全体90点生命，只能治疗仙界生物
-        allLiveCharacter.removeIf(x -> x.getDirection().equals(character.getDirection()) && x.getId().equals(character.getId()) && x.getUuid().equals(character.getUuid()));
-    }
-
-    /**
-     * 任意伤害触发
-     *
-     * @return
-     */
-    public void anyhurt() {
-
-        //TODO 角色
-//        烛火燎原 Lv1
-//        受到任意伤害时对全体敌方造成54点火焰伤害
-
-
-    }
-
-    public void anyhurt_up() {
-
-        //TODO 角色
-//        南极祝福 Lv1
-//        场下，受到任意伤害时提升自身56点生命值上限。
-
-
-    }
-
-    public void hurt() {
-
-        //TODO 角色
-
-//        嗜血 Lv1
-//        受到普通攻击时，为自身添加嗜血效果，提高攻击118点，速度20点
-
-//        绝地反击 Lv1
-//        被攻击时，对场上敌方造成相当于敌方攻击的10%的伤害
-
     }
 
 
@@ -3280,6 +2530,83 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
+    public Battle battle(List<Characters> leftCharacters, Integer userId, String name0, List<Characters> rightCharacters, Integer toUserId, String name1, String img, String type) throws Exception {
+        Map map = new HashMap();
+        Integer isWin = 1;
+        // 创建战斗缓存
+        Map<String, BattleManager> battleCache = new HashMap<>();
+        // 所有存活的角色
+        List<Guardian> campA = new ArrayList<>();
+        List<Character> copyCampA = new ArrayList<>();
+        // 创建B队护法
+        List<Guardian> campB = new ArrayList<>();
+        List<Character> copyCampB = new ArrayList<>();
+        leftCharacters.sort(Comparator.comparing(Characters::getGoIntoNum,
+                Comparator.nullsFirst(Integer::compareTo)));
+        for (Characters characters : leftCharacters) {
+            // 设置角色
+            Character character = reasonableData(characters, leftCharacters);
+            campA.add(new Guardian(character.getName(), Camp.A, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
+                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed()));
+            copyCampA.add(character);
+        }
+        rightCharacters.sort(Comparator.comparing(Characters::getGoIntoNum,
+                Comparator.nullsFirst(Integer::compareTo)));
+        for (Characters characters : rightCharacters) {
+            // 设置角色
+            Character character = reasonableData(characters, rightCharacters);
+            campB.add(new Guardian(character.getName(), Camp.B, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
+                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed()));
+            copyCampB.add(character);
+        }
+        BattleSnowflakeIdGenerator generator = BattleSnowflakeIdGenerator.getInstance();
+        // 开始战斗
+        String battleId = generator.generateBattleId();
+        BattleManager battle = new BattleManager(battleId, campA, campB);
+        battleCache.put(battleId, battle);
+        battle.startBattle();
+        List<BattleLog> logs = battle.getBattleLogs().stream().filter(x -> "BATTLE_END".equals(x.getEventType())).collect(Collectors.toList());
+        BattleLog log = logs.get(0);
+        // 精确匹配
+        if (isTeamAVictoryAdvanced(log.getExtraDesc())) {
+            isWin = 0;
+        }
+        // 打印优化后的日志
+//        printFinalBattleLogs(battle.getBattleLogs());
+        map.put("battleLogs", battle.getBattleLogs());
+        map.put("campA", copyCampA);
+        map.put("campB", copyCampB);
+        map.put("name0", name0);
+        map.put("name1", name1);
+        map.put("isWin", isWin);
+        GameFight fight = new GameFight();
+        fight.setId(battleId);
+        fight.setToUserId(toUserId);
+        fight.setUserId(userId);
+        fight.setToUserName(name1);
+        fight.setUserName(name0);
+        fight.setIsWin(isWin);
+        fight.setType(type);
+        fight.setImg(img);
+        //将map转json存储
+        String json = JsonUtils.toJson(map);
+        fight.setFightter(json);
+        gameFightMapper.insert(fight);
+        Battle bt = new Battle();
+        bt.setIsWin(isWin);
+        bt.setId(fight.getId());
+        return bt;
+    }
+
+    public static boolean isTeamAVictoryAdvanced(String content) {
+        if (content == null || content.isEmpty()) {
+            return false;
+        }
+        // 正则表达式：匹配"A队胜利"，允许前后有任意空白字符（空格、制表符等）
+        // 匹配规则可根据实际需求调整
+        return content.matches(".*\\s*A队胜利\\s*.*");
+    }
+
     @Override
     public BaseResp playBattle2(TokenDto token, HttpServletRequest request) throws Exception {
         // 创建战斗缓存
@@ -3294,11 +2621,11 @@ public class GameServiceServiceImpl implements GameServiceService {
         campA.add(new Guardian("妲己", Camp.A, 4, Profession.IMMORTAL, Race.DEMON, 1500, 180, 120));
         campA.add(new Guardian("长生大帝", Camp.A, 5, Profession.GOD, Race.IMMORTAL, 2200, 150, 80));
 
-        copyCampA.add(new Character("1027","牛魔王", Camp.A, 1, Profession.WARRIOR, Race.DEMON, 2000, 300, 100));
-        copyCampA.add(new Character("1012","厚土娘娘", Camp.A, 2, Profession.IMMORTAL, Race.IMMORTAL, 2500, 200, 80));
-        copyCampA.add(new Character("1016","镇元子", Camp.A, 3, Profession.GOD, Race.IMMORTAL, 1800, 250, 90));
-        copyCampA.add(new Character("1005","妲己", Camp.A, 4, Profession.IMMORTAL, Race.DEMON, 1500, 180, 120));
-        copyCampA.add(new Character("1020","长生大帝", Camp.A, 5, Profession.GOD, Race.IMMORTAL, 2200, 150, 80));
+        copyCampA.add(new Character("1027", "牛魔王", Camp.A, 1, Profession.WARRIOR, Race.DEMON, 2000, 300, 100));
+        copyCampA.add(new Character("1012", "厚土娘娘", Camp.A, 2, Profession.IMMORTAL, Race.IMMORTAL, 2500, 200, 80));
+        copyCampA.add(new Character("1016", "镇元子", Camp.A, 3, Profession.GOD, Race.IMMORTAL, 1800, 250, 90));
+        copyCampA.add(new Character("1005", "妲己", Camp.A, 4, Profession.IMMORTAL, Race.DEMON, 1500, 180, 120));
+        copyCampA.add(new Character("1020", "长生大帝", Camp.A, 5, Profession.GOD, Race.IMMORTAL, 2200, 150, 80));
         // 创建B队护法
         List<Guardian> campB = new ArrayList<>();
         List<Character> copyCampB = new ArrayList<>();
@@ -3308,11 +2635,11 @@ public class GameServiceServiceImpl implements GameServiceService {
         campB.add(new Guardian("齐天大圣", Camp.B, 4, Profession.WARRIOR, Race.DEMON, 1800, 320, 130));
         campB.add(new Guardian("铁扇公主", Camp.B, 5, Profession.IMMORTAL, Race.DEMON, 1600, 200, 90));
 
-        copyCampB.add(new Character("1035","阎王", Camp.B, 1, Profession.GOD, Race.DEMON, 1500, 220, 85));
-        copyCampB.add(new Character("1007","聂小倩", Camp.B, 2, Profession.IMMORTAL, Race.DEMON, 1200, 180, 110));
-        copyCampB.add(new Character("1002","托塔天王", Camp.B, 3, Profession.GOD, Race.IMMORTAL, 2200, 280, 95));
-        copyCampB.add(new Character("1010","齐天大圣", Camp.B, 4, Profession.WARRIOR, Race.DEMON, 1800, 320, 130));
-        copyCampB.add(new Character("1030","洛神", Camp.B, 5, Profession.IMMORTAL, Race.IMMORTAL, 1600, 200, 90));
+        copyCampB.add(new Character("1035", "阎王", Camp.B, 1, Profession.GOD, Race.DEMON, 1500, 220, 85));
+        copyCampB.add(new Character("1007", "聂小倩", Camp.B, 2, Profession.IMMORTAL, Race.DEMON, 1200, 180, 110));
+        copyCampB.add(new Character("1002", "托塔天王", Camp.B, 3, Profession.GOD, Race.IMMORTAL, 2200, 280, 95));
+        copyCampB.add(new Character("1010", "齐天大圣", Camp.B, 4, Profession.WARRIOR, Race.DEMON, 1800, 320, 130));
+        copyCampB.add(new Character("1030", "洛神", Camp.B, 5, Profession.IMMORTAL, Race.IMMORTAL, 1600, 200, 90));
 
         // 开始战斗
         String battleId = "BATTLE_20251130_001";
@@ -3324,13 +2651,14 @@ public class GameServiceServiceImpl implements GameServiceService {
         printFinalBattleLogs(battle.getBattleLogs());
         BaseResp baseResp = new BaseResp();
         baseResp.setSuccess(1);
-        Map map=new HashMap();
-        map.put("campA",copyCampA);
-        map.put("campB",copyCampB);
-        map.put("battleLogs",battle.getBattleLogs());
+        Map map = new HashMap();
+        map.put("campA", copyCampA);
+        map.put("campB", copyCampB);
+        map.put("battleLogs", battle.getBattleLogs());
         baseResp.setData(map);
         return baseResp;
     }
+
     // 最终版日志打印格式（包含位置信息）
     private static void printFinalBattleLogs(List<BattleLog> logs) {
         for (BattleLog log : logs) {
@@ -3387,6 +2715,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
         }
     }
+
     public static Set<Integer> getRandomElements(Set<Integer> set, int count) {
         if (count > set.size()) {
             throw new IllegalArgumentException("请求数量超过集合大小");

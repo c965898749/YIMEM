@@ -6,6 +6,18 @@
     <select id="SelectAllUser" resultType="com.sy.model.User">
        select * from user
    </select>
+    <select id="SelectRandUser" resultType="com.sy.model.User">
+            SELECT * FROM user
+            WHERE userId IN (
+                SELECT userId FROM (
+                    SELECT userId FROM user ur
+                    left join characters cs on cs.user_id=ur.userId
+                    where cs.go_into_num >0 and cs.is_delete='0'
+                    ORDER BY RAND()
+                    LIMIT 5
+                ) AS temp
+            );
+    </select>
     <!--新增所有列-->
     <insert id="insertUser" keyProperty="userid" useGeneratedKeys="true">
         insert into yimem.user(username, userpassword, sex, nickname, birthday, provinces, city, county, description,
@@ -212,10 +224,10 @@
                 huoli_count_time = #{huoliCountTime},
             </if>
             <if test="stopLevel!=null and stopLevel!=''">
-                stop_level=  #{stopLevel},
+                stop_level= #{stopLevel},
             </if>
             <if test="nickname!=null and nickname!=''">
-                nickname=  #{nickname},
+                nickname= #{nickname},
             </if>
         </set>
         where userId=#{userId}
@@ -441,11 +453,15 @@
 	</update>
 
     <select id="getMyRankig" resultType="com.sy.model.User">
-        SELECT
-          win_count,
-          RANK() OVER (ORDER BY win_count DESC) AS game_ranking
-        FROM `user`
+       SELECT win_count, game_ranking
+        FROM (
+          SELECT userId,
+                 win_count,
+                 RANK() OVER (ORDER BY win_count DESC) AS game_ranking
+          FROM `user`
+        ) AS temp
         WHERE userId = #{userId}
+
     </select>
     <select id="getMyRankig100" resultType="com.sy.model.User">
         SELECT

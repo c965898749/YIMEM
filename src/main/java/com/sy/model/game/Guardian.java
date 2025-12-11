@@ -16,6 +16,7 @@ public class Guardian {
     private boolean isDead;
     private boolean isOnField;
     private int buffStacks;
+    private int buffLuoShens;
     private Map<EffectType, Integer> effects;
 
     // 构造函数
@@ -34,15 +35,23 @@ public class Guardian {
         this.isDead = false;
         this.isOnField = false;
         this.buffStacks = 0;
+        this.buffLuoShens = 0;
         this.effects = new HashMap<>();
     }
 
     // 设置血量上限（联动调整当前血量）
     public void setMaxHp(int maxHp) {
         this.maxHp = maxHp;
+        this.maxHp = Math.max(this.maxHp, 0);      // 不低于0
         // 如果当前血量超过新的上限，调整为上限值
         if (this.currentHp > this.maxHp) {
             this.currentHp = this.maxHp;
+        }
+        // 如果血量为0，标记为死亡
+        if (this.maxHp <= 0) {
+            this.isDead = true;
+            this.currentHp = 0;
+            this.maxHp = 0;
         }
     }
 
@@ -77,7 +86,9 @@ public class Guardian {
     public boolean isOnField() { return isOnField; }
     public void setOnField(boolean onField) { isOnField = onField; }
     public int getBuffStacks() { return buffStacks; }
+    public int getBuffLuoShens() { return buffLuoShens; }
     public void setBuffStacks(int buffStacks) { this.buffStacks = buffStacks; }
+    public void setBuffLuoShens(int buffLuoShens) { this.buffLuoShens = buffLuoShens; }
     public Map<EffectType, Integer> getEffects() { return effects; }
 }
 

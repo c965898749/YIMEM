@@ -223,6 +223,19 @@ public class GameContoller {
             return baseResp;
         }
     }
+    @PostMapping("battle3")
+    @CrossOrigin
+    public BaseResp battle3(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.start3(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
     @PostMapping("ranking")
     @CrossOrigin
     public BaseResp ranking(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -286,6 +299,46 @@ public class GameContoller {
         BaseResp baseResp = new BaseResp();
         try {
             baseResp = gameServiceService.jingji(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    @PostMapping("friendAllList")
+    @CrossOrigin
+    public BaseResp friendAllList(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.friendAllList(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    @PostMapping("invitationSend")
+    @CrossOrigin
+    public BaseResp invitationSend(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.invitationSend(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    @PostMapping("invitationHandle")
+    @CrossOrigin
+    public BaseResp invitationHandle(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.invitationHandle(token, request);
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();

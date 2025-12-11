@@ -31,4 +31,5 @@ public class Characters {
     private String passiveIntroduceThree;
     private Integer exp;
     private String isDelete;
+    private String profession;
 }

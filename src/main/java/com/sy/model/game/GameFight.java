@@ -20,7 +20,7 @@ public class GameFight {
 
     private String toUserName;
 
-    private String  type;//0pve、1竞技场
+    private String  type;//0pve、1竞技场2、好有pk
 
     private Date createtime;
 

@@ -94,4 +94,8 @@ public class User {
     private Date huoliCountTime;
     //20251113
     private String stopLevel;
+    //
+    private Integer friendStatus;
+
+    private Long id;
 }

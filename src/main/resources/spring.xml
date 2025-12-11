@@ -24,8 +24,9 @@
         <property name="password" value="${db_password}"></property>
     </bean>
 
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <!--指定数据源对象-->
+    <bean class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
+
+    <!--指定数据源对象-->
         <property name="dataSource" ref="dataSource"></property>
         <!--映射文件所在的路径，此处会自动扫描指定目录下所有的映射文件-->
         <property name="mapperLocations" value="classpath:mapper/*.xml"></property>
@@ -42,17 +43,22 @@
         并在Spring容器中生成对应接口的动态代理实现类
         在Spring的其它Bean中，可以直接使用@Autowired来注入要使用的Mapper接口对象
     -->
-    <bean id="mapperSacnnerConfigure" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <!--
-            会话工厂的bean的名字
-            注意:此处是bean的id，所以不能使用ref
-        -->
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
-        <!--
-            指定要扫描的Mapper接口所在的包
-        -->
-        <property name="basePackage" value="com.sy.mapper"></property>
+<!--    <bean id="mapperSacnnerConfigure" class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+<!--        &lt;!&ndash;-->
+<!--            会话工厂的bean的名字-->
+<!--            注意:此处是bean的id，所以不能使用ref-->
+<!--        &ndash;&gt;-->
+<!--        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>-->
+<!--        &lt;!&ndash;-->
+<!--            指定要扫描的Mapper接口所在的包-->
+<!--        &ndash;&gt;-->
+<!--        <property name="basePackage" value="com.sy.mapper"></property>-->
+<!--    </bean>-->
+    <!-- 配置mybatis 扫描mapper接口的路径 自动生成对象 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.sy.mapper" />
     </bean>
+
 
 
     <!--3.JDBC事务管理器-->

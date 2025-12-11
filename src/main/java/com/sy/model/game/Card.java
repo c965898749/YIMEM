@@ -33,4 +33,6 @@ public class Card {
     private String passiveIntroduceTwo;
 
     private String passiveIntroduceThree;
+
+    private String profession;
 }

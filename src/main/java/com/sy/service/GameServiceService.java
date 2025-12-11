@@ -35,10 +35,14 @@ public interface GameServiceService {
     BaseResp soulChou(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp shiChou(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp start3(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp ranking(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp ranking100(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp jingji(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp friendAllList(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp invitationSend(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp invitationHandle(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp playBattle(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp qiangdao(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp notice(HttpServletRequest request) throws Exception;
