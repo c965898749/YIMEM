@@ -58,4 +58,6 @@ public class UserInfo {
     private String stopLevel;
     //
     private String id;
+    //
+    private Integer rate;
 }

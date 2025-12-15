@@ -26,10 +26,10 @@
   </delete>
     <insert id="insert" parameterType="com.sy.model.game.Characters">
     insert into  characters (user_id, id,
-      lv, stack_count,create_time
+      lv, stack_count,create_time,max_lv
       )
     values ( #{userId,jdbcType=INTEGER}, #{id,jdbcType=VARCHAR},
-      #{lv,jdbcType=INTEGER}, #{stackCount,jdbcType=INTEGER},now()
+      #{lv,jdbcType=INTEGER}, #{stackCount,jdbcType=INTEGER},now(),#{maxLv}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.sy.model.game.Characters">

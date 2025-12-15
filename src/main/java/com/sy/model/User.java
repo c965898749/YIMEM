@@ -98,4 +98,7 @@ public class User {
     private Integer friendStatus;
 
     private Long id;
+
+    //
+    private Integer rate;
 }

@@ -229,6 +229,9 @@
             <if test="nickname!=null and nickname!=''">
                 nickname= #{nickname},
             </if>
+            <if test="rate!=null ">
+                rate = #{rate},
+            </if>
         </set>
         where userId=#{userId}
     </update>

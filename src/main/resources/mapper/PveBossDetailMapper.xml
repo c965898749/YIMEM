@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.PveBossDetailMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.PveBossDetail">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="daily_max_times" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="day" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="activity_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="difficulty_level" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="boss_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="boss_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="detail_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, daily_max_times, day, activity_code, difficulty_level, boss_id, boss_name, detail_code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pve_boss_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pve_boss_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sy.model.game.PveBossDetail">
+    insert into pve_boss_detail (id, daily_max_times, day, 
+      activity_code, difficulty_level, boss_id, 
+      boss_name, detail_code)
+    values (#{id,jdbcType=INTEGER}, #{dailyMaxTimes,jdbcType=TINYINT}, #{day,jdbcType=TINYINT}, 
+      #{activityCode,jdbcType=VARCHAR}, #{difficultyLevel,jdbcType=VARCHAR}, #{bossId,jdbcType=INTEGER}, 
+      #{bossName,jdbcType=VARCHAR}, #{detailCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.game.PveBossDetail">
+    insert into pve_boss_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dailyMaxTimes != null">
+        daily_max_times,
+      </if>
+      <if test="day != null">
+        day,
+      </if>
+      <if test="activityCode != null">
+        activity_code,
+      </if>
+      <if test="difficultyLevel != null">
+        difficulty_level,
+      </if>
+      <if test="bossId != null">
+        boss_id,
+      </if>
+      <if test="bossName != null">
+        boss_name,
+      </if>
+      <if test="detailCode != null">
+        detail_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dailyMaxTimes != null">
+        #{dailyMaxTimes,jdbcType=TINYINT},
+      </if>
+      <if test="day != null">
+        #{day,jdbcType=TINYINT},
+      </if>
+      <if test="activityCode != null">
+        #{activityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="difficultyLevel != null">
+        #{difficultyLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="bossId != null">
+        #{bossId,jdbcType=INTEGER},
+      </if>
+      <if test="bossName != null">
+        #{bossName,jdbcType=VARCHAR},
+      </if>
+      <if test="detailCode != null">
+        #{detailCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.PveBossDetail">
+    update pve_boss_detail
+    <set>
+      <if test="dailyMaxTimes != null">
+        daily_max_times = #{dailyMaxTimes,jdbcType=TINYINT},
+      </if>
+      <if test="day != null">
+        day = #{day,jdbcType=TINYINT},
+      </if>
+      <if test="activityCode != null">
+        activity_code = #{activityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="difficultyLevel != null">
+        difficulty_level = #{difficultyLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="bossId != null">
+        boss_id = #{bossId,jdbcType=INTEGER},
+      </if>
+      <if test="bossName != null">
+        boss_name = #{bossName,jdbcType=VARCHAR},
+      </if>
+      <if test="detailCode != null">
+        detail_code = #{detailCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.model.game.PveBossDetail">
+    update pve_boss_detail
+    set daily_max_times = #{dailyMaxTimes,jdbcType=TINYINT},
+      day = #{day,jdbcType=TINYINT},
+      activity_code = #{activityCode,jdbcType=VARCHAR},
+      difficulty_level = #{difficultyLevel,jdbcType=VARCHAR},
+      boss_id = #{bossId,jdbcType=INTEGER},
+      boss_name = #{bossName,jdbcType=VARCHAR},
+      detail_code = #{detailCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

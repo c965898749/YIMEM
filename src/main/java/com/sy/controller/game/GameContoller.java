@@ -45,6 +45,12 @@ public class GameContoller {
         }
     }
 
+    /**
+     * 单抽
+     * @param token
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "danChou", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp danChou(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -58,6 +64,13 @@ public class GameContoller {
             return baseResp;
         }
     }
+
+    /**
+     * 魂抽
+     * @param token
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "soulChou", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp soulChou(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -72,6 +85,12 @@ public class GameContoller {
         }
     }
 
+    /**
+     * 十抽
+     * @param token
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "shiChou", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp shiChou(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -113,6 +132,13 @@ public class GameContoller {
             return baseResp;
         }
     }
+
+    /**
+     * 强化卡牌
+     * @param token
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "cardLevelUp2", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp cardLevelUp2(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -195,6 +221,13 @@ public class GameContoller {
             return baseResp;
         }
     }
+
+    /**
+     * 七曜星活动
+     * @param token
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "participate", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp participate(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -209,6 +242,12 @@ public class GameContoller {
         }
     }
 
+    /**
+     * 竞技场
+     * @param token
+     * @param request
+     * @return
+     */
 
     @PostMapping("battle")
     @CrossOrigin
@@ -223,6 +262,13 @@ public class GameContoller {
             return baseResp;
         }
     }
+
+    /**
+     * 好有切磋
+     * @param token
+     * @param request
+     * @return
+     */
     @PostMapping("battle3")
     @CrossOrigin
     public BaseResp battle3(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -265,7 +311,12 @@ public class GameContoller {
     }
 
 
-
+    /**
+     * 刷图
+     * @param token
+     * @param request
+     * @return
+     */
     @PostMapping("battle2")
     @CrossOrigin
     public BaseResp battle2(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -477,6 +528,27 @@ public class GameContoller {
         BaseResp baseResp = new BaseResp();
         try {
             baseResp = gameServiceService.tuPuhenchenList(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
+     * 图谱合成
+     * @param token
+     * @param request
+     * @return
+     */
+
+    @PostMapping("hechenCard")
+    @CrossOrigin
+    public BaseResp hechenCard(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.hechenCard(token, request);
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();
