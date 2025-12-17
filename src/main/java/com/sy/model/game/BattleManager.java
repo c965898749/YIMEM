@@ -1,6 +1,7 @@
 package com.sy.model.game;
 
 import java.util.*;
+import java.util.concurrent.LinkedTransferQueue;
 import java.util.stream.Collectors;
 
 import java.util.*;
@@ -73,8 +74,9 @@ public class BattleManager {
                     0, 0, 0, 0, 0, 0,
                     getFieldUnitsStatus(),
                     0, null, null, "回合开始");
-
-            // 回合开始处理
+            //1. 登场并检查阵亡替换
+            checkAndReplaceGuardians();
+            //2. 回合开始处理
             processRoundStartEffects();
 
             // 场上战斗
@@ -85,10 +87,10 @@ public class BattleManager {
                 }
             }
 
-            // 检查阵亡替换
-            checkAndReplaceGuardians();
+            //3.处理场下技能
+            processOnFieldSkills2();
 
-            // 回合结束处理
+            //4. 回合结束处理
             processRoundEndEffects();
         }
 
@@ -425,7 +427,7 @@ public class BattleManager {
             case "烛龙":
                 // 烛火燎原：对全体敌方造成火焰伤害（多目标整合日志）
                 //烛龙必须在场
-                if (defender.isOnField()&&!defender.isDead()){
+                if (defender.isOnField() && !defender.isDead()) {
                     List<Guardian> enemies = defender.getCamp() == Camp.A ? campB : campA;
                     List<Guardian> aliveEnemies = enemies.stream()
                             .filter(g -> !g.isDead())
@@ -775,21 +777,20 @@ public class BattleManager {
     private void processRoundStartEffects() {
         // 厚土娘娘后土聚能
         if (fieldA != null && fieldA.getName().equals("厚土娘娘") && fieldA.getBuffStacks() < 99) {
-            int hpBefore = fieldA.getCurrentHp();
-            int maxHpBefore = fieldA.getMaxHp();
             int attackBefore = fieldA.getAttack();
 
             fieldA.setBuffStacks(fieldA.getBuffStacks() + 1);
             fieldA.setMaxHp(fieldA.getMaxHp() + 197);
+            fieldA.setCurrentHp(fieldA.getCurrentHp() + 197);
             fieldA.setAttack(fieldA.getAttack() + 67);
 
             addLog("后土聚能",
                     fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
-                    hpBefore, fieldA.getCurrentHp(),
+                    fieldA.getMaxHp(), fieldA.getCurrentHp(),
                     attackBefore, fieldA.getAttack(),
                     fieldA.getSpeed(), fieldA.getSpeed(),
                     fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
-                    hpBefore, fieldA.getCurrentHp(),
+                    fieldA.getMaxHp(), fieldA.getCurrentHp(),
                     attackBefore, fieldA.getAttack(),
                     fieldA.getSpeed(), fieldA.getSpeed(),
                     getFieldUnitsStatus(),
@@ -798,21 +799,20 @@ public class BattleManager {
         }
 
         if (fieldB != null && fieldB.getName().equals("厚土娘娘") && fieldB.getBuffStacks() < 99) {
-            int hpBefore = fieldB.getCurrentHp();
-            int maxHpBefore = fieldB.getMaxHp();
             int attackBefore = fieldB.getAttack();
 
             fieldB.setBuffStacks(fieldB.getBuffStacks() + 1);
             fieldB.setMaxHp(fieldB.getMaxHp() + 197);
+            fieldB.setCurrentHp(fieldB.getCurrentHp() + 197);
             fieldB.setAttack(fieldB.getAttack() + 67);
 
             addLog("后土聚能",
                     fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
-                    hpBefore, fieldB.getCurrentHp(),
+                    fieldB.getMaxHp(), fieldB.getCurrentHp(),
                     attackBefore, fieldB.getAttack(),
                     fieldB.getSpeed(), fieldB.getSpeed(),
                     fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
-                    hpBefore, fieldB.getCurrentHp(),
+                    fieldB.getMaxHp(), fieldB.getCurrentHp(),
                     attackBefore, fieldB.getAttack(),
                     fieldB.getSpeed(), fieldB.getSpeed(),
                     getFieldUnitsStatus(),
@@ -970,7 +970,7 @@ public class BattleManager {
         processPoisonEffects();
 
         // 妲己场下技能
-        processDajiSkills();
+        processOnFieldSkills();
     }
 
     // 批量处理中毒效果
@@ -1037,116 +1037,233 @@ public class BattleManager {
     }
 
     // 处理妲己场下技能
-    private void processDajiSkills() {
-        // A队妲己
-        if (campA.stream().anyMatch(g -> g.getName().equals("妲己") && !g.isDead() && !g.isOnField())) {
-            Guardian daji = campA.stream()
-                    .filter(g -> g.getName().equals("妲己") && !g.isDead() && !g.isOnField())
-                    .findFirst().get();
+    private void processOnFieldSkills() {
+        //续命技能
+        for (int i = 1; i < 6; i++) {
+            int position = i;
 
-            int dajiHpBefore = daji.getCurrentHp();
-            int dajiAttackBefore = daji.getAttack();
-            int dajiSpeedBefore = daji.getSpeed();
+            // A队妲己
+            if (campA.stream().anyMatch(g -> g.getName().equals("妲己")&&g.getPosition()== position && !g.isDead() && !g.isOnField())) {
+                Guardian daji = campA.stream()
+                        .filter(g -> g.getName().equals("妲己")&&g.getPosition()== position && !g.isDead() && !g.isOnField())
+                        .findFirst().get();
 
-            // 妖狐蔽天：3%几率眩晕当前敌人
-            if (random.nextDouble() < 0.03 && fieldB != null) {
-                int targetHpBefore = fieldB.getMaxHp();
-                fieldB.getEffects().put(EffectType.STUN, 1);
+                int dajiHpBefore = daji.getCurrentHp();
+                int dajiAttackBefore = daji.getAttack();
+                int dajiSpeedBefore = daji.getSpeed();
 
-                addLog("妖狐蔽天",
-                        daji.getName(), Camp.A, daji.getPosition(),
-                        dajiHpBefore, daji.getCurrentHp(),
-                        dajiAttackBefore, daji.getAttack(),
-                        dajiSpeedBefore, daji.getSpeed(),
-                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
-                        targetHpBefore, fieldB.getCurrentHp(),
-                        fieldB.getAttack(), fieldB.getAttack(),
-                        fieldB.getSpeed(), fieldB.getSpeed(),
-                        getFieldUnitsStatus(),
-                        0, EffectType.STUN, null,
-                        "妲己触发妖狐蔽天，眩晕敌人");
+                // 妖狐蔽天：3%几率眩晕当前敌人
+                if (random.nextDouble() < 0.03 && fieldB != null) {
+                    int targetHpBefore = fieldB.getMaxHp();
+                    fieldB.getEffects().put(EffectType.STUN, 1);
+
+                    addLog("妖狐蔽天",
+                            daji.getName(), Camp.A, daji.getPosition(),
+                            dajiHpBefore, daji.getCurrentHp(),
+                            dajiAttackBefore, daji.getAttack(),
+                            dajiSpeedBefore, daji.getSpeed(),
+                            fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                            targetHpBefore, fieldB.getCurrentHp(),
+                            fieldB.getAttack(), fieldB.getAttack(),
+                            fieldB.getSpeed(), fieldB.getSpeed(),
+                            getFieldUnitsStatus(),
+                            0, EffectType.STUN, null,
+                            "妲己触发妖狐蔽天，眩晕敌人");
+                }
+
+                // 谄媚噬魂：随机敌方中毒
+                List<Guardian> enemies = campB.stream()
+                        .filter(g -> !g.isDead())
+                        .collect(Collectors.toList());
+
+                if (!enemies.isEmpty()) {
+                    Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
+                    int targetHpBefore = randomEnemy.getMaxHp();
+                    int poisonValue = 7;
+                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue);
+
+                    addLog("谄媚噬魂",
+                            daji.getName(), Camp.A, daji.getPosition(),
+                            dajiHpBefore, daji.getCurrentHp(),
+                            dajiAttackBefore, daji.getAttack(),
+                            dajiSpeedBefore, daji.getSpeed(),
+                            randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
+                            targetHpBefore, randomEnemy.getCurrentHp(),
+                            randomEnemy.getAttack(), randomEnemy.getAttack(),
+                            randomEnemy.getSpeed(), randomEnemy.getSpeed(),
+                            getFieldUnitsStatus(),
+                            poisonValue, EffectType.POISON, DamageType.POISON,
+                            "妲己触发谄媚噬魂，使敌人中毒");
+                }
             }
 
-            // 谄媚噬魂：随机敌方中毒
-            List<Guardian> enemies = campB.stream()
-                    .filter(g -> !g.isDead())
-                    .collect(Collectors.toList());
+            // B队妲己
+            if (campB.stream().anyMatch(g -> g.getName().equals("妲己")&&g.getPosition()== position && !g.isDead() && !g.isOnField())) {
+                Guardian daji = campB.stream()
+                        .filter(g -> g.getName().equals("妲己")&&g.getPosition()== position && !g.isDead() && !g.isOnField())
+                        .findFirst().get();
 
-            if (!enemies.isEmpty()) {
-                Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                int targetHpBefore = randomEnemy.getMaxHp();
-                int poisonValue = 7;
-                randomEnemy.getEffects().put(EffectType.POISON, poisonValue);
+                int dajiHpBefore = daji.getCurrentHp();
+                int dajiAttackBefore = daji.getAttack();
+                int dajiSpeedBefore = daji.getSpeed();
 
-                addLog("谄媚噬魂",
-                        daji.getName(), Camp.A, daji.getPosition(),
-                        dajiHpBefore, daji.getCurrentHp(),
-                        dajiAttackBefore, daji.getAttack(),
-                        dajiSpeedBefore, daji.getSpeed(),
-                        randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
-                        targetHpBefore, randomEnemy.getCurrentHp(),
-                        randomEnemy.getAttack(), randomEnemy.getAttack(),
-                        randomEnemy.getSpeed(), randomEnemy.getSpeed(),
-                        getFieldUnitsStatus(),
-                        poisonValue, EffectType.POISON, DamageType.POISON,
-                        "妲己触发谄媚噬魂，使敌人中毒");
+                // 妖狐蔽天：3%几率眩晕当前敌人
+                if (random.nextDouble() < 0.03 && fieldA != null) {
+                    int targetHpBefore = fieldA.getMaxHp();
+                    fieldA.getEffects().put(EffectType.STUN, 1);
+
+                    addLog("妖狐蔽天",
+                            daji.getName(), Camp.B, daji.getPosition(),
+                            dajiHpBefore, daji.getCurrentHp(),
+                            dajiAttackBefore, daji.getAttack(),
+                            dajiSpeedBefore, daji.getSpeed(),
+                            fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
+                            targetHpBefore, fieldA.getCurrentHp(),
+                            fieldA.getAttack(), fieldA.getAttack(),
+                            fieldA.getSpeed(), fieldA.getSpeed(),
+                            getFieldUnitsStatus(),
+                            0, EffectType.STUN, null,
+                            "妲己触发妖狐蔽天，眩晕敌人");
+                }
+
+                // 谄媚噬魂：随机敌方中毒
+                List<Guardian> enemies = campA.stream()
+                        .filter(g -> !g.isDead())
+                        .collect(Collectors.toList());
+
+                if (!enemies.isEmpty()) {
+                    Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
+                    int targetHpBefore = randomEnemy.getMaxHp();
+                    int poisonValue = 7;
+                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue);
+
+                    addLog("谄媚噬魂",
+                            daji.getName(), Camp.B, daji.getPosition(),
+                            dajiHpBefore, daji.getCurrentHp(),
+                            dajiAttackBefore, daji.getAttack(),
+                            dajiSpeedBefore, daji.getSpeed(),
+                            randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
+                            targetHpBefore, randomEnemy.getCurrentHp(),
+                            randomEnemy.getAttack(), randomEnemy.getAttack(),
+                            randomEnemy.getSpeed(), randomEnemy.getSpeed(),
+                            getFieldUnitsStatus(),
+                            poisonValue, EffectType.POISON, DamageType.POISON,
+                            "妲己触发谄媚噬魂，使敌人中毒");
+                }
             }
         }
 
-        // B队妲己
-        if (campB.stream().anyMatch(g -> g.getName().equals("妲己") && !g.isDead() && !g.isOnField())) {
-            Guardian daji = campB.stream()
-                    .filter(g -> g.getName().equals("妲己") && !g.isDead() && !g.isOnField())
-                    .findFirst().get();
 
-            int dajiHpBefore = daji.getCurrentHp();
-            int dajiAttackBefore = daji.getAttack();
-            int dajiSpeedBefore = daji.getSpeed();
+    }
+    private void processOnFieldSkills2() {
+        //续命技能
+        String[] xuminHero = {"小龙女", "洛神", "瑶姬", "中岳大帝", "陆压道君", "多宝道人", "河伯", "赤精子", "广成子", "宫女", "玉兔"};
+        List<String> xuminHeroList = Arrays.asList(xuminHero);
+        for (int i = 1; i < 6; i++) {
+            int position = i;
+            if (campA.stream().anyMatch(g ->xuminHeroList.contains(g.getName())&&g.getPosition()== position && !g.isDead() && !g.isOnField())) {
+                Guardian guardian = campA.stream()
+                        .filter(g -> xuminHeroList.contains(g.getName())&&g.getPosition()== position && !g.isDead() && !g.isOnField())
+                        .findFirst().get();
+                if (!fieldA.isDead()){
+                    guardian.setCurrentHp(guardian.getCurrentHp() - 197);
+                    fieldA.setCurrentHp(fieldA.getCurrentHp() + 197);
+                    List<String> deadUnits = new ArrayList<>();
 
-            // 妖狐蔽天：3%几率眩晕当前敌人
-            if (random.nextDouble() < 0.03 && fieldA != null) {
-                int targetHpBefore = fieldA.getMaxHp();
-                fieldA.getEffects().put(EffectType.STUN, 1);
+                    if (guardian.getCurrentHp() <= 0) {
+                        guardian.setDead(true);
+                        guardian.setOnField(false);
+                        deadUnits.add(guardian.getCamp() + guardian.getName() + "_" + guardian.getPosition());
+                    }
+                    addLog("续命",
+                            guardian.getName(), guardian.getCamp(), guardian.getPosition(),
+                            guardian.getMaxHp(), guardian.getCurrentHp(),
+                            guardian.getAttack(), guardian.getAttack(),
+                            guardian.getSpeed(), guardian.getSpeed(),
+                            fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
+                            fieldA.getMaxHp(), fieldA.getCurrentHp(),
+                            fieldA.getAttack(), fieldA.getAttack(),
+                            fieldA.getSpeed(), fieldA.getSpeed(),
+                            getFieldUnitsStatus(),
+                            197, EffectType.XU_HEAL, null,
+                            fieldA.getName() + "触发续命，生命+197");
+                    // 死亡日志
+                    if (!deadUnits.isEmpty()) {
+                        Map<String, Object[]> deadStatus = new HashMap<>();
+                        deadUnits.forEach(x -> {
+                            List<String> strings = Arrays.asList(x.split("_"));
+                            deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                        });
 
-                addLog("妖狐蔽天",
-                        daji.getName(), Camp.B, daji.getPosition(),
-                        dajiHpBefore, daji.getCurrentHp(),
-                        dajiAttackBefore, daji.getAttack(),
-                        dajiSpeedBefore, daji.getSpeed(),
-                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
-                        targetHpBefore, fieldA.getCurrentHp(),
-                        fieldA.getAttack(), fieldA.getAttack(),
-                        fieldA.getSpeed(), fieldA.getSpeed(),
-                        getFieldUnitsStatus(),
-                        0, EffectType.STUN, null,
-                        "妲己触发妖狐蔽天，眩晕敌人");
+                        addMultiTargetLog("UNIT_DEATH",
+                                "SYSTEM", null, 0,
+                                0, 0, 0, 0, 0, 0,
+                                deadUnits, null,
+                                deadStatus,
+                                getFieldUnitsStatus(),
+                                0, null, null,
+                                "续命生命值为0");
+                        //触发死亡技能
+                        triggerOnDeathSkills(guardian);
+
+                    }
+                }
+
             }
 
-            // 谄媚噬魂：随机敌方中毒
-            List<Guardian> enemies = campA.stream()
-                    .filter(g -> !g.isDead())
-                    .collect(Collectors.toList());
+            if (campB.stream().anyMatch(g ->xuminHeroList.contains(g.getName())&&g.getPosition()== position&& !g.isDead() && !g.isOnField())) {
+                Guardian guardian = campB.stream()
+                        .filter(g -> xuminHeroList.contains(g.getName())&&g.getPosition()== position&& !g.isDead() && !g.isOnField())
+                        .findFirst().get();
+                if (!fieldB.isDead()){
+                    guardian.setCurrentHp(guardian.getCurrentHp() - 197);
+                    fieldB.setCurrentHp(fieldB.getCurrentHp() + 197);
+                    List<String> deadUnits = new ArrayList<>();
 
-            if (!enemies.isEmpty()) {
-                Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                int targetHpBefore = randomEnemy.getMaxHp();
-                int poisonValue = 7;
-                randomEnemy.getEffects().put(EffectType.POISON, poisonValue);
+                    if (guardian.getCurrentHp() <= 0) {
+                        guardian.setDead(true);
+                        guardian.setOnField(false);
+                        deadUnits.add(guardian.getCamp() + guardian.getName() + "_" + guardian.getPosition());
+                    }
+                    addLog("续命",
+                            guardian.getName(), guardian.getCamp(), guardian.getPosition(),
+                            guardian.getMaxHp(), guardian.getCurrentHp(),
+                            guardian.getAttack(), guardian.getAttack(),
+                            guardian.getSpeed(), guardian.getSpeed(),
+                            fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                            fieldB.getMaxHp(), fieldB.getCurrentHp(),
+                            fieldB.getAttack(), fieldB.getAttack(),
+                            fieldB.getSpeed(), fieldB.getSpeed(),
+                            getFieldUnitsStatus(),
+                            197, EffectType.XU_HEAL, null,
+                            fieldB.getName() + "触发续命，生命+197");
+                    // 死亡日志
+                    if (!deadUnits.isEmpty()) {
+                        Map<String, Object[]> deadStatus = new HashMap<>();
+                        deadUnits.forEach(x -> {
+                            List<String> strings = Arrays.asList(x.split("_"));
+                            deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                        });
 
-                addLog("谄媚噬魂",
-                        daji.getName(), Camp.B, daji.getPosition(),
-                        dajiHpBefore, daji.getCurrentHp(),
-                        dajiAttackBefore, daji.getAttack(),
-                        dajiSpeedBefore, daji.getSpeed(),
-                        randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
-                        targetHpBefore, randomEnemy.getCurrentHp(),
-                        randomEnemy.getAttack(), randomEnemy.getAttack(),
-                        randomEnemy.getSpeed(), randomEnemy.getSpeed(),
-                        getFieldUnitsStatus(),
-                        poisonValue, EffectType.POISON, DamageType.POISON,
-                        "妲己触发谄媚噬魂，使敌人中毒");
+                        addMultiTargetLog("UNIT_DEATH",
+                                "SYSTEM", null, 0,
+                                0, 0, 0, 0, 0, 0,
+                                deadUnits, null,
+                                deadStatus,
+                                getFieldUnitsStatus(),
+                                0, null, null,
+                                "续命生命值为0");
+                        //触发死亡技能
+                        triggerOnDeathSkills(guardian);
+
+                    }
+                }
+
             }
+
         }
+
+
     }
 
     // 处理回合结束效果
@@ -1190,6 +1307,8 @@ public class BattleManager {
                     fieldB.getName() + "触发仙塔庇护，恢复生命值");
         }
     }
+
+
 
     // 检查并替换阵亡护法
     private void checkAndReplaceGuardians() {
