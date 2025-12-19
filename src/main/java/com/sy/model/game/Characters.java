@@ -32,4 +32,7 @@ public class Characters {
     private Integer exp;
     private String isDelete;
     private String profession;
+    private Integer collAttack;
+    private Integer collSpeed;
+    private Integer collHp;
 }

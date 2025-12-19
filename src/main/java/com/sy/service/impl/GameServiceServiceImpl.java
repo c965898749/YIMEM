@@ -1939,6 +1939,49 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
+    @Override
+    public BaseResp characteSell(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        String userId = token.getUserId();
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        Characters characters1 = charactersMapper.listById(userId, token.getId());
+        if (characters1==null){
+            baseResp.setErrorMsg("卡牌已售罄请勿重复出售");
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+        if (characters1.getStackCount()-1>=0) {
+            characters1.setStackCount(characters1.getStackCount() -1);
+        } else {
+            characters1.setIsDelete("1");
+        }
+        charactersMapper.updateByPrimaryKey(characters1);
+        BigDecimal gold=new BigDecimal(1000);
+        if ("104".equals(token.getId())){
+            gold=new BigDecimal(999999);
+        }else if ("1082".equals(token.getId())){
+            gold=new BigDecimal(99999);
+        }else if ("1091".equals(token.getId())){
+            gold=new BigDecimal(99999);
+        }
+        user.setGold(user.getGold().add(gold));
+        userMapper.updateuser(user);
+        List<Characters> nowCharactersList = charactersMapper.selectByUserId(Integer.parseInt(userId));
+        CardDto dto = new CardDto();
+        dto.setCharacters(nowCharactersList);
+        //卡池数量
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        baseResp.setSuccess(1);
+        Map map = new HashMap();
+        map.put("user", info);
+        map.put("dto", dto);
+        map.put("gold", gold);
+        baseResp.setData(map);
+        baseResp.setErrorMsg("出售成功");
+        return baseResp;
+    }
+
 
     @Override
     public BaseResp soulChou(TokenDto token, HttpServletRequest request) throws Exception {
@@ -2683,6 +2726,98 @@ public class GameServiceServiceImpl implements GameServiceService {
         character.setAttack(attack.intValue());
         character.setSpeed(speed.intValue());
         //TODO 再叠加协同属性
+        if (Xtool.isNotNull(characters.getPassiveIntroduceThree())){
+            List<Characters> xieTong=charactersList.stream().filter(x->characters.getPassiveIntroduceThree().equals(x.getId())).collect(Collectors.toList());
+            if (Xtool.isNotNull(xieTong)){
+                int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
+//                453点生命上限，158点攻击，158点速度。
+                if (Xtool.isNotNull(characters.getCollHp())){
+                    character.setHp(character.getHp()+skillLevel*characters.getCollHp());
+                    character.setMaxHp(maxHp.intValue()+skillLevel*characters.getCollHp());
+                }
+                if (Xtool.isNotNull(characters.getCollAttack())){
+                    character.setAttack(attack.intValue()+skillLevel*characters.getCollAttack());
+                }
+                if (Xtool.isNotNull(characters.getCollSpeed())){
+                    character.setSpeed(speed.intValue()+skillLevel*characters.getCollSpeed());
+                }
+            }
+        }
+
+        if ("不动如山1".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==1){
+            int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
+//                453点生命上限，158点攻击，158点速度。
+            if (Xtool.isNotNull(characters.getCollHp())){
+                character.setHp(character.getHp()+skillLevel*characters.getCollHp());
+                character.setMaxHp(maxHp.intValue()+skillLevel*characters.getCollHp());
+            }
+            if (Xtool.isNotNull(characters.getCollAttack())){
+                character.setAttack(attack.intValue()+skillLevel*characters.getCollAttack());
+            }
+            if (Xtool.isNotNull(characters.getCollSpeed())){
+                character.setSpeed(speed.intValue()+skillLevel*characters.getCollSpeed());
+            }
+        }
+
+        if ("不动如山2".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==2){
+            int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
+//                453点生命上限，158点攻击，158点速度。
+            if (Xtool.isNotNull(characters.getCollHp())){
+                character.setHp(character.getHp()+skillLevel*characters.getCollHp());
+                character.setMaxHp(maxHp.intValue()+skillLevel*characters.getCollHp());
+            }
+            if (Xtool.isNotNull(characters.getCollAttack())){
+                character.setAttack(attack.intValue()+skillLevel*characters.getCollAttack());
+            }
+            if (Xtool.isNotNull(characters.getCollSpeed())){
+                character.setSpeed(speed.intValue()+skillLevel*characters.getCollSpeed());
+            }
+        }
+
+        if ("不动如山3".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==3){
+            int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
+//                453点生命上限，158点攻击，158点速度。
+            if (Xtool.isNotNull(characters.getCollHp())){
+                character.setHp(character.getHp()+skillLevel*characters.getCollHp());
+                character.setMaxHp(maxHp.intValue()+skillLevel*characters.getCollHp());
+            }
+            if (Xtool.isNotNull(characters.getCollAttack())){
+                character.setAttack(attack.intValue()+skillLevel*characters.getCollAttack());
+            }
+            if (Xtool.isNotNull(characters.getCollSpeed())){
+                character.setSpeed(speed.intValue()+skillLevel*characters.getCollSpeed());
+            }
+        }
+
+        if ("不动如山4".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==4){
+            int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
+//                453点生命上限，158点攻击，158点速度。
+            if (Xtool.isNotNull(characters.getCollHp())){
+                character.setHp(character.getHp()+skillLevel*characters.getCollHp());
+                character.setMaxHp(maxHp.intValue()+skillLevel*characters.getCollHp());
+            }
+            if (Xtool.isNotNull(characters.getCollAttack())){
+                character.setAttack(attack.intValue()+skillLevel*characters.getCollAttack());
+            }
+            if (Xtool.isNotNull(characters.getCollSpeed())){
+                character.setSpeed(speed.intValue()+skillLevel*characters.getCollSpeed());
+            }
+        }
+
+        if ("不动如山5".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==5){
+            int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
+//                453点生命上限，158点攻击，158点速度。
+            if (Xtool.isNotNull(characters.getCollHp())){
+                character.setHp(character.getHp()+skillLevel*characters.getCollHp());
+                character.setMaxHp(maxHp.intValue()+skillLevel*characters.getCollHp());
+            }
+            if (Xtool.isNotNull(characters.getCollAttack())){
+                character.setAttack(attack.intValue()+skillLevel*characters.getCollAttack());
+            }
+            if (Xtool.isNotNull(characters.getCollSpeed())){
+                character.setSpeed(speed.intValue()+skillLevel*characters.getCollSpeed());
+            }
+        }
 
 
         //TODO 装备属性
@@ -2836,7 +2971,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             // 设置角色
             Character character = reasonableData(characters, leftCharacters);
             campA.add(new Guardian(character.getName(), Camp.A, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
-                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed()));
+                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(),character.getLv()));
             copyCampA.add(character);
         }
         rightCharacters.sort(Comparator.comparing(Characters::getGoIntoNum,
@@ -2845,7 +2980,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             // 设置角色
             Character character = reasonableData(characters, rightCharacters);
             campB.add(new Guardian(character.getName(), Camp.B, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
-                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed()));
+                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(),character.getLv()));
             copyCampB.add(character);
         }
         BattleSnowflakeIdGenerator generator = BattleSnowflakeIdGenerator.getInstance();
@@ -2899,52 +3034,52 @@ public class GameServiceServiceImpl implements GameServiceService {
     @Override
     public BaseResp playBattle2(TokenDto token, HttpServletRequest request) throws Exception {
         // 创建战斗缓存
-        Map<String, BattleManager> battleCache = new HashMap<>();
-
-        // 创建A队护法
-        List<Guardian> campA = new ArrayList<>();
-        List<Character> copyCampA = new ArrayList<>();
-        campA.add(new Guardian("牛魔王", Camp.A, 1, Profession.WARRIOR, Race.DEMON, 2000, 300, 100));
-        campA.add(new Guardian("厚土娘娘", Camp.A, 2, Profession.IMMORTAL, Race.IMMORTAL, 2500, 200, 80));
-        campA.add(new Guardian("镇元子", Camp.A, 3, Profession.GOD, Race.DEMON, 1800, 250, 90));
-        campA.add(new Guardian("妲己", Camp.A, 4, Profession.IMMORTAL, Race.DEMON, 1500, 180, 120));
-        campA.add(new Guardian("长生大帝", Camp.A, 5, Profession.GOD, Race.IMMORTAL, 2200, 150, 80));
-
-        copyCampA.add(new Character("1027", "牛魔王", Camp.A, 1, Profession.WARRIOR, Race.DEMON, 2000, 300, 100));
-        copyCampA.add(new Character("1012", "厚土娘娘", Camp.A, 2, Profession.IMMORTAL, Race.IMMORTAL, 2500, 200, 80));
-        copyCampA.add(new Character("1016", "镇元子", Camp.A, 3, Profession.GOD, Race.IMMORTAL, 1800, 250, 90));
-        copyCampA.add(new Character("1005", "妲己", Camp.A, 4, Profession.IMMORTAL, Race.DEMON, 1500, 180, 120));
-        copyCampA.add(new Character("1020", "长生大帝", Camp.A, 5, Profession.GOD, Race.IMMORTAL, 2200, 150, 80));
-        // 创建B队护法
-        List<Guardian> campB = new ArrayList<>();
-        List<Character> copyCampB = new ArrayList<>();
-        campB.add(new Guardian("阎王", Camp.B, 1, Profession.GOD, Race.DEMON, 1500, 220, 85));
-        campB.add(new Guardian("聂小倩", Camp.B, 2, Profession.IMMORTAL, Race.DEMON, 1200, 180, 110));
-        campB.add(new Guardian("托塔天王", Camp.B, 3, Profession.GOD, Race.IMMORTAL, 2200, 280, 95));
-        campB.add(new Guardian("齐天大圣", Camp.B, 4, Profession.WARRIOR, Race.DEMON, 1800, 320, 130));
-        campB.add(new Guardian("铁扇公主", Camp.B, 5, Profession.IMMORTAL, Race.DEMON, 1600, 200, 90));
-
-        copyCampB.add(new Character("1035", "阎王", Camp.B, 1, Profession.GOD, Race.DEMON, 1500, 220, 85));
-        copyCampB.add(new Character("1007", "聂小倩", Camp.B, 2, Profession.IMMORTAL, Race.DEMON, 1200, 180, 110));
-        copyCampB.add(new Character("1002", "托塔天王", Camp.B, 3, Profession.GOD, Race.IMMORTAL, 2200, 280, 95));
-        copyCampB.add(new Character("1010", "齐天大圣", Camp.B, 4, Profession.WARRIOR, Race.DEMON, 1800, 320, 130));
-        copyCampB.add(new Character("1030", "洛神", Camp.B, 5, Profession.IMMORTAL, Race.IMMORTAL, 1600, 200, 90));
-
-        // 开始战斗
-        String battleId = "BATTLE_20251130_001";
-        BattleManager battle = new BattleManager(battleId, campA, campB);
-        battleCache.put(battleId, battle);
-        battle.startBattle();
-
-        // 打印优化后的日志
-        printFinalBattleLogs(battle.getBattleLogs());
+//        Map<String, BattleManager> battleCache = new HashMap<>();
+//
+//        // 创建A队护法
+//        List<Guardian> campA = new ArrayList<>();
+//        List<Character> copyCampA = new ArrayList<>();
+//        campA.add(new Guardian("牛魔王", Camp.A, 1, Profession.WARRIOR, Race.DEMON, 2000, 300, 100));
+//        campA.add(new Guardian("厚土娘娘", Camp.A, 2, Profession.IMMORTAL, Race.IMMORTAL, 2500, 200, 80));
+//        campA.add(new Guardian("镇元子", Camp.A, 3, Profession.GOD, Race.DEMON, 1800, 250, 90));
+//        campA.add(new Guardian("妲己", Camp.A, 4, Profession.IMMORTAL, Race.DEMON, 1500, 180, 120));
+//        campA.add(new Guardian("长生大帝", Camp.A, 5, Profession.GOD, Race.IMMORTAL, 2200, 150, 80));
+//
+//        copyCampA.add(new Character("1027", "牛魔王", Camp.A, 1, Profession.WARRIOR, Race.DEMON, 2000, 300, 100));
+//        copyCampA.add(new Character("1012", "厚土娘娘", Camp.A, 2, Profession.IMMORTAL, Race.IMMORTAL, 2500, 200, 80));
+//        copyCampA.add(new Character("1016", "镇元子", Camp.A, 3, Profession.GOD, Race.IMMORTAL, 1800, 250, 90));
+//        copyCampA.add(new Character("1005", "妲己", Camp.A, 4, Profession.IMMORTAL, Race.DEMON, 1500, 180, 120));
+//        copyCampA.add(new Character("1020", "长生大帝", Camp.A, 5, Profession.GOD, Race.IMMORTAL, 2200, 150, 80));
+//        // 创建B队护法
+//        List<Guardian> campB = new ArrayList<>();
+//        List<Character> copyCampB = new ArrayList<>();
+//        campB.add(new Guardian("阎王", Camp.B, 1, Profession.GOD, Race.DEMON, 1500, 220, 85));
+//        campB.add(new Guardian("聂小倩", Camp.B, 2, Profession.IMMORTAL, Race.DEMON, 1200, 180, 110));
+//        campB.add(new Guardian("托塔天王", Camp.B, 3, Profession.GOD, Race.IMMORTAL, 2200, 280, 95));
+//        campB.add(new Guardian("齐天大圣", Camp.B, 4, Profession.WARRIOR, Race.DEMON, 1800, 320, 130));
+//        campB.add(new Guardian("铁扇公主", Camp.B, 5, Profession.IMMORTAL, Race.DEMON, 1600, 200, 90));
+//
+//        copyCampB.add(new Character("1035", "阎王", Camp.B, 1, Profession.GOD, Race.DEMON, 1500, 220, 85));
+//        copyCampB.add(new Character("1007", "聂小倩", Camp.B, 2, Profession.IMMORTAL, Race.DEMON, 1200, 180, 110));
+//        copyCampB.add(new Character("1002", "托塔天王", Camp.B, 3, Profession.GOD, Race.IMMORTAL, 2200, 280, 95));
+//        copyCampB.add(new Character("1010", "齐天大圣", Camp.B, 4, Profession.WARRIOR, Race.DEMON, 1800, 320, 130));
+//        copyCampB.add(new Character("1030", "洛神", Camp.B, 5, Profession.IMMORTAL, Race.IMMORTAL, 1600, 200, 90));
+//
+//        // 开始战斗
+//        String battleId = "BATTLE_20251130_001";
+//        BattleManager battle = new BattleManager(battleId, campA, campB);
+//        battleCache.put(battleId, battle);
+//        battle.startBattle();
+//
+//        // 打印优化后的日志
+//        printFinalBattleLogs(battle.getBattleLogs());
         BaseResp baseResp = new BaseResp();
-        baseResp.setSuccess(1);
-        Map map = new HashMap();
-        map.put("campA", copyCampA);
-        map.put("campB", copyCampB);
-        map.put("battleLogs", battle.getBattleLogs());
-        baseResp.setData(map);
+//        baseResp.setSuccess(1);
+//        Map map = new HashMap();
+//        map.put("campA", copyCampA);
+//        map.put("campB", copyCampB);
+//        map.put("battleLogs", battle.getBattleLogs());
+//        baseResp.setData(map);
         return baseResp;
     }
 

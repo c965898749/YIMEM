@@ -66,6 +66,26 @@ public class GameContoller {
     }
 
     /**
+     * 单抽
+     * @param token
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "characteSell", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp characteSell(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.characteSell(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
      * 魂抽
      * @param token
      * @param request

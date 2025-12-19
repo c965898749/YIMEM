@@ -17,17 +17,18 @@ public class Guardian {
     private boolean isOnField;
     private int buffStacks;
     private int buffLuoShens;
+    private int buffNianShous;
     private Map<EffectType, Integer> effects;
 
     // 构造函数
     public Guardian(String name, Camp camp, int position, Profession profession, Race race,
-                    int maxHp, int attack, int speed) {
+                    int maxHp, int attack, int speed,int level) {
         this.name = name;
         this.camp = camp;
         this.position = position;
         this.profession = profession;
         this.race = race;
-        this.level = 1;
+        this.level = level;
         this.maxHp = maxHp;
         this.currentHp = maxHp;  // 初始当前血量等于血量上限
         this.attack = attack;
@@ -36,6 +37,7 @@ public class Guardian {
         this.isOnField = false;
         this.buffStacks = 0;
         this.buffLuoShens = 0;
+        this.buffNianShous = 0;
         this.effects = new HashMap<>();
     }
 
@@ -87,8 +89,10 @@ public class Guardian {
     public void setOnField(boolean onField) { isOnField = onField; }
     public int getBuffStacks() { return buffStacks; }
     public int getBuffLuoShens() { return buffLuoShens; }
+    public int getBuffNianShous() { return buffNianShous; }
     public void setBuffStacks(int buffStacks) { this.buffStacks = buffStacks; }
     public void setBuffLuoShens(int buffLuoShens) { this.buffLuoShens = buffLuoShens; }
+    public void setBuffNianShous(int buffNianShous) { this.buffNianShous = buffNianShous; }
     public Map<EffectType, Integer> getEffects() { return effects; }
 }
 
