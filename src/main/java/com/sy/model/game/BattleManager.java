@@ -920,6 +920,7 @@ public class BattleManager {
             int skillLevel = SkillLevelCalculator.getSkillLevel(changsheng.getLevel());
             changsheng.setBuffStacks(changsheng.getBuffStacks() + 1);
             changsheng.setMaxHp(changsheng.getMaxHp() + 117*skillLevel);
+            changsheng.setCurrentHp(changsheng.getCurrentHp() + 117*skillLevel);
 
             addLog("鲜血盛宴",
                     changsheng.getName(), changsheng.getCamp(), changsheng.getPosition(),
@@ -944,6 +945,8 @@ public class BattleManager {
             int skillLevel = SkillLevelCalculator.getSkillLevel(changsheng.getLevel());
             changsheng.setBuffStacks(changsheng.getBuffStacks() + 1);
             changsheng.setMaxHp(changsheng.getMaxHp() + 117*skillLevel);
+            changsheng.setCurrentHp(changsheng.getCurrentHp() + 117*skillLevel);
+
 
             addLog("鲜血盛宴",
                     changsheng.getName(), changsheng.getCamp(), changsheng.getPosition(),
