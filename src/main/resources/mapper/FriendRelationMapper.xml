@@ -12,9 +12,14 @@
     user_id = #{userId} and friend_id = #{friendId}
   </select>
     <select id="findByid"  resultType="com.sy.model.User">
-             SELECT u.*,fr.id FROM `user` u
+             SELECT u.*,fr.id,fb.id as fbId,fb2.is_read as nj FROM `user` u
             LEFT JOIN friend_relation fr on fr.friend_id=u.userId
+            left join friend_blessing fb on fb.sender_id=fr.user_id and fb.receiver_id=fr.friend_id and fb.send_time= CURDATE()
+            left join friend_blessing fb2 on fb2.sender_id=fr.friend_id and fb2.receiver_id=fr.user_id and fb2.send_time= CURDATE()
             where fr.user_id=#{userId} and fr.status=#{status}
+            <if test="fb!=null  and fb!=''">
+               and  fb2.id is not null
+            </if>
   </select>
     <select id="findMessage"  resultType="com.sy.model.User">
              SELECT u.*,fr.id FROM `user` u

@@ -31,5 +31,7 @@ public class ActivityConfig {
 
     private Integer isPermanent;
 
+    private Integer isNotice;
+
     List<ActivityDetail> details;
 }

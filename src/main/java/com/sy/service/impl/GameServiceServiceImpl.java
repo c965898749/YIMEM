@@ -80,6 +80,8 @@ public class GameServiceServiceImpl implements GameServiceService {
     private PveRewardMapper pveRewardMapper;
     @Autowired
     private PveBossDetailMapper pveBossDetailMapper;
+    @Autowired
+    private FriendBlessingMapper friendBlessingMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -2176,6 +2178,151 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp blessing(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        Map map=new HashMap();
+        map.put("receiver_id",token.getId());
+        LocalDate currentDate = LocalDate.now();
+        String dateStr = currentDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        map.put("send_time",dateStr);
+        //先判断是否
+        List<FriendBlessing> friendBlessings=friendBlessingMapper.selectByMap(map);
+        if (friendBlessings.size()>=50){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("对面祝福已满");
+            return baseResp;
+        }
+        Map map2=new HashMap();
+        map2.put("sender_id",userId);
+        map2.put("send_time",dateStr);
+        //先判断是否
+        List<FriendBlessing> friendBlessings2=friendBlessingMapper.selectByMap(map2);
+        if (friendBlessings2.size()>=15){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("今日15次祝福已送完");
+            return baseResp;
+        }
+        map2.put("receiver_id",token.getId());
+        //先判断是否
+        List<FriendBlessing> friendBlessings3=friendBlessingMapper.selectByMap(map2);
+        if (Xtool.isNotNull(friendBlessings3)){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("请勿重复祝福");
+            return baseResp;
+        }
+        FriendBlessing friendBlessing=new FriendBlessing();
+        friendBlessing.setIsRead(0);
+        friendBlessing.setContent("好友祝福");
+        friendBlessing.setReceiverId(Integer.parseInt(token.getId()));
+        friendBlessing.setSenderId(Integer.parseInt(userId));
+        friendBlessing.setSendTime(new Date());
+        friendBlessingMapper.insert(friendBlessing);
+        baseResp.setSuccess(1);
+        baseResp.setErrorMsg("祝福成功");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp reviceblessing(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        List<User> users = friendRelationMapper.findByid(token.getUserId(), 1,"1");
+        List<UserInfo> userInfoList=new ArrayList<>();
+        //可以凝聚的体力、活力
+        Integer count=0;
+        Integer total=users.size();
+        for (User user : users) {
+            UserInfo userInfo=new UserInfo();
+            BeanUtils.copyProperties(user,userInfo);
+            userInfoList.add(userInfo);
+            if (user.getNj()==0){
+                count=count+2;
+            }
+        }
+        //今日送出的体力
+        Map map=new HashMap();
+
+        baseResp.setSuccess(1);
+        Map map2=new HashMap();
+        LocalDate currentDate = LocalDate.now();
+        String dateStr = currentDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        map2.put("sender_id",token.getUserId());
+        map2.put("send_time",dateStr);
+        //先判断是否
+        List<FriendBlessing> friendBlessings2=friendBlessingMapper.selectByMap(map2);
+        map.put("friends", userInfoList);
+        map.put("count", count);
+        map.put("total", total);
+        map.put("sendCount",friendBlessings2.size());
+        baseResp.setData(map);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp njblessing(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user1 = userMapper.selectUserByUserId(Integer.parseInt(token.getUserId()));
+        if (user1 == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        Map map2=new HashMap();
+        LocalDate currentDate = LocalDate.now();
+        String dateStr = currentDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        map2.put("receiver_id",token.getUserId());
+        map2.put("send_time",dateStr);
+        map2.put("is_read",0);
+        //先判断是否
+        List<FriendBlessing> f=friendBlessingMapper.selectByMap(map2);
+        if (Xtool.isNull(f)){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("没有可凝聚祝福");
+            return baseResp;
+        }
+        for (FriendBlessing friendBlessing : f) {
+            friendBlessing.setIsRead(1);
+            friendBlessingMapper.updateById(friendBlessing);
+        }
+        //判断凝聚点是否正常
+        user1.setTiliCount(token.getTiLi()+f.size()*2);
+        user1.setTiliCountTime(new Date());
+        user1.setHuoliCount(token.getHuoLi()+f.size()*2);
+        user1.setHuoliCountTime(new Date());
+        userMapper.updateuser(user1);
+        Map map=new HashMap();
+        map.put("tiLi",token.getTiLi()+f.size()*2);
+        map.put("huoLi",token.getHuoLi()+f.size()*2);
+        baseResp.setSuccess(1);
+        baseResp.setData(map);
+        baseResp.setErrorMsg("凝聚成功");
+        return baseResp;
+    }
+
+    @Override
     public BaseResp start3(TokenDto token, HttpServletRequest request) throws Exception {
         //先获取当前用户战队
         BaseResp baseResp = new BaseResp();
@@ -2388,6 +2535,9 @@ public class GameServiceServiceImpl implements GameServiceService {
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(user, userInfo);
         userInfo.setLevelUp(levelUp);
+        //获取卡牌数据
+        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+        userInfo.setCharacterList(characterList);
         map.put("levelUp", levelUp);
         map.put("user", userInfo);
         map.put("battle", battle);
@@ -2520,10 +2670,18 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        List<User> users = friendRelationMapper.findByid(token.getUserId(), 1);
+        List<User> users = friendRelationMapper.findByid(token.getUserId(), 1,null);
+        List<UserInfo> userInfoList=new ArrayList<>();
+        for (User user : users) {
+            UserInfo userInfo=new UserInfo();
+            BeanUtils.copyProperties(user,userInfo);
+            userInfoList.add(userInfo);
+        }
+
+
         baseResp.setSuccess(1);
         Map map = new HashMap();
-        map.put("friends", users);
+        map.put("friends", userInfoList);
         baseResp.setData(map);
         return baseResp;
     }

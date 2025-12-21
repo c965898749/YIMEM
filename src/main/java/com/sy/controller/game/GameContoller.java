@@ -284,6 +284,66 @@ public class GameContoller {
     }
 
     /**
+     * 祝福
+     * @param token
+     * @param request
+     * @return
+     */
+
+    @PostMapping("blessing")
+    @CrossOrigin
+    public BaseResp blessing(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.blessing(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    /**
+     * 收到祝福
+     * @param token
+     * @param request
+     * @return
+     */
+
+    @PostMapping("reviceblessing")
+    @CrossOrigin
+    public BaseResp reviceblessing(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.reviceblessing(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    /**
+     * 收到祝福
+     * @param token
+     * @param request
+     * @return
+     */
+
+    @PostMapping("njblessing")
+    @CrossOrigin
+    public BaseResp njblessing(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.njblessing(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    /**
      * 好有切磋
      * @param token
      * @param request

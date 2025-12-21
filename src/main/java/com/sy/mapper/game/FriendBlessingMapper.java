@@ -1,17 +1,11 @@
 package com.sy.mapper.game;
 
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.sy.model.game.FriendBlessing;
+import com.sy.model.game.FriendRelation;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface FriendBlessingMapper {
-    int deleteByPrimaryKey(Long id);
+@Mapper
+public interface FriendBlessingMapper extends BaseMapper<FriendBlessing> {
 
-    int insert(FriendBlessing record);
-
-    int insertSelective(FriendBlessing record);
-
-    FriendBlessing selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(FriendBlessing record);
-
-    int updateByPrimaryKey(FriendBlessing record);
 }

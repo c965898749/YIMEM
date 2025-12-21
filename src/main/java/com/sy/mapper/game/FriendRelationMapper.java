@@ -16,7 +16,7 @@ public interface FriendRelationMapper extends BaseMapper<FriendRelation> {
 
     List<FriendRelation> findByUserid(@Param("userId") String userId,@Param("friendId") Integer friendId);
 
-    List<User> findByid(@Param("userId") String userId,@Param("status")Integer status);
+    List<User> findByid(@Param("userId") String userId,@Param("status")Integer status,@Param("fb")String fb);
 
     List<User> findMessage(@Param("userId") String userId,@Param("status")Integer status);
 

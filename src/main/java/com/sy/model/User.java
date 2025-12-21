@@ -101,4 +101,6 @@ public class User {
 
     //
     private Integer rate;
+    private Integer fbId;
+    private Integer nj;
 }

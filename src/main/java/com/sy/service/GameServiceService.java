@@ -37,6 +37,9 @@ public interface GameServiceService {
     BaseResp soulChou(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp shiChou(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp blessing(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp reviceblessing(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp njblessing(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start3(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp ranking(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp ranking100(TokenDto token, HttpServletRequest request) throws Exception;

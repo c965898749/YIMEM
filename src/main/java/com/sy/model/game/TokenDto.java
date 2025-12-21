@@ -15,5 +15,7 @@ public class TokenDto {
     private int remainingExp;     // 当前等级的剩余经验
     private int totalSilverSpent; // 升级消耗的总银两
     private String difficultyLevel;
+    private int tiLi;
+    private int huoLi;
     private List<List<Object>> myMap; // 接收前端的str（JSON对象 → Java Map）
 }

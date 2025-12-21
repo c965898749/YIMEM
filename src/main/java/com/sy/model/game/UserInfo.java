@@ -60,4 +60,12 @@ public class UserInfo {
     private String id;
     //
     private Integer rate;
+
+    //
+    private Integer friendStatus;
+
+
+    //
+    private Integer fbId;
+    private Integer nj;
 }

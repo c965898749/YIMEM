@@ -20,6 +20,10 @@ public class CardMaxLevelUtils {
     // 初始化特殊卡牌规则
     static {
         SPECIAL_CARD_MAP.put("女娲石", 1);
+        SPECIAL_CARD_MAP.put("幼年年兽", 1);
+        SPECIAL_CARD_MAP.put("成年年兽", 1);
+        SPECIAL_CARD_MAP.put("孤魂野鬼", 1);
+        SPECIAL_CARD_MAP.put("白无常", 1);
         SPECIAL_CARD_MAP.put("大夜明珠·紫", 1);
         SPECIAL_CARD_MAP.put("大夜明珠·蓝", 1);
         SPECIAL_CARD_MAP.put("大夜明珠·黄", 1);
