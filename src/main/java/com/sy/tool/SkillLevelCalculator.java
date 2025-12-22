@@ -46,11 +46,19 @@ public final class SkillLevelCalculator {
      * @param characterLevel 待校验的人物等级
      */
     private static void validateCharacterLevel(int characterLevel) {
-        if (characterLevel < MIN_CHARACTER_LEVEL || characterLevel > MAX_CHARACTER_LEVEL) {
-            throw new IllegalArgumentException(
-                    String.format("人物等级非法！要求范围[%d-%d]，当前输入：%d",
-                            MIN_CHARACTER_LEVEL, MAX_CHARACTER_LEVEL, characterLevel)
-            );
+        if (characterLevel < MIN_CHARACTER_LEVEL) {
+            characterLevel=1;
+//            throw new IllegalArgumentException(
+//                    String.format("人物等级非法！要求范围[%d-%d]，当前输入：%d",
+//                            MIN_CHARACTER_LEVEL, MAX_CHARACTER_LEVEL, characterLevel)
+//            );
+        }
+        if (characterLevel > MAX_CHARACTER_LEVEL) {
+            characterLevel=50;
+//            throw new IllegalArgumentException(
+//                    String.format("人物等级非法！要求范围[%d-%d]，当前输入：%d",
+//                            MIN_CHARACTER_LEVEL, MAX_CHARACTER_LEVEL, characterLevel)
+//            );
         }
     }
 

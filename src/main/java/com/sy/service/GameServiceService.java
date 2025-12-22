@@ -18,6 +18,7 @@ public interface GameServiceService {
     BaseResp getUserActivityDetail(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp pveDetail(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp participate(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp participate2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp cardLevelUp(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp stopLevel(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp cardLevelUp2(TokenDto token, HttpServletRequest request) throws Exception;

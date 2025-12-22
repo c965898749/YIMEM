@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.ActivityBossMapper">
+  <resultMap id="BaseResultMap" type="com.sy.model.game.ActivityBoss">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="go_into_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="boss_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="boss_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="detail_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="difficulty_level" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, go_into_num, boss_id, boss_name, detail_code, difficulty_level
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from activity_boss
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from activity_boss
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sy.model.game.ActivityBoss">
+    insert into activity_boss (id, go_into_num, boss_id, 
+      boss_name, detail_code, difficulty_level
+      )
+    values (#{id,jdbcType=INTEGER}, #{goIntoNum,jdbcType=INTEGER}, #{bossId,jdbcType=INTEGER}, 
+      #{bossName,jdbcType=VARCHAR}, #{detailCode,jdbcType=VARCHAR}, #{difficultyLevel,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sy.model.game.ActivityBoss">
+    insert into activity_boss
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goIntoNum != null">
+        go_into_num,
+      </if>
+      <if test="bossId != null">
+        boss_id,
+      </if>
+      <if test="bossName != null">
+        boss_name,
+      </if>
+      <if test="detailCode != null">
+        detail_code,
+      </if>
+      <if test="difficultyLevel != null">
+        difficulty_level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goIntoNum != null">
+        #{goIntoNum,jdbcType=INTEGER},
+      </if>
+      <if test="bossId != null">
+        #{bossId,jdbcType=INTEGER},
+      </if>
+      <if test="bossName != null">
+        #{bossName,jdbcType=VARCHAR},
+      </if>
+      <if test="detailCode != null">
+        #{detailCode,jdbcType=VARCHAR},
+      </if>
+      <if test="difficultyLevel != null">
+        #{difficultyLevel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.model.game.ActivityBoss">
+    update activity_boss
+    <set>
+      <if test="goIntoNum != null">
+        go_into_num = #{goIntoNum,jdbcType=INTEGER},
+      </if>
+      <if test="bossId != null">
+        boss_id = #{bossId,jdbcType=INTEGER},
+      </if>
+      <if test="bossName != null">
+        boss_name = #{bossName,jdbcType=VARCHAR},
+      </if>
+      <if test="detailCode != null">
+        detail_code = #{detailCode,jdbcType=VARCHAR},
+      </if>
+      <if test="difficultyLevel != null">
+        difficulty_level = #{difficultyLevel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.model.game.ActivityBoss">
+    update activity_boss
+    set go_into_num = #{goIntoNum,jdbcType=INTEGER},
+      boss_id = #{bossId,jdbcType=INTEGER},
+      boss_name = #{bossName,jdbcType=VARCHAR},
+      detail_code = #{detailCode,jdbcType=VARCHAR},
+      difficulty_level = #{difficultyLevel,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

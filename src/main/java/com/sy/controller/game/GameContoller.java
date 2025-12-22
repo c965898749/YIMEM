@@ -263,6 +263,26 @@ public class GameContoller {
     }
 
     /**
+     * 热门活动
+     * @param token
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "participate2", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp participate2(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.participate2(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
      * 竞技场
      * @param token
      * @param request
