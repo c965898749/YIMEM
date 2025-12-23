@@ -410,6 +410,20 @@ public class GameContoller {
         }
     }
 
+    @PostMapping("mapRanking100")
+    @CrossOrigin
+    public BaseResp mapRanking100(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.mapRanking100(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
 
     /**
      * 刷图

@@ -477,4 +477,20 @@
         order by game_ranking asc
         limit 100
     </select>
+    <select id="getMapRanking100" resultType="com.sy.model.User">
+        SELECT
+        userId,
+          chapter,
+            nickname,
+            lv,
+            game_img,
+            pd.title_name,
+            pd.jie_name,
+            pd.guan_name,
+          RANK() OVER (ORDER BY chapter DESC) AS game_ranking
+        FROM `user` ur
+        left join pve_detail pd on pd.id=ur.chapter
+        order by game_ranking asc
+        limit 100
+    </select>
 </mapper>

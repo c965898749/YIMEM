@@ -103,4 +103,8 @@ public class User {
     private Integer rate;
     private Integer fbId;
     private Integer nj;
+    //
+    private String guanName;
+    private String titleName;
+    private String jieName;
 }

@@ -2566,6 +2566,14 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp mapRanking100(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        baseResp.setData(userMapper.getMapRanking100());
+        baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    @Override
     public BaseResp start2(TokenDto token, HttpServletRequest request) throws Exception {
         Integer levelUp = 0;
         Map map = new HashMap();

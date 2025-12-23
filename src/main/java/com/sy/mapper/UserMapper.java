@@ -187,5 +187,7 @@ public interface UserMapper {
     User getMyRankig(@Param("userId")String userId);
     List<User> getMyRankig100();
 
+    List<User> getMapRanking100();
+
     List<User> findByUserIds(List<Integer> userIds);
 }

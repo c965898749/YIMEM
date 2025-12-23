@@ -44,6 +44,7 @@ public interface GameServiceService {
     BaseResp start3(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp ranking(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp ranking100(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp mapRanking100(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp jingji(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp friendAllList(TokenDto token, HttpServletRequest request) throws Exception;
