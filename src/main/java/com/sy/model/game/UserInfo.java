@@ -49,7 +49,10 @@ public class UserInfo {
     private String gameImg;
     //20251112
     private Integer tiliCount;
+    private Date tiliCountTime;
+    //20251109
     private Integer huoliCount;
+    private Date huoliCountTime;
     //20251103
     private String chapter;
     //20251104

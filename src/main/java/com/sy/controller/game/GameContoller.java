@@ -47,6 +47,7 @@ public class GameContoller {
 
     /**
      * 单抽
+     *
      * @param token
      * @param request
      * @return
@@ -67,6 +68,7 @@ public class GameContoller {
 
     /**
      * 单抽
+     *
      * @param token
      * @param request
      * @return
@@ -87,6 +89,7 @@ public class GameContoller {
 
     /**
      * 魂抽
+     *
      * @param token
      * @param request
      * @return
@@ -107,6 +110,7 @@ public class GameContoller {
 
     /**
      * 十抽
+     *
      * @param token
      * @param request
      * @return
@@ -139,6 +143,48 @@ public class GameContoller {
         }
     }
 
+    @RequestMapping(value = "updateTli", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp updateTli(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.updateTli(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    @RequestMapping(value = "updateTli3", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp updateTli3(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.updateTli3(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+
+    @RequestMapping(value = "updateTli2", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp updateTli2(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.updateTli2(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
     @RequestMapping(value = "cardLevelUp", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp cardLevelUp(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -155,6 +201,7 @@ public class GameContoller {
 
     /**
      * 强化卡牌
+     *
      * @param token
      * @param request
      * @return
@@ -187,6 +234,7 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     @RequestMapping(value = "changeName", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp changeName(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -200,6 +248,7 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     @RequestMapping(value = "pveDetail", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp pveDetail(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -213,6 +262,7 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     @RequestMapping(value = "getActivityList", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp getActivityList(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -244,6 +294,7 @@ public class GameContoller {
 
     /**
      * 七曜星活动
+     *
      * @param token
      * @param request
      * @return
@@ -264,6 +315,7 @@ public class GameContoller {
 
     /**
      * 热门活动
+     *
      * @param token
      * @param request
      * @return
@@ -284,6 +336,7 @@ public class GameContoller {
 
     /**
      * 竞技场
+     *
      * @param token
      * @param request
      * @return
@@ -305,6 +358,7 @@ public class GameContoller {
 
     /**
      * 祝福
+     *
      * @param token
      * @param request
      * @return
@@ -323,8 +377,10 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     /**
      * 收到祝福
+     *
      * @param token
      * @param request
      * @return
@@ -343,8 +399,10 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     /**
      * 收到祝福
+     *
      * @param token
      * @param request
      * @return
@@ -363,8 +421,10 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     /**
      * 好有切磋
+     *
      * @param token
      * @param request
      * @return
@@ -382,6 +442,7 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     @PostMapping("ranking")
     @CrossOrigin
     public BaseResp ranking(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -427,6 +488,7 @@ public class GameContoller {
 
     /**
      * 刷图
+     *
      * @param token
      * @param request
      * @return
@@ -444,6 +506,7 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     @PostMapping("stopLevel")
     @CrossOrigin
     public BaseResp stopLevel(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -485,6 +548,7 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     @PostMapping("invitationSend")
     @CrossOrigin
     public BaseResp invitationSend(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -498,6 +562,7 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     @PostMapping("invitationHandle")
     @CrossOrigin
     public BaseResp invitationHandle(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -595,6 +660,7 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     @PostMapping("findHechenCard")
     @CrossOrigin
     public BaseResp findHechenCard(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -623,6 +689,7 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     @PostMapping("playBattle2")
     @CrossOrigin
     public BaseResp playBattle2(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -636,6 +703,7 @@ public class GameContoller {
             return baseResp;
         }
     }
+
     @PostMapping("tuPuhenchenList")
     @CrossOrigin
     public BaseResp tuPuhenchenList(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -652,6 +720,7 @@ public class GameContoller {
 
     /**
      * 图谱合成
+     *
      * @param token
      * @param request
      * @return
