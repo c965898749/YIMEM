@@ -107,4 +107,16 @@ public class User {
     private String guanName;
     private String titleName;
     private String jieName;
+    //
+    private Date chapterTime;
+    //
+    private Integer arenaCount;
+    //
+    private Integer arenaScore;
+    private Integer weiwanCount;
+
+    private Date weiwan1Time;
+    private Date weiwan2Time;
+    private Date weiwan3Time;
+    private Date shopUpdate;
 }

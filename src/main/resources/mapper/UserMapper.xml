@@ -208,6 +208,9 @@
             <if test="chapter!=null ">
                 chapter = #{chapter},
             </if>
+            <if test="chapterTime!=null ">
+                chapter_time = #{chapterTime},
+            </if>
             <if test="lv!=null ">
                 lv = #{lv},
             </if>
@@ -232,11 +235,60 @@
             <if test="rate!=null ">
                 rate = #{rate},
             </if>
+            <if test="arenaCount!=null">
+                arena_count=#{arenaCount},
+            </if>
+            <if test="weiwanCount!=null">
+                weiwan_count=#{weiwanCount},
+            </if>
+            <if test="weiwan1Time!=null">
+                weiwan1_time=#{weiwan1Time},
+            </if>
+            <if test="weiwan2Time!=null">
+                weiwan2_time=#{weiwan2Time},
+            </if>
+            <if test="weiwan3Time!=null">
+                weiwan3_time=#{weiwan3Time},
+            </if>
+            <if test="shopUpdate!=null">
+                shop_update=#{shopUpdate},
+            </if>
+
         </set>
         where userId=#{userId}
     </update>
 
+    <update id="updateuserArena" parameterType="com.sy.model.User">
+        update user
+        <set>
+            arena_count =-1,
+        </set>
+    </update>
+    <update id="updateuserTili" parameterType="com.sy.model.User">
+    update user
+    <set>
+        <if test="tiliCount!=null ">
+            tili_count = #{tiliCount},
+        </if>
+        <if test="tiliCountTime!=null ">
+            tili_count_time = #{tiliCountTime},
+        </if>
+    </set>
+        where userId=#{userId}
+    </update>
 
+    <update id="updateuserHuoli" parameterType="com.sy.model.User">
+        update user
+        <set>
+            <if test="huoliCount!=null ">
+                huoli_count = #{huoliCount},
+            </if>
+            <if test="huoliCountTime!=null ">
+                huoli_count_time = #{huoliCountTime},
+            </if>
+        </set>
+        where userId=#{userId}
+    </update>
     <!--下方陈-->
     <!--修改用户积分-->
     <insert id="updateUserMoney">
@@ -468,6 +520,7 @@
     </select>
     <select id="getMyRankig100" resultType="com.sy.model.User">
         SELECT
+         userId,
           win_count,
             nickname,
             lv,
@@ -490,6 +543,38 @@
           RANK() OVER (ORDER BY chapter DESC) AS game_ranking
         FROM `user` ur
         left join pve_detail pd on pd.id=ur.chapter
+        order by game_ranking asc,chapter_time asc
+        limit 100
+    </select>
+
+    <select id="arenaRanking100" resultType="com.sy.model.User">
+        SELECT
+        userId,
+          chapter,
+            nickname,
+            lv,
+            game_img,
+            pd.arena_score,
+          RANK() OVER (ORDER BY arena_score DESC) AS game_ranking
+        FROM `user` ur
+        left join game_arena_signup pd on pd.user_id=ur.userId
+        where   week_num=#{weekNum} and arena_level=#{arenaLevel}
+        order by game_ranking asc,sign_up_time asc
+        limit 100
+    </select>
+
+    <select id="arenaLastRanking100" resultType="com.sy.model.User">
+        SELECT
+        userId,
+          weiwan_count,
+            nickname,
+            lv,
+            game_img,
+            pd.arena_score,
+          RANK() OVER (ORDER BY arena_score DESC) AS game_ranking
+        FROM `user` ur
+        left join game_arena_rank pd on pd.user_id=ur.userId
+        where   week_num=#{weekNum} and arena_level=#{arenaLevel}
         order by game_ranking asc
         limit 100
     </select>

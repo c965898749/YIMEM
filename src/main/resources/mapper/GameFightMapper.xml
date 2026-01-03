@@ -33,7 +33,7 @@
   </select>
     <delete id="deleteByTime"  parameterType="java.lang.Integer">
         DELETE FROM game_fight
-        WHERE createtime &lt; DATE_SUB(NOW(), INTERVAL 3 MONTH);
+        WHERE createtime &lt; DATE_SUB(NOW(), INTERVAL 1 MONTH);
     </delete>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from game_fight

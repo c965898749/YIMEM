@@ -62,6 +62,12 @@ public interface UserMapper {
     //修改用户
     int updateuser(User user);
 
+    int updateuserTili(User user);
+
+    int updateuserArena();
+
+    int updateuserHuoli(User user);
+
 
 
 
@@ -188,6 +194,10 @@ public interface UserMapper {
     List<User> getMyRankig100();
 
     List<User> getMapRanking100();
+
+    List<User> arenaRanking100(@Param("arenaLevel") Integer arenaLevel,@Param("weekNum") Integer weekNum);
+
+    List<User> arenaLastRanking100(@Param("arenaLevel") String arenaLevel,@Param("weekNum") Integer weekNum);
 
     List<User> findByUserIds(List<Integer> userIds);
 }

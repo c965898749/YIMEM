@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.GameArenaBattlecharactersMapper">
+    <update id="updateGoNuM2">
+    update  game_arena_battlecharacters
+    set go_into_num = #{num},
+      update_time= now()
+    where user_id = #{userId} and  id = #{id} and week_num =#{weekNum} and arena_level =#{arenaLevel}
+  </update>
+    <select id="findCharacters" resultType="com.sy.model.game.Characters">
+ select
+    cs.uuid,
+    cs.user_id,
+    cs.id,
+    cs.lv,
+    cd.star,
+    cs.stack_count,
+    cs.go_into_num,
+    cs.exp,
+     cs.max_lv,
+    cd.name,
+    cd.camp,
+    cd.hp_growth,
+    cd.attack_growth,
+    cd.defence_growth,
+    cd.pierce_growth,
+    cd.speed_growth,
+    cd.profession,
+    cs.is_delete,
+    cd.coll_attack,
+    cd.coll_speed,
+    cd.coll_hp,
+    cd.passive_introduce_one,
+    cd.passive_introduce_two,
+    cd.passive_introduce_three
+    from   game_arena_battlecharacters cs
+    left  join card cd on cd.id=cs.id
+    where cs.user_id = #{userId} and  cs.go_into_num &lt;&gt; 6 and  cs.go_into_num &lt;&gt; 7  and cs.is_delete='0'
+    and cs.user_id=#{userId} and  cs.week_num=#{weekNum} and cs.arena_level=#{arenaLevel}
+    </select>
+</mapper>

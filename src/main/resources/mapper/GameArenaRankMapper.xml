@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.GameArenaRankMapper">
+ <select id="getArenaRanking" resultType="java.lang.Integer">
+   SELECT
+  score_rank
+FROM
+ (
+    SELECT
+      user_id,
+      ROW_NUMBER() OVER (ORDER BY arena_score DESC) AS score_rank
+    FROM
+      game_arena_signup
+      where   week_num=#{weekNum} and arena_level=#{arenaLevel}
+  ) AS all_user_rank
+  where user_id=#{userId}
+ </select>
+</mapper>

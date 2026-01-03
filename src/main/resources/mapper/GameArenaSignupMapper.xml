@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.GameArenaSignupMapper">
+ <select id="gameArena" resultType="com.sy.model.game.GameArenaSignup">
+   SELECT *
+    FROM game_arena_signup
+    where user_id  &lt;&gt; #{userId} and week_num=#{weekNum} and arena_level=#{arenaLevel}
+    ORDER BY ABS(arena_score - #{arenaScore}) ASC  -- 按与目标值的绝对差值升序排序（差值越小越靠前）
+    LIMIT 1;  -- 取排序后的第一条数据（最接近的一条）
+ </select>
+</mapper>

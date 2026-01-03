@@ -71,4 +71,7 @@ public class UserInfo {
     //
     private Integer fbId;
     private Integer nj;
+    private Integer arenaCount;
+    private Integer weiwanCount;
+    private Date shopUpdate;
 }

@@ -27,9 +27,11 @@ public interface GameServiceService {
     BaseResp cardLevelUp2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp changerHeader(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp itemUpdate(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp arenaItemUpdate(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp danChou(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp characteSell(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp messageList(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp arenaMessageList(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp receive(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp getStore(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp buyStore(TokenDto token, HttpServletRequest request) throws Exception;
@@ -48,7 +50,10 @@ public interface GameServiceService {
     BaseResp ranking(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp ranking100(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp mapRanking100(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp arenaRanking100(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp mobai(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start2(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp start4(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp jingji(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp friendAllList(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp invitationSend(TokenDto token, HttpServletRequest request) throws Exception;
@@ -57,4 +62,9 @@ public interface GameServiceService {
     BaseResp qiangdao(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp notice(HttpServletRequest request) throws Exception;
     BaseResp playBattle2(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp isSignedUp(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp arenaSignup(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp arenaTem(TokenDto token, HttpServletRequest request) throws Exception;
+    void sendRawrd();
+    void syncLastWeekRank();
 }

@@ -1,15 +1,21 @@
 package com.sy.controller.game;
 
 import com.sy.mapper.game.GameFightMapper;
+import com.sy.service.GameServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.util.Calendar;
+import java.util.Date;
 
 @Component
 public class GameScheduled {
     //定时器
     @Autowired
     private GameFightMapper gameFightMapper;
+    @Autowired
+    private GameServiceService gameServiceService;
     /**
      * 每天定时清除游戏过多消息
      */
@@ -17,4 +23,20 @@ public class GameScheduled {
     public  void pushsite() {
         gameFightMapper.deleteByTime();
     }
+
+    @Scheduled(cron = "0 0 22 ? * 7")
+//    @Scheduled(cron = "0 0/1 * * * ?")
+    public void executeWeeklyTask() {
+        // 任务逻辑
+        System.out.println("奖励发放");
+        gameServiceService.sendRawrd();
+    }
+    @Scheduled(cron = "0 0 0 ? * MON")
+    public void arenaWeekSettle() {
+        // 1. 同步上周排名（将上周currentRank赋值到本周lastWeekRank）
+        gameServiceService.syncLastWeekRank();
+    }
+
+
+
 }

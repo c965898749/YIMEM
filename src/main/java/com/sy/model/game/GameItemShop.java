@@ -19,4 +19,6 @@ public class GameItemShop {
     private String itemDesc;
 
     private String type;
+
+    private Integer id;
 }
