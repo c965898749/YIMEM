@@ -93,6 +93,12 @@ public class GameServiceServiceImpl implements GameServiceService {
     private GameArenaBattleMapper gameArenaBattleMapper;
     @Autowired
     private GameArenaRankMapper gameArenaRankMapper;
+    @Autowired
+    private GameItemBaseMapper gameItemBaseMapper;
+    @Autowired
+    private GamePlayerBagExtMapper gamePlayerBagExtMapper;
+    @Autowired
+    private GamePlayerBagMapper gamePlayerBagMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -711,6 +717,24 @@ public class GameServiceServiceImpl implements GameServiceService {
                         characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
                         charactersMapper.insert(characters);
                     }
+                } else if ("5".equals(content.getRewardType() + "")) {
+                    Map itemMap=new HashMap();
+                    itemMap.put("item_id",content.getItemId());
+                    itemMap.put("user_id",userId);
+                    itemMap.put("is_delete","0");
+                    List<GamePlayerBag> playerBagList=gamePlayerBagMapper.selectByMap(itemMap);
+                    if (Xtool.isNotNull(playerBagList)) {
+                        GamePlayerBag playerBag=playerBagList.get(0);
+                        playerBag.setItemCount(playerBag.getItemCount() +content.getRewardAmount());
+                        gamePlayerBagMapper.updateById(playerBag);
+                    } else {
+                        GamePlayerBag playerBag=new GamePlayerBag();
+                        playerBag.setUserId(Integer.parseInt(userId));
+                        playerBag.setItemCount(content.getRewardAmount());
+                        playerBag.setGridIndex(1);
+                        playerBag.setItemId(content.getItemId());
+                        gamePlayerBagMapper.insert(playerBag);
+                    }
                 }
             }
             map.put("rewards", rewardList);
@@ -865,6 +889,24 @@ public class GameServiceServiceImpl implements GameServiceService {
                         characters.setStar(new BigDecimal(1));
                         characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
                         charactersMapper.insert(characters);
+                    }
+                }else if ("5".equals(content.getRewardType() + "")) {
+                    Map itemMap=new HashMap();
+                    itemMap.put("item_id",content.getItemId());
+                    itemMap.put("user_id",userId);
+                    itemMap.put("is_delete","0");
+                    List<GamePlayerBag> playerBagList=gamePlayerBagMapper.selectByMap(itemMap);
+                    if (Xtool.isNotNull(playerBagList)) {
+                        GamePlayerBag playerBag=playerBagList.get(0);
+                        playerBag.setItemCount(playerBag.getItemCount() +content.getRewardAmount());
+                        gamePlayerBagMapper.updateById(playerBag);
+                    } else {
+                        GamePlayerBag playerBag=new GamePlayerBag();
+                        playerBag.setUserId(Integer.parseInt(userId));
+                        playerBag.setItemCount(content.getRewardAmount());
+                        playerBag.setGridIndex(1);
+                        playerBag.setItemId(content.getItemId());
+                        gamePlayerBagMapper.insert(playerBag);
                     }
                 }
             }
@@ -1393,7 +1435,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
 
         //判断 如果是兑换礼包查询是否有兑换记录
-        if ("4".equals(gift.getGiftType())) {
+        if ("4".equals(gift.getGiftType())||"5".equals(gift.getGiftType())) {
             GameGiftExchangeCode record = new GameGiftExchangeCode();
             record.setGiftId(giftId);
             record.setUseUserId(Long.parseLong(userId));
@@ -1453,6 +1495,24 @@ public class GameServiceServiceImpl implements GameServiceService {
                     characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
                     charactersMapper.insert(characters);
                 }
+            }else if ("5".equals(content.getItemType() + "")) {
+                Map itemMap=new HashMap();
+                itemMap.put("item_id",content.getItemId());
+                itemMap.put("user_id",userId);
+                itemMap.put("is_delete","0");
+                List<GamePlayerBag> playerBagList=gamePlayerBagMapper.selectByMap(itemMap);
+                if (Xtool.isNotNull(playerBagList)) {
+                    GamePlayerBag playerBag=playerBagList.get(0);
+                    playerBag.setItemCount(playerBag.getItemCount() +content.getItemQuantity());
+                    gamePlayerBagMapper.updateById(playerBag);
+                } else {
+                    GamePlayerBag playerBag=new GamePlayerBag();
+                    playerBag.setUserId(Integer.parseInt(userId));
+                    playerBag.setItemCount(content.getItemQuantity());
+                    playerBag.setGridIndex(1);
+                    playerBag.setItemId(Integer.parseInt(content.getItemId()+""));
+                    gamePlayerBagMapper.insert(playerBag);
+                }
             }
         }
         userMapper.updateuser(user);
@@ -1488,7 +1548,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        Date date2 = new Date(System.currentTimeMillis() - 3600 * 1000); // 1小时前的时间
+        Date date2 = new Date(System.currentTimeMillis() - 1200 * 1000); // 1小时前的时间
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
         Map map=new HashMap();
         if (user.getShopUpdate()==null||(user.getShopUpdate().compareTo(date2)<0&&"1".equals(token.getStr()))){
@@ -2115,7 +2175,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
 
             //判断 如果是兑换礼包查询是否有兑换记录
-            if ("4".equals(gift.getGiftType() + "")||"2".equals(gift.getGiftType() + "")) {
+            if ("4".equals(gift.getGiftType() + "")||"2".equals(gift.getGiftType() + "")||"5".equals(gift.getGiftType() + "")) {
                 GameGiftExchangeCode record = new GameGiftExchangeCode();
                 record.setGiftId(giftId);
                 record.setUseUserId(Long.parseLong(userId));
@@ -2545,6 +2605,10 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("请勿重复祝福");
             return baseResp;
         }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        user.setHuoliCount(user.getHuoliCount()+10);
+        user.setTiliCount(user.getTiliCount()+10);
+        userMapper.updateuser(user);
         FriendBlessing friendBlessing=new FriendBlessing();
         friendBlessing.setIsRead(0);
         friendBlessing.setContent("好友祝福");
@@ -2553,7 +2617,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         friendBlessing.setSendTime(new Date());
         friendBlessingMapper.insert(friendBlessing);
         baseResp.setSuccess(1);
-        baseResp.setErrorMsg("祝福成功");
+        baseResp.setErrorMsg("仙缘祝福已送达！\n 仙友已经收到你的心意～\n 体力 + 10、活力 + 10 \n 已注入你的仙躯，可继续闯荡三界！");
         return baseResp;
     }
 
@@ -2754,6 +2818,105 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setErrorMsg("瞻仰大神风姿，幸得垂青！奖励5000金币，望君再攀高峰～");
         return baseResp;
     }
+
+    @Override
+    public BaseResp bagItemList(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        if ("1".equals(token.getStr())){
+            baseResp.setSuccess(1);
+            baseResp.setData(gamePlayerBagMapper.goIntoListById(userId));
+            return baseResp;
+        }else if ("2".equals(token.getStr())){
+
+        }else {
+
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public BaseResp useBagItem(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        Map map=new HashMap();
+        map.put("item_id",token.getId());
+        map.put("user_id",token.getUserId());
+        map.put("is_delete","0");
+        List<GamePlayerBag> playerBagList=gamePlayerBagMapper.selectByMap(map);
+        if (Xtool.isNull(playerBagList)){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("物品已用完");
+            return baseResp;
+        }
+        GamePlayerBag playerBag=playerBagList.get(0);
+        if (playerBag.getItemCount()-1>0) {
+            playerBag.setItemCount(playerBag.getItemCount() -1);
+        } else {
+            playerBag.setIsDelete("1");
+        }
+        gamePlayerBagMapper.updateById(playerBag);
+        //判断
+        if ("1".equals(token.getId())){
+            //刷新符 使用后立即重置商城刷新冷却时间
+            // 1. 原始 Date 对象
+            Date originalDate = new Date();
+            System.out.println("原始时间：" + originalDate);
+
+            // 2. 获取 Calendar 实例，并设置为原始时间
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(originalDate);
+
+            // 3. 增加 40 分钟（Calendar.MINUTE 表示分钟字段）
+            calendar.add(Calendar.MINUTE, -40); // 第二个参数为正数表示增加，负数表示减少
+
+            // 4. 获取增加后的 Date 对象
+            Date after40MinutesDate = calendar.getTime();
+            user.setShopUpdate(after40MinutesDate);
+            userMapper.updateuser(user);
+//            userMapper.updateuserShopUpdate(userId);
+
+        }else if  ("2".equals(token.getId())){
+            //活力药水 使用后立即补充100点活力
+            user.setHuoliCount(user.getHuoliCount()+100);
+            userMapper.updateuser(user);
+        }else if  ("3".equals(token.getId())){
+            //体力药水 使用后立即补充100点体力
+            user.setTiliCount(user.getTiliCount()+100);
+            userMapper.updateuser(user);
+        }
+        baseResp.setSuccess(1);
+        baseResp.setErrorMsg("使用成功");
+        return baseResp;
+    }
+
     /**
      * 判断 Date 对象是否为今天（Java 8+ 推荐方案）
      * @param date 待判断的 Date
@@ -2907,6 +3070,24 @@ public class GameServiceServiceImpl implements GameServiceService {
                         characters.setStar(new BigDecimal(1));
                         characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
                         charactersMapper.insert(characters);
+                    }
+                }else if ("5".equals(content.getRewardType() + "")) {
+                    Map itemMap=new HashMap();
+                    itemMap.put("item_id",content.getItemId());
+                    itemMap.put("user_id",userId);
+                    itemMap.put("is_delete","0");
+                    List<GamePlayerBag> playerBagList=gamePlayerBagMapper.selectByMap(itemMap);
+                    if (Xtool.isNotNull(playerBagList)) {
+                        GamePlayerBag playerBag=playerBagList.get(0);
+                        playerBag.setItemCount(playerBag.getItemCount() +content.getRewardAmount());
+                        gamePlayerBagMapper.updateById(playerBag);
+                    } else {
+                        GamePlayerBag playerBag=new GamePlayerBag();
+                        playerBag.setUserId(Integer.parseInt(userId));
+                        playerBag.setItemCount(content.getRewardAmount());
+                        playerBag.setGridIndex(1);
+                        playerBag.setItemId(content.getItemId());
+                        gamePlayerBagMapper.insert(playerBag);
                     }
                 }
             }
@@ -3910,139 +4091,139 @@ public class GameServiceServiceImpl implements GameServiceService {
 
         // 4. 获取加1个月后的Date对象
         Date nextMonthDate = calendar.getTime();
-//        if (1==1){
-//            List<User>  users =userMapper.getMyRankig100();
-//            if (1==1){
-//                String code= RandomCodeGenerator.generateUniqueCode();
-//                GameGift gameGift=new GameGift();
-//                gameGift.setGiftCode(code);
-//                gameGift.setGiftType(2);
-//                gameGift.setRemainingQuantity(-1);
-//                gameGift.setTotalQuantity(-1);
-//                gameGift.setIsActive(1);
-//                gameGift.setStartTime(new Date());
-//                gameGift.setUpdateTime(new Date());
-//                gameGift.setEndTime(nextMonthDate);
-//                gameGift.setGiftName("竞技场周排名奖励");
-//                gameGift.setDescription("恭喜少侠本周竞技场排名第一，专属排名奖励已奉上,含5000钻石+刷新符*15。");
-//                gameGift.setCreateTime(new Date());
-//                gameGiftMapper.insert(gameGift);
-//                GameGift gifts=gameGiftMapper.selectByGiftCode(code);
-//                GameGiftContent gameGiftContent=new GameGiftContent();
-//                gameGiftContent.setGiftId(gifts.getGiftId());
-//                gameGiftContent.setItemType(1);
-//                gameGiftContent.setItemQuantity(5000);
-//                gameGiftContent.setItemId(Long.parseLong(0+""));
-//                gameGiftContent.setCreateTime(new Date());
-//                gameGiftContentMapper.insert(gameGiftContent);
-//                GameGiftContent gameGiftContent2=new GameGiftContent();
-//                gameGiftContent2.setGiftId(gifts.getGiftId());
-//                gameGiftContent2.setItemType(2);
-//                gameGiftContent2.setItemQuantity(500000);
-//                gameGiftContent2.setItemId(Long.parseLong(0+""));
-//                gameGiftContent2.setCreateTime(new Date());
-//                gameGiftContentMapper.insert(gameGiftContent2);
-//                //判断 如果是兑换礼包查询是否有兑换记录
-//                GameGiftExchangeCode record = new GameGiftExchangeCode();
-//                record.setGiftId(gifts.getGiftId());
-//                record.setUseUserId(Long.parseLong(users.get(0).getUserId()+""));
-//                record.setExchangeCode(code);
-//                List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
-//                if (Xtool.isNull(codeList)) {
-//                    record.setCreateTime(new Date());
-//                    gameGiftExchangeCodeMapper.insertSelective(record);
-//                }
-//            }
-//            //生成
-//            if (1==1){
-//                String code= RandomCodeGenerator.generateUniqueCode();
-//                GameGift gameGift=new GameGift();
-//                gameGift.setGiftCode(code);
-//                gameGift.setGiftType(2);
-//                gameGift.setRemainingQuantity(-1);
-//                gameGift.setTotalQuantity(-1);
-//                gameGift.setIsActive(1);
-//                gameGift.setStartTime(new Date());
-//                gameGift.setUpdateTime(new Date());
-//                gameGift.setEndTime(nextMonthDate);
-//                gameGift.setGiftName("竞技场周排名奖励");
-//                gameGift.setDescription("恭喜少侠本周竞技场排名前 10，专属排名奖励已奉上,含2000钻石+刷新符*10。");
-//                gameGift.setCreateTime(new Date());
-//                gameGiftMapper.insert(gameGift);
-//                GameGift gifts=gameGiftMapper.selectByGiftCode(code);
-//                GameGiftContent gameGiftContent=new GameGiftContent();
-//                gameGiftContent.setGiftId(gifts.getGiftId());
-//                gameGiftContent.setItemType(1);
-//                gameGiftContent.setItemQuantity(2000);
-//                gameGiftContent.setItemId(Long.parseLong(0+""));
-//                gameGiftContent.setCreateTime(new Date());
-//                gameGiftContentMapper.insert(gameGiftContent);
-//                GameGiftContent gameGiftContent2=new GameGiftContent();
-//                gameGiftContent2.setGiftId(gifts.getGiftId());
-//                gameGiftContent2.setItemType(2);
-//                gameGiftContent2.setItemQuantity(100000);
-//                gameGiftContent2.setItemId(Long.parseLong(0+""));
-//                gameGiftContent2.setCreateTime(new Date());
-//                gameGiftContentMapper.insert(gameGiftContent2);
-//                for (int i = 1; i < 10; i++) {
-//                    //判断 如果是兑换礼包查询是否有兑换记录
-//                    GameGiftExchangeCode record = new GameGiftExchangeCode();
-//                    record.setGiftId(gifts.getGiftId());
-//                    record.setUseUserId(Long.parseLong(users.get(i).getUserId()+""));
-//                    record.setExchangeCode(code);
-//                    List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
-//                    if (Xtool.isNotNull(codeList)) {
-//                        continue;
-//                    }
-//                    record.setCreateTime(new Date());
-//                    gameGiftExchangeCodeMapper.insertSelective(record);
-//                }
-//            }
-//            if (1==1){
-//                String code= RandomCodeGenerator.generateUniqueCode();
-//                GameGift gameGift=new GameGift();
-//                gameGift.setGiftCode(code);
-//                gameGift.setGiftType(2);
-//                gameGift.setRemainingQuantity(-1);
-//                gameGift.setTotalQuantity(-1);
-//                gameGift.setIsActive(1);
-//                gameGift.setStartTime(new Date());
-//                gameGift.setUpdateTime(new Date());
-//                gameGift.setEndTime(nextMonthDate);
-//                gameGift.setGiftName("竞技场周排名奖励");
-//                gameGift.setDescription("恭喜少侠本周竞技场排名前 100，专属排名奖励已奉上,含500钻石+刷新符*5。");
-//                gameGift.setCreateTime(new Date());
-//                gameGiftMapper.insert(gameGift);
-//                GameGift gifts=gameGiftMapper.selectByGiftCode(code);
-//                GameGiftContent gameGiftContent=new GameGiftContent();
-//                gameGiftContent.setGiftId(gifts.getGiftId());
-//                gameGiftContent.setItemType(1);
-//                gameGiftContent.setItemQuantity(500);
-//                gameGiftContent.setItemId(Long.parseLong(0+""));
-//                gameGiftContent.setCreateTime(new Date());
-//                gameGiftContentMapper.insert(gameGiftContent);
-//                GameGiftContent gameGiftContent2=new GameGiftContent();
-//                gameGiftContent2.setGiftId(gifts.getGiftId());
-//                gameGiftContent2.setItemType(2);
-//                gameGiftContent2.setItemQuantity(5000);
-//                gameGiftContent2.setItemId(Long.parseLong(0+""));
-//                gameGiftContent2.setCreateTime(new Date());
-//                gameGiftContentMapper.insert(gameGiftContent2);
-//                for (int i = 11; i < 99; i++) {
-//                    //判断 如果是兑换礼包查询是否有兑换记录
-//                    GameGiftExchangeCode record = new GameGiftExchangeCode();
-//                    record.setGiftId(gifts.getGiftId());
-//                    record.setUseUserId(Long.parseLong(users.get(i).getUserId()+""));
-//                    record.setExchangeCode(code);
-//                    List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
-//                    if (Xtool.isNotNull(codeList)) {
-//                        continue;
-//                    }
-//                    record.setCreateTime(new Date());
-//                    gameGiftExchangeCodeMapper.insertSelective(record);
-//                }
-//            }
-//        }
+        if (1==1){
+            List<User>  users =userMapper.getMyRankig100();
+            if (1==1){
+                String code= RandomCodeGenerator.generateUniqueCode();
+                GameGift gameGift=new GameGift();
+                gameGift.setGiftCode(code);
+                gameGift.setGiftType(2);
+                gameGift.setRemainingQuantity(-1);
+                gameGift.setTotalQuantity(-1);
+                gameGift.setIsActive(1);
+                gameGift.setStartTime(new Date());
+                gameGift.setUpdateTime(new Date());
+                gameGift.setEndTime(nextMonthDate);
+                gameGift.setGiftName("竞技场周排名奖励");
+                gameGift.setDescription("恭喜少侠本周竞技场排名第一，专属排名奖励已奉上,含5000钻石+刷新符*15。");
+                gameGift.setCreateTime(new Date());
+                gameGiftMapper.insert(gameGift);
+                GameGift gifts=gameGiftMapper.selectByGiftCode(code);
+                GameGiftContent gameGiftContent=new GameGiftContent();
+                gameGiftContent.setGiftId(gifts.getGiftId());
+                gameGiftContent.setItemType(1);
+                gameGiftContent.setItemQuantity(5000);
+                gameGiftContent.setItemId(Long.parseLong(0+""));
+                gameGiftContent.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent);
+                GameGiftContent gameGiftContent2=new GameGiftContent();
+                gameGiftContent2.setGiftId(gifts.getGiftId());
+                gameGiftContent2.setItemType(5);
+                gameGiftContent2.setItemQuantity(15);
+                gameGiftContent2.setItemId(Long.parseLong("1"));
+                gameGiftContent2.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent2);
+                //判断 如果是兑换礼包查询是否有兑换记录
+                GameGiftExchangeCode record = new GameGiftExchangeCode();
+                record.setGiftId(gifts.getGiftId());
+                record.setUseUserId(Long.parseLong(users.get(0).getUserId()+""));
+                record.setExchangeCode(code);
+                List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+                if (Xtool.isNull(codeList)) {
+                    record.setCreateTime(new Date());
+                    gameGiftExchangeCodeMapper.insertSelective(record);
+                }
+            }
+            //生成
+            if (1==1){
+                String code= RandomCodeGenerator.generateUniqueCode();
+                GameGift gameGift=new GameGift();
+                gameGift.setGiftCode(code);
+                gameGift.setGiftType(2);
+                gameGift.setRemainingQuantity(-1);
+                gameGift.setTotalQuantity(-1);
+                gameGift.setIsActive(1);
+                gameGift.setStartTime(new Date());
+                gameGift.setUpdateTime(new Date());
+                gameGift.setEndTime(nextMonthDate);
+                gameGift.setGiftName("竞技场周排名奖励");
+                gameGift.setDescription("恭喜少侠本周竞技场排名前 10，专属排名奖励已奉上,含2000钻石+刷新符*10。");
+                gameGift.setCreateTime(new Date());
+                gameGiftMapper.insert(gameGift);
+                GameGift gifts=gameGiftMapper.selectByGiftCode(code);
+                GameGiftContent gameGiftContent=new GameGiftContent();
+                gameGiftContent.setGiftId(gifts.getGiftId());
+                gameGiftContent.setItemType(1);
+                gameGiftContent.setItemQuantity(2000);
+                gameGiftContent.setItemId(Long.parseLong(0+""));
+                gameGiftContent.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent);
+                GameGiftContent gameGiftContent2=new GameGiftContent();
+                gameGiftContent2.setGiftId(gifts.getGiftId());
+                gameGiftContent2.setItemType(5);
+                gameGiftContent2.setItemQuantity(10);
+                gameGiftContent2.setItemId(Long.parseLong("1"));
+                gameGiftContent2.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent2);
+                for (int i = 1; i < 10; i++) {
+                    //判断 如果是兑换礼包查询是否有兑换记录
+                    GameGiftExchangeCode record = new GameGiftExchangeCode();
+                    record.setGiftId(gifts.getGiftId());
+                    record.setUseUserId(Long.parseLong(users.get(i).getUserId()+""));
+                    record.setExchangeCode(code);
+                    List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+                    if (Xtool.isNotNull(codeList)) {
+                        continue;
+                    }
+                    record.setCreateTime(new Date());
+                    gameGiftExchangeCodeMapper.insertSelective(record);
+                }
+            }
+            if (1==1){
+                String code= RandomCodeGenerator.generateUniqueCode();
+                GameGift gameGift=new GameGift();
+                gameGift.setGiftCode(code);
+                gameGift.setGiftType(2);
+                gameGift.setRemainingQuantity(-1);
+                gameGift.setTotalQuantity(-1);
+                gameGift.setIsActive(1);
+                gameGift.setStartTime(new Date());
+                gameGift.setUpdateTime(new Date());
+                gameGift.setEndTime(nextMonthDate);
+                gameGift.setGiftName("竞技场周排名奖励");
+                gameGift.setDescription("恭喜少侠本周竞技场排名前 100，专属排名奖励已奉上,含500钻石+刷新符*5。");
+                gameGift.setCreateTime(new Date());
+                gameGiftMapper.insert(gameGift);
+                GameGift gifts=gameGiftMapper.selectByGiftCode(code);
+                GameGiftContent gameGiftContent=new GameGiftContent();
+                gameGiftContent.setGiftId(gifts.getGiftId());
+                gameGiftContent.setItemType(1);
+                gameGiftContent.setItemQuantity(500);
+                gameGiftContent.setItemId(Long.parseLong(0+""));
+                gameGiftContent.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent);
+                GameGiftContent gameGiftContent2=new GameGiftContent();
+                gameGiftContent2.setGiftId(gifts.getGiftId());
+                gameGiftContent2.setItemType(5);
+                gameGiftContent2.setItemQuantity(5);
+                gameGiftContent2.setItemId(Long.parseLong("1"));
+                gameGiftContent2.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent2);
+                for (int i = 11; i < 99; i++) {
+                    //判断 如果是兑换礼包查询是否有兑换记录
+                    GameGiftExchangeCode record = new GameGiftExchangeCode();
+                    record.setGiftId(gifts.getGiftId());
+                    record.setUseUserId(Long.parseLong(users.get(i).getUserId()+""));
+                    record.setExchangeCode(code);
+                    List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+                    if (Xtool.isNotNull(codeList)) {
+                        continue;
+                    }
+                    record.setCreateTime(new Date());
+                    gameGiftExchangeCodeMapper.insertSelective(record);
+                }
+            }
+        }
         Integer weekNum =ArenaWeekUtils.getCurrentUniqueWeekNum(new Date());
         userMapper.updateuserArena();
         if (1==1){
@@ -4483,139 +4664,139 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
             }
         }
-//        if (1==1){
-//            List<User>  users =userMapper.getMapRanking100();
-//            if (1==1){
-//                String code= RandomCodeGenerator.generateUniqueCode();
-//                GameGift gameGift=new GameGift();
-//                gameGift.setGiftCode(code);
-//                gameGift.setGiftType(2);
-//                gameGift.setRemainingQuantity(-1);
-//                gameGift.setTotalQuantity(-1);
-//                gameGift.setIsActive(1);
-//                gameGift.setStartTime(new Date());
-//                gameGift.setUpdateTime(new Date());
-//                gameGift.setEndTime(nextMonthDate);
-//                gameGift.setGiftName("探险周排名奖励");
-//                gameGift.setDescription("恭喜少侠本周探险排名第一，专属排名奖励已奉上,含5000钻石+刷新符*15。");
-//                gameGift.setCreateTime(new Date());
-//                gameGiftMapper.insert(gameGift);
-//                GameGift gifts=gameGiftMapper.selectByGiftCode(code);
-//                GameGiftContent gameGiftContent=new GameGiftContent();
-//                gameGiftContent.setGiftId(gifts.getGiftId());
-//                gameGiftContent.setItemType(1);
-//                gameGiftContent.setItemQuantity(5000);
-//                gameGiftContent.setItemId(Long.parseLong(0+""));
-//                gameGiftContent.setCreateTime(new Date());
-//                gameGiftContentMapper.insert(gameGiftContent);
-//                GameGiftContent gameGiftContent2=new GameGiftContent();
-//                gameGiftContent2.setGiftId(gifts.getGiftId());
-//                gameGiftContent2.setItemType(2);
-//                gameGiftContent2.setItemQuantity(500000);
-//                gameGiftContent2.setItemId(Long.parseLong(0+""));
-//                gameGiftContent2.setCreateTime(new Date());
-//                gameGiftContentMapper.insert(gameGiftContent2);
-//                //判断 如果是兑换礼包查询是否有兑换记录
-//                GameGiftExchangeCode record = new GameGiftExchangeCode();
-//                record.setGiftId(gifts.getGiftId());
-//                record.setUseUserId(Long.parseLong(users.get(0).getUserId()+""));
-//                record.setExchangeCode(code);
-//                List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
-//                if (Xtool.isNull(codeList)) {
-//                    record.setCreateTime(new Date());
-//                    gameGiftExchangeCodeMapper.insertSelective(record);
-//                }
-//            }
-//            //生成
-//            if (1==1){
-//                String code= RandomCodeGenerator.generateUniqueCode();
-//                GameGift gameGift=new GameGift();
-//                gameGift.setGiftCode(code);
-//                gameGift.setGiftType(2);
-//                gameGift.setRemainingQuantity(-1);
-//                gameGift.setTotalQuantity(-1);
-//                gameGift.setIsActive(1);
-//                gameGift.setStartTime(new Date());
-//                gameGift.setUpdateTime(new Date());
-//                gameGift.setEndTime(nextMonthDate);
-//                gameGift.setGiftName("探险周排名奖励");
-//                gameGift.setDescription("恭喜少侠本周探险排名前 10，专属排名奖励已奉上,含2000钻石+刷新符*10。");
-//                gameGift.setCreateTime(new Date());
-//                gameGiftMapper.insert(gameGift);
-//                GameGift gifts=gameGiftMapper.selectByGiftCode(code);
-//                GameGiftContent gameGiftContent=new GameGiftContent();
-//                gameGiftContent.setGiftId(gifts.getGiftId());
-//                gameGiftContent.setItemType(1);
-//                gameGiftContent.setItemQuantity(2000);
-//                gameGiftContent.setItemId(Long.parseLong(0+""));
-//                gameGiftContent.setCreateTime(new Date());
-//                gameGiftContentMapper.insert(gameGiftContent);
-//                GameGiftContent gameGiftContent2=new GameGiftContent();
-//                gameGiftContent2.setGiftId(gifts.getGiftId());
-//                gameGiftContent2.setItemType(2);
-//                gameGiftContent2.setItemQuantity(100000);
-//                gameGiftContent2.setItemId(Long.parseLong(0+""));
-//                gameGiftContent2.setCreateTime(new Date());
-//                gameGiftContentMapper.insert(gameGiftContent2);
-//                for (int i = 1; i < 10; i++) {
-//                    //判断 如果是兑换礼包查询是否有兑换记录
-//                    GameGiftExchangeCode record = new GameGiftExchangeCode();
-//                    record.setGiftId(gifts.getGiftId());
-//                    record.setUseUserId(Long.parseLong(users.get(i).getUserId()+""));
-//                    record.setExchangeCode(code);
-//                    List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
-//                    if (Xtool.isNotNull(codeList)) {
-//                        continue;
-//                    }
-//                    record.setCreateTime(new Date());
-//                    gameGiftExchangeCodeMapper.insertSelective(record);
-//                }
-//            }
-//            if (1==1){
-//                String code= RandomCodeGenerator.generateUniqueCode();
-//                GameGift gameGift=new GameGift();
-//                gameGift.setGiftCode(code);
-//                gameGift.setGiftType(2);
-//                gameGift.setRemainingQuantity(-1);
-//                gameGift.setTotalQuantity(-1);
-//                gameGift.setIsActive(1);
-//                gameGift.setStartTime(new Date());
-//                gameGift.setUpdateTime(new Date());
-//                gameGift.setEndTime(nextMonthDate);
-//                gameGift.setGiftName("探险周排名奖励");
-//                gameGift.setDescription("恭喜少侠本周探险排名前 100，专属排名奖励已奉上,含500钻石+刷新符*5。");
-//                gameGift.setCreateTime(new Date());
-//                gameGiftMapper.insert(gameGift);
-//                GameGift gifts=gameGiftMapper.selectByGiftCode(code);
-//                GameGiftContent gameGiftContent=new GameGiftContent();
-//                gameGiftContent.setGiftId(gifts.getGiftId());
-//                gameGiftContent.setItemType(1);
-//                gameGiftContent.setItemQuantity(500);
-//                gameGiftContent.setItemId(Long.parseLong(0+""));
-//                gameGiftContent.setCreateTime(new Date());
-//                gameGiftContentMapper.insert(gameGiftContent);
-//                GameGiftContent gameGiftContent2=new GameGiftContent();
-//                gameGiftContent2.setGiftId(gifts.getGiftId());
-//                gameGiftContent2.setItemType(2);
-//                gameGiftContent2.setItemQuantity(5000);
-//                gameGiftContent2.setItemId(Long.parseLong(0+""));
-//                gameGiftContent2.setCreateTime(new Date());
-//                gameGiftContentMapper.insert(gameGiftContent2);
-//                for (int i = 11; i < 99; i++) {
-//                    //判断 如果是兑换礼包查询是否有兑换记录
-//                    GameGiftExchangeCode record = new GameGiftExchangeCode();
-//                    record.setGiftId(gifts.getGiftId());
-//                    record.setUseUserId(Long.parseLong(users.get(i).getUserId()+""));
-//                    record.setExchangeCode(code);
-//                    List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
-//                    if (Xtool.isNotNull(codeList)) {
-//                        continue;
-//                    }
-//                    record.setCreateTime(new Date());
-//                    gameGiftExchangeCodeMapper.insertSelective(record);
-//                }
-//            }
-//        }
+        if (1==1){
+            List<User>  users =userMapper.getMapRanking100();
+            if (1==1){
+                String code= RandomCodeGenerator.generateUniqueCode();
+                GameGift gameGift=new GameGift();
+                gameGift.setGiftCode(code);
+                gameGift.setGiftType(2);
+                gameGift.setRemainingQuantity(-1);
+                gameGift.setTotalQuantity(-1);
+                gameGift.setIsActive(1);
+                gameGift.setStartTime(new Date());
+                gameGift.setUpdateTime(new Date());
+                gameGift.setEndTime(nextMonthDate);
+                gameGift.setGiftName("探险周排名奖励");
+                gameGift.setDescription("恭喜少侠本周探险排名第一，专属排名奖励已奉上,含5000钻石+刷新符*15。");
+                gameGift.setCreateTime(new Date());
+                gameGiftMapper.insert(gameGift);
+                GameGift gifts=gameGiftMapper.selectByGiftCode(code);
+                GameGiftContent gameGiftContent=new GameGiftContent();
+                gameGiftContent.setGiftId(gifts.getGiftId());
+                gameGiftContent.setItemType(1);
+                gameGiftContent.setItemQuantity(5000);
+                gameGiftContent.setItemId(Long.parseLong(0+""));
+                gameGiftContent.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent);
+                GameGiftContent gameGiftContent2=new GameGiftContent();
+                gameGiftContent2.setGiftId(gifts.getGiftId());
+                gameGiftContent2.setItemType(5);
+                gameGiftContent2.setItemQuantity(15);
+                gameGiftContent2.setItemId(Long.parseLong("1"));
+                gameGiftContent2.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent2);
+                //判断 如果是兑换礼包查询是否有兑换记录
+                GameGiftExchangeCode record = new GameGiftExchangeCode();
+                record.setGiftId(gifts.getGiftId());
+                record.setUseUserId(Long.parseLong(users.get(0).getUserId()+""));
+                record.setExchangeCode(code);
+                List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+                if (Xtool.isNull(codeList)) {
+                    record.setCreateTime(new Date());
+                    gameGiftExchangeCodeMapper.insertSelective(record);
+                }
+            }
+            //生成
+            if (1==1){
+                String code= RandomCodeGenerator.generateUniqueCode();
+                GameGift gameGift=new GameGift();
+                gameGift.setGiftCode(code);
+                gameGift.setGiftType(2);
+                gameGift.setRemainingQuantity(-1);
+                gameGift.setTotalQuantity(-1);
+                gameGift.setIsActive(1);
+                gameGift.setStartTime(new Date());
+                gameGift.setUpdateTime(new Date());
+                gameGift.setEndTime(nextMonthDate);
+                gameGift.setGiftName("探险周排名奖励");
+                gameGift.setDescription("恭喜少侠本周探险排名前 10，专属排名奖励已奉上,含2000钻石+刷新符*10。");
+                gameGift.setCreateTime(new Date());
+                gameGiftMapper.insert(gameGift);
+                GameGift gifts=gameGiftMapper.selectByGiftCode(code);
+                GameGiftContent gameGiftContent=new GameGiftContent();
+                gameGiftContent.setGiftId(gifts.getGiftId());
+                gameGiftContent.setItemType(1);
+                gameGiftContent.setItemQuantity(2000);
+                gameGiftContent.setItemId(Long.parseLong(0+""));
+                gameGiftContent.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent);
+                GameGiftContent gameGiftContent2=new GameGiftContent();
+                gameGiftContent2.setGiftId(gifts.getGiftId());
+                gameGiftContent2.setItemType(5);
+                gameGiftContent2.setItemQuantity(10);
+                gameGiftContent2.setItemId(Long.parseLong("1"));
+                gameGiftContent2.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent2);
+                for (int i = 1; i < 10; i++) {
+                    //判断 如果是兑换礼包查询是否有兑换记录
+                    GameGiftExchangeCode record = new GameGiftExchangeCode();
+                    record.setGiftId(gifts.getGiftId());
+                    record.setUseUserId(Long.parseLong(users.get(i).getUserId()+""));
+                    record.setExchangeCode(code);
+                    List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+                    if (Xtool.isNotNull(codeList)) {
+                        continue;
+                    }
+                    record.setCreateTime(new Date());
+                    gameGiftExchangeCodeMapper.insertSelective(record);
+                }
+            }
+            if (1==1){
+                String code= RandomCodeGenerator.generateUniqueCode();
+                GameGift gameGift=new GameGift();
+                gameGift.setGiftCode(code);
+                gameGift.setGiftType(2);
+                gameGift.setRemainingQuantity(-1);
+                gameGift.setTotalQuantity(-1);
+                gameGift.setIsActive(1);
+                gameGift.setStartTime(new Date());
+                gameGift.setUpdateTime(new Date());
+                gameGift.setEndTime(nextMonthDate);
+                gameGift.setGiftName("探险周排名奖励");
+                gameGift.setDescription("恭喜少侠本周探险排名前 100，专属排名奖励已奉上,含500钻石+刷新符*5。");
+                gameGift.setCreateTime(new Date());
+                gameGiftMapper.insert(gameGift);
+                GameGift gifts=gameGiftMapper.selectByGiftCode(code);
+                GameGiftContent gameGiftContent=new GameGiftContent();
+                gameGiftContent.setGiftId(gifts.getGiftId());
+                gameGiftContent.setItemType(1);
+                gameGiftContent.setItemQuantity(500);
+                gameGiftContent.setItemId(Long.parseLong(0+""));
+                gameGiftContent.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent);
+                GameGiftContent gameGiftContent2=new GameGiftContent();
+                gameGiftContent2.setGiftId(gifts.getGiftId());
+                gameGiftContent2.setItemType(5);
+                gameGiftContent2.setItemQuantity(5);
+                gameGiftContent2.setItemId(Long.parseLong("1"));
+                gameGiftContent2.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent2);
+                for (int i = 11; i < 99; i++) {
+                    //判断 如果是兑换礼包查询是否有兑换记录
+                    GameGiftExchangeCode record = new GameGiftExchangeCode();
+                    record.setGiftId(gifts.getGiftId());
+                    record.setUseUserId(Long.parseLong(users.get(i).getUserId()+""));
+                    record.setExchangeCode(code);
+                    List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+                    if (Xtool.isNotNull(codeList)) {
+                        continue;
+                    }
+                    record.setCreateTime(new Date());
+                    gameGiftExchangeCodeMapper.insertSelective(record);
+                }
+            }
+        }
     }
 
     @Override

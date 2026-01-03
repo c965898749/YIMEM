@@ -200,4 +200,6 @@ public interface UserMapper {
     List<User> arenaLastRanking100(@Param("arenaLevel") String arenaLevel,@Param("weekNum") Integer weekNum);
 
     List<User> findByUserIds(List<Integer> userIds);
+
+    int updateuserShopUpdate(@Param("userId")String userId);
 }

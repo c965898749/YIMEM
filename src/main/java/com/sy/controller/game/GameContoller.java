@@ -913,6 +913,32 @@ public class GameContoller {
             return baseResp;
         }
     }
+    @PostMapping("bagItemList")
+    @CrossOrigin
+    public BaseResp bagItemList(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.bagItemList(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
 
+    @PostMapping("useBagItem")
+    @CrossOrigin
+    public BaseResp useBagItem(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.useBagItem(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
 
 }

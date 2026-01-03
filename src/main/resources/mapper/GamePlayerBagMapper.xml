@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.GamePlayerBagMapper">
+    <select id="goIntoListById" resultType="com.sy.model.game.GamePlayerBag">
+       SELECT gib.item_name,
+        gib.description,
+        gib.icon,
+        gpb.item_count,
+        gpb.item_id
+        FROM game_player_bag gpb
+        left join game_item_base gib on gib.item_id =gpb.item_id
+        where gpb.user_id=#{userId} and gpb.is_delete='0'
+    </select>
+</mapper>

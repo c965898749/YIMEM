@@ -578,4 +578,12 @@
         order by game_ranking asc
         limit 100
     </select>
+
+    <update id="updateuserShopUpdate">
+        update user
+        <set>
+            shop_update=null
+        </set>
+        where userId=#{userId}
+    </update>
 </mapper>

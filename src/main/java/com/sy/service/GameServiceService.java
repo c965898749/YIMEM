@@ -52,6 +52,8 @@ public interface GameServiceService {
     BaseResp mapRanking100(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp arenaRanking100(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp mobai(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp bagItemList(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp useBagItem(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start4(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp jingji(TokenDto token, HttpServletRequest request) throws Exception;
