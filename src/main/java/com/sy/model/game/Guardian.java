@@ -18,6 +18,7 @@ public class Guardian {
     private int buffStacks;
     private int buffLuoShens;
     private int buffNianShous;
+    private int buffRandengs;
     private Map<EffectType, Integer> effects;
 
     // 构造函数
@@ -90,8 +91,10 @@ public class Guardian {
     public int getBuffStacks() { return buffStacks; }
     public int getBuffLuoShens() { return buffLuoShens; }
     public int getBuffNianShous() { return buffNianShous; }
+    public int getBuffRandengs() { return buffRandengs; }
     public void setBuffStacks(int buffStacks) { this.buffStacks = buffStacks; }
     public void setBuffLuoShens(int buffLuoShens) { this.buffLuoShens = buffLuoShens; }
+    public void setBuffRandengs(int buffRandengs) { this.buffRandengs = buffRandengs; }
     public void setBuffNianShous(int buffNianShous) { this.buffNianShous = buffNianShous; }
     public Map<EffectType, Integer> getEffects() { return effects; }
 }

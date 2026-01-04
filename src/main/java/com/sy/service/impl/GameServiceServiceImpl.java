@@ -99,6 +99,8 @@ public class GameServiceServiceImpl implements GameServiceService {
     private GamePlayerBagExtMapper gamePlayerBagExtMapper;
     @Autowired
     private GamePlayerBagMapper gamePlayerBagMapper;
+    @Autowired
+    private GameItemPlayShopMapper gameItemPlayShopMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -1583,6 +1585,16 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp getStore2(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        baseResp.setSuccess(1);
+        List<GameItemPlayShop> gameItemShopList = gameItemPlayShopMapper.selectAll();
+        baseResp.setData(gameItemShopList);
+        baseResp.setErrorMsg("成功");
+        return baseResp;
+    }
+
+    @Override
     public BaseResp buyStore(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -1639,6 +1651,75 @@ public class GameServiceServiceImpl implements GameServiceService {
             characters.setStar(new BigDecimal(1));
             characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
             charactersMapper.insert(characters);
+        }
+        userMapper.updateuser(user);
+        baseResp.setSuccess(1);
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        //获取卡牌数据
+        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+        info.setCharacterList(characterList);
+        baseResp.setData(info);
+        baseResp.setSuccess(1);
+        baseResp.setErrorMsg("领取成功");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp buyStore2(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        GameItemPlayShop gameItemShop = gameItemPlayShopMapper.selectById(token.getId());
+        if (gameItemShop == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("商品不存在或已下架");
+            return baseResp;
+        }
+        if (gameItemShop.getGoldEdgePrice() != 0) {
+            BigDecimal gold = user.getGold().subtract(new BigDecimal(gameItemShop.getGoldEdgePrice()).multiply(new BigDecimal(token.getStr())));
+            if (gold.compareTo(BigDecimal.ZERO) < 0) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("银两不足");
+                return baseResp;
+            }
+            user.setGold(gold);
+        } else {
+            BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(gameItemShop.getGemPrice()).multiply(new BigDecimal(token.getStr())));
+            if (diamond.compareTo(BigDecimal.ZERO) < 0) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("钻石不足");
+                return baseResp;
+            }
+            user.setDiamond(diamond);
+        }
+        Map itemMap=new HashMap();
+        itemMap.put("item_id",token.getId());
+        itemMap.put("user_id",userId);
+        itemMap.put("is_delete","0");
+        List<GamePlayerBag> playerBagList=gamePlayerBagMapper.selectByMap(itemMap);
+        if (Xtool.isNotNull(playerBagList)) {
+            GamePlayerBag playerBag=playerBagList.get(0);
+            playerBag.setItemCount(playerBag.getItemCount() +Integer.parseInt(token.getStr()));
+            gamePlayerBagMapper.updateById(playerBag);
+        } else {
+            GamePlayerBag playerBag=new GamePlayerBag();
+            playerBag.setUserId(Integer.parseInt(userId));
+            playerBag.setItemCount(Integer.parseInt(token.getStr()));
+            playerBag.setGridIndex(1);
+            playerBag.setItemId(Integer.parseInt(token.getId()));
+            gamePlayerBagMapper.insert(playerBag);
         }
         userMapper.updateuser(user);
         baseResp.setSuccess(1);
@@ -2911,6 +2992,170 @@ public class GameServiceServiceImpl implements GameServiceService {
             //体力药水 使用后立即补充100点体力
             user.setTiliCount(user.getTiliCount()+100);
             userMapper.updateuser(user);
+        }else if  ("4".equals(token.getId())){
+            //体活力补给包 内含活力药水*2 瓶 + 刷新券*2 ，快速回满活力，畅玩竞技场无压力！
+            if (1==1){
+                Map itemMap=new HashMap();
+                itemMap.put("item_id",1);
+                itemMap.put("user_id",userId);
+                itemMap.put("is_delete","0");
+                List<GamePlayerBag> playerBags=gamePlayerBagMapper.selectByMap(itemMap);
+                if (Xtool.isNotNull(playerBags)) {
+                    GamePlayerBag gamePlayerBag=playerBags.get(0);
+                    gamePlayerBag.setItemCount(gamePlayerBag.getItemCount() +2);
+                    gamePlayerBagMapper.updateById(gamePlayerBag);
+                } else {
+                    GamePlayerBag gamePlayerBag=new GamePlayerBag();
+                    gamePlayerBag.setUserId(Integer.parseInt(userId));
+                    gamePlayerBag.setItemCount(2);
+                    gamePlayerBag.setGridIndex(1);
+                    gamePlayerBag.setItemId(1);
+                    gamePlayerBagMapper.insert(gamePlayerBag);
+                }
+            }
+            if (1==1){
+                Map itemMap=new HashMap();
+                itemMap.put("item_id",2);
+                itemMap.put("user_id",userId);
+                itemMap.put("is_delete","0");
+                List<GamePlayerBag> playerBags=gamePlayerBagMapper.selectByMap(itemMap);
+                if (Xtool.isNotNull(playerBags)) {
+                    GamePlayerBag gamePlayerBag=playerBags.get(0);
+                    gamePlayerBag.setItemCount(gamePlayerBag.getItemCount() +2);
+                    gamePlayerBagMapper.updateById(gamePlayerBag);
+                } else {
+                    GamePlayerBag gamePlayerBag=new GamePlayerBag();
+                    gamePlayerBag.setUserId(Integer.parseInt(userId));
+                    gamePlayerBag.setItemCount(2);
+                    gamePlayerBag.setGridIndex(1);
+                    gamePlayerBag.setItemId(2);
+                    gamePlayerBagMapper.insert(gamePlayerBag);
+                }
+            }
+
+        }else if  ("5".equals(token.getId())){
+            //体力续航包 内含体力药水*2 瓶 + 刷新券*2 ，快速回满体力，畅刷副本无压力！
+            if (1==1){
+                Map itemMap=new HashMap();
+                itemMap.put("item_id",1);
+                itemMap.put("user_id",userId);
+                itemMap.put("is_delete","0");
+                List<GamePlayerBag> playerBags=gamePlayerBagMapper.selectByMap(itemMap);
+                if (Xtool.isNotNull(playerBags)) {
+                    GamePlayerBag gamePlayerBag=playerBags.get(0);
+                    gamePlayerBag.setItemCount(gamePlayerBag.getItemCount() +2);
+                    gamePlayerBagMapper.updateById(gamePlayerBag);
+                } else {
+                    GamePlayerBag gamePlayerBag=new GamePlayerBag();
+                    gamePlayerBag.setUserId(Integer.parseInt(userId));
+                    gamePlayerBag.setItemCount(2);
+                    gamePlayerBag.setGridIndex(1);
+                    gamePlayerBag.setItemId(1);
+                    gamePlayerBagMapper.insert(gamePlayerBag);
+                }
+            }
+            if (1==1){
+                Map itemMap=new HashMap();
+                itemMap.put("item_id",3);
+                itemMap.put("user_id",userId);
+                itemMap.put("is_delete","0");
+                List<GamePlayerBag> playerBags=gamePlayerBagMapper.selectByMap(itemMap);
+                if (Xtool.isNotNull(playerBags)) {
+                    GamePlayerBag gamePlayerBag=playerBags.get(0);
+                    gamePlayerBag.setItemCount(gamePlayerBag.getItemCount() +2);
+                    gamePlayerBagMapper.updateById(gamePlayerBag);
+                } else {
+                    GamePlayerBag gamePlayerBag=new GamePlayerBag();
+                    gamePlayerBag.setUserId(Integer.parseInt(userId));
+                    gamePlayerBag.setItemCount(2);
+                    gamePlayerBag.setGridIndex(1);
+                    gamePlayerBag.setItemId(3);
+                    gamePlayerBagMapper.insert(gamePlayerBag);
+                }
+            }
+
+        }else if  ("6".equals(token.getId())){
+            //活力袋 内含活力药水*1 瓶 + 刷新券*1 ，快速回满体力，畅玩竞技场无压力！
+            if (1==1){
+                Map itemMap=new HashMap();
+                itemMap.put("item_id",1);
+                itemMap.put("user_id",userId);
+                itemMap.put("is_delete","0");
+                List<GamePlayerBag> playerBags=gamePlayerBagMapper.selectByMap(itemMap);
+                if (Xtool.isNotNull(playerBags)) {
+                    GamePlayerBag gamePlayerBag=playerBags.get(0);
+                    gamePlayerBag.setItemCount(gamePlayerBag.getItemCount() +1);
+                    gamePlayerBagMapper.updateById(gamePlayerBag);
+                } else {
+                    GamePlayerBag gamePlayerBag=new GamePlayerBag();
+                    gamePlayerBag.setUserId(Integer.parseInt(userId));
+                    gamePlayerBag.setItemCount(1);
+                    gamePlayerBag.setGridIndex(1);
+                    gamePlayerBag.setItemId(1);
+                    gamePlayerBagMapper.insert(gamePlayerBag);
+                }
+            }
+            if (1==1){
+                Map itemMap=new HashMap();
+                itemMap.put("item_id",2);
+                itemMap.put("user_id",userId);
+                itemMap.put("is_delete","0");
+                List<GamePlayerBag> playerBags=gamePlayerBagMapper.selectByMap(itemMap);
+                if (Xtool.isNotNull(playerBags)) {
+                    GamePlayerBag gamePlayerBag=playerBags.get(0);
+                    gamePlayerBag.setItemCount(gamePlayerBag.getItemCount() +1);
+                    gamePlayerBagMapper.updateById(gamePlayerBag);
+                } else {
+                    GamePlayerBag gamePlayerBag=new GamePlayerBag();
+                    gamePlayerBag.setUserId(Integer.parseInt(userId));
+                    gamePlayerBag.setItemCount(1);
+                    gamePlayerBag.setGridIndex(1);
+                    gamePlayerBag.setItemId(2);
+                    gamePlayerBagMapper.insert(gamePlayerBag);
+                }
+            }
+
+        }else if  ("7".equals(token.getId())){
+            //体力续航包 内含体力药水*1 瓶 + 刷新券*1 ，快速回满体力，畅刷副本无压力！
+            if (1==1){
+                Map itemMap=new HashMap();
+                itemMap.put("item_id",1);
+                itemMap.put("user_id",userId);
+                itemMap.put("is_delete","0");
+                List<GamePlayerBag> playerBags=gamePlayerBagMapper.selectByMap(itemMap);
+                if (Xtool.isNotNull(playerBags)) {
+                    GamePlayerBag gamePlayerBag=playerBags.get(0);
+                    gamePlayerBag.setItemCount(gamePlayerBag.getItemCount() +1);
+                    gamePlayerBagMapper.updateById(gamePlayerBag);
+                } else {
+                    GamePlayerBag gamePlayerBag=new GamePlayerBag();
+                    gamePlayerBag.setUserId(Integer.parseInt(userId));
+                    gamePlayerBag.setItemCount(2);
+                    gamePlayerBag.setGridIndex(1);
+                    gamePlayerBag.setItemId(1);
+                    gamePlayerBagMapper.insert(gamePlayerBag);
+                }
+            }
+            if (1==1){
+                Map itemMap=new HashMap();
+                itemMap.put("item_id",3);
+                itemMap.put("user_id",userId);
+                itemMap.put("is_delete","0");
+                List<GamePlayerBag> playerBags=gamePlayerBagMapper.selectByMap(itemMap);
+                if (Xtool.isNotNull(playerBags)) {
+                    GamePlayerBag gamePlayerBag=playerBags.get(0);
+                    gamePlayerBag.setItemCount(gamePlayerBag.getItemCount() +1);
+                    gamePlayerBagMapper.updateById(gamePlayerBag);
+                } else {
+                    GamePlayerBag gamePlayerBag=new GamePlayerBag();
+                    gamePlayerBag.setUserId(Integer.parseInt(userId));
+                    gamePlayerBag.setItemCount(1);
+                    gamePlayerBag.setGridIndex(1);
+                    gamePlayerBag.setItemId(3);
+                    gamePlayerBagMapper.insert(gamePlayerBag);
+                }
+            }
+
         }
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("使用成功");
@@ -3031,8 +3276,11 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
             battle.setChapter(num1 + "-" + num2 + "-" + num3);
             if (!isCandidateGreater(battle.getChapter(), user.getChapter())) {
+                if (!battle.getChapter().equals(user.getChapter())){
+                    user.setChapterTime(new Date());
+                }
                 user.setChapter(battle.getChapter());
-                user.setChapterTime(new Date());
+
             }
             List<PveReward> pveRewardsAll = pveRewardMapper.selectByMap(map1);
             List<PveReward> pveRewards = new ArrayList<>();
@@ -3407,12 +3655,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         //判断好友是否上限
-        if (friendRelationMapper.findCount(userId) >= 40) {
+        if (friendRelationMapper.findCount(userId) >= 100) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("你的好友已上限");
             return baseResp;
         }
-        if (friendRelationMapper.findCount(token.getUserId()) >= 40) {
+        if (friendRelationMapper.findCount(token.getUserId()) >= 100) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("对方好友已上限");
             return baseResp;

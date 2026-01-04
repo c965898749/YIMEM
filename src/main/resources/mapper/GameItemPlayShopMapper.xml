@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.GameItemPlayShopMapper">
+    <select id="selectAll" resultType="com.sy.model.game.GameItemPlayShop">
+        SELECT
+        gips.item_id,
+        gib.item_name,
+        gib.icon,
+        gib.description,
+        gips.gem_price
+        FROM game_item_play_shop gips
+        LEFT JOIN game_item_base gib on gib.item_id= gips.item_id
+    </select>
+</mapper>

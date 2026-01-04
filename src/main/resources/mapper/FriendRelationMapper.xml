@@ -9,7 +9,7 @@
     <select id="findByUserid"  resultType="com.sy.model.game.FriendRelation">
     select *   from friend_relation
     where
-    user_id = #{userId} and friend_id = #{friendId}
+    user_id = #{userId}
   </select>
     <select id="findByid"  resultType="com.sy.model.User">
              SELECT u.*,fr.id,fb.id as fbId,fb2.is_read as nj FROM `user` u
