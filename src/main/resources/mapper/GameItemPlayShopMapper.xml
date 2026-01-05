@@ -7,7 +7,8 @@
         gib.item_name,
         gib.icon,
         gib.description,
-        gips.gem_price
+        gips.gem_price,
+        gips.stock
         FROM game_item_play_shop gips
         LEFT JOIN game_item_base gib on gib.item_id= gips.item_id
     </select>

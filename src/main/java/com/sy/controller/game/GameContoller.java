@@ -680,7 +680,12 @@ public class GameContoller {
             return baseResp;
         }
     }
-
+    /**
+     * 购买
+     * @param token
+     * @param request
+     * @return
+     */
     @PostMapping("buyStore")
     @CrossOrigin
     public BaseResp buyStore(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -695,6 +700,12 @@ public class GameContoller {
         }
     }
 
+    /**
+     * 购买
+     * @param token
+     * @param request
+     * @return
+     */
     @PostMapping("buyStore2")
     @CrossOrigin
     public BaseResp buyStore2(@RequestBody TokenDto token, HttpServletRequest request) {

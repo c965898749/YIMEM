@@ -101,6 +101,8 @@ public class GameServiceServiceImpl implements GameServiceService {
     private GamePlayerBagMapper gamePlayerBagMapper;
     @Autowired
     private GameItemPlayShopMapper gameItemPlayShopMapper;
+    @Autowired
+    private GameShopRecordMapper gameShopRecordMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -1666,6 +1668,7 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    @Transactional
     public BaseResp buyStore2(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -1704,6 +1707,27 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
             user.setDiamond(diamond);
         }
+        //先判断物品是否存在
+        GameItemPlayShop gameItemPlayShop=gameItemPlayShopMapper.selectById(token.getId());
+        if (gameItemPlayShop==null){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("购买物品不存在或已下架");
+            return baseResp;
+        }
+        if (gameItemPlayShop.getStock()>0){
+            Integer num=gameItemPlayShop.getStock()-gameShopRecordMapper.isRecord(userId,token.getId());
+            if (num==0){
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("您已达该商品限购上限，感谢支持！");
+                return baseResp;
+            }
+            if (Integer.parseInt(token.getStr())>num){
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("您最多还能购买 "+num+" 个该商品，请调整购买数量后重试");
+                return baseResp;
+            }
+//            if (gameShopRecordMapper.isRecord(userId)>=);
+        }
         Map itemMap=new HashMap();
         itemMap.put("item_id",token.getId());
         itemMap.put("user_id",userId);
@@ -1721,6 +1745,11 @@ public class GameServiceServiceImpl implements GameServiceService {
             playerBag.setItemId(Integer.parseInt(token.getId()));
             gamePlayerBagMapper.insert(playerBag);
         }
+        GameShopRecord gameShopRecord=new GameShopRecord();
+        gameShopRecord.setNum(Integer.parseInt(token.getStr()));
+        gameShopRecord.setUserId(Integer.parseInt(userId));
+        gameShopRecord.setItemId(Integer.parseInt(token.getId()));
+        gameShopRecordMapper.insert(gameShopRecord);
         userMapper.updateuser(user);
         baseResp.setSuccess(1);
         UserInfo info = new UserInfo();
@@ -3845,7 +3874,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
         }
 
-        if ("不动如山1".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==1){
+        if ("不动如山1".equals(character.getPassiveIntroduceThree())&&"不动如山2".equals(character.getPassiveIntroduceTwo())&&characters.getGoIntoNum()==1){
             int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
 //                453点生命上限，158点攻击，158点速度。
             if (Xtool.isNotNull(characters.getCollHp())){
@@ -3860,7 +3889,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
         }
 
-        if ("不动如山2".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==2){
+        if ("不动如山2".equals(character.getPassiveIntroduceThree())&&"不动如山2".equals(character.getPassiveIntroduceTwo())&&characters.getGoIntoNum()==2){
             int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
 //                453点生命上限，158点攻击，158点速度。
             if (Xtool.isNotNull(characters.getCollHp())){
@@ -3875,7 +3904,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
         }
 
-        if ("不动如山3".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==3){
+        if ("不动如山3".equals(character.getPassiveIntroduceThree())&&"不动如山2".equals(character.getPassiveIntroduceTwo())&&characters.getGoIntoNum()==3){
             int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
 //                453点生命上限，158点攻击，158点速度。
             if (Xtool.isNotNull(characters.getCollHp())){
@@ -3890,7 +3919,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
         }
 
-        if ("不动如山4".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==4){
+        if ("不动如山4".equals(character.getPassiveIntroduceThree())&&"不动如山2".equals(character.getPassiveIntroduceTwo())&&characters.getGoIntoNum()==4){
             int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
 //                453点生命上限，158点攻击，158点速度。
             if (Xtool.isNotNull(characters.getCollHp())){
@@ -3905,7 +3934,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
         }
 
-        if ("不动如山5".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==5){
+        if ("不动如山5".equals(character.getPassiveIntroduceThree())&&"不动如山2".equals(character.getPassiveIntroduceTwo())&&characters.getGoIntoNum()==5){
             int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
 //                453点生命上限，158点攻击，158点速度。
             if (Xtool.isNotNull(characters.getCollHp())){

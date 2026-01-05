@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.GameShopRecordMapper">
+    <select id="isRecord" resultType="java.lang.Integer">
+        SELECT IFNULL(sum(num),0) FROM game_shop_record
+        WHERE user_id =#{userId} and DATE(get_time) = CURDATE() and item_id=#{itemId}
+    </select>
+</mapper>
