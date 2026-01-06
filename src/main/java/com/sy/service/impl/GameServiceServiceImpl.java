@@ -3874,7 +3874,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
         }
 
-        if ("不动如山1".equals(character.getPassiveIntroduceThree())&&"不动如山2".equals(character.getPassiveIntroduceTwo())&&characters.getGoIntoNum()==1){
+        if ("不动如山1".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==1){
             int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
 //                453点生命上限，158点攻击，158点速度。
             if (Xtool.isNotNull(characters.getCollHp())){
@@ -3889,7 +3889,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
         }
 
-        if ("不动如山2".equals(character.getPassiveIntroduceThree())&&"不动如山2".equals(character.getPassiveIntroduceTwo())&&characters.getGoIntoNum()==2){
+        if ("不动如山2".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==2){
             int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
 //                453点生命上限，158点攻击，158点速度。
             if (Xtool.isNotNull(characters.getCollHp())){
@@ -3904,7 +3904,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
         }
 
-        if ("不动如山3".equals(character.getPassiveIntroduceThree())&&"不动如山2".equals(character.getPassiveIntroduceTwo())&&characters.getGoIntoNum()==3){
+        if ("不动如山3".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==3){
             int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
 //                453点生命上限，158点攻击，158点速度。
             if (Xtool.isNotNull(characters.getCollHp())){
@@ -3919,7 +3919,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
         }
 
-        if ("不动如山4".equals(character.getPassiveIntroduceThree())&&"不动如山2".equals(character.getPassiveIntroduceTwo())&&characters.getGoIntoNum()==4){
+        if ("不动如山4".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==4){
             int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
 //                453点生命上限，158点攻击，158点速度。
             if (Xtool.isNotNull(characters.getCollHp())){
@@ -3934,7 +3934,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
         }
 
-        if ("不动如山5".equals(character.getPassiveIntroduceThree())&&"不动如山2".equals(character.getPassiveIntroduceTwo())&&characters.getGoIntoNum()==5){
+        if ("不动如山5".equals(character.getPassiveIntroduceThree())&&characters.getGoIntoNum()==5){
             int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
 //                453点生命上限，158点攻击，158点速度。
             if (Xtool.isNotNull(characters.getCollHp())){
@@ -3947,6 +3947,14 @@ public class GameServiceServiceImpl implements GameServiceService {
             if (Xtool.isNotNull(characters.getCollSpeed())){
                 character.setSpeed(speed.intValue()+skillLevel*characters.getCollSpeed());
             }
+        }
+
+//        特殊
+        if ("真武大帝".equals(character.getName())&&characters.getGoIntoNum()==2){
+            int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
+//            山Lv1在第2位时，增加自身生命上限553点；
+            character.setHp(character.getHp()+skillLevel*553);
+            character.setMaxHp(maxHp.intValue()+skillLevel*553);
         }
 
 
