@@ -142,7 +142,16 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         }
 
                     }
-
+                    if (content.contains("机器码删")){
+                        int index = content.indexOf("机器码");
+                        content = content.substring(0, index);
+                        content = content.trim();
+                        ActivationKey cc = new ActivationKey();
+                        cc.setCode(content);
+                        cc.setType("2");
+                        activationKeyMapper.remove(cc);
+                        text.setContent("已成功删除机器码");
+                    }
                     if (content.contains("永久卡")){
                         int index = content.indexOf("永久卡");
                         content = content.substring(0, index);

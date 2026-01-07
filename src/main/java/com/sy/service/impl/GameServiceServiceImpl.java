@@ -4194,23 +4194,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("user_id",token.getUserId());
         map.put("arena_level",token.getStr());
         List<GameArenaSignup> gameArenaSignup=gameArenaSignupMapper.selectByMap(map);
-        Map map2=new HashMap();
-        // 1. 获取 Calendar 实例
-        Calendar calendar = Calendar.getInstance();
-
-        // 2. 设置为当前时间
-        calendar.setTime(new Date());
-
-        // 3. 日期向前偏移7天（核心：Calendar.DATE 表示“日期”字段，偏移-7即上周同一日期）
-        // 注意：这里会自动处理跨月/跨年场景（比如1月1日偏移7天会自动到去年12月25日）
-        calendar.add(Calendar.DATE, -7);
-
-        // 4. 获取上周同一时间的 Date 对象
-        Date lastWeekDate = calendar.getTime();
-        Integer lastWeekNum=ArenaWeekUtils.getCurrentUniqueWeekNum(lastWeekDate);
-        map2.put("week_num",lastWeekNum);
-        map2.put("arena_level",token.getStr());
-        List<User> gameArenaRanks= userMapper.arenaLastRanking100(token.getStr(),lastWeekNum);
+        List<User> gameArenaRanks= userMapper.arenaLastRanking100(token.getStr(),weekNum-1);
         Map map1=new HashMap();
         map1.put("gameArenaRanks",gameArenaRanks);
         if (Xtool.isNotNull(gameArenaSignup)){

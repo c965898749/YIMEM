@@ -22,6 +22,7 @@ public enum EffectType {
     SPEED_UP("速度提升"),
     SPEED_DOWN("速度降低"),
     ATTACK_SPEED_UP("攻击和速度提升"),
+    ATTACK_DOWN_SPEED_UP("攻击降低和速度提升"),
     HEAL("治疗"),
     XU_HEAL("续命治疗"),
     DAMAGE("伤害"),
