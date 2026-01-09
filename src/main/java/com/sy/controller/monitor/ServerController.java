@@ -5,6 +5,7 @@ import com.sy.model.resp.BaseResp;
 import com.sy.model.resp.ResultVO;
 import com.sy.service.ActivationKeyService;
 import com.sy.service.GameMesageService;
+import com.sy.service.GameServiceService;
 import com.sy.service.impl.Server;
 import com.sy.vo.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class ServerController
     private ActivationKeyService activationKeyService;
     @Autowired
     private GameMesageService gameMesageService;
+    @Autowired
+    private GameServiceService gameServiceService;
 
     @RequestMapping(value = "serverDetials", method = RequestMethod.GET)
     public AjaxResult getInfo() throws Exception
@@ -71,6 +74,21 @@ public class ServerController
         BaseResp baseResp = new BaseResp();
         try {
             baseResp=activationKeyService.queryBytype(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("服务器异常");
+        }
+        return baseResp;
+    }
+
+    //卡密生成接口
+    @RequestMapping(value = "addActCode", method = RequestMethod.GET)
+    public BaseResp addActCode()
+    {
+        BaseResp baseResp = new BaseResp();
+        try {
+           gameServiceService.addActCode();
         } catch (Exception e) {
             e.printStackTrace();
             baseResp.setSuccess(0);

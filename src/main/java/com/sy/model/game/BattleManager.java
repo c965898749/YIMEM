@@ -186,7 +186,7 @@ public class BattleManager {
                         // 镇妖塔：对敌方场上造成飞弹伤害
                         if (guardian != null) {
                             int enemyHpBefore = guardian.getCurrentHp();
-                            int damage = 69 * skillLevel;
+                            int damage = 69 * skillLevel+zhongyuedadiHuan(enemy);
                             guardian.setCurrentHp(guardian.getCurrentHp() - damage);
 
                             addLog("镇妖塔",
@@ -341,6 +341,68 @@ public class BattleManager {
                             getFieldUnitsStatus(),
                             lavaDamage, EffectType.FIRE_DAMAGE, DamageType.FIRE,
                             guardian.getName() + "触发烈焰阵，登场时令敌方全体收到火焰伤害");
+                    // 死亡日志
+                    if (!deadUnits.isEmpty()) {
+                        Map<String, Object[]> deadStatus = new HashMap<>();
+                        deadUnits.forEach(x -> {
+                            List<String> strings = Arrays.asList(x.split("_"));
+                            deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                        });
+
+                        addMultiTargetLog("UNIT_DEATH",
+                                "SYSTEM", null, 0,
+                                0, 0, 0, 0, 0, 0,
+                                deadUnits, null,
+                                deadStatus,
+                                getFieldUnitsStatus(),
+                                0, null, null,
+                                "火焰伤害");
+                        //触发死亡技能
+                        for (Guardian g : deadGuardians) {
+                            triggerOnDeathSkills(g);
+                        }
+
+                    }
+                    //触发受击技能
+                    enemies.forEach(g -> {
+                        //触发受到任意伤害技能
+                        triggerOnAttackedSkills(g);
+                    });
+                }
+                break;
+            case "天狗":
+                if (1==1){
+//                    天兆神火Lv1登场时对对方全体造成35点火焰伤害；
+                    List<String> deadUnits = new ArrayList<>();
+                    List<Guardian> deadGuardians = new ArrayList<>();
+                    int lavaDamage = 35 * skillLevel;
+                    List<String> targetNames = new ArrayList<>();
+                    Map<String, Object[]> targetStatus = new HashMap<>();
+                    List<Guardian> enemies = guardian.getCamp() == Camp.A ?
+                            campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                            campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+                    enemies.forEach(g -> {
+                        targetNames.add(g.getName());
+                        int hpBefore = g.getMaxHp();
+                        g.setCurrentHp(g.getCurrentHp() - lavaDamage);
+                        targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
+                        if (g.isDead()) {
+                            deadUnits.add(g.getCamp() + g.getName() + "_" + g.getPosition());
+                            deadGuardians.add(g);
+                        }
+                    });
+
+                    // 单条日志记录多目标
+                    addMultiTargetLog("天兆神火",
+                            guardian.getName(), guardian.getCamp(), guardian.getPosition(),
+                            guardian.getMaxHp(), guardian.getCurrentHp(),
+                            guardian.getAttack(), guardian.getAttack(),
+                            guardian.getSpeed(), guardian.getSpeed(),
+                            targetNames, enemies.get(0).getCamp(),
+                            targetStatus,
+                            getFieldUnitsStatus(),
+                            lavaDamage, EffectType.FIRE_DAMAGE, DamageType.FIRE,
+                            guardian.getName() + "登场时对对方全体造成点火焰伤害");
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         Map<String, Object[]> deadStatus = new HashMap<>();
@@ -694,6 +756,50 @@ public class BattleManager {
                             defender.getName() + "触发幽灵毒击");
                 }
                 break;
+            case "黄牙老象":
+                // 幽灵毒击：令攻击者中毒
+                if (!defender.isDead()) {
+                    int attackerHpBefore = attacker.getCurrentHp();
+                    int poisonValue = 8 * skillLevel;
+                    int poisonDamage = attacker.getEffects().getOrDefault(EffectType.POISON,0);
+                    attacker.getEffects().put(EffectType.POISON, poisonValue+poisonDamage);
+
+                    addLog("幽灵毒击",
+                            defender.getName(), defender.getCamp(), defender.getPosition(),
+                            defenderHpBefore, defender.getCurrentHp(),
+                            defenderAttackBefore, defender.getAttack(),
+                            defenderSpeedBefore, defender.getSpeed(),
+                            attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                            attackerHpBefore, attacker.getCurrentHp(),
+                            attacker.getAttack(), attacker.getAttack(),
+                            attacker.getSpeed(), attacker.getSpeed(),
+                            getFieldUnitsStatus(),
+                            poisonValue, EffectType.POISON, DamageType.POISON,
+                            defender.getName() + "触发幽灵毒击");
+                }
+                break;
+            case "白眼魔君":
+                // 幽灵毒击：令攻击者中毒
+                if (!defender.isDead()) {
+                    int attackerHpBefore = attacker.getCurrentHp();
+                    int poisonValue = 8 * skillLevel;
+                    int poisonDamage = attacker.getEffects().getOrDefault(EffectType.POISON,0);
+                    attacker.getEffects().put(EffectType.POISON, poisonValue+poisonDamage);
+
+                    addLog("幽灵毒击",
+                            defender.getName(), defender.getCamp(), defender.getPosition(),
+                            defenderHpBefore, defender.getCurrentHp(),
+                            defenderAttackBefore, defender.getAttack(),
+                            defenderSpeedBefore, defender.getSpeed(),
+                            attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                            attackerHpBefore, attacker.getCurrentHp(),
+                            attacker.getAttack(), attacker.getAttack(),
+                            attacker.getSpeed(), attacker.getSpeed(),
+                            getFieldUnitsStatus(),
+                            poisonValue, EffectType.POISON, DamageType.POISON,
+                            defender.getName() + "触发幽灵毒击");
+                }
+                break;
 
             case "烛龙":
                 // 烛火燎原：对全体敌方造成火焰伤害（多目标整合日志）
@@ -773,30 +879,60 @@ public class BattleManager {
                 }
                 break;
             case "将臣":
-                // 剧毒皮肤：令随机敌方中毒
-                List<Guardian> enemies = defender.getCamp() == Camp.A ?
-                        campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
-                        campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
-                if (!enemies.isEmpty()) {
-                    Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                    int enemyHpBefore = randomEnemy.getCurrentHp();
-                    int poisonValue = 73 * skillLevel;
-                    int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON,0);
-                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue+poisonDamage);
+               if (1==1){
+                   // 剧毒皮肤：令随机敌方中毒
+                   List<Guardian> enemies = defender.getCamp() == Camp.A ?
+                           campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                           campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+                   if (!enemies.isEmpty()) {
+                       Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
+                       int enemyHpBefore = randomEnemy.getCurrentHp();
+                       int poisonValue = 73 * skillLevel;
+                       int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON,0);
+                       randomEnemy.getEffects().put(EffectType.POISON, poisonValue+poisonDamage);
 
-                    addLog("剧毒皮肤",
-                            defender.getName(), defender.getCamp(), defender.getPosition(),
-                            defenderHpBefore, defender.getCurrentHp(),
-                            defenderAttackBefore, defender.getAttack(),
-                            defenderSpeedBefore, defender.getSpeed(),
-                            randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
-                            enemyHpBefore, randomEnemy.getCurrentHp(),
-                            randomEnemy.getAttack(), randomEnemy.getAttack(),
-                            randomEnemy.getSpeed(), randomEnemy.getSpeed(),
-                            getFieldUnitsStatus(),
-                            poisonValue, EffectType.POISON, DamageType.POISON,
-                            defender.getName() + "触发剧毒皮肤");
-                }
+                       addLog("剧毒皮肤",
+                               defender.getName(), defender.getCamp(), defender.getPosition(),
+                               defenderHpBefore, defender.getCurrentHp(),
+                               defenderAttackBefore, defender.getAttack(),
+                               defenderSpeedBefore, defender.getSpeed(),
+                               randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
+                               enemyHpBefore, randomEnemy.getCurrentHp(),
+                               randomEnemy.getAttack(), randomEnemy.getAttack(),
+                               randomEnemy.getSpeed(), randomEnemy.getSpeed(),
+                               getFieldUnitsStatus(),
+                               poisonValue, EffectType.POISON, DamageType.POISON,
+                               defender.getName() + "触发剧毒皮肤");
+                   }
+               }
+                break;
+            case "辟寒大王":
+               if (1==1){
+                   // 剧毒皮肤：令随机敌方中毒
+                   List<Guardian> enemies = defender.getCamp() == Camp.A ?
+                           campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                           campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+                   if (!enemies.isEmpty()) {
+                       Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
+                       int enemyHpBefore = randomEnemy.getCurrentHp();
+                       int poisonValue = 8 * skillLevel;
+                       int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON,0);
+                       randomEnemy.getEffects().put(EffectType.POISON, poisonValue+poisonDamage);
+
+                       addLog("毒素反击",
+                               defender.getName(), defender.getCamp(), defender.getPosition(),
+                               defenderHpBefore, defender.getCurrentHp(),
+                               defenderAttackBefore, defender.getAttack(),
+                               defenderSpeedBefore, defender.getSpeed(),
+                               randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
+                               enemyHpBefore, randomEnemy.getCurrentHp(),
+                               randomEnemy.getAttack(), randomEnemy.getAttack(),
+                               randomEnemy.getSpeed(), randomEnemy.getSpeed(),
+                               getFieldUnitsStatus(),
+                               poisonValue, EffectType.POISON, DamageType.POISON,
+                               defender.getName() + "触发毒素反击");
+                   }
+               }
                 break;
             case "句芒":
                 // 句芒，残酷收割Lv1每当有生物死亡时，回复自身6%最大生命；嗜血Lv1受到普通攻击时，为自身添加嗜血效果，提高攻击118点，速度20点；大圣协同Lv1与齐天大圣在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
@@ -878,7 +1014,7 @@ public class BattleManager {
                     Guardian enemy = defender.getCamp() == Camp.A ? fieldB : fieldA;
                     if (enemy != null && !enemy.isDead()) {
                         int enemyHpBefore = enemy.getCurrentHp();
-                        int damage = 69 *skillLevel;
+                        int damage = 69 *skillLevel+zhongyuedadiHuan(defender);
                         enemy.setCurrentHp(enemy.getCurrentHp() - damage);
                         List<String> deadUnits = new ArrayList<>();
 
@@ -933,7 +1069,7 @@ public class BattleManager {
                     Guardian enemy = defender.getCamp() == Camp.A ? fieldB : fieldA;
                     if (enemy != null && !enemy.isDead()) {
                         int enemyHpBefore = enemy.getCurrentHp();
-                        int damage = 32 *skillLevel;
+                        int damage = 32 *skillLevel+zhongyuedadiHuan(defender);
                         enemy.setCurrentHp(enemy.getCurrentHp() - damage);
                         List<String> deadUnits = new ArrayList<>();
 
@@ -1208,30 +1344,58 @@ public class BattleManager {
         }
         switch (attacker.getName()) {
             case "燃灯道人":
-                // 仙人指路Lv1每次攻击后增加自身后方单位的攻击66点，最多叠加3次；
-                List<Guardian> enemies = attacker.getCamp() == Camp.A ?
-                        campA.stream().filter(g -> !g.isDead()&&!g.isOnField()).collect(Collectors.toList()) :
-                        campB.stream().filter(g -> !g.isDead()&&!g.isOnField()).collect(Collectors.toList());
-                if (!enemies.isEmpty()) {
-                    int attack = 66 * skillLevel;
-                    Guardian guardian = enemies.get(0);
-                    if (guardian.getBuffRandengs() < 3) {
-                        guardian.setBuffRandengs(guardian.getBuffRandengs() + 1);
-                        guardian.setAttack(guardian.getAttack() + attack);
-                        addLog("仙人指路",
-                                attacker.getName(), attacker.getCamp(), attacker.getPosition(),
-                                attacker.getMaxHp(), attacker.getCurrentHp(),
-                                attacker.getAttack(), attacker.getAttack(),
-                                attacker.getSpeed(), attacker.getSpeed(),
-                                guardian.getName(), guardian.getCamp(), guardian.getPosition(),
-                                guardian.getMaxHp(), guardian.getCurrentHp(),
-                                guardian.getAttack(), guardian.getAttack(),
-                                guardian.getSpeed(), guardian.getSpeed(),
-                                getFieldUnitsStatus(),
-                                attack, EffectType.ATTACK_UP, null,
-                                attacker.getName() + "触发仙人指路，攻击力提升");
-                    }
-                }
+               if(1==1){
+                   // 仙人指路Lv1每次攻击后增加自身后方单位的攻击66点，最多叠加3次；
+                   List<Guardian> enemies = attacker.getCamp() == Camp.A ?
+                           campA.stream().filter(g -> !g.isDead()&&!g.isOnField()).collect(Collectors.toList()) :
+                           campB.stream().filter(g -> !g.isDead()&&!g.isOnField()).collect(Collectors.toList());
+                   if (!enemies.isEmpty()) {
+                       int attack = 66 * skillLevel;
+                       Guardian guardian = enemies.get(0);
+                       if (guardian.getBuffRandengs() < 3) {
+                           guardian.setBuffRandengs(guardian.getBuffRandengs() + 1);
+                           guardian.setAttack(guardian.getAttack() + attack);
+                           addLog("仙人指路",
+                                   attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                                   attacker.getMaxHp(), attacker.getCurrentHp(),
+                                   attacker.getAttack(), attacker.getAttack(),
+                                   attacker.getSpeed(), attacker.getSpeed(),
+                                   guardian.getName(), guardian.getCamp(), guardian.getPosition(),
+                                   guardian.getMaxHp(), guardian.getCurrentHp(),
+                                   guardian.getAttack(), guardian.getAttack(),
+                                   guardian.getSpeed(), guardian.getSpeed(),
+                                   getFieldUnitsStatus(),
+                                   attack, EffectType.ATTACK_UP, null,
+                                   attacker.getName() + "触发仙人指路，攻击力提升");
+                       }
+                   }
+               }
+                break;
+            case "普贤真人":
+               if (1==1){
+                   // 仙人指路Lv1每次攻击后增加自身后方单位的攻击66点，最多叠加3次；
+                   List<Guardian> enemies = attacker.getCamp() == Camp.A ?
+                           campA.stream().filter(g -> !g.isDead()&&!g.isOnField()).collect(Collectors.toList()) :
+                           campB.stream().filter(g -> !g.isDead()&&!g.isOnField()).collect(Collectors.toList());
+                   if (!enemies.isEmpty()) {
+                       int hel = 66 * skillLevel;
+                       Guardian guardian = enemies.get(0);
+                       guardian.setMaxHp(guardian.getMaxHp() + hel);
+                       guardian.setCurrentHp(guardian.getCurrentHp() + hel);
+                       addLog("仙人剑法",
+                               attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                               attacker.getMaxHp(), attacker.getCurrentHp(),
+                               attacker.getAttack(), attacker.getAttack(),
+                               attacker.getSpeed(), attacker.getSpeed(),
+                               guardian.getName(), guardian.getCamp(), guardian.getPosition(),
+                               guardian.getMaxHp(), guardian.getCurrentHp(),
+                               guardian.getAttack(), guardian.getAttack(),
+                               guardian.getSpeed(), guardian.getSpeed(),
+                               getFieldUnitsStatus(),
+                               hel, EffectType.HP_UP, null,
+                               attacker.getName() + "触发仙人剑法，生命上限提升");
+                   }
+               }
                 break;
             case "将臣":
                 // 腐败虹吸Lv1攻击中毒目标时吸血118点；
@@ -1251,6 +1415,110 @@ public class BattleManager {
                             getFieldUnitsStatus(),
                             hel, EffectType.HEAL, DamageType.MAGIC,
                             attacker.getName() + "触发腐败虹吸");
+                }
+                break;
+            case "金钩大王":
+                //毒伤迸发Lv1攻击中毒敌人时，额外造成247点物理伤害；
+                if (Xtool.isNotNull(defender.getEffects().get(EffectType.POISON))) {
+                    int damage = 247 * skillLevel;
+                    List<String> deadUnits = new ArrayList<>();
+                    List<Guardian> deadGuardians = new ArrayList<>();
+                    defender.setCurrentHp(defender.getCurrentHp() + damage);
+                    if (defender.getCurrentHp() <= 0) {
+                        defender.setDead(true);
+                        defender.setOnField(false);
+                        deadUnits.add(defender.getCamp() + defender.getName() + "_" + defender.getPosition());
+                        deadGuardians.add(defender);
+                    }
+                    addLog("毒伤迸发",
+                            attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                            attackerHpBefore, attacker.getCurrentHp(),
+                            attackerAttackBefore, attacker.getAttack(),
+                            attackerSpeedBefore, attacker.getSpeed(),
+                            defender.getName(), defender.getCamp(), defender.getPosition(),
+                            defender.getMaxHp(), defender.getCurrentHp(),
+                            defender.getAttack(), defender.getAttack(),
+                            defender.getSpeed(), defender.getSpeed(),
+                            getFieldUnitsStatus(),
+                            damage, EffectType.DAMAGE, DamageType.PHYSICAL,
+                            attacker.getName() + "触发毒伤迸发");
+                    // 死亡日志
+                    if (!deadUnits.isEmpty()) {
+                        Map<String, Object[]> deadStatus = new HashMap<>();
+                        deadUnits.forEach(x -> {
+                            List<String> strings = Arrays.asList(x.split("_"));
+                            deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                        });
+
+                        addMultiTargetLog("UNIT_DEATH",
+                                "SYSTEM", null, 0,
+                                0, 0, 0, 0, 0, 0,
+                                deadUnits, null,
+                                deadStatus,
+                                getFieldUnitsStatus(),
+                                0, null, null,
+                                "真实伤害");
+                        //触发死亡技能
+                        for (Guardian g : deadGuardians) {
+                            triggerOnDeathSkills(g);
+                        }
+
+                    }else {
+                        //触发受击技能
+                        triggerOnAttackedSkills(defender);
+                    }
+                }
+                break;
+            case "蛟魔王":
+                //剧毒痛击Lv1攻击中毒单位额外造成80伤害；；
+                if (Xtool.isNotNull(defender.getEffects().get(EffectType.POISON))) {
+                    int damage = 80 * skillLevel;
+                    List<String> deadUnits = new ArrayList<>();
+                    List<Guardian> deadGuardians = new ArrayList<>();
+                    defender.setCurrentHp(defender.getCurrentHp() + damage);
+                    if (defender.getCurrentHp() <= 0) {
+                        defender.setDead(true);
+                        defender.setOnField(false);
+                        deadUnits.add(defender.getCamp() + defender.getName() + "_" + defender.getPosition());
+                        deadGuardians.add(defender);
+                    }
+                    addLog("剧毒痛击",
+                            attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                            attackerHpBefore, attacker.getCurrentHp(),
+                            attackerAttackBefore, attacker.getAttack(),
+                            attackerSpeedBefore, attacker.getSpeed(),
+                            defender.getName(), defender.getCamp(), defender.getPosition(),
+                            defender.getMaxHp(), defender.getCurrentHp(),
+                            defender.getAttack(), defender.getAttack(),
+                            defender.getSpeed(), defender.getSpeed(),
+                            getFieldUnitsStatus(),
+                            damage, EffectType.DAMAGE, DamageType.PHYSICAL,
+                            attacker.getName() + "触发剧毒痛击");
+                    // 死亡日志
+                    if (!deadUnits.isEmpty()) {
+                        Map<String, Object[]> deadStatus = new HashMap<>();
+                        deadUnits.forEach(x -> {
+                            List<String> strings = Arrays.asList(x.split("_"));
+                            deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                        });
+
+                        addMultiTargetLog("UNIT_DEATH",
+                                "SYSTEM", null, 0,
+                                0, 0, 0, 0, 0, 0,
+                                deadUnits, null,
+                                deadStatus,
+                                getFieldUnitsStatus(),
+                                0, null, null,
+                                "真实伤害");
+                        //触发死亡技能
+                        for (Guardian g : deadGuardians) {
+                            triggerOnDeathSkills(g);
+                        }
+
+                    }else {
+                        //触发受击技能
+                        triggerOnAttackedSkills(defender);
+                    }
                 }
                 break;
             case "铁扇公主":
@@ -1305,6 +1573,104 @@ public class BattleManager {
                        triggerOnAttackedSkills(defender);
                    }
                }
+                break;
+            case "应龙":
+                if(1==1){
+                    // 龙息lv1攻击后随机对场上单位造成250点火焰伤害。
+                    if (random.nextDouble() < 0.5) {
+                        int defenderHpBefore = attacker.getCurrentHp();
+                        int fireDamage = 36 * skillLevel;
+                        List<String> deadUnits = new ArrayList<>();
+                        List<Guardian> deadGuardians = new ArrayList<>();
+                        attacker.setCurrentHp(attacker.getCurrentHp() - fireDamage);
+                        if (attacker.getCurrentHp() <= 0) {
+                            attacker.setDead(true);
+                            attacker.setOnField(false);
+                            deadUnits.add(attacker.getCamp() + attacker.getName() + "_" + attacker.getPosition());
+                            deadGuardians.add(attacker);
+                        }
+                        addLog("龙息",
+                                attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                                attackerHpBefore, attacker.getCurrentHp(),
+                                attackerAttackBefore, attacker.getAttack(),
+                                attackerSpeedBefore, attacker.getSpeed(),
+                                attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                                defenderHpBefore, attacker.getCurrentHp(),
+                                attacker.getAttack(), attacker.getAttack(),
+                                attacker.getSpeed(), attacker.getSpeed(),
+                                getFieldUnitsStatus(),
+                                fireDamage, EffectType.FIRE_DAMAGE, DamageType.FIRE,
+                                attacker.getName() + "触发龙息");
+                        // 死亡日志
+                        if (!deadUnits.isEmpty()) {
+                            Map<String, Object[]> deadStatus = new HashMap<>();
+                            deadUnits.forEach(x -> {
+                                List<String> strings = Arrays.asList(x.split("_"));
+                                deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                            });
+
+                            addMultiTargetLog("UNIT_DEATH",
+                                    "SYSTEM", null, 0,
+                                    0, 0, 0, 0, 0, 0,
+                                    deadUnits, null,
+                                    deadStatus,
+                                    getFieldUnitsStatus(),
+                                    0, null, null,
+                                    "火焰伤害");
+
+                        }
+                    }else {
+                        int defenderHpBefore = defender.getCurrentHp();
+                        int fireDamage = 36 * skillLevel;
+                        List<String> deadUnits = new ArrayList<>();
+                        List<Guardian> deadGuardians = new ArrayList<>();
+                        defender.setCurrentHp(defender.getCurrentHp() - fireDamage);
+                        if (defender.getCurrentHp() <= 0) {
+                            defender.setDead(true);
+                            defender.setOnField(false);
+                            deadUnits.add(defender.getCamp() + defender.getName() + "_" + defender.getPosition());
+                            deadGuardians.add(defender);
+                        }
+                        addLog("龙息",
+                                attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                                attackerHpBefore, attacker.getCurrentHp(),
+                                attackerAttackBefore, attacker.getAttack(),
+                                attackerSpeedBefore, attacker.getSpeed(),
+                                defender.getName(), defender.getCamp(), defender.getPosition(),
+                                defenderHpBefore, defender.getCurrentHp(),
+                                defender.getAttack(), defender.getAttack(),
+                                defender.getSpeed(), defender.getSpeed(),
+                                getFieldUnitsStatus(),
+                                fireDamage, EffectType.FIRE_DAMAGE, DamageType.FIRE,
+                                attacker.getName() + "触发龙息");
+                        // 死亡日志
+                        if (!deadUnits.isEmpty()) {
+                            Map<String, Object[]> deadStatus = new HashMap<>();
+                            deadUnits.forEach(x -> {
+                                List<String> strings = Arrays.asList(x.split("_"));
+                                deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                            });
+
+                            addMultiTargetLog("UNIT_DEATH",
+                                    "SYSTEM", null, 0,
+                                    0, 0, 0, 0, 0, 0,
+                                    deadUnits, null,
+                                    deadStatus,
+                                    getFieldUnitsStatus(),
+                                    0, null, null,
+                                    "火焰伤害");
+                            //触发死亡技能
+                            for (Guardian g : deadGuardians) {
+                                triggerOnDeathSkills(g);
+                            }
+
+                        }else {
+                            //触发受击技能
+                            triggerOnAttackedSkills(defender);
+                        }
+                    }
+
+                }
                 break;
             case "聂小倩":
                 if(1==1){
@@ -1437,6 +1803,180 @@ public class BattleManager {
                     }
                 }
                 break;
+            case "玉鼎真人":
+                if (1==1) {
+//                   1普通攻击后，对场上敌方身后一个单位造成100点真实伤害；
+                    List<Guardian> enemieList = attacker.getCamp() == Camp.A ?
+                            campB.stream().filter(g -> !g.isDead()&&!g.isOnField()).collect(Collectors.toList()) :
+                            campA.stream().filter(g -> !g.isDead()&&!g.isOnField()).collect(Collectors.toList());
+                    if (Xtool.isNotNull(enemieList)){
+                        List<String> deadUnits = new ArrayList<>();
+                        List<Guardian> deadGuardians = new ArrayList<>();
+                        Guardian guardian=enemieList.get(0);
+                        int fireDamage = 100*skillLevel;
+                        guardian.setCurrentHp(guardian.getCurrentHp() - fireDamage);
+                        if (guardian.getCurrentHp() <= 0) {
+                            guardian.setDead(true);
+                            guardian.setOnField(false);
+                            deadUnits.add(guardian.getCamp() + guardian.getName() + "_" + guardian.getPosition());
+                            deadGuardians.add(guardian);
+                        }
+                        addLog("穿云剑法",
+                                attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                                attackerHpBefore, attacker.getCurrentHp(),
+                                attackerAttackBefore, attacker.getAttack(),
+                                attackerSpeedBefore, attacker.getSpeed(),
+                                guardian.getName(), guardian.getCamp(), guardian.getPosition(),
+                                guardian.getMaxHp(), guardian.getCurrentHp(),
+                                guardian.getAttack(), guardian.getAttack(),
+                                guardian.getSpeed(), guardian.getSpeed(),
+                                getFieldUnitsStatus(),
+                                fireDamage, EffectType.TRUE_DAMAGE, DamageType.PHYSICAL,
+                                attacker.getName() + "触发穿云剑法");
+                        // 死亡日志
+                        if (!deadUnits.isEmpty()) {
+                            Map<String, Object[]> deadStatus = new HashMap<>();
+                            deadUnits.forEach(x -> {
+                                List<String> strings = Arrays.asList(x.split("_"));
+                                deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                            });
+
+                            addMultiTargetLog("UNIT_DEATH",
+                                    "SYSTEM", null, 0,
+                                    0, 0, 0, 0, 0, 0,
+                                    deadUnits, null,
+                                    deadStatus,
+                                    getFieldUnitsStatus(),
+                                    0, null, null,
+                                    "真实伤害");
+                            //触发死亡技能
+                            for (Guardian g : deadGuardians) {
+                                triggerOnDeathSkills(g);
+                            }
+
+                        }else {
+                            //触发受击技能
+                            triggerOnAttackedSkills(guardian);
+                        }
+                    }
+                }
+                break;
+            case "九天玄女":
+                if (1==1) {
+//                   穿云剑Lv1普通攻击后，对场上敌方身后一个单位造成52点真实伤害；；
+                    List<Guardian> enemieList = attacker.getCamp() == Camp.A ?
+                            campB.stream().filter(g -> !g.isDead()&&!g.isOnField()).collect(Collectors.toList()) :
+                            campA.stream().filter(g -> !g.isDead()&&!g.isOnField()).collect(Collectors.toList());
+                    if (Xtool.isNotNull(enemieList)){
+                        List<String> deadUnits = new ArrayList<>();
+                        List<Guardian> deadGuardians = new ArrayList<>();
+                        Guardian guardian=enemieList.get(0);
+                        int fireDamage = 125*skillLevel;
+                        guardian.setCurrentHp(guardian.getCurrentHp() - fireDamage);
+                        if (guardian.getCurrentHp() <= 0) {
+                            guardian.setDead(true);
+                            guardian.setOnField(false);
+                            deadUnits.add(guardian.getCamp() + guardian.getName() + "_" + guardian.getPosition());
+                            deadGuardians.add(guardian);
+                        }
+                        addLog("穿云剑",
+                                attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                                attackerHpBefore, attacker.getCurrentHp(),
+                                attackerAttackBefore, attacker.getAttack(),
+                                attackerSpeedBefore, attacker.getSpeed(),
+                                guardian.getName(), guardian.getCamp(), guardian.getPosition(),
+                                guardian.getMaxHp(), guardian.getCurrentHp(),
+                                guardian.getAttack(), guardian.getAttack(),
+                                guardian.getSpeed(), guardian.getSpeed(),
+                                getFieldUnitsStatus(),
+                                fireDamage, EffectType.TRUE_DAMAGE, DamageType.PHYSICAL,
+                                attacker.getName() + "触发穿云剑");
+                        // 死亡日志
+                        if (!deadUnits.isEmpty()) {
+                            Map<String, Object[]> deadStatus = new HashMap<>();
+                            deadUnits.forEach(x -> {
+                                List<String> strings = Arrays.asList(x.split("_"));
+                                deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                            });
+
+                            addMultiTargetLog("UNIT_DEATH",
+                                    "SYSTEM", null, 0,
+                                    0, 0, 0, 0, 0, 0,
+                                    deadUnits, null,
+                                    deadStatus,
+                                    getFieldUnitsStatus(),
+                                    0, null, null,
+                                    "真实伤害");
+                            //触发死亡技能
+                            for (Guardian g : deadGuardians) {
+                                triggerOnDeathSkills(g);
+                            }
+
+                        }else {
+                            //触发受击技能
+                            triggerOnAttackedSkills(guardian);
+                        }
+                    }
+                }
+                break;
+            case "圣灵天将":
+                if (1==1) {
+//                    圣灵斩Lv1攻击武圣单位时，额外造成150点真实伤害；；
+                    List<Guardian> enemieList = attacker.getCamp() == Camp.A ?
+                            campB.stream().filter(g -> !g.isDead()&&!g.isOnField()).collect(Collectors.toList()) :
+                            campA.stream().filter(g -> !g.isDead()&&!g.isOnField()).collect(Collectors.toList());
+                    if (Xtool.isNotNull(enemieList)){
+                        List<String> deadUnits = new ArrayList<>();
+                        List<Guardian> deadGuardians = new ArrayList<>();
+                        Guardian guardian=enemieList.get(0);
+                        int fireDamage = 150*skillLevel;
+                        guardian.setCurrentHp(guardian.getCurrentHp() - fireDamage);
+                        if (guardian.getCurrentHp() <= 0) {
+                            guardian.setDead(true);
+                            guardian.setOnField(false);
+                            deadUnits.add(guardian.getCamp() + guardian.getName() + "_" + guardian.getPosition());
+                            deadGuardians.add(guardian);
+                        }
+                        addLog("圣灵斩",
+                                attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                                attackerHpBefore, attacker.getCurrentHp(),
+                                attackerAttackBefore, attacker.getAttack(),
+                                attackerSpeedBefore, attacker.getSpeed(),
+                                guardian.getName(), guardian.getCamp(), guardian.getPosition(),
+                                guardian.getMaxHp(), guardian.getCurrentHp(),
+                                guardian.getAttack(), guardian.getAttack(),
+                                guardian.getSpeed(), guardian.getSpeed(),
+                                getFieldUnitsStatus(),
+                                fireDamage, EffectType.TRUE_DAMAGE, DamageType.PHYSICAL,
+                                attacker.getName() + "触发圣灵斩");
+                        // 死亡日志
+                        if (!deadUnits.isEmpty()) {
+                            Map<String, Object[]> deadStatus = new HashMap<>();
+                            deadUnits.forEach(x -> {
+                                List<String> strings = Arrays.asList(x.split("_"));
+                                deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                            });
+
+                            addMultiTargetLog("UNIT_DEATH",
+                                    "SYSTEM", null, 0,
+                                    0, 0, 0, 0, 0, 0,
+                                    deadUnits, null,
+                                    deadStatus,
+                                    getFieldUnitsStatus(),
+                                    0, null, null,
+                                    "真实伤害");
+                            //触发死亡技能
+                            for (Guardian g : deadGuardians) {
+                                triggerOnDeathSkills(g);
+                            }
+
+                        }else {
+                            //触发受击技能
+                            triggerOnAttackedSkills(guardian);
+                        }
+                    }
+                }
+                break;
             case "杨戬":
                 if (1==1) {
 //                    哪吒，穿云斩Lv1普通攻击后，对当前敌方身后一个单位造成125点真实伤害；
@@ -1497,67 +2037,267 @@ public class BattleManager {
                 }
                 break;
             case "牛魔王":
-                // 熔岩爆发：对敌方全体造成火焰伤害（多目标整合）
-                List<Guardian> offFieldEnemies = defender.getCamp() == Camp.A ?
-                        campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
-                        campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+               if (1==1){
+                   // 熔岩爆发：对敌方全体造成火焰伤害（多目标整合）
+                   List<Guardian> offFieldEnemies = defender.getCamp() == Camp.A ?
+                           campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                           campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
 
-                if (!offFieldEnemies.isEmpty()) {
-                    List<String> deadUnits = new ArrayList<>();
-                    List<Guardian> deadGuardians = new ArrayList<>();
-                    int lavaDamage = 62 * skillLevel;
-                    List<String> targetNames = new ArrayList<>();
-                    Map<String, Object[]> targetStatus = new HashMap<>();
+                   if (!offFieldEnemies.isEmpty()) {
+                       List<String> deadUnits = new ArrayList<>();
+                       List<Guardian> deadGuardians = new ArrayList<>();
+                       int lavaDamage = 62 * skillLevel;
+                       List<String> targetNames = new ArrayList<>();
+                       Map<String, Object[]> targetStatus = new HashMap<>();
 
-                    offFieldEnemies.forEach(g -> {
-                        targetNames.add(g.getName());
-                        int hpBefore = g.getMaxHp();
-                        g.setCurrentHp(g.getCurrentHp() - lavaDamage);
-                        targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
-                        if (g.isDead()) {
-                            deadUnits.add(g.getCamp() + g.getName() + "_" + g.getPosition());
-                            deadGuardians.add(g);
-                        }
-                    });
+                       offFieldEnemies.forEach(g -> {
+                           targetNames.add(g.getName());
+                           int hpBefore = g.getMaxHp();
+                           g.setCurrentHp(g.getCurrentHp() - lavaDamage);
+                           targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
+                           if (g.isDead()) {
+                               deadUnits.add(g.getCamp() + g.getName() + "_" + g.getPosition());
+                               deadGuardians.add(g);
+                           }
+                       });
 
-                    // 单条日志记录多目标
-                    addMultiTargetLog("熔岩爆发",
-                            attacker.getName(), attacker.getCamp(), attacker.getPosition(),
-                            attackerHpBefore, attacker.getCurrentHp(),
-                            attackerAttackBefore, attacker.getAttack(),
-                            attackerSpeedBefore, attacker.getSpeed(),
-                            targetNames, defender.getCamp(),
-                            targetStatus,
-                            getFieldUnitsStatus(),
-                            lavaDamage, EffectType.FIRE_DAMAGE, DamageType.FIRE,
-                            attacker.getName() + "触发熔岩爆发，攻击后对全体造成火焰伤害");
-                    // 死亡日志
-                    if (!deadUnits.isEmpty()) {
-                        Map<String, Object[]> deadStatus = new HashMap<>();
-                        deadUnits.forEach(x -> {
-                            List<String> strings = Arrays.asList(x.split("_"));
-                            deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                       // 单条日志记录多目标
+                       addMultiTargetLog("熔岩爆发",
+                               attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                               attackerHpBefore, attacker.getCurrentHp(),
+                               attackerAttackBefore, attacker.getAttack(),
+                               attackerSpeedBefore, attacker.getSpeed(),
+                               targetNames, defender.getCamp(),
+                               targetStatus,
+                               getFieldUnitsStatus(),
+                               lavaDamage, EffectType.FIRE_DAMAGE, DamageType.FIRE,
+                               attacker.getName() + "触发熔岩爆发，攻击后对全体造成火焰伤害");
+                       // 死亡日志
+                       if (!deadUnits.isEmpty()) {
+                           Map<String, Object[]> deadStatus = new HashMap<>();
+                           deadUnits.forEach(x -> {
+                               List<String> strings = Arrays.asList(x.split("_"));
+                               deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                           });
+
+                           addMultiTargetLog("UNIT_DEATH",
+                                   "SYSTEM", null, 0,
+                                   0, 0, 0, 0, 0, 0,
+                                   deadUnits, null,
+                                   deadStatus,
+                                   getFieldUnitsStatus(),
+                                   0, null, null,
+                                   "火焰伤害");
+                           //触发死亡技能
+                           for (Guardian g : deadGuardians) {
+                               triggerOnDeathSkills(g);
+                           }
+
+                       }
+                       //触发受击技能
+                       offFieldEnemies.forEach(g -> {
+                           //触发受到任意伤害技能
+                           triggerOnAttackedSkills(g);
+                       });
+                   }
+               }
+                break;
+            case "青狮王":
+                if (1==1){
+                    // 焚烧lv1攻击后对全体敌方造成12点火焰伤害
+                    List<Guardian> offFieldEnemies = defender.getCamp() == Camp.A ?
+                            campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                            campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+
+                    if (!offFieldEnemies.isEmpty()) {
+                        List<String> deadUnits = new ArrayList<>();
+                        List<Guardian> deadGuardians = new ArrayList<>();
+                        int lavaDamage = 12 * skillLevel;
+                        List<String> targetNames = new ArrayList<>();
+                        Map<String, Object[]> targetStatus = new HashMap<>();
+
+                        offFieldEnemies.forEach(g -> {
+                            targetNames.add(g.getName());
+                            int hpBefore = g.getMaxHp();
+                            g.setCurrentHp(g.getCurrentHp() - lavaDamage);
+                            targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
+                            if (g.isDead()) {
+                                deadUnits.add(g.getCamp() + g.getName() + "_" + g.getPosition());
+                                deadGuardians.add(g);
+                            }
                         });
 
-                        addMultiTargetLog("UNIT_DEATH",
-                                "SYSTEM", null, 0,
-                                0, 0, 0, 0, 0, 0,
-                                deadUnits, null,
-                                deadStatus,
+                        // 单条日志记录多目标
+                        addMultiTargetLog("妖火",
+                                attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                                attackerHpBefore, attacker.getCurrentHp(),
+                                attackerAttackBefore, attacker.getAttack(),
+                                attackerSpeedBefore, attacker.getSpeed(),
+                                targetNames, defender.getCamp(),
+                                targetStatus,
                                 getFieldUnitsStatus(),
-                                0, null, null,
-                                "火焰伤害");
-                        //触发死亡技能
-                        for (Guardian g : deadGuardians) {
-                            triggerOnDeathSkills(g);
-                        }
+                                lavaDamage, EffectType.FIRE_DAMAGE, DamageType.FIRE,
+                                attacker.getName() + "触发妖火，攻击后对全体造成火焰伤害");
+                        // 死亡日志
+                        if (!deadUnits.isEmpty()) {
+                            Map<String, Object[]> deadStatus = new HashMap<>();
+                            deadUnits.forEach(x -> {
+                                List<String> strings = Arrays.asList(x.split("_"));
+                                deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                            });
 
+                            addMultiTargetLog("UNIT_DEATH",
+                                    "SYSTEM", null, 0,
+                                    0, 0, 0, 0, 0, 0,
+                                    deadUnits, null,
+                                    deadStatus,
+                                    getFieldUnitsStatus(),
+                                    0, null, null,
+                                    "火焰伤害");
+                            //触发死亡技能
+                            for (Guardian g : deadGuardians) {
+                                triggerOnDeathSkills(g);
+                            }
+
+                        }
+                        //触发受击技能
+                        offFieldEnemies.forEach(g -> {
+                            //触发受到任意伤害技能
+                            triggerOnAttackedSkills(g);
+                        });
                     }
-                    //触发受击技能
-                    offFieldEnemies.forEach(g -> {
-                        //触发受到任意伤害技能
-                        triggerOnAttackedSkills(g);
-                    });
+                }
+                break;
+            case "赛太岁":
+                if (1==1){
+                    // 焚烧lv1攻击后对全体敌方造成12点火焰伤害
+                    List<Guardian> offFieldEnemies = defender.getCamp() == Camp.A ?
+                            campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                            campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+
+                    if (!offFieldEnemies.isEmpty()) {
+                        List<String> deadUnits = new ArrayList<>();
+                        List<Guardian> deadGuardians = new ArrayList<>();
+                        int lavaDamage = 12 * skillLevel;
+                        List<String> targetNames = new ArrayList<>();
+                        Map<String, Object[]> targetStatus = new HashMap<>();
+
+                        offFieldEnemies.forEach(g -> {
+                            targetNames.add(g.getName());
+                            int hpBefore = g.getMaxHp();
+                            g.setCurrentHp(g.getCurrentHp() - lavaDamage);
+                            targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
+                            if (g.isDead()) {
+                                deadUnits.add(g.getCamp() + g.getName() + "_" + g.getPosition());
+                                deadGuardians.add(g);
+                            }
+                        });
+
+                        // 单条日志记录多目标
+                        addMultiTargetLog("焚烧",
+                                attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                                attackerHpBefore, attacker.getCurrentHp(),
+                                attackerAttackBefore, attacker.getAttack(),
+                                attackerSpeedBefore, attacker.getSpeed(),
+                                targetNames, defender.getCamp(),
+                                targetStatus,
+                                getFieldUnitsStatus(),
+                                lavaDamage, EffectType.FIRE_DAMAGE, DamageType.FIRE,
+                                attacker.getName() + "触发焚烧，攻击后对全体造成火焰伤害");
+                        // 死亡日志
+                        if (!deadUnits.isEmpty()) {
+                            Map<String, Object[]> deadStatus = new HashMap<>();
+                            deadUnits.forEach(x -> {
+                                List<String> strings = Arrays.asList(x.split("_"));
+                                deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                            });
+
+                            addMultiTargetLog("UNIT_DEATH",
+                                    "SYSTEM", null, 0,
+                                    0, 0, 0, 0, 0, 0,
+                                    deadUnits, null,
+                                    deadStatus,
+                                    getFieldUnitsStatus(),
+                                    0, null, null,
+                                    "火焰伤害");
+                            //触发死亡技能
+                            for (Guardian g : deadGuardians) {
+                                triggerOnDeathSkills(g);
+                            }
+
+                        }
+                        //触发受击技能
+                        offFieldEnemies.forEach(g -> {
+                            //触发受到任意伤害技能
+                            triggerOnAttackedSkills(g);
+                        });
+                    }
+                }
+                break;
+            case "琵琶精":
+                if (2==2){
+                    //妖火lv1攻击后对全体敌方造成12点 火焰伤害
+                    List<Guardian> offFieldEnemies = defender.getCamp() == Camp.A ?
+                            campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                            campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+
+                    if (!offFieldEnemies.isEmpty()) {
+                        List<String> deadUnits = new ArrayList<>();
+                        List<Guardian> deadGuardians = new ArrayList<>();
+                        int lavaDamage = 12 * skillLevel;
+                        List<String> targetNames = new ArrayList<>();
+                        Map<String, Object[]> targetStatus = new HashMap<>();
+
+                        offFieldEnemies.forEach(g -> {
+                            targetNames.add(g.getName());
+                            int hpBefore = g.getMaxHp();
+                            g.setCurrentHp(g.getCurrentHp() - lavaDamage);
+                            targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
+                            if (g.isDead()) {
+                                deadUnits.add(g.getCamp() + g.getName() + "_" + g.getPosition());
+                                deadGuardians.add(g);
+                            }
+                        });
+
+                        // 单条日志  记录多目标
+                        addMultiTargetLog("妖火",
+                                attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                                attackerHpBefore, attacker.getCurrentHp(),
+                                attackerAttackBefore, attacker.getAttack(),
+                                attackerSpeedBefore, attacker.getSpeed(),
+                                targetNames, defender.getCamp(),
+                                targetStatus,
+                                getFieldUnitsStatus(),
+                                lavaDamage, EffectType.FIRE_DAMAGE, DamageType.FIRE,
+                                attacker.getName() + "触发妖火，攻击后对全体造成火焰伤害");
+                        // 死亡日志
+                        if (!deadUnits.isEmpty()) {
+                            Map<String, Object[]> deadStatus = new HashMap<>();
+                            deadUnits.forEach(x -> {
+                                List<String> strings = Arrays.asList(x.split("_"));
+                                deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                            });
+
+                            addMultiTargetLog("UNIT_DEATH",
+                                    "SYSTEM", null, 0,
+                                    0, 0, 0, 0, 0, 0,
+                                    deadUnits, null,
+                                    deadStatus,
+                                    getFieldUnitsStatus(),
+                                    0, null, null,
+                                    "火焰伤害");
+                            //触发死亡技能
+                            for (Guardian g : deadGuardians) {
+                                triggerOnDeathSkills(g);
+                            }
+
+                        }
+                        //触发受击技能
+                        offFieldEnemies.forEach(g -> {
+                            //触发受到任意伤害技能
+                            triggerOnAttackedSkills(g);
+                        });
+                    }
                 }
                 break;
         }
@@ -1581,7 +2321,7 @@ public class BattleManager {
                 List<Guardian> deadGuardians = new ArrayList<>();
                 List<String> deadUnits = new ArrayList<>();
                 int skillLevel = SkillLevelCalculator.getSkillLevel(v.getLevel());
-                int damage = 325 * skillLevel;
+                int damage = 325 * skillLevel+zhongyuedadiHuan(v);
                 minHpPerson.setCurrentHp(minHpPerson.getCurrentHp() - damage);
                 if (minHpPerson.isDead()) {
                     deadUnits.add(minHpPerson.getCamp() + minHpPerson.getName() + "_" + minHpPerson.getPosition());
@@ -1626,6 +2366,55 @@ public class BattleManager {
 
             }
 
+        }
+
+        if (Xtool.isNull(v.getEffects().get(EffectType.SILENCE)) && !v.isDead() && v.getName().equals("鹏魔王")) {
+            List<Guardian> offFieldEnemies = v.getCamp() == Camp.A ?
+                    campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                    campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+            if (!offFieldEnemies.isEmpty()) {
+                List<String> targetNames = new ArrayList<>();
+                Map<String, Object[]> targetStatus = new HashMap<>();
+                int skillLevel = SkillLevelCalculator.getSkillLevel(v.getLevel());
+                for (Guardian g : offFieldEnemies) {
+                    int poisonValue = 10 * skillLevel;
+                    targetNames.add(g.getName());
+                    int hpBefore = g.getMaxHp();
+                    int poisonDamage = g.getEffects().getOrDefault(EffectType.POISON, 0);
+                    g.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
+                }
+                // 单条日志记录多目标
+                addMultiTargetLog("死雨风暴",
+                        v.getName(), v.getCamp(), v.getPosition(),
+                        v.getMaxHp(), v.getCurrentHp(),
+                        v.getAttack(), v.getAttack(),
+                        v.getSpeed(), v.getSpeed(),
+                        targetNames, offFieldEnemies.get(0).getCamp(),
+                        targetStatus,
+                        getFieldUnitsStatus(),
+                        0, EffectType.POISON, DamageType.POISON,
+                        v.getName() + "触发死雨风暴，死亡时，敌方所有生物中毒每");
+
+                Guardian enemie = v.getCamp() == Camp.A ?fieldB:fieldA;
+                if (!enemie.isDead()){
+                    int poisonDamage = enemie.getEffects().getOrDefault(EffectType.POISON, 0);
+                    int poisonValue = 70 * skillLevel;
+                    enemie.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    addLog("死亡徘徊",
+                            v.getName(), v.getCamp(), v.getPosition(),
+                            v.getMaxHp(), v.getCurrentHp(),
+                            v.getAttack(), v.getAttack(),
+                            v.getSpeed(), v.getSpeed(),
+                            enemie.getName(), enemie.getCamp(), enemie.getPosition(),
+                            enemie.getMaxHp(), enemie.getCurrentHp(),
+                            enemie.getAttack(), enemie.getAttack(),
+                            enemie.getSpeed(), enemie.getSpeed(),
+                            getFieldUnitsStatus(),
+                            poisonValue, EffectType.POISON, DamageType.POISON,
+                            v.getName() + "触发死亡徘徊");
+                }
+            }
         }
 
         if (Xtool.isNull(v.getEffects().get(EffectType.SILENCE)) && v.getName().equals("陆压道君")) {
@@ -1900,6 +2689,59 @@ public class BattleManager {
 
         }
 
+        if (v.getCamp() == Camp.B && campA.stream().anyMatch(g -> g.getName().equals("芙蓉仙子")&&!g.isOnField() && !g.isDead() )) {
+            Guardian luoshen = campA.stream()
+                    .filter(g -> g.getName().equals("芙蓉仙子") && !g.isDead())
+                    .findFirst().get();
+            if (fieldA != null && !fieldA.isDead()) {
+                int skillLevel = SkillLevelCalculator.getSkillLevel(luoshen.getLevel());
+                int heal = 104 * skillLevel;
+                int hpBefore = fieldA.getMaxHp();
+                fieldA.setCurrentHp(fieldA.getCurrentHp() + heal);
+
+                addLog("百花酿",
+                        luoshen.getName(), luoshen.getCamp(), luoshen.getPosition(),
+                        hpBefore, luoshen.getCurrentHp(),
+                        luoshen.getAttack(), luoshen.getAttack(),
+                        luoshen.getSpeed(), luoshen.getSpeed(),
+                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
+                        hpBefore, fieldA.getCurrentHp(),
+                        fieldA.getAttack(), fieldA.getAttack(),
+                        fieldA.getSpeed(), fieldA.getSpeed(),
+                        getFieldUnitsStatus(),
+                        heal, EffectType.HEAL, null,
+                        fieldA.getName() +"，每当地方单位死亡，治疗我方场上单位104生命");
+                triggerOnHelSkills(fieldA);
+            }
+        }
+
+        if (v.getCamp() == Camp.A && campB.stream().anyMatch(g -> g.getName().equals("芙蓉仙子")&&!g.isOnField() && !g.isDead() )) {
+            Guardian luoshen = campB.stream()
+                    .filter(g -> g.getName().equals("芙蓉仙子") && !g.isDead())
+                    .findFirst().get();
+            if (fieldB != null && !fieldB.isDead()) {
+                int skillLevel = SkillLevelCalculator.getSkillLevel(luoshen.getLevel());
+                int heal = 104 * skillLevel;
+                int hpBefore = fieldB.getMaxHp();
+                fieldB.setCurrentHp(fieldB.getCurrentHp() + heal);
+
+                addLog("百花酿",
+                        luoshen.getName(), luoshen.getCamp(), luoshen.getPosition(),
+                        hpBefore, luoshen.getCurrentHp(),
+                        luoshen.getAttack(), luoshen.getAttack(),
+                        luoshen.getSpeed(), luoshen.getSpeed(),
+                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                        hpBefore, fieldB.getCurrentHp(),
+                        fieldB.getAttack(), fieldB.getAttack(),
+                        fieldB.getSpeed(), fieldB.getSpeed(),
+                        getFieldUnitsStatus(),
+                        heal, EffectType.HEAL, null,
+                        fieldB.getName() +"，每当地方单位死亡，治疗我方场上单位104生命");
+                triggerOnHelSkills(fieldB);
+            }
+        }
+
+
         // 长生大帝生生不息（多目标整合）
         if (campA.stream().anyMatch(g -> g.getName().equals("长生大帝") && !g.isDead())) {
             Guardian changsheng = campA.stream()
@@ -1981,6 +2823,8 @@ public class BattleManager {
 
     // 处理回合开始效果
     private void processRoundStartEffects() {
+        // 场下中毒效果（批量处理）
+        processPoisonEffects();
         // 厚土娘娘后土聚能
         if (Xtool.isNull(fieldA.getEffects().get(EffectType.SILENCE)) && fieldA != null && fieldA.getName().equals("厚土娘娘") && fieldA.getBuffStacks() < 99) {
             int attackBefore = fieldA.getAttack();
@@ -2264,8 +3108,143 @@ public class BattleManager {
             }
 
         }
-        // 场下中毒效果（批量处理）
-        processPoisonEffects();
+        // A玄冥
+//            玄冥，毒入骨髓Lv1场下，每回合令随机敌方中毒每回损失16点生命；
+        if (campA.stream().anyMatch(g -> g.getName().equals("玄冥") && !g.isDead() && !g.isOnField())) {
+            Guardian daji = campA.stream()
+                    .filter(g -> g.getName().equals("玄冥")&& !g.isDead() && !g.isOnField())
+                    .findFirst().get();
+            int skillLevel = SkillLevelCalculator.getSkillLevel(daji.getLevel());
+            int dajiHpBefore = daji.getCurrentHp();
+            int dajiAttackBefore = daji.getAttack();
+            int dajiSpeedBefore = daji.getSpeed();
+
+            // 毒入骨髓：随机敌方中毒
+            List<Guardian> enemies = campB.stream()
+                    .filter(g -> !g.isDead())
+                    .collect(Collectors.toList());
+
+            if (!enemies.isEmpty()) {
+                Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
+                int targetHpBefore = randomEnemy.getMaxHp();
+                int poisonValue = 16 * skillLevel;
+                int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON,0);
+                randomEnemy.getEffects().put(EffectType.POISON, poisonValue+poisonDamage);
+
+                addLog("毒入骨髓",
+                        daji.getName(), Camp.A, daji.getPosition(),
+                        dajiHpBefore, daji.getCurrentHp(),
+                        dajiAttackBefore, daji.getAttack(),
+                        dajiSpeedBefore, daji.getSpeed(),
+                        randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
+                        targetHpBefore, randomEnemy.getCurrentHp(),
+                        randomEnemy.getAttack(), randomEnemy.getAttack(),
+                        randomEnemy.getSpeed(), randomEnemy.getSpeed(),
+                        getFieldUnitsStatus(),
+                        poisonValue, EffectType.POISON, DamageType.POISON,
+                        "玄冥触发毒入骨髓，使敌人中毒");
+            }
+        }
+
+        // B队玄冥
+        if (campB.stream().anyMatch(g -> g.getName().equals("玄冥")  && !g.isDead() && !g.isOnField())) {
+            Guardian daji = campB.stream()
+                    .filter(g -> g.getName().equals("玄冥")&& !g.isDead() && !g.isOnField())
+                    .findFirst().get();
+            int skillLevel = SkillLevelCalculator.getSkillLevel(daji.getLevel());
+            int dajiHpBefore = daji.getCurrentHp();
+            int dajiAttackBefore = daji.getAttack();
+            int dajiSpeedBefore = daji.getSpeed();
+
+
+            // 谄媚噬魂：随机敌方中毒
+            List<Guardian> enemies = campA.stream()
+                    .filter(g -> !g.isDead())
+                    .collect(Collectors.toList());
+
+            if (!enemies.isEmpty()) {
+                Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
+                int targetHpBefore = randomEnemy.getMaxHp();
+                int poisonValue = 16 * skillLevel;
+                int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON,0);
+                randomEnemy.getEffects().put(EffectType.POISON, poisonValue+poisonDamage);
+
+                addLog("毒入骨髓",
+                        daji.getName(), Camp.B, daji.getPosition(),
+                        dajiHpBefore, daji.getCurrentHp(),
+                        dajiAttackBefore, daji.getAttack(),
+                        dajiSpeedBefore, daji.getSpeed(),
+                        randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
+                        targetHpBefore, randomEnemy.getCurrentHp(),
+                        randomEnemy.getAttack(), randomEnemy.getAttack(),
+                        randomEnemy.getSpeed(), randomEnemy.getSpeed(),
+                        getFieldUnitsStatus(),
+                        poisonValue, EffectType.POISON, DamageType.POISON,
+                        "玄冥触发毒入骨髓，使敌人中毒");
+            }
+        }
+
+        // A玄冥
+//            任意位置，若场上敌方有疾病则每回合令其中毒，受到40点毒素伤害
+        if (campA.stream().anyMatch(g -> g.getName().equals("金钩大王") && !g.isDead() && !g.isOnField())) {
+            if (!fieldB.isDead()&&fieldB.getEffects()!=null){
+                Guardian daji = campA.stream()
+                        .filter(g -> g.getName().equals("金钩大王")&& !g.isDead() && !g.isOnField())
+                        .findFirst().get();
+                int skillLevel = SkillLevelCalculator.getSkillLevel(daji.getLevel());
+                int dajiHpBefore = daji.getCurrentHp();
+                int dajiAttackBefore = daji.getAttack();
+                int dajiSpeedBefore = daji.getSpeed();
+                int poisonValue = 40 * skillLevel;
+                int poisonDamage = fieldB.getEffects().getOrDefault(EffectType.POISON,0);
+                fieldB.getEffects().put(EffectType.POISON, poisonValue+poisonDamage);
+
+                addLog("疾病传染",
+                        daji.getName(), Camp.A, daji.getPosition(),
+                        dajiHpBefore, daji.getCurrentHp(),
+                        dajiAttackBefore, daji.getAttack(),
+                        dajiSpeedBefore, daji.getSpeed(),
+                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                        fieldB.getMaxHp(), fieldB.getCurrentHp(),
+                        fieldB.getAttack(), fieldB.getAttack(),
+                        fieldB.getSpeed(), fieldB.getSpeed(),
+                        getFieldUnitsStatus(),
+                        poisonValue, EffectType.POISON, DamageType.POISON,
+                        "任意位置，若场上敌方有疾病则每回合令其中毒，受到40点毒素伤害");
+            }
+
+        }
+
+        // B队玄冥
+        if (campB.stream().anyMatch(g -> g.getName().equals("金钩大王") && !g.isDead() && !g.isOnField())) {
+            if (!fieldA.isDead()&&fieldA.getEffects()!=null){
+                Guardian daji = campB.stream()
+                        .filter(g -> g.getName().equals("金钩大王")&& !g.isDead() && !g.isOnField())
+                        .findFirst().get();
+                int skillLevel = SkillLevelCalculator.getSkillLevel(daji.getLevel());
+                int dajiHpBefore = daji.getCurrentHp();
+                int dajiAttackBefore = daji.getAttack();
+                int dajiSpeedBefore = daji.getSpeed();
+                int poisonValue = 40 * skillLevel;
+                int poisonDamage = fieldA.getEffects().getOrDefault(EffectType.POISON,0);
+                fieldA.getEffects().put(EffectType.POISON, poisonValue+poisonDamage);
+
+                addLog("疾病传染",
+                        daji.getName(), Camp.B, daji.getPosition(),
+                        dajiHpBefore, daji.getCurrentHp(),
+                        dajiAttackBefore, daji.getAttack(),
+                        dajiSpeedBefore, daji.getSpeed(),
+                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
+                        fieldA.getMaxHp(), fieldA.getCurrentHp(),
+                        fieldA.getAttack(), fieldA.getAttack(),
+                        fieldA.getSpeed(), fieldA.getSpeed(),
+                        getFieldUnitsStatus(),
+                        poisonValue, EffectType.POISON, DamageType.POISON,
+                        "任意位置，若场上敌方有疾病则每回合令其中毒，受到40点毒素伤害");
+            }
+
+        }
+
 
         // 妲己场下技能
         processOnFieldSkills();
@@ -2574,18 +3553,17 @@ public class BattleManager {
             }
 
 
-            // A玄冥
-//            玄冥，毒入骨髓Lv1场下，每回合令随机敌方中毒每回损失16点生命；
-            if (campA.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            // A队妲己
+            if (campA.stream().anyMatch(g -> g.getName().equals("白晶晶") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
                 Guardian daji = campA.stream()
-                        .filter(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())
+                        .filter(g -> g.getName().equals("白晶晶") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
                 int skillLevel = SkillLevelCalculator.getSkillLevel(daji.getLevel());
                 int dajiHpBefore = daji.getCurrentHp();
                 int dajiAttackBefore = daji.getAttack();
                 int dajiSpeedBefore = daji.getSpeed();
 
-                // 毒入骨髓：随机敌方中毒
+                // 谄媚噬魂：随机敌方中毒
                 List<Guardian> enemies = campB.stream()
                         .filter(g -> !g.isDead())
                         .collect(Collectors.toList());
@@ -2593,11 +3571,11 @@ public class BattleManager {
                 if (!enemies.isEmpty()) {
                     Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
                     int targetHpBefore = randomEnemy.getMaxHp();
-                    int poisonValue = 16 * skillLevel;
-                    int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON,0);
+                    int poisonValue = 7 * skillLevel;
+                    int poisonDamage = randomEnemy.getEffects().getOrDefault (EffectType.POISON,0);
                     randomEnemy.getEffects().put(EffectType.POISON, poisonValue+poisonDamage);
 
-                    addLog("毒入骨髓",
+                    addLog("谄媚噬魂",
                             daji.getName(), Camp.A, daji.getPosition(),
                             dajiHpBefore, daji.getCurrentHp(),
                             dajiAttackBefore, daji.getAttack(),
@@ -2608,20 +3586,19 @@ public class BattleManager {
                             randomEnemy.getSpeed(), randomEnemy.getSpeed(),
                             getFieldUnitsStatus(),
                             poisonValue, EffectType.POISON, DamageType.POISON,
-                            "玄冥触发毒入骨髓，使敌人中毒");
+                            "白晶晶触发谄媚噬魂，使敌人中毒");
                 }
             }
 
-            // B队玄冥
-            if (campB.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            // B队妲己
+            if (campB.stream().anyMatch(g -> g.getName().equals("白晶晶") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
                 Guardian daji = campB.stream()
-                        .filter(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())
+                        .filter(g -> g.getName().equals("白晶晶") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
                 int skillLevel = SkillLevelCalculator.getSkillLevel(daji.getLevel());
                 int dajiHpBefore = daji.getCurrentHp();
                 int dajiAttackBefore = daji.getAttack();
                 int dajiSpeedBefore = daji.getSpeed();
-
 
                 // 谄媚噬魂：随机敌方中毒
                 List<Guardian> enemies = campA.stream()
@@ -2631,11 +3608,11 @@ public class BattleManager {
                 if (!enemies.isEmpty()) {
                     Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
                     int targetHpBefore = randomEnemy.getMaxHp();
-                    int poisonValue = 16 * skillLevel;
+                    int poisonValue = 7 * skillLevel;
                     int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON,0);
                     randomEnemy.getEffects().put(EffectType.POISON, poisonValue+poisonDamage);
 
-                    addLog("毒入骨髓",
+                    addLog("谄媚噬魂",
                             daji.getName(), Camp.B, daji.getPosition(),
                             dajiHpBefore, daji.getCurrentHp(),
                             dajiAttackBefore, daji.getAttack(),
@@ -2646,7 +3623,7 @@ public class BattleManager {
                             randomEnemy.getSpeed(), randomEnemy.getSpeed(),
                             getFieldUnitsStatus(),
                             poisonValue, EffectType.POISON, DamageType.POISON,
-                            "玄冥触发毒入骨髓，使敌人中毒");
+                            "白晶晶触发谄媚噬魂，使敌人中毒");
                 }
             }
         }
@@ -2998,9 +3975,34 @@ public class BattleManager {
     }
 
     private boolean duoBaoGuanHuan(){
+        //血量上限不改变光环
         boolean campAHasAlive = campA.stream().anyMatch(g ->g.getName().equals("多宝道人")&& !g.isDead());
         boolean campBHasAlive = campB.stream().anyMatch(g ->g.getName().equals("多宝道人")&& !g.isDead());
         return !campAHasAlive || !campBHasAlive;
+    }
+
+    private int jiaomowang(Guardian guardian,int fireDamage ){
+        //血量上限不改变光环
+        List<Guardian> jiaomowang = guardian.getCamp() == Camp.A ?
+                campA.stream().filter(g ->g.getName().equals("蛟魔王")&& !g.isDead()).collect(Collectors.toList()):
+                campB.stream().filter(g ->g.getName().equals("蛟魔王")&& !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(jiaomowang))return (int)(fireDamage*0.5);
+        return fireDamage;
+    }
+
+    private Integer zhongyuedadiHuan(Guardian guardian){
+        //飞弹伤害增加光环
+        List<Guardian> zhongyues = guardian.getCamp() == Camp.A ?
+                campA.stream().filter(g ->g.getName().equals("中岳大帝")&& !g.isDead()).collect(Collectors.toList()):
+                campB.stream().filter(g ->g.getName().equals("中岳大帝")&& !g.isDead()).collect(Collectors.toList());
+        Integer damage=0;
+        if (Xtool.isNotNull(zhongyues)){
+            Guardian zhongyue=zhongyues.get(0);
+            int skillLevel = SkillLevelCalculator.getSkillLevel(zhongyue.getLevel());
+//            五岳灵脉Lv1光环-增加我方全体飞弹伤害20点；
+            damage=skillLevel*20;
+        }
+        return damage;
     }
     // 判断战斗是否结束
     private boolean isBattleEnd() {

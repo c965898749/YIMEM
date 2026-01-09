@@ -215,7 +215,7 @@
     WHERE is_active = 1
     AND start_time &lt;= #{now}
     AND end_time &gt;= #{now}
-    AND (remaining_quantity = -1 OR remaining_quantity > 0)
+    AND (remaining_quantity = -1 OR (remaining_quantity > 0 and gift_type &lt;&gt; 4) or  gift_type = 4)
   </select>
 
   <select id="selectByGiftCode" resultType="com.sy.model.game.GameGift">

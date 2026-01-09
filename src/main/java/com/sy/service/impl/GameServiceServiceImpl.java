@@ -1371,6 +1371,7 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    @Transactional
     public BaseResp receive(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -1378,7 +1379,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -1412,7 +1414,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
 
         // 3. 校验剩余数量（非不限量时）
-        if (gift.getRemainingQuantity() != -1 && gift.getRemainingQuantity() <= 0) {
+        if (gift.getRemainingQuantity() != -1 && gift.getRemainingQuantity() <= 0&&gift.getGiftType()!=4) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg(Constants.GIFT_OUT_OF_STOCK);
             return baseResp;
@@ -1765,6 +1767,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
 
     @Override
+    @Transactional
     public BaseResp giftExchangeCode(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -1772,7 +1775,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -1849,6 +1853,10 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         record.setCreateTime(new Date());
         gameGiftExchangeCodeMapper.insertSelective(record);
+        if (gift.getRemainingQuantity() != -1) {
+            gift.setRemainingQuantity(gift.getRemainingQuantity()-1);
+            gameGiftMapper.updateByPrimaryKey(gift);
+        }
         baseResp.setErrorMsg("兑换成功请注意查收");
         baseResp.setSuccess(1);
         return baseResp;
@@ -2726,7 +2734,11 @@ public class GameServiceServiceImpl implements GameServiceService {
         friendBlessing.setSenderId(Integer.parseInt(userId));
         friendBlessing.setSendTime(new Date());
         friendBlessingMapper.insert(friendBlessing);
+        User user1=userMapper.selectUserByUserId(Integer.parseInt(userId));
+        UserInfo userInfo=new UserInfo();
+        BeanUtils.copyProperties(user1,userInfo);
         baseResp.setSuccess(1);
+        baseResp.setData(userInfo);
         baseResp.setErrorMsg("仙缘祝福已送达！\n 仙友已经收到你的心意～\n 体力 + 10、活力 + 10 \n 已注入你的仙躯，可继续闯荡三界！");
         return baseResp;
     }
@@ -3186,7 +3198,11 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
 
         }
+        User user1=userMapper.selectUserByUserId(Integer.parseInt(userId));
+        UserInfo userInfo=new UserInfo();
+        BeanUtils.copyProperties(user1,userInfo);
         baseResp.setSuccess(1);
+        baseResp.setData(userInfo);
         baseResp.setErrorMsg("使用成功");
         return baseResp;
     }
@@ -4200,6 +4216,8 @@ public class GameServiceServiceImpl implements GameServiceService {
         if (Xtool.isNotNull(gameArenaSignup)){
             baseResp.setSuccess(1);
             map1.put("isSignedUp",true);
+            List<GameArenaBattlecharacters> gameArenaBattlecharacters=gameArenaBattlecharactersMapper.selectByMap(map);
+            map1.put("gameArenaBattlecharacters",gameArenaBattlecharacters);
             baseResp.setData(map1);
             return baseResp;
         }
@@ -5065,6 +5083,50 @@ public class GameServiceServiceImpl implements GameServiceService {
                     gameGiftExchangeCodeMapper.insertSelective(record);
                 }
             }
+        }
+    }
+
+    @Override
+    public void addActCode() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+
+        // 3. 增加一个月（核心：Calendar.MONTH，加1）
+        calendar.add(Calendar.MONTH, 1); // 自动处理边界日期
+
+        // 4. 获取加1个月后的Date对象
+        Date nextMonthDate = calendar.getTime();
+        for (int i=0;i<10000;i++){
+            String code= RandomCodeGenerator.generateUniqueCode();
+            GameGift gameGift=new GameGift();
+            gameGift.setGiftCode(code);
+            gameGift.setGiftType(4);
+            gameGift.setRemainingQuantity(1);
+            gameGift.setTotalQuantity(1);
+            gameGift.setIsActive(1);
+            gameGift.setStartTime(new Date());
+            gameGift.setUpdateTime(new Date());
+            gameGift.setEndTime(nextMonthDate);
+            gameGift.setGiftName("公益捐赠专属礼包");
+            gameGift.setDescription("内含：钻石10000 + 金币100000\n" +
+                    "助力仙途，善意永存！");
+            gameGift.setCreateTime(new Date());
+            gameGiftMapper.insert(gameGift);
+            GameGift gifts=gameGiftMapper.selectByGiftCode(code);
+            GameGiftContent gameGiftContent=new GameGiftContent();
+            gameGiftContent.setGiftId(gifts.getGiftId());
+            gameGiftContent.setItemType(1);
+            gameGiftContent.setItemQuantity(10000);
+            gameGiftContent.setItemId(Long.parseLong(0+""));
+            gameGiftContent.setCreateTime(new Date());
+            gameGiftContentMapper.insert(gameGiftContent);
+            GameGiftContent gameGiftContent2=new GameGiftContent();
+            gameGiftContent2.setGiftId(gifts.getGiftId());
+            gameGiftContent2.setItemType(2);
+            gameGiftContent2.setItemQuantity(100000);
+            gameGiftContent2.setItemId(Long.parseLong(0+""));
+            gameGiftContent2.setCreateTime(new Date());
+            gameGiftContentMapper.insert(gameGiftContent2);
         }
     }
 

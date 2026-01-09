@@ -70,5 +70,6 @@ public interface GameServiceService {
     BaseResp arenaSignup(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp arenaTem(TokenDto token, HttpServletRequest request) throws Exception;
     void sendRawrd();
+    void addActCode();
     void syncLastWeekRank();
 }

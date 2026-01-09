@@ -639,6 +639,12 @@ public class GameContoller {
         }
     }
 
+    /**
+     * 邮件接收
+     * @param token
+     * @param request
+     * @return
+     */
     @PostMapping("receive")
     @CrossOrigin
     public BaseResp receive(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -720,6 +726,12 @@ public class GameContoller {
         }
     }
 
+    /**
+     * 兑换
+     * @param token
+     * @param request
+     * @return
+     */
     @PostMapping("giftExchangeCode")
     @CrossOrigin
     public BaseResp giftExchangeCode(@RequestBody TokenDto token, HttpServletRequest request) {
