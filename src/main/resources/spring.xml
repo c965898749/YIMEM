@@ -59,7 +59,8 @@
         <property name="basePackage" value="com.sy.mapper" />
     </bean>
 
-
+    <!-- 1. 扫描你的切面类所在包！！必须是切面类的真实包路径，比如 com.game.aspect -->
+    <context:component-scan base-package="com.sy.aspect"/>
 
     <!--3.JDBC事务管理器-->
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

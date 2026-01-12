@@ -119,4 +119,10 @@ public class User {
     private Date weiwan2Time;
     private Date weiwan3Time;
     private Date shopUpdate;
+
+    //
+//    private BigDecimal bronze;
+//    private BigDecimal darkSteel;
+//    private BigDecimal purpleGold;
+//    private BigDecimal crystal;
 }

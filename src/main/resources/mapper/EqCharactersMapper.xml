@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.mapper.game.EqCharactersMapper">
+    <select id="listById" resultType="com.sy.model.game.EqCharacters">
+    select
+    cs.uuid,
+    cs.user_id,
+    cs.id,
+    cs.lv,
+    cd.star,
+    cs.stack_count,
+    cs.go_into_num,
+    cs.exp,
+    cs.max_lv,
+    cd.name,
+    cd.camp,
+    cd.introduce,
+    cd.hp_growth,
+    cd.attack_growth,
+    cd.defence_growth,
+    cd.pierce_growth,
+    cd.speed_growth,
+    cd.profession,
+    cd.coll_attack,
+    cd.coll_speed,
+    cd.coll_hp,
+    cd.img,
+    cd.fire_res,
+    cd.poison_res,
+    cd.projectile_res,
+    cd.fire_growth,
+    cd.poison_growth,
+    cd.projectile_growth,
+    cd.passive_introduce_one,
+    cd.passive_introduce_two,
+    cs.is_delete,
+    cd.passive_introduce_three
+    from   eq_characters cs
+    left  join eq_card cd on cd.id=cs.id
+    where cs.user_id = #{userId} and   cs.id = #{id} and cs.is_delete='0' limit 1
+  </select>
+    <select id="selectByUserId" parameterType="com.sy.model.game.Characters"
+            resultType="com.sy.model.game.EqCharacters">
+    select
+    cs.uuid,
+    cs.user_id,
+    cs.id,
+    cs.lv,
+    cd.star,
+    cs.stack_count,
+    cs.go_into_num,
+    cs.exp,
+    cs.max_lv,
+    cd.name,
+    cd.camp,
+    cd.introduce,
+    cd.hp_growth,
+    cd.attack_growth,
+    cd.defence_growth,
+    cd.pierce_growth,
+    cd.speed_growth,
+    cd.profession,
+    cd.coll_attack,
+    cd.coll_speed,
+    cd.coll_hp,
+    cd.img,
+    cd.fire_res,
+    cd.poison_res,
+    cd.projectile_res,
+    cd.fire_growth,
+    cd.poison_growth,
+    cd.projectile_growth,
+    cd.passive_introduce_one,
+    cd.passive_introduce_two,
+    cs.is_delete,
+    cd.passive_introduce_three
+    from   eq_characters cs
+    left  join eq_card cd on cd.id=cs.id
+    where cs.user_id = #{userId} and cs.is_delete='0'
+  </select>
+</mapper>

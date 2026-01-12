@@ -6,9 +6,22 @@
         gib.description,
         gib.icon,
         gpb.item_count,
+        gib.item_type,
         gpb.item_id
         FROM game_player_bag gpb
         left join game_item_base gib on gib.item_id =gpb.item_id
         where gpb.user_id=#{userId} and gpb.is_delete='0'
+    </select>
+    <select id="goIntoListByIdAndItemId" resultType="com.sy.model.game.GamePlayerBag">
+       SELECT gib.item_name,
+        gib.description,
+        gib.icon,
+        gpb.item_count,
+        gib.item_type,
+        gpb.item_id,
+        gpb.bag_id
+        FROM game_player_bag gpb
+        left join game_item_base gib on gib.item_id =gpb.item_id
+        where gpb.user_id=#{userId} and  gpb.item_id=#{itemId} and gpb.is_delete='0'
     </select>
 </mapper>

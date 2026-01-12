@@ -44,5 +44,7 @@ public class GamePlayerBag {
     private String icon;
     @TableField("is_delete")
     private String isDelete;
+    @TableField(exist = false)
+    private Integer itemType;
 
 }

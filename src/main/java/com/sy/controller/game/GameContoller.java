@@ -6,6 +6,7 @@ import com.sy.model.game.LevelUpResult;
 import com.sy.model.game.TokenDto;
 import com.sy.model.resp.BaseResp;
 import com.sy.service.GameServiceService;
+import com.sy.tool.NoRepeatSubmit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,7 +68,28 @@ public class GameContoller {
     }
 
     /**
-     * 单抽
+     * 打造
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "danChouEq", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp danChouEq(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.danChouEq(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
+     * 出售
      *
      * @param token
      * @param request
@@ -964,6 +986,13 @@ public class GameContoller {
             return baseResp;
         }
     }
+
+    /**
+     * 背包
+     * @param token
+     * @param request
+     * @return
+     */
     @PostMapping("bagItemList")
     @CrossOrigin
     public BaseResp bagItemList(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -978,6 +1007,12 @@ public class GameContoller {
         }
     }
 
+    /**
+     * 使用
+     * @param token
+     * @param request
+     * @return
+     */
     @PostMapping("useBagItem")
     @CrossOrigin
     public BaseResp useBagItem(@RequestBody TokenDto token, HttpServletRequest request) {

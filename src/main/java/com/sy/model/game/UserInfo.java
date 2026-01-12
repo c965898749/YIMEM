@@ -40,6 +40,7 @@ public class UserInfo {
 
     //卡牌
     List<Characters> characterList;
+    List<EqCharacters> eqCharactersList;
     private String token;
     //卡池数量
     private String useCardCount;
@@ -74,4 +75,10 @@ public class UserInfo {
     private Integer arenaCount;
     private Integer weiwanCount;
     private Date shopUpdate;
+
+    //
+    private Integer bronze;
+    private Integer darkSteel;
+    private Integer purpleGold;
+    private Integer crystal;
 }

@@ -212,10 +212,17 @@
   </update>
   <select id="selectValidGifts" resultType="com.sy.model.game.GameGift">
     SELECT * FROM game_gift
-    WHERE is_active = 1
-    AND start_time &lt;= #{now}
-    AND end_time &gt;= #{now}
-    AND (remaining_quantity = -1 OR (remaining_quantity > 0 and gift_type &lt;&gt; 4) or  gift_type = 4)
+    WHERE gift_id  BETWEEN 1 AND 100;
+  </select>
+
+  <select id="selectValidGifts2" resultType="com.sy.model.game.GameGift">
+    SELECT gg.* FROM game_gift_exchange_code ggec
+    LEFT JOIN game_gift gg on gg.gift_id=ggec.gift_id
+    WHERE gg.is_active = 1
+    AND gg.start_time &lt;= #{now}
+    AND gg.end_time &gt;= #{now}
+    AND (gg.remaining_quantity = -1 OR (gg.remaining_quantity > 0 and gg.gift_type &lt;&gt; 4) or  gg.gift_type = 4)
+    and ggec.use_user_id=#{userId} and ggec.is_used='0'
   </select>
 
   <select id="selectByGiftCode" resultType="com.sy.model.game.GameGift">

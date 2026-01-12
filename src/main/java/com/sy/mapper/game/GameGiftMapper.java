@@ -21,7 +21,9 @@ public interface GameGiftMapper {
 
     int updateByPrimaryKey(GameGift record);
 
-    List<GameGift> selectValidGifts(@Param("now") LocalDateTime now);
+    List<GameGift> selectValidGifts();
+
+    List<GameGift> selectValidGifts2(@Param("now") LocalDateTime now,@Param("userId")String userId);
 
     GameGift selectByGiftCode(@Param("giftCode") String giftCode);
 }
