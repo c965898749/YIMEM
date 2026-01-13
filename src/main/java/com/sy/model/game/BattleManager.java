@@ -303,7 +303,7 @@ public class BattleManager {
                                 targetStatus,
                                 getFieldUnitsStatus(),
                                 speed, EffectType.SPEED_UP, null,
-                                "长生大帝触发鹏程万里，提高我方全体妖界生物的速度");
+                                "触发鹏程万里，提高我方全体妖界生物的速度");
                     }
                 }
                 break;

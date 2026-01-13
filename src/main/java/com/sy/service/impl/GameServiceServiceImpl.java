@@ -380,7 +380,9 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -5502,7 +5504,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             gameGift.setUpdateTime(new Date());
             gameGift.setEndTime(nextMonthDate);
             gameGift.setGiftName("公益捐赠专属礼包");
-            gameGift.setDescription("内含：钻石10000 + 金币100000\n" +
+            gameGift.setDescription("内含：钻石120000 + 金币1200000\n" +
                     "助力仙途，善意永存！");
             gameGift.setCreateTime(new Date());
             gameGiftMapper.insert(gameGift);
@@ -5510,14 +5512,14 @@ public class GameServiceServiceImpl implements GameServiceService {
             GameGiftContent gameGiftContent = new GameGiftContent();
             gameGiftContent.setGiftId(gifts.getGiftId());
             gameGiftContent.setItemType(1);
-            gameGiftContent.setItemQuantity(10000);
+            gameGiftContent.setItemQuantity(120000);
             gameGiftContent.setItemId(Long.parseLong(0 + ""));
             gameGiftContent.setCreateTime(new Date());
             gameGiftContentMapper.insert(gameGiftContent);
             GameGiftContent gameGiftContent2 = new GameGiftContent();
             gameGiftContent2.setGiftId(gifts.getGiftId());
             gameGiftContent2.setItemType(2);
-            gameGiftContent2.setItemQuantity(100000);
+            gameGiftContent2.setItemQuantity(1200000);
             gameGiftContent2.setItemId(Long.parseLong(0 + ""));
             gameGiftContent2.setCreateTime(new Date());
             gameGiftContentMapper.insert(gameGiftContent2);

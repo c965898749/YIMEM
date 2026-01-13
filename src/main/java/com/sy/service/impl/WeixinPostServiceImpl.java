@@ -142,8 +142,8 @@ public class WeixinPostServiceImpl implements WeixinPostService {
                         }
 
                     }
-                    if (content.contains("机器码删")){
-                        int index = content.indexOf("机器码");
+                    if (content.contains("删码")){
+                        int index = content.indexOf("删码");
                         content = content.substring(0, index);
                         content = content.trim();
                         ActivationKey cc = new ActivationKey();
