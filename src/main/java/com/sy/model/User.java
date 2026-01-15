@@ -125,4 +125,6 @@ public class User {
 //    private BigDecimal darkSteel;
 //    private BigDecimal purpleGold;
 //    private BigDecimal crystal;
+    private Integer bronze1;
+    private Date bronze1Time;
 }

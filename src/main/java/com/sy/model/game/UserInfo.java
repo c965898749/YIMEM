@@ -81,4 +81,5 @@ public class UserInfo {
     private Integer darkSteel;
     private Integer purpleGold;
     private Integer crystal;
+    private Integer bronze1;
 }

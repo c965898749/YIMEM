@@ -543,6 +543,28 @@ public class GameContoller {
     }
 
     /**
+     * 塔
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("battle5")
+    @CrossOrigin
+    public BaseResp battle5(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.start5(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+
+    /**
      * 擂台
      *
      * @param token

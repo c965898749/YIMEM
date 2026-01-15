@@ -1,6 +1,8 @@
 package com.sy.controller.game;
 
 import com.sy.mapper.game.GameFightMapper;
+import com.sy.mapper.game.GameNoticeMapper;
+import com.sy.model.game.GameNotice;
 import com.sy.service.GameServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 @Component
 public class GameScheduled {
@@ -16,12 +19,15 @@ public class GameScheduled {
     private GameFightMapper gameFightMapper;
     @Autowired
     private GameServiceService gameServiceService;
+    @Autowired
+    private GameNoticeMapper gameNoticeMapper;
     /**
      * 每天定时清除游戏过多消息
      */
     @Scheduled(cron = "0 0 1 * * ?")
     public  void pushsite() {
         gameFightMapper.deleteByTime();
+        gameNoticeMapper.deleteByMap(new HashMap<>());
     }
 
     @Scheduled(cron = "0 0 22 ? * 7")

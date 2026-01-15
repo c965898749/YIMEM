@@ -110,6 +110,14 @@ public class GameServiceServiceImpl implements GameServiceService {
     private EqCharactersMapper eqCharactersMapper;
     @Autowired
     private EqCharactersRecordMapper eqCharactersRecordMapper;
+    @Autowired
+    private GameNoticeMapper gameNoticeMapper;
+    @Autowired
+    private PlayerBronzeTowerMapper playerBronzeTowerMapper;
+    @Autowired
+    private BronzeTowerMapper bronzeTowerMapper;
+    @Autowired
+    private BronzeBossDetailMapper bronzeBossDetailMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -509,31 +517,6 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
-    @Override
-    public BaseResp getTodayRecords(TokenDto token, HttpServletRequest request) throws Exception {
-        BaseResp baseResp = new BaseResp();
-        if (token == null || Xtool.isNull(token.getToken())) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("登录过期");
-            return baseResp;
-        }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
-        if (Xtool.isNull(userId)) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("登录过期");
-            return baseResp;
-        }
-        if (userId == null || token.getStr() == null) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("登录过期");
-            return baseResp;
-        }
-        List<UserActivityRecords> records = recordMapper.listTodayRecords(userId, token.getStr());
-        baseResp.setSuccess(1);
-        baseResp.setData(records);
-        baseResp.setErrorMsg("更新成功");
-        return baseResp;
-    }
 
     @Override
     public BaseResp getUserActivityDetail(TokenDto token, HttpServletRequest request) throws Exception {
@@ -543,7 +526,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -593,7 +577,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -1208,7 +1193,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId =token.getUserId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -1290,7 +1276,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -1324,7 +1311,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -1362,7 +1350,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -1674,7 +1663,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -2055,10 +2045,13 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         CardDto dto = new CardDto();
         dto.setHero(card1);
-        ValueOperations opsForValue = redisTemplate.opsForValue();
+//        ValueOperations opsForValue = redisTemplate.opsForValue();
         if (card1.getStar().compareTo(new BigDecimal(3)) > 0) {
-            Date date = new Date();
-            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 图谱合成获得" + card1.getStar().stripTrailingZeros() + "星" + card1.getName(), 3600 * 12, TimeUnit.SECONDS);
+//            Date date = new Date();
+            GameNotice gameNotice=new GameNotice();
+            gameNotice.setDescription("恭喜 " + user.getNickname() + " 图谱合成获得" + card1.getStar().stripTrailingZeros() + "星" + card1.getName());
+            gameNoticeMapper.insert(gameNotice);
+//            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 图谱合成获得" + card1.getStar().stripTrailingZeros() + "星" + card1.getName(), 3600 * 12, TimeUnit.SECONDS);
         }
         List<Characters> nowCharactersList = charactersMapper.selectByUserId(Integer.parseInt(userId));
         dto.setCharacters(nowCharactersList);
@@ -2174,10 +2167,12 @@ public class GameServiceServiceImpl implements GameServiceService {
         userMapper.updateuser(user);
         CardDto dto = new CardDto();
         dto.setHero(drawnCard);
-        ValueOperations opsForValue = redisTemplate.opsForValue();
+//        ValueOperations opsForValue = redisTemplate.opsForValue();
         if (drawnCard.getStar().compareTo(new BigDecimal(3)) > 0) {
-            Date date = new Date();
-            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 合成召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
+            GameNotice gameNotice=new GameNotice();
+            gameNotice.setDescription("恭喜 " + user.getNickname() + " 合成召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName());
+            gameNoticeMapper.insert(gameNotice);
+//            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 合成召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
         }
         List<Characters> nowCharactersList = charactersMapper.selectByUserId(Integer.parseInt(userId));
         dto.setCharacters(nowCharactersList);
@@ -2498,10 +2493,13 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         CardDto dto = new CardDto();
         dto.setHero(drawnCard);
-        ValueOperations opsForValue = redisTemplate.opsForValue();
+//        ValueOperations opsForValue = redisTemplate.opsForValue();
         if (drawnCard.getStar().compareTo(new BigDecimal(3)) > 0) {
-            Date date = new Date();
-            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 高级召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
+            GameNotice gameNotice=new GameNotice();
+            gameNotice.setDescription("恭喜 " + user.getNickname() + " 高级召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName());
+            gameNoticeMapper.insert(gameNotice);
+//            Date date = new Date();
+//            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 高级召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
         }
         List<Characters> nowCharactersList = charactersMapper.selectByUserId(Integer.parseInt(userId));
         dto.setCharacters(nowCharactersList);
@@ -2636,10 +2634,13 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         EqCardDto dto = new EqCardDto();
         dto.setHero(drawnCard);
-        ValueOperations opsForValue = redisTemplate.opsForValue();
+//        ValueOperations opsForValue = redisTemplate.opsForValue();
         if (drawnCard.getStar().compareTo(new BigDecimal(3)) > 0) {
-            Date date = new Date();
-            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 打造获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
+            GameNotice gameNotice=new GameNotice();
+            gameNotice.setDescription("恭喜 " + user.getNickname() + " 打造获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName());
+            gameNoticeMapper.insert(gameNotice);
+//            Date date = new Date();
+//            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 打造获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
             EqCharactersRecord eqCharactersRecord = new EqCharactersRecord();
             eqCharactersRecord.setEqImg(drawnCard.getImg());
             eqCharactersRecord.setEqName(drawnCard.getName());
@@ -2776,10 +2777,13 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         CardDto dto = new CardDto();
         dto.setHero(drawnCard);
-        ValueOperations opsForValue = redisTemplate.opsForValue();
+//        ValueOperations opsForValue = redisTemplate.opsForValue();
         if (drawnCard.getStar().compareTo(new BigDecimal(3)) > 0) {
-            Date date = new Date();
-            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 魂珠召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
+            GameNotice gameNotice=new GameNotice();
+            gameNotice.setDescription("恭喜 " + user.getNickname() + " 魂珠召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName());
+            gameNoticeMapper.insert(gameNotice);
+//            Date date = new Date();
+//            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 魂珠召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
         }
         List<Characters> nowCharactersList = charactersMapper.selectByUserId(Integer.parseInt(userId));
         dto.setCharacters(nowCharactersList);
@@ -2832,11 +2836,14 @@ public class GameServiceServiceImpl implements GameServiceService {
                 drawnCards.add(drawnCard);
             }
         }
-        ValueOperations opsForValue = redisTemplate.opsForValue();
+//        ValueOperations opsForValue = redisTemplate.opsForValue();
         for (Card drawnCard : drawnCards) {
             if (drawnCard.getStar().compareTo(new BigDecimal(3)) > 0) {
-                Date date = new Date();
-                opsForValue.set("notice_" + date.getTime(), "恭喜 " + user.getNickname() + " 高级召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
+                GameNotice gameNotice=new GameNotice();
+                gameNotice.setDescription("恭喜 " + user.getNickname() + " 高级召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName());
+                gameNoticeMapper.insert(gameNotice);
+//                Date date = new Date();
+//                opsForValue.set("notice_" + date.getTime(), "恭喜 " + user.getNickname() + " 高级召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
             }
             Characters characters1 = charactersMapper.listById(userId, drawnCard.getId());
             if (characters1 != null) {
@@ -2889,7 +2896,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -3631,7 +3639,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -3817,6 +3826,172 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp start5(TokenDto token, HttpServletRequest request) throws Exception {
+        Integer levelUp = 0;
+        Map map = new HashMap();
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+//        if (user.getTiliCount() - 2 < 0) {
+//            baseResp.setSuccess(0);
+//            baseResp.setErrorMsg("体力不足");
+//            return baseResp;
+//        }
+        //自己的战队
+        List<Characters> leftCharacter = charactersMapper.goIntoListById(user.getUserId() + "");
+        if (Xtool.isNull(leftCharacter)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("你没有配置战队无法战斗");
+            return baseResp;
+        }
+//        BronzeBossDetail pveDetail = bronzeBossDetailMapper.selectById(token.getStr());
+//        if (pveDetail == null) {
+//            baseResp.setSuccess(0);
+//            baseResp.setErrorMsg("关卡已探索完！");
+//            return baseResp;
+//        }
+        baseResp.setSuccess(1);
+        List<Characters> rightCharacter = new ArrayList<>();
+        Map map1 = new HashMap();
+        map1.put("detail_code", token.getStr());
+        map1.put("activity_code", "bronzetower");
+        List<BronzeBossDetail> bronzeBossDetails = bronzeBossDetailMapper.selectByMap(map1);
+        Integer i = 0;
+        for (BronzeBossDetail pveBossDetail : bronzeBossDetails) {
+            Card card = cardMapper.selectByid(pveBossDetail.getBossId());
+            Characters characters = new Characters();
+            BeanUtils.copyProperties(card, characters);
+            characters.setGoIntoNum(pveBossDetail.getGoIntoNum());
+            characters.setLv(pveBossDetail.getDifficultyLevel());
+            characters.setUuid(i);
+            long originalCount = bronzeBossDetails.stream()
+                    .filter(Objects::nonNull) // 过滤null对象
+                    .map(BronzeBossDetail::getBossId)
+                    .filter(Objects::nonNull) // 过滤null名称
+                    .count();
+            if (originalCount > 1) {
+                characters.setName(characters.getName() + i);
+            } else {
+                characters.setName(characters.getName());
+            }
+            rightCharacter.add(characters);
+            i++;
+        }
+        Map map3=new HashMap();
+        map3.put("floor_num", token.getStr());
+        map3.put("activity_code", "bronzetower");
+        List<BronzeTower> bronzeTower=bronzeTowerMapper.selectByMap(map3);
+        Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, 0, bronzeTower.get(0).getBossName(), user.getGameImg(), "0");
+        if (battle.getIsWin() == 0) {
+            Integer bronze1=Integer.parseInt(token.getStr())+1;
+            battle.setChapter(bronze1+"");
+            if (!battle.getChapter().equals(user.getBronze1()+"")) {
+                user.setChapterTime(new Date());
+            }
+//            user.setBronze1(battle.getChapter());
+//            List<PveReward> pveRewardsAll = pveRewardMapper.selectByMap(map1);
+            List<PveReward> pveRewards = new ArrayList<>();
+
+            BronzeTower bronzeTower1=bronzeTower.get(0);
+//            for (PveReward content : pveRewards) {
+//                if ("1".equals(content.getRewardType() + "")) {
+//                    //钻石
+//                    user.setDiamond(user.getDiamond().add(new BigDecimal(content.getRewardAmount())));
+//                } else if ("2".equals(content.getRewardType() + "")) {
+//                    user.setGold(user.getGold().add(new BigDecimal(content.getRewardAmount())));
+//                } else if ("3".equals(content.getRewardType() + "")) {
+//                    user.setSoul(user.getSoul().add(new BigDecimal(content.getRewardAmount())));
+//                } else if ("4".equals(content.getRewardType() + "")) {
+//                    Characters characters1 = charactersMapper.listById(userId, content.getItemId() + "");
+//                    if (characters1 != null) {
+//                        characters1.setStackCount(characters1.getStackCount() + content.getRewardAmount());
+//                        charactersMapper.updateByPrimaryKey(characters1);
+//                    } else {
+//                        Card card = cardMapper.selectByid(content.getItemId());
+//                        if (card == null) {
+//                            baseResp.setErrorMsg("服务器异常联想管理员");
+//                            baseResp.setSuccess(0);
+//                            return baseResp;
+//                        }
+//                        Characters characters = new Characters();
+//                        characters.setStackCount(content.getRewardAmount() - 1);
+//                        characters.setId(content.getItemId() + "");
+//                        characters.setLv(1);
+//                        characters.setUserId(Integer.parseInt(userId));
+//                        characters.setStar(new BigDecimal(1));
+//                        characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+//                        charactersMapper.insert(characters);
+//                    }
+//                } else if ("5".equals(content.getRewardType() + "")||"6".equals(content.getRewardType() + "")) {
+//                    Map itemMap = new HashMap();
+//                    itemMap.put("item_id", content.getItemId());
+//                    itemMap.put("user_id", userId);
+//                    itemMap.put("is_delete", "0");
+//                    List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(itemMap);
+//                    if (Xtool.isNotNull(playerBagList)) {
+//                        GamePlayerBag playerBag = playerBagList.get(0);
+//                        playerBag.setItemCount(playerBag.getItemCount() + content.getRewardAmount());
+//                        gamePlayerBagMapper.updateById(playerBag);
+//                    } else {
+//                        GamePlayerBag playerBag = new GamePlayerBag();
+//                        playerBag.setUserId(Integer.parseInt(userId));
+//                        playerBag.setItemCount(content.getRewardAmount());
+//                        playerBag.setGridIndex(1);
+//                        playerBag.setItemId(content.getItemId());
+//                        gamePlayerBagMapper.insert(playerBag);
+//                    }
+//                }
+//            }
+//            map.put("rewards", pveRewards);
+        } else {
+            battle.setChapter(token.getStr());
+        }
+//        user.setTiliCount(user.getTiliCount() - 2);
+//        PveDetail pveDetail2 = pveDetailMapper.selectById(battle.getChapter());
+        Map map2 = new HashMap();
+        map2.put("detail_code", battle.getChapter());
+        List<PveBossDetail> pveBossDetailList = pveBossDetailMapper.selectByMap(map2);
+        List<PveBossDetail> uniqueUserList = pveBossDetailList.stream()
+                // 以name为key，User为value，LinkedHashMap保留插入顺序
+                .collect(Collectors.toMap(
+                        PveBossDetail::getBossId,    // key：名字（去重依据）
+                        x -> x,     // value：用户对象
+                        (oldUser, newUser) -> oldUser, // 重复时保留旧值（首次出现）
+                        LinkedHashMap::new             // 保证顺序
+                ))
+                .values() // 提取去重后的User集合
+                .stream()
+                .collect(Collectors.toList());
+//        pveDetail2.setPveBossDetails(uniqueUserList);
+//        userMapper.updateuser(user);
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(user, userInfo);
+//        userInfo.setLevelUp(levelUp);
+//        //获取卡牌数据
+//        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+//        userInfo.setCharacterList(characterList);
+//        map.put("levelUp", levelUp);
+        map.put("user", userInfo);
+        map.put("battle", battle);
+//        map.put("pveDetail", pveDetail2);
+        baseResp.setData(map);
+        baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    @Override
     public BaseResp start4(TokenDto token, HttpServletRequest request) throws Exception {
         //先获取当前用户战队
         BaseResp baseResp = new BaseResp();
@@ -3825,7 +4000,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId =token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -4026,7 +4202,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -4083,7 +4260,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -4140,7 +4318,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId =token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -4383,7 +4562,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -4492,12 +4672,13 @@ public class GameServiceServiceImpl implements GameServiceService {
     @Override
     public BaseResp notice(HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        Set<String> keys = redisTemplate.keys("notice_*");
-        List<String> notices = new ArrayList<>();
-        for (String key : keys) {
-            String value = (String) redisTemplate.opsForValue().get(key);
-            notices.add(value);
-        }
+//        Set<String> keys = redisTemplate.keys("notice_*");
+//        List<String> notices = new ArrayList<>();
+        List<String> notices=gameNoticeMapper.getAllNotice();
+//        for (String key : keys) {
+//            String value = (String) redisTemplate.opsForValue().get(key);
+//            notices.add(value);
+//        }
         baseResp.setSuccess(1);
         baseResp.setData(notices);
         return baseResp;
@@ -4593,7 +4774,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -4722,7 +4904,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
