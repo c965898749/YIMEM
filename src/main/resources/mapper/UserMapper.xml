@@ -253,6 +253,9 @@
             <if test="shopUpdate!=null">
                 shop_update=#{shopUpdate},
             </if>
+            <if test="bronze1!=null">
+                bronze1=#{bronze1},
+            </if>
 
         </set>
         where userId=#{userId}

@@ -35,5 +35,9 @@ public class PveReward {
     private Integer itemId;
     @TableField("prent")
     private Integer prent;
+    @TableField(exist = false)
+    private String img;
+    @TableField(exist = false)
+    private String itemName;
 
 }

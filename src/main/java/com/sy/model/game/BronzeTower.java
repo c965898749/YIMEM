@@ -26,7 +26,7 @@ public class BronzeTower {
     @TableField("reward_item1")
     private String rewardItem1;
     @TableField("reward_item1_num")
-    private Byte rewardItem1Num;
+    private Integer rewardItem1Num;
     @TableField("reward_item2")
     private String rewardItem2;
     @TableField("reward_item2_num")

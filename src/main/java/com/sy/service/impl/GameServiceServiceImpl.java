@@ -3827,7 +3827,6 @@ public class GameServiceServiceImpl implements GameServiceService {
 
     @Override
     public BaseResp start5(TokenDto token, HttpServletRequest request) throws Exception {
-        Integer levelUp = 0;
         Map map = new HashMap();
         //先获取当前用户战队
         BaseResp baseResp = new BaseResp();
@@ -3844,11 +3843,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
-//        if (user.getTiliCount() - 2 < 0) {
-//            baseResp.setSuccess(0);
-//            baseResp.setErrorMsg("体力不足");
-//            return baseResp;
-//        }
+
         //自己的战队
         List<Characters> leftCharacter = charactersMapper.goIntoListById(user.getUserId() + "");
         if (Xtool.isNull(leftCharacter)) {
@@ -3856,17 +3851,16 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("你没有配置战队无法战斗");
             return baseResp;
         }
-//        BronzeBossDetail pveDetail = bronzeBossDetailMapper.selectById(token.getStr());
-//        if (pveDetail == null) {
-//            baseResp.setSuccess(0);
-//            baseResp.setErrorMsg("关卡已探索完！");
-//            return baseResp;
-//        }
+        if (token.getFinalLevel() > 100) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("塔已通关，可以选择重置继续试炼");
+            return baseResp;
+        }
         baseResp.setSuccess(1);
         List<Characters> rightCharacter = new ArrayList<>();
         Map map1 = new HashMap();
-        map1.put("detail_code", token.getStr());
-        map1.put("activity_code", "bronzetower");
+        map1.put("detail_code", token.getFinalLevel());
+        map1.put("activity_code", token.getStr());
         List<BronzeBossDetail> bronzeBossDetails = bronzeBossDetailMapper.selectByMap(map1);
         Integer i = 0;
         for (BronzeBossDetail pveBossDetail : bronzeBossDetails) {
@@ -3890,104 +3884,202 @@ public class GameServiceServiceImpl implements GameServiceService {
             i++;
         }
         Map map3=new HashMap();
-        map3.put("floor_num", token.getStr());
-        map3.put("activity_code", "bronzetower");
+        map3.put("floor_num", token.getFinalLevel());
+        map3.put("activity_code", token.getStr());
         List<BronzeTower> bronzeTower=bronzeTowerMapper.selectByMap(map3);
         Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, 0, bronzeTower.get(0).getBossName(), user.getGameImg(), "0");
         if (battle.getIsWin() == 0) {
-            Integer bronze1=Integer.parseInt(token.getStr())+1;
+            Integer bronze1=token.getFinalLevel()+1;
             battle.setChapter(bronze1+"");
-            if (!battle.getChapter().equals(user.getBronze1()+"")) {
-                user.setChapterTime(new Date());
+            user.setBronze1(bronze1);
+            Map map2=new HashMap();
+            map2.put("player_id",userId);
+            map2.put("bronze_type",token.getStr());
+            List<PlayerBronzeTower> playerBronzeTowerList=playerBronzeTowerMapper.selectByMap(map2);
+            if (Xtool.isNotNull(playerBronzeTowerList)){
+                PlayerBronzeTower playerBronzeTower=playerBronzeTowerList.get(0);
+                if (bronze1>playerBronzeTower.getFloorNum()){
+                    playerBronzeTower.setFloorNum(bronze1);
+                    playerBronzeTower.setPassTime(new Date());
+                    playerBronzeTowerMapper.updateById(playerBronzeTower);
+                }
+            }else {
+                PlayerBronzeTower playerBronzeTower=new PlayerBronzeTower();
+                playerBronzeTower.setFloorNum(bronze1);
+                playerBronzeTower.setIsGetReward(0);
+                playerBronzeTower.setPlayerId(userId);
+                playerBronzeTower.setPassTime(new Date());
+                playerBronzeTower.setBronzeType(token.getStr());
+                playerBronzeTowerMapper.insert(playerBronzeTower);
             }
-//            user.setBronze1(battle.getChapter());
-//            List<PveReward> pveRewardsAll = pveRewardMapper.selectByMap(map1);
+            user.setBronze1(bronze1);
             List<PveReward> pveRewards = new ArrayList<>();
-
             BronzeTower bronzeTower1=bronzeTower.get(0);
-//            for (PveReward content : pveRewards) {
-//                if ("1".equals(content.getRewardType() + "")) {
-//                    //钻石
-//                    user.setDiamond(user.getDiamond().add(new BigDecimal(content.getRewardAmount())));
-//                } else if ("2".equals(content.getRewardType() + "")) {
-//                    user.setGold(user.getGold().add(new BigDecimal(content.getRewardAmount())));
-//                } else if ("3".equals(content.getRewardType() + "")) {
-//                    user.setSoul(user.getSoul().add(new BigDecimal(content.getRewardAmount())));
-//                } else if ("4".equals(content.getRewardType() + "")) {
-//                    Characters characters1 = charactersMapper.listById(userId, content.getItemId() + "");
-//                    if (characters1 != null) {
-//                        characters1.setStackCount(characters1.getStackCount() + content.getRewardAmount());
-//                        charactersMapper.updateByPrimaryKey(characters1);
-//                    } else {
-//                        Card card = cardMapper.selectByid(content.getItemId());
-//                        if (card == null) {
-//                            baseResp.setErrorMsg("服务器异常联想管理员");
-//                            baseResp.setSuccess(0);
-//                            return baseResp;
-//                        }
-//                        Characters characters = new Characters();
-//                        characters.setStackCount(content.getRewardAmount() - 1);
-//                        characters.setId(content.getItemId() + "");
-//                        characters.setLv(1);
-//                        characters.setUserId(Integer.parseInt(userId));
-//                        characters.setStar(new BigDecimal(1));
-//                        characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
-//                        charactersMapper.insert(characters);
-//                    }
-//                } else if ("5".equals(content.getRewardType() + "")||"6".equals(content.getRewardType() + "")) {
-//                    Map itemMap = new HashMap();
-//                    itemMap.put("item_id", content.getItemId());
-//                    itemMap.put("user_id", userId);
-//                    itemMap.put("is_delete", "0");
-//                    List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(itemMap);
-//                    if (Xtool.isNotNull(playerBagList)) {
-//                        GamePlayerBag playerBag = playerBagList.get(0);
-//                        playerBag.setItemCount(playerBag.getItemCount() + content.getRewardAmount());
-//                        gamePlayerBagMapper.updateById(playerBag);
-//                    } else {
-//                        GamePlayerBag playerBag = new GamePlayerBag();
-//                        playerBag.setUserId(Integer.parseInt(userId));
-//                        playerBag.setItemCount(content.getRewardAmount());
-//                        playerBag.setGridIndex(1);
-//                        playerBag.setItemId(content.getItemId());
-//                        gamePlayerBagMapper.insert(playerBag);
-//                    }
-//                }
-//            }
-//            map.put("rewards", pveRewards);
-        } else {
-            battle.setChapter(token.getStr());
+            if (Xtool.isNotNull(bronzeTower1.getRewardGold())&&bronzeTower1.getRewardGold()>0){
+                PveReward pveReward=new PveReward();
+                pveReward.setItemId(0);
+                pveReward.setRewardAmount(bronzeTower1.getRewardGold());
+                pveReward.setRewardType("2");
+                pveRewards.add(pveReward);
+            }
+
+            if (Xtool.isNotNull(bronzeTower1.getRewardDiamond())&&bronzeTower1.getRewardDiamond()>0){
+                PveReward pveReward=new PveReward();
+                pveReward.setItemId(0);
+                pveReward.setRewardAmount(bronzeTower1.getRewardDiamond());
+                pveReward.setRewardType("1");
+                pveRewards.add(pveReward);
+            }
+
+            if (Xtool.isNotNull(bronzeTower1.getRewardItem1())){
+                PveReward pveReward=new PveReward();
+                GameItemBase gameItemBase=gameItemBaseMapper.selectById(bronzeTower1.getRewardItem1());
+                pveReward.setImg(gameItemBase.getIcon());
+                pveReward.setItemName(gameItemBase.getItemName()+bronzeTower1.getRewardItem1Num());
+                pveReward.setItemId(Integer.parseInt(bronzeTower1.getRewardItem1()));
+                pveReward.setRewardAmount(bronzeTower1.getRewardItem1Num());
+                pveReward.setRewardType("6");
+                pveRewards.add(pveReward);
+            }
+            for (PveReward content : pveRewards) {
+                if ("1".equals(content.getRewardType() + "")) {
+                    //钻石
+                    user.setDiamond(user.getDiamond().add(new BigDecimal(content.getRewardAmount())));
+                } else if ("2".equals(content.getRewardType() + "")) {
+                    user.setGold(user.getGold().add(new BigDecimal(content.getRewardAmount())));
+                } else if ("3".equals(content.getRewardType() + "")) {
+                    user.setSoul(user.getSoul().add(new BigDecimal(content.getRewardAmount())));
+                } else if ("4".equals(content.getRewardType() + "")) {
+                    Characters characters1 = charactersMapper.listById(userId, content.getItemId() + "");
+                    if (characters1 != null) {
+                        characters1.setStackCount(characters1.getStackCount() + content.getRewardAmount());
+                        charactersMapper.updateByPrimaryKey(characters1);
+                    } else {
+                        Card card = cardMapper.selectByid(content.getItemId());
+                        if (card == null) {
+                            baseResp.setErrorMsg("服务器异常联想管理员");
+                            baseResp.setSuccess(0);
+                            return baseResp;
+                        }
+                        Characters characters = new Characters();
+                        characters.setStackCount(content.getRewardAmount() - 1);
+                        characters.setId(content.getItemId() + "");
+                        characters.setLv(1);
+                        characters.setUserId(Integer.parseInt(userId));
+                        characters.setStar(new BigDecimal(1));
+                        characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+                        charactersMapper.insert(characters);
+                    }
+                } else if ("5".equals(content.getRewardType() + "")||"6".equals(content.getRewardType() + "")) {
+                    Map itemMap = new HashMap();
+                    itemMap.put("item_id", content.getItemId());
+                    itemMap.put("user_id", userId);
+                    itemMap.put("is_delete", "0");
+                    List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(itemMap);
+                    if (Xtool.isNotNull(playerBagList)) {
+                        GamePlayerBag playerBag = playerBagList.get(0);
+                        playerBag.setItemCount(playerBag.getItemCount() + content.getRewardAmount());
+                        gamePlayerBagMapper.updateById(playerBag);
+                    } else {
+                        GamePlayerBag playerBag = new GamePlayerBag();
+                        playerBag.setUserId(Integer.parseInt(userId));
+                        playerBag.setItemCount(content.getRewardAmount());
+                        playerBag.setGridIndex(1);
+                        playerBag.setItemId(content.getItemId());
+                        gamePlayerBagMapper.insert(playerBag);
+                    }
+                }
+            }
+            map.put("rewards", pveRewards);
         }
-//        user.setTiliCount(user.getTiliCount() - 2);
-//        PveDetail pveDetail2 = pveDetailMapper.selectById(battle.getChapter());
-        Map map2 = new HashMap();
-        map2.put("detail_code", battle.getChapter());
-        List<PveBossDetail> pveBossDetailList = pveBossDetailMapper.selectByMap(map2);
-        List<PveBossDetail> uniqueUserList = pveBossDetailList.stream()
-                // 以name为key，User为value，LinkedHashMap保留插入顺序
-                .collect(Collectors.toMap(
-                        PveBossDetail::getBossId,    // key：名字（去重依据）
-                        x -> x,     // value：用户对象
-                        (oldUser, newUser) -> oldUser, // 重复时保留旧值（首次出现）
-                        LinkedHashMap::new             // 保证顺序
-                ))
-                .values() // 提取去重后的User集合
-                .stream()
-                .collect(Collectors.toList());
-//        pveDetail2.setPveBossDetails(uniqueUserList);
-//        userMapper.updateuser(user);
-        UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(user, userInfo);
-//        userInfo.setLevelUp(levelUp);
-//        //获取卡牌数据
-//        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-//        userInfo.setCharacterList(characterList);
-//        map.put("levelUp", levelUp);
-        map.put("user", userInfo);
+        userMapper.updateuser(user);
+        User user2 = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user2, info);
+        info.setBronze(0);
+        info.setDarkSteel(0);
+        info.setPurpleGold(0);
+        info.setCrystal(0);
+        GamePlayerBag playerBag = gamePlayerBagMapper.goIntoListByIdAndItemId(userId, 13);
+        if (playerBag != null) {
+            info.setBronze(playerBag.getItemCount());
+        }
+        GamePlayerBag playerBag1 = gamePlayerBagMapper.goIntoListByIdAndItemId(userId, 14);
+        if (playerBag1 != null) {
+            info.setDarkSteel(playerBag1.getItemCount());
+        }
+        GamePlayerBag playerBag2 = gamePlayerBagMapper.goIntoListByIdAndItemId(userId, 15);
+        if (playerBag2 != null) {
+            info.setPurpleGold(playerBag2.getItemCount());
+        }
+        GamePlayerBag playerBag3 = gamePlayerBagMapper.goIntoListByIdAndItemId(userId, 16);
+        if (playerBag3 != null) {
+            info.setCrystal(playerBag3.getItemCount());
+        }
+        map.put("user", info);
         map.put("battle", battle);
-//        map.put("pveDetail", pveDetail2);
         baseResp.setData(map);
         baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp getTower(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        //如果是
+        if ("bronzetower".equals(token.getStr())){
+            //判断是否通关第四图
+            List<String> strings=Arrays.asList(user.getChapter().split("-"));
+            if (Integer.parseInt(strings.get(0))<5){
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("您还未通关第4章");
+                return baseResp;
+            }
+        }
+        if ("darkSteeltower".equals(token.getStr())){
+            //判断是否通关第四图
+            List<String> strings=Arrays.asList(user.getChapter().split("-"));
+            if (Integer.parseInt(strings.get(0))<6){
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("您还未通关第5章");
+                return baseResp;
+            }
+            //判断是否通关青铜塔
+            Map map2=new HashMap();
+            map2.put("player_id",userId);
+            map2.put("bronze_type",token.getStr());
+            List<PlayerBronzeTower> playerBronzeTowerList=playerBronzeTowerMapper.selectByMap(map2);
+            if (Xtool.isNull(playerBronzeTowerList)){
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("您还未通关青铜塔");
+                return baseResp;
+            }
+            PlayerBronzeTower playerBronzeTower=playerBronzeTowerList.get(0);
+            if (playerBronzeTower.getFloorNum()<=100){
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("您还未通关青铜塔");
+                return baseResp;
+            }
+
+        }
+        baseResp.setSuccess(1);
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        baseResp.setData(info);
         return baseResp;
     }
 

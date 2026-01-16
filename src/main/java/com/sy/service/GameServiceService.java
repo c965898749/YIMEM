@@ -58,6 +58,7 @@ public interface GameServiceService {
     BaseResp useBagItem(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start5(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp getTower(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start4(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp jingji(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp friendAllList(TokenDto token, HttpServletRequest request) throws Exception;

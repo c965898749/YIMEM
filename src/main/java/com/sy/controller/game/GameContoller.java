@@ -562,6 +562,26 @@ public class GameContoller {
             return baseResp;
         }
     }
+    /**
+     * 判断是否能刷塔
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("getTower")
+    @CrossOrigin
+    public BaseResp getTower(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.getTower(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
 
 
     /**
