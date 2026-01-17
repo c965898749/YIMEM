@@ -195,6 +195,8 @@ public interface UserMapper {
 
     List<User> getMapRanking100();
 
+    List<User> getBronzeRanking100(@Param("bronzeType")String bronzeType);
+
     List<User> arenaRanking100(@Param("arenaLevel") Integer arenaLevel,@Param("weekNum") Integer weekNum);
 
     List<User> arenaLastRanking100(@Param("arenaLevel") String arenaLevel,@Param("weekNum") Integer weekNum);

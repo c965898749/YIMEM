@@ -839,6 +839,12 @@ public class GameContoller {
     }
 
 
+    /**
+     * 刷图
+     * @param token
+     * @param request
+     * @return
+     */
     @PostMapping("playBattle")
     @CrossOrigin
     public BaseResp playBattle(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -1068,5 +1074,25 @@ public class GameContoller {
             return baseResp;
         }
     }
+    /**
+     * 使用
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("yijiantansuo")
+    @CrossOrigin
+    public BaseResp yijiantansuo(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.yijiantansuo(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
 
 }

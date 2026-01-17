@@ -3148,7 +3148,16 @@ public class GameServiceServiceImpl implements GameServiceService {
     @Override
     public BaseResp mapRanking100(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        baseResp.setData(userMapper.getMapRanking100());
+        Map map=new HashMap();
+        List<User> tanglangRanking= userMapper.getMapRanking100();
+        map.put("tanglangRanking",tanglangRanking);
+        List<User> qingtongRanking=userMapper.getBronzeRanking100("bronzetower");
+        map.put("qingtongRanking",qingtongRanking);
+        List<User> baiyingRanking=userMapper.getBronzeRanking100("baiyintower");
+        map.put("baiyingRanking",baiyingRanking);
+        List<User> huangjinRanking=userMapper.getBronzeRanking100("huangjintower");
+        map.put("huangjinRanking",huangjinRanking);
+        baseResp.setData(map);
         baseResp.setSuccess(1);
         return baseResp;
     }
@@ -3304,6 +3313,11 @@ public class GameServiceServiceImpl implements GameServiceService {
             // 4. 获取增加后的 Date 对象
             Date after40MinutesDate = calendar.getTime();
             user.setShopUpdate(after40MinutesDate);
+            userMapper.updateuser(user);
+//            userMapper.updateuserShopUpdate(userId);
+
+        } else  if ("17".equals(token.getId())) {
+            user.setBronze1(1);
             userMapper.updateuser(user);
 //            userMapper.updateuserShopUpdate(userId);
 
@@ -3608,6 +3622,140 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
+    @Override
+    public BaseResp yijiantansuo(TokenDto token, HttpServletRequest request) throws Exception {
+        Map map = new HashMap();
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+
+
+        if (user.getBronze1() > 100) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("塔已通关，可以选择重置继续试炼");
+            return baseResp;
+        }
+        user.setBronze1(101);
+        baseResp.setSuccess(1);
+        List<PveReward> pveRewards=new ArrayList<>();
+        if ("bronzetower".equals(token.getStr())){
+            PveReward pveReward=new PveReward();
+            pveReward.setItemId(0);
+            pveReward.setRewardAmount(100000);
+            pveReward.setRewardType("2");
+            pveRewards.add(pveReward);
+        }
+
+        if ("bronzetower".equals(token.getStr())){
+            PveReward pveReward=new PveReward();
+            pveReward.setItemId(0);
+            pveReward.setRewardAmount(50);
+            pveReward.setRewardType("1");
+            pveRewards.add(pveReward);
+        }
+
+        if ("bronzetower".equals(token.getStr())){
+            PveReward pveReward=new PveReward();
+            GameItemBase gameItemBase=gameItemBaseMapper.selectById(13);
+            pveReward.setImg(gameItemBase.getIcon());
+            pveReward.setItemName(gameItemBase.getItemName()+300);
+            pveReward.setItemId(13);
+            pveReward.setRewardAmount(300);
+            pveReward.setRewardType("6");
+            pveRewards.add(pveReward);
+        }
+        for (PveReward content : pveRewards) {
+            if ("1".equals(content.getRewardType() + "")) {
+                //钻石
+                user.setDiamond(user.getDiamond().add(new BigDecimal(content.getRewardAmount())));
+            } else if ("2".equals(content.getRewardType() + "")) {
+                user.setGold(user.getGold().add(new BigDecimal(content.getRewardAmount())));
+            } else if ("3".equals(content.getRewardType() + "")) {
+                user.setSoul(user.getSoul().add(new BigDecimal(content.getRewardAmount())));
+            } else if ("4".equals(content.getRewardType() + "")) {
+                Characters characters1 = charactersMapper.listById(userId, content.getItemId() + "");
+                if (characters1 != null) {
+                    characters1.setStackCount(characters1.getStackCount() + content.getRewardAmount());
+                    charactersMapper.updateByPrimaryKey(characters1);
+                } else {
+                    Card card = cardMapper.selectByid(content.getItemId());
+                    if (card == null) {
+                        baseResp.setErrorMsg("服务器异常联想管理员");
+                        baseResp.setSuccess(0);
+                        return baseResp;
+                    }
+                    Characters characters = new Characters();
+                    characters.setStackCount(content.getRewardAmount() - 1);
+                    characters.setId(content.getItemId() + "");
+                    characters.setLv(1);
+                    characters.setUserId(Integer.parseInt(userId));
+                    characters.setStar(new BigDecimal(1));
+                    characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+                    charactersMapper.insert(characters);
+                }
+            } else if ("5".equals(content.getRewardType() + "")||"6".equals(content.getRewardType() + "")) {
+                Map itemMap = new HashMap();
+                itemMap.put("item_id", content.getItemId());
+                itemMap.put("user_id", userId);
+                itemMap.put("is_delete", "0");
+                List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(itemMap);
+                if (Xtool.isNotNull(playerBagList)) {
+                    GamePlayerBag playerBag = playerBagList.get(0);
+                    playerBag.setItemCount(playerBag.getItemCount() + content.getRewardAmount());
+                    gamePlayerBagMapper.updateById(playerBag);
+                } else {
+                    GamePlayerBag playerBag = new GamePlayerBag();
+                    playerBag.setUserId(Integer.parseInt(userId));
+                    playerBag.setItemCount(content.getRewardAmount());
+                    playerBag.setGridIndex(1);
+                    playerBag.setItemId(content.getItemId());
+                    gamePlayerBagMapper.insert(playerBag);
+                }
+            }
+        }
+        map.put("rewards", pveRewards);
+        userMapper.updateuser(user);
+        User user2 = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user2, info);
+        info.setBronze(0);
+        info.setDarkSteel(0);
+        info.setPurpleGold(0);
+        info.setCrystal(0);
+        GamePlayerBag playerBag = gamePlayerBagMapper.goIntoListByIdAndItemId(userId, 13);
+        if (playerBag != null) {
+            info.setBronze(playerBag.getItemCount());
+        }
+        GamePlayerBag playerBag1 = gamePlayerBagMapper.goIntoListByIdAndItemId(userId, 14);
+        if (playerBag1 != null) {
+            info.setDarkSteel(playerBag1.getItemCount());
+        }
+        GamePlayerBag playerBag2 = gamePlayerBagMapper.goIntoListByIdAndItemId(userId, 15);
+        if (playerBag2 != null) {
+            info.setPurpleGold(playerBag2.getItemCount());
+        }
+        GamePlayerBag playerBag3 = gamePlayerBagMapper.goIntoListByIdAndItemId(userId, 16);
+        if (playerBag3 != null) {
+            info.setCrystal(playerBag3.getItemCount());
+        }
+        map.put("user", info);
+        baseResp.setData(map);
+        baseResp.setSuccess(1);
+        return baseResp;
+    }
+
     /**
      * 判断 Date 对象是否为今天（Java 8+ 推荐方案）
      *
@@ -3693,9 +3841,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             characters.setLv(pveBossDetail.getDifficultyLevel());
             characters.setUuid(i);
             long originalCount = pveBossDetails.stream()
-                    .filter(Objects::nonNull) // 过滤null对象
+                    .filter(x->(x.getBossId()+"").equals(pveBossDetail.getBossId()+"")) // 过滤null对象
                     .map(PveBossDetail::getBossId)
-                    .filter(Objects::nonNull) // 过滤null名称
                     .count();
             if (originalCount > 1) {
                 characters.setName(characters.getName() + i);
@@ -3871,9 +4018,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             characters.setLv(pveBossDetail.getDifficultyLevel());
             characters.setUuid(i);
             long originalCount = bronzeBossDetails.stream()
-                    .filter(Objects::nonNull) // 过滤null对象
+                    .filter(x->(x.getBossId()+"").equals(pveBossDetail.getBossId()+"")) // 过滤null对象
                     .map(BronzeBossDetail::getBossId)
-                    .filter(Objects::nonNull) // 过滤null名称
                     .count();
             if (originalCount > 1) {
                 characters.setName(characters.getName() + i);
@@ -3911,6 +4057,9 @@ public class GameServiceServiceImpl implements GameServiceService {
                 playerBronzeTower.setPassTime(new Date());
                 playerBronzeTower.setBronzeType(token.getStr());
                 playerBronzeTowerMapper.insert(playerBronzeTower);
+            }
+            if (bronze1>100){
+                user.setBronze1Time(new Date());
             }
             user.setBronze1(bronze1);
             List<PveReward> pveRewards = new ArrayList<>();
@@ -4058,23 +4207,15 @@ public class GameServiceServiceImpl implements GameServiceService {
                 baseResp.setErrorMsg("您还未通关第5章");
                 return baseResp;
             }
-            //判断是否通关青铜塔
-            Map map2=new HashMap();
-            map2.put("player_id",userId);
-            map2.put("bronze_type",token.getStr());
-            List<PlayerBronzeTower> playerBronzeTowerList=playerBronzeTowerMapper.selectByMap(map2);
-            if (Xtool.isNull(playerBronzeTowerList)){
+        }
+        if ("purpleGoldtower".equals(token.getStr())){
+            //判断是否通关第四图
+            List<String> strings=Arrays.asList(user.getChapter().split("-"));
+            if (Integer.parseInt(strings.get(0))<7){
                 baseResp.setSuccess(0);
-                baseResp.setErrorMsg("您还未通关青铜塔");
+                baseResp.setErrorMsg("您还未通关第6章");
                 return baseResp;
             }
-            PlayerBronzeTower playerBronzeTower=playerBronzeTowerList.get(0);
-            if (playerBronzeTower.getFloorNum()<=100){
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("您还未通关青铜塔");
-                return baseResp;
-            }
-
         }
         baseResp.setSuccess(1);
         UserInfo info = new UserInfo();

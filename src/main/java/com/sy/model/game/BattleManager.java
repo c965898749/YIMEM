@@ -2,7 +2,6 @@ package com.sy.model.game;
 
 import com.sy.tool.SkillLevelCalculator;
 import com.sy.tool.Xtool;
-import org.apache.commons.lang.math.RandomUtils;
 
 import java.util.*;
 import java.util.concurrent.LinkedTransferQueue;
@@ -565,7 +564,7 @@ public class BattleManager {
                     List<String> deadUnits = new ArrayList<>();
 //                    如果目标是武圣则有几率一击必杀，替代普通攻击；0.05; // 对武圣5%一击必杀（可配置）
                     if (defender.getProfession() == Profession.WARRIOR) {
-                        if (RandomUtils.nextDouble() <= 0.05) {
+                        if (random.nextDouble() <= 0.05) {
                             defender.setCurrentHp(0);
                             defender.setDead(true);
                             defender.setOnField(false);
@@ -616,7 +615,7 @@ public class BattleManager {
                     List<String> deadUnits = new ArrayList<>();
 //                    如果目标是武圣则有几率一击必杀，替代普通攻击；0.05; // 对武圣5%一击必杀（可配置）
                     if (defender.getProfession() == Profession.GOD) {
-                        if (RandomUtils.nextDouble() <= 0.05) {
+                        if (random.nextDouble() <= 0.05) {
                             defender.setCurrentHp(0);
                             defender.setDead(true);
                             defender.setOnField(false);

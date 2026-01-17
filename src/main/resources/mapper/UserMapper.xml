@@ -256,6 +256,9 @@
             <if test="bronze1!=null">
                 bronze1=#{bronze1},
             </if>
+            <if test="bronze1Time!=null">
+                bronze1_time=#{bronze1Time},
+            </if>
 
         </set>
         where userId=#{userId}
@@ -543,10 +546,27 @@
             pd.title_name,
             pd.jie_name,
             pd.guan_name,
-          RANK() OVER (ORDER BY chapter DESC) AS game_ranking
+          RANK() OVER (ORDER BY chapter DESC,chapter_time asc) AS game_ranking
         FROM `user` ur
         left join pve_detail pd on pd.id=ur.chapter
-        order by game_ranking asc,chapter_time asc
+        order by game_ranking asc
+        limit 100
+    </select>
+
+
+    <select id="getBronzeRanking100" resultType="com.sy.model.User">
+        SELECT
+        userId,
+          pd.floor_num,
+            nickname,
+            pd.pass_time,
+            lv,
+            game_img,
+        RANK() OVER (ORDER BY pd.floor_num DESC, pd.pass_time ASC) AS game_ranking
+        FROM `user` ur
+        left join player_bronze_tower pd on pd.player_id=ur.userId
+        where pd.bronze_type=#{bronzeType}
+        order by game_ranking  asc
         limit 100
     </select>
 
@@ -558,11 +578,11 @@
             lv,
             game_img,
             pd.arena_score,
-          RANK() OVER (ORDER BY arena_score DESC) AS game_ranking
+          RANK() OVER (ORDER BY arena_score DESC,sign_up_time asc) AS game_ranking
         FROM `user` ur
         left join game_arena_signup pd on pd.user_id=ur.userId
         where   week_num=#{weekNum} and arena_level=#{arenaLevel}
-        order by game_ranking asc,sign_up_time asc
+        order by game_ranking asc
         limit 100
     </select>
 

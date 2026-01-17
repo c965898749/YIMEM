@@ -56,6 +56,7 @@ public interface GameServiceService {
     BaseResp mobai(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp bagItemList(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp useBagItem(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp yijiantansuo(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start5(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp getTower(TokenDto token, HttpServletRequest request) throws Exception;
