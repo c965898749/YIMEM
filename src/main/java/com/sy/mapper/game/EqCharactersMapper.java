@@ -2,6 +2,7 @@ package com.sy.mapper.game;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.sy.model.game.EqCharacters;
+import com.sy.model.game.TokenDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,4 +14,7 @@ public interface EqCharactersMapper extends BaseMapper<EqCharacters> {
 
     List<EqCharacters> selectByUserId(Integer userId);
 
+    int changeEqState(@Param("userId")String userId,@Param("id") String id);
+
+    int changeEqState2(@Param("userId")String userId,@Param("id") String id,@Param("itemId")String itemId);
 }

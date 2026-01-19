@@ -15,22 +15,18 @@
     cd.name,
     cd.camp,
     cd.introduce,
-    cd.hp_growth,
-    cd.attack_growth,
-    cd.defence_growth,
-    cd.pierce_growth,
-    cd.speed_growth,
+    cd.eq_type,
+    cd.eq_type2,
+    cd.wl_atk,
+    cd.hy_atk,
+    cd.ds_atk,
+    cd.fd_atk,
+    cd.wl_def,
+    cd.hy_def,
+    cd.ds_def,
+    cd.fd_def,
+    cd.zl_def,
     cd.profession,
-    cd.coll_attack,
-    cd.coll_speed,
-    cd.coll_hp,
-    cd.img,
-    cd.fire_res,
-    cd.poison_res,
-    cd.projectile_res,
-    cd.fire_growth,
-    cd.poison_growth,
-    cd.projectile_growth,
     cd.passive_introduce_one,
     cd.passive_introduce_two,
     cs.is_delete,
@@ -54,22 +50,18 @@
     cd.name,
     cd.camp,
     cd.introduce,
-    cd.hp_growth,
-    cd.attack_growth,
-    cd.defence_growth,
-    cd.pierce_growth,
-    cd.speed_growth,
+    cd.eq_type,
+    cd.eq_type2,
+    cd.wl_atk,
+    cd.hy_atk,
+    cd.ds_atk,
+    cd.fd_atk,
+    cd.wl_def,
+    cd.hy_def,
+    cd.ds_def,
+    cd.fd_def,
+    cd.zl_def,
     cd.profession,
-    cd.coll_attack,
-    cd.coll_speed,
-    cd.coll_hp,
-    cd.img,
-    cd.fire_res,
-    cd.poison_res,
-    cd.projectile_res,
-    cd.fire_growth,
-    cd.poison_growth,
-    cd.projectile_growth,
     cd.passive_introduce_one,
     cd.passive_introduce_two,
     cs.is_delete,
@@ -78,4 +70,14 @@
     left  join eq_card cd on cd.id=cs.id
     where cs.user_id = #{userId} and cs.is_delete='0'
   </select>
+
+    <update id="changeEqState">
+        UPDATE `eq_characters` SET   `go_into_num`='0'
+        where user_id = #{userId} and   id = #{id}
+    </update>
+
+    <update id="changeEqState2">
+        UPDATE `eq_characters` SET   `go_into_num`=#{itemId}
+        where user_id = #{userId} and   id = #{id}
+    </update>
 </mapper>

@@ -204,4 +204,7 @@ public interface UserMapper {
     List<User> findByUserIds(List<Integer> userIds);
 
     int updateuserShopUpdate(@Param("userId")String userId);
+
+
+    int updateBronze1();
 }

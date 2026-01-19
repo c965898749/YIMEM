@@ -13,6 +13,7 @@
                     SELECT userId FROM user ur
                     left join characters cs on cs.user_id=ur.userId
                     where cs.go_into_num >0 and cs.is_delete='0'
+                    and  ur.game_ranking between 1 and 1000
                     ORDER BY RAND()
                     LIMIT 5
                 ) AS temp
@@ -258,6 +259,9 @@
             </if>
             <if test="bronze1Time!=null">
                 bronze1_time=#{bronze1Time},
+            </if>
+            <if test="gameRanking!=null">
+                game_ranking=#{gameRanking},
             </if>
 
         </set>
@@ -518,7 +522,7 @@
         FROM (
           SELECT userId,
                  win_count,
-                 RANK() OVER (ORDER BY win_count DESC) AS game_ranking
+                 RANK() OVER (ORDER BY game_ranking asc)
           FROM `user`
         ) AS temp
         WHERE userId = #{userId}
@@ -531,8 +535,9 @@
             nickname,
             lv,
             game_img,
-          RANK() OVER (ORDER BY win_count DESC) AS game_ranking
+          RANK() OVER (ORDER BY game_ranking asc)
         FROM `user`
+        where game_ranking &lt;&gt; 0
         order by game_ranking asc
         limit 100
     </select>
@@ -609,4 +614,9 @@
         </set>
         where userId=#{userId}
     </update>
+
+
+    <update id="updateBronze1" parameterType="com.sy.model.User">
+		update user set bronze1 = '0'
+	</update>
 </mapper>

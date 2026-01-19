@@ -22,16 +22,6 @@ public class EqCard {
     private String id;
     @TableField("camp")
     private String camp;
-    @TableField("hp_growth")
-    private Integer hpGrowth;
-    @TableField("attack_growth")
-    private Integer attackGrowth;
-    @TableField("defence_growth")
-    private Integer defenceGrowth;
-    @TableField("pierce_growth")
-    private Integer pierceGrowth;
-    @TableField("speed_growth")
-    private Integer speedGrowth;
     @TableField("passive_introduce_one")
     private String passiveIntroduceOne;
     @TableField("passive_introduce_two")
@@ -40,24 +30,32 @@ public class EqCard {
     private String passiveIntroduceThree;
     @TableField("profession")
     private String profession;
-    @TableField("coll_attack")
-    private Integer collAttack;
-    @TableField("coll_speed")
-    private Integer collSpeed;
-    @TableField("coll_hp")
-    private Integer collHp;
-    @TableField("img")
+    @TableField("introduce")
+    private String introduce;
+    //0兵刃1防具2法器3宝具
+    @TableField("eq_type")
+    private Integer eqType;
+    //
+    @TableField("eq_type2")
+    private Integer eqType2;
+    @TableField("wl_atk")
+    private Integer wlAtk;
+    @TableField("hy_atk")
+    private Integer hyAtk;
+    @TableField("ds_atk")
+    private Integer dsAtk;
+    @TableField("fd_atk")
+    private Integer fdAtk;
+    @TableField("wl_def")
+    private Integer wlDef;
+    @TableField("hy_def")
+    private Integer hyDef;
+    @TableField("ds_def")
+    private Integer dsDef;
+    @TableField("fd_def")
+    private Integer fdDef;
+    @TableField("zl_def")
+    private Integer zlDef;
+    @TableField(exist = false)
     private String img;
-    @TableField("fire_res")
-    private Integer fireRes;
-    @TableField("poison_res")
-    private Integer poisonRes;
-    @TableField("projectile_res")
-    private Integer projectileRes;
-    @TableField("fire_growth")
-    private Integer fireGrowth;
-    @TableField("poison_growth")
-    private Integer poisonGrowth;
-    @TableField("projectile_growth")
-    private Integer projectileGrowth;
 }

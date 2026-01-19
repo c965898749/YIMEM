@@ -436,6 +436,80 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp changeEqState(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        eqCharactersMapper.changeEqState(userId,token.getId());
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        List<EqCharacters> eqCharactersList = eqCharactersMapper.selectByUserId(Integer.parseInt(token.getUserId()));
+        info.setEqCharactersList(eqCharactersList);
+        baseResp.setData(info);
+        baseResp.setSuccess(1);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp changeEqState2(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        //判断是否是该职业装备
+        Card card=cardMapper.selectByid(Integer.parseInt(token.getStr()));
+        if (card==null){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("英雄不存在");
+            return baseResp;
+        }
+        EqCard eqCard=eqCardMapper.selectByid(token.getId());
+        if (eqCard==null){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("装备不存在");
+            return baseResp;
+        }
+        if (!card.getCamp().equals(eqCard.getCamp())||card.getProfession().equals(eqCard.getProfession())){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("装备和护法的种族职业不一致");
+            return baseResp;
+        }
+        eqCharactersMapper.changeEqState2(userId,token.getId(),token.getStr());
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        List<EqCharacters> eqCharactersList = eqCharactersMapper.selectByUserId(Integer.parseInt(token.getUserId()));
+        info.setEqCharactersList(eqCharactersList);
+        baseResp.setData(info);
+        baseResp.setSuccess(1);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
     @Transactional
     @NoRepeatSubmit(limitSeconds = 1)
     public BaseResp changeName(TokenDto token, HttpServletRequest request) throws Exception {
@@ -2521,6 +2595,8 @@ public class GameServiceServiceImpl implements GameServiceService {
         BaseResp baseResp = new BaseResp();
         String userId = token.getUserId();
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        //初始1星
+        Double start=1.0;
         if ("1".equals(token.getStr())) {
             BigDecimal gold = new BigDecimal(50000);
             if (gold.compareTo(user.getGold()) > 0) {
@@ -2542,6 +2618,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 gamePlayerBagMapper.updateById(playerBag);
             }
+            start= 1 + 0.5 * (int)(Math.random()*5);
         } else if ("2".equals(token.getStr())) {
             BigDecimal gold = new BigDecimal(150000);
             if (gold.compareTo(user.getGold()) > 0) {
@@ -2563,6 +2640,8 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 gamePlayerBagMapper.updateById(playerBag);
             }
+            int temp = (int)(Math.random()*3);
+            start=temp==2 ? 3 : 3.5; // 0/1→3，2→5 等价【3,3,5】
         } else if ("3".equals(token.getStr())) {
             BigDecimal gold = new BigDecimal(350000);
             if (gold.compareTo(user.getGold()) > 0) {
@@ -2584,6 +2663,8 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 gamePlayerBagMapper.updateById(playerBag);
             }
+            int temp = (int)(Math.random()*3);
+            start=temp==2 ? 3.5 : 4; // 0/1→3，2→5 等价【3,3,5】
         } else if ("4".equals(token.getStr())) {
             BigDecimal gold = new BigDecimal(550000);
             if (gold.compareTo(user.getGold()) > 0) {
@@ -2606,13 +2687,38 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gamePlayerBagMapper.updateById(playerBag);
             }
         }
-        List<EqCard> cardList = eqCardMapper.selectByStr(token.getStr());
-        cardList = cardList.stream().filter(x -> x.getWeight() > 0).collect(Collectors.toList());
-        EqCardPool pool = new EqCardPool();
-        for (EqCard card : cardList) {
-            pool.addCard(card);
+//        List<EqCard> cardList = eqCardMapper.selectByStr(token.getStr());
+//        cardList = cardList.stream().filter(x -> x.getWeight() > 0).collect(Collectors.toList());
+//        EqCardPool pool = new EqCardPool();
+//        for (EqCard card : cardList) {
+//            pool.addCard(card);
+//        }
+//        EqCard drawnCard = pool.draw();
+        System.out.println(start);
+        EqCard drawnCard= EquipmentGenerateUtil. generateEqCard(start);
+        Map map2=new HashMap();
+        map2.put("name",drawnCard.getName());
+        map2.put("star",drawnCard.getStar());
+        map2.put("camp",drawnCard.getCamp());
+        map2.put("profession",drawnCard.getProfession());
+        map2.put("eq_type",drawnCard.getEqType());
+        map2.put("eq_type2",drawnCard.getEqType2());
+        map2.put("wl_atk",drawnCard.getWlAtk());
+        map2.put("hy_atk",drawnCard.getHyAtk());
+        map2.put("ds_atk",drawnCard.getDsAtk());
+        map2.put("fd_atk",drawnCard.getFdAtk());
+        map2.put("wl_def",drawnCard.getWlDef());
+        map2.put("hy_def",drawnCard.getHyAtk());
+        map2.put("ds_def",drawnCard.getDsAtk());
+        map2.put("fd_def",drawnCard.getFdDef());
+        map2.put("zl_def",drawnCard.getZlDef());
+        List<EqCard> eqCards=eqCardMapper.selectByMap(map2);
+        if (Xtool.isNotNull(eqCards)){
+            drawnCard.setId(eqCards.get(0).getId());
+        }else {
+            eqCardMapper.insert(drawnCard);
         }
-        EqCard drawnCard = pool.draw();
+
         EqCharacters characters1 = eqCharactersMapper.listById(userId, drawnCard.getId());
         if (characters1 != null) {
             characters1.setStackCount(characters1.getStackCount() + 1);
@@ -2930,6 +3036,12 @@ public class GameServiceServiceImpl implements GameServiceService {
         Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), user.getGameImg(), "1");
         if (battle.getIsWin() == 0) {
             user.setWinCount(user.getWinCount() + 1);
+            if (user1.getGameRanking()<user.getGameRanking()){
+                Integer gameRank=user.getGameRanking();
+                user.setGameRanking(user1.getGameRanking());
+                user1.setGameRanking(gameRank);
+                userMapper.updateuser(user1);
+            }
         }
         user.setHuoliCount(user.getHuoliCount() - 10);
         userMapper.updateuser(user);
@@ -3132,7 +3244,7 @@ public class GameServiceServiceImpl implements GameServiceService {
     @Override
     public BaseResp ranking(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        baseResp.setData(userMapper.getMyRankig(token.getUserId()));
+        baseResp.setData(userMapper.selectUserByUserId(Integer.parseInt(token.getUserId())));
         baseResp.setSuccess(1);
         return baseResp;
     }
@@ -3640,7 +3752,11 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
-
+        if (user.getBronze1Time()==null){
+            baseResp.setErrorMsg("您未通关试炼塔无法一键探索");
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
 
         if (user.getBronze1() > 100) {
             baseResp.setSuccess(0);
@@ -5895,7 +6011,131 @@ public class GameServiceServiceImpl implements GameServiceService {
                     gameGiftExchangeCodeMapper.insertSelective(record);
                 }
             }
+
         }
+
+        //青铜塔
+        if (1 == 1) {
+            List<User> users=userMapper.getBronzeRanking100("bronzetower");
+            if (1 == 1) {
+                String code = RandomCodeGenerator.generateUniqueCode();
+                GameGift gameGift = new GameGift();
+                gameGift.setGiftCode(code);
+                gameGift.setGiftType(2);
+                gameGift.setRemainingQuantity(-1);
+                gameGift.setTotalQuantity(-1);
+                gameGift.setIsActive(1);
+                gameGift.setStartTime(new Date());
+                gameGift.setUpdateTime(new Date());
+                gameGift.setEndTime(nextMonthDate);
+                gameGift.setGiftName("青铜塔周排名奖励");
+                gameGift.setDescription("恭喜少侠本周青铜塔排名第一，专属排名奖励已奉上,含2000青铜矿。");
+                gameGift.setCreateTime(new Date());
+                gameGiftMapper.insert(gameGift);
+                GameGift gifts = gameGiftMapper.selectByGiftCode(code);
+                GameGiftContent gameGiftContent = new GameGiftContent();
+                gameGiftContent.setGiftId(gifts.getGiftId());
+                gameGiftContent.setItemType(6);
+                gameGiftContent.setItemQuantity(2000);
+                gameGiftContent.setItemId(Long.parseLong(13+""));
+                gameGiftContent.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent);
+                //判断 如果是兑换礼包查询是否有兑换记录
+                GameGiftExchangeCode record = new GameGiftExchangeCode();
+                record.setGiftId(gifts.getGiftId());
+                record.setUseUserId(Long.parseLong(users.get(0).getUserId() + ""));
+                record.setExchangeCode(code);
+                List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+                if (Xtool.isNull(codeList)) {
+                    record.setCreateTime(new Date());
+                    gameGiftExchangeCodeMapper.insertSelective(record);
+                }
+            }
+            //生成
+            if (1 == 1) {
+                String code = RandomCodeGenerator.generateUniqueCode();
+                GameGift gameGift = new GameGift();
+                gameGift.setGiftCode(code);
+                gameGift.setGiftType(2);
+                gameGift.setRemainingQuantity(-1);
+                gameGift.setTotalQuantity(-1);
+                gameGift.setIsActive(1);
+                gameGift.setStartTime(new Date());
+                gameGift.setUpdateTime(new Date());
+                gameGift.setEndTime(nextMonthDate);
+                gameGift.setGiftName("青铜塔周排名奖励");
+                gameGift.setDescription("恭喜少侠本周青铜塔排名前 10，专属排名奖励已奉上,含1000青铜");
+                gameGift.setCreateTime(new Date());
+                gameGiftMapper.insert(gameGift);
+                GameGift gifts = gameGiftMapper.selectByGiftCode(code);
+                GameGiftContent gameGiftContent = new GameGiftContent();
+                gameGiftContent.setGiftId(gifts.getGiftId());
+                gameGiftContent.setItemType(6);
+                gameGiftContent.setItemQuantity(1000);
+                gameGiftContent.setItemId(Long.parseLong(13+""));
+                gameGiftContent.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent);
+                for (int i = 1; i < 10; i++) {
+                    if (users.size() <= i) {
+                        continue;
+                    }
+                    //判断 如果是兑换礼包查询是否有兑换记录
+                    GameGiftExchangeCode record = new GameGiftExchangeCode();
+                    record.setGiftId(gifts.getGiftId());
+                    record.setUseUserId(Long.parseLong(users.get(i).getUserId() + ""));
+                    record.setExchangeCode(code);
+                    List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+                    if (Xtool.isNotNull(codeList)) {
+                        continue;
+                    }
+                    record.setCreateTime(new Date());
+                    gameGiftExchangeCodeMapper.insertSelective(record);
+                }
+            }
+            if (1 == 1) {
+                String code = RandomCodeGenerator.generateUniqueCode();
+                GameGift gameGift = new GameGift();
+                gameGift.setGiftCode(code);
+                gameGift.setGiftType(2);
+                gameGift.setRemainingQuantity(-1);
+                gameGift.setTotalQuantity(-1);
+                gameGift.setIsActive(1);
+                gameGift.setStartTime(new Date());
+                gameGift.setUpdateTime(new Date());
+                gameGift.setEndTime(nextMonthDate);
+                gameGift.setGiftName("青铜塔周排名奖励");
+                gameGift.setDescription("恭喜少侠本周青铜塔排名前 100，专属排名奖励已奉上,含500青铜矿。");
+                gameGift.setCreateTime(new Date());
+                gameGiftMapper.insert(gameGift);
+                GameGift gifts = gameGiftMapper.selectByGiftCode(code);
+                GameGiftContent gameGiftContent = new GameGiftContent();
+                gameGiftContent.setGiftId(gifts.getGiftId());
+                gameGiftContent.setItemType(6);
+                gameGiftContent.setItemQuantity(500);
+                gameGiftContent.setItemId(Long.parseLong(13+""));
+                gameGiftContent.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent);
+                for (int i = 11; i < 99; i++) {
+                    if (users.size() <= i) {
+                        continue;
+                    }
+                    //判断 如果是兑换礼包查询是否有兑换记录
+                    GameGiftExchangeCode record = new GameGiftExchangeCode();
+                    record.setGiftId(gifts.getGiftId());
+                    record.setUseUserId(Long.parseLong(users.get(i).getUserId() + ""));
+                    record.setExchangeCode(code);
+                    List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+                    if (Xtool.isNotNull(codeList)) {
+                        continue;
+                    }
+                    record.setCreateTime(new Date());
+                    gameGiftExchangeCodeMapper.insertSelective(record);
+                }
+            }
+
+        }
+        //重置排名
+        playerBronzeTowerMapper.deleteByMap(new HashMap<>());
     }
 
     @Override

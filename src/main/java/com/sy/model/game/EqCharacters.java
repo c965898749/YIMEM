@@ -55,4 +55,8 @@ public class EqCharacters {
     private String name;
     @TableField(exist = false)
     private String introduce;
+    @TableField(exist = false)
+    private Integer eqType;
+    @TableField(exist = false)
+    private String profession;
 }

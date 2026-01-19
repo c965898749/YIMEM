@@ -243,6 +243,12 @@ public class GameContoller {
     }
 
 
+    /**
+     * 上阵
+     * @param token
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "changeState", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp changeState(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -256,6 +262,47 @@ public class GameContoller {
             return baseResp;
         }
     }
+
+    /**
+     * 卸下
+     * @param token
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "changeEqState", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp changeEqState(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.changeEqState(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
+     * 上装
+     * @param token
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "changeEqState2", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp changeEqState2(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.changeEqState2(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
 
     @RequestMapping(value = "changeName", method = RequestMethod.POST)
     @CrossOrigin
