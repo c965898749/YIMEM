@@ -9,14 +9,14 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.util.Date;
 @Data
-@TableName("eq_characters")
+@TableName("eq_characters_record")
 public class EqCharactersRecord {
     @TableId(value = "record_id", type = IdType.AUTO)
     private Long recordId;
     @TableField("user_id")
     private Integer userId;
     @TableField("id")
-    private Integer id;
+    private String id;
     @TableField("eq_name")
     private String eqName;
     @TableField("get_time")

@@ -2716,7 +2716,10 @@ public class GameServiceServiceImpl implements GameServiceService {
         if (Xtool.isNotNull(eqCards)){
             drawnCard.setId(eqCards.get(0).getId());
         }else {
+            drawnCard.setId(drawnCard.getId());
             eqCardMapper.insert(drawnCard);
+            drawnCard.setId(drawnCard.getId()+drawnCard.getUuid());
+            eqCardMapper.updateById(drawnCard);
         }
 
         EqCharacters characters1 = eqCharactersMapper.listById(userId, drawnCard.getId());
@@ -2751,7 +2754,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             eqCharactersRecord.setEqImg(drawnCard.getImg());
             eqCharactersRecord.setEqName(drawnCard.getName());
             eqCharactersRecord.setGetTime(new Date());
-            eqCharactersRecord.setId(Integer.parseInt(drawnCard.getId()));
+            eqCharactersRecord.setId(drawnCard.getId());
             eqCharactersRecord.setUserId(Integer.parseInt(userId));
             eqCharactersRecord.setUserName(user.getNickname());
             eqCharactersRecord.setStar(drawnCard.getStar());
