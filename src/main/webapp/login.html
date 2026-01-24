@@ -394,14 +394,20 @@
             $("#formtip").html("对不起，登录密码不能为空。");
         } else {
             $("#formtip").html("");
-
+            console.log(111);
             $.ajax({
+                async: false,
                 url: 'loginVerification',
-                type: 'POST',
-                data: {"username": user.username, "userpassword": user.userpassword},
-                dataType: 'json',
+                data: JSON.stringify({"username": user.username, "userpassword": user.userpassword}),
+                type: "POST",
+                dataType: "json",
+                contentType: 'application/json;charset=utf-8',
+                // url: 'loginVerification',
+                // type: 'POST',
+                // data: {"username": user.username, "userpassword": user.userpassword},
+                // dataType: 'json',
                 timeout: 1000,
-                cache: false,
+                // cache: false,
                 error: function () {
                     $("#formtip").css("color", "red");
                     $("#formtip").html("服务器无响应！请重试。");

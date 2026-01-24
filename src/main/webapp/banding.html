@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>账户安全设置</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- 自定义配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1677ff',
+                        secondary: '#8c8c8c',
+                        danger: '#ff4d4f',
+                        success: '#52c41a',
+                        light: '#f5f5f5',
+                        border: '#d9d9d9'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .input-focus {
+                @apply border-primary ring-2 ring-primary/20;
+            }
+            .btn-active {
+                @apply transform scale-95 transition-transform;
+            }
+            .tab-active {
+                @apply text-primary border-b-2 border-primary font-medium;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 min-h-screen">
+    <!-- 页面头部 -->
+    <header class="bg-white border-b border-border sticky top-0 z-10">
+        <div class="flex items-center justify-between px-4 py-3">
+            <button class="p-2" id="backBtn">
+                <i class="fa-solid fa-arrow-left text-gray-700"></i>
+            </button>
+            <h1 class="text-lg font-medium">账户安全</h1>
+            <div class="w-8"></div> <!-- 占位保持居中 -->
+        </div>
+    </header>
+
+    <!-- 主体内容 -->
+    <main class="px-4 py-6">
+        <!-- 标签切换栏 -->
+        <div class="flex mb-8 border-b border-border">
+            <button class="tab-active py-2 px-6 text-sm" id="emailTab">
+                邮箱绑定
+            </button>
+            <button class="py-2 px-6 text-sm text-secondary" id="resetPwdTab">
+                密码重置
+            </button>
+        </div>
+
+        <!-- 邮箱绑定表单 -->
+        <div id="emailForm" class="bg-white rounded-lg shadow-sm p-5 mb-6">
+            <div class="space-y-4">
+                <div class="relative">
+                    <label class="block text-sm font-medium mb-1">绑定邮箱</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-secondary"></i>
+                        <input
+                            type="email"
+                            id="bindEmail"
+                            placeholder="请输入您的邮箱地址"
+                            class="w-full pl-10 pr-4 py-2.5 border border-border rounded-lg focus:outline-none focus:input-focus transition-all"
+                        >
+                    </div>
+                    <p class="hidden text-danger text-xs mt-1" id="emailError">请输入有效的邮箱地址</p>
+                </div>
+
+                <div class="relative">
+                    <label class="block text-sm font-medium mb-1">验证码</label>
+                    <div class="flex gap-2">
+                        <div class="relative flex-1">
+                            <i class="fa-solid fa-shield-halved absolute left-3 top-1/2 -translate-y-1/2 text-secondary"></i>
+                            <input
+                                type="text"
+                                id="emailCode"
+                                placeholder="请输入验证码"
+                                class="w-full pl-10 pr-4 py-2.5 border border-border rounded-lg focus:outline-none focus:input-focus transition-all"
+                            >
+                        </div>
+                        <button
+                            id="sendEmailCodeBtn"
+                            class="whitespace-nowrap px-4 py-2.5 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 active:btn-active transition-all"
+                        >
+                            获取验证码
+                        </button>
+                    </div>
+                    <p class="hidden text-danger text-xs mt-1" id="codeError">请输入6位数字验证码</p>
+                </div>
+
+                <button
+                    id="bindEmailBtn"
+                    class="w-full py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 active:btn-active transition-all"
+                >
+                    确认绑定
+                </button>
+            </div>
+        </div>
+
+        <!-- 密码重置表单 (默认隐藏) -->
+        <div id="pwdResetForm" class="bg-white rounded-lg shadow-sm p-5 mb-6 hidden">
+            <div class="space-y-4">
+                <div class="relative">
+                    <label class="block text-sm font-medium mb-1">绑定的邮箱</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-secondary"></i>
+                        <input
+                            type="email"
+                            id="resetEmail"
+                            placeholder="请输入已绑定的邮箱地址"
+                            class="w-full pl-10 pr-4 py-2.5 border border-border rounded-lg focus:outline-none focus:input-focus transition-all"
+                        >
+                    </div>
+                    <p class="hidden text-danger text-xs mt-1" id="resetEmailError">请输入有效的邮箱地址</p>
+                </div>
+
+                <div class="relative">
+                    <label class="block text-sm font-medium mb-1">验证码</label>
+                    <div class="flex gap-2">
+                        <div class="relative flex-1">
+                            <i class="fa-solid fa-shield-halved absolute left-3 top-1/2 -translate-y-1/2 text-secondary"></i>
+                            <input
+                                type="text"
+                                id="resetCode"
+                                placeholder="请输入验证码"
+                                class="w-full pl-10 pr-4 py-2.5 border border-border rounded-lg focus:outline-none focus:input-focus transition-all"
+                            >
+                        </div>
+                        <button
+                            id="sendResetCodeBtn"
+                            class="whitespace-nowrap px-4 py-2.5 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 active:btn-active transition-all"
+                        >
+                            获取验证码
+                        </button>
+                    </div>
+                    <p class="hidden text-danger text-xs mt-1" id="resetCodeError">请输入6位数字验证码</p>
+                </div>
+
+                <div class="relative">
+                    <label class="block text-sm font-medium mb-1">新密码</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-secondary"></i>
+                        <input
+                            type="password"
+                            id="newPwd"
+                            placeholder="请设置新密码（8-20位，含字母和数字）"
+                            class="w-full pl-10 pr-10 py-2.5 border border-border rounded-lg focus:outline-none focus:input-focus transition-all"
+                        >
+                        <button
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary"
+                            id="toggleNewPwd"
+                        >
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <div class="hidden mt-1" id="pwdStrength">
+                        <div class="flex items-center gap-1 text-xs">
+                            <span class="w-1/3 h-1 rounded-full bg-gray-200" id="strength1"></span>
+                            <span class="w-1/3 h-1 rounded-full bg-gray-200" id="strength2"></span>
+                            <span class="w-1/3 h-1 rounded-full bg-gray-200" id="strength3"></span>
+                        </div>
+                        <p class="text-secondary text-xs mt-1" id="strengthText">密码强度：弱</p>
+                    </div>
+                    <p class="hidden text-danger text-xs mt-1" id="pwdError">密码格式不正确</p>
+                </div>
+
+                <div class="relative">
+                    <label class="block text-sm font-medium mb-1">确认新密码</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-secondary"></i>
+                        <input
+                            type="password"
+                            id="confirmPwd"
+                            placeholder="请再次输入新密码"
+                            class="w-full pl-10 pr-10 py-2.5 border border-border rounded-lg focus:outline-none focus:input-focus transition-all"
+                        >
+                        <button
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary"
+                            id="toggleConfirmPwd"
+                        >
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <p class="hidden text-danger text-xs mt-1" id="confirmPwdError">两次输入的密码不一致</p>
+                </div>
+
+                <button
+                    id="resetPwdBtn"
+                    class="w-full py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 active:btn-active transition-all"
+                >
+                    重置密码
+                </button>
+            </div>
+        </div>
+
+        <!-- 安全提示 -->
+        <div class="bg-light rounded-lg p-4 text-sm text-secondary">
+            <i class="fa-solid fa-circle-info mr-2"></i>
+            <span>安全提示：验证码有效期为5分钟，请及时填写。密码重置后请妥善保管您的新密码。</span>
+        </div>
+    </main>
+
+    <!-- 成功提示弹窗 (默认隐藏) -->
+    <div id="successModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 max-w-[80%] text-center">
+            <div class="w-16 h-16 bg-success/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-check text-2xl text-success"></i>
+            </div>
+            <h3 class="text-lg font-medium mb-2" id="modalTitle">操作成功</h3>
+            <p class="text-secondary mb-6" id="modalDesc">您的操作已成功完成</p>
+            <button id="modalConfirmBtn" class="px-8 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 active:btn-active transition-all">
+                确定
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // DOM元素获取
+        const emailTab = document.getElementById('emailTab');
+        const resetPwdTab = document.getElementById('resetPwdTab');
+        const emailForm = document.getElementById('emailForm');
+        const pwdResetForm = document.getElementById('pwdResetForm');
+        const backBtn = document.getElementById('backBtn');
+
+        // 表单验证相关元素
+        const bindEmail = document.getElementById('bindEmail');
+        const emailError = document.getElementById('emailError');
+        const emailCode = document.getElementById('emailCode');
+        const codeError = document.getElementById('codeError');
+        const sendEmailCodeBtn = document.getElementById('sendEmailCodeBtn');
+        const bindEmailBtn = document.getElementById('bindEmailBtn');
+
+        // 密码重置相关元素
+        const resetEmail = document.getElementById('resetEmail');
+        const resetEmailError = document.getElementById('resetEmailError');
+        const resetCode = document.getElementById('resetCode');
+        const resetCodeError = document.getElementById('resetCodeError');
+        const sendResetCodeBtn = document.getElementById('sendResetCodeBtn');
+        const newPwd = document.getElementById('newPwd');
+        const pwdError = document.getElementById('pwdError');
+        const confirmPwd = document.getElementById('confirmPwd');
+        const confirmPwdError = document.getElementById('confirmPwdError');
+        const resetPwdBtn = document.getElementById('resetPwdBtn');
+
+        // 密码强度相关
+        const toggleNewPwd = document.getElementById('toggleNewPwd');
+        const toggleConfirmPwd = document.getElementById('toggleConfirmPwd');
+        const pwdStrength = document.getElementById('pwdStrength');
+        const strength1 = document.getElementById('strength1');
+        const strength2 = document.getElementById('strength2');
+        const strength3 = document.getElementById('strength3');
+        const strengthText = document.getElementById('strengthText');
+
+        // 弹窗相关
+        const successModal = document.getElementById('successModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+
+        // 标签切换逻辑
+        emailTab.addEventListener('click', () => {
+            emailTab.classList.add('tab-active');
+            resetPwdTab.classList.remove('tab-active');
+            resetPwdTab.classList.add('text-secondary');
+            emailForm.classList.remove('hidden');
+            pwdResetForm.classList.add('hidden');
+        });
+
+        resetPwdTab.addEventListener('click', () => {
+            resetPwdTab.classList.add('tab-active');
+            emailTab.classList.remove('tab-active');
+            emailTab.classList.add('text-secondary');
+            pwdResetForm.classList.remove('hidden');
+            emailForm.classList.add('hidden');
+        });
+
+        // 返回按钮逻辑
+        backBtn.addEventListener('click', () => {
+            // 实际项目中可替换为history.back()
+            alert('返回上一页');
+        });
+
+        // 邮箱格式验证
+        function validateEmail(email) {
+            const reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return reg.test(email);
+        }
+
+        // 验证码验证
+        function validateCode(code) {
+            const reg = /^\d{6}$/;
+            return reg.test(code);
+        }
+
+        // 密码验证
+        function validatePassword(pwd) {
+            // 8-20位，包含字母和数字
+            const reg = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/;
+            return reg.test(pwd);
+        }
+
+        // 密码强度检测
+        function checkPwdStrength(pwd) {
+            pwdStrength.classList.remove('hidden');
+
+            let strength = 0;
+            if (pwd.length >= 8) strength++;
+            if (/[a-z]/.test(pwd) && /[A-Z]/.test(pwd)) strength++;
+            if (/[0-9]/.test(pwd) && /[^a-zA-Z0-9]/.test(pwd)) strength++;
+
+            // 重置所有强度指示器
+            strength1.className = 'w-1/3 h-1 rounded-full bg-gray-200';
+            strength2.className = 'w-1/3 h-1 rounded-full bg-gray-200';
+            strength3.className = 'w-1/3 h-1 rounded-full bg-gray-200';
+
+            // 设置强度指示器
+            if (strength >= 1) {
+                strength1.className = 'w-1/3 h-1 rounded-full bg-danger';
+                strengthText.textContent = '密码强度：弱';
+            }
+            if (strength >= 2) {
+                strength2.className = 'w-1/3 h-1 rounded-full bg-orange-500';
+                strengthText.textContent = '密码强度：中';
+            }
+            if (strength >= 3) {
+                strength3.className = 'w-1/3 h-1 rounded-full bg-success';
+                strengthText.textContent = '密码强度：强';
+            }
+        }
+
+        // 显示错误提示
+        function showError(element, message) {
+            element.textContent = message;
+            element.classList.remove('hidden');
+        }
+
+        // 隐藏错误提示
+        function hideError(element) {
+            element.classList.add('hidden');
+        }
+
+        // 验证码倒计时
+        function startCountdown(btn) {
+            let count = 60;
+            btn.disabled = true;
+            btn.textContent = `${count}秒后重新获取`;
+            btn.classList.add('bg-gray-400');
+            btn.classList.remove('bg-primary');
+
+            const timer = setInterval(() => {
+                count--;
+                btn.textContent = `${count}秒后重新获取`;
+
+                if (count <= 0) {
+                    clearInterval(timer);
+                    btn.disabled = false;
+                    btn.textContent = '获取验证码';
+                    btn.classList.remove('bg-gray-400');
+                    btn.classList.add('bg-primary');
+                }
+            }, 1000);
+        }
+
+        // 显示成功弹窗
+        function showSuccessModal(title, desc) {
+            modalTitle.textContent = title;
+            modalDesc.textContent = desc;
+            successModal.classList.remove('hidden');
+        }
+
+        // 邮箱验证码发送
+        sendEmailCodeBtn.addEventListener('click', () => {
+            const email = bindEmail.value.trim();
+
+            if (!email) {
+                showError(emailError, '请输入邮箱地址');
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                showError(emailError, '请输入有效的邮箱地址');
+                return;
+            }
+            hideError(emailError);
+            // 模拟发送验证码
+            startCountdown(sendEmailCodeBtn);
+            // alert(`验证码已发送至邮箱：${email}（实际项目中请调用后端接口）`);
+            $.ajax({
+                url: "sendIdCode.action",
+                type: "GET",
+                //发送数据的第一种格式，字符串...
+                data: "mail=" + email,
+                timeout: 5000,
+                success: function (data) {
+                    showSuccessModal(`验证码已发送至邮箱：${email}`);
+                },
+                error: function () {
+
+                }
+            });
+        });
+
+        // 邮箱绑定提交
+        bindEmailBtn.addEventListener('click', () => {
+            let isValid = true;
+            const email = bindEmail.value.trim();
+            const code = emailCode.value.trim();
+
+            // 邮箱验证
+            if (!email || !validateEmail(email)) {
+                showError(emailError, '请输入有效的邮箱地址');
+                isValid = false;
+            } else {
+                hideError(emailError);
+            }
+
+            // 验证码验证
+            if (!code || !validateCode(code)) {
+                showError(codeError, '请输入6位数字验证码');
+                isValid = false;
+            } else {
+                hideError(codeError);
+            }
+
+            if (isValid) {
+                // 模拟提交成功
+                // showSuccessModal('绑定成功', '您的邮箱已成功绑定，请注意查收验证邮件');
+                // 实际项目中这里调用后端接口
+                $.ajax({
+                    url: "regist.action",
+                    type: "GET",
+                    //发送数据的第一种格式，字符串...
+                    data: {"mail": $("#mail").val(), "idcode": $("#idcode").val()},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.error == 1) {
+                            showSuccessModal('绑定成功', '您的邮箱已成功绑定，请注意查收验证邮件');
+                        } else {
+                            layer.msg("验证失败")
+                        }
+                    },
+                    error: function () {
+                        layer.msg("验证失败")
+                    }
+            }
+        });
+
+        // 重置密码验证码发送
+        sendResetCodeBtn.addEventListener('click', () => {
+            const email = resetEmail.value.trim();
+
+            if (!email) {
+                showError(resetEmailError, '请输入邮箱地址');
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                showError(resetEmailError, '请输入有效的邮箱地址');
+                return;
+            }
+
+            hideError(resetEmailError);
+            // 模拟发送验证码
+            startCountdown(sendResetCodeBtn);
+            alert(`重置密码验证码已发送至邮箱：${email}（实际项目中请调用后端接口）`);
+        });
+
+        // 密码显示/隐藏切换
+        toggleNewPwd.addEventListener('click', () => {
+            const icon = toggleNewPwd.querySelector('i');
+            if (newPwd.type === 'password') {
+                newPwd.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                newPwd.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        });
+
+        toggleConfirmPwd.addEventListener('click', () => {
+            const icon = toggleConfirmPwd.querySelector('i');
+            if (confirmPwd.type === 'password') {
+                confirmPwd.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                confirmPwd.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        });
+
+        // 密码强度实时检测
+        newPwd.addEventListener('input', () => {
+            const pwd = newPwd.value;
+            if (pwd) {
+                checkPwdStrength(pwd);
+                if (!validatePassword(pwd)) {
+                    showError(pwdError, '密码需8-20位，包含字母和数字');
+                } else {
+                    hideError(pwdError);
+                }
+            } else {
+                pwdStrength.classList.add('hidden');
+                hideError(pwdError);
+            }
+        });
+
+        // 确认密码验证
+        confirmPwd.addEventListener('input', () => {
+            const pwd = newPwd.value;
+            const confirm = confirmPwd.value;
+
+            if (confirm && pwd !== confirm) {
+                showError(confirmPwdError, '两次输入的密码不一致');
+            } else {
+                hideError(confirmPwdError);
+            }
+        });
+
+        // 重置密码提交
+        resetPwdBtn.addEventListener('click', () => {
+            let isValid = true;
+            const email = resetEmail.value.trim();
+            const code = resetCode.value.trim();
+            const pwd = newPwd.value;
+            const confirm = confirmPwd.value;
+
+            // 邮箱验证
+            if (!email || !validateEmail(email)) {
+                showError(resetEmailError, '请输入有效的邮箱地址');
+                isValid = false;
+            } else {
+                hideError(resetEmailError);
+            }
+
+            // 验证码验证
+            if (!code || !validateCode(code)) {
+                showError(resetCodeError, '请输入6位数字验证码');
+                isValid = false;
+            } else {
+                hideError(resetCodeError);
+            }
+
+            // 密码验证
+            if (!pwd || !validatePassword(pwd)) {
+                showError(pwdError, '密码需8-20位，包含字母和数字');
+                isValid = false;
+            } else {
+                hideError(pwdError);
+            }
+
+            // 确认密码验证
+            if (pwd !== confirm) {
+                showError(confirmPwdError, '两次输入的密码不一致');
+                isValid = false;
+            } else {
+                hideError(confirmPwdError);
+            }
+
+            if (isValid) {
+                // 模拟重置成功
+                showSuccessModal('重置成功', '您的密码已成功重置，请使用新密码登录');
+                // 实际项目中这里调用后端接口
+            }
+        });
+
+        // 弹窗确认按钮
+        modalConfirmBtn.addEventListener('click', () => {
+            successModal.classList.add('hidden');
+            // 可在此处添加跳转逻辑
+        });
+
+        // 输入框焦点事件
+        const inputElements = document.querySelectorAll('input');
+        inputElements.forEach(input => {
+            input.addEventListener('focus', () => {
+                const errorEl = input.nextElementSibling || input.parentElement.nextElementSibling;
+                if (errorEl && errorEl.tagName === 'P' && errorEl.classList.contains('text-danger')) {
+                    hideError(errorEl);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

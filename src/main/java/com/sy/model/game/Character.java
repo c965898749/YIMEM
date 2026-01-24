@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -26,6 +27,27 @@ public class Character {
     private String camp;
     private Integer uuid;//主键
     private Integer lv;
+    private Integer userId;
+    private BigDecimal star;
+    private Integer stackCount;//叠加
+    private Date createTime;
+    private Date updateTime;
+    private Integer maxLv;//最大等级
+    //关联数据
+    private Integer onStage;
+    private BigDecimal HpGrowth;
+    private BigDecimal AttackGrowth;
+    private BigDecimal DefenceGrowth;
+    private BigDecimal PierceGrowth;
+    private BigDecimal SpeedGrowth;
+    private Integer exp;
+    private String isDelete;
+    private String profession;
+    private Integer collAttack;
+    private Integer collSpeed;
+    private Integer collHp;
+
+
     public Character(){
 
     };

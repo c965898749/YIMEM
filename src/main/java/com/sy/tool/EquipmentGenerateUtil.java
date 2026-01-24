@@ -91,12 +91,6 @@ public class EquipmentGenerateUtil {
                     "暗金盾", "史诗盾", "传说盾", "神器盾", "蜀纹盾", "魏纹盾", "吴纹盾", "蛮骨盾", "仙纹盾", "魔纹盾",
                     "妖影盾", "中立玄盾", "破空盾", "裂地盾", "御风盾", "镇岳盾"
             }, 36},
-            {"法器", "K", 1000, new String[]{
-                    "噬魂幡", "聚灵瓶", "风雷扇", "寒冰镜", "焚天炉", "沧溟珠", "定海珠", "乾坤袋", "山河印", "玲珑塔",
-                    "紫金葫芦", "芭蕉扇", "捆仙绳", "打神鞭", "翻天印", "轩辕镜", "东皇钟", "炼妖壶", "昊天塔", "伏羲琴",
-                    "神农鼎", "崆峒印", "昆仑镜", "女娲石", "招魂幡", "引魂灯", "摄魂铃", "镇魂塔", "凝魂珠", "聚魂玉",
-                    "破法杵", "封魔剑", "降妖杵", "除魔幡", "净世瓶", "渡厄莲", "往生镜", "轮回盘"
-            }, 38},
             {"帽子", "M", 1000, new String[]{
                     "紫金盔", "凤翅盔", "虎头盔", "狼盔", "豹盔", "玄铁盔", "龙鳞盔", "玄武盔", "朱雀盔", "青龙盔",
                     "白虎盔", "圣光盔", "幽冥盔", "勇者盔", "王者盔", "青铜盔", "白银盔", "黄金盔", "暗金盔", "史诗盔",
@@ -115,6 +109,11 @@ public class EquipmentGenerateUtil {
                     "史诗甲", "传说甲", "神器甲", "蜀纹甲", "魏纹甲", "吴纹甲", "蛮骨甲", "仙纹甲", "魔纹甲", "妖影甲",
                     "中立玄甲", "御风甲", "镇岳甲", "破空甲", "裂地甲"
             }, 35},
+            {"腰带", "Y", 1000, new String[]{
+                    "紫金腰带", "玄铁腰带", "龙鳞腰带", "玄武腰带", "烈焰腰带", "寒冰腰带", "碧水腰带", "磐石腰带", "流云腰带", "圣光腰带",
+                    "幽冥腰带", "荆棘腰带", "反伤腰带", "守护腰带", "勇者腰带", "王者腰带", "青铜腰带", "白银腰带", "黄金腰带", "暗金腰带",
+                    "史诗腰带", "传说腰带", "神器腰带", "蜀纹腰带", "魏纹腰带", "吴纹腰带", "蛮骨腰带", "仙纹腰带", "魔纹腰带", "中立玄腰带"
+            }, 29},
             {"宝具", "X", 1000, new String[]{
                     "乾坤戒", "山河印", "定海珠", "玲珑塔", "紫金葫芦", "芭蕉扇", "捆仙绳", "打神鞭", "翻天印", "轩辕镜",
                     "东皇钟", "炼妖壶", "昊天塔", "伏羲琴", "神农鼎", "崆峒印", "昆仑镜", "女娲石", "招魂幡", "引魂灯",
@@ -125,11 +124,12 @@ public class EquipmentGenerateUtil {
                     "镇岳玺", "定川符", "镇海珠", "撼山鼓", "裂云锣", "焚天鼎", "冰封盏", "炎阳玉", "寒月璧", "星辰砂",
                     "银河石", "天罡令", "地煞旗", "玄阳佩", "九阴环"
             }, 65},
-            {"腰带", "Y", 1000, new String[]{
-                    "紫金腰带", "玄铁腰带", "龙鳞腰带", "玄武腰带", "烈焰腰带", "寒冰腰带", "碧水腰带", "磐石腰带", "流云腰带", "圣光腰带",
-                    "幽冥腰带", "荆棘腰带", "反伤腰带", "守护腰带", "勇者腰带", "王者腰带", "青铜腰带", "白银腰带", "黄金腰带", "暗金腰带",
-                    "史诗腰带", "传说腰带", "神器腰带", "蜀纹腰带", "魏纹腰带", "吴纹腰带", "蛮骨腰带", "仙纹腰带", "魔纹腰带", "中立玄腰带"
-            }, 29}
+            {"法器", "K", 1000, new String[]{
+                    "噬魂幡", "聚灵瓶", "风雷扇", "寒冰镜", "焚天炉", "沧溟珠", "定海珠", "乾坤袋", "山河印", "玲珑塔",
+                    "紫金葫芦", "芭蕉扇", "捆仙绳", "打神鞭", "翻天印", "轩辕镜", "东皇钟", "炼妖壶", "昊天塔", "伏羲琴",
+                    "神农鼎", "崆峒印", "昆仑镜", "女娲石", "招魂幡", "引魂灯", "摄魂铃", "镇魂塔", "凝魂珠", "聚魂玉",
+                    "破法杵", "封魔剑", "降妖杵", "除魔幡", "净世瓶", "渡厄莲", "往生镜", "轮回盘"
+            }, 38},
     };
 
     // 装备大类-eq_type映射（无改动）
@@ -140,15 +140,7 @@ public class EquipmentGenerateUtil {
 
     // 工具类&计数器（无改动）
     private static final Random RANDOM = new Random();
-    private static final Map<String, Integer> ID_COUNTER = new HashMap<>();
-    static {
-        // 初始化ID自增计数器，每个装备前缀独立计数
-        for (Object[] config : EQUIP_CONFIG) {
-            String prefix = (String) config[1];
-            int startNum = (int) config[2];
-            ID_COUNTER.put(prefix, startNum);
-        }
-    }
+
 
 
 
@@ -231,18 +223,306 @@ public class EquipmentGenerateUtil {
 
     /** 【核心升级】ID生成：适配1/2/3属性，前缀+N个属性字母+自增数字 */
     /** 【最终版】ID生成：前缀+自增数字 + "_" + N个属性字母拼接 （完美匹配要求） */
-    private static String generateFinalEquipId(String equipPrefix, List<String> attrList) {
+    /** 【最终版】ID生成：前缀+星级对应区间随机数字 + "_" + N个属性字母拼接
+     * 规则：
+     * 1. J/D等所有前缀通用区间：
+     *    - 1-3星 → 1000~1014（星级越高数字越大）
+     *    - 3.5-4星 → 1015~1038（星级越高数字越大）
+     *    - 4.5-5星 → 1039~1109（星级越高数字越大）
+     * 2. 数字随机但星级越高越靠近区间上限，保证“星级越数字越大”
+     * 3. 计数器更新，保证数字不重复
+     */
+    private static String generateFinalEquipId(String equipPrefix, List<String> attrList, double starLevel) {
         StringBuilder idSb = new StringBuilder();
-        // 第一步：拼接 装备前缀 + 自增数字
-        int currentNum = ID_COUNTER.get(equipPrefix);
-        idSb.append(equipPrefix).append(currentNum);
-        // 第二步：拼接 下划线
+        int randomNum = 0;
+
+        // ========== 核心：按星级区间+前缀规则生成数字 ==========
+        if ("J".equals(equipPrefix)){
+            if (starLevel >= 1.0 && starLevel <= 3.0) {
+                // 1-3星：1000~1014，星级越高数字越接近1014
+                int base = 1000;
+                int range = 14; // 1000+14=1014
+                // 星级归一化（1.0→0，3.0→1），乘以区间长度得到偏移量，保证星级越高数字越大
+                double normalized = (starLevel - 1.0) / 2.0; // 1.0→0, 2.0→0.5, 3.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3); // 小随机避免完全固定
+                // 兜底：确保不超出1000~1014范围
+                randomNum = Math.min(Math.max(randomNum, 1000), 1014);
+            } else if (starLevel >= 3.5 && starLevel <= 4.0) {
+                // 3.5-4星：1015~1038，星级越高数字越接近1038
+                int base = 1015;
+                int range = 92; // 1015+23=1038
+                double normalized = (starLevel - 3.5) / 0.5; // 3.5→0, 4.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1015), 1107);
+            } else if (starLevel >= 4.5 && starLevel <= 5.0) {
+                // 4.5-5星：1039~1109，星级越高数字越接近1109
+                int base = 1108;
+                int range = 1; // 1039+70=1109
+                double normalized = (starLevel - 4.5) / 0.5; // 4.5→0, 5.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1108), 1109);
+            }
+        }
+
+        if ("G".equals(equipPrefix)){
+            if (starLevel >= 1.0 && starLevel <= 3.0) {
+                // 1-3星：1000~1014，星级越高数字越接近1014
+                int base = 1000;
+                int range = 2; // 1000+14=1014
+                // 星级归一化（1.0→0，3.0→1），乘以区间长度得到偏移量，保证星级越高数字越大
+                double normalized = (starLevel - 1.0) / 2.0; // 1.0→0, 2.0→0.5, 3.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3); // 小随机避免完全固定
+                // 兜底：确保不超出1000~1014范围
+                randomNum = Math.min(Math.max(randomNum, 1000), 1002);
+            } else if (starLevel >= 3.5 && starLevel <= 4.0) {
+                // 3.5-4星：1015~1038，星级越高数字越接近1038
+                int base = 1003;
+                int range = 5; // 1015+23=1038
+                double normalized = (starLevel - 3.5) / 0.5; // 3.5→0, 4.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1003), 1008);
+            } else if (starLevel >= 4.5 && starLevel <= 5.0) {
+                // 4.5-5星：1039~1109，星级越高数字越接近1109
+                int base = 1009;
+                int range = 4; // 1039+70=1109
+                double normalized = (starLevel - 4.5) / 0.5; // 4.5→0, 5.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1009), 1013);
+            }
+        }
+
+
+        if ("Q".equals(equipPrefix)){
+            if (starLevel >= 1.0 && starLevel <= 3.0) {
+                // 1-3星：1000~1014，星级越高数字越接近1014
+                int base = 1000;
+                int range = 3; // 1000+14=1014
+                // 星级归一化（1.0→0，3.0→1），乘以区间长度得到偏移量，保证星级越高数字越大
+                double normalized = (starLevel - 1.0) / 2.0; // 1.0→0, 2.0→0.5, 3.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3); // 小随机避免完全固定
+                // 兜底：确保不超出1000~1014范围
+                randomNum = Math.min(Math.max(randomNum, 1000), 1003);
+            } else if (starLevel >= 3.5 && starLevel <= 4.0) {
+                // 3.5-4星：1015~1038，星级越高数字越接近1038
+                int base = 1004;
+                int range = 3; // 1015+23=1038
+                double normalized = (starLevel - 3.5) / 0.5; // 3.5→0, 4.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1004), 1007);
+            } else if (starLevel >= 4.5 && starLevel <= 5.0) {
+                // 4.5-5星：1039~1109，星级越高数字越接近1109
+                int base = 1008;
+                int range = 3; // 1039+70=1109
+                double normalized = (starLevel - 4.5) / 0.5; // 4.5→0, 5.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1008), 1011);
+            }
+        }
+
+
+        if ("D".equals(equipPrefix)){
+            if (starLevel >= 1.0 && starLevel <= 3.0) {
+                // 1-3星：1000~1014，星级越高数字越接近1014
+                int base = 1000;
+                int range = 6; // 1000+14=1014
+                // 星级归一化（1.0→0，3.0→1），乘以区间长度得到偏移量，保证星级越高数字越大
+                double normalized = (starLevel - 1.0) / 2.0; // 1.0→0, 2.0→0.5, 3.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3); // 小随机避免完全固定
+                // 兜底：确保不超出1000~1014范围
+                randomNum = Math.min(Math.max(randomNum, 1000), 1006);
+            } else if (starLevel >= 3.5 && starLevel <= 4.0) {
+                // 3.5-4星：1015~1038，星级越高数字越接近1038
+                int base = 1007;
+                int range = 20; // 1015+23=1038
+                double normalized = (starLevel - 3.5) / 0.5; // 3.5→0, 4.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1007), 1027);
+            } else if (starLevel >= 4.5 && starLevel <= 5.0) {
+                // 4.5-5星：1039~1109，星级越高数字越接近1109
+                int base = 1028;
+                int range = 8; // 1039+70=1109
+                double normalized = (starLevel - 4.5) / 0.5; // 4.5→0, 5.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1028), 1036);
+            }
+        }
+
+
+
+        if ("M".equals(equipPrefix)){
+            if (starLevel >= 1.0 && starLevel <= 3.0) {
+                // 1-3星：1000~1014，星级越高数字越接近1014
+                int base = 1000;
+                int range = 5; // 1000+14=1014
+                // 星级归一化（1.0→0，3.0→1），乘以区间长度得到偏移量，保证星级越高数字越大
+                double normalized = (starLevel - 1.0) / 2.0; // 1.0→0, 2.0→0.5, 3.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3); // 小随机避免完全固定
+                // 兜底：确保不超出1000~1014范围
+                randomNum = Math.min(Math.max(randomNum, 1000), 1005);
+            } else if (starLevel >= 3.5 && starLevel <= 4.0) {
+                // 3.5-4星：1015~1038，星级越高数字越接近1038
+                int base = 1006;
+                int range = 12; // 1015+23=1038
+                double normalized = (starLevel - 3.5) / 0.5; // 3.5→0, 4.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1006), 1018);
+            } else if (starLevel >= 4.5 && starLevel <= 5.0) {
+                // 4.5-5星：1039~1109，星级越高数字越接近1109
+                int base = 1019;
+                int range = 7; // 1039+70=1109
+                double normalized = (starLevel - 4.5) / 0.5; // 4.5→0, 5.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1019), 1026);
+            }
+        }
+
+
+        if ("P".equals(equipPrefix)){
+            if (starLevel >= 1.0 && starLevel <= 3.0) {
+                // 1-3星：1000~1014，星级越高数字越接近1014
+                int base = 1000;
+                int range = 11; // 1000+14=1014
+                // 星级归一化（1.0→0，3.0→1），乘以区间长度得到偏移量，保证星级越高数字越大
+                double normalized = (starLevel - 1.0) / 2.0; // 1.0→0, 2.0→0.5, 3.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3); // 小随机避免完全固定
+                // 兜底：确保不超出1000~1014范围
+                randomNum = Math.min(Math.max(randomNum, 1000), 1011);
+            } else if (starLevel >= 3.5 && starLevel <= 4.0) {
+                // 3.5-4星：1015~1038，星级越高数字越接近1038
+                int base = 1012;
+                int range = 15; // 1015+23=1038
+                double normalized = (starLevel - 3.5) / 0.5; // 3.5→0, 4.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1012), 1027);
+            } else if (starLevel >= 4.5 && starLevel <= 5.0) {
+                // 4.5-5星：1039~1109，星级越高数字越接近1109
+                int base = 1028;
+                int range = 6; // 1039+70=1109
+                double normalized = (starLevel - 4.5) / 0.5; // 4.5→0, 5.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1028), 1034);
+            }
+        }
+
+
+        if ("S".equals(equipPrefix)){
+            if (starLevel >= 1.0 && starLevel <= 3.0) {
+                // 1-3星：1000~1014，星级越高数字越接近1014
+                int base = 1000;
+                int range = 6; // 1000+14=1014
+                // 星级归一化（1.0→0，3.0→1），乘以区间长度得到偏移量，保证星级越高数字越大
+                double normalized = (starLevel - 1.0) / 2.0; // 1.0→0, 2.0→0.5, 3.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3); // 小随机避免完全固定
+                // 兜底：确保不超出1000~1014范围
+                randomNum = Math.min(Math.max(randomNum, 1000), 1006);
+            } else if (starLevel >= 3.5 && starLevel <= 4.0) {
+                // 3.5-4星：1015~1038，星级越高数字越接近1038
+                int base = 1007;
+                int range = 21; // 1015+23=1038
+                double normalized = (starLevel - 3.5) / 0.5; // 3.5→0, 4.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1007), 1028);
+            } else if (starLevel >= 4.5 && starLevel <= 5.0) {
+                // 4.5-5星：1039~1109，星级越高数字越接近1109
+                int base = 1029;
+                int range = 6; // 1039+70=1109
+                double normalized = (starLevel - 4.5) / 0.5; // 4.5→0, 5.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1029), 1035);
+            }
+        }
+
+
+        if ("Y".equals(equipPrefix)){
+            if (starLevel >= 1.0 && starLevel <= 3.0) {
+                // 1-3星：1000~1014，星级越高数字越接近1014
+                int base = 1000;
+                int range = 5; // 1000+14=1014
+                // 星级归一化（1.0→0，3.0→1），乘以区间长度得到偏移量，保证星级越高数字越大
+                double normalized = (starLevel - 1.0) / 2.0; // 1.0→0, 2.0→0.5, 3.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3); // 小随机避免完全固定
+                // 兜底：确保不超出1000~1014范围
+                randomNum = Math.min(Math.max(randomNum, 1000), 1005);
+            } else if (starLevel >= 3.5 && starLevel <= 4.0) {
+                // 3.5-4星：1015~1038，星级越高数字越接近1038
+                int base = 1006;
+                int range = 18; // 1015+23=1038
+                double normalized = (starLevel - 3.5) / 0.5; // 3.5→0, 4.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1006), 1024);
+            } else if (starLevel >= 4.5 && starLevel <= 5.0) {
+                // 4.5-5星：1039~1109，星级越高数字越接近1109
+                int base = 1025;
+                int range = 4; // 1039+70=1109
+                double normalized = (starLevel - 4.5) / 0.5; // 4.5→0, 5.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1025), 1029);
+            }
+        }
+
+
+        if ("X".equals(equipPrefix)){
+            if (starLevel >= 1.0 && starLevel <= 3.0) {
+                // 1-3星：1000~1014，星级越高数字越接近1014
+                int base = 1000;
+                int range = 18; // 1000+14=1014
+                // 星级归一化（1.0→0，3.0→1），乘以区间长度得到偏移量，保证星级越高数字越大
+                double normalized = (starLevel - 1.0) / 2.0; // 1.0→0, 2.0→0.5, 3.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3); // 小随机避免完全固定
+                // 兜底：确保不超出1000~1014范围
+                randomNum = Math.min(Math.max(randomNum, 1000), 1018);
+            } else if (starLevel >= 3.5 && starLevel <= 4.0) {
+                // 3.5-4星：1015~1038，星级越高数字越接近1038
+                int base = 1019;
+                int range = 42; // 1015+23=1038
+                double normalized = (starLevel - 3.5) / 0.5; // 3.5→0, 4.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1019), 1061);
+            } else if (starLevel >= 4.5 && starLevel <= 5.0) {
+                // 4.5-5星：1039~1109，星级越高数字越接近1109
+                int base = 1062;
+                int range = 3; // 1039+70=1109
+                double normalized = (starLevel - 4.5) / 0.5; // 4.5→0, 5.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1062), 1065);
+            }
+        }
+
+        if ("K".equals(equipPrefix)){
+            if (starLevel >= 1.0 && starLevel <= 3.0) {
+                // 1-3星：1000~1014，星级越高数字越接近1014
+                int base = 1000;
+                int range = 12; // 1000+14=1014
+                // 星级归一化（1.0→0，3.0→1），乘以区间长度得到偏移量，保证星级越高数字越大
+                double normalized = (starLevel - 1.0) / 2.0; // 1.0→0, 2.0→0.5, 3.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3); // 小随机避免完全固定
+                // 兜底：确保不超出1000~1014范围
+                randomNum = Math.min(Math.max(randomNum, 1000), 1012);
+            } else if (starLevel >= 3.5 && starLevel <= 4.0) {
+                // 3.5-4星：1015~1038，星级越高数字越接近1038
+                int base = 1013;
+                int range = 24; // 1015+23=1038
+                double normalized = (starLevel - 3.5) / 0.5; // 3.5→0, 4.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1013), 1037);
+            } else if (starLevel >= 4.5 && starLevel <= 5.0) {
+                // 4.5-5星：1039~1109，星级越高数字越接近1109
+                int base = 1038;
+                int range = 1; // 1039+70=1109
+                double normalized = (starLevel - 4.5) / 0.5; // 4.5→0, 5.0→1
+                randomNum = base + (int) (normalized * range) + new Random().nextInt(3);
+                randomNum = Math.min(Math.max(randomNum, 1038), 1039);
+            }
+        }
+
+        // ========== 拼接ID ==========
+        // 第一步：前缀 + 随机数字（按星级区间生成）
+        idSb.append(equipPrefix).append(randomNum);
+        // 第二步：下划线
         idSb.append("_");
-        // 第三步：拼接所有属性对应字母（1个/2个/3个，自动适配）
+        // 第三步：属性字母
         attrList.forEach(attr -> idSb.append(ATTR_TO_CODE.get(attr)));
-        // 更新自增计数器，保证数字唯一
-        ID_COUNTER.put(equipPrefix, currentNum + 1);
-        // 返回最终ID
+
         return idSb.toString();
     }
     // ========== 四、对外核心方法 - 生成单个装备 ==========
@@ -262,7 +542,7 @@ public class EquipmentGenerateUtil {
         String[] nameList = (String[]) config[3];
 
         // 随机获取装备名称
-        String equipName = nameList[RANDOM.nextInt(nameList.length)];
+        String equipName = getEquipNameByStar(starLevel, nameList);
 
         // 设置基础字段
         eqCard.setWeight(0.1 + RANDOM.nextDouble() * 9.9); // 权重0.1~10.0
@@ -299,10 +579,64 @@ public class EquipmentGenerateUtil {
         eqCard.setName(nameSb.toString());
 
         // 生成最终ID（适配1/2/3属性）
-        eqCard.setId(generateFinalEquipId(equipPrefix, attrList));
+        eqCard.setId(generateFinalEquipId(equipPrefix, attrList,starLevel));
 
         return eqCard;
     }
+
+    /**
+     * 按星级高低选取装备名称：星级越高，选取nameList中越靠后的名称
+     * 规则：
+     * 1. 1-3星 → 选取数组前30%的名称（基础级）
+     * 2. 3.5-4星 → 选取数组中间40%的名称（稀有级）
+     * 3. 4.5-5星 → 选取数组后30%的名称（顶级/稀有级）
+     * 4. 每个区间内小范围随机，保证同一星级有少量名称变化，且整体趋势是星级越高名字越靠后
+     */
+    private static String getEquipNameByStar(double starLevel, String[] nameList) {
+        if (nameList == null || nameList.length == 0) {
+            return "未知装备"; // 兜底，避免空指针
+        }
+        int listLength = nameList.length;
+        int startIdx = 0;
+        int endIdx = listLength - 1;
+
+        // 按星级划分名称选取区间（星级越高，区间越靠后）
+        if (starLevel >= 1.0 && starLevel <= 3.0) {
+            // 1-3星：前30%名称（基础级）
+            endIdx = (int) (listLength * 0.3) - 1;
+            // 星级越高，在该区间内越靠后（1星→最前，3星→区间末尾）
+            double normalized = (starLevel - 1.0) / 2.0; // 1.0→0, 3.0→1
+            startIdx = (int) (normalized * endIdx);
+        } else if (starLevel >= 3.5 && starLevel <= 4.0) {
+            // 3.5-4星：中间40%名称（稀有级）
+            startIdx = (int) (listLength * 0.3);
+            endIdx = (int) (listLength * 0.7) - 1;
+            // 星级越高，在该区间内越靠后（3.5星→区间开头，4星→区间末尾）
+            double normalized = (starLevel - 3.5) / 0.5; // 3.5→0, 4.0→1
+            startIdx = startIdx + (int) (normalized * (endIdx - startIdx));
+        } else if (starLevel >= 4.5 && starLevel <= 5.0) {
+            // 4.5-5星：后30%名称（顶级）
+            startIdx = (int) (listLength * 0.7);
+            endIdx = listLength - 1;
+            // 星级越高，在该区间内越靠后（4.5星→区间开头，5星→区间末尾）
+            double normalized = (starLevel - 4.5) / 0.5; // 4.5→0, 5.0→1
+            startIdx = startIdx + (int) (normalized * (endIdx - startIdx));
+        }
+
+        // 兜底：避免索引越界
+        startIdx = Math.max(0, startIdx);
+        endIdx = Math.min(listLength - 1, endIdx);
+        // 区间内小范围随机，保证同一星级有不同名称（但整体位置靠后）
+        if (startIdx >= endIdx) {
+            return nameList[endIdx];
+        }
+        return nameList[new Random().nextInt(endIdx - startIdx + 1) + startIdx];
+    }
+
+    // ========== 调用改造（替换原随机选取名称的代码） ==========
+// 原代码：String equipName = nameList[RANDOM.nextInt(nameList.length)];
+// 新代码：
+
 
     // ========== 五、批量生成装备方法（推荐入库使用） ==========
     public static List<EqCard> batchGenerateEqCard(int count, double... assignStars) {

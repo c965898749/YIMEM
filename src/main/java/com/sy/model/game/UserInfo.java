@@ -39,7 +39,7 @@ public class UserInfo {
     private BigDecimal soul;
 
     //卡牌
-    List<Characters> characterList;
+    List<Character> characterList;
     List<EqCharacters> eqCharactersList;
     private String token;
     //卡池数量

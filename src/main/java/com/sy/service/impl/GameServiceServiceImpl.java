@@ -200,7 +200,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         //卡池数量
         List<Card> cardList = cardMapper.selectAll();
         info.setUseCardCount(cardList.size() + "");
-        info.setCharacterList(characterList);
+        info.setCharacterList(formateCharacter(characterList));
         info.setEqCharactersList(eqCharactersList);
         String token = IdUtil.simpleUUID();
         info.setToken(token);
@@ -209,6 +209,18 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setData(info);
         baseResp.setErrorMsg("登录成功");
         return baseResp;
+    }
+    //格式化卡牌
+    public List<Character> formateCharacter(List<Characters> characterList){
+        List<Character> characterArrayList=new ArrayList<>();
+        List<Characters> charactersList1=characterList.stream().filter(x->x.getGoIntoNum()!=0).collect(Collectors.toList());
+        List<Characters> charactersList2=characterList.stream().filter(x->x.getGoIntoNum()==0).collect(Collectors.toList());
+        for (Characters characters : charactersList1) {
+            Character character = reasonableData(characters, charactersList1);
+            characterArrayList.add(character);
+        }
+        characterArrayList.addAll(reasonableData2(charactersList2));
+        return characterArrayList;
     }
 
     @Override
@@ -288,12 +300,11 @@ public class GameServiceServiceImpl implements GameServiceService {
         if (playerBag3 != null) {
             info.setCrystal(playerBag3.getItemCount());
         }
-        info.setCharacterList(characterList);
         info.setEqCharactersList(characterEqList);
         //卡池数量
         List<Card> cardList = cardMapper.selectAll();
         info.setUseCardCount(cardList.size() + "");
-        info.setCharacterList(characterList);
+        info.setCharacterList(formateCharacter(characterList));
         baseResp.setData(info);
         baseResp.setErrorMsg("更新成功");
         return baseResp;
@@ -429,7 +440,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BeanUtils.copyProperties(user, info);
         //获取卡牌数据
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        info.setCharacterList(characterList);
+        info.setCharacterList(formateCharacter(characterList));
         baseResp.setData(info);
         baseResp.setErrorMsg("更新成功");
         return baseResp;
@@ -493,7 +504,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("装备不存在");
             return baseResp;
         }
-        if (!card.getCamp().equals(eqCard.getCamp())||card.getProfession().equals(eqCard.getProfession())){
+        if (!card.getCamp().equals(eqCard.getCamp())||!card.getProfession().equals(eqCard.getProfession())){
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("装备和护法的种族职业不一致");
             return baseResp;
@@ -870,7 +881,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(user, userInfo);
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        userInfo.setCharacterList(characterList);
+        userInfo.setCharacterList(formateCharacter(characterList));
         userInfo.setLevelUp(levelUp);
         map.put("levelUp", levelUp);
         map.put("user", userInfo);
@@ -1044,7 +1055,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BeanUtils.copyProperties(user, userInfo);
         userInfo.setLevelUp(levelUp);
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        userInfo.setCharacterList(characterList);
+        userInfo.setCharacterList(formateCharacter(characterList));
         map.put("levelUp", levelUp);
         map.put("user", userInfo);
         map.put("battle", battle);
@@ -1335,7 +1346,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
         UserInfo info = new UserInfo();
         BeanUtils.copyProperties(user, info);
-        info.setCharacterList(characterList);
+        info.setCharacterList(formateCharacter(characterList));
         baseResp.setSuccess(1);
         baseResp.setData(info);
         baseResp.setErrorMsg("更新成功");
@@ -1371,7 +1382,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BeanUtils.copyProperties(user, info);
         //获取卡牌数据
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        info.setCharacterList(characterList);
+        info.setCharacterList(formateCharacter(characterList));
         baseResp.setData(info);
         baseResp.setErrorMsg("更新成功");
         return baseResp;
@@ -1410,7 +1421,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BeanUtils.copyProperties(user, info);
         //获取卡牌数据
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        info.setCharacterList(characterList);
+        info.setCharacterList(formateCharacter(characterList));
         baseResp.setData(info);
         baseResp.setErrorMsg("更新成功");
         return baseResp;
@@ -1449,7 +1460,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BeanUtils.copyProperties(user, info);
         //获取卡牌数据
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        info.setCharacterList(characterList);
+        info.setCharacterList(formateCharacter(characterList));
         baseResp.setData(info);
         baseResp.setErrorMsg("更新成功");
         return baseResp;
@@ -1656,7 +1667,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BeanUtils.copyProperties(user, info);
         //获取卡牌数据
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        info.setCharacterList(characterList);
+        info.setCharacterList(formateCharacter(characterList));
         baseResp.setData(info);
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("领取成功");
@@ -1794,7 +1805,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BeanUtils.copyProperties(user, info);
         //获取卡牌数据
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        info.setCharacterList(characterList);
+        info.setCharacterList(formateCharacter(characterList));
         baseResp.setData(info);
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("领取成功");
@@ -1891,7 +1902,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BeanUtils.copyProperties(user, info);
         //获取卡牌数据
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        info.setCharacterList(characterList);
+        info.setCharacterList(formateCharacter(characterList));
         baseResp.setData(info);
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("领取成功");
@@ -4081,7 +4092,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         userInfo.setLevelUp(levelUp);
         //获取卡牌数据
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        userInfo.setCharacterList(characterList);
+        userInfo.setCharacterList(formateCharacter(characterList));
         map.put("levelUp", levelUp);
         map.put("user", userInfo);
         map.put("battle", battle);
@@ -4506,44 +4517,7 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
 
-    public int getBossLevel(String level) {
-        // 校验输入格式
-        if (level == null || !level.matches("^\\d+-\\d+-\\d+$")) {
-            return -1;
-        }
 
-        // 拆分关卡编号
-        String[] parts = level.split("-");
-        if (parts.length != 3) {
-            return -1;
-        }
-
-        try {
-            // 转换为数字（x, y, z）
-            int x = Integer.parseInt(parts[0]);
-            int y = Integer.parseInt(parts[1]);
-            int z = Integer.parseInt(parts[2]);
-
-            // 校验关卡范围有效性
-            if (x < 1 || x > LAYER1_MAX ||
-                    y < 1 || y > LAYER2_MAX ||
-                    z < 1 || z > LAYER3_MAX) {
-                return -1;
-            }
-
-            // 计算序号（从0开始）
-            int index = (x - 1) * LAYER2_MAX * LAYER3_MAX
-                    + (y - 1) * LAYER3_MAX
-                    + (z - 1);
-
-            // 计算等级（上限50级）
-            return Math.min(index + 1, MAX_LEVEL);
-
-        } catch (NumberFormatException e) {
-            // 数字转换失败（非整数）
-            return -1;
-        }
-    }
 
     @Override
     public BaseResp jingji(TokenDto token, HttpServletRequest request) throws Exception {
@@ -4783,7 +4757,26 @@ public class GameServiceServiceImpl implements GameServiceService {
             return targetLocalDate.format(formatter);
         }
     }
+    public List<Character> reasonableData2(List<Characters> charactersList) {
 
+        //TODO 先初始化自身属性
+        List<Character> characterList=new ArrayList<>();
+        for (Characters characters : charactersList) {
+            Character character = new Character();
+            BeanUtils.copyProperties(characters, character);
+            BigDecimal lv = new BigDecimal(characters.getLv());
+            BigDecimal maxHp = lv.multiply(characters.getHpGrowth().multiply(((characters.getStar().subtract(new BigDecimal(1))).multiply(new BigDecimal("0.15")).add(new BigDecimal(1))).multiply((lv.divide(new BigDecimal(80)).add(new BigDecimal("0.8"))))));
+            BigDecimal attack = lv.multiply(characters.getAttackGrowth().multiply(((characters.getStar().subtract(new BigDecimal(1))).multiply(new BigDecimal("0.15")).add(new BigDecimal(1))).multiply((lv.divide(new BigDecimal(80)).add(new BigDecimal("0.8"))))));
+            BigDecimal speed = lv.multiply(characters.getSpeedGrowth().multiply(((characters.getStar().subtract(new BigDecimal(1))).multiply(new BigDecimal("0.15")).add(new BigDecimal(1))).multiply((lv.divide(new BigDecimal(80)).add(new BigDecimal("0.8"))))));
+            character.setHp(maxHp.intValue());
+            character.setMaxHp(maxHp.intValue());
+            character.setAttack(attack.intValue());
+            character.setSpeed(speed.intValue());
+            characterList.add(character);
+        }
+
+        return characterList;
+    }
 
     public Character reasonableData(Characters characters, List<Characters> charactersList) {
         //TODO 先初始化自身属性
@@ -5015,7 +5008,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BeanUtils.copyProperties(user2, info);
         //获取卡牌数据
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        info.setCharacterList(characterList);
+        info.setCharacterList(formateCharacter(characterList));
         baseResp.setData(info);
         baseResp.setErrorMsg("更新成功");
         return baseResp;

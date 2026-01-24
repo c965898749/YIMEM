@@ -63,16 +63,16 @@ public class UserController {
 
     //登录接口
     @RequestMapping(value = "loginVerification", method = RequestMethod.POST)
-    public BaseResp loginVerification(String username, String userpassword, HttpServletRequest request) {
+    public BaseResp loginVerification(@RequestBody User user, HttpServletRequest request) {
         BaseResp baseResp = new BaseResp();
         try {
             Date day = new Date();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            baseResp = servic.loginVerification(username, userpassword,request);
+            baseResp = servic.loginVerification(user.getUsername(), user.getUserpassword(),request);
             if (baseResp.getSuccess() == 1) {
-                User user = (User) baseResp.getData();
-                if (Xtool.isNotNull(user.getOpenid())) {
-                    weixinPostService.sendTemplate(user.getOpenid(), user.getUsername(), df.format(day));
+                User user2 = (User) baseResp.getData();
+                if (Xtool.isNotNull(user2.getOpenid())) {
+                    weixinPostService.sendTemplate(user2.getOpenid(), user2.getUsername(), df.format(day));
                 }
             }
             return baseResp;
