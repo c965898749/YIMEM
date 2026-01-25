@@ -19,6 +19,8 @@ public interface CharactersMapper {
 
     int updateByPrimaryKey(Characters record);
 
+    List<Characters> selectAllCardList();
+
     List<Characters> selectByUserId(Integer userId);
 
     int updateGoNuM(String userId);

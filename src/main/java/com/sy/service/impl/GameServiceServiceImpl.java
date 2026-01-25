@@ -4791,23 +4791,26 @@ public class GameServiceServiceImpl implements GameServiceService {
         character.setAttack(attack.intValue());
         character.setSpeed(speed.intValue());
         //TODO 再叠加协同属性
-        if (Xtool.isNotNull(characters.getPassiveIntroduceThree())) {
-            List<Characters> xieTong = charactersList.stream().filter(x -> characters.getPassiveIntroduceThree().equals(x.getId())).collect(Collectors.toList());
-            if (Xtool.isNotNull(xieTong)) {
-                int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
+        if (Xtool.isNotNull(charactersList)){
+            if (Xtool.isNotNull(characters.getPassiveIntroduceThree())) {
+                List<Characters> xieTong = charactersList.stream().filter(x -> characters.getPassiveIntroduceThree().equals(x.getId())).collect(Collectors.toList());
+                if (Xtool.isNotNull(xieTong)) {
+                    int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
 //                453点生命上限，158点攻击，158点速度。
-                if (Xtool.isNotNull(characters.getCollHp())) {
-                    character.setHp(character.getHp() + skillLevel * characters.getCollHp());
-                    character.setMaxHp(maxHp.intValue() + skillLevel * characters.getCollHp());
-                }
-                if (Xtool.isNotNull(characters.getCollAttack())) {
-                    character.setAttack(attack.intValue() + skillLevel * characters.getCollAttack());
-                }
-                if (Xtool.isNotNull(characters.getCollSpeed())) {
-                    character.setSpeed(speed.intValue() + skillLevel * characters.getCollSpeed());
+                    if (Xtool.isNotNull(characters.getCollHp())) {
+                        character.setHp(character.getHp() + skillLevel * characters.getCollHp());
+                        character.setMaxHp(maxHp.intValue() + skillLevel * characters.getCollHp());
+                    }
+                    if (Xtool.isNotNull(characters.getCollAttack())) {
+                        character.setAttack(attack.intValue() + skillLevel * characters.getCollAttack());
+                    }
+                    if (Xtool.isNotNull(characters.getCollSpeed())) {
+                        character.setSpeed(speed.intValue() + skillLevel * characters.getCollSpeed());
+                    }
                 }
             }
         }
+
 
         if ("不动如山1".equals(character.getPassiveIntroduceThree()) && characters.getGoIntoNum() == 1) {
             int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
@@ -5285,6 +5288,20 @@ public class GameServiceServiceImpl implements GameServiceService {
         data.put("ranking", ranking);
         baseResp.setSuccess(1);
         baseResp.setData(data);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp allCardList(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        baseResp.setSuccess(1);
+        List<Characters> alls=charactersMapper.selectAllCardList();
+        List<Character> characterArrayList=new ArrayList<>();
+        for (Characters characters : alls) {
+            Character character = reasonableData(characters, null);
+            characterArrayList.add(character);
+        }
+        baseResp.setData(characterArrayList);
         return baseResp;
     }
 

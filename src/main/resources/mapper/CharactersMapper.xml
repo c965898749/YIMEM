@@ -117,6 +117,28 @@
       update_time= now()
     where uuid = #{uuid,jdbcType=INTEGER}
   </update>
+    <select id="selectAllCardList" resultType="com.sy.model.game.Characters">
+    select
+    cd.id,
+    cd.star,
+    1 as lv,
+    0 as go_into_num,
+    cd.name,
+    cd.camp,
+    cd.hp_growth,
+    cd.attack_growth,
+    cd.defence_growth,
+    cd.pierce_growth,
+    cd.speed_growth,
+    cd.profession,
+    cd.coll_attack,
+    cd.coll_speed,
+    cd.coll_hp,
+    cd.passive_introduce_one,
+    cd.passive_introduce_two,
+    cd.passive_introduce_three
+    from   card cd
+  </select>
     <select id="selectByUserId" parameterType="com.sy.model.game.Characters" resultType="com.sy.model.game.Characters">
     select
     cs.uuid,

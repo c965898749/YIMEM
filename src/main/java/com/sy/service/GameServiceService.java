@@ -74,6 +74,7 @@ public interface GameServiceService {
     BaseResp isSignedUp(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp arenaSignup(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp arenaTem(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp allCardList(TokenDto token, HttpServletRequest request) throws Exception;
     void sendRawrd();
     void addActCode();
     void syncLastWeekRank();

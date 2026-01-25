@@ -1140,6 +1140,25 @@ public class GameContoller {
             return baseResp;
         }
     }
+    /**
+     * 使用
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("allCardList")
+    @CrossOrigin
+    public BaseResp allCardList(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.allCardList(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
 
 
 }
