@@ -1312,6 +1312,13 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
 
+        // 1. 获取前端传递的二维数组
+        if (token.getFinalLevel()<=0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("服务器异常3");
+            return baseResp;
+        }
+
         // 2. 将二维数组转为Map<String, Integer>（核心步骤）
         Map<String, Integer> myMap = new HashMap<>();
         for (List<Object> entry : strArray) {
@@ -3986,7 +3993,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         if (battle.getIsWin() == 0) {
             if (num3 + 1 > 10) {
                 if (num2 + 1 > 6) {
-                    if (num1 + 1 > 5) {
+                    if (num1 + 1 > 6) {
 
                     } else {
                         num1 = num1 + 1;
@@ -4329,7 +4336,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 return baseResp;
             }
         }
-        if ("darkSteeltower".equals(token.getStr())){
+        if ("silvertower".equals(token.getStr())){
             //判断是否通关第四图
             List<String> strings=Arrays.asList(user.getChapter().split("-"));
             if (Integer.parseInt(strings.get(0))<6){
@@ -4338,7 +4345,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 return baseResp;
             }
         }
-        if ("purpleGoldtower".equals(token.getStr())){
+        if ("goldentower".equals(token.getStr())){
             //判断是否通关第四图
             List<String> strings=Arrays.asList(user.getChapter().split("-"));
             if (Integer.parseInt(strings.get(0))<7){
@@ -4768,8 +4775,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             BigDecimal maxHp = lv.multiply(characters.getHpGrowth().multiply(((characters.getStar().subtract(new BigDecimal(1))).multiply(new BigDecimal("0.15")).add(new BigDecimal(1))).multiply((lv.divide(new BigDecimal(80)).add(new BigDecimal("0.8"))))));
             BigDecimal attack = lv.multiply(characters.getAttackGrowth().multiply(((characters.getStar().subtract(new BigDecimal(1))).multiply(new BigDecimal("0.15")).add(new BigDecimal(1))).multiply((lv.divide(new BigDecimal(80)).add(new BigDecimal("0.8"))))));
             BigDecimal speed = lv.multiply(characters.getSpeedGrowth().multiply(((characters.getStar().subtract(new BigDecimal(1))).multiply(new BigDecimal("0.15")).add(new BigDecimal(1))).multiply((lv.divide(new BigDecimal(80)).add(new BigDecimal("0.8"))))));
-            character.setHp(maxHp.intValue());
             character.setMaxHp(maxHp.intValue());
+            character.setHp(maxHp.intValue());
             character.setAttack(attack.intValue());
             character.setSpeed(speed.intValue());
             characterList.add(character);
@@ -4787,6 +4794,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BigDecimal attack = lv.multiply(characters.getAttackGrowth().multiply(((characters.getStar().subtract(new BigDecimal(1))).multiply(new BigDecimal("0.15")).add(new BigDecimal(1))).multiply((lv.divide(new BigDecimal(80)).add(new BigDecimal("0.8"))))));
         BigDecimal speed = lv.multiply(characters.getSpeedGrowth().multiply(((characters.getStar().subtract(new BigDecimal(1))).multiply(new BigDecimal("0.15")).add(new BigDecimal(1))).multiply((lv.divide(new BigDecimal(80)).add(new BigDecimal("0.8"))))));
         character.setHp(maxHp.intValue());
+        character.setStar(characters.getStar());
         character.setMaxHp(maxHp.intValue());
         character.setAttack(attack.intValue());
         character.setSpeed(speed.intValue());
@@ -4795,104 +4803,129 @@ public class GameServiceServiceImpl implements GameServiceService {
             if (Xtool.isNotNull(characters.getPassiveIntroduceThree())) {
                 List<Characters> xieTong = charactersList.stream().filter(x -> characters.getPassiveIntroduceThree().equals(x.getId())).collect(Collectors.toList());
                 if (Xtool.isNotNull(xieTong)) {
-                    int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
-//                453点生命上限，158点攻击，158点速度。
-                    if (Xtool.isNotNull(characters.getCollHp())) {
-                        character.setHp(character.getHp() + skillLevel * characters.getCollHp());
-                        character.setMaxHp(maxHp.intValue() + skillLevel * characters.getCollHp());
+                    int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
+                    if (skillLevel[2]>0){
+                        //                453点生命上限，158点攻击，158点速度。
+                        if (Xtool.isNotNull(characters.getCollHp())) {
+                            character.setMaxHp(character.getMaxHp() + skillLevel[3] * characters.getCollHp());
+                            character.setHp(character.getHp() + skillLevel[3] * characters.getCollHp());
+
+                        }
+                        if (Xtool.isNotNull(characters.getCollAttack())) {
+                            character.setAttack(attack.intValue() + skillLevel[3] * characters.getCollAttack());
+                        }
+                        if (Xtool.isNotNull(characters.getCollSpeed())) {
+                            character.setSpeed(speed.intValue() + skillLevel[3] * characters.getCollSpeed());
+                        }
                     }
-                    if (Xtool.isNotNull(characters.getCollAttack())) {
-                        character.setAttack(attack.intValue() + skillLevel * characters.getCollAttack());
-                    }
-                    if (Xtool.isNotNull(characters.getCollSpeed())) {
-                        character.setSpeed(speed.intValue() + skillLevel * characters.getCollSpeed());
-                    }
+
                 }
             }
         }
 
 
         if ("不动如山1".equals(character.getPassiveIntroduceThree()) && characters.getGoIntoNum() == 1) {
-            int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
-//                453点生命上限，158点攻击，158点速度。
-            if (Xtool.isNotNull(characters.getCollHp())) {
-                character.setHp(character.getHp() + skillLevel * characters.getCollHp());
-                character.setMaxHp(maxHp.intValue() + skillLevel * characters.getCollHp());
+            int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
+            if (skillLevel[1]>0){
+                //                453点生命上限，158点攻击，158点速度。
+                if (Xtool.isNotNull(characters.getCollHp())) {
+                    character.setMaxHp(character.getMaxHp() + skillLevel[1] * characters.getCollHp());
+                    character.setHp(character.getHp() + skillLevel[1] * characters.getCollHp());
+
+                }
+                if (Xtool.isNotNull(characters.getCollAttack())) {
+                    character.setAttack(attack.intValue() + skillLevel[1] * characters.getCollAttack());
+                }
+                if (Xtool.isNotNull(characters.getCollSpeed())) {
+                    character.setSpeed(speed.intValue() + skillLevel[1] * characters.getCollSpeed());
+                }
             }
-            if (Xtool.isNotNull(characters.getCollAttack())) {
-                character.setAttack(attack.intValue() + skillLevel * characters.getCollAttack());
-            }
-            if (Xtool.isNotNull(characters.getCollSpeed())) {
-                character.setSpeed(speed.intValue() + skillLevel * characters.getCollSpeed());
-            }
+
         }
 
         if ("不动如山2".equals(character.getPassiveIntroduceThree()) && characters.getGoIntoNum() == 2) {
-            int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
-//                453点生命上限，158点攻击，158点速度。
-            if (Xtool.isNotNull(characters.getCollHp())) {
-                character.setHp(character.getHp() + skillLevel * characters.getCollHp());
-                character.setMaxHp(maxHp.intValue() + skillLevel * characters.getCollHp());
-            }
-            if (Xtool.isNotNull(characters.getCollAttack())) {
-                character.setAttack(attack.intValue() + skillLevel * characters.getCollAttack());
-            }
-            if (Xtool.isNotNull(characters.getCollSpeed())) {
-                character.setSpeed(speed.intValue() + skillLevel * characters.getCollSpeed());
+            int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
+            if (skillLevel[1]>0){
+                //                453点生命上限，158点攻击，158点速度。
+                if (Xtool.isNotNull(characters.getCollHp())) {
+                    character.setMaxHp(character.getMaxHp() + skillLevel[1] * characters.getCollHp());
+                    character.setHp(character.getHp() + skillLevel[1] * characters.getCollHp());
+
+                }
+                if (Xtool.isNotNull(characters.getCollAttack())) {
+                    character.setAttack(attack.intValue() + skillLevel[1] * characters.getCollAttack());
+                }
+                if (Xtool.isNotNull(characters.getCollSpeed())) {
+                    character.setSpeed(speed.intValue() +skillLevel[1] * characters.getCollSpeed());
+                }
             }
         }
 
         if ("不动如山3".equals(character.getPassiveIntroduceThree()) && characters.getGoIntoNum() == 3) {
-            int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
-//                453点生命上限，158点攻击，158点速度。
-            if (Xtool.isNotNull(characters.getCollHp())) {
-                character.setHp(character.getHp() + skillLevel * characters.getCollHp());
-                character.setMaxHp(maxHp.intValue() + skillLevel * characters.getCollHp());
-            }
-            if (Xtool.isNotNull(characters.getCollAttack())) {
-                character.setAttack(attack.intValue() + skillLevel * characters.getCollAttack());
-            }
-            if (Xtool.isNotNull(characters.getCollSpeed())) {
-                character.setSpeed(speed.intValue() + skillLevel * characters.getCollSpeed());
+            int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
+            if (skillLevel[1]>0){
+                //                453点生命上限，158点攻击，158点速度。
+                if (Xtool.isNotNull(characters.getCollHp())) {
+                    character.setMaxHp(character.getMaxHp() + skillLevel[1] * characters.getCollHp());
+                    character.setHp(character.getHp() + skillLevel[1] * characters.getCollHp());
+
+                }
+                if (Xtool.isNotNull(characters.getCollAttack())) {
+                    character.setAttack(attack.intValue() + skillLevel[1] * characters.getCollAttack());
+                }
+                if (Xtool.isNotNull(characters.getCollSpeed())) {
+                    character.setSpeed(speed.intValue() + skillLevel[1] * characters.getCollSpeed());
+                }
             }
         }
 
         if ("不动如山4".equals(character.getPassiveIntroduceThree()) && characters.getGoIntoNum() == 4) {
-            int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
-//                453点生命上限，158点攻击，158点速度。
-            if (Xtool.isNotNull(characters.getCollHp())) {
-                character.setHp(character.getHp() + skillLevel * characters.getCollHp());
-                character.setMaxHp(maxHp.intValue() + skillLevel * characters.getCollHp());
+            int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
+            if (skillLevel[1]>0){
+                //                453点生命上限，158点攻击，158点速度。
+                if (Xtool.isNotNull(characters.getCollHp())) {
+                    character.setMaxHp(character.getMaxHp()+ skillLevel[1] * characters.getCollHp());
+                    character.setHp(character.getHp() + skillLevel[1] * characters.getCollHp());
+
+                }
+                if (Xtool.isNotNull(characters.getCollAttack())) {
+                    character.setAttack(attack.intValue() + skillLevel[1] * characters.getCollAttack());
+                }
+                if (Xtool.isNotNull(characters.getCollSpeed())) {
+                    character.setSpeed(speed.intValue() + skillLevel[1] * characters.getCollSpeed());
+                }
             }
-            if (Xtool.isNotNull(characters.getCollAttack())) {
-                character.setAttack(attack.intValue() + skillLevel * characters.getCollAttack());
-            }
-            if (Xtool.isNotNull(characters.getCollSpeed())) {
-                character.setSpeed(speed.intValue() + skillLevel * characters.getCollSpeed());
-            }
+
         }
 
         if ("不动如山5".equals(character.getPassiveIntroduceThree()) && characters.getGoIntoNum() == 5) {
-            int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
-//                453点生命上限，158点攻击，158点速度。
-            if (Xtool.isNotNull(characters.getCollHp())) {
-                character.setHp(character.getHp() + skillLevel * characters.getCollHp());
-                character.setMaxHp(maxHp.intValue() + skillLevel * characters.getCollHp());
+            int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
+            if (skillLevel[1]>0){
+                //                453点生命上限，158点攻击，158点速度。
+                if (Xtool.isNotNull(characters.getCollHp())) {
+                    character.setMaxHp(character.getMaxHp() + skillLevel[1] * characters.getCollHp());
+                    character.setHp(character.getHp() + skillLevel[1] * characters.getCollHp());
+
+                }
+                if (Xtool.isNotNull(characters.getCollAttack())) {
+                    character.setAttack(attack.intValue() + skillLevel[1] * characters.getCollAttack());
+                }
+                if (Xtool.isNotNull(characters.getCollSpeed())) {
+                    character.setSpeed(speed.intValue() + skillLevel[1] * characters.getCollSpeed());
+                }
             }
-            if (Xtool.isNotNull(characters.getCollAttack())) {
-                character.setAttack(attack.intValue() + skillLevel * characters.getCollAttack());
-            }
-            if (Xtool.isNotNull(characters.getCollSpeed())) {
-                character.setSpeed(speed.intValue() + skillLevel * characters.getCollSpeed());
-            }
+
         }
 
 //        特殊
         if ("真武大帝".equals(character.getName()) && characters.getGoIntoNum() == 2) {
-            int skillLevel = SkillLevelCalculator.getSkillLevel(lv.intValue());
-//            山Lv1在第2位时，增加自身生命上限553点；
-            character.setHp(character.getHp() + skillLevel * 553);
-            character.setMaxHp(maxHp.intValue() + skillLevel * 553);
+            int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
+            if (skillLevel[1]>0){
+                //            山Lv1在第2位时，增加自身生命上限553点；
+                character.setMaxHp(character.getMaxHp() + skillLevel[1] * 553);
+                character.setHp(character.getHp() + skillLevel[1] * 553);
+
+            }
         }
 
 
@@ -5049,7 +5082,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             // 设置角色
             Character character = reasonableData(characters, leftCharacters);
             campA.add(new Guardian(character.getName(), Camp.A, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
-                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv()));
+                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(),character.getStar()));
             copyCampA.add(character);
         }
         rightCharacters.sort(Comparator.comparing(Characters::getGoIntoNum,
@@ -5058,7 +5091,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             // 设置角色
             Character character = reasonableData(characters, rightCharacters);
             campB.add(new Guardian(character.getName(), Camp.B, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
-                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv()));
+                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(),character.getStar()));
             copyCampB.add(character);
         }
         BattleSnowflakeIdGenerator generator = BattleSnowflakeIdGenerator.getInstance();

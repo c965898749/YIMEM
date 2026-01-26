@@ -61,12 +61,24 @@ public class CardMaxLevelUtils {
 //        double validStar = Math.max(starLevel, 1.0);
 
         // 3. 按星级计算等级
-        if (starLevel >= 4.0) { // 4星及以上固定25级
+        if (starLevel == 5.0) { // 4星及以上固定25级
+            return 45;
+        } else if (starLevel == 4.5) { // 4星及以上固定25级
+            return 40;
+        } else if(starLevel == 4.0){  // 1~3.5星：星级 × 5（保留整数）
+            return 35;
+        }  else if(starLevel == 3.5){  // 1~3.5星：星级 × 5（保留整数）
+            return 30;
+        } else if(starLevel == 3.0){  // 1~3.5星：星级 × 5（保留整数）
             return 25;
-        } else if(starLevel > 1.0){  // 1~3.5星：星级 × 5（保留整数）
-            return (int) (20);
+        } else if(starLevel == 2.5){  // 1~3.5星：星级 × 5（保留整数）
+            return 20;
+        } else if(starLevel == 2.0){  // 1~3.5星：星级 × 5（保留整数）
+            return 15;
+        } else if(starLevel == 1.5){  // 1~3.5星：星级 × 5（保留整数）
+            return 10;
         } else {  // 1~3.5星：星级 × 5（保留整数）
-            return (int) (5);
+            return 5;
         }
     }
 

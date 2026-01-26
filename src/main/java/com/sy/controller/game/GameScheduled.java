@@ -33,6 +33,8 @@ public class GameScheduled {
         gameFightMapper.deleteByTime();
         gameNoticeMapper.deleteByMap(new HashMap<>());
         userMapper.updateBronze1();
+        userMapper.updateBronze2();
+        userMapper.updateBronze3();
 
     }
 

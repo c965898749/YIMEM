@@ -127,7 +127,10 @@ public class User {
 //    private BigDecimal crystal;
     private Integer bronze1;
     private Date bronze1Time;
-
+    private Integer goldentower;
+    private Date goldentowerTime;
+    private Integer silvertower;
+    private Date silvertowerTime;
     private Integer floorNum;
     private Date passTime;
 }

@@ -34,9 +34,19 @@ public class Card {
 
     private String passiveIntroduceThree;
 
+    private String passiveIntroduceFour;
+
     private String profession;
 
     private Integer collAttack;
     private Integer collSpeed;
     private Integer collHp;
+
+    private String passiveIntroduceOneStr;
+
+    private String passiveIntroduceTwoStr;
+
+    private String passiveIntroduceThreeStr;
+
+    private String passiveIntroduceFourStr;
 }

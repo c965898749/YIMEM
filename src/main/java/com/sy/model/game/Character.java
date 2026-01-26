@@ -20,6 +20,7 @@ public class Character {
     private String passiveIntroduceOne;
     private String passiveIntroduceTwo;
     private String passiveIntroduceThree;
+    private String passiveIntroduceFour;
     private String direction;//左0右1
     private List<Buff> buff;
     private String isAction="1";//我能不能动//0不能1能

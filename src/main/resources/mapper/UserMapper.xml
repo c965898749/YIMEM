@@ -617,6 +617,12 @@
 
 
     <update id="updateBronze1" parameterType="com.sy.model.User">
-		update user set bronze1 = '0'
+		update user set bronze1 = '1' where bronze1>100
+	</update>
+    <update id="updateBronze2" parameterType="com.sy.model.User">
+		update user set silvertower = '1' where silvertower>100
+	</update>
+    <update id="updateBronze3" parameterType="com.sy.model.User">
+		update user set goldentower='1'   where goldentower>100
 	</update>
 </mapper>

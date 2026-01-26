@@ -1,10 +1,12 @@
 package com.sy.model.game;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 public class Guardian {
     private String name;
     private Camp camp;
+    private BigDecimal star;
     private int position;
     private Profession profession;
     private Race race;
@@ -23,7 +25,7 @@ public class Guardian {
 
     // 构造函数
     public Guardian(String name, Camp camp, int position, Profession profession, Race race,
-                    int maxHp, int attack, int speed,int level) {
+                    int maxHp, int attack, int speed,int level,BigDecimal star) {
         this.name = name;
         this.camp = camp;
         this.position = position;
@@ -39,6 +41,7 @@ public class Guardian {
         this.buffStacks = 0;
         this.buffLuoShens = 0;
         this.buffNianShous = 0;
+        this.star = star;
         this.effects = new HashMap<>();
     }
 
@@ -79,6 +82,7 @@ public class Guardian {
     public int getLevel() { return level; }
     public void setLevel(int level) { this.level = level; }
     public int getMaxHp() { return maxHp; }
+    public BigDecimal getStar() { return star; }
     public int getCurrentHp() { return currentHp; }
     public int getAttack() { return attack; }
     public void setAttack(int attack) { this.attack = attack; }
@@ -92,6 +96,7 @@ public class Guardian {
     public int getBuffLuoShens() { return buffLuoShens; }
     public int getBuffNianShous() { return buffNianShous; }
     public int getBuffRandengs() { return buffRandengs; }
+    public void setStar(BigDecimal star) { this.star = star; }
     public void setBuffStacks(int buffStacks) { this.buffStacks = buffStacks; }
     public void setBuffLuoShens(int buffLuoShens) { this.buffLuoShens = buffLuoShens; }
     public void setBuffRandengs(int buffRandengs) { this.buffRandengs = buffRandengs; }
