@@ -260,6 +260,18 @@
             <if test="bronze1Time!=null">
                 bronze1_time=#{bronze1Time},
             </if>
+            <if test="silvertower!=null">
+                silvertower=#{silvertower},
+            </if>
+            <if test="silvertowerTime!=null">
+                silvertower_time=#{silvertowerTime},
+            </if>
+            <if test="goldentower!=null">
+                goldentower=#{goldentower},
+            </if>
+            <if test="goldentowerTime!=null">
+                goldentower_time=#{goldentowerTime},
+            </if>
             <if test="gameRanking!=null">
                 game_ranking=#{gameRanking},
             </if>

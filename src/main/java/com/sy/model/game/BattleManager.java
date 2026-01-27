@@ -369,7 +369,7 @@ public class BattleManager {
                     //触发受击技能
                     enemies.forEach(g -> {
                         //触发受到任意伤害技能
-                        triggerOnAttackedSkills(g);
+                        triggerOnAttackedSkills(g, EffectType.FIRE_DAMAGE);
                     });
                 }
                 break;
@@ -431,7 +431,7 @@ public class BattleManager {
                     //触发受击技能
                     enemies.forEach(g -> {
                         //触发受到任意伤害技能
-                        triggerOnAttackedSkills(g);
+                        triggerOnAttackedSkills(g, EffectType.FIRE_DAMAGE);
                     });
                 }
                 break;
@@ -1116,7 +1116,7 @@ public class BattleManager {
 
                         } else {
                             //触发受击技能
-                            triggerOnAttackedSkills(enemy);
+                            triggerOnAttackedSkills(enemy, EffectType.MISSILE_DAMAGE);
                         }
                     }
                 }
@@ -1169,7 +1169,7 @@ public class BattleManager {
 
                         } else {
                             //触发受击技能
-                            triggerOnAttackedSkills(enemy);
+                            triggerOnAttackedSkills(enemy, EffectType.MISSILE_DAMAGE);
                         }
 
                     }
@@ -1179,7 +1179,7 @@ public class BattleManager {
     }
 
     // 受到任意技能伤害触发技能
-    private void triggerOnAttackedSkills(Guardian defender) {
+    private void triggerOnAttackedSkills(Guardian defender,EffectType effectType) {
         int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(defender.getLevel(), defender.getStar().doubleValue());
 //        烛龙，烛火燎原Lv1受到任意伤害时对全体敌方造成54点火焰伤害；致命衰竭Lv1场上，有单位登场时为目标添加衰弱状态，攻击减少10%，持续99回合；句芒协同Lv1与句芒在同一队伍时增加自身197点生命上限，99点火焰伤害，197点速度。
         int defenderHpBefore = defender.getMaxHp();
@@ -1361,6 +1361,64 @@ public class BattleManager {
 
                 }
                 break;
+            case "白素贞":
+//                燥热蛇毒Lv1场下，受到火焰伤害，为当前敌人添加蛇毒效果，每回合损失12生命；众妖皆狂Lv1与妲己在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
+                if (!defender.isDead()&&effectType==EffectType.FIRE_DAMAGE) {
+                    List<Guardian> enemies = defender.getCamp() == Camp.A ?
+                            campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                            campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+                    if (!enemies.isEmpty()) {
+                        Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
+                        int enemyHpBefore = randomEnemy.getCurrentHp();
+                        int poisonValue = 30 * skillLevel[0];
+                        int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
+                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+
+                        addLog("燥热蛇毒",
+                                defender.getName(), defender.getCamp(), defender.getPosition(),
+                                defenderHpBefore, defender.getCurrentHp(),
+                                defenderAttackBefore, defender.getAttack(),
+                                defenderSpeedBefore, defender.getSpeed(),
+                                randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
+                                enemyHpBefore, randomEnemy.getCurrentHp(),
+                                randomEnemy.getAttack(), randomEnemy.getAttack(),
+                                randomEnemy.getSpeed(), randomEnemy.getSpeed(),
+                                getFieldUnitsStatus(),
+                                poisonValue, EffectType.POISON, DamageType.POISON,
+                                defender.getName() + "触发燥热蛇毒");
+                    }
+
+                }
+                break;
+//            case "南岳大帝":
+////                燥热蛇毒Lv1场下，受到火焰伤害，为当前敌人添加蛇毒效果，每回合损失12生命；众妖皆狂Lv1与妲己在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
+//                if (!defender.isDead()&&effectType==EffectType.FIRE_DAMAGE) {
+//                    List<Guardian> enemies = defender.getCamp() == Camp.A ?
+//                            campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+//                            campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+//                    if (!enemies.isEmpty()) {
+//                        Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
+//                        int enemyHpBefore = randomEnemy.getCurrentHp();
+//                        int poisonValue = 30 * skillLevel[0];
+//                        int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
+//                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+//
+//                        addLog("草船借箭",
+//                                defender.getName(), defender.getCamp(), defender.getPosition(),
+//                                defenderHpBefore, defender.getCurrentHp(),
+//                                defenderAttackBefore, defender.getAttack(),
+//                                defenderSpeedBefore, defender.getSpeed(),
+//                                randomEnemy.getName(), randomEnemy.getCamp(), randomEnemy.getPosition(),
+//                                enemyHpBefore, randomEnemy.getCurrentHp(),
+//                                randomEnemy.getAttack(), randomEnemy.getAttack(),
+//                                randomEnemy.getSpeed(), randomEnemy.getSpeed(),
+//                                getFieldUnitsStatus(),
+//                                poisonValue, EffectType.POISON, DamageType.POISON,
+//                                defender.getName() + "触发草船借箭");
+//                    }
+//
+//                }
+//                break;
             case "长生大帝":
 //                南极祝福Lv1场下，受到任意伤害时提升自身56点生命值上限；
                 if (!defender.isDead() && !defender.isOnField() && skillLevel[1] > 0) {
@@ -1424,6 +1482,34 @@ public class BattleManager {
                                     getFieldUnitsStatus(),
                                     attack, EffectType.ATTACK_UP, null,
                                     attacker.getName() + "触发仙人指路，攻击力提升");
+                        }
+                    }
+                }
+                break;
+            case "禺绒王":
+                if (1 == 1) {
+                    // 仙人指路Lv1每次攻击后增加自身后方单位的攻击66点，最多叠加3次；
+                    List<Guardian> enemies = attacker.getCamp() == Camp.A ?
+                            campA.stream().filter(g -> !g.isDead() && !g.isOnField()).collect(Collectors.toList()) :
+                            campB.stream().filter(g -> !g.isDead() && !g.isOnField()).collect(Collectors.toList());
+                    if (!enemies.isEmpty()) {
+                        int attack = 42 * skillLevel[0];
+                        Guardian guardian = enemies.get(0);
+                        if (guardian.getBuffLiuers() < 5) {
+                            guardian.setBuffRandengs(guardian.getBuffLiuers() + 1);
+                            guardian.setAttack(guardian.getAttack() + attack);
+                            addLog("妖力聚集",
+                                    attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                                    attacker.getMaxHp(), attacker.getCurrentHp(),
+                                    attacker.getAttack(), attacker.getAttack(),
+                                    attacker.getSpeed(), attacker.getSpeed(),
+                                    guardian.getName(), guardian.getCamp(), guardian.getPosition(),
+                                    guardian.getMaxHp(), guardian.getCurrentHp(),
+                                    guardian.getAttack(), guardian.getAttack(),
+                                    guardian.getSpeed(), guardian.getSpeed(),
+                                    getFieldUnitsStatus(),
+                                    attack, EffectType.ATTACK_UP, null,
+                                    attacker.getName() + "触发妖力聚集，攻击力提升");
                         }
                     }
                 }
@@ -1515,7 +1601,7 @@ public class BattleManager {
                         //触发受击技能
                         offFieldEnemies.forEach(g -> {
                             //触发受到任意伤害技能
-                            triggerOnAttackedSkills(g);
+                            triggerOnAttackedSkills(g, EffectType.FIRE_DAMAGE);
                         });
                     }
                 }
@@ -1608,7 +1694,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender,EffectType.DAMAGE);
                     }
                 }
                 break;
@@ -1660,7 +1746,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender,EffectType.DAMAGE);
                     }
                 }
                 break;
@@ -1713,7 +1799,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender,EffectType.FIRE_DAMAGE);
                     }
                 }
                 break;
@@ -1809,7 +1895,7 @@ public class BattleManager {
 
                         } else {
                             //触发受击技能
-                            triggerOnAttackedSkills(defender);
+                            triggerOnAttackedSkills(defender,EffectType.FIRE_DAMAGE);
                         }
                     }
 
@@ -1865,7 +1951,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender, EffectType.DAMAGE);
                     }
                 }
                 break;
@@ -1918,7 +2004,7 @@ public class BattleManager {
 
                         } else {
                             //触发受击技能
-                            triggerOnAttackedSkills(defender);
+                            triggerOnAttackedSkills(defender,EffectType.TRUE_DAMAGE);
                         }
                     }
                 }
@@ -1976,7 +2062,7 @@ public class BattleManager {
 
                         } else {
                             //触发受击技能
-                            triggerOnAttackedSkills(guardian);
+                            triggerOnAttackedSkills(guardian,EffectType.TRUE_DAMAGE);
                         }
                     }
                 }
@@ -2034,7 +2120,7 @@ public class BattleManager {
 
                         } else {
                             //触发受击技能
-                            triggerOnAttackedSkills(guardian);
+                            triggerOnAttackedSkills(guardian,EffectType.TRUE_DAMAGE);
                         }
                     }
                 }
@@ -2092,7 +2178,7 @@ public class BattleManager {
 
                         } else {
                             //触发受击技能
-                            triggerOnAttackedSkills(guardian);
+                            triggerOnAttackedSkills(guardian,EffectType.TRUE_DAMAGE);
                         }
                     }
                 }
@@ -2150,7 +2236,7 @@ public class BattleManager {
 
                         } else {
                             //触发受击技能
-                            triggerOnAttackedSkills(guardian);
+                            triggerOnAttackedSkills(guardian,EffectType.TRUE_DAMAGE);
                         }
                     }
                 }
@@ -2208,7 +2294,7 @@ public class BattleManager {
 
                         } else {
                             //触发受击技能
-                            triggerOnAttackedSkills(guardian);
+                            triggerOnAttackedSkills(guardian,EffectType.TRUE_DAMAGE);
                         }
 
                     }
@@ -2275,7 +2361,7 @@ public class BattleManager {
                         //触发受击技能
                         offFieldEnemies.forEach(g -> {
                             //触发受到任意伤害技能
-                            triggerOnAttackedSkills(g);
+                            triggerOnAttackedSkills(g,EffectType.FIRE_DAMAGE);
                         });
                     }
                 }
@@ -2345,7 +2431,7 @@ public class BattleManager {
                         //触发受击技能
                         aliveUnits.forEach(g -> {
                             //触发受到任意伤害技能
-                            triggerOnAttackedSkills(g);
+                            triggerOnAttackedSkills(g,EffectType.FIRE_DAMAGE);
                         });
                     }
                 }
@@ -2411,7 +2497,7 @@ public class BattleManager {
                         //触发受击技能
                         offFieldEnemies.forEach(g -> {
                             //触发受到任意伤害技能
-                            triggerOnAttackedSkills(g);
+                            triggerOnAttackedSkills(g,EffectType.FIRE_DAMAGE);
                         });
                     }
                 }
@@ -2477,7 +2563,7 @@ public class BattleManager {
                         //触发受击技能
                         offFieldEnemies.forEach(g -> {
                             //触发受到任意伤害技能
-                            triggerOnAttackedSkills(g);
+                            triggerOnAttackedSkills(g,EffectType.FIRE_DAMAGE);
                         });
                     }
                 }
@@ -2543,7 +2629,7 @@ public class BattleManager {
                         //触发受击技能
                         offFieldEnemies.forEach(g -> {
                             //触发受到任意伤害技能
-                            triggerOnAttackedSkills(g);
+                            triggerOnAttackedSkills(g,EffectType.FIRE_DAMAGE);
                         });
                     }
                 }
@@ -2610,7 +2696,7 @@ public class BattleManager {
                             triggerOnDeathSkills(g);
                         }
                     } else {
-                        triggerOnAttackedSkills(minHpPerson);
+                        triggerOnAttackedSkills(minHpPerson,EffectType.MISSILE_DAMAGE);
                     }
                 }
 
@@ -3297,7 +3383,7 @@ public class BattleManager {
                     //触发受击技能
                     aliveUnits.forEach(g -> {
                         //触发受到任意伤害技能
-                        triggerOnAttackedSkills(g);
+                        triggerOnAttackedSkills(g,EffectType.MAX_HP_DOWN);
                     });
 
                 }
@@ -3376,7 +3462,7 @@ public class BattleManager {
                     //触发受击技能
                     aliveUnits.forEach(g -> {
                         //触发受到任意伤害技能
-                        triggerOnAttackedSkills(g);
+                        triggerOnAttackedSkills(g,EffectType.MAX_HP_DOWN);
                     });
 
                 }
@@ -3712,7 +3798,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldB);
+                        triggerOnAttackedSkills(fieldB,EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -3770,7 +3856,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldA);
+                        triggerOnAttackedSkills(fieldA,EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -3831,7 +3917,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender,EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -3893,7 +3979,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender,EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -3954,7 +4040,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender,EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -4016,7 +4102,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender,EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -4077,7 +4163,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender,EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -4139,7 +4225,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender,EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -4200,7 +4286,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender,EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -4262,7 +4348,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender,EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -4327,7 +4413,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -4391,7 +4477,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(defender);
+                        triggerOnAttackedSkills(defender, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -4463,7 +4549,7 @@ public class BattleManager {
                 //触发受击技能
                 enemies.forEach(g -> {
                     //触发受到任意伤害技能
-                    triggerOnAttackedSkills(g);
+                    triggerOnAttackedSkills(g,EffectType.FIRE_DAMAGE);
                 });
             }else {
                 String[] str={"白天君蓄力·一","白天君蓄力·二","白天君蓄力·三"};
@@ -4547,7 +4633,7 @@ public class BattleManager {
                 //触发受击技能
                 enemies.forEach(g -> {
                     //触发受到任意伤害技能
-                    triggerOnAttackedSkills(g);
+                    triggerOnAttackedSkills(g,EffectType.FIRE_DAMAGE);
                 });
             }else {
                 String[] str={"白天君蓄力·一","白天君蓄力·二","白天君蓄力·三"};
@@ -4807,7 +4893,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldB);
+                        triggerOnAttackedSkills(fieldB, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -4887,7 +4973,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldA);
+                        triggerOnAttackedSkills(fieldA, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -4967,7 +5053,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldB);
+                        triggerOnAttackedSkills(fieldB, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5020,7 +5106,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldA);
+                        triggerOnAttackedSkills(fieldA, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5075,7 +5161,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldB);
+                        triggerOnAttackedSkills(fieldB, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5128,7 +5214,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldA);
+                        triggerOnAttackedSkills(fieldA, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5183,7 +5269,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldB);
+                        triggerOnAttackedSkills(fieldB, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5237,7 +5323,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldA);
+                        triggerOnAttackedSkills(fieldA, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5292,7 +5378,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldB);
+                        triggerOnAttackedSkills(fieldB, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5346,7 +5432,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldA);
+                        triggerOnAttackedSkills(fieldA, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5401,7 +5487,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldB);
+                        triggerOnAttackedSkills(fieldB, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5455,7 +5541,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldA);
+                        triggerOnAttackedSkills(fieldA, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5510,7 +5596,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldB);
+                        triggerOnAttackedSkills(fieldB, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5564,7 +5650,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldA);
+                        triggerOnAttackedSkills(fieldA, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5619,7 +5705,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldB);
+                        triggerOnAttackedSkills(fieldB, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5673,7 +5759,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldA);
+                        triggerOnAttackedSkills(fieldA, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5728,7 +5814,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldB);
+                        triggerOnAttackedSkills(fieldB, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5782,7 +5868,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldA);
+                        triggerOnAttackedSkills(fieldA, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5837,7 +5923,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldB);
+                        triggerOnAttackedSkills(fieldB, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }
@@ -5890,7 +5976,7 @@ public class BattleManager {
 
                     } else {
                         //触发受击技能
-                        triggerOnAttackedSkills(fieldA);
+                        triggerOnAttackedSkills(fieldA, EffectType.MISSILE_DAMAGE);
                     }
                 }
             }

@@ -3286,9 +3286,9 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("tanglangRanking",tanglangRanking);
         List<User> qingtongRanking=userMapper.getBronzeRanking100("bronzetower");
         map.put("qingtongRanking",qingtongRanking);
-        List<User> baiyingRanking=userMapper.getBronzeRanking100("baiyintower");
+        List<User> baiyingRanking=userMapper.getBronzeRanking100("silvertower");
         map.put("baiyingRanking",baiyingRanking);
-        List<User> huangjinRanking=userMapper.getBronzeRanking100("huangjintower");
+        List<User> huangjinRanking=userMapper.getBronzeRanking100("goldentower");
         map.put("huangjinRanking",huangjinRanking);
         baseResp.setData(map);
         baseResp.setSuccess(1);
@@ -4174,7 +4174,23 @@ public class GameServiceServiceImpl implements GameServiceService {
         if (battle.getIsWin() == 0) {
             Integer bronze1=token.getFinalLevel()+1;
             battle.setChapter(bronze1+"");
-            user.setBronze1(bronze1);
+            if(token.getStr().equals("bronzetower")){
+                user.setBronze1(bronze1);
+                if (bronze1>100){
+                    user.setBronze1Time(new Date());
+                }
+            }else  if(token.getStr().equals("silvertower")){
+                user.setSilvertower(bronze1);
+                if (bronze1>100){
+                    user.setSilvertowerTime(new Date());
+                }
+            }else if(token.getStr().equals("goldentower")){
+                user.setGoldentower(bronze1);
+                if (bronze1>100){
+                    user.setGoldentowerTime(new Date());
+                }
+            }
+
             Map map2=new HashMap();
             map2.put("player_id",userId);
             map2.put("bronze_type",token.getStr());
@@ -4195,10 +4211,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 playerBronzeTower.setBronzeType(token.getStr());
                 playerBronzeTowerMapper.insert(playerBronzeTower);
             }
-            if (bronze1>100){
-                user.setBronze1Time(new Date());
-            }
-            user.setBronze1(bronze1);
+//            user.setBronze1(bronze1);
             List<PveReward> pveRewards = new ArrayList<>();
             BronzeTower bronzeTower1=bronzeTower.get(0);
             if (Xtool.isNotNull(bronzeTower1.getRewardGold())&&bronzeTower1.getRewardGold()>0){
