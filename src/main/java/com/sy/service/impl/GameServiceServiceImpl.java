@@ -1,6 +1,8 @@
 package com.sy.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.sy.mapper.game.*;
@@ -118,6 +120,8 @@ public class GameServiceServiceImpl implements GameServiceService {
     private BronzeTowerMapper bronzeTowerMapper;
     @Autowired
     private BronzeBossDetailMapper bronzeBossDetailMapper;
+    @Autowired
+    private GameTimeRecordMapper gameTimeRecordMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -1704,6 +1708,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         Date date2 = new Date(System.currentTimeMillis() - 1200 * 1000); // 1小时前的时间
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
         Map map = new HashMap();
+        map.put("chongzhi",user.getChongzhi());
         if (user.getShopUpdate() == null || (user.getShopUpdate().compareTo(date2) < 0 && "1".equals(token.getStr()))) {
             Date date = new Date();
             user.setShopUpdate(date);
@@ -1721,14 +1726,122 @@ public class GameServiceServiceImpl implements GameServiceService {
                 GameItemShop itemShop = new GameItemShop();
                 BeanUtils.copyProperties(shop, itemShop);
                 itemShop.setId(id);
+                itemShop.setIsBuy(0);
                 picked2.add(itemShop);
                 id++;
             }
             userMapper.updateuser(user);
             map.put("picked", picked2);
+            String json = JsonUtils.toJson(picked2);
+            //先删再新增
+            Map hashMap=new HashMap();
+            hashMap.put("user_id",userId);
+            gameTimeRecordMapper.deleteByMap(hashMap);
+            GameTimeRecord record=new GameTimeRecord();
+            record.setUserId(Integer.parseInt(userId));
+            record.setPicked(json);
+            gameTimeRecordMapper.insert(record);
         } else {
+            Map hashMap=new HashMap();
+            hashMap.put("user_id",userId);
+            List<GameTimeRecord> gameTimeRecord=gameTimeRecordMapper.selectByMap(hashMap);
+            if (Xtool.isNotNull(gameTimeRecord)){
+                map.put("picked", JsonUtils.fromJsonToObjList(gameTimeRecord.get(0).getPicked()));
+            }else {
+                List<GameItemShop> gameItemShopList = gameItemShopMapper.selectAll();
+                DynamicItemPicker picker = new DynamicItemPicker();
+                for (GameItemShop gameItemShop : gameItemShopList) {
+                    picker.addItem(gameItemShop);
+                }
+                // 尝试获取16个物品（种类不足，会重复获取）
+                List<GameItemShop> picked = picker.pickRandomItems(16);
+                List<GameItemShop> picked2 = new ArrayList<>();
+                Integer id = 0;
+                for (GameItemShop shop : picked) {
+                    GameItemShop itemShop = new GameItemShop();
+                    BeanUtils.copyProperties(shop, itemShop);
+                    itemShop.setId(id);
+                    itemShop.setIsBuy(0);
+                    picked2.add(itemShop);
+                    id++;
+                }
+                map.put("picked", picked2);
+                String json = JsonUtils.toJson(picked2);
+                //先删再新增
+                GameTimeRecord record=new GameTimeRecord();
+                record.setUserId(Integer.parseInt(userId));
+                record.setPicked(json);
+                gameTimeRecordMapper.insert(record);
+            }
             map.put("shopUpdate", user.getShopUpdate());
         }
+        baseResp.setSuccess(1);
+        baseResp.setData(map);
+        baseResp.setErrorMsg("成功");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp chongzhi(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(user.getChongzhi()));
+        if (diamond.compareTo(BigDecimal.ZERO) < 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("钻石不足");
+            return baseResp;
+        }
+        user.setDiamond(diamond);
+        user.setChongzhi(ValueUpdateUtil.calculateNextValue(user.getChongzhi()));
+        Map map = new HashMap();
+        Date date = new Date();
+        user.setShopUpdate(date);
+        map.put("shopUpdate", date);
+        List<GameItemShop> gameItemShopList = gameItemShopMapper.selectAll();
+        DynamicItemPicker picker = new DynamicItemPicker();
+        for (GameItemShop gameItemShop : gameItemShopList) {
+            picker.addItem(gameItemShop);
+        }
+        // 尝试获取16个物品（种类不足，会重复获取）
+        List<GameItemShop> picked = picker.pickRandomItems(16);
+        List<GameItemShop> picked2 = new ArrayList<>();
+        Integer id = 0;
+        for (GameItemShop shop : picked) {
+            GameItemShop itemShop = new GameItemShop();
+            BeanUtils.copyProperties(shop, itemShop);
+            itemShop.setId(id);
+            itemShop.setIsBuy(0);
+            picked2.add(itemShop);
+            id++;
+        }
+        userMapper.updateuser(user);
+        baseResp.setSuccess(1);
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        map.put("picked", picked2);
+        map.put("userInfo", info);
+        map.put("chongzhi",user.getChongzhi());
+        String json = JsonUtils.toJson(picked2);
+        //先删再新增
+        Map hashMap=new HashMap();
+        hashMap.put("user_id",userId);
+        gameTimeRecordMapper.deleteByMap(hashMap);
+        GameTimeRecord record=new GameTimeRecord();
+        record.setUserId(Integer.parseInt(userId));
+        record.setPicked(json);
+        gameTimeRecordMapper.insert(record);
         baseResp.setSuccess(1);
         baseResp.setData(map);
         baseResp.setErrorMsg("成功");
@@ -1763,7 +1876,22 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
-        GameItemShop gameItemShop = gameItemShopMapper.selectByItemId(token.getId());
+        Map hashMap=new HashMap();
+        hashMap.put("user_id",userId);
+        List<GameTimeRecord> gameTimeRecord=gameTimeRecordMapper.selectByMap(hashMap);
+        if (Xtool.isNull(gameTimeRecord)){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("操作过快请刷新重试");
+            return baseResp;
+        }
+        List<GameItemShop> picked2 = JSON.parseObject(gameTimeRecord.get(0).getPicked(), new TypeReference<List<GameItemShop>>() {});
+        List<GameItemShop> gameItemShops =picked2.stream().filter(x->(x.getId()+"").equals(token.getId())).collect(Collectors.toList());
+        if (Xtool.isNull(gameItemShops)){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("商品不存在或已下架");
+            return baseResp;
+        }
+        GameItemShop gameItemShop=gameItemShops.get(0);
         if (gameItemShop == null) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("商品不存在或已下架");
@@ -1806,6 +1934,19 @@ public class GameServiceServiceImpl implements GameServiceService {
             characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
             charactersMapper.insert(characters);
         }
+        gameItemShop.setIsBuy(1);
+        //先删再新增
+        Map map=new HashMap();
+        map.put("picked", picked2);
+        String json = JsonUtils.toJson(picked2);
+        //先删再新增
+        Map hashMap1=new HashMap();
+        hashMap.put("user_id",userId);
+        gameTimeRecordMapper.deleteByMap(hashMap1);
+        GameTimeRecord record=new GameTimeRecord();
+        record.setUserId(Integer.parseInt(userId));
+        record.setPicked(json);
+        gameTimeRecordMapper.insert(record);
         userMapper.updateuser(user);
         baseResp.setSuccess(1);
         UserInfo info = new UserInfo();

@@ -21,4 +21,6 @@ public class GameItemShop {
     private String type;
 
     private Integer id;
+
+    private Integer isBuy;
 }

@@ -784,6 +784,25 @@ public class GameContoller {
         }
     }
 
+    /**
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("chongzhi")
+    @CrossOrigin
+    public BaseResp chongzhi(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.chongzhi(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
     @PostMapping("getStore2")
     @CrossOrigin
     public BaseResp getStore2(@RequestBody TokenDto token, HttpServletRequest request) {

@@ -322,55 +322,57 @@ public class BattleManager {
                     List<Guardian> enemies = guardian.getCamp() == Camp.A ?
                             campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
                             campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
-                    enemies.forEach(g -> {
-                        targetNames.add(g.getName());
-                        int hpBefore = g.getMaxHp();
-                        g.setCurrentHp(g.getCurrentHp() - lavaDamage);
-                        targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
-                        if (g.isDead()) {
-                            deadUnits.add(g.getCamp() + g.getName() + "_" + g.getPosition());
-                            deadGuardians.add(g);
-                        }
-                    });
-
-                    // 单条日志记录多目标
-                    addMultiTargetLog("烈焰阵",
-                            guardian.getName(), guardian.getCamp(), guardian.getPosition(),
-                            guardian.getMaxHp(), guardian.getCurrentHp(),
-                            guardian.getAttack(), guardian.getAttack(),
-                            guardian.getSpeed(), guardian.getSpeed(),
-                            targetNames, enemies.get(0).getCamp(),
-                            targetStatus,
-                            getFieldUnitsStatus(),
-                            lavaDamage, EffectType.FIRE_DAMAGE, DamageType.FIRE,
-                            guardian.getName() + "触发烈焰阵，登场时令敌方全体收到火焰伤害");
-                    // 死亡日志
-                    if (!deadUnits.isEmpty()) {
-                        Map<String, Object[]> deadStatus = new HashMap<>();
-                        deadUnits.forEach(x -> {
-                            List<String> strings = Arrays.asList(x.split("_"));
-                            deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                    if (Xtool.isNotNull(enemies)){
+                        enemies.forEach(g -> {
+                            targetNames.add(g.getName());
+                            int hpBefore = g.getMaxHp();
+                            g.setCurrentHp(g.getCurrentHp() - lavaDamage);
+                            targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
+                            if (g.isDead()) {
+                                deadUnits.add(g.getCamp() + g.getName() + "_" + g.getPosition());
+                                deadGuardians.add(g);
+                            }
                         });
 
-                        addMultiTargetLog("UNIT_DEATH",
-                                "SYSTEM", null, 0,
-                                0, 0, 0, 0, 0, 0,
-                                deadUnits, null,
-                                deadStatus,
+                        // 单条日志记录多目标
+                        addMultiTargetLog("烈焰阵",
+                                guardian.getName(), guardian.getCamp(), guardian.getPosition(),
+                                guardian.getMaxHp(), guardian.getCurrentHp(),
+                                guardian.getAttack(), guardian.getAttack(),
+                                guardian.getSpeed(), guardian.getSpeed(),
+                                targetNames, enemies.get(0).getCamp(),
+                                targetStatus,
                                 getFieldUnitsStatus(),
-                                0, null, null,
-                                "火焰伤害");
-                        //触发死亡技能
-                        for (Guardian g : deadGuardians) {
-                            triggerOnDeathSkills(g);
-                        }
+                                lavaDamage, EffectType.FIRE_DAMAGE, DamageType.FIRE,
+                                guardian.getName() + "触发烈焰阵，登场时令敌方全体收到火焰伤害");
+                        // 死亡日志
+                        if (!deadUnits.isEmpty()) {
+                            Map<String, Object[]> deadStatus = new HashMap<>();
+                            deadUnits.forEach(x -> {
+                                List<String> strings = Arrays.asList(x.split("_"));
+                                deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                            });
 
+                            addMultiTargetLog("UNIT_DEATH",
+                                    "SYSTEM", null, 0,
+                                    0, 0, 0, 0, 0, 0,
+                                    deadUnits, null,
+                                    deadStatus,
+                                    getFieldUnitsStatus(),
+                                    0, null, null,
+                                    "火焰伤害");
+                            //触发死亡技能
+                            for (Guardian g : deadGuardians) {
+                                triggerOnDeathSkills(g);
+                            }
+
+                        }
+                        //触发受击技能
+                        enemies.forEach(g -> {
+                            //触发受到任意伤害技能
+                            triggerOnAttackedSkills(g, EffectType.FIRE_DAMAGE);
+                        });
                     }
-                    //触发受击技能
-                    enemies.forEach(g -> {
-                        //触发受到任意伤害技能
-                        triggerOnAttackedSkills(g, EffectType.FIRE_DAMAGE);
-                    });
                 }
                 break;
             case "天狗":
@@ -1363,7 +1365,7 @@ public class BattleManager {
                 break;
             case "白素贞":
 //                燥热蛇毒Lv1场下，受到火焰伤害，为当前敌人添加蛇毒效果，每回合损失12生命；众妖皆狂Lv1与妲己在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-                if (!defender.isDead()&&effectType==EffectType.FIRE_DAMAGE) {
+                if (!defender.isDead()&&effectType==EffectType.FIRE_DAMAGE&&!defender.isOnField()) {
                     List<Guardian> enemies = defender.getCamp() == Camp.A ?
                             campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
                             campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
@@ -1386,6 +1388,60 @@ public class BattleManager {
                                 getFieldUnitsStatus(),
                                 poisonValue, EffectType.POISON, DamageType.POISON,
                                 defender.getName() + "触发燥热蛇毒");
+                    }
+
+                }
+                break;
+            case "月刃夫人":
+//                新月反击Lv1场上，每当受到飞弹伤害时对场上敌方造成155点物理伤害
+            if (!defender.isDead()&&effectType==EffectType.MISSILE_DAMAGE&&defender.isOnField()) {
+                    Guardian enemie = defender.getCamp() == Camp.A ?
+                            fieldB : fieldA;
+                    if (enemie!=null&&!enemie.isDead()) {
+                        enemie.setCurrentHp(enemie.getCurrentHp()-155*skillLevel[0]);
+
+                        addLog("新月反击",
+                                defender.getName(), defender.getCamp(), defender.getPosition(),
+                                defenderHpBefore, defender.getCurrentHp(),
+                                defenderAttackBefore, defender.getAttack(),
+                                defenderSpeedBefore, defender.getSpeed(),
+                                enemie.getName(), enemie.getCamp(), enemie.getPosition(),
+                                enemie.getMaxHp(), enemie.getCurrentHp(),
+                                enemie.getAttack(), enemie.getAttack(),
+                                enemie.getSpeed(), enemie.getSpeed(),
+                                getFieldUnitsStatus(),
+                                155*skillLevel[0], EffectType.DAMAGE, DamageType.PHYSICAL,
+                                defender.getName() + "触发新月反击");
+                        List<String> deadUnits = new ArrayList<>();
+
+                        if (enemie.getCurrentHp() <= 0) {
+                            enemie.setDead(true);
+                            enemie.setOnField(false);
+                            deadUnits.add(defender.getCamp() + defender.getName() + "_" + defender.getPosition());
+                        }
+                        // 死亡日志
+                        if (!deadUnits.isEmpty()) {
+                            Map<String, Object[]> deadStatus = new HashMap<>();
+                            deadUnits.forEach(x -> {
+                                List<String> strings = Arrays.asList(x.split("_"));
+                                deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
+                            });
+
+                            addMultiTargetLog("UNIT_DEATH",
+                                    "SYSTEM", null, 0,
+                                    0, 0, 0, 0, 0, 0,
+                                    deadUnits, null,
+                                    deadStatus,
+                                    getFieldUnitsStatus(),
+                                    0, null, null,
+                                    "物理伤害");
+                            //触发死亡技能
+                            triggerOnDeathSkills(defender);
+
+                        } else {
+                            //触发受击技能
+                            triggerOnAttackedSkills(defender, defender);
+                        }
                     }
 
                 }
@@ -1488,6 +1544,24 @@ public class BattleManager {
                 break;
             case "禺绒王":
                 if (1 == 1) {
+                    // ，剧毒加深Lv1攻击中毒敌人时，为其增加1层毒素效果，每回合损失35点生命；
+                    if (Xtool.isNotNull(defender.getEffects().get(EffectType.POISON))) {
+                        int poisonDamage = defender.getEffects().getOrDefault(EffectType.POISON, 0);
+                        defender.getEffects().put(EffectType.POISON, 35*skillLevel[0] + poisonDamage);
+                        int poisonValue = 35 * skillLevel[0];
+                        addLog("剧毒加深",
+                                attacker.getName(), attacker.getCamp(), attacker.getPosition(),
+                                attackerHpBefore, attacker.getCurrentHp(),
+                                attackerAttackBefore, attacker.getAttack(),
+                                attackerSpeedBefore, attacker.getSpeed(),
+                                defender.getName(), attacker.getCamp(), attacker.getPosition(),
+                                attacker.getMaxHp(), attacker.getCurrentHp(),
+                                attacker.getAttack(), attacker.getAttack(),
+                                attacker.getSpeed(), attacker.getSpeed(),
+                                getFieldUnitsStatus(),
+                                poisonValue, EffectType.POISON, DamageType.POISON,
+                                defender.getName() + "触发剧毒加深");
+                    }
                     // 仙人指路Lv1每次攻击后增加自身后方单位的攻击66点，最多叠加3次；
                     List<Guardian> enemies = attacker.getCamp() == Camp.A ?
                             campA.stream().filter(g -> !g.isDead() && !g.isOnField()).collect(Collectors.toList()) :

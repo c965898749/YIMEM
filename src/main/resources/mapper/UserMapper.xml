@@ -275,7 +275,9 @@
             <if test="gameRanking!=null">
                 game_ranking=#{gameRanking},
             </if>
-
+            <if test="chongzhi!=null">
+                chongzhi=#{chongzhi},
+            </if>
         </set>
         where userId=#{userId}
     </update>
@@ -636,5 +638,8 @@
 	</update>
     <update id="updateBronze3" parameterType="com.sy.model.User">
 		update user set goldentower='1'   where goldentower>100
+	</update>
+    <update id="updateChongzhi" parameterType="com.sy.model.User">
+		update user set chongzhi='20'
 	</update>
 </mapper>

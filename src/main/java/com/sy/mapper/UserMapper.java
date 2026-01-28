@@ -209,4 +209,5 @@ public interface UserMapper {
     int updateBronze1();
     int updateBronze2();
     int updateBronze3();
+    int updateChongzhi();
 }

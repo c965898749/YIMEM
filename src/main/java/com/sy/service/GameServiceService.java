@@ -36,6 +36,7 @@ public interface GameServiceService {
     BaseResp arenaMessageList(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp receive(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp getStore(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp chongzhi(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp getStore2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp buyStore(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp buyStore2(TokenDto token, HttpServletRequest request) throws Exception;

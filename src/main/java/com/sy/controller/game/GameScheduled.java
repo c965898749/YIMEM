@@ -35,6 +35,7 @@ public class GameScheduled {
         userMapper.updateBronze1();
         userMapper.updateBronze2();
         userMapper.updateBronze3();
+        userMapper.updateChongzhi();
 
     }
 

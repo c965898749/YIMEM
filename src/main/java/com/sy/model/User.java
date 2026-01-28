@@ -133,4 +133,5 @@ public class User {
     private Date silvertowerTime;
     private Integer floorNum;
     private Date passTime;
+    private Integer chongzhi;
 }
