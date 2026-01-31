@@ -1734,9 +1734,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             map.put("picked", picked2);
             String json = JsonUtils.toJson(picked2);
             //先删再新增
-            Map hashMap=new HashMap();
-            hashMap.put("user_id",userId);
-            gameTimeRecordMapper.deleteByMap(hashMap);
+            gameTimeRecordMapper.deleteMe(Integer.parseInt(userId));
             GameTimeRecord record=new GameTimeRecord();
             record.setUserId(Integer.parseInt(userId));
             record.setPicked(json);
@@ -1806,9 +1804,9 @@ public class GameServiceServiceImpl implements GameServiceService {
         user.setDiamond(diamond);
         user.setChongzhi(ValueUpdateUtil.calculateNextValue(user.getChongzhi()));
         Map map = new HashMap();
-        Date date = new Date();
-        user.setShopUpdate(date);
-        map.put("shopUpdate", date);
+//        Date date = new Date();
+//        user.setShopUpdate(date);
+//        map.put("shopUpdate", date);
         List<GameItemShop> gameItemShopList = gameItemShopMapper.selectAll();
         DynamicItemPicker picker = new DynamicItemPicker();
         for (GameItemShop gameItemShop : gameItemShopList) {
@@ -1835,9 +1833,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("chongzhi",user.getChongzhi());
         String json = JsonUtils.toJson(picked2);
         //先删再新增
-        Map hashMap=new HashMap();
-        hashMap.put("user_id",userId);
-        gameTimeRecordMapper.deleteByMap(hashMap);
+        gameTimeRecordMapper.deleteMe(Integer.parseInt(userId));
         GameTimeRecord record=new GameTimeRecord();
         record.setUserId(Integer.parseInt(userId));
         record.setPicked(json);
@@ -1914,12 +1910,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
             user.setDiamond(diamond);
         }
-        Characters characters1 = charactersMapper.listById(userId, token.getId());
+        Characters characters1 = charactersMapper.listById(userId, gameItemShop.getItemId()+"");
         if (characters1 != null) {
             characters1.setStackCount(characters1.getStackCount() + 1);
             charactersMapper.updateByPrimaryKey(characters1);
         } else {
-            Card card1 = cardMapper.selectByid(Integer.parseInt(token.getId()));
+            Card card1 = cardMapper.selectByid(gameItemShop.getItemId());
             if (card1 == null) {
                 baseResp.setErrorMsg("服务器异常联想管理员");
                 baseResp.setSuccess(0);
@@ -1927,7 +1923,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
             Characters characters = new Characters();
             characters.setStackCount(0);
-            characters.setId(token.getId());
+            characters.setId(gameItemShop.getItemId()+"");
             characters.setLv(1);
             characters.setUserId(Integer.parseInt(userId));
             characters.setStar(new BigDecimal(1));
@@ -1939,10 +1935,8 @@ public class GameServiceServiceImpl implements GameServiceService {
         Map map=new HashMap();
         map.put("picked", picked2);
         String json = JsonUtils.toJson(picked2);
-        //先删再新增
-        Map hashMap1=new HashMap();
-        hashMap.put("user_id",userId);
-        gameTimeRecordMapper.deleteByMap(hashMap1);
+
+        gameTimeRecordMapper.deleteMe(Integer.parseInt(userId));
         GameTimeRecord record=new GameTimeRecord();
         record.setUserId(Integer.parseInt(userId));
         record.setPicked(json);
@@ -3592,6 +3586,8 @@ public class GameServiceServiceImpl implements GameServiceService {
 
         } else  if ("17".equals(token.getId())) {
             user.setBronze1(1);
+            user.setSilvertower(1);
+            user.setGoldentower(1);
             userMapper.updateuser(user);
 //            userMapper.updateuserShopUpdate(userId);
 
