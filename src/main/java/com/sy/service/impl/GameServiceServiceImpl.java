@@ -790,7 +790,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("你没有配置战队无法战斗");
             return baseResp;
         }
-
+        for (Characters characters : leftCharacter) {
+            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(user.getUserId() + "",characters.getId());
+            if (Xtool.isNotNull(eqCharacters)){
+                characters.setEqCharactersList(eqCharacters);
+            }
+        }
         List<Characters> rightCharacter = new ArrayList<>();
         Card card = cardMapper.selectByid(activityDetail.getBossId());
         Characters character = new Characters();
@@ -973,7 +978,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("你没有配置战队无法战斗");
             return baseResp;
         }
-
+        for (Characters characters : leftCharacter) {
+            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(user.getUserId() + "",characters.getId());
+            if (Xtool.isNotNull(eqCharacters)){
+                characters.setEqCharactersList(eqCharacters);
+            }
+        }
         List<Characters> rightCharacter = new ArrayList<>();
         Map map1 = new HashMap();
         map1.put("detail_code", activityDetail.getDetailCode());
@@ -1676,6 +1686,26 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setSuccess(1);
         UserInfo info = new UserInfo();
         BeanUtils.copyProperties(user, info);
+        info.setBronze(0);
+        info.setDarkSteel(0);
+        info.setPurpleGold(0);
+        info.setCrystal(0);
+        GamePlayerBag playerBag = gamePlayerBagMapper.goIntoListByIdAndItemId(userId, 13);
+        if (playerBag != null) {
+            info.setBronze(playerBag.getItemCount());
+        }
+        GamePlayerBag playerBag1 = gamePlayerBagMapper.goIntoListByIdAndItemId(userId, 14);
+        if (playerBag1 != null) {
+            info.setDarkSteel(playerBag1.getItemCount());
+        }
+        GamePlayerBag playerBag2 = gamePlayerBagMapper.goIntoListByIdAndItemId(userId, 15);
+        if (playerBag2 != null) {
+            info.setPurpleGold(playerBag2.getItemCount());
+        }
+        GamePlayerBag playerBag3 = gamePlayerBagMapper.goIntoListByIdAndItemId(userId, 16);
+        if (playerBag3 != null) {
+            info.setCrystal(playerBag3.getItemCount());
+        }
         //获取卡牌数据
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
         info.setCharacterList(formateCharacter(characterList));
@@ -3178,6 +3208,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("你没有配置战队无法战斗");
             return baseResp;
         }
+        for (Characters characters : leftCharacter) {
+            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(user.getUserId() + "",characters.getId());
+            if (Xtool.isNotNull(eqCharacters)){
+                characters.setEqCharactersList(eqCharacters);
+            }
+        }
         Collections.sort(leftCharacter, Comparator.comparing(Characters::getGoIntoNum));
         //对手战队
         User user1 = userMapper.selectUserByUserId(Integer.parseInt(token.getUserId()));
@@ -3381,6 +3417,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("你没有配置战队无法战斗");
             return baseResp;
         }
+        for (Characters characters : leftCharacter) {
+            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(user.getUserId() + "",characters.getId());
+            if (Xtool.isNotNull(eqCharacters)){
+                characters.setEqCharactersList(eqCharacters);
+            }
+        }
         Collections.sort(leftCharacter, Comparator.comparing(Characters::getGoIntoNum));
         //对手战队
         User user1 = userMapper.selectUserByUserId(Integer.parseInt(token.getId()));
@@ -3390,7 +3432,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("对方没有配置战队无法战斗");
             return baseResp;
         }
-
+        for (Characters characters : rightCharacter) {
+            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(user1.getUserId() + "",characters.getId());
+            if (Xtool.isNotNull(eqCharacters)){
+                characters.setEqCharactersList(eqCharacters);
+            }
+        }
         baseResp.setSuccess(1);
         Battle battle = this.battle(leftCharacter, user.getUserId(), user.getNickname(), rightCharacter, user1.getUserId(), user1.getNickname(), user.getGameImg(), "3");
         baseResp.setData(battle);
@@ -4091,6 +4138,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("你没有配置战队无法战斗");
             return baseResp;
         }
+        for (Characters characters : leftCharacter) {
+            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(userId,characters.getId());
+            if (Xtool.isNotNull(eqCharacters)){
+                characters.setEqCharactersList(eqCharacters);
+            }
+        }
         PveDetail pveDetail = pveDetailMapper.selectById(token.getStr());
         if (pveDetail == null) {
             baseResp.setSuccess(0);
@@ -4271,6 +4324,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("你没有配置战队无法战斗");
             return baseResp;
+        }
+        for (Characters characters : leftCharacter) {
+            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(userId,characters.getId());
+            if (Xtool.isNotNull(eqCharacters)){
+                characters.setEqCharactersList(eqCharacters);
+            }
         }
         if (token.getFinalLevel() > 100) {
             baseResp.setSuccess(0);
@@ -4557,6 +4616,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("你没有配置战队无法战斗");
             return baseResp;
         }
+        for (Characters characters : leftCharacter) {
+            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(userId,characters.getId());
+            if (Xtool.isNotNull(eqCharacters)){
+                characters.setEqCharactersList(eqCharacters);
+            }
+        }
         Collections.sort(leftCharacter, Comparator.comparing(Characters::getGoIntoNum));
         List<GameArenaSignup> gameArenaSignups2 = gameArenaSignupMapper.gameArena(gameArenaSignup.getArenaScore(), token.getUserId(), token.getFinalLevel(), arenaWeek);
         if (Xtool.isNull(gameArenaSignups2)) {
@@ -4574,6 +4639,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("暂无对手请稍后尝试");
             return baseResp;
+        }
+        for (Characters characters : rightCharacter) {
+            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(gameArenaSignup2.getUserId()+"",characters.getId());
+            if (Xtool.isNotNull(eqCharacters)){
+                characters.setEqCharactersList(eqCharacters);
+            }
         }
         Collections.sort(rightCharacter, Comparator.comparing(Characters::getGoIntoNum));
         baseResp.setSuccess(1);
@@ -5077,10 +5148,30 @@ public class GameServiceServiceImpl implements GameServiceService {
 
             }
         }
-
+        character.setWlAtk(0);
+        character.setHyAtk(0);
+        character.setDsAtk(0);
+        character.setFdAtk(0);
+        character.setWlDef(0);
+        character.setHyDef(0);
+        character.setDsDef(0);
+        character.setFdDef(0);
+        character.setZlDef(0);
 
         //TODO 装备属性
-
+        if (Xtool.isNotNull(characters.getEqCharactersList())){
+            List<EqCharacters> eqCharacters=characters.getEqCharactersList();
+            //攻击
+            character.setWlAtk(eqCharacters.stream().map(EqCharacters::getWlAtk).mapToInt(wlAtk -> Objects.isNull(wlAtk) ? 0 : wlAtk).sum());
+            character.setHyAtk(eqCharacters.stream().map(EqCharacters::getHyAtk).mapToInt(hyAtk -> Objects.isNull(hyAtk) ? 0 : hyAtk).sum());
+            character.setDsAtk(eqCharacters.stream().map(EqCharacters::getDsAtk).mapToInt(dsAtk -> Objects.isNull(dsAtk) ? 0 : dsAtk).sum());
+            character.setFdAtk(eqCharacters.stream().map(EqCharacters::getFdAtk).mapToInt(fdAtk -> Objects.isNull(fdAtk) ? 0 : fdAtk).sum());
+            character.setWlDef(eqCharacters.stream().map(EqCharacters::getWlDef).mapToInt(wlDef -> Objects.isNull(wlDef) ? 0 : wlDef).sum());
+            character.setHyDef(eqCharacters.stream().map(EqCharacters::getHyDef).mapToInt(hyDef -> Objects.isNull(hyDef) ? 0 : hyDef).sum());
+            character.setDsDef(eqCharacters.stream().map(EqCharacters::getDsDef).mapToInt(dsDef -> Objects.isNull(dsDef) ? 0 : dsDef).sum());
+            character.setFdDef(eqCharacters.stream().map(EqCharacters::getFdDef).mapToInt(fdDef -> Objects.isNull(fdDef) ? 0 : fdDef).sum());
+            character.setZlDef(eqCharacters.stream().map(EqCharacters::getZlDef).mapToInt(zlDef -> Objects.isNull(zlDef) ? 0 : zlDef).sum());
+        }
 
         return character;
     }
@@ -5232,7 +5323,16 @@ public class GameServiceServiceImpl implements GameServiceService {
             // 设置角色
             Character character = reasonableData(characters, leftCharacters);
             campA.add(new Guardian(character.getName(), Camp.A, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
-                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(),character.getStar()));
+                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(),character.getStar(),
+                    character.getWlAtk(),
+                    character.getHyAtk(),
+                    character.getDsAtk(),
+                    character.getFdAtk(),
+                    character.getWlDef(),
+                    character.getHyDef(),
+                    character.getDsDef(),
+                    character.getFdDef(),
+                    character.getZlDef()));
             copyCampA.add(character);
         }
         rightCharacters.sort(Comparator.comparing(Characters::getGoIntoNum,
@@ -5241,7 +5341,16 @@ public class GameServiceServiceImpl implements GameServiceService {
             // 设置角色
             Character character = reasonableData(characters, rightCharacters);
             campB.add(new Guardian(character.getName(), Camp.B, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
-                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(),character.getStar()));
+                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(),character.getStar(),
+                    character.getWlAtk(),
+                    character.getHyAtk(),
+                    character.getDsAtk(),
+                    character.getFdAtk(),
+                    character.getWlDef(),
+                    character.getHyDef(),
+                    character.getDsDef(),
+                    character.getFdDef(),
+                    character.getZlDef()));
             copyCampB.add(character);
         }
         BattleSnowflakeIdGenerator generator = BattleSnowflakeIdGenerator.getInstance();
@@ -6213,7 +6322,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         //青铜塔
         if (1 == 1) {
             List<User> users=userMapper.getBronzeRanking100("bronzetower");
-            if (1 == 1) {
+            if (1 == 1&&Xtool.isNotNull(users)) {
                 String code = RandomCodeGenerator.generateUniqueCode();
                 GameGift gameGift = new GameGift();
                 gameGift.setGiftCode(code);
@@ -6248,7 +6357,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
             }
             //生成
-            if (1 == 1) {
+            if (1 == 1&&Xtool.isNotNull(users)) {
                 String code = RandomCodeGenerator.generateUniqueCode();
                 GameGift gameGift = new GameGift();
                 gameGift.setGiftCode(code);
@@ -6288,7 +6397,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     gameGiftExchangeCodeMapper.insertSelective(record);
                 }
             }
-            if (1 == 1) {
+            if (1 == 1&&Xtool.isNotNull(users)) {
                 String code = RandomCodeGenerator.generateUniqueCode();
                 GameGift gameGift = new GameGift();
                 gameGift.setGiftCode(code);
@@ -6309,6 +6418,126 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGiftContent.setItemType(6);
                 gameGiftContent.setItemQuantity(500);
                 gameGiftContent.setItemId(Long.parseLong(13+""));
+                gameGiftContent.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent);
+                for (int i = 11; i < 99; i++) {
+                    if (users.size() <= i) {
+                        continue;
+                    }
+                    //判断 如果是兑换礼包查询是否有兑换记录
+                    GameGiftExchangeCode record = new GameGiftExchangeCode();
+                    record.setGiftId(gifts.getGiftId());
+                    record.setUseUserId(Long.parseLong(users.get(i).getUserId() + ""));
+                    record.setExchangeCode(code);
+                    List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+                    if (Xtool.isNotNull(codeList)) {
+                        continue;
+                    }
+                    record.setCreateTime(new Date());
+                    gameGiftExchangeCodeMapper.insertSelective(record);
+                }
+            }
+
+        }
+        //白银塔
+        if (1 == 1) {
+            List<User> users=userMapper.getBronzeRanking100("silvertower");
+            if (1 == 1&&Xtool.isNotNull(users)) {
+                String code = RandomCodeGenerator.generateUniqueCode();
+                GameGift gameGift = new GameGift();
+                gameGift.setGiftCode(code);
+                gameGift.setGiftType(2);
+                gameGift.setRemainingQuantity(-1);
+                gameGift.setTotalQuantity(-1);
+                gameGift.setIsActive(1);
+                gameGift.setStartTime(new Date());
+                gameGift.setUpdateTime(new Date());
+                gameGift.setEndTime(nextMonthDate);
+                gameGift.setGiftName("白银塔周排名奖励");
+                gameGift.setDescription("恭喜少侠本周白银塔排名第一，专属排名奖励已奉上,含2000玄铁矿。");
+                gameGift.setCreateTime(new Date());
+                gameGiftMapper.insert(gameGift);
+                GameGift gifts = gameGiftMapper.selectByGiftCode(code);
+                GameGiftContent gameGiftContent = new GameGiftContent();
+                gameGiftContent.setGiftId(gifts.getGiftId());
+                gameGiftContent.setItemType(6);
+                gameGiftContent.setItemQuantity(2000);
+                gameGiftContent.setItemId(Long.parseLong(14+""));
+                gameGiftContent.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent);
+                //判断 如果是兑换礼包查询是否有兑换记录
+                GameGiftExchangeCode record = new GameGiftExchangeCode();
+                record.setGiftId(gifts.getGiftId());
+                record.setUseUserId(Long.parseLong(users.get(0).getUserId() + ""));
+                record.setExchangeCode(code);
+                List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+                if (Xtool.isNull(codeList)) {
+                    record.setCreateTime(new Date());
+                    gameGiftExchangeCodeMapper.insertSelective(record);
+                }
+            }
+            //生成
+            if (1 == 1&&Xtool.isNotNull(users)) {
+                String code = RandomCodeGenerator.generateUniqueCode();
+                GameGift gameGift = new GameGift();
+                gameGift.setGiftCode(code);
+                gameGift.setGiftType(2);
+                gameGift.setRemainingQuantity(-1);
+                gameGift.setTotalQuantity(-1);
+                gameGift.setIsActive(1);
+                gameGift.setStartTime(new Date());
+                gameGift.setUpdateTime(new Date());
+                gameGift.setEndTime(nextMonthDate);
+                gameGift.setGiftName("白银塔周排名奖励");
+                gameGift.setDescription("恭喜少侠本周白银塔排名前 10，专属排名奖励已奉上,含1000玄铁矿");
+                gameGift.setCreateTime(new Date());
+                gameGiftMapper.insert(gameGift);
+                GameGift gifts = gameGiftMapper.selectByGiftCode(code);
+                GameGiftContent gameGiftContent = new GameGiftContent();
+                gameGiftContent.setGiftId(gifts.getGiftId());
+                gameGiftContent.setItemType(6);
+                gameGiftContent.setItemQuantity(1000);
+                gameGiftContent.setItemId(Long.parseLong(14+""));
+                gameGiftContent.setCreateTime(new Date());
+                gameGiftContentMapper.insert(gameGiftContent);
+                for (int i = 1; i < 10; i++) {
+                    if (users.size() <= i) {
+                        continue;
+                    }
+                    //判断 如果是兑换礼包查询是否有兑换记录
+                    GameGiftExchangeCode record = new GameGiftExchangeCode();
+                    record.setGiftId(gifts.getGiftId());
+                    record.setUseUserId(Long.parseLong(users.get(i).getUserId() + ""));
+                    record.setExchangeCode(code);
+                    List<GameGiftExchangeCode> codeList = gameGiftExchangeCodeMapper.selectByUserCode2(record);
+                    if (Xtool.isNotNull(codeList)) {
+                        continue;
+                    }
+                    record.setCreateTime(new Date());
+                    gameGiftExchangeCodeMapper.insertSelective(record);
+                }
+            }
+            if (1 == 1&&Xtool.isNotNull(users)) {
+                String code = RandomCodeGenerator.generateUniqueCode();
+                GameGift gameGift = new GameGift();
+                gameGift.setGiftCode(code);
+                gameGift.setGiftType(2);
+                gameGift.setRemainingQuantity(-1);
+                gameGift.setTotalQuantity(-1);
+                gameGift.setIsActive(1);
+                gameGift.setStartTime(new Date());
+                gameGift.setUpdateTime(new Date());
+                gameGift.setEndTime(nextMonthDate);
+                gameGift.setGiftName("白银塔周排名奖励");
+                gameGift.setDescription("恭喜少侠本周白银塔排名前 100，专属排名奖励已奉上,含500玄铁矿。");
+                gameGift.setCreateTime(new Date());
+                gameGiftMapper.insert(gameGift);
+                GameGift gifts = gameGiftMapper.selectByGiftCode(code);
+                GameGiftContent gameGiftContent = new GameGiftContent();
+                gameGiftContent.setGiftId(gifts.getGiftId());
+                gameGiftContent.setItemType(6);
+                gameGiftContent.setItemQuantity(500);
+                gameGiftContent.setItemId(Long.parseLong(14+""));
                 gameGiftContent.setCreateTime(new Date());
                 gameGiftContentMapper.insert(gameGiftContent);
                 for (int i = 11; i < 99; i++) {
@@ -6383,75 +6612,4 @@ public class GameServiceServiceImpl implements GameServiceService {
 
     }
 
-    // 最终版日志打印格式（包含位置信息）
-    private static void printFinalBattleLogs(List<BattleLog> logs) {
-        for (BattleLog log : logs) {
-            System.out.println("======================================================================");
-            System.out.printf("[%s][回合%03d]%s\n", log.getBattleId(), log.getRound(), log.getEventType());
-
-            // 来源单位信息（包含位置）
-            if (log.getSourceUnit() != null) {
-                System.out.printf("来源: %s[%s%d号位] HP:%d→%d ATK:%d→%d SPEED:%d→%d\n",
-                        log.getSourceUnit(),
-                        log.getSourceCamp() != null ? log.getSourceCamp() : "",
-                        log.getSourcePosition(),
-                        log.getSourceHpBefore(),
-                        log.getSourceHpAfter(),
-                        log.getSourceAttackBefore(),
-                        log.getSourceAttackAfter(),
-                        log.getSourceSpeedBefore(),
-                        log.getSourceSpeedAfter());
-            }
-
-            // 目标单位信息（包含位置）
-            if (log.getTargetUnit() != null) {
-                System.out.printf("目标: %s[%s%d号位] HP:%d→%d ATK:%d→%d SPEED:%d→%d\n",
-                        log.getTargetUnit(),
-                        log.getTargetCamp() != null ? log.getTargetCamp() : "",
-                        log.getTargetPosition(),
-                        log.getTargetHpBefore(),
-                        log.getTargetHpAfter(),
-                        log.getTargetAttackBefore(),
-                        log.getTargetAttackAfter(),
-                        log.getTargetSpeedBefore(),
-                        log.getTargetSpeedAfter());
-            } else if (log.getTargetUnitList() != null && !log.getTargetUnitList().isEmpty()) {
-                System.out.printf("目标列表: %s\n", log.getTargetUnitList());
-            }
-
-            // 在场单位状态（包含位置）
-            if (log.getFieldUnitsStatus() != null && !log.getFieldUnitsStatus().isEmpty()) {
-                System.out.printf("在场单位: %s\n", log.getFieldUnitsStatus());
-            }
-
-            // 其他信息
-            if (log.getValue() > 0) {
-                System.out.printf("数值: %d\n", log.getValue());
-            }
-            if (log.getEffectType() != null) {
-                System.out.printf("效果: %s\n", log.getEffectType());
-            }
-            if (log.getDamageType() != null) {
-                System.out.printf("伤害类型: %s\n", log.getDamageType());
-            }
-            if (log.getExtraDesc() != null) {
-                System.out.printf("描述: %s\n", log.getExtraDesc());
-            }
-        }
-    }
-
-    public static Set<Integer> getRandomElements(Set<Integer> set, int count) {
-        if (count > set.size()) {
-            throw new IllegalArgumentException("请求数量超过集合大小");
-        }
-        List<Integer> list = new ArrayList<Integer>(set);
-        Set<Integer> result = new HashSet<>();
-        Random random = new Random();
-
-        while (result.size() < count) {
-            int index = random.nextInt(list.size());
-            result.add(list.get(index));
-        }
-        return result;
-    }
 }

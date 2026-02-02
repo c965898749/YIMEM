@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class Characters {
@@ -36,4 +37,5 @@ public class Characters {
     private Integer collAttack;
     private Integer collSpeed;
     private Integer collHp;
+    List<EqCharacters> eqCharactersList;
 }

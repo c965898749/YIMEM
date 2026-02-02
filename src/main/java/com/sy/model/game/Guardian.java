@@ -2,6 +2,7 @@ package com.sy.model.game;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 public class Guardian {
     private String name;
@@ -22,12 +23,29 @@ public class Guardian {
     private int buffNianShous;
     private int buffRandengs;
     private int buffLiuers;
+    private int wlAtk;
+    private int hyAtk;
+    private int dsAtk;
     private int fdAtk;
+    private int wlDef;
+    private int hyDef;
+    private int dsDef;
+    private int fdDef;
+    private int zlDef;
     private Map<EffectType, Integer> effects;
 
     // 构造函数
     public Guardian(String name, Camp camp, int position, Profession profession, Race race,
-                    int maxHp, int attack, int speed,int level,BigDecimal star) {
+                    int maxHp, int attack, int speed, int level, BigDecimal star,
+                   int wlAtk,
+                   int hyAtk,
+                   int dsAtk,
+                   int fdAtk,
+                   int wlDef,
+                   int hyDef,
+                   int dsDef,
+                   int fdDef,
+                   int zlDef) {
         this.name = name;
         this.camp = camp;
         this.position = position;
@@ -45,6 +63,47 @@ public class Guardian {
         this.buffNianShous = 0;
         this.star = star;
         this.effects = new HashMap<>();
+        this.wlAtk=wlAtk;
+        this.hyAtk=hyAtk;
+        this.dsAtk=dsAtk;
+        this.fdAtk=fdAtk;
+        this.wlDef=wlDef;
+        this.hyDef=hyDef;
+        this.dsDef=dsDef;
+        this.fdDef=fdDef;
+        this.zlDef=zlDef;
+    }
+
+    // 核心方法1：判断是否包含某个具体的EffectType枚举
+    public boolean hasEffect(EffectType targetEffect) {
+        // 空指针防护：如果effects为null，直接返回false
+        if (effects == null) {
+            return false;
+        }
+        // Map的containsKey方法判断是否包含指定枚举key
+        return effects.containsKey(targetEffect);
+    }
+
+    // 扩展方法2：判断是否包含多种效果中的任意一种
+    public boolean hasAnyEffect(EffectType... targetEffects) {
+        if (effects == null || targetEffects == null || targetEffects.length == 0) {
+            return false;
+        }
+        for (EffectType effect : targetEffects) {
+            if (effects.containsKey(effect)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 扩展方法3：获取指定效果的层数/持续回合（如果有）
+    public int getEffectStacks(EffectType targetEffect) {
+        if (effects == null) {
+            return 0;
+        }
+        // getOrDefault：有该效果返回对应值，无则返回0
+        return effects.getOrDefault(targetEffect, 0);
     }
 
     // 设置血量上限（联动调整当前血量）
@@ -76,6 +135,26 @@ public class Guardian {
     }
 
     // 其他getter和setter方法
+    public int getWlAtk() { return wlAtk; }
+    public int getHyAtk() { return hyAtk; }
+    public int getDsAtk() { return dsAtk; }
+    public int getFdAtk() { return fdAtk; }
+    public int getWlDef() { return wlDef; }
+    public int getHyDef() { return hyDef; }
+    public int getDsDef() { return dsDef; }
+    public int getFdDef() { return fdDef; }
+    public int getZlDef() { return zlDef; }
+
+    public void setWlAtk(int wlAtk) { this.wlAtk=wlAtk; }
+    public void setHyAtk(int hyAtk) { this.hyAtk=hyAtk; }
+    public void setDsAtk(int dsAtk) { this.dsAtk=dsAtk; }
+    public void setFdAtk(int fdAtk) { this.fdAtk=fdAtk; }
+    public void setWlDef(int wlDef) { this.wlDef=wlDef; }
+    public void setHyDef(int hyDef) { this.hyDef=hyDef; }
+    public void setDsDef(int dsDef) { this.dsDef=dsDef; }
+    public void setFdDef(int fdDef) { this.fdDef=fdDef; }
+    public void setZlDef(int zlDef) { this.zlDef=zlDef; }
+
     public String getName() { return name; }
     public Camp getCamp() { return camp; }
     public int getPosition() { return position; }

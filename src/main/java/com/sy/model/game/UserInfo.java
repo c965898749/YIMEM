@@ -85,4 +85,5 @@ public class UserInfo {
     private Integer silvertower;
     private Integer goldentower;
     private Integer chongzhi;
+    private Integer gameRanking;
 }

@@ -39,7 +39,7 @@ public class GameScheduled {
 
     }
 
-    @Scheduled(cron = "0 0 22 ? * 7")
+//    @Scheduled(cron = "0 0 22 ? * 7")
 //    @Scheduled(cron = "0 0/2 * * * ?")
     public void executeWeeklyTask() {
         // 任务逻辑

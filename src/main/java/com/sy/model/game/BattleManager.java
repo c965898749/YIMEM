@@ -26,20 +26,87 @@ public class BattleManager {
         this.battleId = battleId;
         this.campA = campA;
         this.campB = campB;
-        initBattle();
     }
 
     // 初始化战斗
     private void initBattle() {
         fieldA = getNextGuardian(campA);
         fieldB = getNextGuardian(campB);
-        if (fieldA != null) {
-            fieldA.setOnField(true);
+        if (fieldA.getSpeed()>=fieldB.getSpeed()){
+            if (fieldA != null) {
+                fieldA.setOnField(true);
+                addLog("UNIT_ENTER",
+                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
+                        fieldA.getMaxHp(), fieldA.getCurrentHp(),
+                        fieldA.getAttack(), fieldA.getAttack(),
+                        fieldA.getSpeed(), fieldA.getSpeed(),
+                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
+                        fieldA.getMaxHp(), fieldA.getCurrentHp(),
+                        fieldA.getAttack(), fieldA.getAttack(),
+                        fieldA.getSpeed(), fieldA.getSpeed(),
+                        getFieldUnitsStatus(),
+                        0, null, null,
+                        fieldA.getName() + "登场");
+
+            }
+            if (fieldB != null) {
+                fieldB.setOnField(true);
+                addLog("UNIT_ENTER",
+                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                        fieldB.getMaxHp(), fieldB.getCurrentHp(),
+                        fieldB.getAttack(), fieldB.getAttack(),
+                        fieldB.getSpeed(), fieldB.getSpeed(),
+                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                        fieldB.getMaxHp(), fieldB.getCurrentHp(),
+                        fieldB.getAttack(), fieldB.getAttack(),
+                        fieldB.getSpeed(), fieldB.getSpeed(),
+                        getFieldUnitsStatus(),
+                        0, null, null,
+                        fieldB.getName() + "登场");
+
+            }
             triggerOnEnterSkills(fieldA);
-        }
-        if (fieldB != null) {
-            fieldB.setOnField(true);
             triggerOnEnterSkills(fieldB);
+            triggerOnEnterSkills2(fieldA);
+            triggerOnEnterSkills2(fieldB);
+        }else {
+            if (fieldB != null) {
+                fieldB.setOnField(true);
+                addLog("UNIT_ENTER",
+                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                        fieldB.getMaxHp(), fieldB.getCurrentHp(),
+                        fieldB.getAttack(), fieldB.getAttack(),
+                        fieldB.getSpeed(), fieldB.getSpeed(),
+                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                        fieldB.getMaxHp(), fieldB.getCurrentHp(),
+                        fieldB.getAttack(), fieldB.getAttack(),
+                        fieldB.getSpeed(), fieldB.getSpeed(),
+                        getFieldUnitsStatus(),
+                        0, null, null,
+                        fieldB.getName() + "登场");
+//            triggerOnEnterSkills(fieldB);
+            }
+            if (fieldA != null) {
+                fieldA.setOnField(true);
+                addLog("UNIT_ENTER",
+                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
+                        fieldA.getMaxHp(), fieldA.getCurrentHp(),
+                        fieldA.getAttack(), fieldA.getAttack(),
+                        fieldA.getSpeed(), fieldA.getSpeed(),
+                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
+                        fieldA.getMaxHp(), fieldA.getCurrentHp(),
+                        fieldA.getAttack(), fieldA.getAttack(),
+                        fieldA.getSpeed(), fieldA.getSpeed(),
+                        getFieldUnitsStatus(),
+                        0, null, null,
+                        fieldA.getName() + "登场");
+
+            }
+            triggerOnEnterSkills(fieldB);
+            triggerOnEnterSkills(fieldA);
+            triggerOnEnterSkills2(fieldB);
+            triggerOnEnterSkills2(fieldA);
+
         }
     }
 
@@ -120,13 +187,20 @@ public class BattleManager {
             checkAndReplaceGuardians();
             //2. 回合开始处理
             processRoundStartEffects();
-
             // 场上战斗
-            if (fieldA != null && fieldB != null) {
-                processAttack(fieldA, fieldB);
-                if (!fieldB.isDead()) {
+            if (fieldA != null&&!fieldA.isDead() && fieldB != null&&!fieldA.isDead() ) {
+                if (fieldA.getSpeed()>=fieldB.getSpeed()){
+                    processAttack(fieldA, fieldB);
+                    if (!fieldB.isDead()) {
+                        processAttack(fieldB, fieldA);
+                    }
+                }else {
                     processAttack(fieldB, fieldA);
+                    if (!fieldA.isDead()) {
+                        processAttack(fieldA, fieldB);
+                    }
                 }
+
             }
 
             //3.处理场下技能
@@ -138,6 +212,149 @@ public class BattleManager {
 
         // 战斗结束判定
         endBattle();
+    }
+    // 检查并替换阵亡护法
+    private void checkAndReplaceGuardians() {
+        if (fieldA==null&&fieldB==null){
+            initBattle();
+        }else {
+            if (fieldA != null && fieldA.isDead()) {
+                Guardian newA = getNextGuardian(campA);
+                if (newA != null) {
+                    fieldA = newA;
+                    fieldA.setOnField(true);
+
+                    addLog("UNIT_ENTER",
+                            fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
+                            fieldA.getMaxHp(), fieldA.getCurrentHp(),
+                            fieldA.getAttack(), fieldA.getAttack(),
+                            fieldA.getSpeed(), fieldA.getSpeed(),
+                            fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
+                            fieldA.getMaxHp(), fieldA.getCurrentHp(),
+                            fieldA.getAttack(), fieldA.getAttack(),
+                            fieldA.getSpeed(), fieldA.getSpeed(),
+                            getFieldUnitsStatus(),
+                            0, null, null,
+                            fieldA.getName() + "登场");
+
+                    triggerOnEnterSkills(fieldA);
+                    triggerOnEnterSkills2(fieldA);
+                }
+            }
+
+            if (fieldB != null && fieldB.isDead()) {
+                Guardian newB = getNextGuardian(campB);
+                if (newB != null) {
+                    fieldB = newB;
+                    fieldB.setOnField(true);
+
+                    addLog("UNIT_ENTER",
+                            fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                            fieldB.getMaxHp(), fieldB.getCurrentHp(),
+                            fieldB.getAttack(), fieldB.getAttack(),
+                            fieldB.getSpeed(), fieldB.getSpeed(),
+                            fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                            fieldB.getMaxHp(), fieldB.getCurrentHp(),
+                            fieldB.getAttack(), fieldB.getAttack(),
+                            fieldB.getSpeed(), fieldB.getSpeed(),
+                            getFieldUnitsStatus(),
+                            0, null, null,
+                            fieldB.getName() + "登场");
+
+                    triggerOnEnterSkills(fieldB);
+                    triggerOnEnterSkills2(fieldB);
+                }
+            }
+        }
+
+    }
+
+    // 处理回合结束效果
+    private void processRoundEndEffects() {
+        // 托塔天王仙塔庇护
+        if (fieldA != null && fieldA.getName().equals("托塔天王")) {
+            int hpBefore = fieldA.getCurrentHp();
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(fieldA.getLevel(), fieldA.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
+                int heal = 25 * skillLevel[1];
+                fieldA.setCurrentHp(fieldA.getCurrentHp() + heal);
+
+                addLog("仙塔庇护",
+                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
+                        hpBefore, fieldA.getCurrentHp(),
+                        fieldA.getAttack(), fieldA.getAttack(),
+                        fieldA.getSpeed(), fieldA.getSpeed(),
+                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
+                        hpBefore, fieldA.getCurrentHp(),
+                        fieldA.getAttack(), fieldA.getAttack(),
+                        fieldA.getSpeed(), fieldA.getSpeed(),
+                        getFieldUnitsStatus(),
+                        heal, EffectType.HEAL, null,
+                        fieldA.getName() + "触发仙塔庇护，恢复生命值");
+            }
+
+        }
+
+        if (fieldB != null && fieldB.getName().equals("托塔天王")) {
+            int hpBefore = fieldB.getCurrentHp();
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(fieldB.getLevel(), fieldB.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
+                int heal = 25 * skillLevel[1];
+                fieldB.setCurrentHp(fieldB.getCurrentHp() + heal);
+
+                addLog("仙塔庇护",
+                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                        hpBefore, fieldB.getCurrentHp(),
+                        fieldB.getAttack(), fieldB.getAttack(),
+                        fieldB.getSpeed(), fieldB.getSpeed(),
+                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                        hpBefore, fieldB.getCurrentHp(),
+                        fieldB.getAttack(), fieldB.getAttack(),
+                        fieldB.getSpeed(), fieldB.getSpeed(),
+                        getFieldUnitsStatus(),
+                        heal, EffectType.HEAL, null,
+                        fieldB.getName() + "触发仙塔庇护，恢复生命值");
+            }
+
+        }
+        List<Guardian> allUnits = new ArrayList<>();
+        allUnits.addAll(campA);
+        allUnits.addAll(campB);
+
+        List<Guardian> aliveUnits = allUnits.stream()
+                .filter(g -> !g.isDead())
+                .collect(Collectors.toList());
+        StringBuilder sb = new StringBuilder();
+        for (Guardian guardian : aliveUnits) {
+            //眩晕-1
+            //降低治疗-1
+            //沉默-1
+            // 构建字符串缓冲区，效率更高
+            sb.append("["+guardian.getCamp() + guardian.getName() + "_" + guardian.getPosition()+":");
+            // 2. 测试核心判断方法
+            for (EffectType type : EffectType.values()) {
+                sb.append(type.name()+"|"+guardian.getEffectStacks(type)+",");
+            }
+            // 移除最后一个多余的换行符
+            if (sb.length() > 0) {
+                sb.setLength(sb.length() - 1);
+            }
+            sb.append("]");
+//            return sb.toString();
+        }
+        // 中毒伤害日志（批量）
+        addLog("BUFF_END",
+                null, null, 0,
+                0,0,
+                0, 0,
+                0, 0,
+                fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
+                0, 0,
+                0, 0,
+                0, 0,
+                sb.toString(),
+                0, null, null,
+                fieldB.getName() + "登场");
     }
 
     // 处理攻击流程
@@ -213,80 +430,14 @@ public class BattleManager {
     }
 
     // 触发登场技能
+//   TODO  登场释放 大于速度 大于厂下速度 大于挨打释放 大于厂下后手排序队列释放
     private void triggerOnEnterSkills(Guardian guardian) {
         int sourceHpBefore = guardian.getMaxHp();
         int sourceAttackBefore = guardian.getAttack();
         int sourceSpeedBefore = guardian.getSpeed();
         int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
-        //TODO 对方登场优先在场先触发技能
-        if (1 == 1) {
-            Guardian enemy = guardian.getCamp() == Camp.A ? fieldB : fieldA;
-            if (Xtool.isNull(enemy.getEffects().get(EffectType.SILENCE)) && enemy != null) {
-                switch (enemy.getName()) {
-                    case "托塔天王":
-                        // 镇妖塔：对敌方场上造成飞弹伤害
-                        if (guardian != null) {
-                            int enemyHpBefore = guardian.getCurrentHp();
-                            int damage = 69 * skillLevel[0] + zhongyuedadiHuan(enemy);
-                            guardian.setCurrentHp(guardian.getCurrentHp() - damage);
 
-                            addLog("镇妖塔",
-                                    enemy.getName(), enemy.getCamp(), enemy.getPosition(),
-                                    enemy.getMaxHp(), enemy.getCurrentHp(),
-                                    enemy.getAttack(), enemy.getAttack(),
-                                    enemy.getSpeed(), enemy.getSpeed(),
-                                    guardian.getName(), guardian.getCamp(), guardian.getPosition(),
-                                    guardian.getMaxHp(), guardian.getCurrentHp(),
-                                    guardian.getAttack(), guardian.getAttack(),
-                                    guardian.getSpeed(), guardian.getSpeed(),
-                                    getFieldUnitsStatus(),
-                                    damage, EffectType.MISSILE_DAMAGE, DamageType.MISSILE,
-                                    enemy.getName() + "登场触发镇妖塔");
-                        }
-                        break;
-                    case "厚土娘娘":
-                        // 大地净化：驱散自身减益
-                        enemy.getEffects().clear();
-                        addLog("大地净化",
-                                enemy.getName(), enemy.getCamp(), enemy.getPosition(),
-                                enemy.getMaxHp(), enemy.getCurrentHp(),
-                                enemy.getAttack(), enemy.getAttack(),
-                                sourceSpeedBefore, enemy.getSpeed(),
-                                enemy.getName(), enemy.getCamp(), enemy.getPosition(),
-                                enemy.getMaxHp(), enemy.getCurrentHp(),
-                                enemy.getAttack(), enemy.getAttack(),
-                                enemy.getSpeed(), enemy.getSpeed(),
-                                getFieldUnitsStatus(),
-                                0, EffectType.SILENCE_IMMUNE, null,
-                                guardian.getName() + "登场驱散减益");
-                        break;
-                    case "天蓬元帅":
-                        // 满目桃花Lv1场上遇到女性敌人时，自身攻击降低50%，速度增加50%，
-                        enemy.setAttack((int) (enemy.getAttack() * 0.5));
-                        enemy.setSpeed((int) (enemy.getSpeed() * 1.5));
-                        addLog("满目桃花",
-                                enemy.getName(), enemy.getCamp(), enemy.getPosition(),
-                                enemy.getMaxHp(), enemy.getCurrentHp(),
-                                enemy.getAttack(), enemy.getAttack(),
-                                sourceSpeedBefore, enemy.getSpeed(),
-                                enemy.getName(), enemy.getCamp(), enemy.getPosition(),
-                                enemy.getMaxHp(), enemy.getCurrentHp(),
-                                enemy.getAttack(), enemy.getAttack(),
-                                enemy.getSpeed(), enemy.getSpeed(),
-                                getFieldUnitsStatus(),
-                                0, EffectType.ATTACK_DOWN_SPEED_UP, null,
-                                enemy.getName() + ",攻击降低50%，速度增加50%");
-                        break;
-                }
-            }
-        }
-
-
-        //TODO 登场，再触发场下
-        processOnFieldSkills0(guardian);
-
-
-        //TODO 最后触发自己登场触发技能
+        //TODO 登场触发技能
         switch (guardian.getName()) {
             case "黑山老妖":
 //                百毒感染Lv1登场时令敌方全体中毒，每回合损失40；
@@ -301,7 +452,7 @@ public class BattleManager {
                         targetNames.add(g.getName());
                         int hpBefore = g.getMaxHp();
                         int poisonDamage = g.getEffects().getOrDefault(EffectType.POISON, 0);
-                        g.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                        g.getEffects().put(EffectType.POISON,chazhi(poisonValue + poisonDamage+guardian.getDsAtk(),g.getDsDef()));
                         targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
                     }
                     // 单条日志记录多目标
@@ -592,20 +743,93 @@ public class BattleManager {
         }
     }
 
+    private void triggerOnEnterSkills2(Guardian guardian) {
+        int sourceSpeedBefore = guardian.getSpeed();
+        int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
+        //TODO 对方登场优先在场先触发技能
+        if (1 == 1) {
+            Guardian enemy = guardian.getCamp() == Camp.A ? fieldB : fieldA;
+            if (Xtool.isNull(enemy.getEffects().get(EffectType.SILENCE)) && enemy != null) {
+                switch (enemy.getName()) {
+                    case "托塔天王":
+                        // 镇妖塔：对敌方场上造成飞弹伤害
+                        if (guardian != null) {
+                            int enemyHpBefore = guardian.getCurrentHp();
+                            int damage = 69 * skillLevel[0] + zhongyuedadiHuan(enemy);
+                            guardian.setCurrentHp(guardian.getCurrentHp() - damage);
+
+                            addLog("镇妖塔",
+                                    enemy.getName(), enemy.getCamp(), enemy.getPosition(),
+                                    enemy.getMaxHp(), enemy.getCurrentHp(),
+                                    enemy.getAttack(), enemy.getAttack(),
+                                    enemy.getSpeed(), enemy.getSpeed(),
+                                    guardian.getName(), guardian.getCamp(), guardian.getPosition(),
+                                    guardian.getMaxHp(), guardian.getCurrentHp(),
+                                    guardian.getAttack(), guardian.getAttack(),
+                                    guardian.getSpeed(), guardian.getSpeed(),
+                                    getFieldUnitsStatus(),
+                                    damage, EffectType.MISSILE_DAMAGE, DamageType.MISSILE,
+                                    enemy.getName() + "登场触发镇妖塔");
+                        }
+                        break;
+                    case "厚土娘娘":
+                        // 大地净化：驱散自身减益
+                        enemy.getEffects().clear();
+                        addLog("大地净化",
+                                enemy.getName(), enemy.getCamp(), enemy.getPosition(),
+                                enemy.getMaxHp(), enemy.getCurrentHp(),
+                                enemy.getAttack(), enemy.getAttack(),
+                                sourceSpeedBefore, enemy.getSpeed(),
+                                enemy.getName(), enemy.getCamp(), enemy.getPosition(),
+                                enemy.getMaxHp(), enemy.getCurrentHp(),
+                                enemy.getAttack(), enemy.getAttack(),
+                                enemy.getSpeed(), enemy.getSpeed(),
+                                getFieldUnitsStatus(),
+                                0, EffectType.SILENCE_IMMUNE, null,
+                                guardian.getName() + "登场驱散减益");
+                        break;
+                    case "天蓬元帅":
+                        // 满目桃花Lv1场上遇到女性敌人时，自身攻击降低50%，速度增加50%，
+                        enemy.setAttack((int) (enemy.getAttack() * 0.5));
+                        enemy.setSpeed((int) (enemy.getSpeed() * 1.5));
+                        addLog("满目桃花",
+                                enemy.getName(), enemy.getCamp(), enemy.getPosition(),
+                                enemy.getMaxHp(), enemy.getCurrentHp(),
+                                enemy.getAttack(), enemy.getAttack(),
+                                sourceSpeedBefore, enemy.getSpeed(),
+                                enemy.getName(), enemy.getCamp(), enemy.getPosition(),
+                                enemy.getMaxHp(), enemy.getCurrentHp(),
+                                enemy.getAttack(), enemy.getAttack(),
+                                enemy.getSpeed(), enemy.getSpeed(),
+                                getFieldUnitsStatus(),
+                                0, EffectType.ATTACK_DOWN_SPEED_UP, null,
+                                enemy.getName() + ",攻击降低50%，速度增加50%");
+                        break;
+                }
+            }
+        }
+
+
+        //TODO 登场，再触发场下
+        processOnFieldSkills0(guardian);
+
+
+    }
+
     // 触发攻击前技能
     private void triggerPreAttackSkills(Guardian attacker, Guardian defender) {
         int attackerHpBefore = attacker.getMaxHp();
         int attackerAttackBefore = attacker.getAttack();
         int attackerSpeedBefore = attacker.getSpeed();
         int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(attacker.getLevel(), attacker.getStar().doubleValue());
-        if (Xtool.isNotNull(attacker.getEffects().get(EffectType.SILENCE))) {
+        if (Xtool.isNotNull(attacker.getEffects().get(EffectType.SILENCE))||defender.isDead()) {
             return;
         }
         switch (attacker.getName()) {
             case "齐天大圣":
                 // 定海神针：当前生命值6%伤害
                 if (skillLevel[1] > 0) {
-                    int defenderHpBefore = defender.getCurrentHp();
+                    int defenderHpBefore = defender.getMaxHp();
                     int damage = (int) (defender.getCurrentHp() * 0.06 * skillLevel[1]);
                     defender.setCurrentHp(defender.getCurrentHp() - damage);
 
@@ -627,7 +851,7 @@ public class BattleManager {
             case "刑天":
                 // 斩杀：13%几率造成火焰伤害
                 if ( ProbabilityBooleanUtils.randomByProbability(0.13 * skillLevel[0])) {
-                    int defenderHpBefore = defender.getCurrentHp();
+                    int defenderHpBefore =defender.getMaxHp();
                     int burnDamage = 220 * skillLevel[0];
                     defender.setCurrentHp(defender.getCurrentHp() - burnDamage);
                     // 武圣判定
@@ -679,7 +903,7 @@ public class BattleManager {
                 // 斩杀：13%几率造成火焰伤害
                 if (skillLevel[1] > 0) {
                     if (ProbabilityBooleanUtils.randomByProbability( 0.75)) {
-                        int defenderHpBefore = defender.getCurrentHp();
+                        int defenderHpBefore = defender.getMaxHp();
                         int burnDamage = 220 * skillLevel[1];
                         defender.setCurrentHp(defender.getCurrentHp() - burnDamage);
                         // 武圣判定
@@ -856,7 +1080,7 @@ public class BattleManager {
                     int attackerHpBefore = attacker.getCurrentHp();
                     int poisonValue = 8 * skillLevel[0];
                     int poisonDamage = attacker.getEffects().getOrDefault(EffectType.POISON, 0);
-                    attacker.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    attacker.getEffects().put(EffectType.POISON,chazhi(poisonValue + poisonDamage+defender.getDsAtk(),attacker.getDsDef()));
 
                     addLog("幽灵毒击",
                             defender.getName(), defender.getCamp(), defender.getPosition(),
@@ -962,7 +1186,7 @@ public class BattleManager {
                         int enemyHpBefore = randomEnemy.getCurrentHp();
                         int poisonValue = 73 * skillLevel[0];
                         int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                        randomEnemy.getEffects().put(EffectType.POISON,chazhi(poisonValue + poisonDamage+defender.getDsAtk(),randomEnemy.getDsDef()));
 
                         addLog("剧毒皮肤",
                                 defender.getName(), defender.getCamp(), defender.getPosition(),
@@ -990,7 +1214,7 @@ public class BattleManager {
                         int enemyHpBefore = randomEnemy.getCurrentHp();
                         int poisonValue = 8 * skillLevel[0];
                         int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                        randomEnemy.getEffects().put(EffectType.POISON,chazhi(poisonValue + poisonDamage+defender.getDsAtk(),randomEnemy.getDsDef()));
 
                         addLog("毒素反击",
                                 defender.getName(), defender.getCamp(), defender.getPosition(),
@@ -1386,7 +1610,8 @@ public class BattleManager {
                         int enemyHpBefore = randomEnemy.getCurrentHp();
                         int poisonValue = 30 * skillLevel[0];
                         int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                        randomEnemy.getEffects().put(EffectType.POISON,chazhi(poisonValue + poisonDamage+defender.getDsAtk(),randomEnemy.getDsDef()));
+//                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                         addLog("剧毒皮肤",
                                 defender.getName(), defender.getCamp(), defender.getPosition(),
@@ -1415,7 +1640,8 @@ public class BattleManager {
                         int enemyHpBefore = randomEnemy.getCurrentHp();
                         int poisonValue = 30 * skillLevel[0];
                         int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                        randomEnemy.getEffects().put(EffectType.POISON,chazhi(poisonValue + poisonDamage+defender.getDsAtk(),randomEnemy.getDsDef()));
+//                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                         addLog("燥热蛇毒",
                                 defender.getName(), defender.getCamp(), defender.getPosition(),
@@ -1588,7 +1814,8 @@ public class BattleManager {
                     // ，剧毒加深Lv1攻击中毒敌人时，为其增加1层毒素效果，每回合损失35点生命；
                     if (Xtool.isNotNull(defender.getEffects().get(EffectType.POISON))) {
                         int poisonDamage = defender.getEffects().getOrDefault(EffectType.POISON, 0);
-                        defender.getEffects().put(EffectType.POISON, 35*skillLevel[0] + poisonDamage);
+                        defender.getEffects().put(EffectType.POISON,chazhi(35*skillLevel[0] + poisonDamage+defender.getDsAtk(),attacker.getDsDef()));
+//                        defender.getEffects().put(EffectType.POISON, 35*skillLevel[0] + poisonDamage);
                         int poisonValue = 35 * skillLevel[0];
                         addLog("剧毒加深",
                                 attacker.getName(), attacker.getCamp(), attacker.getPosition(),
@@ -2078,7 +2305,8 @@ public class BattleManager {
                         int enemyHpBefore = randomEnemy.getCurrentHp();
                         int poisonValue = 142 * skillLevel[0];
                         int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                        randomEnemy.getEffects().put(EffectType.POISON,chazhi(35*skillLevel[0] + poisonDamage+defender.getDsAtk(),randomEnemy.getDsDef()));
+//                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                         addLog("毒气阻碍",
                                 defender.getName(), defender.getCamp(), defender.getPosition(),
@@ -2100,7 +2328,8 @@ public class BattleManager {
                 if (!defender.isDead()) {
                     int poisonValue = 8 * skillLevel[0];
                     int poisonDamage = attacker.getEffects().getOrDefault(EffectType.POISON, 0);
-                    attacker.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    attacker.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+defender.getDsAtk(),attacker.getDsDef()));
+//                    attacker.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                     addLog("幽灵毒击",
                             defender.getName(), defender.getCamp(), defender.getPosition(),
@@ -2121,7 +2350,8 @@ public class BattleManager {
                 if (!defender.isDead()) {
                     int poisonValue = 47 * skillLevel[0];
                     int poisonDamage = attacker.getEffects().getOrDefault(EffectType.POISON, 0);
-                    attacker.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    attacker.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+defender.getDsAtk(),attacker.getDsDef()));
+//                    attacker.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                     addLog("毒素打击",
                             defender.getName(), defender.getCamp(), defender.getPosition(),
@@ -2142,7 +2372,8 @@ public class BattleManager {
                 if (!defender.isDead()) {
                     int poisonValue = 8 * skillLevel[0];
                     int poisonDamage = attacker.getEffects().getOrDefault(EffectType.POISON, 0);
-                    attacker.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    attacker.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+defender.getDsAtk(),attacker.getDsDef()));
+//                    attacker.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                     addLog("幽灵毒击",
                             defender.getName(), defender.getCamp(), defender.getPosition(),
@@ -3056,7 +3287,8 @@ public class BattleManager {
                     targetNames.add(g.getName());
                     int hpBefore = g.getMaxHp();
                     int poisonDamage = g.getEffects().getOrDefault(EffectType.POISON, 0);
-                    g.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    g.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+v.getDsAtk(),g.getDsDef()));
+//                    g.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
                     targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
                 }
                 // 单条日志记录多目标
@@ -3075,7 +3307,8 @@ public class BattleManager {
                 if (!enemie.isDead() && skillLevel[1] > 0) {
                     int poisonDamage = enemie.getEffects().getOrDefault(EffectType.POISON, 0);
                     int poisonValue = 70 * skillLevel[1];
-                    enemie.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    enemie.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+v.getDsAtk(),enemie.getDsDef()));
+//                    enemie.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
                     addLog("死亡徘徊",
                             v.getName(), v.getCamp(), v.getPosition(),
                             v.getMaxHp(), v.getCurrentHp(),
@@ -3105,7 +3338,8 @@ public class BattleManager {
                     targetNames.add(g.getName());
                     int hpBefore = g.getMaxHp();
                     int poisonDamage = g.getEffects().getOrDefault(EffectType.POISON, 0);
-                    g.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    g.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+v.getDsAtk(),g.getDsDef()));
+//                    g.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
                     targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
                 }
                 // 单条日志记录多目标
@@ -3136,7 +3370,8 @@ public class BattleManager {
                     targetNames.add(g.getName());
                     int hpBefore = g.getMaxHp();
                     int poisonDamage = g.getEffects().getOrDefault(EffectType.POISON, 0);
-                    g.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    g.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+v.getDsAtk(),g.getDsDef()));
+//                    g.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
                     targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
                 }
                 // 单条日志记录多目标
@@ -3742,7 +3977,7 @@ public class BattleManager {
         }
 
         // 阎王生死簿（多目标整合）
-        if (campA.stream().anyMatch(g -> g.getName().equals("阎王") && !g.isDead())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("阎王") && !g.isDead()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian yanwang = campA.stream()
                     .filter(g -> g.getName().equals("阎王") && !g.isDead())
                     .findFirst().get();
@@ -3821,7 +4056,7 @@ public class BattleManager {
 
         }
 
-        if (campB.stream().anyMatch(g -> g.getName().equals("阎王") && !g.isDead())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("阎王") && !g.isDead()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian yanwang = campB.stream()
                     .filter(g -> g.getName().equals("阎王") && !g.isDead())
                     .findFirst().get();
@@ -3899,7 +4134,7 @@ public class BattleManager {
 
 
         }
-        if (campA.stream().anyMatch(g -> g.getName().equals("萌年兽") && !g.isDead())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("萌年兽") && !g.isDead()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian nianshou = campA.stream()
                     .filter(g -> g.getName().equals("萌年兽") && !g.isDead())
                     .findFirst().get();
@@ -3940,7 +4175,7 @@ public class BattleManager {
         }
 
 
-        if (campA.stream().anyMatch(g -> g.getName().equals("红孩儿") && !g.isDead())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("红孩儿") && !g.isDead()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian nianshou = campA.stream()
                     .filter(g -> g.getName().equals("红孩儿") && !g.isDead())
                     .findFirst().get();
@@ -3975,7 +4210,7 @@ public class BattleManager {
 
 
 
-        if (campA.stream().anyMatch(g -> g.getName().equals("西岳大帝") && !g.isDead()&&!g.isOnField())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("西岳大帝") && !g.isDead()&&!g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian nianshou = campA.stream()
                     .filter(g -> g.getName().equals("西岳大帝") && !g.isDead())
                     .findFirst().get();
@@ -4003,7 +4238,7 @@ public class BattleManager {
 
         }
 
-        if (campB.stream().anyMatch(g -> g.getName().equals("西岳大帝") && !g.isDead()&&!g.isOnField())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("西岳大帝") && !g.isDead()&&!g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian nianshou = campB.stream()
                     .filter(g -> g.getName().equals("西岳大帝") && !g.isDead())
                     .findFirst().get();
@@ -4031,7 +4266,7 @@ public class BattleManager {
 
         }
         //
-        if (campB.stream().anyMatch(g -> g.getName().equals("萌年兽") && !g.isDead())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("萌年兽") && !g.isDead()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
 
             Guardian nianshou = campB.stream()
                     .filter(g -> g.getName().equals("萌年兽") && !g.isDead())
@@ -4071,7 +4306,7 @@ public class BattleManager {
         }
 
 
-        if (campB.stream().anyMatch(g -> g.getName().equals("红孩儿") && !g.isDead())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("红孩儿") && !g.isDead()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian nianshou = campB.stream()
                     .filter(g -> g.getName().equals("红孩儿") && !g.isDead())
                     .findFirst().get();
@@ -4105,7 +4340,7 @@ public class BattleManager {
         }
 
 
-        if (campA.stream().anyMatch(g -> g.getName().equals("玉兔精") && !g.isDead())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("玉兔精") && !g.isDead()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
 
             Guardian nianshou = campA.stream()
                     .filter(g -> g.getName().equals("玉兔精") && !g.isDead())
@@ -4132,7 +4367,7 @@ public class BattleManager {
             }
 
         }
-        if (campB.stream().anyMatch(g -> g.getName().equals("玉兔精") && !g.isDead())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("玉兔精") && !g.isDead()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
 
             Guardian nianshou = campB.stream()
                     .filter(g -> g.getName().equals("玉兔精") && !g.isDead())
@@ -4161,7 +4396,7 @@ public class BattleManager {
         }
         // A玄冥
 //            玄冥，毒入骨髓Lv1场下，每回合令随机敌方中毒每回损失16点生命；
-        if (campA.stream().anyMatch(g -> g.getName().equals("玄冥") && !g.isDead() && !g.isOnField())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("玄冥") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian daji = campA.stream()
                     .filter(g -> g.getName().equals("玄冥") && !g.isDead() && !g.isOnField())
                     .findFirst().get();
@@ -4180,7 +4415,8 @@ public class BattleManager {
                 int targetHpBefore = randomEnemy.getMaxHp();
                 int poisonValue = 16 * skillLevel[0];
                 int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                randomEnemy.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+daji.getDsAtk(),randomEnemy.getDsDef()));
+//                randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                 addLog("毒入骨髓",
                         daji.getName(), Camp.A, daji.getPosition(),
@@ -4198,7 +4434,7 @@ public class BattleManager {
         }
 
         // B队玄冥
-        if (campB.stream().anyMatch(g -> g.getName().equals("玄冥") && !g.isDead() && !g.isOnField())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("玄冥") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian daji = campB.stream()
                     .filter(g -> g.getName().equals("玄冥") && !g.isDead() && !g.isOnField())
                     .findFirst().get();
@@ -4218,7 +4454,8 @@ public class BattleManager {
                 int targetHpBefore = randomEnemy.getMaxHp();
                 int poisonValue = 16 * skillLevel[0];
                 int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                randomEnemy.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+daji.getDsAtk(),randomEnemy.getDsDef()));
+//                randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                 addLog("毒入骨髓",
                         daji.getName(), Camp.B, daji.getPosition(),
@@ -4237,7 +4474,7 @@ public class BattleManager {
 
         // A玄冥
 //            任意位置，若场上敌方有疾病则每回合令其中毒，受到40点毒素伤害
-        if (campA.stream().anyMatch(g -> g.getName().equals("金钩大王") && !g.isDead() && !g.isOnField())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("金钩大王") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             if (!fieldB.isDead() && fieldB.getEffects() != null) {
                 Guardian daji = campA.stream()
                         .filter(g -> g.getName().equals("金钩大王") && !g.isDead() && !g.isOnField())
@@ -4249,7 +4486,8 @@ public class BattleManager {
                     int dajiSpeedBefore = daji.getSpeed();
                     int poisonValue = 40 * skillLevel[1];
                     int poisonDamage = fieldB.getEffects().getOrDefault(EffectType.POISON, 0);
-                    fieldB.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    fieldB.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+daji.getDsAtk(),fieldB.getDsDef()));
+//                    fieldB.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                     addLog("疾病传染",
                             daji.getName(), Camp.A, daji.getPosition(),
@@ -4270,7 +4508,7 @@ public class BattleManager {
         }
 
         // B队玄冥
-        if (campB.stream().anyMatch(g -> g.getName().equals("金钩大王") && !g.isDead() && !g.isOnField())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("金钩大王") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             if (!fieldA.isDead() && fieldA.getEffects() != null) {
                 Guardian daji = campB.stream()
                         .filter(g -> g.getName().equals("金钩大王") && !g.isDead() && !g.isOnField())
@@ -4282,7 +4520,8 @@ public class BattleManager {
                     int dajiSpeedBefore = daji.getSpeed();
                     int poisonValue = 40 * skillLevel[1];
                     int poisonDamage = fieldA.getEffects().getOrDefault(EffectType.POISON, 0);
-                    fieldA.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    fieldA.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+daji.getDsAtk(),fieldA.getDsDef()));
+//                    fieldA.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                     addLog("疾病传染",
                             daji.getName(), Camp.B, daji.getPosition(),
@@ -4304,7 +4543,7 @@ public class BattleManager {
 
 
 //        南华真人，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；报复神箭Lv1场下，每回合对场上敌方造成106；镇元子协同Lv1与镇元子在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-        if (campA.stream().anyMatch(g -> g.getName().equals("南华真人") && !g.isDead() && !g.isOnField())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("南华真人") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             if (!fieldB.isDead() && fieldB.getEffects() != null) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("南华真人") && !g.isDead() && !g.isOnField())
@@ -4362,7 +4601,7 @@ public class BattleManager {
 
 
         //        南华真人，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；报复神箭Lv1场下，每回合对场上敌方造成106；镇元子协同Lv1与镇元子在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-        if (campB.stream().anyMatch(g -> g.getName().equals("南华真人") && !g.isDead() && !g.isOnField())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("南华真人") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             if (!fieldA.isDead() && fieldA.getEffects() != null) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("南华真人") && !g.isDead() && !g.isOnField())
@@ -4419,7 +4658,7 @@ public class BattleManager {
         }
 
 //        南岳大帝，通灵神箭Lv1每回合对同位置敌方造成42点飞弹伤害；草船借箭Lv1受到火焰伤害时，增加自身飞弹伤害13点，最多叠加99层；大帝协同Lv8与西岳大帝在同一队伍时，增加自身604点生命上限，158点攻击，211点速度。
-        if (campA.stream().anyMatch(g -> g.getName().equals("南岳大帝") && !g.isDead() && !g.isOnField())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("南岳大帝") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian guardian = campA.stream()
                     .filter(g -> g.getName().equals("南岳大帝") && !g.isDead() && !g.isOnField())
                     .findFirst().get();
@@ -4481,7 +4720,7 @@ public class BattleManager {
 
 
 //        南岳大帝，通灵神箭Lv1每回合对同位置敌方造成42点飞弹伤害；草船借箭Lv1受到火焰伤害时，增加自身飞弹伤害13点，最多叠加99层；大帝协同Lv8与西岳大帝在同一队伍时，增加自身604点生命上限，158点攻击，211点速度。
-        if (campB.stream().anyMatch(g -> g.getName().equals("南岳大帝") && !g.isDead() && !g.isOnField())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("南岳大帝") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian guardian = campB.stream()
                     .filter(g -> g.getName().equals("南岳大帝") && !g.isDead() && !g.isOnField())
                     .findFirst().get();
@@ -4542,7 +4781,7 @@ public class BattleManager {
         }
 
         //        南岳大帝，通灵神箭Lv1每回合对同位置敌方造成42点飞弹伤害；草船借箭Lv1受到火焰伤害时，增加自身飞弹伤害13点，最多叠加99层；大帝协同Lv8与西岳大帝在同一队伍时，增加自身604点生命上限，158点攻击，211点速度。
-        if (campA.stream().anyMatch(g -> g.getName().equals("太岁灵君") && !g.isDead() && !g.isOnField())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("太岁灵君") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian guardian = campA.stream()
                     .filter(g -> g.getName().equals("太岁灵君") && !g.isDead() && !g.isOnField())
                     .findFirst().get();
@@ -4604,7 +4843,7 @@ public class BattleManager {
 
 
 //        南岳大帝，通灵神箭Lv1每回合对同位置敌方造成42点飞弹伤害；草船借箭Lv1受到火焰伤害时，增加自身飞弹伤害13点，最多叠加99层；大帝协同Lv8与西岳大帝在同一队伍时，增加自身604点生命上限，158点攻击，211点速度。
-        if (campB.stream().anyMatch(g -> g.getName().equals("太岁灵君") && !g.isDead() && !g.isOnField())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("太岁灵君") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian guardian = campB.stream()
                     .filter(g -> g.getName().equals("太岁灵君") && !g.isDead() && !g.isOnField())
                     .findFirst().get();
@@ -4665,7 +4904,7 @@ public class BattleManager {
         }
 
         //        南岳大帝，通灵神箭Lv1每回合对同位置敌方造成42点飞弹伤害；草船借箭Lv1受到火焰伤害时，增加自身飞弹伤害13点，最多叠加99层；大帝协同Lv8与西岳大帝在同一队伍时，增加自身604点生命上限，158点攻击，211点速度。
-        if (campA.stream().anyMatch(g -> g.getName().equals("黄梅老佛") && !g.isDead() && !g.isOnField())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("黄梅老佛") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian guardian = campA.stream()
                     .filter(g -> g.getName().equals("黄梅老佛") && !g.isDead() && !g.isOnField())
                     .findFirst().get();
@@ -4727,7 +4966,7 @@ public class BattleManager {
 
 
 //        南岳大帝，通灵神箭Lv1每回合对同位置敌方造成42点飞弹伤害；草船借箭Lv1受到火焰伤害时，增加自身飞弹伤害13点，最多叠加99层；大帝协同Lv8与西岳大帝在同一队伍时，增加自身604点生命上限，158点攻击，211点速度。
-        if (campB.stream().anyMatch(g -> g.getName().equals("黄梅老佛") && !g.isDead() && !g.isOnField())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("黄梅老佛") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian guardian = campB.stream()
                     .filter(g -> g.getName().equals("黄梅老佛") && !g.isDead() && !g.isOnField())
                     .findFirst().get();
@@ -4788,7 +5027,7 @@ public class BattleManager {
         }
 
         //        南岳大帝，通灵神箭Lv1每回合对同位置敌方造成42点飞弹伤害；草船借箭Lv1受到火焰伤害时，增加自身飞弹伤害13点，最多叠加99层；大帝协同Lv8与西岳大帝在同一队伍时，增加自身604点生命上限，158点攻击，211点速度。
-        if (campA.stream().anyMatch(g -> g.getName().equals("六耳猕猴") && !g.isDead() && !g.isOnField())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("六耳猕猴") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian guardian = campA.stream()
                     .filter(g -> g.getName().equals("六耳猕猴") && !g.isDead() && !g.isOnField())
                     .findFirst().get();
@@ -4850,7 +5089,7 @@ public class BattleManager {
 
 
 //        南岳大帝，通灵神箭Lv1每回合对同位置敌方造成42点飞弹伤害；草船借箭Lv1受到火焰伤害时，增加自身飞弹伤害13点，最多叠加99层；大帝协同Lv8与西岳大帝在同一队伍时，增加自身604点生命上限，158点攻击，211点速度。
-        if (campB.stream().anyMatch(g -> g.getName().equals("六耳猕猴") && !g.isDead() && !g.isOnField())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("六耳猕猴") && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian guardian = campB.stream()
                     .filter(g -> g.getName().equals("六耳猕猴") && !g.isDead() && !g.isOnField())
                     .findFirst().get();
@@ -4912,7 +5151,7 @@ public class BattleManager {
 
 
         //        南岳大帝，通灵神箭Lv1每回合对同位置敌方造成42点飞弹伤害；草船借箭Lv1受到火焰伤害时，增加自身飞弹伤害13点，最多叠加99层；大帝协同Lv8与西岳大帝在同一队伍时，增加自身604点生命上限，158点攻击，211点速度。
-        if (campA.stream().anyMatch(g -> g.getName().equals("九天玄女") && !g.isDead())) {
+        if (campA.stream().anyMatch(g -> g.getName().equals("九天玄女") && !g.isDead()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian guardian = campA.stream()
                     .filter(g -> g.getName().equals("九天玄女") && !g.isDead())
                     .findFirst().get();
@@ -4977,7 +5216,7 @@ public class BattleManager {
 
 
 //        觅心神箭Lv1每回合对生命值最低的敌方造成42点飞弹伤害；穿云剑Lv1普通攻击后，对场上敌方身后一个单位造成52点真实伤害；仙将神临Lv1与杨戬在同一队伍时，增加自身781点生命上限，130点攻击，139点速度
-        if (campB.stream().anyMatch(g -> g.getName().equals("九天玄女") && !g.isDead())) {
+        if (campB.stream().anyMatch(g -> g.getName().equals("九天玄女") && !g.isDead()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
             Guardian guardian = campB.stream()
                     .filter(g -> g.getName().equals("九天玄女") && !g.isDead())
                     .findFirst().get();
@@ -5282,7 +5521,7 @@ public class BattleManager {
     private void processOnFieldSkills0(Guardian defender) {
         for (int i = 1; i < 6; i++) {
             int position = i;
-            if (defender.getCamp() == Camp.B && campA.stream().anyMatch(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (defender.getCamp() == Camp.B && campA.stream().anyMatch(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5297,7 +5536,8 @@ public class BattleManager {
                         int enemyHpBefore = randomEnemy.getCurrentHp();
                         int poisonValue = 73 * skillLevel[1];
                         int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                        randomEnemy.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+guardian.getDsAtk(),randomEnemy.getDsDef()));
+//                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                         addLog("幽冥审判",
                                 guardian.getName(), guardian.getCamp(), guardian.getPosition(),
@@ -5316,7 +5556,7 @@ public class BattleManager {
 
             }
 
-            if (defender.getCamp() == Camp.B && campA.stream().anyMatch(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (defender.getCamp() == Camp.B && campA.stream().anyMatch(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5330,7 +5570,8 @@ public class BattleManager {
                     int enemyHpBefore = randomEnemy.getCurrentHp();
                     int poisonValue = 7 * skillLevel[0];
                     int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    randomEnemy.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+guardian.getDsAtk(),randomEnemy.getDsDef()));
+//                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                     addLog("玉净瓶",
                             guardian.getName(), guardian.getCamp(), guardian.getPosition(),
@@ -5349,7 +5590,7 @@ public class BattleManager {
 
             if (defender.getCamp() == Camp.A && campB.stream().anyMatch(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
                 Guardian guardian = campB.stream()
-                        .filter(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
+                        .filter(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))
                         .findFirst().get();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (skillLevel[1] > 0) {
@@ -5362,7 +5603,8 @@ public class BattleManager {
                         int enemyHpBefore = randomEnemy.getCurrentHp();
                         int poisonValue = 73 * skillLevel[1];
                         int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                        randomEnemy.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+guardian.getDsAtk(),randomEnemy.getDsDef()));
+//                        randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                         addLog("幽冥审判",
                                 guardian.getName(), guardian.getCamp(), guardian.getPosition(),
@@ -5381,7 +5623,7 @@ public class BattleManager {
 
             }
 
-            if (defender.getCamp() == Camp.A && campB.stream().anyMatch(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (defender.getCamp() == Camp.A && campB.stream().anyMatch(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5395,7 +5637,8 @@ public class BattleManager {
                     int enemyHpBefore = randomEnemy.getCurrentHp();
                     int poisonValue = 7 * skillLevel[0];
                     int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    randomEnemy.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+guardian.getDsAtk(),randomEnemy.getDsDef()));
+//                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                     addLog("玉净瓶",
                             guardian.getName(), guardian.getCamp(), guardian.getPosition(),
@@ -5413,7 +5656,7 @@ public class BattleManager {
 
             }
 //            疫病侵染Lv1场下，我方单位登场时为场上敌人收到疾病效果，疾病令其受到治疗减少2%；
-            if (defender.getCamp() == Camp.A && campA.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (defender.getCamp() == Camp.A && campA.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5439,7 +5682,7 @@ public class BattleManager {
                 }
             }
 
-            if (defender.getCamp() == Camp.B && campB.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (defender.getCamp() == Camp.B && campB.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5467,7 +5710,7 @@ public class BattleManager {
             }
 
 //            镇元子，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；多宝道人同Lv1与多宝道人在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-            if (campA.stream().anyMatch(g -> g.getName().equals("镇元子") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("镇元子") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("镇元子") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5520,13 +5763,13 @@ public class BattleManager {
                 }
             }
 //            禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；
-            if (campA.stream().anyMatch(g -> g.getName().equals("镇元子") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("镇元子") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("镇元子") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 //  禁心咒Lv1场下
-                if (skillLevel[1] > 0 && ProbabilityBooleanUtils.randomByProbability(0.17 * skillLevel[1]) && fieldB != null) {
+                if (fieldB != null && !fieldB.isDead()&&skillLevel[1] > 0 && ProbabilityBooleanUtils.randomByProbability(0.17 * skillLevel[1]) && fieldB != null) {
                     int silence = fieldB.getEffects().getOrDefault(EffectType.SILENCE, 0);
                     if (silence < 2) {
                         fieldB.getEffects().put(EffectType.SILENCE, 2);
@@ -5547,7 +5790,7 @@ public class BattleManager {
             }
 
 //            镇元子，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；多宝道人同Lv1与多宝道人在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-            if (campB.stream().anyMatch(g -> g.getName().equals("镇元子") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("镇元子") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("镇元子") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5600,13 +5843,13 @@ public class BattleManager {
                 }
             }
 //            禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；
-            if (campB.stream().anyMatch(g -> g.getName().equals("镇元子") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("镇元子") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("镇元子") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 //  禁心咒Lv1场下
-                if (skillLevel[1] > 0 && ProbabilityBooleanUtils.randomByProbability(0.17 * skillLevel[1])&& fieldA != null) {
+                if (fieldA != null && !fieldA.isDead()&&skillLevel[1] > 0 && ProbabilityBooleanUtils.randomByProbability(0.17 * skillLevel[1])&& fieldA != null) {
                     int silence = fieldA.getEffects().getOrDefault(EffectType.SILENCE, 0);
                     if (silence < 2) {
                         fieldA.getEffects().put(EffectType.SILENCE, 2);
@@ -5627,7 +5870,7 @@ public class BattleManager {
             }
 
 //            南华真人，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；报复神箭Lv1场下，每回合对场上敌方造成106；
-            if (campA.stream().anyMatch(g -> g.getName().equals("南华真人") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("南华真人") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("南华真人") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5680,7 +5923,7 @@ public class BattleManager {
                 }
             }
 //            镇元子，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；多宝道人同Lv1与多宝道人在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-            if (campB.stream().anyMatch(g -> g.getName().equals("南华真人") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("南华真人") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("南华真人") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5735,7 +5978,7 @@ public class BattleManager {
 
 
             //            南华真人，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；报复神箭Lv1场下，每回合对场上敌方造成106；
-            if (campA.stream().anyMatch(g -> g.getName().equals("北岳大帝") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("北岳大帝") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("北岳大帝") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5788,7 +6031,7 @@ public class BattleManager {
                 }
             }
 //            镇元子，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；多宝道人同Lv1与多宝道人在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-            if (campB.stream().anyMatch(g -> g.getName().equals("北岳大帝") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("北岳大帝") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("北岳大帝") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5842,7 +6085,7 @@ public class BattleManager {
             }
 
             //            南华真人，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；报复神箭Lv1场下，每回合对场上敌方造成106；
-            if (campA.stream().anyMatch(g -> g.getName().equals("西岳大帝") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("西岳大帝") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("西岳大帝") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5896,7 +6139,7 @@ public class BattleManager {
                 }
             }
 //            镇元子，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；多宝道人同Lv1与多宝道人在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-            if (campB.stream().anyMatch(g -> g.getName().equals("西岳大帝") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("西岳大帝") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("西岳大帝") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -5951,7 +6194,7 @@ public class BattleManager {
             }
 
             //            南华真人，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；报复神箭Lv1场下，每回合对场上敌方造成106；
-            if (campA.stream().anyMatch(g -> g.getName().equals("西海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("西海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("西海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6005,7 +6248,7 @@ public class BattleManager {
                 }
             }
 //            镇元子，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；多宝道人同Lv1与多宝道人在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-            if (campB.stream().anyMatch(g -> g.getName().equals("西海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("西海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("西海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6060,7 +6303,7 @@ public class BattleManager {
             }
 
             //            南华真人，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；报复神箭Lv1场下，每回合对场上敌方造成106；
-            if (campA.stream().anyMatch(g -> g.getName().equals("东海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("东海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("东海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6114,7 +6357,7 @@ public class BattleManager {
                 }
             }
 //            镇元子，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；多宝道人同Lv1与多宝道人在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-            if (campB.stream().anyMatch(g -> g.getName().equals("东海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("东海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("东海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6169,7 +6412,7 @@ public class BattleManager {
             }
 
             //            南华真人，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；报复神箭Lv1场下，每回合对场上敌方造成106；
-            if (campA.stream().anyMatch(g -> g.getName().equals("南海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("南海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("南海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6223,7 +6466,7 @@ public class BattleManager {
                 }
             }
 //            镇元子，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；多宝道人同Lv1与多宝道人在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-            if (campB.stream().anyMatch(g -> g.getName().equals("南海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("南海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("南海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6278,7 +6521,7 @@ public class BattleManager {
             }
 
             //            南华真人，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；报复神箭Lv1场下，每回合对场上敌方造成106；
-            if (campA.stream().anyMatch(g -> g.getName().equals("北海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("北海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("北海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6332,7 +6575,7 @@ public class BattleManager {
                 }
             }
 //            镇元子，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；多宝道人同Lv1与多宝道人在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-            if (campB.stream().anyMatch(g -> g.getName().equals("北海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("北海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("北海龙王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6387,7 +6630,7 @@ public class BattleManager {
             }
 
             //            南华真人，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；报复神箭Lv1场下，每回合对场上敌方造成106；
-            if (campA.stream().anyMatch(g -> g.getName().equals("白鹤童子") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("白鹤童子") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("白鹤童子") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6441,7 +6684,7 @@ public class BattleManager {
                 }
             }
 //            镇元子，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；多宝道人同Lv1与多宝道人在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-            if (campB.stream().anyMatch(g -> g.getName().equals("白鹤童子") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("白鹤童子") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("白鹤童子") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6497,7 +6740,7 @@ public class BattleManager {
 
 
             //            南华真人，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；报复神箭Lv1场下，每回合对场上敌方造成106；
-            if (campA.stream().anyMatch(g -> g.getName().equals("金霞童子") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("金霞童子") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("金霞童子") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6550,7 +6793,7 @@ public class BattleManager {
                 }
             }
 //            镇元子，魂力飞弹Lv1场下，每当新单位入场时，对场上敌人造成178点飞弹伤害；禁心咒Lv1场下，每当有单位登场，有17%几率令场上英雄沉默2回合；多宝道人同Lv1与多宝道人在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
-            if (campB.stream().anyMatch(g -> g.getName().equals("金霞童子") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("金霞童子") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("金霞童子") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6611,7 +6854,7 @@ public class BattleManager {
             int position = i;
 
             // A队妲己
-            if (campA.stream().anyMatch(g -> g.getName().equals("妲己") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("妲己") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian daji = campA.stream()
                         .filter(g -> g.getName().equals("妲己") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6649,7 +6892,8 @@ public class BattleManager {
                     int targetHpBefore = randomEnemy.getMaxHp();
                     int poisonValue = 7 * skillLevel[1];
                     int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    randomEnemy.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+daji.getDsAtk(),randomEnemy.getDsDef()));
+//                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                     addLog("谄媚噬魂",
                             daji.getName(), Camp.A, daji.getPosition(),
@@ -6667,7 +6911,7 @@ public class BattleManager {
             }
 
             // B队妲己
-            if (campB.stream().anyMatch(g -> g.getName().equals("妲己") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("妲己") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian daji = campB.stream()
                         .filter(g -> g.getName().equals("妲己") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6705,7 +6949,8 @@ public class BattleManager {
                     int targetHpBefore = randomEnemy.getMaxHp();
                     int poisonValue = 7 * skillLevel[1];
                     int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    randomEnemy.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+daji.getDsAtk(),randomEnemy.getDsDef()));
+//                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                     addLog("谄媚噬魂",
                             daji.getName(), Camp.B, daji.getPosition(),
@@ -6724,7 +6969,7 @@ public class BattleManager {
 
 
             // A队妲己
-            if (campA.stream().anyMatch(g -> g.getName().equals("白晶晶") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> g.getName().equals("白晶晶") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian daji = campA.stream()
                         .filter(g -> g.getName().equals("白晶晶") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6743,7 +6988,8 @@ public class BattleManager {
                     int targetHpBefore = randomEnemy.getMaxHp();
                     int poisonValue = 7 * skillLevel[0];
                     int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    randomEnemy.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+daji.getDsAtk(),randomEnemy.getDsDef()));
+//                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                     addLog("谄媚噬魂",
                             daji.getName(), Camp.A, daji.getPosition(),
@@ -6761,7 +7007,7 @@ public class BattleManager {
             }
 
             // B队妲己
-            if (campB.stream().anyMatch(g -> g.getName().equals("白晶晶") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> g.getName().equals("白晶晶") && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian daji = campB.stream()
                         .filter(g -> g.getName().equals("白晶晶") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6780,7 +7026,8 @@ public class BattleManager {
                     int targetHpBefore = randomEnemy.getMaxHp();
                     int poisonValue = 7 * skillLevel[0];
                     int poisonDamage = randomEnemy.getEffects().getOrDefault(EffectType.POISON, 0);
-                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
+                    randomEnemy.getEffects().put(EffectType.POISON,chazhi( poisonValue + poisonDamage+daji.getDsAtk(),randomEnemy.getDsDef()));
+//                    randomEnemy.getEffects().put(EffectType.POISON, poisonValue + poisonDamage);
 
                     addLog("谄媚噬魂",
                             daji.getName(), Camp.B, daji.getPosition(),
@@ -6807,7 +7054,7 @@ public class BattleManager {
         List<String> xuminHeroList = Arrays.asList(xuminHero);
         for (int i = 1; i < 6; i++) {
             int position = i;
-            if (campA.stream().anyMatch(g -> xuminHeroList.contains(g.getName()) && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campA.stream().anyMatch(g -> xuminHeroList.contains(g.getName()) && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campA.stream()
                         .filter(g -> xuminHeroList.contains(g.getName()) && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6892,7 +7139,7 @@ public class BattleManager {
 
             }
 
-            if (campB.stream().anyMatch(g -> xuminHeroList.contains(g.getName()) && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (campB.stream().anyMatch(g -> xuminHeroList.contains(g.getName()) && g.getPosition() == position && !g.isDead() && !g.isOnField()&&Xtool.isNull(g.getEffects().get(EffectType.SILENCE)))) {
                 Guardian guardian = campB.stream()
                         .filter(g -> xuminHeroList.contains(g.getName()) && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -6982,177 +7229,10 @@ public class BattleManager {
 
     }
 
-    // 处理回合结束效果
-    private void processRoundEndEffects() {
-        // 托塔天王仙塔庇护
-        if (fieldA != null && fieldA.getName().equals("托塔天王")) {
-            int hpBefore = fieldA.getCurrentHp();
-            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(fieldA.getLevel(), fieldA.getStar().doubleValue());
-            if (skillLevel[1] > 0) {
-                int heal = 25 * skillLevel[1];
-                fieldA.setCurrentHp(fieldA.getCurrentHp() + heal);
-
-                addLog("仙塔庇护",
-                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
-                        hpBefore, fieldA.getCurrentHp(),
-                        fieldA.getAttack(), fieldA.getAttack(),
-                        fieldA.getSpeed(), fieldA.getSpeed(),
-                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
-                        hpBefore, fieldA.getCurrentHp(),
-                        fieldA.getAttack(), fieldA.getAttack(),
-                        fieldA.getSpeed(), fieldA.getSpeed(),
-                        getFieldUnitsStatus(),
-                        heal, EffectType.HEAL, null,
-                        fieldA.getName() + "触发仙塔庇护，恢复生命值");
-            }
-
-        }
-
-        if (fieldB != null && fieldB.getName().equals("托塔天王")) {
-            int hpBefore = fieldB.getCurrentHp();
-            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(fieldB.getLevel(), fieldB.getStar().doubleValue());
-            if (skillLevel[1] > 0) {
-                int heal = 25 * skillLevel[1];
-                fieldB.setCurrentHp(fieldB.getCurrentHp() + heal);
-
-                addLog("仙塔庇护",
-                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
-                        hpBefore, fieldB.getCurrentHp(),
-                        fieldB.getAttack(), fieldB.getAttack(),
-                        fieldB.getSpeed(), fieldB.getSpeed(),
-                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
-                        hpBefore, fieldB.getCurrentHp(),
-                        fieldB.getAttack(), fieldB.getAttack(),
-                        fieldB.getSpeed(), fieldB.getSpeed(),
-                        getFieldUnitsStatus(),
-                        heal, EffectType.HEAL, null,
-                        fieldB.getName() + "触发仙塔庇护，恢复生命值");
-            }
-
-        }
-        //批量处理各种角色buff回合数
-//        fieldB.getEffects().put(EffectType.STUN, 1);
-//        List<Guardian> allUnits = new ArrayList<>();
-//        allUnits.addAll(campA);
-//        allUnits.addAll(campB);
-//
-//        List<Guardian> aliveUnits = allUnits.stream()
-//                .filter(g -> !g.isDead())
-//                .collect(Collectors.toList());
-//        for (Guardian aliveUnit : aliveUnits) {
-//            //处理眩晕buff
-//            aliveUnit
-//        }
-//        List<Guardian> poisonedUnits = new ArrayList<>();
-//        campA.forEach(g -> {
-//            if (g.getEffects().containsKey(EffectType.POISON) && !g.isDead()) {
-//                poisonedUnits.add(g);
-//            }
-//        });
-//        campB.forEach(g -> {
-//            if (g.getEffects().containsKey(EffectType.POISON) && !g.isDead()) {
-//                poisonedUnits.add(g);
-//            }
-//        });
-//
-//        if (!poisonedUnits.isEmpty()) {
-//            List<String> targetNames = new ArrayList<>();
-//            Map<String, Object[]> targetStatus = new HashMap<>();
-//            List<String> deadUnits = new ArrayList<>();
-//
-//            poisonedUnits.forEach(g -> {
-//                targetNames.add(g.getName());
-//                int hpBefore = g.getMaxHp();
-//                int poisonDamage = g.getEffects().get(EffectType.POISON);
-//                g.setCurrentHp(g.getCurrentHp() - poisonDamage);
-//                targetStatus.put(g.getCamp() + g.getName(), new Object[]{g.getPosition(), hpBefore, g.getCurrentHp()});
-//
-//                if (g.getCurrentHp() <= 0) {
-//                    g.setDead(true);
-//                    g.setOnField(false);
-//                    deadUnits.add(g.getCamp() + g.getName() + "_" + g.getPosition());
-//                }
-//            });
-//
-//            // 中毒伤害日志（批量）
-//            addMultiTargetLog("POISON",
-//                    "SYSTEM", null, 0,
-//                    0, 0, 0, 0, 0, 0,
-//                    targetNames, null,
-//                    targetStatus,
-//                    getFieldUnitsStatus(),
-//                    0, EffectType.POISON, DamageType.POISON,
-//                    "中毒效果触发");
-//
-//            // 中毒阵亡日志
-//            if (!deadUnits.isEmpty()) {
-//                Map<String, Object[]> deadStatus = new HashMap<>();
-//                deadUnits.forEach(x -> {
-//                    List<String> strings = Arrays.asList(x.split("_"));
-//                    deadStatus.put(strings.get(0), new Object[]{Integer.parseInt(strings.get(1)), 0, 0});
-//                });
-//
-//                addMultiTargetLog("UNIT_DEATH",
-//                        "SYSTEM", null, 0,
-//                        0, 0, 0, 0, 0, 0,
-//                        deadUnits, null,
-//                        deadStatus,
-//                        getFieldUnitsStatus(),
-//                        0, null, null,
-//                        "单位因中毒阵亡");
-//            }
-//        }
-    }
 
 
-    // 检查并替换阵亡护法
-    private void checkAndReplaceGuardians() {
-        if (fieldA != null && fieldA.isDead()) {
-            Guardian newA = getNextGuardian(campA);
-            if (newA != null) {
-                fieldA = newA;
-                fieldA.setOnField(true);
 
-                addLog("UNIT_ENTER",
-                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
-                        fieldA.getCurrentHp(), fieldA.getCurrentHp(),
-                        fieldA.getAttack(), fieldA.getAttack(),
-                        fieldA.getSpeed(), fieldA.getSpeed(),
-                        fieldA.getName(), fieldA.getCamp(), fieldA.getPosition(),
-                        fieldA.getCurrentHp(), fieldA.getCurrentHp(),
-                        fieldA.getAttack(), fieldA.getAttack(),
-                        fieldA.getSpeed(), fieldA.getSpeed(),
-                        getFieldUnitsStatus(),
-                        0, null, null,
-                        fieldA.getName() + "登场");
 
-                triggerOnEnterSkills(fieldA);
-            }
-        }
-
-        if (fieldB != null && fieldB.isDead()) {
-            Guardian newB = getNextGuardian(campB);
-            if (newB != null) {
-                fieldB = newB;
-                fieldB.setOnField(true);
-
-                addLog("UNIT_ENTER",
-                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
-                        fieldB.getCurrentHp(), fieldB.getCurrentHp(),
-                        fieldB.getAttack(), fieldB.getAttack(),
-                        fieldB.getSpeed(), fieldB.getSpeed(),
-                        fieldB.getName(), fieldB.getCamp(), fieldB.getPosition(),
-                        fieldB.getCurrentHp(), fieldB.getCurrentHp(),
-                        fieldB.getAttack(), fieldB.getAttack(),
-                        fieldB.getSpeed(), fieldB.getSpeed(),
-                        getFieldUnitsStatus(),
-                        0, null, null,
-                        fieldB.getName() + "登场");
-
-                triggerOnEnterSkills(fieldB);
-            }
-        }
-    }
 
     private boolean duoBaoGuanHuan() {
         //血量上限不改变光环
@@ -7319,7 +7399,13 @@ public class BattleManager {
                 "1"
         ));
     }
-
+    public int chazhi(int st,int et){
+        if (et>=st){
+            return 0;
+        }else {
+            return st-et;
+        }
+    }
     // 获取战斗日志
     public List<BattleLog> getBattleLogs() {
         return battleLogs;

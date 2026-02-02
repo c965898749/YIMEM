@@ -35,6 +35,40 @@
     left  join eq_card cd on cd.id=cs.id
     where cs.user_id = #{userId} and   cs.id = #{id} and cs.is_delete='0' limit 1
   </select>
+    <select id="listByGoOn" resultType="com.sy.model.game.EqCharacters">
+    select
+    cs.uuid,
+    cs.user_id,
+    cs.id,
+    cs.lv,
+    cd.star,
+    cs.stack_count,
+    cs.go_into_num,
+    cs.exp,
+    cs.max_lv,
+    cd.name,
+    cd.camp,
+    cd.introduce,
+    cd.eq_type,
+    cd.eq_type2,
+    cd.wl_atk,
+    cd.hy_atk,
+    cd.ds_atk,
+    cd.fd_atk,
+    cd.wl_def,
+    cd.hy_def,
+    cd.ds_def,
+    cd.fd_def,
+    cd.zl_def,
+    cd.profession,
+    cd.passive_introduce_one,
+    cd.passive_introduce_two,
+    cs.is_delete,
+    cd.passive_introduce_three
+    from   eq_characters cs
+    left  join eq_card cd on cd.id=cs.id
+    where cs.user_id = #{userId} and   cs.go_into_num = #{id} and cs.is_delete='0' limit 1
+  </select>
     <select id="selectByUserId" parameterType="com.sy.model.game.Characters"
             resultType="com.sy.model.game.EqCharacters">
     select

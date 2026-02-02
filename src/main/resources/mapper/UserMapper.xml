@@ -547,6 +547,7 @@
          userId,
           win_count,
             nickname,
+            game_ranking,
             lv,
             game_img,
           RANK() OVER (ORDER BY game_ranking asc)
