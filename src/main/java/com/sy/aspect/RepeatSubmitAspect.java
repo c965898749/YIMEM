@@ -1,4 +1,5 @@
 package com.sy.aspect;
+
 import com.alibaba.fastjson.JSONObject;
 import com.sy.interceptor.RequestWrapper;
 import com.sy.model.resp.BaseResp;
@@ -7,8 +8,10 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -17,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 防重复请求核心切面
@@ -29,7 +33,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RepeatSubmitAspect {
-
+    @Autowired
+    private RedisTemplate redisTemplate;
     // 线程安全的JVM缓存，单机足够用，无需清理，自动覆盖
     private static final Map<String, Long> REPEAT_REQUEST_CACHE = new ConcurrentHashMap<>(2048);
 
@@ -48,35 +53,42 @@ public class RepeatSubmitAspect {
         long limitSeconds = annotation.limitSeconds();
 
         // 3. ✅【核心】解析你的JSON请求体，获取token
-        String token = null;
+        String userId = null;
         String bodyStr = requestWrapper.getBodyString();
         if (bodyStr != null && !bodyStr.isEmpty()) {
             JSONObject jsonObject = JSONObject.parseObject(bodyStr);
             // 直接读取JSON第一层的token字段，完美适配你的报文结构
-            token = jsonObject.getString("token");
+            userId = jsonObject.getString("userId");
         }
+// 3. 从Redis获取当前请求次数
+// 替换原有的计数获取逻辑
+        Object countObj = redisTemplate.opsForValue().get(userId);
+        Long currentCount = null;
 
-        // 4. 构建唯一防重KEY = token(用户唯一标识) + 请求接口路径
-        // 兜底：如果token为空（极端情况），用sessionId，不影响功能
-        String uniqueKey = token == null || token.isEmpty() ? request.getSession().getId() : token;
-        String requestUri = request.getRequestURI();
-        String cacheKey = uniqueKey + "_" + requestUri;
-
-        // 5. ✅【核心防重逻辑】3秒内重复请求判断
-        long currentTime = System.currentTimeMillis();
-        if (REPEAT_REQUEST_CACHE.containsKey(cacheKey)) {
-            long lastRequestTime = REPEAT_REQUEST_CACHE.get(cacheKey);
-            // 当前时间 - 上次请求时间 < 限制时间 → 重复请求，直接拦截
-            if (currentTime - lastRequestTime < limitSeconds * 1000) {
-                BaseResp baseResp = new BaseResp();
-                baseResp.setErrorMsg("操作过于频繁");
-                baseResp.setSuccess(0);
-                return baseResp;
+// 安全转换：处理 null/字符串/数字等情况
+        if (countObj != null) {
+            if (countObj instanceof Long) {
+                currentCount = (Long) countObj;
+            } else if (countObj instanceof String) {
+                try {
+                    currentCount = Long.parseLong((String) countObj);
+                } catch (NumberFormatException e) {
+                    // 解析失败，视为无效计数，重置为0
+                    currentCount = 0L;
+                }
             }
         }
 
-        // 6. 放行请求，更新缓存的请求时间戳
-        REPEAT_REQUEST_CACHE.put(cacheKey, currentTime);
+        if (currentCount == null) {
+            // 首次请求，初始化计数并设置过期时间
+            redisTemplate.opsForValue().set(userId, "1", limitSeconds, TimeUnit.SECONDS);
+        } else {
+            // 超过阈值，抛出异常
+            BaseResp baseResp = new BaseResp();
+            baseResp.setErrorMsg("操作过于频繁");
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
         // 执行接口原业务逻辑
         return joinPoint.proceed();
     }

@@ -1122,6 +1122,45 @@ public class GameContoller {
     }
 
     /**
+     * 装备消息
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("equipmentNew")
+    @CrossOrigin
+    public BaseResp equipmentNew(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.equipmentNew(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    /**
+     * 装备消息列表
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("equipmentMessageList")
+    @CrossOrigin
+    public BaseResp equipmentMessageList(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.equipmentMessageList(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
      * 使用
      * @param token
      * @param request

@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sy.mapper.game.EqCharactersRecordMapper">
-
+    <select id="getEquipmentNew" resultType="com.sy.model.game.EqCharactersRecord">
+        SELECT * from eq_characters_record ecr ORDER BY get_time desc LIMIT 1
+    </select>
+    <select id="getEquipmentList"  resultType="com.sy.model.game.EqCharactersRecord">
+        SELECT ecr.user_name,
+        ecr.get_time,
+        ec.star,
+        ec.id,
+        1 as lv,
+        ec.name,
+        ecr.eq_name,
+        ec.eq_type,
+        ec.eq_type2,
+        ec.wl_atk,
+        ec.hy_atk,
+        ec.ds_atk,
+        ec.fd_atk,
+        ec.wl_def,
+        ec.hy_def,
+        ec.ds_def,
+        ec.fd_def,
+        ec.camp,
+        ec.introduce,
+        ec.profession,
+        ec.zl_def
+         from eq_characters_record ecr
+        LEFT JOIN eq_card ec on ec.id=ecr.id
+        ORDER BY get_time desc LIMIT 100
+    </select>
 </mapper>

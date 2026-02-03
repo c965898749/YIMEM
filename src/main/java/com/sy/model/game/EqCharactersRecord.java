@@ -37,4 +37,38 @@ public class EqCharactersRecord {
     private String eqImg;
     @TableField("star")
     private BigDecimal star;
+    @TableField(exist = false)
+    private String timeStr;
+    @TableField(exist = false)
+    private Integer wlAtk;
+    @TableField(exist = false)
+    private Integer hyAtk;
+    @TableField(exist = false)
+    private Integer dsAtk;
+    @TableField(exist = false)
+    private Integer fdAtk;
+    @TableField(exist = false)
+    private Integer wlDef;
+    @TableField(exist = false)
+    private Integer hyDef;
+    @TableField(exist = false)
+    private Integer dsDef;
+    @TableField(exist = false)
+    private Integer fdDef;
+    @TableField(exist = false)
+    private Integer zlDef;
+    @TableField(exist = false)
+    private String profession;
+    @TableField(exist = false)
+    private String introduce;
+    @TableField(exist = false)
+    private String camp;
+    @TableField(exist = false)
+    private String name;
+    @TableField(exist = false)
+    private Integer eqType;
+    @TableField(exist = false)
+    private Integer eqType2;
+    @TableField(exist = false)
+    private Integer lv;
 }

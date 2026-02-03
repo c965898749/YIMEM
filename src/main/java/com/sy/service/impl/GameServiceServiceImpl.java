@@ -185,19 +185,19 @@ public class GameServiceServiceImpl implements GameServiceService {
         info.setDarkSteel(0);
         info.setPurpleGold(0);
         info.setCrystal(0);
-        GamePlayerBag playerBag = gamePlayerBagMapper.goIntoListByIdAndItemId(emp.getUserId()+"", 13);
+        GamePlayerBag playerBag = gamePlayerBagMapper.goIntoListByIdAndItemId(emp.getUserId() + "", 13);
         if (playerBag != null) {
             info.setBronze(playerBag.getItemCount());
         }
-        GamePlayerBag playerBag1 = gamePlayerBagMapper.goIntoListByIdAndItemId(emp.getUserId()+"", 14);
+        GamePlayerBag playerBag1 = gamePlayerBagMapper.goIntoListByIdAndItemId(emp.getUserId() + "", 14);
         if (playerBag1 != null) {
             info.setDarkSteel(playerBag1.getItemCount());
         }
-        GamePlayerBag playerBag2 = gamePlayerBagMapper.goIntoListByIdAndItemId(emp.getUserId()+"", 15);
+        GamePlayerBag playerBag2 = gamePlayerBagMapper.goIntoListByIdAndItemId(emp.getUserId() + "", 15);
         if (playerBag2 != null) {
             info.setPurpleGold(playerBag2.getItemCount());
         }
-        GamePlayerBag playerBag3 = gamePlayerBagMapper.goIntoListByIdAndItemId(emp.getUserId()+"", 16);
+        GamePlayerBag playerBag3 = gamePlayerBagMapper.goIntoListByIdAndItemId(emp.getUserId() + "", 16);
         if (playerBag3 != null) {
             info.setCrystal(playerBag3.getItemCount());
         }
@@ -214,11 +214,12 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setErrorMsg("登录成功");
         return baseResp;
     }
+
     //格式化卡牌
-    public List<Character> formateCharacter(List<Characters> characterList){
-        List<Character> characterArrayList=new ArrayList<>();
-        List<Characters> charactersList1=characterList.stream().filter(x->x.getGoIntoNum()!=0).collect(Collectors.toList());
-        List<Characters> charactersList2=characterList.stream().filter(x->x.getGoIntoNum()==0).collect(Collectors.toList());
+    public List<Character> formateCharacter(List<Characters> characterList) {
+        List<Character> characterArrayList = new ArrayList<>();
+        List<Characters> charactersList1 = characterList.stream().filter(x -> x.getGoIntoNum() != 0).collect(Collectors.toList());
+        List<Characters> charactersList2 = characterList.stream().filter(x -> x.getGoIntoNum() == 0).collect(Collectors.toList());
         for (Characters characters : charactersList1) {
             Character character = reasonableData(characters, charactersList1);
             characterArrayList.add(character);
@@ -395,7 +396,6 @@ public class GameServiceServiceImpl implements GameServiceService {
 
     @Override
     @Transactional
-//    @NoRepeatSubmit(limitSeconds = 1)
     public BaseResp changeState(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -467,7 +467,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
-        eqCharactersMapper.changeEqState(userId,token.getId());
+        eqCharactersMapper.changeEqState(userId, token.getId());
         UserInfo info = new UserInfo();
         BeanUtils.copyProperties(user, info);
         List<EqCharacters> eqCharactersList = eqCharactersMapper.selectByUserId(Integer.parseInt(token.getUserId()));
@@ -496,24 +496,24 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
         //判断是否是该职业装备
-        Card card=cardMapper.selectByid(Integer.parseInt(token.getStr()));
-        if (card==null){
+        Card card = cardMapper.selectByid(Integer.parseInt(token.getStr()));
+        if (card == null) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("英雄不存在");
             return baseResp;
         }
-        EqCard eqCard=eqCardMapper.selectByid(token.getId());
-        if (eqCard==null){
+        EqCard eqCard = eqCardMapper.selectByid(token.getId());
+        if (eqCard == null) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("装备不存在");
             return baseResp;
         }
-        if (!card.getCamp().equals(eqCard.getCamp())||!card.getProfession().equals(eqCard.getProfession())){
+        if (!card.getCamp().equals(eqCard.getCamp()) || !card.getProfession().equals(eqCard.getProfession())) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("装备和护法的种族职业不一致");
             return baseResp;
         }
-        eqCharactersMapper.changeEqState2(userId,token.getId(),token.getStr());
+        eqCharactersMapper.changeEqState2(userId, token.getId(), token.getStr());
         UserInfo info = new UserInfo();
         BeanUtils.copyProperties(user, info);
         List<EqCharacters> eqCharactersList = eqCharactersMapper.selectByUserId(Integer.parseInt(token.getUserId()));
@@ -791,8 +791,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         for (Characters characters : leftCharacter) {
-            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(user.getUserId() + "",characters.getId());
-            if (Xtool.isNotNull(eqCharacters)){
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(user.getUserId() + "", characters.getId());
+            if (Xtool.isNotNull(eqCharacters)) {
                 characters.setEqCharactersList(eqCharacters);
             }
         }
@@ -863,7 +863,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                         characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
                         charactersMapper.insert(characters);
                     }
-                } else if ("5".equals(content.getRewardType() + "")||"6".equals(content.getRewardType() + "")) {
+                } else if ("5".equals(content.getRewardType() + "") || "6".equals(content.getRewardType() + "")) {
                     Map itemMap = new HashMap();
                     itemMap.put("item_id", content.getItemId());
                     itemMap.put("user_id", userId);
@@ -979,8 +979,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         for (Characters characters : leftCharacter) {
-            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(user.getUserId() + "",characters.getId());
-            if (Xtool.isNotNull(eqCharacters)){
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(user.getUserId() + "", characters.getId());
+            if (Xtool.isNotNull(eqCharacters)) {
                 characters.setEqCharactersList(eqCharacters);
             }
         }
@@ -1041,7 +1041,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                         characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
                         charactersMapper.insert(characters);
                     }
-                } else if ("5".equals(content.getRewardType() + "")||"6".equals(content.getRewardType() + "")) {
+                } else if ("5".equals(content.getRewardType() + "") || "6".equals(content.getRewardType() + "")) {
                     Map itemMap = new HashMap();
                     itemMap.put("item_id", content.getItemId());
                     itemMap.put("user_id", userId);
@@ -1293,7 +1293,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
 //        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
-        String userId =token.getUserId();
+        String userId = token.getUserId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
@@ -1327,7 +1327,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
 
         // 1. 获取前端传递的二维数组
-        if (token.getFinalLevel()<=0) {
+        if (token.getFinalLevel() <= 0) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("服务器异常3");
             return baseResp;
@@ -1662,7 +1662,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
                     charactersMapper.insert(characters);
                 }
-            } else if ("5".equals(content.getItemType() + "")||"6".equals(content.getItemType() + "")) {
+            } else if ("5".equals(content.getItemType() + "") || "6".equals(content.getItemType() + "")) {
                 Map itemMap = new HashMap();
                 itemMap.put("item_id", content.getItemId());
                 itemMap.put("user_id", userId);
@@ -1738,7 +1738,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         Date date2 = new Date(System.currentTimeMillis() - 1200 * 1000); // 1小时前的时间
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
         Map map = new HashMap();
-        map.put("chongzhi",user.getChongzhi());
+        map.put("chongzhi", user.getChongzhi());
         if (user.getShopUpdate() == null || (user.getShopUpdate().compareTo(date2) < 0 && "1".equals(token.getStr()))) {
             Date date = new Date();
             user.setShopUpdate(date);
@@ -1765,17 +1765,17 @@ public class GameServiceServiceImpl implements GameServiceService {
             String json = JsonUtils.toJson(picked2);
             //先删再新增
             gameTimeRecordMapper.deleteMe(Integer.parseInt(userId));
-            GameTimeRecord record=new GameTimeRecord();
+            GameTimeRecord record = new GameTimeRecord();
             record.setUserId(Integer.parseInt(userId));
             record.setPicked(json);
             gameTimeRecordMapper.insert(record);
         } else {
-            Map hashMap=new HashMap();
-            hashMap.put("user_id",userId);
-            List<GameTimeRecord> gameTimeRecord=gameTimeRecordMapper.selectByMap(hashMap);
-            if (Xtool.isNotNull(gameTimeRecord)){
+            Map hashMap = new HashMap();
+            hashMap.put("user_id", userId);
+            List<GameTimeRecord> gameTimeRecord = gameTimeRecordMapper.selectByMap(hashMap);
+            if (Xtool.isNotNull(gameTimeRecord)) {
                 map.put("picked", JsonUtils.fromJsonToObjList(gameTimeRecord.get(0).getPicked()));
-            }else {
+            } else {
                 List<GameItemShop> gameItemShopList = gameItemShopMapper.selectAll();
                 DynamicItemPicker picker = new DynamicItemPicker();
                 for (GameItemShop gameItemShop : gameItemShopList) {
@@ -1796,7 +1796,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 map.put("picked", picked2);
                 String json = JsonUtils.toJson(picked2);
                 //先删再新增
-                GameTimeRecord record=new GameTimeRecord();
+                GameTimeRecord record = new GameTimeRecord();
                 record.setUserId(Integer.parseInt(userId));
                 record.setPicked(json);
                 gameTimeRecordMapper.insert(record);
@@ -1860,11 +1860,11 @@ public class GameServiceServiceImpl implements GameServiceService {
         BeanUtils.copyProperties(user, info);
         map.put("picked", picked2);
         map.put("userInfo", info);
-        map.put("chongzhi",user.getChongzhi());
+        map.put("chongzhi", user.getChongzhi());
         String json = JsonUtils.toJson(picked2);
         //先删再新增
         gameTimeRecordMapper.deleteMe(Integer.parseInt(userId));
-        GameTimeRecord record=new GameTimeRecord();
+        GameTimeRecord record = new GameTimeRecord();
         record.setUserId(Integer.parseInt(userId));
         record.setPicked(json);
         gameTimeRecordMapper.insert(record);
@@ -1902,22 +1902,23 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
-        Map hashMap=new HashMap();
-        hashMap.put("user_id",userId);
-        List<GameTimeRecord> gameTimeRecord=gameTimeRecordMapper.selectByMap(hashMap);
-        if (Xtool.isNull(gameTimeRecord)){
+        Map hashMap = new HashMap();
+        hashMap.put("user_id", userId);
+        List<GameTimeRecord> gameTimeRecord = gameTimeRecordMapper.selectByMap(hashMap);
+        if (Xtool.isNull(gameTimeRecord)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("操作过快请刷新重试");
             return baseResp;
         }
-        List<GameItemShop> picked2 = JSON.parseObject(gameTimeRecord.get(0).getPicked(), new TypeReference<List<GameItemShop>>() {});
-        List<GameItemShop> gameItemShops =picked2.stream().filter(x->(x.getId()+"").equals(token.getId())).collect(Collectors.toList());
-        if (Xtool.isNull(gameItemShops)){
+        List<GameItemShop> picked2 = JSON.parseObject(gameTimeRecord.get(0).getPicked(), new TypeReference<List<GameItemShop>>() {
+        });
+        List<GameItemShop> gameItemShops = picked2.stream().filter(x -> (x.getId() + "").equals(token.getId())).collect(Collectors.toList());
+        if (Xtool.isNull(gameItemShops)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("商品不存在或已下架");
             return baseResp;
         }
-        GameItemShop gameItemShop=gameItemShops.get(0);
+        GameItemShop gameItemShop = gameItemShops.get(0);
         if (gameItemShop == null) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("商品不存在或已下架");
@@ -1940,7 +1941,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
             user.setDiamond(diamond);
         }
-        Characters characters1 = charactersMapper.listById(userId, gameItemShop.getItemId()+"");
+        Characters characters1 = charactersMapper.listById(userId, gameItemShop.getItemId() + "");
         if (characters1 != null) {
             characters1.setStackCount(characters1.getStackCount() + 1);
             charactersMapper.updateByPrimaryKey(characters1);
@@ -1953,7 +1954,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
             Characters characters = new Characters();
             characters.setStackCount(0);
-            characters.setId(gameItemShop.getItemId()+"");
+            characters.setId(gameItemShop.getItemId() + "");
             characters.setLv(1);
             characters.setUserId(Integer.parseInt(userId));
             characters.setStar(new BigDecimal(1));
@@ -1962,12 +1963,12 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         gameItemShop.setIsBuy(1);
         //先删再新增
-        Map map=new HashMap();
+        Map map = new HashMap();
         map.put("picked", picked2);
         String json = JsonUtils.toJson(picked2);
 
         gameTimeRecordMapper.deleteMe(Integer.parseInt(userId));
-        GameTimeRecord record=new GameTimeRecord();
+        GameTimeRecord record = new GameTimeRecord();
         record.setUserId(Integer.parseInt(userId));
         record.setPicked(json);
         gameTimeRecordMapper.insert(record);
@@ -2305,7 +2306,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 //        ValueOperations opsForValue = redisTemplate.opsForValue();
         if (card1.getStar().compareTo(new BigDecimal(3)) > 0) {
 //            Date date = new Date();
-            GameNotice gameNotice=new GameNotice();
+            GameNotice gameNotice = new GameNotice();
             gameNotice.setDescription("恭喜 " + user.getNickname() + " 图谱合成获得" + card1.getStar().stripTrailingZeros() + "星" + card1.getName());
             gameNoticeMapper.insert(gameNotice);
 //            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 图谱合成获得" + card1.getStar().stripTrailingZeros() + "星" + card1.getName(), 3600 * 12, TimeUnit.SECONDS);
@@ -2426,7 +2427,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         dto.setHero(drawnCard);
 //        ValueOperations opsForValue = redisTemplate.opsForValue();
         if (drawnCard.getStar().compareTo(new BigDecimal(3)) > 0) {
-            GameNotice gameNotice=new GameNotice();
+            GameNotice gameNotice = new GameNotice();
             gameNotice.setDescription("恭喜 " + user.getNickname() + " 合成召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName());
             gameNoticeMapper.insert(gameNotice);
 //            opsForValue.set("notice_" + date.getTime() + "", "恭喜 " + user.getNickname() + " 合成召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName(), 3600 * 12, TimeUnit.SECONDS);
@@ -2752,7 +2753,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         dto.setHero(drawnCard);
 //        ValueOperations opsForValue = redisTemplate.opsForValue();
         if (drawnCard.getStar().compareTo(new BigDecimal(3)) > 0) {
-            GameNotice gameNotice=new GameNotice();
+            GameNotice gameNotice = new GameNotice();
             gameNotice.setDescription("恭喜 " + user.getNickname() + " 高级召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName());
             gameNoticeMapper.insert(gameNotice);
 //            Date date = new Date();
@@ -2779,7 +2780,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         String userId = token.getUserId();
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
         //初始1星
-        Double start=1.0;
+        Double start = 1.0;
         if ("1".equals(token.getStr())) {
             BigDecimal gold = new BigDecimal(50000);
             if (gold.compareTo(user.getGold()) > 0) {
@@ -2801,7 +2802,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 gamePlayerBagMapper.updateById(playerBag);
             }
-            start= 1 + 0.5 * (int)(Math.random()*5);
+            start = 1 + 0.5 * (int) (Math.random() * 5);
         } else if ("2".equals(token.getStr())) {
             BigDecimal gold = new BigDecimal(150000);
             if (gold.compareTo(user.getGold()) > 0) {
@@ -2823,8 +2824,8 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 gamePlayerBagMapper.updateById(playerBag);
             }
-            int temp = (int)(Math.random()*3);
-            start=temp==2 ? 3 : 3.5; // 0/1→3，2→5 等价【3,3,5】
+            int temp = (int) (Math.random() * 3);
+            start = temp == 2 ? 3 : 3.5; // 0/1→3，2→5 等价【3,3,5】
         } else if ("3".equals(token.getStr())) {
             BigDecimal gold = new BigDecimal(350000);
             if (gold.compareTo(user.getGold()) > 0) {
@@ -2846,8 +2847,8 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 gamePlayerBagMapper.updateById(playerBag);
             }
-            int temp = (int)(Math.random()*3);
-            start=temp==2 ? 3.5 : 4; // 0/1→3，2→5 等价【3,3,5】
+            int temp = (int) (Math.random() * 3);
+            start = temp == 2 ? 3.5 : 4; // 0/1→3，2→5 等价【3,3,5】
         } else if ("4".equals(token.getStr())) {
             BigDecimal gold = new BigDecimal(550000);
             if (gold.compareTo(user.getGold()) > 0) {
@@ -2878,30 +2879,30 @@ public class GameServiceServiceImpl implements GameServiceService {
 //        }
 //        EqCard drawnCard = pool.draw();
         System.out.println(start);
-        EqCard drawnCard= EquipmentGenerateUtil. generateEqCard(start);
-        Map map2=new HashMap();
-        map2.put("name",drawnCard.getName());
-        map2.put("star",drawnCard.getStar());
-        map2.put("camp",drawnCard.getCamp());
-        map2.put("profession",drawnCard.getProfession());
-        map2.put("eq_type",drawnCard.getEqType());
-        map2.put("eq_type2",drawnCard.getEqType2());
-        map2.put("wl_atk",drawnCard.getWlAtk());
-        map2.put("hy_atk",drawnCard.getHyAtk());
-        map2.put("ds_atk",drawnCard.getDsAtk());
-        map2.put("fd_atk",drawnCard.getFdAtk());
-        map2.put("wl_def",drawnCard.getWlDef());
-        map2.put("hy_def",drawnCard.getHyAtk());
-        map2.put("ds_def",drawnCard.getDsAtk());
-        map2.put("fd_def",drawnCard.getFdDef());
-        map2.put("zl_def",drawnCard.getZlDef());
-        List<EqCard> eqCards=eqCardMapper.selectByMap(map2);
-        if (Xtool.isNotNull(eqCards)){
+        EqCard drawnCard = EquipmentGenerateUtil.generateEqCard(start);
+        Map map2 = new HashMap();
+        map2.put("name", drawnCard.getName());
+        map2.put("star", drawnCard.getStar());
+        map2.put("camp", drawnCard.getCamp());
+        map2.put("profession", drawnCard.getProfession());
+        map2.put("eq_type", drawnCard.getEqType());
+        map2.put("eq_type2", drawnCard.getEqType2());
+        map2.put("wl_atk", drawnCard.getWlAtk());
+        map2.put("hy_atk", drawnCard.getHyAtk());
+        map2.put("ds_atk", drawnCard.getDsAtk());
+        map2.put("fd_atk", drawnCard.getFdAtk());
+        map2.put("wl_def", drawnCard.getWlDef());
+        map2.put("hy_def", drawnCard.getHyAtk());
+        map2.put("ds_def", drawnCard.getDsAtk());
+        map2.put("fd_def", drawnCard.getFdDef());
+        map2.put("zl_def", drawnCard.getZlDef());
+        List<EqCard> eqCards = eqCardMapper.selectByMap(map2);
+        if (Xtool.isNotNull(eqCards)) {
             drawnCard.setId(eqCards.get(0).getId());
-        }else {
+        } else {
             drawnCard.setId(drawnCard.getId());
             eqCardMapper.insert(drawnCard);
-            drawnCard.setId(drawnCard.getId()+drawnCard.getUuid());
+            drawnCard.setId(drawnCard.getId() + drawnCard.getUuid());
             eqCardMapper.updateById(drawnCard);
         }
 
@@ -2928,7 +2929,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         dto.setHero(drawnCard);
 //        ValueOperations opsForValue = redisTemplate.opsForValue();
         if (drawnCard.getStar().compareTo(new BigDecimal(3)) > 0) {
-            GameNotice gameNotice=new GameNotice();
+            GameNotice gameNotice = new GameNotice();
             gameNotice.setDescription("恭喜 " + user.getNickname() + " 打造获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName());
             gameNoticeMapper.insert(gameNotice);
 //            Date date = new Date();
@@ -3071,7 +3072,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         dto.setHero(drawnCard);
 //        ValueOperations opsForValue = redisTemplate.opsForValue();
         if (drawnCard.getStar().compareTo(new BigDecimal(3)) > 0) {
-            GameNotice gameNotice=new GameNotice();
+            GameNotice gameNotice = new GameNotice();
             gameNotice.setDescription("恭喜 " + user.getNickname() + " 魂珠召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName());
             gameNoticeMapper.insert(gameNotice);
 //            Date date = new Date();
@@ -3131,7 +3132,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 //        ValueOperations opsForValue = redisTemplate.opsForValue();
         for (Card drawnCard : drawnCards) {
             if (drawnCard.getStar().compareTo(new BigDecimal(3)) > 0) {
-                GameNotice gameNotice=new GameNotice();
+                GameNotice gameNotice = new GameNotice();
                 gameNotice.setDescription("恭喜 " + user.getNickname() + " 高级召唤获得" + drawnCard.getStar().stripTrailingZeros() + "星" + drawnCard.getName());
                 gameNoticeMapper.insert(gameNotice);
 //                Date date = new Date();
@@ -3209,8 +3210,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         for (Characters characters : leftCharacter) {
-            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(user.getUserId() + "",characters.getId());
-            if (Xtool.isNotNull(eqCharacters)){
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(user.getUserId() + "", characters.getId());
+            if (Xtool.isNotNull(eqCharacters)) {
                 characters.setEqCharactersList(eqCharacters);
             }
         }
@@ -3228,8 +3229,8 @@ public class GameServiceServiceImpl implements GameServiceService {
         Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), user.getGameImg(), "1");
         if (battle.getIsWin() == 0) {
             user.setWinCount(user.getWinCount() + 1);
-            if (user1.getGameRanking()<user.getGameRanking()){
-                Integer gameRank=user.getGameRanking();
+            if (user1.getGameRanking() < user.getGameRanking()) {
+                Integer gameRank = user.getGameRanking();
                 user.setGameRanking(user1.getGameRanking());
                 user1.setGameRanking(gameRank);
                 userMapper.updateuser(user1);
@@ -3418,8 +3419,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         for (Characters characters : leftCharacter) {
-            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(user.getUserId() + "",characters.getId());
-            if (Xtool.isNotNull(eqCharacters)){
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(user.getUserId() + "", characters.getId());
+            if (Xtool.isNotNull(eqCharacters)) {
                 characters.setEqCharactersList(eqCharacters);
             }
         }
@@ -3433,8 +3434,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         for (Characters characters : rightCharacter) {
-            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(user1.getUserId() + "",characters.getId());
-            if (Xtool.isNotNull(eqCharacters)){
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(user1.getUserId() + "", characters.getId());
+            if (Xtool.isNotNull(eqCharacters)) {
                 characters.setEqCharactersList(eqCharacters);
             }
         }
@@ -3463,15 +3464,15 @@ public class GameServiceServiceImpl implements GameServiceService {
     @Override
     public BaseResp mapRanking100(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        Map map=new HashMap();
-        List<User> tanglangRanking= userMapper.getMapRanking100();
-        map.put("tanglangRanking",tanglangRanking);
-        List<User> qingtongRanking=userMapper.getBronzeRanking100("bronzetower");
-        map.put("qingtongRanking",qingtongRanking);
-        List<User> baiyingRanking=userMapper.getBronzeRanking100("silvertower");
-        map.put("baiyingRanking",baiyingRanking);
-        List<User> huangjinRanking=userMapper.getBronzeRanking100("goldentower");
-        map.put("huangjinRanking",huangjinRanking);
+        Map map = new HashMap();
+        List<User> tanglangRanking = userMapper.getMapRanking100();
+        map.put("tanglangRanking", tanglangRanking);
+        List<User> qingtongRanking = userMapper.getBronzeRanking100("bronzetower");
+        map.put("qingtongRanking", qingtongRanking);
+        List<User> baiyingRanking = userMapper.getBronzeRanking100("silvertower");
+        map.put("baiyingRanking", baiyingRanking);
+        List<User> huangjinRanking = userMapper.getBronzeRanking100("goldentower");
+        map.put("huangjinRanking", huangjinRanking);
         baseResp.setData(map);
         baseResp.setSuccess(1);
         return baseResp;
@@ -3485,67 +3486,132 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
+
+
+    /**
+     * 膜拜功能 - 修复后版本
+     * 核心优化：事务控制、空值校验、逻辑修正、异常处理
+     */
     @Override
+    @NoRepeatSubmit(limitSeconds = 1)
+    @Transactional(rollbackFor = Exception.class) // 增加事务控制
     public BaseResp mobai(TokenDto token, HttpServletRequest request) throws Exception {
-        //先获取当前用户战队
         BaseResp baseResp = new BaseResp();
+
+        // 1. 基础参数校验
         if (token == null || Xtool.isNull(token.getToken())) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+
         String userId = token.getId();
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
-        if (token.getFinalLevel() == 1) {
-            if (user.getWeiwan1Time() != null && isDateToday(user.getWeiwan1Time())) {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("你今日已膜拜");
-                return baseResp;
-            }
+
+        // 2. 业务参数校验（修正错误提示）
+        Integer finalLevel = token.getFinalLevel();
+        if (finalLevel == null || finalLevel < 1 || finalLevel > 3) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("膜拜等级参数异常");
+            return baseResp;
         }
 
-        if (token.getFinalLevel() == 2) {
-            if (user.getWeiwan1Time() != null && isDateToday(user.getWeiwan2Time())) {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("你今日已膜拜");
-                return baseResp;
-            }
+        // 3. 查询当前用户并校验存在性
+        Integer currentUserId;
+        try {
+            currentUserId = Integer.parseInt(userId);
+        } catch (NumberFormatException e) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("用户ID格式异常");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(currentUserId);
+        if (user == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("当前用户不存在");
+            return baseResp;
         }
 
-        if (token.getFinalLevel() == 3) {
-            if (user.getWeiwan1Time() != null && isDateToday(user.getWeiwan3Time())) {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("你今日已膜拜");
-                return baseResp;
-            }
+        // 4. 校验今日是否已膜拜（修正逻辑，避免空指针）
+        boolean hasMobaiToday = false;
+        switch (finalLevel) {
+            case 1:
+                hasMobaiToday = user.getWeiwan1Time() != null && isDateToday(user.getWeiwan1Time());
+                break;
+            case 2:
+                hasMobaiToday = user.getWeiwan2Time() != null && isDateToday(user.getWeiwan2Time());
+                break;
+            case 3:
+                hasMobaiToday = user.getWeiwan3Time() != null && isDateToday(user.getWeiwan3Time());
+                break;
         }
-        if (token.getFinalLevel() == 1) {
-            user.setWeiwan1Time(new Date());
-        }else if (token.getFinalLevel() == 2) {
-            user.setWeiwan2Time(new Date());
-        }else if (token.getFinalLevel() == 3) {
-            user.setWeiwan3Time(new Date());
+        if (hasMobaiToday) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("你今日已膜拜");
+            return baseResp;
         }
-        user.setGold(user.getGold().add(new BigDecimal(5000)));
+
+        // 5. 校验被膜拜用户参数
+        String beMobaiUserIdStr = token.getUserId();
+        if (Xtool.isNull(beMobaiUserIdStr)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("被膜拜用户ID为空");
+            return baseResp;
+        }
+        Integer beMobaiUserId;
+        try {
+            beMobaiUserId = Integer.parseInt(beMobaiUserIdStr);
+        } catch (NumberFormatException e) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("被膜拜用户ID格式异常");
+            return baseResp;
+        }
+
+        // 6. 查询被膜拜用户并校验存在性
+        User user2 = userMapper.selectUserByUserId(beMobaiUserId);
+        if (user2 == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("被膜拜用户不存在");
+            return baseResp;
+        }
+
+        // 7. 更新当前用户膜拜时间（修正逻辑）
+        switch (finalLevel) {
+            case 1:
+                user.setWeiwan1Time(new Date());
+                break;
+            case 2:
+                user.setWeiwan2Time(new Date());
+                break;
+            case 3:
+                user.setWeiwan3Time(new Date());
+                break;
+        }
+
+        // 8. 更新当前用户金币（避免空指针）
+        BigDecimal gold = user.getGold() == null ? BigDecimal.ZERO : user.getGold();
+        user.setGold(gold.add(new BigDecimal(5000)));
         userMapper.updateuser(user);
-        User user2 = userMapper.selectUserByUserId(Integer.parseInt(token.getUserId()));
-        user2.setWeiwanCount(user2.getWeiwanCount() + 1);
+
+        // 9. 更新被膜拜用户次数（避免空指针）
+        Integer weiwanCount = user2.getWeiwanCount() == null ? 0 : user2.getWeiwanCount();
+        user2.setWeiwanCount(weiwanCount + 1);
         userMapper.updateuser(user2);
+
+        // 10. 组装返回数据
         UserInfo userInfo = new UserInfo();
         userInfo.setWeiwanCount(user2.getWeiwanCount());
         userInfo.setGold(user.getGold());
         baseResp.setData(userInfo);
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("瞻仰大神风姿，幸得垂青！奖励5000金币，望君再攀高峰～");
+
         return baseResp;
     }
-
     @Override
     public BaseResp bagItemList(TokenDto token, HttpServletRequest request) throws Exception {
         //先获取当前用户战队
@@ -3573,6 +3639,29 @@ public class GameServiceServiceImpl implements GameServiceService {
 
         }
         return null;
+    }
+
+    @Override
+    public BaseResp equipmentNew(TokenDto token, HttpServletRequest request) throws Exception {
+        EqCharactersRecord record= eqCharactersRecordMapper.getEquipmentNew();
+        record.setTimeStr(formatTime(record.getGetTime()));
+        BaseResp baseResp = new BaseResp();
+        baseResp.setSuccess(1);
+        baseResp.setData(record);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp equipmentMessageList(TokenDto token, HttpServletRequest request) throws Exception {
+        List<EqCharactersRecord> record= eqCharactersRecordMapper.getEquipmentList();
+        for (EqCharactersRecord eqCharactersRecord : record) {
+            eqCharactersRecord.setTimeStr(formatTime(eqCharactersRecord.getGetTime()));
+        }
+
+        BaseResp baseResp = new BaseResp();
+        baseResp.setSuccess(1);
+        baseResp.setData(record);
+        return baseResp;
     }
 
     @Override
@@ -3631,7 +3720,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             userMapper.updateuser(user);
 //            userMapper.updateuserShopUpdate(userId);
 
-        } else  if ("17".equals(token.getId())) {
+        } else if ("17".equals(token.getId())) {
             user.setBronze1(1);
             user.setSilvertower(1);
             user.setGoldentower(1);
@@ -3957,7 +4046,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
-        if (user.getBronze1Time()==null){
+        if (user.getBronze1Time() == null) {
             baseResp.setErrorMsg("您未通关试炼塔无法一键探索");
             baseResp.setSuccess(0);
             return baseResp;
@@ -3970,28 +4059,28 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         user.setBronze1(101);
         baseResp.setSuccess(1);
-        List<PveReward> pveRewards=new ArrayList<>();
-        if ("bronzetower".equals(token.getStr())){
-            PveReward pveReward=new PveReward();
+        List<PveReward> pveRewards = new ArrayList<>();
+        if ("bronzetower".equals(token.getStr())) {
+            PveReward pveReward = new PveReward();
             pveReward.setItemId(0);
             pveReward.setRewardAmount(100000);
             pveReward.setRewardType("2");
             pveRewards.add(pveReward);
         }
 
-        if ("bronzetower".equals(token.getStr())){
-            PveReward pveReward=new PveReward();
+        if ("bronzetower".equals(token.getStr())) {
+            PveReward pveReward = new PveReward();
             pveReward.setItemId(0);
             pveReward.setRewardAmount(50);
             pveReward.setRewardType("1");
             pveRewards.add(pveReward);
         }
 
-        if ("bronzetower".equals(token.getStr())){
-            PveReward pveReward=new PveReward();
-            GameItemBase gameItemBase=gameItemBaseMapper.selectById(13);
+        if ("bronzetower".equals(token.getStr())) {
+            PveReward pveReward = new PveReward();
+            GameItemBase gameItemBase = gameItemBaseMapper.selectById(13);
             pveReward.setImg(gameItemBase.getIcon());
-            pveReward.setItemName(gameItemBase.getItemName()+300);
+            pveReward.setItemName(gameItemBase.getItemName() + 300);
             pveReward.setItemId(13);
             pveReward.setRewardAmount(300);
             pveReward.setRewardType("6");
@@ -4026,7 +4115,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
                     charactersMapper.insert(characters);
                 }
-            } else if ("5".equals(content.getRewardType() + "")||"6".equals(content.getRewardType() + "")) {
+            } else if ("5".equals(content.getRewardType() + "") || "6".equals(content.getRewardType() + "")) {
                 Map itemMap = new HashMap();
                 itemMap.put("item_id", content.getItemId());
                 itemMap.put("user_id", userId);
@@ -4139,8 +4228,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         for (Characters characters : leftCharacter) {
-            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(userId,characters.getId());
-            if (Xtool.isNotNull(eqCharacters)){
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(userId, characters.getId());
+            if (Xtool.isNotNull(eqCharacters)) {
                 characters.setEqCharactersList(eqCharacters);
             }
         }
@@ -4168,7 +4257,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             characters.setLv(pveBossDetail.getDifficultyLevel());
             characters.setUuid(i);
             long originalCount = pveBossDetails.stream()
-                    .filter(x->(x.getBossId()+"").equals(pveBossDetail.getBossId()+"")) // 过滤null对象
+                    .filter(x -> (x.getBossId() + "").equals(pveBossDetail.getBossId() + "")) // 过滤null对象
                     .map(PveBossDetail::getBossId)
                     .count();
             if (originalCount > 1) {
@@ -4242,7 +4331,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                         characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
                         charactersMapper.insert(characters);
                     }
-                } else if ("5".equals(content.getRewardType() + "")||"6".equals(content.getRewardType() + "")) {
+                } else if ("5".equals(content.getRewardType() + "") || "6".equals(content.getRewardType() + "")) {
                     Map itemMap = new HashMap();
                     itemMap.put("item_id", content.getItemId());
                     itemMap.put("user_id", userId);
@@ -4326,8 +4415,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         for (Characters characters : leftCharacter) {
-            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(userId,characters.getId());
-            if (Xtool.isNotNull(eqCharacters)){
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(userId, characters.getId());
+            if (Xtool.isNotNull(eqCharacters)) {
                 characters.setEqCharactersList(eqCharacters);
             }
         }
@@ -4351,7 +4440,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             characters.setLv(pveBossDetail.getDifficultyLevel());
             characters.setUuid(i);
             long originalCount = bronzeBossDetails.stream()
-                    .filter(x->(x.getBossId()+"").equals(pveBossDetail.getBossId()+"")) // 过滤null对象
+                    .filter(x -> (x.getBossId() + "").equals(pveBossDetail.getBossId() + "")) // 过滤null对象
                     .map(BronzeBossDetail::getBossId)
                     .count();
             if (originalCount > 1) {
@@ -4362,44 +4451,44 @@ public class GameServiceServiceImpl implements GameServiceService {
             rightCharacter.add(characters);
             i++;
         }
-        Map map3=new HashMap();
+        Map map3 = new HashMap();
         map3.put("floor_num", token.getFinalLevel());
         map3.put("activity_code", token.getStr());
-        List<BronzeTower> bronzeTower=bronzeTowerMapper.selectByMap(map3);
+        List<BronzeTower> bronzeTower = bronzeTowerMapper.selectByMap(map3);
         Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, 0, bronzeTower.get(0).getBossName(), user.getGameImg(), "0");
         if (battle.getIsWin() == 0) {
-            Integer bronze1=token.getFinalLevel()+1;
-            battle.setChapter(bronze1+"");
-            if(token.getStr().equals("bronzetower")){
+            Integer bronze1 = token.getFinalLevel() + 1;
+            battle.setChapter(bronze1 + "");
+            if (token.getStr().equals("bronzetower")) {
                 user.setBronze1(bronze1);
-                if (bronze1>100){
+                if (bronze1 > 100) {
                     user.setBronze1Time(new Date());
                 }
-            }else  if(token.getStr().equals("silvertower")){
+            } else if (token.getStr().equals("silvertower")) {
                 user.setSilvertower(bronze1);
-                if (bronze1>100){
+                if (bronze1 > 100) {
                     user.setSilvertowerTime(new Date());
                 }
-            }else if(token.getStr().equals("goldentower")){
+            } else if (token.getStr().equals("goldentower")) {
                 user.setGoldentower(bronze1);
-                if (bronze1>100){
+                if (bronze1 > 100) {
                     user.setGoldentowerTime(new Date());
                 }
             }
 
-            Map map2=new HashMap();
-            map2.put("player_id",userId);
-            map2.put("bronze_type",token.getStr());
-            List<PlayerBronzeTower> playerBronzeTowerList=playerBronzeTowerMapper.selectByMap(map2);
-            if (Xtool.isNotNull(playerBronzeTowerList)){
-                PlayerBronzeTower playerBronzeTower=playerBronzeTowerList.get(0);
-                if (bronze1>playerBronzeTower.getFloorNum()){
+            Map map2 = new HashMap();
+            map2.put("player_id", userId);
+            map2.put("bronze_type", token.getStr());
+            List<PlayerBronzeTower> playerBronzeTowerList = playerBronzeTowerMapper.selectByMap(map2);
+            if (Xtool.isNotNull(playerBronzeTowerList)) {
+                PlayerBronzeTower playerBronzeTower = playerBronzeTowerList.get(0);
+                if (bronze1 > playerBronzeTower.getFloorNum()) {
                     playerBronzeTower.setFloorNum(bronze1);
                     playerBronzeTower.setPassTime(new Date());
                     playerBronzeTowerMapper.updateById(playerBronzeTower);
                 }
-            }else {
-                PlayerBronzeTower playerBronzeTower=new PlayerBronzeTower();
+            } else {
+                PlayerBronzeTower playerBronzeTower = new PlayerBronzeTower();
                 playerBronzeTower.setFloorNum(bronze1);
                 playerBronzeTower.setIsGetReward(0);
                 playerBronzeTower.setPlayerId(userId);
@@ -4409,28 +4498,28 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
 //            user.setBronze1(bronze1);
             List<PveReward> pveRewards = new ArrayList<>();
-            BronzeTower bronzeTower1=bronzeTower.get(0);
-            if (Xtool.isNotNull(bronzeTower1.getRewardGold())&&bronzeTower1.getRewardGold()>0){
-                PveReward pveReward=new PveReward();
+            BronzeTower bronzeTower1 = bronzeTower.get(0);
+            if (Xtool.isNotNull(bronzeTower1.getRewardGold()) && bronzeTower1.getRewardGold() > 0) {
+                PveReward pveReward = new PveReward();
                 pveReward.setItemId(0);
                 pveReward.setRewardAmount(bronzeTower1.getRewardGold());
                 pveReward.setRewardType("2");
                 pveRewards.add(pveReward);
             }
 
-            if (Xtool.isNotNull(bronzeTower1.getRewardDiamond())&&bronzeTower1.getRewardDiamond()>0){
-                PveReward pveReward=new PveReward();
+            if (Xtool.isNotNull(bronzeTower1.getRewardDiamond()) && bronzeTower1.getRewardDiamond() > 0) {
+                PveReward pveReward = new PveReward();
                 pveReward.setItemId(0);
                 pveReward.setRewardAmount(bronzeTower1.getRewardDiamond());
                 pveReward.setRewardType("1");
                 pveRewards.add(pveReward);
             }
 
-            if (Xtool.isNotNull(bronzeTower1.getRewardItem1())){
-                PveReward pveReward=new PveReward();
-                GameItemBase gameItemBase=gameItemBaseMapper.selectById(bronzeTower1.getRewardItem1());
+            if (Xtool.isNotNull(bronzeTower1.getRewardItem1())) {
+                PveReward pveReward = new PveReward();
+                GameItemBase gameItemBase = gameItemBaseMapper.selectById(bronzeTower1.getRewardItem1());
                 pveReward.setImg(gameItemBase.getIcon());
-                pveReward.setItemName(gameItemBase.getItemName()+bronzeTower1.getRewardItem1Num());
+                pveReward.setItemName(gameItemBase.getItemName() + bronzeTower1.getRewardItem1Num());
                 pveReward.setItemId(Integer.parseInt(bronzeTower1.getRewardItem1()));
                 pveReward.setRewardAmount(bronzeTower1.getRewardItem1Num());
                 pveReward.setRewardType("6");
@@ -4465,7 +4554,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                         characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
                         charactersMapper.insert(characters);
                     }
-                } else if ("5".equals(content.getRewardType() + "")||"6".equals(content.getRewardType() + "")) {
+                } else if ("5".equals(content.getRewardType() + "") || "6".equals(content.getRewardType() + "")) {
                     Map itemMap = new HashMap();
                     itemMap.put("item_id", content.getItemId());
                     itemMap.put("user_id", userId);
@@ -4536,28 +4625,28 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
         //如果是
-        if ("bronzetower".equals(token.getStr())){
+        if ("bronzetower".equals(token.getStr())) {
             //判断是否通关第四图
-            List<String> strings=Arrays.asList(user.getChapter().split("-"));
-            if (Integer.parseInt(strings.get(0))<5){
+            List<String> strings = Arrays.asList(user.getChapter().split("-"));
+            if (Integer.parseInt(strings.get(0)) < 5) {
                 baseResp.setSuccess(0);
                 baseResp.setErrorMsg("您还未通关第4章");
                 return baseResp;
             }
         }
-        if ("silvertower".equals(token.getStr())){
+        if ("silvertower".equals(token.getStr())) {
             //判断是否通关第四图
-            List<String> strings=Arrays.asList(user.getChapter().split("-"));
-            if (Integer.parseInt(strings.get(0))<6){
+            List<String> strings = Arrays.asList(user.getChapter().split("-"));
+            if (Integer.parseInt(strings.get(0)) < 6) {
                 baseResp.setSuccess(0);
                 baseResp.setErrorMsg("您还未通关第5章");
                 return baseResp;
             }
         }
-        if ("goldentower".equals(token.getStr())){
+        if ("goldentower".equals(token.getStr())) {
             //判断是否通关第四图
-            List<String> strings=Arrays.asList(user.getChapter().split("-"));
-            if (Integer.parseInt(strings.get(0))<7){
+            List<String> strings = Arrays.asList(user.getChapter().split("-"));
+            if (Integer.parseInt(strings.get(0)) < 7) {
                 baseResp.setSuccess(0);
                 baseResp.setErrorMsg("您还未通关第6章");
                 return baseResp;
@@ -4579,7 +4668,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId =token.getUserId();
+        String userId = token.getUserId();
 //        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
@@ -4617,8 +4706,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         for (Characters characters : leftCharacter) {
-            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(userId,characters.getId());
-            if (Xtool.isNotNull(eqCharacters)){
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(userId, characters.getId());
+            if (Xtool.isNotNull(eqCharacters)) {
                 characters.setEqCharactersList(eqCharacters);
             }
         }
@@ -4641,8 +4730,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         for (Characters characters : rightCharacter) {
-            List<EqCharacters> eqCharacters=eqCharactersMapper.listByGoOn(gameArenaSignup2.getUserId()+"",characters.getId());
-            if (Xtool.isNotNull(eqCharacters)){
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(gameArenaSignup2.getUserId() + "", characters.getId());
+            if (Xtool.isNotNull(eqCharacters)) {
                 characters.setEqCharactersList(eqCharacters);
             }
         }
@@ -4743,8 +4832,6 @@ public class GameServiceServiceImpl implements GameServiceService {
         // 版本号完全相同
         return false;
     }
-
-
 
 
     @Override
@@ -4872,7 +4959,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        String userId =token.getUserId();
+        String userId = token.getUserId();
 //        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
         if (Xtool.isNull(userId)) {
             baseResp.setSuccess(0);
@@ -4985,10 +5072,11 @@ public class GameServiceServiceImpl implements GameServiceService {
             return targetLocalDate.format(formatter);
         }
     }
+
     public List<Character> reasonableData2(List<Characters> charactersList) {
 
         //TODO 先初始化自身属性
-        List<Character> characterList=new ArrayList<>();
+        List<Character> characterList = new ArrayList<>();
         for (Characters characters : charactersList) {
             Character character = new Character();
             BeanUtils.copyProperties(characters, character);
@@ -5020,12 +5108,12 @@ public class GameServiceServiceImpl implements GameServiceService {
         character.setAttack(attack.intValue());
         character.setSpeed(speed.intValue());
         //TODO 再叠加协同属性
-        if (Xtool.isNotNull(charactersList)){
+        if (Xtool.isNotNull(charactersList)) {
             if (Xtool.isNotNull(characters.getPassiveIntroduceThree())) {
                 List<Characters> xieTong = charactersList.stream().filter(x -> characters.getPassiveIntroduceThree().equals(x.getId())).collect(Collectors.toList());
                 if (Xtool.isNotNull(xieTong)) {
-                    int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
-                    if (skillLevel[2]>0){
+                    int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(lv.intValue(), characters.getStar().doubleValue());
+                    if (skillLevel[2] > 0) {
                         //                453点生命上限，158点攻击，158点速度。
                         if (Xtool.isNotNull(characters.getCollHp())) {
                             character.setMaxHp(character.getMaxHp() + skillLevel[3] * characters.getCollHp());
@@ -5046,8 +5134,8 @@ public class GameServiceServiceImpl implements GameServiceService {
 
 
         if ("不动如山1".equals(character.getPassiveIntroduceThree()) && characters.getGoIntoNum() == 1) {
-            int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
-            if (skillLevel[1]>0){
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(lv.intValue(), characters.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
                 //                453点生命上限，158点攻击，158点速度。
                 if (Xtool.isNotNull(characters.getCollHp())) {
                     character.setMaxHp(character.getMaxHp() + skillLevel[1] * characters.getCollHp());
@@ -5065,8 +5153,8 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
 
         if ("不动如山2".equals(character.getPassiveIntroduceThree()) && characters.getGoIntoNum() == 2) {
-            int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
-            if (skillLevel[1]>0){
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(lv.intValue(), characters.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
                 //                453点生命上限，158点攻击，158点速度。
                 if (Xtool.isNotNull(characters.getCollHp())) {
                     character.setMaxHp(character.getMaxHp() + skillLevel[1] * characters.getCollHp());
@@ -5077,14 +5165,14 @@ public class GameServiceServiceImpl implements GameServiceService {
                     character.setAttack(attack.intValue() + skillLevel[1] * characters.getCollAttack());
                 }
                 if (Xtool.isNotNull(characters.getCollSpeed())) {
-                    character.setSpeed(speed.intValue() +skillLevel[1] * characters.getCollSpeed());
+                    character.setSpeed(speed.intValue() + skillLevel[1] * characters.getCollSpeed());
                 }
             }
         }
 
         if ("不动如山3".equals(character.getPassiveIntroduceThree()) && characters.getGoIntoNum() == 3) {
-            int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
-            if (skillLevel[1]>0){
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(lv.intValue(), characters.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
                 //                453点生命上限，158点攻击，158点速度。
                 if (Xtool.isNotNull(characters.getCollHp())) {
                     character.setMaxHp(character.getMaxHp() + skillLevel[1] * characters.getCollHp());
@@ -5101,11 +5189,11 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
 
         if ("不动如山4".equals(character.getPassiveIntroduceThree()) && characters.getGoIntoNum() == 4) {
-            int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
-            if (skillLevel[1]>0){
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(lv.intValue(), characters.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
                 //                453点生命上限，158点攻击，158点速度。
                 if (Xtool.isNotNull(characters.getCollHp())) {
-                    character.setMaxHp(character.getMaxHp()+ skillLevel[1] * characters.getCollHp());
+                    character.setMaxHp(character.getMaxHp() + skillLevel[1] * characters.getCollHp());
                     character.setHp(character.getHp() + skillLevel[1] * characters.getCollHp());
 
                 }
@@ -5120,8 +5208,8 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
 
         if ("不动如山5".equals(character.getPassiveIntroduceThree()) && characters.getGoIntoNum() == 5) {
-            int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
-            if (skillLevel[1]>0){
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(lv.intValue(), characters.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
                 //                453点生命上限，158点攻击，158点速度。
                 if (Xtool.isNotNull(characters.getCollHp())) {
                     character.setMaxHp(character.getMaxHp() + skillLevel[1] * characters.getCollHp());
@@ -5140,8 +5228,8 @@ public class GameServiceServiceImpl implements GameServiceService {
 
 //        特殊
         if ("真武大帝".equals(character.getName()) && characters.getGoIntoNum() == 2) {
-            int[] skillLevel =  CardSkillLevelUtil.calculateSkillLevels(lv.intValue(),characters.getStar().doubleValue());
-            if (skillLevel[1]>0){
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(lv.intValue(), characters.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
                 //            山Lv1在第2位时，增加自身生命上限553点；
                 character.setMaxHp(character.getMaxHp() + skillLevel[1] * 553);
                 character.setHp(character.getHp() + skillLevel[1] * 553);
@@ -5159,8 +5247,8 @@ public class GameServiceServiceImpl implements GameServiceService {
         character.setZlDef(0);
 
         //TODO 装备属性
-        if (Xtool.isNotNull(characters.getEqCharactersList())){
-            List<EqCharacters> eqCharacters=characters.getEqCharactersList();
+        if (Xtool.isNotNull(characters.getEqCharactersList())) {
+            List<EqCharacters> eqCharacters = characters.getEqCharactersList();
             //攻击
             character.setWlAtk(eqCharacters.stream().map(EqCharacters::getWlAtk).mapToInt(wlAtk -> Objects.isNull(wlAtk) ? 0 : wlAtk).sum());
             character.setHyAtk(eqCharacters.stream().map(EqCharacters::getHyAtk).mapToInt(hyAtk -> Objects.isNull(hyAtk) ? 0 : hyAtk).sum());
@@ -5296,7 +5384,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BaseResp baseResp = new BaseResp();
 //        Set<String> keys = redisTemplate.keys("notice_*");
 //        List<String> notices = new ArrayList<>();
-        List<String> notices=gameNoticeMapper.getAllNotice();
+        List<String> notices = gameNoticeMapper.getAllNotice();
 //        for (String key : keys) {
 //            String value = (String) redisTemplate.opsForValue().get(key);
 //            notices.add(value);
@@ -5323,7 +5411,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             // 设置角色
             Character character = reasonableData(characters, leftCharacters);
             campA.add(new Guardian(character.getName(), Camp.A, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
-                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(),character.getStar(),
+                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(), character.getStar(),
                     character.getWlAtk(),
                     character.getHyAtk(),
                     character.getDsAtk(),
@@ -5341,7 +5429,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             // 设置角色
             Character character = reasonableData(characters, rightCharacters);
             campB.add(new Guardian(character.getName(), Camp.B, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
-                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(),character.getStar(),
+                    Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(), character.getStar(),
                     character.getWlAtk(),
                     character.getHyAtk(),
                     character.getDsAtk(),
@@ -5587,8 +5675,8 @@ public class GameServiceServiceImpl implements GameServiceService {
     public BaseResp allCardList(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         baseResp.setSuccess(1);
-        List<Characters> alls=charactersMapper.selectAllCardList();
-        List<Character> characterArrayList=new ArrayList<>();
+        List<Characters> alls = charactersMapper.selectAllCardList();
+        List<Character> characterArrayList = new ArrayList<>();
         for (Characters characters : alls) {
             Character character = reasonableData(characters, null);
             characterArrayList.add(character);
@@ -6321,8 +6409,8 @@ public class GameServiceServiceImpl implements GameServiceService {
 
         //青铜塔
         if (1 == 1) {
-            List<User> users=userMapper.getBronzeRanking100("bronzetower");
-            if (1 == 1&&Xtool.isNotNull(users)) {
+            List<User> users = userMapper.getBronzeRanking100("bronzetower");
+            if (1 == 1 && Xtool.isNotNull(users)) {
                 String code = RandomCodeGenerator.generateUniqueCode();
                 GameGift gameGift = new GameGift();
                 gameGift.setGiftCode(code);
@@ -6342,7 +6430,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGiftContent.setGiftId(gifts.getGiftId());
                 gameGiftContent.setItemType(6);
                 gameGiftContent.setItemQuantity(2000);
-                gameGiftContent.setItemId(Long.parseLong(13+""));
+                gameGiftContent.setItemId(Long.parseLong(13 + ""));
                 gameGiftContent.setCreateTime(new Date());
                 gameGiftContentMapper.insert(gameGiftContent);
                 //判断 如果是兑换礼包查询是否有兑换记录
@@ -6357,7 +6445,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
             }
             //生成
-            if (1 == 1&&Xtool.isNotNull(users)) {
+            if (1 == 1 && Xtool.isNotNull(users)) {
                 String code = RandomCodeGenerator.generateUniqueCode();
                 GameGift gameGift = new GameGift();
                 gameGift.setGiftCode(code);
@@ -6377,7 +6465,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGiftContent.setGiftId(gifts.getGiftId());
                 gameGiftContent.setItemType(6);
                 gameGiftContent.setItemQuantity(1000);
-                gameGiftContent.setItemId(Long.parseLong(13+""));
+                gameGiftContent.setItemId(Long.parseLong(13 + ""));
                 gameGiftContent.setCreateTime(new Date());
                 gameGiftContentMapper.insert(gameGiftContent);
                 for (int i = 1; i < 10; i++) {
@@ -6397,7 +6485,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     gameGiftExchangeCodeMapper.insertSelective(record);
                 }
             }
-            if (1 == 1&&Xtool.isNotNull(users)) {
+            if (1 == 1 && Xtool.isNotNull(users)) {
                 String code = RandomCodeGenerator.generateUniqueCode();
                 GameGift gameGift = new GameGift();
                 gameGift.setGiftCode(code);
@@ -6417,7 +6505,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGiftContent.setGiftId(gifts.getGiftId());
                 gameGiftContent.setItemType(6);
                 gameGiftContent.setItemQuantity(500);
-                gameGiftContent.setItemId(Long.parseLong(13+""));
+                gameGiftContent.setItemId(Long.parseLong(13 + ""));
                 gameGiftContent.setCreateTime(new Date());
                 gameGiftContentMapper.insert(gameGiftContent);
                 for (int i = 11; i < 99; i++) {
@@ -6441,8 +6529,8 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         //白银塔
         if (1 == 1) {
-            List<User> users=userMapper.getBronzeRanking100("silvertower");
-            if (1 == 1&&Xtool.isNotNull(users)) {
+            List<User> users = userMapper.getBronzeRanking100("silvertower");
+            if (1 == 1 && Xtool.isNotNull(users)) {
                 String code = RandomCodeGenerator.generateUniqueCode();
                 GameGift gameGift = new GameGift();
                 gameGift.setGiftCode(code);
@@ -6462,7 +6550,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGiftContent.setGiftId(gifts.getGiftId());
                 gameGiftContent.setItemType(6);
                 gameGiftContent.setItemQuantity(2000);
-                gameGiftContent.setItemId(Long.parseLong(14+""));
+                gameGiftContent.setItemId(Long.parseLong(14 + ""));
                 gameGiftContent.setCreateTime(new Date());
                 gameGiftContentMapper.insert(gameGiftContent);
                 //判断 如果是兑换礼包查询是否有兑换记录
@@ -6477,7 +6565,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
             }
             //生成
-            if (1 == 1&&Xtool.isNotNull(users)) {
+            if (1 == 1 && Xtool.isNotNull(users)) {
                 String code = RandomCodeGenerator.generateUniqueCode();
                 GameGift gameGift = new GameGift();
                 gameGift.setGiftCode(code);
@@ -6497,7 +6585,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGiftContent.setGiftId(gifts.getGiftId());
                 gameGiftContent.setItemType(6);
                 gameGiftContent.setItemQuantity(1000);
-                gameGiftContent.setItemId(Long.parseLong(14+""));
+                gameGiftContent.setItemId(Long.parseLong(14 + ""));
                 gameGiftContent.setCreateTime(new Date());
                 gameGiftContentMapper.insert(gameGiftContent);
                 for (int i = 1; i < 10; i++) {
@@ -6517,7 +6605,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     gameGiftExchangeCodeMapper.insertSelective(record);
                 }
             }
-            if (1 == 1&&Xtool.isNotNull(users)) {
+            if (1 == 1 && Xtool.isNotNull(users)) {
                 String code = RandomCodeGenerator.generateUniqueCode();
                 GameGift gameGift = new GameGift();
                 gameGift.setGiftCode(code);
@@ -6537,7 +6625,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGiftContent.setGiftId(gifts.getGiftId());
                 gameGiftContent.setItemType(6);
                 gameGiftContent.setItemQuantity(500);
-                gameGiftContent.setItemId(Long.parseLong(14+""));
+                gameGiftContent.setItemId(Long.parseLong(14 + ""));
                 gameGiftContent.setCreateTime(new Date());
                 gameGiftContentMapper.insert(gameGiftContent);
                 for (int i = 11; i < 99; i++) {
