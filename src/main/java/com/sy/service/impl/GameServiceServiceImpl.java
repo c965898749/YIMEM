@@ -205,7 +205,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         List<Card> cardList = cardMapper.selectAll();
         info.setUseCardCount(cardList.size() + "");
         info.setCharacterList(formateCharacter(characterList));
-        info.setEqCharactersList(eqCharactersList);
+        info.setEqCharactersList(formateEqCharacter(eqCharactersList));
         String token = IdUtil.simpleUUID();
         info.setToken(token);
         ValueOperations opsForValue = redisTemplate.opsForValue();
@@ -226,6 +226,20 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         characterArrayList.addAll(reasonableData2(charactersList2));
         return characterArrayList;
+    }
+    //格式化装备
+    public List<EqCharacters> formateEqCharacter(List<EqCharacters> characterList) {
+        for (EqCharacters eqCharacters : characterList) {
+            eqCharacters.setWlAtk(eqCharacters.getWlAtk()*eqCharacters.getLv());
+            eqCharacters.setHyAtk(eqCharacters.getHyAtk()*eqCharacters.getLv());
+            eqCharacters.setFdAtk(eqCharacters.getFdAtk()*eqCharacters.getLv());
+            eqCharacters.setWlDef(eqCharacters.getWlDef()*eqCharacters.getLv());
+            eqCharacters.setHyDef(eqCharacters.getHyDef()*eqCharacters.getLv());
+            eqCharacters.setDsDef(eqCharacters.getDsDef()*eqCharacters.getLv());
+            eqCharacters.setFdDef(eqCharacters.getFdDef()*eqCharacters.getLv());
+            eqCharacters.setZlDef(eqCharacters.getZlDef()*eqCharacters.getLv());
+        }
+        return characterList;
     }
 
     @Override
@@ -305,7 +319,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         if (playerBag3 != null) {
             info.setCrystal(playerBag3.getItemCount());
         }
-        info.setEqCharactersList(characterEqList);
+        info.setEqCharactersList(formateEqCharacter(characterEqList));
         //卡池数量
         List<Card> cardList = cardMapper.selectAll();
         info.setUseCardCount(cardList.size() + "");
@@ -471,7 +485,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         UserInfo info = new UserInfo();
         BeanUtils.copyProperties(user, info);
         List<EqCharacters> eqCharactersList = eqCharactersMapper.selectByUserId(Integer.parseInt(token.getUserId()));
-        info.setEqCharactersList(eqCharactersList);
+        info.setEqCharactersList(formateEqCharacter(eqCharactersList));
         baseResp.setData(info);
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("更新成功");
@@ -517,7 +531,9 @@ public class GameServiceServiceImpl implements GameServiceService {
         UserInfo info = new UserInfo();
         BeanUtils.copyProperties(user, info);
         List<EqCharacters> eqCharactersList = eqCharactersMapper.selectByUserId(Integer.parseInt(token.getUserId()));
-        info.setEqCharactersList(eqCharactersList);
+        info.setEqCharactersList(formateEqCharacter(eqCharactersList));
+//        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+//        info.setCharacterList(formateCharacter(characterList));
         baseResp.setData(info);
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("更新成功");
@@ -793,7 +809,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : leftCharacter) {
             List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(user.getUserId() + "", characters.getId());
             if (Xtool.isNotNull(eqCharacters)) {
-                characters.setEqCharactersList(eqCharacters);
+                characters.setEqCharactersList(formateEqCharacter(eqCharacters));
             }
         }
         List<Characters> rightCharacter = new ArrayList<>();
@@ -981,7 +997,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : leftCharacter) {
             List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(user.getUserId() + "", characters.getId());
             if (Xtool.isNotNull(eqCharacters)) {
-                characters.setEqCharactersList(eqCharacters);
+                characters.setEqCharactersList(formateEqCharacter(eqCharacters));
             }
         }
         List<Characters> rightCharacter = new ArrayList<>();
@@ -1285,6 +1301,80 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp eqCardLevelUp(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (Xtool.isNull(token.getMyMap())) {
+            baseResp.setSuccess(1);
+            baseResp.setErrorMsg("更新成功");
+            return baseResp;
+        }
+        EqCharacters character = eqCharactersMapper.listById(token.getUserId(), token.getId());
+        List<QqCardExp> qqCardExpList = qqCardExpMapper.findbyStar(character.getStar().stripTrailingZeros() + "");
+        List<Integer> expTable = new ArrayList<>();
+        List<Integer> silverTable = new ArrayList<>();
+        List<MaterialCard> materials = new ArrayList<>();
+        for (QqCardExp qqCardExp : qqCardExpList) {
+            expTable.add(qqCardExp.getUpgradeExp());
+            silverTable.add(qqCardExp.getGold());
+        }
+        // 1. 获取前端传递的二维数组
+        List<List<Object>> strArray = token.getMyMap();
+        if (strArray == null || strArray.isEmpty()) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("服务器异常1");
+            return baseResp;
+        }
+
+        // 2. 将二维数组转为Map<String, Integer>（核心步骤）
+        Map<String, Integer> myMap = new HashMap<>();
+        for (List<Object> entry : strArray) {
+            // 校验数组元素格式（避免前端传参异常导致报错）
+            if (entry.size() != 2) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("服务器异常2");
+                return baseResp;
+            }
+            // 强转：第一个元素是String（键），第二个是Integer（值）
+            String key = (String) entry.get(0);
+            Integer value = (Integer) entry.get(1);
+            myMap.put(key, value);
+        }
+//        List<Characters> charactersList = new ArrayList<>();
+        // 3. 业务逻辑处理（示例：遍历Map）
+        for (Map.Entry<String, Integer> entry : myMap.entrySet()) {
+//            System.out.println("键：" + entry.getKey() + "，值：" + entry.getValue());
+            EqCharacters characterCong = eqCharactersMapper.listById(token.getUserId(), entry.getKey());
+            for (int i = 0; i < entry.getValue(); i++) {
+//                charactersList.add(characterCong);
+                //如果是魂力宝珠
+                if ("105".equals(characterCong.getId())) {
+                    materials.add(new MaterialCard(1, 5000));
+                } else {
+                    //第一张吞掉本经验，后续则5经验
+                    if (i == 0) {
+                        materials.add(new MaterialCard(characterCong.getLv(), characterCong.getExp()));
+                    } else {
+                        materials.add(new MaterialCard(1, 5));
+                    }
+                }
+
+            }
+
+        }
+        int maxLevel = character.getMaxLv(); // 最高等级5级
+        // 主卡：当前2级，已有30经验
+        int mainLevel = character.getLv();
+        int mainExp = character.getExp();
+
+        LevelUpResult result = this.calculateLevelUp(mainLevel, mainExp, materials, expTable, silverTable, maxLevel, token.getId());
+
+        baseResp.setSuccess(1);
+        baseResp.setData(result);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
     public BaseResp stopLevel(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -1368,6 +1458,72 @@ public class GameServiceServiceImpl implements GameServiceService {
         UserInfo info = new UserInfo();
         BeanUtils.copyProperties(user, info);
         info.setCharacterList(formateCharacter(characterList));
+        baseResp.setSuccess(1);
+        baseResp.setData(info);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
+    @Transactional
+    @NoRepeatSubmit(limitSeconds = 5)
+    public BaseResp eqCardLevelUp2(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (Xtool.isNull(token.getMyMap())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("从卡不存在");
+            return baseResp;
+        }
+        // 1. 获取前端传递的二维数组
+        List<List<Object>> strArray = token.getMyMap();
+        if (strArray == null || strArray.isEmpty()) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("服务器异常1");
+            return baseResp;
+        }
+
+        // 1. 获取前端传递的二维数组
+        if (token.getFinalLevel() <= 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("服务器异常3");
+            return baseResp;
+        }
+
+        // 2. 将二维数组转为Map<String, Integer>（核心步骤）
+        Map<String, Integer> myMap = new HashMap<>();
+        for (List<Object> entry : strArray) {
+            // 校验数组元素格式（避免前端传参异常导致报错）
+            if (entry.size() != 2) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("服务器异常2");
+                return baseResp;
+            }
+            // 强转：第一个元素是String（键），第二个是Integer（值）
+            String key = (String) entry.get(0);
+            Integer value = (Integer) entry.get(1);
+            myMap.put(key, value);
+        }
+        for (Map.Entry<String, Integer> entry : myMap.entrySet()) {
+            EqCharacters characters = eqCharactersMapper.listById(token.getUserId(), entry.getKey());
+            if (characters.getStackCount() - entry.getValue() >= 0) {
+                characters.setStackCount(characters.getStackCount() - entry.getValue());
+                characters.setExp(5);
+            } else {
+                characters.setIsDelete("1");
+            }
+            eqCharactersMapper.updateByPrimaryKey(characters);
+        }
+        EqCharacters characters = eqCharactersMapper.listById(token.getUserId(), token.getId());
+        characters.setExp(token.getRemainingExp());
+        characters.setLv(token.getFinalLevel());
+        eqCharactersMapper.updateByPrimaryKey(characters);
+        User user = userMapper.selectUserByUserId(Integer.parseInt(token.getUserId()));
+        user.setGold(user.getGold().subtract(new BigDecimal(token.getTotalSilverSpent())));
+        userMapper.updateuser(user);
+        List<EqCharacters> characterList = eqCharactersMapper.selectByUserId(user.getUserId());
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        info.setEqCharactersList(formateEqCharacter(characterList));
         baseResp.setSuccess(1);
         baseResp.setData(info);
         baseResp.setErrorMsg("更新成功");
@@ -3212,7 +3368,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : leftCharacter) {
             List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(user.getUserId() + "", characters.getId());
             if (Xtool.isNotNull(eqCharacters)) {
-                characters.setEqCharactersList(eqCharacters);
+                characters.setEqCharactersList(formateEqCharacter(eqCharacters));
             }
         }
         Collections.sort(leftCharacter, Comparator.comparing(Characters::getGoIntoNum));
@@ -3421,7 +3577,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : leftCharacter) {
             List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(user.getUserId() + "", characters.getId());
             if (Xtool.isNotNull(eqCharacters)) {
-                characters.setEqCharactersList(eqCharacters);
+                characters.setEqCharactersList(formateEqCharacter(eqCharacters));
             }
         }
         Collections.sort(leftCharacter, Comparator.comparing(Characters::getGoIntoNum));
@@ -3436,7 +3592,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : rightCharacter) {
             List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(user1.getUserId() + "", characters.getId());
             if (Xtool.isNotNull(eqCharacters)) {
-                characters.setEqCharactersList(eqCharacters);
+                characters.setEqCharactersList(formateEqCharacter(eqCharacters));
             }
         }
         baseResp.setSuccess(1);
@@ -4230,7 +4386,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : leftCharacter) {
             List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(userId, characters.getId());
             if (Xtool.isNotNull(eqCharacters)) {
-                characters.setEqCharactersList(eqCharacters);
+                characters.setEqCharactersList(formateEqCharacter(eqCharacters));
             }
         }
         PveDetail pveDetail = pveDetailMapper.selectById(token.getStr());
@@ -4417,7 +4573,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : leftCharacter) {
             List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(userId, characters.getId());
             if (Xtool.isNotNull(eqCharacters)) {
-                characters.setEqCharactersList(eqCharacters);
+                characters.setEqCharactersList(formateEqCharacter(eqCharacters));
             }
         }
         if (token.getFinalLevel() > 100) {
@@ -4708,7 +4864,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : leftCharacter) {
             List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(userId, characters.getId());
             if (Xtool.isNotNull(eqCharacters)) {
-                characters.setEqCharactersList(eqCharacters);
+                characters.setEqCharactersList(formateEqCharacter(eqCharacters));
             }
         }
         Collections.sort(leftCharacter, Comparator.comparing(Characters::getGoIntoNum));
@@ -4732,7 +4888,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : rightCharacter) {
             List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(gameArenaSignup2.getUserId() + "", characters.getId());
             if (Xtool.isNotNull(eqCharacters)) {
-                characters.setEqCharactersList(eqCharacters);
+                characters.setEqCharactersList(formateEqCharacter(eqCharacters));
             }
         }
         Collections.sort(rightCharacter, Comparator.comparing(Characters::getGoIntoNum));
@@ -5251,6 +5407,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             List<EqCharacters> eqCharacters = characters.getEqCharactersList();
             //攻击
             character.setWlAtk(eqCharacters.stream().map(EqCharacters::getWlAtk).mapToInt(wlAtk -> Objects.isNull(wlAtk) ? 0 : wlAtk).sum());
+            character.setAttack(character.getAttack()+character.getWlAtk());
             character.setHyAtk(eqCharacters.stream().map(EqCharacters::getHyAtk).mapToInt(hyAtk -> Objects.isNull(hyAtk) ? 0 : hyAtk).sum());
             character.setDsAtk(eqCharacters.stream().map(EqCharacters::getDsAtk).mapToInt(dsAtk -> Objects.isNull(dsAtk) ? 0 : dsAtk).sum());
             character.setFdAtk(eqCharacters.stream().map(EqCharacters::getFdAtk).mapToInt(fdAtk -> Objects.isNull(fdAtk) ? 0 : fdAtk).sum());

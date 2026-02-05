@@ -220,7 +220,19 @@ public class GameContoller {
             return baseResp;
         }
     }
-
+    @RequestMapping(value = "eqCardLevelUp", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp eqCardLevelUp(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.eqCardLevelUp(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
     /**
      * 强化卡牌
      *
@@ -241,7 +253,26 @@ public class GameContoller {
             return baseResp;
         }
     }
-
+    /**
+     * 强化卡牌
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "eqCardLevelUp2", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp eqCardLevelUp2(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.eqCardLevelUp2(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
 
     /**
      * 上阵

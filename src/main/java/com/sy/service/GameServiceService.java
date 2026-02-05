@@ -24,8 +24,10 @@ public interface GameServiceService {
     BaseResp participate(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp participate2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp cardLevelUp(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp eqCardLevelUp(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp stopLevel(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp cardLevelUp2(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp eqCardLevelUp2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp changerHeader(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp itemUpdate(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp arenaItemUpdate(TokenDto token, HttpServletRequest request) throws Exception;

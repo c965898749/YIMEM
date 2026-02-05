@@ -19,4 +19,7 @@ public interface EqCharactersMapper extends BaseMapper<EqCharacters> {
     int changeEqState(@Param("userId")String userId,@Param("id") String id);
 
     int changeEqState2(@Param("userId")String userId,@Param("id") String id,@Param("itemId")String itemId);
+
+
+    int updateByPrimaryKey(EqCharacters record);
 }

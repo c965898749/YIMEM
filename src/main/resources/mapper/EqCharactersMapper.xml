@@ -69,7 +69,7 @@
     left  join eq_card cd on cd.id=cs.id
     where cs.user_id = #{userId} and   cs.go_into_num = #{id} and cs.is_delete='0' limit 1
   </select>
-    <select id="selectByUserId" parameterType="com.sy.model.game.Characters"
+    <select id="selectByUserId" parameterType="com.sy.model.game.EqCharacters"
             resultType="com.sy.model.game.EqCharacters">
     select
     cs.uuid,
@@ -114,4 +114,18 @@
         UPDATE `eq_characters` SET   `go_into_num`=#{itemId}
         where user_id = #{userId} and   id = #{id}
     </update>
+
+
+    <update id="updateByPrimaryKey" parameterType="com.sy.model.game.EqCharacters">
+    update  eq_characters
+    set user_id = #{userId,jdbcType=INTEGER},
+      id = #{id,jdbcType=VARCHAR},
+      lv = #{lv,jdbcType=INTEGER},
+      stack_count = #{stackCount,jdbcType=INTEGER},
+      go_into_num = #{goIntoNum,jdbcType=INTEGER},
+      exp = #{exp,jdbcType=INTEGER},
+      is_delete = #{isDelete},
+      update_time= now()
+    where uuid = #{uuid,jdbcType=INTEGER}
+  </update>
 </mapper>
