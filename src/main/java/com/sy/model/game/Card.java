@@ -34,6 +34,8 @@ public class Card {
 
     private String passiveIntroduceThree;
 
+    private String passiveIntroduceThreee;
+
     private String passiveIntroduceFour;
 
     private String profession;

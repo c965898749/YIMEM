@@ -136,7 +136,13 @@
     cd.coll_hp,
     cd.passive_introduce_one,
     cd.passive_introduce_two,
-    cd.passive_introduce_three
+    cd.passive_introduce_three,
+    cd.passive_introduce_threee,
+    cd.passive_introduce_four,
+    cd.passive_introduce_one_str,
+    cd.passive_introduce_two_str,
+    cd.passive_introduce_three_str,
+    cd.passive_introduce_four_str
     from   card cd
   </select>
     <select id="selectByUserId" parameterType="com.sy.model.game.Characters" resultType="com.sy.model.game.Characters">
@@ -164,7 +170,13 @@
     cd.passive_introduce_one,
     cd.passive_introduce_two,
     cs.is_delete,
-    cd.passive_introduce_three
+    cd.passive_introduce_three,
+    cd.passive_introduce_threee,
+    cd.passive_introduce_four,
+    cd.passive_introduce_one_str,
+    cd.passive_introduce_two_str,
+    cd.passive_introduce_three_str,
+    cd.passive_introduce_four_str
     from   characters cs
     left  join card cd on cd.id=cs.id
     where cs.user_id = #{userId} and cs.is_delete='0'
@@ -194,7 +206,13 @@
     cd.passive_introduce_one,
     cd.passive_introduce_two,
     cs.is_delete,
-    cd.passive_introduce_three
+    cd.passive_introduce_three,
+    cd.passive_introduce_threee,
+    cd.passive_introduce_four,
+    cd.passive_introduce_one_str,
+    cd.passive_introduce_two_str,
+    cd.passive_introduce_three_str,
+    cd.passive_introduce_four_str
     from   characters cs
     left  join card cd on cd.id=cs.id
     where cs.user_id = #{userId} and   cs.id = #{id} and cs.is_delete='0' limit 1
@@ -226,7 +244,13 @@
     cd.coll_hp,
     cd.passive_introduce_one,
     cd.passive_introduce_two,
-    cd.passive_introduce_three
+    cd.passive_introduce_three,
+    cd.passive_introduce_threee,
+    cd.passive_introduce_four,
+    cd.passive_introduce_one_str,
+    cd.passive_introduce_two_str,
+    cd.passive_introduce_three_str,
+    cd.passive_introduce_four_str
     from   characters cs
     left  join card cd on cd.id=cs.id
     where cs.user_id = #{userId} and  cs.go_into_num &lt;&gt; 0  and cs.is_delete='0'
@@ -257,7 +281,13 @@
     cd.coll_hp,
     cd.passive_introduce_one,
     cd.passive_introduce_two,
-    cd.passive_introduce_three
+    cd.passive_introduce_three,
+    cd.passive_introduce_threee,
+    cd.passive_introduce_four,
+    cd.passive_introduce_one_str,
+    cd.passive_introduce_two_str,
+    cd.passive_introduce_three_str,
+    cd.passive_introduce_four_str
     from   characters cs
     left  join card cd on cd.id=cs.id
     where find_in_set(cs.user_id,#{userIds})and  cs.go_into_num &lt;&gt; 0  and cs.is_delete='0'

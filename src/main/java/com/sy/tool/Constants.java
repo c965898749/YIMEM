@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Constants {
     //chatGPT 人工AI
-    public static final String apiKey="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UaEVOVUpHTkVNMVFURTRNMEZCTWpkQ05UZzVNRFUxUlRVd1FVSkRNRU13UmtGRVFrRXpSZyJ9.eyJodHRwczovL2FwaS5vcGVuYWkuY29tL3Byb2ZpbGUiOnsiZW1haWwiOiJjMTg5MzIyMDAxNjNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImdlb2lwX2NvdW50cnkiOiJKUCJ9LCJodHRwczovL2FwaS5vcGVuYWkuY29tL2F1dGgiOnsidXNlcl9pZCI6InVzZXItVE9HdUpyd3Q2bE9rTXRkS0ZRbGF0cTFRIn0sImlzcyI6Imh0dHBzOi8vYXV0aDAub3BlbmFpLmNvbS8iLCJzdWIiOiJhdXRoMHw2M2VjNDI1ZDEwYmU3NmFjZmVhNmI5ZDAiLCJhdWQiOlsiaHR0cHM6Ly9hcGkub3BlbmFpLmNvbS92MSIsImh0dHBzOi8vb3BlbmFpLm9wZW5haS5hdXRoMGFwcC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc2NDUwODkyLCJleHAiOjE2Nzc2NjA0OTIsImF6cCI6IlRkSkljYmUxNldvVEh0Tjk1bnl5d2g1RTR5T282SXRHIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBtb2RlbC5yZWFkIG1vZGVsLnJlcXVlc3Qgb3JnYW5pemF0aW9uLnJlYWQgb2ZmbGluZV9hY2Nlc3MifQ.n6wuuaMhB9XGOngqervRdID8BT3750UDb1ir90LbQTbEVsGsNLeoJ6HGvGH_9-kJ8yDewYDZxDLPL_LW3KlPhfns8f5fUquNH1ovd4zok_lEblV580w4OWSYD6o3l4nzNVBcggXeNTj78BsVQqPZJnQE-70EqAN1tShyAE_csKiRbWX0-X82fKlHD2Msk4MLoOegUKNf3dByFj431kSlp7vMpyIc24QdosEcTBUtqyp8qIEQLFpAqTkWREi_ha8Mh_Iog4i9eLyl8ye9O84xVIFhfu9NXLxeJ5d1_uMZRgd-49OHCuVdbs2vVRsdKWQu2EJZTj2xfeYhY4BDkA03rw";
+    public static final String apiKey = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UaEVOVUpHTkVNMVFURTRNMEZCTWpkQ05UZzVNRFUxUlRVd1FVSkRNRU13UmtGRVFrRXpSZyJ9.eyJodHRwczovL2FwaS5vcGVuYWkuY29tL3Byb2ZpbGUiOnsiZW1haWwiOiJjMTg5MzIyMDAxNjNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImdlb2lwX2NvdW50cnkiOiJKUCJ9LCJodHRwczovL2FwaS5vcGVuYWkuY29tL2F1dGgiOnsidXNlcl9pZCI6InVzZXItVE9HdUpyd3Q2bE9rTXRkS0ZRbGF0cTFRIn0sImlzcyI6Imh0dHBzOi8vYXV0aDAub3BlbmFpLmNvbS8iLCJzdWIiOiJhdXRoMHw2M2VjNDI1ZDEwYmU3NmFjZmVhNmI5ZDAiLCJhdWQiOlsiaHR0cHM6Ly9hcGkub3BlbmFpLmNvbS92MSIsImh0dHBzOi8vb3BlbmFpLm9wZW5haS5hdXRoMGFwcC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc2NDUwODkyLCJleHAiOjE2Nzc2NjA0OTIsImF6cCI6IlRkSkljYmUxNldvVEh0Tjk1bnl5d2g1RTR5T282SXRHIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBtb2RlbC5yZWFkIG1vZGVsLnJlcXVlc3Qgb3JnYW5pemF0aW9uLnJlYWQgb2ZmbGluZV9hY2Nlc3MifQ.n6wuuaMhB9XGOngqervRdID8BT3750UDb1ir90LbQTbEVsGsNLeoJ6HGvGH_9-kJ8yDewYDZxDLPL_LW3KlPhfns8f5fUquNH1ovd4zok_lEblV580w4OWSYD6o3l4nzNVBcggXeNTj78BsVQqPZJnQE-70EqAN1tShyAE_csKiRbWX0-X82fKlHD2Msk4MLoOegUKNf3dByFj431kSlp7vMpyIc24QdosEcTBUtqyp8qIEQLFpAqTkWREi_ha8Mh_Iog4i9eLyl8ye9O84xVIFhfu9NXLxeJ5d1_uMZRgd-49OHCuVdbs2vVRsdKWQu2EJZTj2xfeYhY4BDkA03rw";
     //站点
     public static final String SITE = "http://www.yimem.com";  //改为自己站点的site值
 
@@ -15,7 +15,7 @@ public class Constants {
     public static final String PHONE_REG = "^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\\d{8}$";
 
 
-    public static final String ROOT_PATH =  File.separator +"volume1"+File.separator + "lishi";
+    public static final String ROOT_PATH = File.separator + "volume1" + File.separator + "lishi";
 
     //存放上传文件的根目录：
 //    public static final String UPLOAD_ROOT_DIR = "/upload/";
@@ -23,7 +23,7 @@ public class Constants {
     public static final String REMOTEURL = "smb://yimem:c866971331C@192.168.0.104/lishi/";
 //    public static final String REMOTEURL = "smb://yimem:c866971331@192.168.5.101/lishi/";
 
-//    public static final String VV = "smb://yimem:c866971331@192.168.0.117/video/AV/";
+    //    public static final String VV = "smb://yimem:c866971331@192.168.0.117/video/AV/";
     public static final String VV = "smb://yimem:c866971331C@192.168.0.104/video/AV/";
 //    public static final String VV = "smb://yimem:c866971331@192.168.5.101/video/AV/";
 
@@ -41,24 +41,24 @@ public class Constants {
 
     public static final String VIDEO_CACHE_DIR = "upload/videotemp";
 
-//    public static final String ffmpegpath = "/usr/local/ffmpeg/ffmpeg";        // ffmpeg工具安装位置
+    //    public static final String ffmpegpath = "/usr/local/ffmpeg/ffmpeg";        // ffmpeg工具安装位置
 //    public static final String ffmpegpath = "D:/ffmpeg/bin/ffmpeg.exe";        // ffmpeg工具安装位置
     public static final String ffmpegpath = "E:/ffmpeg-20200831-4a11a6f-win64-static/bin/ffmpeg.exe";        // ffmpeg工具安装位置
     public static final String mencoderpath = "D:/ffmpeg/bin/mencoder";    // mencoder工具安装的位置
 
-//    public static String videofolder = "D:/VRMS-Workspace/YIMEM/src/main/webapp/mp4/";    // 需要被转换格式的视频目录
+    //    public static String videofolder = "D:/VRMS-Workspace/YIMEM/src/main/webapp/mp4/";    // 需要被转换格式的视频目录
     public static String videofolder = "D:/项目/YIMEM/src/main/webapp/mp4/";    // 需要被转换格式的视频目录
-//        public static final String videoRealPath = "/shipingzhuanma/";
+    //        public static final String videoRealPath = "/shipingzhuanma/";
     public static final String videoRealPath = "D:/shipingzhuanma/";
 //    public static final String videoRealPath = "D:/VRMS-Workspace/YIMEM/src/main/webapp/mp4/";    // 需要被截图的视频目录
 
-//    public static String targetfolder = "D:/VRMS-Workspace/YIMEM/src/main/webapp/mp4/"; // 转码后视频保存的目录
+    //    public static String targetfolder = "D:/VRMS-Workspace/YIMEM/src/main/webapp/mp4/"; // 转码后视频保存的目录
 //    public static String targetfolder = "D:/项目/YIMEM/src/main/webapp/mp4/"; // 转码后视频保存的目录
 //    public static String targetfolder = "D:/shipingzhuanma/";; // 转码后视频保存的目录
-    public static String targetfolder = "D:/shipingzhuanma2/";; // 转码后视频保存的目录
-//    public static String targetfolder = "/shipingzhuanma/"; // 转码后视频保存的目录
+    public static String targetfolder = "D:/shipingzhuanma2/";
+    ; // 转码后视频保存的目录
+    //    public static String targetfolder = "/shipingzhuanma/"; // 转码后视频保存的目录
     public static final String imageRealPath = "D://acView/convert/"; // 截图的存放目录
-
 
 
     public static final String SIMPLE_QUEUE_NAME = "simple_queue";
@@ -77,13 +77,13 @@ public class Constants {
 
     public static final String FUNURLS = "FUNURLS";
 
-    public static final String TO_USER_NAME="gh_7564ec5aa11b";
+    public static final String TO_USER_NAME = "gh_7564ec5aa11b";
     public static final String APPID = "wxcbe24adb36f7b45a";
     public static final String APPSECRET = "2304599f8013f2836071eac5ef21bdc9";
 
-    public static final String TO_USER_NAME_2="gh_55db4b3b1b3f";
+    public static final String TO_USER_NAME_2 = "gh_55db4b3b1b3f";
     public static final String APPID_2 = "wxf577f7f0011c36a3";
-    public static final String APPSECRET_2= "6377b80773c62a761835e918a45d62c3";
+    public static final String APPSECRET_2 = "6377b80773c62a761835e918a45d62c3";
 
     /**
      * 公钥
@@ -117,24 +117,32 @@ public class Constants {
 
     public static final String DELETE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=ACCESS_TOKEN";
 
-    public static final String TICKET_URL="https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN";
+    public static final String TICKET_URL = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN";
 
-    public static final String TEMPLATE="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
+    public static final String TEMPLATE = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
 
-    public static final String TEMPLATE_ID="WiLx_78eh1yP9TQeBwCxh2mfZt8CXhN3xvHXCwODX4c";
+    public static final String TEMPLATE_ID = "WiLx_78eh1yP9TQeBwCxh2mfZt8CXhN3xvHXCwODX4c";
 
-    public static final String TEMPLATE_ID2="PALmmHSVxSQle5WQmZ2pnX4EgRHsmGlHMJp9g4MVtnU";
+    public static final String TEMPLATE_ID2 = "PALmmHSVxSQle5WQmZ2pnX4EgRHsmGlHMJp9g4MVtnU";
 
-    public static final String TEMPLATE_ID3="g29LkxPM2mzhKDk5JTg5UGsUPMpsRepujcRVCpWkK-s";
+    public static final String TEMPLATE_ID3 = "g29LkxPM2mzhKDk5JTg5UGsUPMpsRepujcRVCpWkK-s";
 
-    public static final String TEMPLATE_ID4="WI1Hawtg_Dk-YbceHsoCx8v-8SNMRor-2zESVDEeCRo";
+    public static final String TEMPLATE_ID4 = "WI1Hawtg_Dk-YbceHsoCx8v-8SNMRor-2zESVDEeCRo";
 
-    public static final String[] type={"动作","喜剧","爱情","科幻","灾难","恐怖","悬疑","奇幻","战争","悬疑","犯罪"," 惊悚","动画","伦理",
-            "剧情","冒险","历史","家庭","歌舞","传记","音乐"," 西部","运动","古装","家庭","情色","同性","武侠","短片","黑色电影","儿童",
-    "舞台艺术","纪录片","鬼怪"};
-    public static final String[]  language={"国语","粤语","英语","韩语","日语","法语","其他"};
-    public static final String[] region={"大陆","香港","台湾","美国","法国","英国","日本","韩国","德国","泰国","印度","意大利","西班牙","加拿大","其他"};
-
+    public static final String[] type = {"动作", "喜剧", "爱情", "科幻", "灾难", "恐怖", "悬疑", "奇幻", "战争", "悬疑", "犯罪", " 惊悚", "动画", "伦理",
+            "剧情", "冒险", "历史", "家庭", "歌舞", "传记", "音乐", " 西部", "运动", "古装", "家庭", "情色", "同性", "武侠", "短片", "黑色电影", "儿童",
+            "舞台艺术", "纪录片", "鬼怪"};
+    public static final String[] language = {"国语", "粤语", "英语", "韩语", "日语", "法语", "其他"};
+    public static final String[] region = {"大陆", "香港", "台湾", "美国", "法国", "英国", "日本", "韩国", "德国", "泰国", "印度", "意大利", "西班牙", "加拿大", "其他"};
+    // 建议将这些常量抽取到常量类中
+    public static final String REDIS_KEY_BATTLE_LOCK = "battle:lock:";
+    public static final String REDIS_KEY_BATTLE_LIMIT = "battle:limit:";
+    public static final String REDIS_KEY_BATTLE_RESULT = "battle:result:";
+    // 1分钟内最多5次请求
+    public static final int REQUEST_LIMIT_COUNT = 5;
+    public static final int REQUEST_LIMIT_SECONDS = 60;
+    // 战斗锁超时时间（防止死锁）
+    public static final int BATTLE_LOCK_SECONDS = 30;
     /**
      * UTF-8 字符集
      */
@@ -256,18 +264,18 @@ public class Constants {
     public static final String RESOURCE_PREFIX = "/profile";
 
     /**
-    文心一言
+     * 文心一言
      */
     public static final String apibuKey = "bRzZmiRAZrR1nfihnzxNPHRc";
     public static final String secretKey = "bVn6u1lbvndaRzS9sNOt7ZoLVUMOODra";
     public static final String tokenUrl = "https://aip.baidubce.com/oauth/2.0/token";
-//    public static final String chatUrl = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions";
+    //    public static final String chatUrl = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions";
     public static final String chatUrl = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie-speed-128k";
 
-    public static final String GIFT_CODE_DUPLICATE="无效礼包码";
-    public static final String GIFT_NOT_EXIST_OR_DISABLED="礼包不存在或已禁用";
-    public static final String GIFT_NOT_IN_VALID_TIME="礼包不在有效期内";
-    public static final String GIFT_OUT_OF_STOCK="礼包已领完";
-    public static final String GIFT_RULE_NOT_SATISFIED="不满足领取条件";
-    public static final String GIFT_RECEIVE_COUNT_EXCEEDED="已达领取次数上限";
+    public static final String GIFT_CODE_DUPLICATE = "无效礼包码";
+    public static final String GIFT_NOT_EXIST_OR_DISABLED = "礼包不存在或已禁用";
+    public static final String GIFT_NOT_IN_VALID_TIME = "礼包不在有效期内";
+    public static final String GIFT_OUT_OF_STOCK = "礼包已领完";
+    public static final String GIFT_RULE_NOT_SATISFIED = "不满足领取条件";
+    public static final String GIFT_RECEIVE_COUNT_EXCEEDED = "已达领取次数上限";
 }

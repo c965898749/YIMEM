@@ -5531,7 +5531,7 @@ public class BattleManager {
             int dajiSpeedBefore = daji.getSpeed();
 
             // 妖狐蔽天：3%几率眩晕当前敌人
-            if (ProbabilityBooleanUtils.randomByProbability(0.03 * skillLevel[0]) && fieldB != null) {
+            if (ProbabilityBooleanUtils.randomByProbability(0.03 * skillLevel[0]) && fieldB != null&&!fieldB.isDead()) {
                 int targetHpBefore = fieldB.getMaxHp();
                 fieldB.getEffects().put(EffectType.STUN, 2);
 
@@ -5588,7 +5588,7 @@ public class BattleManager {
             int dajiSpeedBefore = daji.getSpeed();
 
             // 妖狐蔽天：3%几率眩晕当前敌人
-            if (ProbabilityBooleanUtils.randomByProbability(0.03 * skillLevel[0]) && fieldA != null) {
+            if (ProbabilityBooleanUtils.randomByProbability(0.03 * skillLevel[0]) && fieldA != null&&!fieldA.isDead()) {
                 int targetHpBefore = fieldA.getMaxHp();
                 fieldA.getEffects().put(EffectType.STUN, 2);
 

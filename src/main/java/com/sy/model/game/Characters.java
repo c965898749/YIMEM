@@ -31,6 +31,11 @@ public class Characters {
     private String passiveIntroduceTwo;
     private String passiveIntroduceThree;
     private String passiveIntroduceFour;
+    private String passiveIntroduceThreee;
+    private String passiveIntroduceOneStr;
+    private String passiveIntroduceTwoStr;
+    private String passiveIntroduceThreeStr;
+    private String passiveIntroduceFourStr;
     private Integer exp;
     private String isDelete;
     private String profession;
