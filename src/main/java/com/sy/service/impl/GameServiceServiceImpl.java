@@ -165,7 +165,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         //5、查看状态，如果为已禁用状态，则返回员工已禁用结果
         if (emp.getStatus() == 0) {
             baseResp.setSuccess(0);
-            baseResp.setErrorMsg("账号已被禁用");
+            baseResp.setErrorMsg("账号已被封禁");
             return baseResp;
         }
         //先判断今天是否签到
@@ -283,6 +283,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        //5、查看状态，如果为已禁用状态，则返回员工已禁用结果
+        if (user.getStatus() == 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("账号已被封禁");
+            return baseResp;
+        }
         //先判断今天是否签到
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         if (user.getSignTime() != null) {
