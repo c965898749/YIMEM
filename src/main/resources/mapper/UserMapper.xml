@@ -278,6 +278,12 @@
             <if test="chongzhi!=null">
                 chongzhi=#{chongzhi},
             </if>
+            <if test="token!=null and token!=''">
+                token= #{token},
+            </if>
+            <if test="loginTime!=null">
+                login_time=#{loginTime},
+            </if>
         </set>
         where userId=#{userId}
     </update>

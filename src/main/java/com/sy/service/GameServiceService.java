@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface GameServiceService {
     BaseResp loginGame(User user, HttpServletRequest request) throws Exception;
+    BaseResp isTrue(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp gameVersion(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp registerGame(User user, HttpServletRequest request) throws Exception;
     BaseResp updateGame(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp updateTli(TokenDto token, HttpServletRequest request) throws Exception;

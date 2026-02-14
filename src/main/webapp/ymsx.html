@@ -12,6 +12,107 @@
     <link href="./yimem_files/css2" rel="stylesheet">
     <script type="module" crossorigin="" src="./yimem_files/index-DFXZMsuZ.js"></script>
     <link rel="stylesheet" crossorigin="" href="./yimem_files/index--lGyH7Tc.css">
+    <style>
+        /* 下载按钮样式 */
+        .download-btn {
+            background-color: #007aff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .download-btn:hover {
+            background-color: #0066cc;
+        }
+
+        /* 弹窗遮罩层 - 默认隐藏 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* 默认隐藏弹窗 */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* 弹窗内容容器 */
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        /* 弹窗标题 */
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* 二维码容器 */
+        .qrcode-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* 单个二维码样式 */
+        .qrcode-item {
+            text-align: center;
+        }
+
+        .qrcode-img {
+            width: 150px;
+            height: 150px;
+            border: 1px solid #eee;
+            padding: 5px;
+            margin-bottom: 10px;
+            cursor: pointer; /* 提示可点击 */
+        }
+
+        .qrcode-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* 关闭按钮 */
+        .close-btn {
+            background-color: #007aff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .close-btn:hover {
+            background-color: #0066cc;
+        }
+
+        /* 提示文本 */
+        .tip-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 <div id="app" data-v-app="">
@@ -79,6 +180,8 @@
                                 <p class="text-lg sm:text-xl lg:text-2xl text-white max-w-lg mx-auto lg:mx-0 font-medium"
                                    style="text-shadow:2px 2px 4px rgba(0,0,0,0.8);"> 创造充满想象力的游戏世界，为玩家带来独特的冒险体验 </p>
                             </div>
+                            <!-- 触发弹窗的按钮 -->
+                            <button class="download-btn" id="showDownloadBtn">下载APP</button>
                             <div class="space-y-6 max-w-md mx-auto lg:mx-0">
                                 <div class="space-y-3 text-center lg:text-left">
                                     <div class="flex items-center justify-center lg:justify-start space-x-4">
@@ -204,7 +307,67 @@
         </footer>
     </div>
 </div>
-
+<!-- 弹窗组件 -->
+<div class="modal-overlay" id="downloadModal">
+    <div class="modal-content">
+        <h3 class="modal-title">APP下载</h3>
+        <div class="qrcode-container">
+            <!-- 苹果下载二维码（带超链接） -->
+            <div class="qrcode-item">
+                <a href="https://your-ios-download-link.com" target="_blank" rel="noopener">
+                    <img src="https://placehold.co/150x150/eee/333?text=iOS下载" alt="苹果APP下载二维码" class="qrcode-img">
+                </a>
+                <p class="qrcode-text">iOS 下载</p>
+            </div>
+            <!-- 安卓下载二维码（带超链接） -->
+            <div class="qrcode-item">
+                <a href="https://your-android-download-link.com" target="_blank" rel="noopener">
+                    <img src="https://placehold.co/150x150/eee/333?text=安卓下载" alt="安卓APP下载二维码" class="qrcode-img">
+                </a>
+                <p class="qrcode-text">安卓下载</p>
+            </div>
+        </div>
+        <button class="close-btn" id="closeBtn">关闭</button>
+        <p class="tip-text">扫码或点击二维码即可下载对应版本APP</p>
+    </div>
+</div>
 
 </body>
+
+<script>
+    // 获取DOM元素
+    const showBtn = document.getElementById('showDownloadBtn');
+    const modal = document.getElementById('downloadModal');
+    const closeBtn = document.getElementById('closeBtn');
+
+    // 打开弹窗函数
+    function openModal() {
+        modal.style.display = 'flex';
+    }
+
+    // 关闭弹窗函数
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    // 点击按钮显示弹窗
+    showBtn.addEventListener('click', openModal);
+
+    // 点击关闭按钮关闭弹窗
+    closeBtn.addEventListener('click', closeModal);
+
+    // 点击遮罩层关闭弹窗
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // 按ESC键关闭弹窗
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+    });
+</script>
 </html>

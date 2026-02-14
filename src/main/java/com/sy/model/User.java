@@ -134,4 +134,7 @@ public class User {
     private Integer floorNum;
     private Date passTime;
     private Integer chongzhi;
+
+    private String token;
+    private Date loginTime;
 }

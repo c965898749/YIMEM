@@ -43,6 +43,8 @@ public class GameServiceServiceImpl implements GameServiceService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
+    private AppVersionMapper appVersionMapper;
+    @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
     private CharactersMapper charactersMapper;
@@ -212,8 +214,56 @@ public class GameServiceServiceImpl implements GameServiceService {
         info.setToken(token);
         ValueOperations opsForValue = redisTemplate.opsForValue();
         opsForValue.set(token, emp.getUserId() + "", 2592000, TimeUnit.SECONDS);
+        emp.setToken(token);
+        emp.setLoginTime(new Date());
+        userMapper.updateuser(emp);
         baseResp.setData(info);
         baseResp.setErrorMsg("登录成功");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp isTrue(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+
+        if (token == null || Xtool.isNull(token.getUserId())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User emp = userMapper.selectUserByUserId(Integer.parseInt(token.getUserId()));
+        if (emp == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        //5、查看状态，如果为已禁用状态，则返回员工已禁用结果
+        if (emp.getStatus() == 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("账号已被封禁");
+            return baseResp;
+        }
+        //再判断收否过期
+        if (!token.getToken().equals(emp.getToken())){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp gameVersion(TokenDto token, HttpServletRequest request) throws Exception {
+        AppVersion list=appVersionMapper.selectListLast();
+        BaseResp baseResp = new BaseResp();
+        baseResp.setSuccess(1);
+        baseResp.setData(list);
         return baseResp;
     }
 
@@ -287,6 +337,13 @@ public class GameServiceServiceImpl implements GameServiceService {
         if (user.getStatus() == 0) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("账号已被封禁");
+            return baseResp;
+        }
+
+        //再判断收否过期
+        if (!token.getToken().equals(user.getToken())){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
         //先判断今天是否签到
@@ -1446,6 +1503,43 @@ public class GameServiceServiceImpl implements GameServiceService {
             Integer value = (Integer) entry.get(1);
             myMap.put(key, value);
         }
+        List<MaterialCard> materials = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : myMap.entrySet()) {
+//            System.out.println("键：" + entry.getKey() + "，值：" + entry.getValue());
+            EqCharacters characterCong = eqCharactersMapper.listById(token.getUserId(), entry.getKey());
+            for (int i = 0; i < entry.getValue(); i++) {
+//                charactersList.add(characterCong);
+                //如果是魂力宝珠
+                if ("105".equals(characterCong.getId())) {
+                    materials.add(new MaterialCard(1, 5000));
+                } else {
+                    //第一张吞掉本经验，后续则5经验
+                    if (i == 0) {
+                        materials.add(new MaterialCard(characterCong.getLv(), characterCong.getExp()));
+                    } else {
+                        materials.add(new MaterialCard(1, 5));
+                    }
+                }
+
+            }
+
+        }
+        EqCharacters character = eqCharactersMapper.listById(token.getUserId(), token.getId());
+        List<QqCardExp> qqCardExpList = qqCardExpMapper.findbyStar(character.getStar().stripTrailingZeros() + "");
+        List<Integer> expTable = new ArrayList<>();
+        List<Integer> silverTable = new ArrayList<>();
+        for (QqCardExp qqCardExp : qqCardExpList) {
+            expTable.add(qqCardExp.getUpgradeExp());
+            silverTable.add(qqCardExp.getGold());
+        }
+        int maxLevel = character.getMaxLv(); // 最高等级5级
+        // 主卡：当前2级，已有30经验
+        int mainLevel = character.getLv();
+        int mainExp = character.getExp();
+
+        LevelUpResult result = this.calculateLevelUp(mainLevel, mainExp, materials, expTable, silverTable, maxLevel, token.getId());
+
+
         for (Map.Entry<String, Integer> entry : myMap.entrySet()) {
             Characters characters = charactersMapper.listById(token.getUserId(), entry.getKey());
             if (characters.getStackCount() - entry.getValue() >= 0) {
@@ -1457,11 +1551,11 @@ public class GameServiceServiceImpl implements GameServiceService {
             charactersMapper.updateByPrimaryKey(characters);
         }
         Characters characters = charactersMapper.listById(token.getUserId(), token.getId());
-        characters.setExp(token.getRemainingExp());
-        characters.setLv(token.getFinalLevel());
+        characters.setExp(result.getRemainingExp());
+        characters.setLv(result.getFinalLevel());
         charactersMapper.updateByPrimaryKey(characters);
         User user = userMapper.selectUserByUserId(Integer.parseInt(token.getUserId()));
-        user.setGold(user.getGold().subtract(new BigDecimal(token.getTotalSilverSpent())));
+        user.setGold(user.getGold().subtract(new BigDecimal(result.getTotalSilverSpent())));
         userMapper.updateuser(user);
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
         UserInfo info = new UserInfo();

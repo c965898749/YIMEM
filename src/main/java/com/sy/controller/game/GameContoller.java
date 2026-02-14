@@ -32,6 +32,33 @@ public class GameContoller {
         }
     }
 
+    @RequestMapping(value = "isTrue", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp isTrue(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.isTrue(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    @RequestMapping(value = "gameVersion", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp gameVersion(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.gameVersion(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
     @RequestMapping(value = "registerGame", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp registerGame(@RequestBody User user, HttpServletRequest request) {

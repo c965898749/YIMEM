@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神仙QQ仙 - 下载</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft Yahei", sans-serif;
+            /* 背景图：请将你的图片命名为 bg.jpg 放在同一目录下，或修改路径 */
+            background: url("images/bg.jpg") no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 遮罩层 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        /* 弹框 */
+        .modal {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .download-row {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .download-item {
+            text-align: center;
+        }
+
+        .download-item img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .download-item p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .close-btn {
+            padding: 10px 24px;
+            background: #ff6b6b;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .close-btn:hover {
+            background: #ff5252;
+        }
+
+        /* 响应式适配手机 */
+        @media (max-width: 480px) {
+            .download-row {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .download-item img {
+                width: 160px;
+                height: 160px;
+            }
+        }
+        /* 下载按钮样式 */
+        .download-btn {
+            background-color: #007aff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .download-btn:hover {
+            background-color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+<!-- 触发弹窗的按钮 -->
+<button class="download-btn" id="showDownloadBtn" onclick="showDownloadBtn()">下载APP</button>
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <h2>扫码下载游戏</h2>
+        <div class="download-row">
+            <div class="download-item">
+                <!-- 安卓二维码：命名为 android_qr.png 放在同一目录下 -->
+                <img src="android_qr.png" alt="安卓下载二维码">
+                <p>安卓版</p>
+            </div>
+            <div class="download-item">
+                <!-- 苹果二维码：命名为 ios_qr.png 放在同一目录下 -->
+                <img src="./images/ios_qr.png" alt="苹果下载二维码">
+                <p>苹果版</p>
+            </div>
+        </div>
+        <button class="close-btn" onclick="closeModal()">关闭</button>
+    </div>
+</div>
+
+<script>
+    function closeModal() {
+        document.getElementById('modalOverlay').style.display = 'none';
+    }
+
+    function showDownloadBtn() {
+        document.getElementById('modalOverlay').style.display = 'flex';
+    }
+</script>
+</body>
+</html>
