@@ -168,6 +168,7 @@ public class UserServicImpl implements UserServic {
             user.setHeadImg(url);
             user.setDownloadmoney((double)0);
             user.setRanking(9999);
+            user.setGameRanking(9999);
             user.setLevel(2);
             user.setCollectCount(0);
             user.setBlogCount(0);
