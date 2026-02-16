@@ -284,6 +284,9 @@
             <if test="loginTime!=null">
                 login_time=#{loginTime},
             </if>
+            <if test="hongbTime!=null">
+                hongb_time=#{hongbTime},
+            </if>
         </set>
         where userId=#{userId}
     </update>

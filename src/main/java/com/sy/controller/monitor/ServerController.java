@@ -96,4 +96,19 @@ public class ServerController
         }
         return baseResp;
     }
+
+    //卡密生成接口
+    @RequestMapping(value = "executeWeeklyTask", method = RequestMethod.GET)
+    public BaseResp executeWeeklyTask()
+    {
+        BaseResp baseResp = new BaseResp();
+        try {
+            gameServiceService.sendRawrd();
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("服务器异常");
+        }
+        return baseResp;
+    }
 }

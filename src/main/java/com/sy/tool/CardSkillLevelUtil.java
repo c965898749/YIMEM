@@ -2,15 +2,13 @@ package com.sy.tool;
 
 import java.util.Arrays;
 
-import java.util.Arrays;
-
 /**
- * 卡牌技能等级计算工具类
+ * 卡牌技能等级计算工具类（无技能等级封顶版）
  * 核心规则：
  * 1. 星级决定技能基础满级：1星=5级、1.5星=10级、2星=15级……（步长5）
  * 2. 初始技能：[1,0,0,0]，基础满级技能：[6,5,5,5]
  * 3. 满级后每增加5级，所有技能+1
- * 4. 所有技能等级封顶为10级
+ * 4. 移除技能等级封顶限制，技能等级可无上限增长
  */
 public class CardSkillLevelUtil {
 
@@ -26,8 +24,6 @@ public class CardSkillLevelUtil {
     private static final int LEVEL_INCREMENT_PER_STAR_STEP = 5;
     // 满级后技能升级步长（每增加5级，所有技能+1）
     private static final int SKILL_UP_STEP = 5;
-    // 技能等级封顶值
-    private static final int SKILL_MAX_CAP = 10;
 
     /**
      * 根据星级计算技能的基础满级等级（如1星=5，1.5星=10，4星=35）
@@ -45,7 +41,7 @@ public class CardSkillLevelUtil {
     }
 
     /**
-     * 核心方法：根据卡牌等级和星级，计算4个技能的等级（封顶10级）
+     * 核心方法：根据卡牌等级和星级，计算4个技能的等级（无封顶）
      * @param cardLevel 卡牌当前等级（≥1）
      * @param star 卡牌星级（≥1，支持0.5步长）
      * @return 4个技能的等级数组 [技能1, 技能2, 技能3, 技能4]
@@ -70,7 +66,7 @@ public class CardSkillLevelUtil {
             return skillLevels;
         }
 
-        // 5. 情况2：卡牌等级≤基础满级 → 按比例计算技能等级
+        // 5. 情况2：卡牌等级≤基础满级 → 按比例计算技能等级（移除封顶限制）
         if (cardLevel <= skillBaseMaxLevel) {
             // 计算等级进度（相对于1级到基础满级的区间）
             int levelRange = skillBaseMaxLevel - 1; // 1级到基础满级的等级差
@@ -83,13 +79,13 @@ public class CardSkillLevelUtil {
                 int skillLevel = INITIAL_SKILL_LEVELS[i] + (int) Math.ceil(
                         (double) currentProgress * skillMaxDelta / levelRange
                 );
-                // 确保不超过基础满级技能值，且不超过封顶值
-                skillLevels[i] = Math.min(skillLevel, Math.min(BASE_MAX_SKILL_LEVELS[i], SKILL_MAX_CAP));
+                // 仅限制不超过基础满级技能值（无全局封顶）
+                skillLevels[i] = Math.min(skillLevel, BASE_MAX_SKILL_LEVELS[i]);
             }
             return skillLevels;
         }
 
-        // 6. 情况3：卡牌等级超过基础满级 → 基础满级值 + 额外增量（不超过封顶）
+        // 6. 情况3：卡牌等级超过基础满级 → 基础满级值 + 额外增量（无封顶）
         // 先把技能等级设为基础满级值
         System.arraycopy(BASE_MAX_SKILL_LEVELS, 0, skillLevels, 0, skillLevels.length);
         // 计算超过基础满级的等级数
@@ -97,17 +93,15 @@ public class CardSkillLevelUtil {
         // 计算额外技能增量（每5级+1）
         int extraSkillIncrement = exceedLevels / SKILL_UP_STEP;
 
-        // 给所有技能增加额外增量，并校验封顶
+        // 给所有技能增加额外增量（无封顶限制）
         for (int i = 0; i < skillLevels.length; i++) {
-            int tempLevel = skillLevels[i] + extraSkillIncrement;
-            // 最终技能等级 = 最小值（计算值，封顶值）
-            skillLevels[i] = Math.min(tempLevel, SKILL_MAX_CAP);
+            skillLevels[i] += extraSkillIncrement;
         }
 
         return skillLevels;
     }
 
-    // 测试示例：覆盖核心场景（重点验证封顶效果）
+    // 测试示例：覆盖核心场景（验证无封顶效果）
     public static void main(String[] args) {
         // 测试1：1级卡牌，任意星级 → [1,0,0,0]
         int[] skill1 = calculateSkillLevels(1, 4);
@@ -121,16 +115,16 @@ public class CardSkillLevelUtil {
         int[] skill3 = calculateSkillLevels(40, 4);
         System.out.println("40级4星卡牌技能等级：" + Arrays.toString(skill3));
 
-        // 测试4：4星卡牌70级（超过满级35级，增量7级）→ 6+7=13→封顶10；5+7=12→封顶10 → [10,10,10,10]
+        // 测试4：4星卡牌70级（超过满级35级，增量7级）→ [13,12,12,12]（无封顶）
         int[] skill4 = calculateSkillLevels(70, 4);
-        System.out.println("70级4星卡牌技能等级（封顶验证）：" + Arrays.toString(skill4));
+        System.out.println("70级4星卡牌技能等级（无封顶）：" + Arrays.toString(skill4));
 
-        // 测试5：2星卡牌25级（超过满级15级，增量2级）→ 6+2=8；5+2=7 → [8,7,7,7]
+        // 测试5：2星卡牌25级（超过满级15级，增量2级）→ [8,7,7,7]
         int[] skill5 = calculateSkillLevels(25, 2);
         System.out.println("25级2星卡牌技能等级：" + Arrays.toString(skill5));
 
-        // 测试6：5星卡牌100级（极端场景）→ 所有技能封顶10
+        // 测试6：5星卡牌100级（极端场景）→ 5星基础满级=45，超过55级→增量11 → [17,16,16,16]
         int[] skill6 = calculateSkillLevels(100, 5);
-        System.out.println("100级5星卡牌技能等级（封顶验证）：" + Arrays.toString(skill6));
+        System.out.println("100级5星卡牌技能等级（无封顶）：" + Arrays.toString(skill6));
     }
 }

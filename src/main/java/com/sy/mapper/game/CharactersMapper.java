@@ -11,6 +11,8 @@ public interface CharactersMapper {
 
     int insert(Characters record);
 
+    int insert2(Characters record);
+
     int insertSelective(Characters record);
 
     Characters selectByPrimaryKey(Integer uuid);

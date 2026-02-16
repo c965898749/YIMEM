@@ -137,4 +137,6 @@ public class User {
 
     private String token;
     private Date loginTime;
+    private Integer hongb;
+    private Date hongbTime;
 }

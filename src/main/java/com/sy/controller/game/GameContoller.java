@@ -1257,6 +1257,45 @@ public class GameContoller {
         }
     }
     /**
+     * 红包
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("hongb")
+    @CrossOrigin
+    public BaseResp hongb(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.hongb(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
+     * 红包
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("isNewYear")
+    @CrossOrigin
+    public BaseResp isNewYear(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.isNewYear(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    /**
      * 使用
      * @param token
      * @param request

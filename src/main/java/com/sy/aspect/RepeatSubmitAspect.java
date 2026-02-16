@@ -60,9 +60,14 @@ public class RepeatSubmitAspect {
             // 直接读取JSON第一层的token字段，完美适配你的报文结构
             userId = jsonObject.getString("userId");
         }
+        // 4. 【核心改造】生成 用户名+接口方法 的唯一Key
+        // 方法签名格式：包名.类名.方法名，确保不同接口的Key不重复
+        String methodSignature = method.getDeclaringClass().getName() + "." + method.getName();
+        // 最终Redis Key：前缀 + 用户ID + 方法签名（避免Key冲突）
+        String redisKey = "repeat_submit:" + userId + ":" + methodSignature;
 // 3. 从Redis获取当前请求次数
 // 替换原有的计数获取逻辑
-        Object countObj = redisTemplate.opsForValue().get(userId);
+        Object countObj = redisTemplate.opsForValue().get(redisKey);
         Long currentCount = null;
 
 // 安全转换：处理 null/字符串/数字等情况
@@ -81,7 +86,7 @@ public class RepeatSubmitAspect {
 
         if (currentCount == null) {
             // 首次请求，初始化计数并设置过期时间
-            redisTemplate.opsForValue().set(userId, "1", limitSeconds, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(redisKey, "1", limitSeconds, TimeUnit.SECONDS);
         } else {
             // 超过阈值，抛出异常
             BaseResp baseResp = new BaseResp();
