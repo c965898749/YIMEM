@@ -138,43 +138,6 @@ public class BattleManager {
 
     // 开始战斗
     public void startBattle() {
-        List<Guardian> campAHasAlive = campA.stream().filter(g -> g.getName().equals("青霞仙子") && !g.isDead()).collect(Collectors.toList());
-        if (Xtool.isNotNull(campAHasAlive)) {
-            Guardian defender = campAHasAlive.get(0);
-            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(defender.getLevel(), defender.getStar().doubleValue());
-            defender.setAttack(defender.getAttack() + 60 * skillLevel[0]);
-            addLog("克敌机先",
-                    defender.getName(), defender.getCamp(), defender.getPosition(),
-                    defender.getMaxHp(), defender.getCurrentHp(),
-                    defender.getAttack(), defender.getAttack(),
-                    defender.getSpeed(), defender.getSpeed(),
-                    defender.getName(), defender.getCamp(), defender.getPosition(),
-                    defender.getMaxHp(), defender.getCurrentHp(),
-                    defender.getAttack(), defender.getAttack(),
-                    defender.getSpeed(), defender.getSpeed(),
-                    getFieldUnitsStatus(),
-                    38 * skillLevel[1], EffectType.ATTACK_UP, null,
-                    defender.getName() + "触发克敌机先，攻击提升+" + 38 * skillLevel[1]);
-        }
-
-        List<Guardian> campBHasAlive = campA.stream().filter(g -> g.getName().equals("青霞仙子") && !g.isDead()).collect(Collectors.toList());
-        if (Xtool.isNotNull(campBHasAlive)) {
-            Guardian defender = campBHasAlive.get(0);
-            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(defender.getLevel(), defender.getStar().doubleValue());
-            defender.setAttack(defender.getAttack() + 60 * skillLevel[0]);
-            addLog("克敌机先",
-                    defender.getName(), defender.getCamp(), defender.getPosition(),
-                    defender.getMaxHp(), defender.getCurrentHp(),
-                    defender.getAttack(), defender.getAttack(),
-                    defender.getSpeed(), defender.getSpeed(),
-                    defender.getName(), defender.getCamp(), defender.getPosition(),
-                    defender.getMaxHp(), defender.getCurrentHp(),
-                    defender.getAttack(), defender.getAttack(),
-                    defender.getSpeed(), defender.getSpeed(),
-                    getFieldUnitsStatus(),
-                    38 * skillLevel[1], EffectType.ATTACK_UP, null,
-                    defender.getName() + "触发克敌机先，攻击提升+" + 38 * skillLevel[1]);
-        }
         while (currentRound < 100 && !isBattleEnd()) {
             currentRound++;
             addLog("ROUND_START", "SYSTEM", null, 0,
@@ -3983,6 +3946,44 @@ public class BattleManager {
     private void processRoundStartEffects() {
         // 场下中毒效果（批量处理）
         processPoisonEffects();
+        List<Guardian> campAHasAlive = campA.stream().filter(g -> g.getName().equals("青霞仙子") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(campAHasAlive)&&currentRound==1) {
+            Guardian defender = campAHasAlive.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(defender.getLevel(), defender.getStar().doubleValue());
+            defender.setAttack(defender.getAttack() + 60 * skillLevel[0]);
+            addLog("克敌机先",
+                    defender.getName(), defender.getCamp(), defender.getPosition(),
+                    defender.getMaxHp(), defender.getCurrentHp(),
+                    defender.getAttack(), defender.getAttack(),
+                    defender.getSpeed(), defender.getSpeed(),
+                    defender.getName(), defender.getCamp(), defender.getPosition(),
+                    defender.getMaxHp(), defender.getCurrentHp(),
+                    defender.getAttack(), defender.getAttack(),
+                    defender.getSpeed(), defender.getSpeed(),
+                    getFieldUnitsStatus(),
+                    38 * skillLevel[1], EffectType.ATTACK_UP, null,
+                    defender.getName() + "触发克敌机先，攻击提升+" + 38 * skillLevel[1]);
+        }
+
+        List<Guardian> campBHasAlive = campB.stream().filter(g -> g.getName().equals("青霞仙子") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(campBHasAlive)&&currentRound==1) {
+            Guardian defender = campBHasAlive.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(defender.getLevel(), defender.getStar().doubleValue());
+            defender.setAttack(defender.getAttack() + 60 * skillLevel[0]);
+            addLog("克敌机先",
+                    defender.getName(), defender.getCamp(), defender.getPosition(),
+                    defender.getMaxHp(), defender.getCurrentHp(),
+                    defender.getAttack(), defender.getAttack(),
+                    defender.getSpeed(), defender.getSpeed(),
+                    defender.getName(), defender.getCamp(), defender.getPosition(),
+                    defender.getMaxHp(), defender.getCurrentHp(),
+                    defender.getAttack(), defender.getAttack(),
+                    defender.getSpeed(), defender.getSpeed(),
+                    getFieldUnitsStatus(),
+                    38 * skillLevel[1], EffectType.ATTACK_UP, null,
+                    defender.getName() + "触发克敌机先，攻击提升+" + 38 * skillLevel[1]);
+        }
+
         // 厚土娘娘后土聚能
         if (fieldA.getEffects().getOrDefault(EffectType.SILENCE,0)<=0 && fieldA != null && fieldA.getName().equals("厚土娘娘") && fieldA.getBuffStacks() < 99) {
             int attackBefore = fieldA.getAttack();
