@@ -43,4 +43,14 @@ public class Characters {
     private Integer collSpeed;
     private Integer collHp;
     List<EqCharacters> eqCharactersList;
+
+    private Integer wlAtk;
+    private Integer hyAtk;
+    private Integer dsAtk;
+    private Integer fdAtk;
+    private Integer wlDef;
+    private Integer hyDef;
+    private Integer dsDef;
+    private Integer fdDef;
+    private Integer zlDef;
 }

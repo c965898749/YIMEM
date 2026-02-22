@@ -279,6 +279,9 @@ public class GameServiceServiceImpl implements GameServiceService {
             characterArrayList.add(character);
         }
         characterArrayList.addAll(reasonableData2(charactersList2));
+        for (Characters characters : charactersList2) {
+
+        }
         return characterArrayList;
     }
 
@@ -2208,7 +2211,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
     @Override
     @Transactional
-//    @NoRepeatSubmit(limitSeconds = 1)
+    @NoRepeatSubmit(limitSeconds = 1)
     public BaseResp buyStore(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -2543,7 +2546,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
     @Override
     @Transactional
-//    @NoRepeatSubmit(limitSeconds = 1)
+    @NoRepeatSubmit(limitSeconds = 1)
     public BaseResp hechenCard(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -5659,19 +5662,6 @@ public class GameServiceServiceImpl implements GameServiceService {
         Character character = new Character();
         BeanUtils.copyProperties(characters, character);
         int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(character.getLv(), characters.getStar().doubleValue());
-        //格式化技能介绍
-        if (Xtool.isNotNull(character.getPassiveIntroduceOneStr())) {
-            character.setPassiveIntroduceOneStr(NumberExtractUtil.replaceNumbersWithLevel(character.getPassiveIntroduceOneStr(), skillLevel[0]));
-        }
-        if (Xtool.isNotNull(character.getPassiveIntroduceTwoStr())) {
-            character.setPassiveIntroduceTwoStr(NumberExtractUtil.replaceNumbersWithLevel(character.getPassiveIntroduceTwoStr(), skillLevel[1]));
-        }
-        if (Xtool.isNotNull(character.getPassiveIntroduceThreeStr())) {
-            character.setPassiveIntroduceThreeStr(NumberExtractUtil.replaceNumbersWithLevel(character.getPassiveIntroduceThreeStr(), skillLevel[2]));
-        }
-        if (Xtool.isNotNull(character.getPassiveIntroduceFourStr())) {
-            character.setPassiveIntroduceFourStr(NumberExtractUtil.replaceNumbersWithLevel(character.getPassiveIntroduceFourStr(), skillLevel[2]));
-        }
         BigDecimal lv = new BigDecimal(characters.getLv());
         BigDecimal maxHp = lv.multiply(characters.getHpGrowth().multiply(((characters.getStar().subtract(new BigDecimal(1))).multiply(new BigDecimal("0.15")).add(new BigDecimal(1))).multiply((lv.divide(new BigDecimal(80)).add(new BigDecimal("0.8"))))));
         BigDecimal attack = lv.multiply(characters.getAttackGrowth().multiply(((characters.getStar().subtract(new BigDecimal(1))).multiply(new BigDecimal("0.15")).add(new BigDecimal(1))).multiply((lv.divide(new BigDecimal(80)).add(new BigDecimal("0.8"))))));
@@ -5828,7 +5818,15 @@ public class GameServiceServiceImpl implements GameServiceService {
             character.setFdDef(eqCharacters.stream().map(EqCharacters::getFdDef).mapToInt(fdDef -> Objects.isNull(fdDef) ? 0 : fdDef).sum());
             character.setZlDef(eqCharacters.stream().map(EqCharacters::getZlDef).mapToInt(zlDef -> Objects.isNull(zlDef) ? 0 : zlDef).sum());
         }
-
+        //TODO 协同属性加成
+        character.setWlAtk(character.getWlAtk()+characters.getWlAtk() * characters.getLv());
+        character.setAttack(character.getAttack()+characters.getHyAtk() * characters.getLv());
+        character.setHyAtk(character.getHyAtk()+characters.getFdAtk() * characters.getLv());
+        character.setDsAtk(character.getDsAtk()+characters.getWlDef() * characters.getLv());
+        character.setFdAtk(character.getFdAtk()+characters.getHyDef() * characters.getLv());
+        character.setWlDef(character.getWlDef()+characters.getDsDef() * characters.getLv());
+        character.setHyDef(character.getHyDef()+characters.getFdDef() * characters.getLv());
+        character.setDsDef(character.getDsDef()+characters.getZlDef() * characters.getLv());
         return character;
     }
 
@@ -6001,7 +5999,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : leftCharacters) {
             // 设置角色
             Character character = reasonableData(characters, leftCharacters);
-            campA.add(new Guardian(character.getName(), Camp.A, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
+            campA.add(new Guardian("A"+character.getId(),character.getName(), Camp.A, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
                     Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(), character.getStar(),
                     character.getWlAtk(),
                     character.getHyAtk(),
@@ -6012,6 +6010,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     character.getDsDef(),
                     character.getFdDef(),
                     character.getZlDef()));
+            character.setUuid("A"+character.getId());
             copyCampA.add(character);
         }
         rightCharacters.sort(Comparator.comparing(Characters::getGoIntoNum,
@@ -6019,7 +6018,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : rightCharacters) {
             // 设置角色
             Character character = reasonableData(characters, rightCharacters);
-            campB.add(new Guardian(character.getName(), Camp.B, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
+            campB.add(new Guardian("B"+character.getId(),character.getName(), Camp.B, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
                     Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(), character.getStar(),
                     character.getWlAtk(),
                     character.getHyAtk(),
@@ -6030,6 +6029,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     character.getDsDef(),
                     character.getFdDef(),
                     character.getZlDef()));
+            character.setUuid("B"+character.getId());
             copyCampB.add(character);
         }
         BattleSnowflakeIdGenerator generator = BattleSnowflakeIdGenerator.getInstance();

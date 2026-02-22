@@ -31,7 +31,7 @@ public class Character {
     private String isAction="1";//我能不能动//0不能1能
     private String isDead="0";
     private String camp;
-    private Integer uuid;//主键
+    private String uuid;//主键
     private Integer lv;
     private Integer userId;
     private BigDecimal star;
@@ -62,6 +62,8 @@ public class Character {
     private Integer dsDef;
     private Integer fdDef;
     private Integer zlDef;
+
+    private String xieTong;
 
     public Character(){
 

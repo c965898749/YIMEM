@@ -51,4 +51,14 @@ public class Card {
     private String passiveIntroduceThreeStr;
 
     private String passiveIntroduceFourStr;
+
+    private Integer wlAtk;
+    private Integer hyAtk;
+    private Integer dsAtk;
+    private Integer fdAtk;
+    private Integer wlDef;
+    private Integer hyDef;
+    private Integer dsDef;
+    private Integer fdDef;
+    private Integer zlDef;
 }

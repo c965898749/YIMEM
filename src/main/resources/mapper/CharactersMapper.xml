@@ -150,7 +150,16 @@
     cd.passive_introduce_one_str,
     cd.passive_introduce_two_str,
     cd.passive_introduce_three_str,
-    cd.passive_introduce_four_str
+    cd.passive_introduce_four_str,
+    cd.wl_atk,
+    cd.hy_atk,
+    cd.ds_atk,
+    cd.fd_atk,
+    cd.wl_def,
+    cd.hy_def,
+    cd.ds_def,
+    cd.fd_def,
+    cd.zl_def
     from   card cd
   </select>
     <select id="selectByUserId" parameterType="com.sy.model.game.Characters" resultType="com.sy.model.game.Characters">
@@ -184,7 +193,16 @@
     cd.passive_introduce_one_str,
     cd.passive_introduce_two_str,
     cd.passive_introduce_three_str,
-    cd.passive_introduce_four_str
+    cd.passive_introduce_four_str,
+    cd.wl_atk,
+    cd.hy_atk,
+    cd.ds_atk,
+    cd.fd_atk,
+    cd.wl_def,
+    cd.hy_def,
+    cd.ds_def,
+    cd.fd_def,
+    cd.zl_def
     from   characters cs
     left  join card cd on cd.id=cs.id
     where cs.user_id = #{userId} and cs.is_delete='0'
@@ -220,7 +238,16 @@
     cd.passive_introduce_one_str,
     cd.passive_introduce_two_str,
     cd.passive_introduce_three_str,
-    cd.passive_introduce_four_str
+    cd.passive_introduce_four_str,
+    cd.wl_atk,
+    cd.hy_atk,
+    cd.ds_atk,
+    cd.fd_atk,
+    cd.wl_def,
+    cd.hy_def,
+    cd.ds_def,
+    cd.fd_def,
+    cd.zl_def
     from   characters cs
     left  join card cd on cd.id=cs.id
     where cs.user_id = #{userId} and   cs.id = #{id} and cs.is_delete='0' limit 1
@@ -258,7 +285,16 @@
     cd.passive_introduce_one_str,
     cd.passive_introduce_two_str,
     cd.passive_introduce_three_str,
-    cd.passive_introduce_four_str
+    cd.passive_introduce_four_str,
+    cd.wl_atk,
+    cd.hy_atk,
+    cd.ds_atk,
+    cd.fd_atk,
+    cd.wl_def,
+    cd.hy_def,
+    cd.ds_def,
+    cd.fd_def,
+    cd.zl_def
     from   characters cs
     left  join card cd on cd.id=cs.id
     where cs.user_id = #{userId} and  cs.go_into_num &lt;&gt; 0  and cs.is_delete='0'
@@ -295,7 +331,16 @@
     cd.passive_introduce_one_str,
     cd.passive_introduce_two_str,
     cd.passive_introduce_three_str,
-    cd.passive_introduce_four_str
+    cd.passive_introduce_four_str,
+    cd.wl_atk,
+    cd.hy_atk,
+    cd.ds_atk,
+    cd.fd_atk,
+    cd.wl_def,
+    cd.hy_def,
+    cd.ds_def,
+    cd.fd_def,
+    cd.zl_def
     from   characters cs
     left  join card cd on cd.id=cs.id
     where find_in_set(cs.user_id,#{userIds})and  cs.go_into_num &lt;&gt; 0  and cs.is_delete='0'

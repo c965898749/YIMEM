@@ -1,10 +1,14 @@
 package com.sy.model.game;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+
 public class Guardian {
+    // ========== 新增：唯一ID（标识释放者） ==========
+    private String id;  // 可以用Long、String，根据你业务选
+
     private String name;
     private Camp camp;
     private BigDecimal star;
@@ -32,20 +36,17 @@ public class Guardian {
     private int dsDef;
     private int fdDef;
     private int zlDef;
-    private Map<EffectType, Integer> effects;
 
-    // 构造函数
-    public Guardian(String name, Camp camp, int position, Profession profession, Race race,
+    // 换成 List 存储效果实例，解决多来源混乱问题
+    private List<EffectInstance> effects = new ArrayList<>();
+
+    // ========== 构造函数：新增 id 参数 ==========
+    public Guardian(String id,  // 新增ID
+                    String name, Camp camp, int position, Profession profession, Race race,
                     int maxHp, int attack, int speed, int level, BigDecimal star,
-                   int wlAtk,
-                   int hyAtk,
-                   int dsAtk,
-                   int fdAtk,
-                   int wlDef,
-                   int hyDef,
-                   int dsDef,
-                   int fdDef,
-                   int zlDef) {
+                    int wlAtk, int hyAtk, int dsAtk, int fdAtk,
+                    int wlDef, int hyDef, int dsDef, int fdDef, int zlDef) {
+        this.id = id;  // 初始化ID
         this.name = name;
         this.camp = camp;
         this.position = position;
@@ -53,7 +54,7 @@ public class Guardian {
         this.race = race;
         this.level = level;
         this.maxHp = maxHp;
-        this.currentHp = maxHp;  // 初始当前血量等于血量上限
+        this.currentHp = maxHp;
         this.attack = attack;
         this.speed = speed;
         this.isDead = false;
@@ -62,79 +63,161 @@ public class Guardian {
         this.buffLuoShens = 0;
         this.buffNianShous = 0;
         this.star = star;
-        this.effects = new HashMap<>();
-        this.wlAtk=wlAtk;
-        this.hyAtk=hyAtk;
-        this.dsAtk=dsAtk;
-        this.fdAtk=fdAtk;
-        this.wlDef=wlDef;
-        this.hyDef=hyDef;
-        this.dsDef=dsDef;
-        this.fdDef=fdDef;
-        this.zlDef=zlDef;
+        this.wlAtk = wlAtk;
+        this.hyAtk = hyAtk;
+        this.dsAtk = dsAtk;
+        this.fdAtk = fdAtk;
+        this.wlDef = wlDef;
+        this.hyDef = hyDef;
+        this.dsDef = dsDef;
+        this.fdDef = fdDef;
+        this.zlDef = zlDef;
+    }
+    /**
+     * 是否处于眩晕/昏睡/冰冻等控制中
+     */
+    public boolean isStunned() {
+        return hasEffect(EffectType.STUN);
+    }
+    public boolean isHealDown() {
+        return hasEffect(EffectType.HEAL_DOWN);
+    }
+    public boolean isSilence() {
+        return hasEffect(EffectType.SILENCE);
+    }
+    public boolean isPoison() {
+        return hasEffect(EffectType.POISON);
+    }
+    public boolean isFireBoost() {
+        return hasEffect(EffectType.FIRE_BOOST);
+    }
+    /**
+     * 添加控制类效果：眩晕、冰冻、沉默等
+     * 只会保留【回合最长】的那一个，不会叠加多个
+     */
+    public void addControlEffect(EffectType type, int totalRound, String casterId) {
+        // 先看身上有没有这个控制
+        EffectInstance existing = null;
+        for (EffectInstance e : effects) {
+            if (e.getType() == type) {
+                existing = e;
+                break;
+            }
+        }
+
+        // 如果没有 → 直接加
+        if (existing == null) {
+            effects.add(new EffectInstance(type, 1, totalRound, casterId));
+            return;
+        }
+
+        // 如果有 → 比较回合：新回合更长才替换
+        if (totalRound > existing.getRemainRound()) {
+            effects.remove(existing);
+            effects.add(new EffectInstance(type, 1, totalRound, casterId));
+        }
+    }
+    // ========== 新增：ID的GETTER/SETTER ==========
+    public String getId() {
+        return id;
     }
 
-    // 核心方法1：判断是否包含某个具体的EffectType枚举
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    // ====================== 原有方法全部保留 ======================
     public boolean hasEffect(EffectType targetEffect) {
-        // 空指针防护：如果effects为null，直接返回false
-        if (effects == null) {
-            return false;
-        }
-        // Map的containsKey方法判断是否包含指定枚举key
-        return effects.containsKey(targetEffect);
-    }
-
-    // 扩展方法2：判断是否包含多种效果中的任意一种
-    public boolean hasAnyEffect(EffectType... targetEffects) {
-        if (effects == null || targetEffects == null || targetEffects.length == 0) {
-            return false;
-        }
-        for (EffectType effect : targetEffects) {
-            if (effects.containsKey(effect)) {
+        for (EffectInstance e : effects) {
+            if (e.getType() == targetEffect) {
                 return true;
             }
         }
         return false;
     }
 
-    // 扩展方法3：获取指定效果的层数/持续回合（如果有）
+    public boolean hasAnyEffect(EffectType... targetEffects) {
+        if (effects == null || targetEffects == null) return false;
+        for (EffectType type : targetEffects) {
+            if (hasEffect(type)) return true;
+        }
+        return false;
+    }
+
     public int getEffectStacks(EffectType targetEffect) {
-        if (effects == null) {
-            return 0;
+        int count = 0;
+        for (EffectInstance e : effects) {
+            if (e.getType() == targetEffect) {
+                count++;
+            }
         }
-        // getOrDefault：有该效果返回对应值，无则返回0
-        return effects.getOrDefault(targetEffect, 0);
+        return count;
     }
 
-    // 设置血量上限（联动调整当前血量）
+    public int getEffectTotalValue(EffectType type) {
+        int sum = 0;
+        for (EffectInstance e : effects) {
+            if (e.getType() == type) {
+                sum += e.getValue();
+            }
+        }
+        return sum;
+    }
+
+    public void addEffect(EffectType type, int value, int round, String casterId) {
+        effects.add(new EffectInstance(type, value, round, casterId));
+    }
+
+    public void tickAllEffects() {
+        Iterator<EffectInstance> it = effects.iterator();
+        while (it.hasNext()) {
+            EffectInstance e = it.next();
+            e.tickRound();
+            if (e.getRemainRound() <= 0) {
+                it.remove();
+            }
+        }
+    }
+
+    public List<EffectInstance> getEffects() {
+        return effects;
+    }
+
     public void setMaxHp(int maxHp) {
-        this.maxHp = maxHp;
-        this.maxHp = Math.max(this.maxHp, 0);      // 不低于0
-        // 如果当前血量超过新的上限，调整为上限值
-        if (this.currentHp > this.maxHp) {
-            this.currentHp = this.maxHp;
-        }
-        // 如果血量为0，标记为死亡
+        this.maxHp = Math.max(maxHp, 0);
+        if (currentHp > this.maxHp) currentHp = this.maxHp;
         if (this.maxHp <= 0) {
-            this.isDead = true;
-            this.currentHp = 0;
-            this.maxHp = 0;
+            isDead = true;
+            currentHp = 0;
         }
     }
 
-    // 设置当前血量（确保不超过上限）
     public void setCurrentHp(int currentHp) {
-        this.currentHp = Math.min(currentHp, this.maxHp);  // 不超过上限
-        this.currentHp = Math.max(this.currentHp, 0);      // 不低于0
-
-        // 如果血量为0，标记为死亡
+        this.currentHp = Math.min(Math.max(currentHp, 0), maxHp);
         if (this.currentHp <= 0) {
-            this.isDead = true;
+            isDead = true;
             this.currentHp = 0;
         }
     }
+    /**
+     * 回合结束时调用：
+     * 所有buff剩余回合 -1
+     * 回合 <=0 的buff自动移除
+     */
+    public void onRoundEndBuffTick() {
+        Iterator<EffectInstance> it = effects.iterator();
+        while (it.hasNext()) {
+            EffectInstance buff = it.next();
 
-    // 其他getter和setter方法
+            // 回合 -1
+            buff.tickRound();
+
+            // 如果回合没了，直接删掉这个buff
+            if (buff.getRemainRound() <= 0) {
+                it.remove();
+            }
+        }
+    }
     public int getWlAtk() { return wlAtk; }
     public int getHyAtk() { return hyAtk; }
     public int getDsAtk() { return dsAtk; }
@@ -145,15 +228,15 @@ public class Guardian {
     public int getFdDef() { return fdDef; }
     public int getZlDef() { return zlDef; }
 
-    public void setWlAtk(int wlAtk) { this.wlAtk=wlAtk; }
-    public void setHyAtk(int hyAtk) { this.hyAtk=hyAtk; }
-    public void setDsAtk(int dsAtk) { this.dsAtk=dsAtk; }
-    public void setFdAtk(int fdAtk) { this.fdAtk=fdAtk; }
-    public void setWlDef(int wlDef) { this.wlDef=wlDef; }
-    public void setHyDef(int hyDef) { this.hyDef=hyDef; }
-    public void setDsDef(int dsDef) { this.dsDef=dsDef; }
-    public void setFdDef(int fdDef) { this.fdDef=fdDef; }
-    public void setZlDef(int zlDef) { this.zlDef=zlDef; }
+    public void setWlAtk(int wlAtk) { this.wlAtk = wlAtk; }
+    public void setHyAtk(int hyAtk) { this.hyAtk = hyAtk; }
+    public void setDsAtk(int dsAtk) { this.dsAtk = dsAtk; }
+    public void setFdAtk(int fdAtk) { this.fdAtk = fdAtk; }
+    public void setWlDef(int wlDef) { this.wlDef = wlDef; }
+    public void setHyDef(int hyDef) { this.hyDef = hyDef; }
+    public void setDsDef(int dsDef) { this.dsDef = dsDef; }
+    public void setFdDef(int fdDef) { this.fdDef = fdDef; }
+    public void setZlDef(int zlDef) { this.zlDef = zlDef; }
 
     public String getName() { return name; }
     public Camp getCamp() { return camp; }
@@ -184,6 +267,4 @@ public class Guardian {
     public void setBuffRandengs(int buffRandengs) { this.buffRandengs = buffRandengs; }
     public void setBuffLiuers(int buffLiuers) { this.buffLiuers = buffLiuers; }
     public void setBuffNianShous(int buffNianShous) { this.buffNianShous = buffNianShous; }
-    public Map<EffectType, Integer> getEffects() { return effects; }
 }
-
