@@ -251,7 +251,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         //再判断收否过期
-        if (!token.getToken().equals(emp.getToken())){
+        if (!token.getToken().equals(emp.getToken())) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
             return baseResp;
@@ -262,7 +262,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
     @Override
     public BaseResp gameVersion(TokenDto token, HttpServletRequest request) throws Exception {
-        AppVersion list=appVersionMapper.selectListLast();
+        AppVersion list = appVersionMapper.selectListLast();
         BaseResp baseResp = new BaseResp();
         baseResp.setSuccess(1);
         baseResp.setData(list);
@@ -323,12 +323,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
             User emp = userMapper.selectUserByusername(user.getUsername());
             Characters characters = new Characters();
-            BeanUtils.copyProperties(card,characters);
+            BeanUtils.copyProperties(card, characters);
             characters.setId("1002");
             characters.setLv(1);
             characters.setGoIntoNum(1);
             characters.setStackCount(0);
-            characters.setUserId(Integer.parseInt(emp.getUserId()+""));
+            characters.setUserId(Integer.parseInt(emp.getUserId() + ""));
             characters.setStar(new BigDecimal(1));
             characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
             charactersMapper.insert2(characters);
@@ -363,7 +363,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
 
         //再判断收否过期
-        if (!token.getToken().equals(user.getToken())){
+        if (!token.getToken().equals(user.getToken())) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
             return baseResp;
@@ -3552,7 +3552,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 return baseResp;
             }
             Characters characters = new Characters();
-            BeanUtils.copyProperties(card,characters);
+            BeanUtils.copyProperties(card, characters);
             characters.setId("1002");
             characters.setGoIntoNum(1);
             characters.setLv(1);
@@ -4433,7 +4433,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
 
-        if (user.getHongbTime()!=null){
+        if (user.getHongbTime() != null) {
             //判断时间是否有10分钟
             Date time1 = new Date(); // 时间1（如当前时间）
             Date time2 = user.getHongbTime(); // 时间2（比时间1晚10分钟）
@@ -4442,7 +4442,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             long timeDiff = Math.abs(time1.getTime() - time2.getTime());
 
             // 3. 判断是否相差>=10分钟（10分钟 = 10 * 60 * 1000 = 600000毫秒）
-            if (timeDiff < 10 * 60 * 1000L){
+            if (timeDiff < 10 * 60 * 1000L) {
                 baseResp.setSuccess(0);
                 baseResp.setErrorMsg("请勿频繁操作");
                 return baseResp;
@@ -4454,7 +4454,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             picker.addItem(mewYearItemShop);
         }
         List<MewYearItemShop> picked = picker.pickRandomItems(1);
-        MewYearItemShop yearItemShop=picked.get(0);
+        MewYearItemShop yearItemShop = picked.get(0);
         PveReward content = new PveReward();
         content.setItemId(yearItemShop.getItemId());
         content.setItemName(yearItemShop.getItemName());
@@ -4573,7 +4573,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 //        }
 
 
-        if (user.getHongbTime()==null){
+        if (user.getHongbTime() == null) {
             baseResp.setSuccess(1);
             baseResp.setData(true);
             return baseResp;
@@ -4586,12 +4586,12 @@ public class GameServiceServiceImpl implements GameServiceService {
         long timeDiff = Math.abs(time1.getTime() - time2.getTime());
 
         // 3. 判断是否相差>=10分钟（10分钟 = 10 * 60 * 1000 = 600000毫秒）
-        if (timeDiff >= 10 * 60 * 1000L){
+        if (timeDiff >= 10 * 60 * 1000L) {
             baseResp.setSuccess(1);
             baseResp.setData(true);
 //            user.setHongbTime(new Date());
             return baseResp;
-        }else {
+        } else {
             baseResp.setSuccess(1);
             baseResp.setData(false);
             return baseResp;
@@ -4874,26 +4874,26 @@ public class GameServiceServiceImpl implements GameServiceService {
                 return baseResp;
             }
 
-            Integer ceng=0;
+            Integer ceng = 0;
 
             // 原有业务逻辑 - 开始
             User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
             if (token.getStr().equals("bronzetower")) {
-                ceng=user.getBronze1();
+                ceng = user.getBronze1();
                 if (user.getBronze1() > 100) {
                     baseResp.setSuccess(0);
                     baseResp.setErrorMsg("塔已通关，可以选择重置继续试炼");
                     return baseResp;
                 }
             } else if (token.getStr().equals("silvertower")) {
-                ceng=user.getSilvertower();
+                ceng = user.getSilvertower();
                 if (user.getSilvertower() > 100) {
                     baseResp.setSuccess(0);
                     baseResp.setErrorMsg("塔已通关，可以选择重置继续试炼");
                     return baseResp;
                 }
             } else if (token.getStr().equals("goldentower")) {
-                ceng=user.getGoldentower();
+                ceng = user.getGoldentower();
                 if (user.getGoldentower() > 100) {
                     baseResp.setSuccess(0);
                     baseResp.setErrorMsg("塔已通关，可以选择重置继续试炼");
@@ -4956,17 +4956,17 @@ public class GameServiceServiceImpl implements GameServiceService {
             if (battle.getIsWin() == 0) {
                 // 防刷：通关后记录结果，防止重复领奖
                 if (token.getStr().equals("bronzetower")) {
-                    user.setBronze1(user.getBronze1()+1);
+                    user.setBronze1(user.getBronze1() + 1);
                     if (user.getBronze1() > 100) {
                         user.setBronze1Time(new Date());
                     }
                 } else if (token.getStr().equals("silvertower")) {
-                    user.setSilvertower(user.getSilvertower()+1);
+                    user.setSilvertower(user.getSilvertower() + 1);
                     if (user.getSilvertower() > 100) {
                         user.setSilvertowerTime(new Date());
                     }
                 } else if (token.getStr().equals("goldentower")) {
-                    user.setGoldentower(user.getGoldentower()+1);
+                    user.setGoldentower(user.getGoldentower() + 1);
                     if (user.getGoldentower() > 100) {
                         user.setGoldentowerTime(new Date());
                     }
@@ -5112,17 +5112,17 @@ public class GameServiceServiceImpl implements GameServiceService {
 
             if ("bronzetower".equals(token.getStr())) {
                 ImageLevelResult result10 = LevelImageCalculator.calculate(user2.getBronze1());
-                map.put("positionInImage", result10.getPositionInImage()-1);
+                map.put("positionInImage", result10.getPositionInImage() - 1);
                 map.put("currentImageNumbers", result10.getCurrentImageNumbers());
                 map.put("nextImageNumbers", result10.getNextImageNumbers());
             } else if ("silvertower".equals(token.getStr())) {
                 ImageLevelResult result10 = LevelImageCalculator.calculate(user2.getSilvertower());
-                map.put("positionInImage", result10.getPositionInImage()-1);
+                map.put("positionInImage", result10.getPositionInImage() - 1);
                 map.put("currentImageNumbers", result10.getCurrentImageNumbers());
                 map.put("nextImageNumbers", result10.getNextImageNumbers());
             } else if ("goldentower".equals(token.getStr())) {
                 ImageLevelResult result10 = LevelImageCalculator.calculate(user2.getGoldentower());
-                map.put("positionInImage", result10.getPositionInImage()-1);
+                map.put("positionInImage", result10.getPositionInImage() - 1);
                 map.put("currentImageNumbers", result10.getCurrentImageNumbers());
                 map.put("nextImageNumbers", result10.getNextImageNumbers());
             }
@@ -5188,17 +5188,17 @@ public class GameServiceServiceImpl implements GameServiceService {
         BeanUtils.copyProperties(user, info);
         if ("bronzetower".equals(token.getStr())) {
             ImageLevelResult result10 = LevelImageCalculator.calculate(user.getBronze1());
-            map.put("positionInImage", result10.getPositionInImage()-1);
+            map.put("positionInImage", result10.getPositionInImage() - 1);
             map.put("currentImageNumbers", result10.getCurrentImageNumbers());
             map.put("nextImageNumbers", result10.getNextImageNumbers());
         } else if ("silvertower".equals(token.getStr())) {
             ImageLevelResult result10 = LevelImageCalculator.calculate(user.getSilvertower());
-            map.put("positionInImage", result10.getPositionInImage()-1);
+            map.put("positionInImage", result10.getPositionInImage() - 1);
             map.put("currentImageNumbers", result10.getCurrentImageNumbers());
             map.put("nextImageNumbers", result10.getNextImageNumbers());
         } else if ("goldentower".equals(token.getStr())) {
             ImageLevelResult result10 = LevelImageCalculator.calculate(user.getGoldentower());
-            map.put("positionInImage", result10.getPositionInImage()-1);
+            map.put("positionInImage", result10.getPositionInImage() - 1);
             map.put("currentImageNumbers", result10.getCurrentImageNumbers());
             map.put("nextImageNumbers", result10.getNextImageNumbers());
         }
@@ -5671,6 +5671,30 @@ public class GameServiceServiceImpl implements GameServiceService {
         character.setMaxHp(maxHp.intValue());
         character.setAttack(attack.intValue());
         character.setSpeed(speed.intValue());
+        character.setWlAtk(0);
+        character.setHyAtk(0);
+        character.setDsAtk(0);
+        character.setFdAtk(0);
+        character.setWlDef(0);
+        character.setHyDef(0);
+        character.setDsDef(0);
+        character.setFdDef(0);
+        character.setZlDef(0);
+        //TODO 装备属性
+        if (Xtool.isNotNull(characters.getEqCharactersList())) {
+            List<EqCharacters> eqCharacters = characters.getEqCharactersList();
+            //攻击
+            character.setWlAtk(eqCharacters.stream().map(EqCharacters::getWlAtk).mapToInt(wlAtk -> Objects.isNull(wlAtk) ? 0 : wlAtk).sum());
+            character.setAttack(character.getAttack() + character.getWlAtk());
+            character.setHyAtk(eqCharacters.stream().map(EqCharacters::getHyAtk).mapToInt(hyAtk -> Objects.isNull(hyAtk) ? 0 : hyAtk).sum());
+            character.setDsAtk(eqCharacters.stream().map(EqCharacters::getDsAtk).mapToInt(dsAtk -> Objects.isNull(dsAtk) ? 0 : dsAtk).sum());
+            character.setFdAtk(eqCharacters.stream().map(EqCharacters::getFdAtk).mapToInt(fdAtk -> Objects.isNull(fdAtk) ? 0 : fdAtk).sum());
+            character.setWlDef(eqCharacters.stream().map(EqCharacters::getWlDef).mapToInt(wlDef -> Objects.isNull(wlDef) ? 0 : wlDef).sum());
+            character.setHyDef(eqCharacters.stream().map(EqCharacters::getHyDef).mapToInt(hyDef -> Objects.isNull(hyDef) ? 0 : hyDef).sum());
+            character.setDsDef(eqCharacters.stream().map(EqCharacters::getDsDef).mapToInt(dsDef -> Objects.isNull(dsDef) ? 0 : dsDef).sum());
+            character.setFdDef(eqCharacters.stream().map(EqCharacters::getFdDef).mapToInt(fdDef -> Objects.isNull(fdDef) ? 0 : fdDef).sum());
+            character.setZlDef(eqCharacters.stream().map(EqCharacters::getZlDef).mapToInt(zlDef -> Objects.isNull(zlDef) ? 0 : zlDef).sum());
+        }
         //TODO 再叠加协同属性
         if (Xtool.isNotNull(charactersList)) {
             if (Xtool.isNotNull(characters.getPassiveIntroduceThree())) {
@@ -5689,6 +5713,17 @@ public class GameServiceServiceImpl implements GameServiceService {
                         if (Xtool.isNotNull(characters.getCollSpeed())) {
                             character.setSpeed(speed.intValue() + skillLevel[3] * characters.getCollSpeed());
                         }
+                        //TODO 协同属性加成
+                        character.setWlAtk(character.getWlAtk() + characters.getWlAtk() * skillLevel[3]);
+                        character.setAttack(character.getAttack() + characters.getWlAtk() * skillLevel[3]);
+                        character.setHyAtk(character.getHyAtk() + characters.getHyAtk() * skillLevel[3]);
+                        character.setDsAtk(character.getDsAtk() + characters.getDsAtk() * skillLevel[3]);
+                        character.setFdAtk(character.getFdAtk() + characters.getFdAtk() * skillLevel[3]);
+                        character.setWlDef(character.getWlDef() + characters.getWlDef() * skillLevel[3]);
+                        character.setHyDef(character.getHyDef() + characters.getHyDef() * skillLevel[3]);
+                        character.setDsDef(character.getDsDef() + characters.getDsDef() * skillLevel[3]);
+                        character.setFdDef(character.getDsDef() + characters.getFdDef() * skillLevel[3]);
+                        character.setZlDef(character.getZlDef() + characters.getZlDef() * skillLevel[3]);
                     }
 
                 }
@@ -5727,6 +5762,10 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 if (Xtool.isNotNull(characters.getCollSpeed())) {
                     character.setSpeed(speed.intValue() + skillLevel[1] * characters.getCollSpeed());
+                }
+                //瑶池仙女物理抗性
+                if (characters.getName().equals("瑶池仙女")) {
+                    character.setWlDef(character.getWlDef()+32 * skillLevel[1]);
                 }
             }
         }
@@ -5793,40 +5832,8 @@ public class GameServiceServiceImpl implements GameServiceService {
 
             }
         }
-        character.setWlAtk(0);
-        character.setHyAtk(0);
-        character.setDsAtk(0);
-        character.setFdAtk(0);
-        character.setWlDef(0);
-        character.setHyDef(0);
-        character.setDsDef(0);
-        character.setFdDef(0);
-        character.setZlDef(0);
 
-        //TODO 装备属性
-        if (Xtool.isNotNull(characters.getEqCharactersList())) {
-            List<EqCharacters> eqCharacters = characters.getEqCharactersList();
-            //攻击
-            character.setWlAtk(eqCharacters.stream().map(EqCharacters::getWlAtk).mapToInt(wlAtk -> Objects.isNull(wlAtk) ? 0 : wlAtk).sum());
-            character.setAttack(character.getAttack() + character.getWlAtk());
-            character.setHyAtk(eqCharacters.stream().map(EqCharacters::getHyAtk).mapToInt(hyAtk -> Objects.isNull(hyAtk) ? 0 : hyAtk).sum());
-            character.setDsAtk(eqCharacters.stream().map(EqCharacters::getDsAtk).mapToInt(dsAtk -> Objects.isNull(dsAtk) ? 0 : dsAtk).sum());
-            character.setFdAtk(eqCharacters.stream().map(EqCharacters::getFdAtk).mapToInt(fdAtk -> Objects.isNull(fdAtk) ? 0 : fdAtk).sum());
-            character.setWlDef(eqCharacters.stream().map(EqCharacters::getWlDef).mapToInt(wlDef -> Objects.isNull(wlDef) ? 0 : wlDef).sum());
-            character.setHyDef(eqCharacters.stream().map(EqCharacters::getHyDef).mapToInt(hyDef -> Objects.isNull(hyDef) ? 0 : hyDef).sum());
-            character.setDsDef(eqCharacters.stream().map(EqCharacters::getDsDef).mapToInt(dsDef -> Objects.isNull(dsDef) ? 0 : dsDef).sum());
-            character.setFdDef(eqCharacters.stream().map(EqCharacters::getFdDef).mapToInt(fdDef -> Objects.isNull(fdDef) ? 0 : fdDef).sum());
-            character.setZlDef(eqCharacters.stream().map(EqCharacters::getZlDef).mapToInt(zlDef -> Objects.isNull(zlDef) ? 0 : zlDef).sum());
-        }
-        //TODO 协同属性加成
-        character.setWlAtk(character.getWlAtk()+characters.getWlAtk() * characters.getLv());
-        character.setAttack(character.getAttack()+characters.getHyAtk() * characters.getLv());
-        character.setHyAtk(character.getHyAtk()+characters.getFdAtk() * characters.getLv());
-        character.setDsAtk(character.getDsAtk()+characters.getWlDef() * characters.getLv());
-        character.setFdAtk(character.getFdAtk()+characters.getHyDef() * characters.getLv());
-        character.setWlDef(character.getWlDef()+characters.getDsDef() * characters.getLv());
-        character.setHyDef(character.getHyDef()+characters.getFdDef() * characters.getLv());
-        character.setDsDef(character.getDsDef()+characters.getZlDef() * characters.getLv());
+
         return character;
     }
 
@@ -5902,7 +5909,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             user.setSignCount(4);
             user.setSignTime(new Date());
         } else if (user.getSignCount() == 4) {
-            EqCharacters characters1 = eqCharactersMapper.listById(userId,"J1010_F294");
+            EqCharacters characters1 = eqCharactersMapper.listById(userId, "J1010_F294");
             if (characters1 != null) {
                 characters1.setStackCount(characters1.getStackCount() + 1);
                 eqCharactersMapper.updateById(characters1);
@@ -5999,7 +6006,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : leftCharacters) {
             // 设置角色
             Character character = reasonableData(characters, leftCharacters);
-            campA.add(new Guardian("A"+character.getId(),character.getName(), Camp.A, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
+            campA.add(new Guardian("A" + character.getId(), character.getName(), Camp.A, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
                     Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(), character.getStar(),
                     character.getWlAtk(),
                     character.getHyAtk(),
@@ -6010,7 +6017,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     character.getDsDef(),
                     character.getFdDef(),
                     character.getZlDef()));
-            character.setUuid("A"+character.getId());
+            character.setUuid("A" + character.getId());
             copyCampA.add(character);
         }
         rightCharacters.sort(Comparator.comparing(Characters::getGoIntoNum,
@@ -6018,7 +6025,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         for (Characters characters : rightCharacters) {
             // 设置角色
             Character character = reasonableData(characters, rightCharacters);
-            campB.add(new Guardian("B"+character.getId(),character.getName(), Camp.B, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
+            campB.add(new Guardian("B" + character.getId(), character.getName(), Camp.B, character.getGoIntoNum(), Profession.fromName(characters.getProfession()),
                     Race.fromName(characters.getCamp()), character.getMaxHp(), character.getAttack(), character.getSpeed(), character.getLv(), character.getStar(),
                     character.getWlAtk(),
                     character.getHyAtk(),
@@ -6029,7 +6036,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     character.getDsDef(),
                     character.getFdDef(),
                     character.getZlDef()));
-            character.setUuid("B"+character.getId());
+            character.setUuid("B" + character.getId());
             copyCampB.add(character);
         }
         BattleSnowflakeIdGenerator generator = BattleSnowflakeIdGenerator.getInstance();

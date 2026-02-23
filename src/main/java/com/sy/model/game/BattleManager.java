@@ -114,6 +114,170 @@ public class BattleManager {
 
     // 开始战斗
     public void startBattle() {
+        //初始化光环
+        List<Guardian> zhongyues = this.campA.stream().filter(g -> g.getName().equals("中岳大帝") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(zhongyues)) {
+            Guardian zhongyue = zhongyues.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(zhongyue.getLevel(), zhongyue.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
+//                五岳灵脉Lv1光环-增加我方全体飞弹伤害20点；
+                int heal = 25 * skillLevel[1];
+                for (Guardian guardian : this.campA) {
+                    guardian.setFdAtk(guardian.getFdAtk() + heal);
+                }
+            }
+
+        }
+        //初始化光环
+        List<Guardian> zhongyues2 = this.campB.stream().filter(g -> g.getName().equals("中岳大帝") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(zhongyues2)) {
+            Guardian zhongyue = zhongyues2.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(zhongyue.getLevel(), zhongyue.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
+//                五岳灵脉Lv1光环-增加我方全体飞弹伤害20点；
+                int heal = 25 * skillLevel[1];
+                for (Guardian guardian : this.campB) {
+                    guardian.setFdAtk(guardian.getFdAtk() + heal);
+                }
+            }
+
+        }
+        List<Guardian> baisuzhens = this.campB.stream().filter(g -> g.getName().equals("白素贞") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(baisuzhens)) {
+            Guardian baisuzhen = baisuzhens.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(baisuzhen.getLevel(), baisuzhen.getStar().doubleValue());
+//            白素贞， 水漫金山Lv1减免自身收到火焰伤害10%；
+            baisuzhen.addEffect(EffectType.FIRE_RESIST_BOOST_PRET, skillLevel[0] * 10, 990, baisuzhen.getId());
+
+        }
+
+        List<Guardian> baisuzhens2 = this.campA.stream().filter(g -> g.getName().equals("白素贞") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(baisuzhens2)) {
+            Guardian baisuzhen = baisuzhens2.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(baisuzhen.getLevel(), baisuzhen.getStar().doubleValue());
+//            白素贞， 水漫金山Lv1减免自身收到火焰伤害10%；
+            baisuzhen.addEffect(EffectType.FIRE_RESIST_BOOST_PRET, skillLevel[0] * 10, 990, baisuzhen.getId());
+
+        }
+
+        //初始化光环
+        List<Guardian> beiyues = this.campA.stream().filter(g -> g.getName().equals("北岳大帝") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(beiyues)) {
+            Guardian beiyue = beiyues.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(beiyue.getLevel(), beiyue.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
+//                五岳庇护Lv1光环-减少我方全体受到的火焰伤害20点
+                for (Guardian guardian : this.campA) {
+                    guardian.addEffect(EffectType.FIRE_RESIST_BOOST, skillLevel[0] * 20, 990, guardian.getId());
+                }
+            }
+
+        }
+        //初始化光环
+        List<Guardian> beiyues2 = this.campB.stream().filter(g -> g.getName().equals("北岳大帝") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(beiyues2)) {
+            Guardian beiyue = beiyues2.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(beiyue.getLevel(), beiyue.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
+//                五岳庇护Lv1光环-减少我方全体受到的火焰伤害20点
+                for (Guardian guardian : this.campB) {
+                    guardian.addEffect(EffectType.FIRE_RESIST_BOOST, skillLevel[0] * 20, 990, guardian.getId());
+                }
+            }
+
+        }
+
+        List<Guardian> qumozhenjuns = this.campB.stream().filter(g -> g.getName().equals("驱魔真君") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(qumozhenjuns)) {
+            Guardian qumozhenjun = qumozhenjuns.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(qumozhenjun.getLevel(), qumozhenjun.getStar().doubleValue());
+//            顽强体魄Lv1受到治疗的效果提升10%。
+            if (skillLevel[1] > 0) {
+                qumozhenjun.addEffect(EffectType.HEAL_BOOST_PRET, skillLevel[1] * 10, 990, qumozhenjun.getId());
+
+            }
+        }
+
+        List<Guardian> qumozhenjun2 = this.campA.stream().filter(g -> g.getName().equals("驱魔真君") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(qumozhenjun2)) {
+            Guardian qumozhenjun = qumozhenjun2.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(qumozhenjun.getLevel(), qumozhenjun.getStar().doubleValue());
+//            顽强体魄Lv1受到治疗的效果提升10%。
+            if (skillLevel[1] > 0) {
+                qumozhenjun.addEffect(EffectType.HEAL_BOOST_PRET, skillLevel[1] * 10, 990, qumozhenjun.getId());
+
+            }
+        }
+
+        List<Guardian> jingjiashens = this.campB.stream().filter(g -> g.getName().equals("金甲神") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(jingjiashens)) {
+            Guardian jingjiashen = jingjiashens.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(jingjiashen.getLevel(), jingjiashen.getStar().doubleValue());
+//            顽强体魄Lv1受到治疗的效果提升10%。
+            jingjiashen.addEffect(EffectType.HEAL_BOOST_PRET, skillLevel[0] * 5, 990, jingjiashen.getId());
+        }
+
+        List<Guardian> jingjiashens2 = this.campA.stream().filter(g -> g.getName().equals("金甲神") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(jingjiashens2)) {
+            Guardian jingjiashen = jingjiashens2.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(jingjiashen.getLevel(), jingjiashen.getStar().doubleValue());
+//            顽强体魄Lv1受到治疗的效果提升10%。
+            jingjiashen.addEffect(EffectType.HEAL_BOOST_PRET, skillLevel[0] * 5, 990, jingjiashen.getId());
+        }
+
+        List<Guardian> nezhas = this.campB.stream().filter(g -> g.getName().equals("哪吒") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(nezhas)) {
+            Guardian nezha = nezhas.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(nezha.getLevel(), nezha.getStar().doubleValue());
+            if (skillLevel[1]>0){
+//                莲花圣体Lv1减免受到的火焰伤害、毒素伤害、飞弹伤害各10%；
+                nezha.addEffect(EffectType.FIRE_RESIST_BOOST_PRET, skillLevel[1] * 10, 990, nezha.getId());
+                nezha.addEffect(EffectType.POISON_RESIST_BOOST_PRET, skillLevel[1] * 10, 990, nezha.getId());
+                nezha.addEffect(EffectType.MISSILE_RESIST_BOOST_PRET, skillLevel[1] * 10, 990, nezha.getId());
+            }
+
+
+        }
+
+        List<Guardian> nezhas2 = this.campA.stream().filter(g -> g.getName().equals("哪吒") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(nezhas2)) {
+            Guardian nezha = nezhas2.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(nezha.getLevel(), nezha.getStar().doubleValue());
+            if (skillLevel[1]>0){
+//                莲花圣体Lv1减免受到的火焰伤害、毒素伤害、飞弹伤害各10%；
+                nezha.addEffect(EffectType.FIRE_RESIST_BOOST_PRET, skillLevel[1] * 10, 990, nezha.getId());
+                nezha.addEffect(EffectType.POISON_RESIST_BOOST_PRET, skillLevel[1] * 10, 990, nezha.getId());
+                nezha.addEffect(EffectType.MISSILE_RESIST_BOOST_PRET, skillLevel[1] * 10, 990, nezha.getId());
+            }
+
+        }
+
+        //初始化光环
+        List<Guardian> jiaomowans = this.campA.stream().filter(g -> g.getName().equals("蛟魔王") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(jiaomowans)) {
+            Guardian jiaomowan = jiaomowans.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(jiaomowan.getLevel(), jiaomowan.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
+//                防火阵法Lv1光环-我方全体增加火焰减伤50%；
+                for (Guardian guardian : this.campA) {
+                    guardian.addEffect(EffectType.FIRE_RESIST_BOOST_PRET, 50, 990, guardian.getId());
+                }
+            }
+
+        }
+        //初始化光环
+        List<Guardian> jiaomowans2 = this.campB.stream().filter(g -> g.getName().equals("蛟魔王") && !g.isDead()).collect(Collectors.toList());
+        if (Xtool.isNotNull(jiaomowans2)) {
+            Guardian jiaomowan = jiaomowans2.get(0);
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(jiaomowan.getLevel(), jiaomowan.getStar().doubleValue());
+            if (skillLevel[1] > 0) {
+//               防火阵法Lv1光环-我方全体增加火焰减伤50%；
+                for (Guardian guardian : this.campB) {
+                    guardian.addEffect(EffectType.FIRE_RESIST_BOOST_PRET, 50, 990, guardian.getId());
+                }
+            }
+
+        }
         while (currentRound < 100 && !isBattleEnd()) {
             currentRound++;
             addLog("ROUND_START",
@@ -223,7 +387,7 @@ public class BattleManager {
                         fieldA.getMaxHp(), fieldA.getCurrentHp(),
                         heal, fieldA.isOnField(), EffectType.HEAL,
                         DamageType.MAGIC,
-                        "+"+heal);
+                        "+" + heal);
             }
 
         }
@@ -243,7 +407,7 @@ public class BattleManager {
                         fieldB.getMaxHp(), fieldB.getCurrentHp(),
                         heal, fieldB.isOnField(), EffectType.HEAL,
                         DamageType.MAGIC,
-                        "+"+heal);
+                        "+" + heal);
             }
 
         }
@@ -303,17 +467,6 @@ public class BattleManager {
         if (damage < 0) {
             damage = 0;
         }
-        //瑶池仙女物理抗性
-        if (defender.getName().equals("瑶池仙女") && defender.getPosition() == 2) {
-            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(defender.getLevel(), defender.getStar().doubleValue());
-            if (skillLevel[1] > 0) {
-                damage = damage - 32 * skillLevel[1];
-                if (damage < 0) {
-                    damage = 0;
-                }
-            }
-
-        }
         defender.setCurrentHp(defender.getCurrentHp() - damage);
         addLog("NORMAL_ATTACK",
                 attacker.getId(),
@@ -324,7 +477,7 @@ public class BattleManager {
                 defender.getMaxHp(), defender.getCurrentHp(),
                 damage, defender.isOnField(),
                 EffectType.DAMAGE, DamageType.PHYSICAL,
-                "-"+ defender.getName());
+                "-" + defender.getName());
         // 检查阵亡
         if (defender.getCurrentHp() <= 0) {
             defender.setDead(true);
@@ -355,9 +508,6 @@ public class BattleManager {
     // 触发登场技能
 //   TODO  登场释放 大于速度 大于厂下速度 大于挨打释放 大于厂下后手排序队列释放
     private void triggerOnEnterSkills(Guardian guardian) {
-        int sourceHpBefore = guardian.getMaxHp();
-        int sourceAttackBefore = guardian.getAttack();
-        int sourceSpeedBefore = guardian.getSpeed();
         int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
 
         //TODO 登场触发技能
@@ -371,7 +521,19 @@ public class BattleManager {
 
                     Map<String, TargetBattleData> targetStatus = new HashMap<>();
                     for (Guardian g : offFieldEnemies) {
-                        int poisonValue = 40 * skillLevel[0];
+                        int totalPoisonDamage = 40 * skillLevel[0];
+                        // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                        // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                        // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                        int resistUp = calculateTotalVaule(guardian, EffectType.POISON_BOOST);
+                        // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.POISON_BOOST_PRET);
+                        // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                        int resistDown = calculateTotalVaule(guardian, EffectType.POISON_DOWN);
+                        // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.POISON_DOWN_PRET);
+
+                        int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + guardian.getDsAtk() - resistDown));
                         // 计算本次中毒伤害
                         g.addEffect(EffectType.POISON, poisonValue + guardian.getDsAtk(), 99, guardian.getId());
                         TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), 0, g.isOnField());
@@ -396,11 +558,16 @@ public class BattleManager {
                             campA.stream().filter(g -> !g.isDead() && g.getRace() == Race.DEMON).collect(Collectors.toList()) :
                             campB.stream().filter(g -> !g.isDead() && g.getRace() == Race.DEMON).collect(Collectors.toList());
                     if (!enemies.isEmpty()) {
-                        int speed = 130 * skillLevel[0];
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
 
                         enemies.forEach(g -> {
+                            int totalPoisonDamage = 130 * skillLevel[0];
+                            // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                            // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                            // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                            double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.SPEED_UP_PRET);
+                            int speed = (int) (totalPoisonDamage * resistUpPret);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), speed, g.isOnField());
                             g.setSpeed(g.getSpeed() + speed);
                             targetStatus.put(g.getId(), data);
@@ -433,34 +600,34 @@ public class BattleManager {
                     if (Xtool.isNotNull(enemies)) {
                         enemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                            int totalPoisonDamage =   420 * skillLevel[0];
+                            int totalPoisonDamage = 420 * skillLevel[0];
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(guardian,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(guardian, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(guardian,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(guardian, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+guardian.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + guardian.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (burnDamage<0){
-                                burnDamage=0;
+                            if (burnDamage < 0) {
+                                burnDamage = 0;
                             }
 
                             // 4. 扣除伤害
@@ -468,9 +635,9 @@ public class BattleManager {
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), burnDamage, g.isOnField());
                             targetStatus.put(g.getId(), data);
                             if (g.isDead()) {
-                                
+
                                 deadGuardians.add(g);
-                                deadUnits.put(g.getId(),data);
+                                deadUnits.put(g.getId(), data);
                             }
                         });
 
@@ -522,43 +689,43 @@ public class BattleManager {
                             campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
                     enemies.forEach(g -> {
                         // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                        int totalPoisonDamage =   236 * skillLevel[1];
+                        int totalPoisonDamage = 236 * skillLevel[1];
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int resistUp =calculateTotalVaule(guardian,EffectType.FIRE_BOOST);
+                        int resistUp = calculateTotalVaule(guardian, EffectType.FIRE_BOOST);
                         // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.FIRE_BOOST_PRET);
+                        double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.FIRE_BOOST_PRET);
                         // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int resistDown =calculateTotalVaule(guardian,EffectType.FIRE_DOWN);
+                        int resistDown = calculateTotalVaule(guardian, EffectType.FIRE_DOWN);
                         // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.FIRE_DOWN_PRET);
+                        double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.FIRE_DOWN_PRET);
 
 
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                        int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                         // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                        double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                         // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                        int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                         // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                        double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                         // 最终（仅基于 buff 计算，无新增方法）
 
-                        int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                +(resistUp-resistDown+guardian.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                        int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                + (resistUp - resistDown + guardian.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                        if (burnDamage<0){
-                            burnDamage=0;
+                        if (burnDamage < 0) {
+                            burnDamage = 0;
                         }
 
                         // 4. 扣除伤害
                         g.setCurrentHp(g.getCurrentHp() - burnDamage);
                         TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), burnDamage, g.isOnField());
-                        targetStatus.put(g.getId(),data);
+                        targetStatus.put(g.getId(), data);
                         if (g.isDead()) {
-                            
-                            deadUnits.put(g.getId(),data);
+
+                            deadUnits.put(g.getId(), data);
                             deadGuardians.add(g);
                         }
                     });
@@ -640,7 +807,7 @@ public class BattleManager {
                                 enemy.isOnField(),
                                 EffectType.TRUE_DAMAGE,
                                 DamageType.PHYSICAL,
-                                "-"+damage);
+                                "-" + damage);
                     }
                 }
                 break;
@@ -661,7 +828,7 @@ public class BattleManager {
                         guardian.isOnField(),
                         EffectType.HEAL,
                         DamageType.BUFF,
-                        "+"+heal);
+                        "+" + heal);
                 break;
 
             case "烛龙":
@@ -727,34 +894,34 @@ public class BattleManager {
                         // 镇妖塔：对敌方场上造成飞弹伤害
                         if (guardian != null) {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                            int totalPoisonDamage =   69 * skillLevel[1];
+                            int totalPoisonDamage = 69 * skillLevel[1];
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                            int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                             // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                             // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                            int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                             // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(enemy,EffectType.MISSILE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(enemy, EffectType.MISSILE_RESIST_BOOST);
                             // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(enemy,EffectType.MISSILE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(enemy, EffectType.MISSILE_RESIST_BOOST_PRET);
                             // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(enemy,EffectType.MISSILE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(enemy, EffectType.MISSILE_RESIST_DOWN);
                             // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(enemy,EffectType.MISSILE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(enemy, EffectType.MISSILE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+guardian.getFdAtk()-enemy.getFdDef()-targetUp+targetDown));
+                            int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + guardian.getFdAtk() - enemy.getFdDef() - targetUp + targetDown));
 
-                            if (burnDamage<0){
-                                burnDamage=0;
+                            if (burnDamage < 0) {
+                                burnDamage = 0;
                             }
 
                             // 4. 扣除伤害
@@ -772,7 +939,7 @@ public class BattleManager {
                                     guardian.isOnField(),
                                     EffectType.MISSILE_DAMAGE,
                                     DamageType.MISSILE,
-                                    "-"+burnDamage);
+                                    "-" + burnDamage);
                         }
                         break;
                     case "厚土娘娘":
@@ -849,7 +1016,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.TRUE_DAMAGE,
                             DamageType.TRUE,
-                            "-"+damage);
+                            "-" + damage);
                 }
                 break;
 
@@ -857,34 +1024,34 @@ public class BattleManager {
                 // 斩杀：13%几率造成火焰伤害
                 if (ProbabilityBooleanUtils.randomByProbability(0.13 * skillLevel[0])) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   220 * skillLevel[1];
+                    int totalPoisonDamage = 220 * skillLevel[1];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                    int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                     // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                     // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                    int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                     // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(defender,EffectType.FIRE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(defender, EffectType.FIRE_RESIST_BOOST);
                     // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.FIRE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.FIRE_RESIST_BOOST_PRET);
                     // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(defender,EffectType.FIRE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(defender, EffectType.FIRE_RESIST_DOWN);
                     // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.FIRE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.FIRE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+attacker.getHyAtk()-defender.getHyDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + attacker.getHyAtk() - defender.getHyDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -898,7 +1065,7 @@ public class BattleManager {
                             defender.setCurrentHp(0);
                             defender.setDead(true);
                             defender.setOnField(false);
-                            deadUnits.put(defender.getId(),data);
+                            deadUnits.put(defender.getId(), data);
                         }
                     }
                     addLog("斩杀",
@@ -914,7 +1081,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.FIRE_DAMAGE,
                             DamageType.FIRE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -937,34 +1104,34 @@ public class BattleManager {
                 if (skillLevel[1] > 0) {
                     if (ProbabilityBooleanUtils.randomByProbability(0.75)) {
                         // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                        int totalPoisonDamage =   236 * skillLevel[1];
+                        int totalPoisonDamage = 236 * skillLevel[1];
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                        int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                         // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                        double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                         // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                        int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                         // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                        double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int targetUp =calculateTotalVaule(defender,EffectType.FIRE_RESIST_BOOST);
+                        int targetUp = calculateTotalVaule(defender, EffectType.FIRE_RESIST_BOOST);
                         // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.FIRE_RESIST_BOOST_PRET);
+                        double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.FIRE_RESIST_BOOST_PRET);
                         // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int targetDown =calculateTotalVaule(defender,EffectType.FIRE_RESIST_DOWN);
+                        int targetDown = calculateTotalVaule(defender, EffectType.FIRE_RESIST_DOWN);
                         // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.FIRE_RESIST_DOWN_PRET);
+                        double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.FIRE_RESIST_DOWN_PRET);
                         // 最终（仅基于 buff 计算，无新增方法）
 
-                        int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                +(resistUp-resistDown+attacker.getHyAtk()-defender.getHyDef()-targetUp+targetDown));
+                        int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                + (resistUp - resistDown + attacker.getHyAtk() - defender.getHyDef() - targetUp + targetDown));
 
-                        if (burnDamage<0){
-                            burnDamage=0;
+                        if (burnDamage < 0) {
+                            burnDamage = 0;
                         }
 
                         // 4. 扣除伤害
@@ -978,7 +1145,7 @@ public class BattleManager {
                                 defender.setCurrentHp(0);
                                 defender.setDead(true);
                                 defender.setOnField(false);
-                                deadUnits.put(defender.getId(),data);
+                                deadUnits.put(defender.getId(), data);
                             }
                         }
                         addLog("屠杀",
@@ -994,7 +1161,7 @@ public class BattleManager {
                                 defender.isOnField(),
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "-"+burnDamage);
+                                "-" + burnDamage);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -1061,7 +1228,7 @@ public class BattleManager {
 
                                 g.setCurrentHp(g.getCurrentHp() + heal);
                                 TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), heal, g.isOnField());
-                                targetStatus.put(g.getId(),data);
+                                targetStatus.put(g.getId(), data);
                             });
                             addMultiTargetLog("瑶池仙露",
                                     defender.getId(),
@@ -1113,8 +1280,8 @@ public class BattleManager {
                 if (skillLevel[1] > 0) {
                     // 睚眦必报Lv1受到普通攻击时增加攻击38点。
                     if (!defender.isDead() && skillLevel[1] > 0) {
-                        int value=38 * skillLevel[1];
-                        defender.setAttack(defender.getAttack() +value);
+                        int value = 38 * skillLevel[1];
+                        defender.setAttack(defender.getAttack() + value);
 
                         addLog("睚眦必报",
                                 defender.getId(),
@@ -1139,7 +1306,7 @@ public class BattleManager {
                     //赤炎臂膀Lv1受到普通攻击时，提高自身火焰伤害106点，最多可叠加99层
                     if (!defender.isDead() && defender.getBuffStacks() < 99) {
                         defender.setBuffStacks(defender.getBuffStacks() + 1);
-                        int value=106 * skillLevel[1];
+                        int value = 106 * skillLevel[1];
                         defender.addEffect(EffectType.FIRE_BOOST, value, 99, defender.getId());
                         addLog("赤炎臂膀",
                                 defender.getId(),
@@ -1162,7 +1329,19 @@ public class BattleManager {
             case "聂小倩":
                 // 幽灵毒击：令攻击者中毒
                 if (!defender.isDead()) {
-                    int poisonValue = 8 * skillLevel[0] + defender.getDsAtk();
+                    int totalPoisonDamage = 8 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(defender, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(defender, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.POISON_DOWN_PRET);
+
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + defender.getDsAtk() - resistDown));
                     attacker.addEffect(EffectType.POISON, poisonValue, 99, defender.getId());
                     addLog("幽灵毒击",
                             defender.getId(),
@@ -1177,7 +1356,7 @@ public class BattleManager {
                             attacker.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
-                            "中毒+"+poisonValue);
+                            "中毒+" + poisonValue);
                 }
                 break;
 
@@ -1190,7 +1369,7 @@ public class BattleManager {
                             .filter(g -> !g.isDead())
                             .collect(Collectors.toList());
 
-                    if (!aliveEnemies.isEmpty()&&skillLevel[1]>0) {
+                    if (!aliveEnemies.isEmpty() && skillLevel[1] > 0) {
 
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
@@ -1198,40 +1377,40 @@ public class BattleManager {
                         // 记录目标状态并执行伤害
                         aliveEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                            int totalPoisonDamage =   54 * skillLevel[1];
+                            int totalPoisonDamage = 54 * skillLevel[1];
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(defender,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(defender, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(defender,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(defender,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(defender, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(defender,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+defender.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + defender.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (finalDamage<0){
-                                finalDamage=0;
+                            if (finalDamage < 0) {
+                                finalDamage = 0;
                             }
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
-                            targetStatus.put(g.getId(),data);
+                            targetStatus.put(g.getId(), data);
                         });
 
                         // 单条日志记录多目标
@@ -1262,41 +1441,42 @@ public class BattleManager {
                         // 记录目标状态并执行伤害
                         aliveEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                            int totalPoisonDamage =  random.nextInt(140 - 35 + 1) + 35;;
+                            int totalPoisonDamage = random.nextInt(140 - 35 + 1) + 35;
+                            ;
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(defender,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(defender, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(defender,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(defender,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(defender, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(defender,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+defender.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + defender.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (finalDamage<0){
-                                finalDamage=0;
+                            if (finalDamage < 0) {
+                                finalDamage = 0;
                             }
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
 
-                            targetStatus.put(g.getId(),data);
+                            targetStatus.put(g.getId(), data);
                         });
 
                         // 单条日志记录多目标
@@ -1320,8 +1500,20 @@ public class BattleManager {
                             campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
                     if (!enemies.isEmpty()) {
                         Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                        int poisonValue = 73 * skillLevel[0];
-                        randomEnemy.addEffect(EffectType.POISON, poisonValue + defender.getDsAtk(), 99, defender.getId());
+                        int totalPoisonDamage = 73 * skillLevel[0];
+                        // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                        // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                        // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                        int resistUp = calculateTotalVaule(defender, EffectType.POISON_BOOST);
+                        // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.POISON_BOOST_PRET);
+                        // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                        int resistDown = calculateTotalVaule(defender, EffectType.POISON_DOWN);
+                        // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.POISON_DOWN_PRET);
+
+                        int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + defender.getDsAtk() - resistDown));
+                        randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, defender.getId());
                         addLog("剧毒皮肤",
                                 defender.getId(),
                                 defender.getMaxHp(),
@@ -1335,7 +1527,7 @@ public class BattleManager {
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
-                                "中毒+"+poisonValue);
+                                "中毒+" + poisonValue);
                     }
                 }
                 break;
@@ -1347,8 +1539,20 @@ public class BattleManager {
                             campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
                     if (!enemies.isEmpty()) {
                         Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                        int poisonValue = 8 * skillLevel[0];
-                        randomEnemy.addEffect(EffectType.POISON, poisonValue + defender.getDsAtk(), 99, defender.getId());
+                        int totalPoisonDamage = 8 * skillLevel[0];
+                        // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                        // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                        // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                        int resistUp = calculateTotalVaule(defender, EffectType.POISON_BOOST);
+                        // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.POISON_BOOST_PRET);
+                        // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                        int resistDown = calculateTotalVaule(defender, EffectType.POISON_DOWN);
+                        // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.POISON_DOWN_PRET);
+
+                        int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + defender.getDsAtk() - resistDown));
+                        randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, defender.getId());
                         addLog("毒素反击",
                                 defender.getId(),
                                 defender.getMaxHp(),
@@ -1362,16 +1566,16 @@ public class BattleManager {
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
-                                "中毒+"+poisonValue);
+                                "中毒+" + poisonValue);
                     }
                 }
                 break;
             case "句芒":
                 // 句芒，残酷收割Lv1每当有生物死亡时，回复自身6%最大生命；嗜血Lv1受到普通攻击时，为自身添加嗜血效果，提高攻击118点，速度20点；大圣协同Lv1与齐天大圣在同一队伍时，增加自身453点生命上限，158点攻击，158点速度。
                 if (!defender.isDead() && skillLevel[1] > 0) {
-                    int value= 118 * skillLevel[1];
-                    int value2= 20 * skillLevel[1];
-                    defender.setAttack(defender.getAttack() +value);
+                    int value = 118 * skillLevel[1];
+                    int value2 = 20 * skillLevel[1];
+                    defender.setAttack(defender.getAttack() + value);
                     defender.setSpeed(defender.getSpeed() + value2);
 
                     addLog("嗜血",
@@ -1387,15 +1591,15 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.ATTACK_SPEED_UP,
                             DamageType.BUFF,
-                            "攻击提高+"+value+",速度提高+"+value2);
+                            "攻击提高+" + value + ",速度提高+" + value2);
                 }
                 break;
             case "刑天":
                 // 刑天，斩杀Lv1普通攻击有13%几率对目标造成220点火焰伤害，如果目标是武圣则有几率一击必杀，替代普通攻击；嗜血Lv1受到普通攻击时，为自身添加嗜血效果，提高攻击118点，速度20点；金翅雕协同Lv1与大鹏金翅雕在同一队伍时，增加自身453点生命上限，158点攻击，158点速度                if (!defender.isDead()) {
                 if (!defender.isDead() && skillLevel[1] > 0) {
-                    int value= 118 * skillLevel[1];
-                    int value2= 20 * skillLevel[1];
-                    defender.setAttack(defender.getAttack() +value);
+                    int value = 118 * skillLevel[1];
+                    int value2 = 20 * skillLevel[1];
+                    defender.setAttack(defender.getAttack() + value);
                     defender.setSpeed(defender.getSpeed() + value2);
                     addLog("嗜血",
                             defender.getId(),
@@ -1410,7 +1614,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.ATTACK_SPEED_UP,
                             DamageType.BUFF,
-                            "攻击提高+"+value+",速度提高+"+value2);
+                            "攻击提高+" + value + ",速度提高+" + value2);
                 }
                 break;
 
@@ -1434,14 +1638,14 @@ public class BattleManager {
                             attacker.isOnField(),
                             EffectType.DAMAGE,
                             DamageType.TRUE,
-                            "-"+counterDamage);
+                            "-" + counterDamage);
                     Map<String, TargetBattleData> deadUnits = new HashMap<>();
 
                     if (attacker.getCurrentHp() <= 0) {
                         attacker.setDead(true);
                         attacker.setOnField(false);
                         TargetBattleData data = new TargetBattleData(attacker.getMaxHp(), attacker.getCurrentHp(), 0, attacker.isOnField());
-                        deadUnits.put(attacker.getId(),data);
+                        deadUnits.put(attacker.getId(), data);
                     }
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
@@ -1481,34 +1685,34 @@ public class BattleManager {
                     Guardian enemy = defender.getCamp() == Camp.A ? fieldB : fieldA;
                     if (enemy != null && !enemy.isDead()) {
                         // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                        int totalPoisonDamage =   146 * skillLevel[1];
+                        int totalPoisonDamage = 146 * skillLevel[1];
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int resistUp =calculateTotalVaule(defender,EffectType.MISSILE_BOOST);
+                        int resistUp = calculateTotalVaule(defender, EffectType.MISSILE_BOOST);
                         // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistUpPret =calculateTotalUpPretVaule(defender,EffectType.MISSILE_BOOST_PRET);
+                        double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.MISSILE_BOOST_PRET);
                         // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int resistDown =calculateTotalVaule(defender,EffectType.MISSILE_DOWN);
+                        int resistDown = calculateTotalVaule(defender, EffectType.MISSILE_DOWN);
                         // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistDownPret =calculateTotalDownPretVaule(defender,EffectType.MISSILE_DOWN_PRET);
+                        double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.MISSILE_DOWN_PRET);
 
 
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int targetUp =calculateTotalVaule(enemy,EffectType.MISSILE_RESIST_BOOST);
+                        int targetUp = calculateTotalVaule(enemy, EffectType.MISSILE_RESIST_BOOST);
                         // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetUpPret =calculateTotalDownPretVaule(enemy,EffectType.MISSILE_RESIST_BOOST_PRET);
+                        double targetUpPret = calculateTotalDownPretVaule(enemy, EffectType.MISSILE_RESIST_BOOST_PRET);
                         // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int targetDown =calculateTotalVaule(enemy,EffectType.MISSILE_RESIST_DOWN);
+                        int targetDown = calculateTotalVaule(enemy, EffectType.MISSILE_RESIST_DOWN);
                         // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetDownPret =calculateTotalUpPretVaule(enemy,EffectType.MISSILE_RESIST_DOWN_PRET);
+                        double targetDownPret = calculateTotalUpPretVaule(enemy, EffectType.MISSILE_RESIST_DOWN_PRET);
                         // 最终（仅基于 buff 计算，无新增方法）
 
-                        int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                +(resistUp-resistDown+defender.getFdAtk()-enemy.getFdDef()-targetUp+targetDown));
+                        int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                + (resistUp - resistDown + defender.getFdAtk() - enemy.getFdDef() - targetUp + targetDown));
 
-                        if (burnDamage<0){
-                            burnDamage=0;
+                        if (burnDamage < 0) {
+                            burnDamage = 0;
                         }
 
                         // 4. 扣除伤害
@@ -1519,7 +1723,7 @@ public class BattleManager {
                             enemy.setDead(true);
                             enemy.setOnField(false);
                             TargetBattleData data = new TargetBattleData(enemy.getMaxHp(), enemy.getCurrentHp(), 0, enemy.isOnField());
-                            deadUnits.put(enemy.getId(),data);
+                            deadUnits.put(enemy.getId(), data);
                         }
                         addLog("圣灵瀑",
                                 defender.getId(),
@@ -1534,7 +1738,7 @@ public class BattleManager {
                                 enemy.isOnField(),
                                 EffectType.MISSILE_DAMAGE,
                                 DamageType.MISSILE,
-                                "-"+burnDamage);
+                                "-" + burnDamage);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -1562,34 +1766,34 @@ public class BattleManager {
                     Guardian enemy = defender.getCamp() == Camp.A ? fieldB : fieldA;
                     if (enemy != null && !enemy.isDead()) {
                         // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                        int totalPoisonDamage =   32 * skillLevel[0];
+                        int totalPoisonDamage = 32 * skillLevel[0];
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int resistUp =calculateTotalVaule(defender,EffectType.MISSILE_BOOST);
+                        int resistUp = calculateTotalVaule(defender, EffectType.MISSILE_BOOST);
                         // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistUpPret =calculateTotalUpPretVaule(defender,EffectType.MISSILE_BOOST_PRET);
+                        double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.MISSILE_BOOST_PRET);
                         // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int resistDown =calculateTotalVaule(defender,EffectType.MISSILE_DOWN);
+                        int resistDown = calculateTotalVaule(defender, EffectType.MISSILE_DOWN);
                         // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistDownPret =calculateTotalDownPretVaule(defender,EffectType.MISSILE_DOWN_PRET);
+                        double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.MISSILE_DOWN_PRET);
 
 
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int targetUp =calculateTotalVaule(enemy,EffectType.MISSILE_RESIST_BOOST);
+                        int targetUp = calculateTotalVaule(enemy, EffectType.MISSILE_RESIST_BOOST);
                         // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetUpPret =calculateTotalDownPretVaule(enemy,EffectType.MISSILE_RESIST_BOOST_PRET);
+                        double targetUpPret = calculateTotalDownPretVaule(enemy, EffectType.MISSILE_RESIST_BOOST_PRET);
                         // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int targetDown =calculateTotalVaule(enemy,EffectType.MISSILE_RESIST_DOWN);
+                        int targetDown = calculateTotalVaule(enemy, EffectType.MISSILE_RESIST_DOWN);
                         // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetDownPret =calculateTotalUpPretVaule(enemy,EffectType.MISSILE_RESIST_DOWN_PRET);
+                        double targetDownPret = calculateTotalUpPretVaule(enemy, EffectType.MISSILE_RESIST_DOWN_PRET);
                         // 最终（仅基于 buff 计算，无新增方法）
 
-                        int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                +(resistUp-resistDown+defender.getFdAtk()-enemy.getFdDef()-targetUp+targetDown));
+                        int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                + (resistUp - resistDown + defender.getFdAtk() - enemy.getFdDef() - targetUp + targetDown));
 
-                        if (burnDamage<0){
-                            burnDamage=0;
+                        if (burnDamage < 0) {
+                            burnDamage = 0;
                         }
 
                         // 4. 扣除伤害
@@ -1600,7 +1804,7 @@ public class BattleManager {
                             enemy.setDead(true);
                             enemy.setOnField(false);
                             TargetBattleData data = new TargetBattleData(enemy.getMaxHp(), enemy.getCurrentHp(), 0, enemy.isOnField());
-                            deadUnits.put(enemy.getId(),data);
+                            deadUnits.put(enemy.getId(), data);
                         }
                         addLog("圣灵泉涌",
                                 defender.getId(),
@@ -1615,7 +1819,7 @@ public class BattleManager {
                                 enemy.isOnField(),
                                 EffectType.MISSILE_DAMAGE,
                                 DamageType.MISSILE,
-                                "-"+burnDamage);
+                                "-" + burnDamage);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -1657,7 +1861,7 @@ public class BattleManager {
                     List<Guardian> aliveEnemies = enemies.stream()
                             .filter(g -> !g.isDead())
                             .collect(Collectors.toList());
-                    if (!aliveEnemies.isEmpty()&& skillLevel[1]>0) {
+                    if (!aliveEnemies.isEmpty() && skillLevel[1] > 0) {
                         Map<String, TargetBattleData> deadUnits = new HashMap<>();
                         List<Guardian> deadGuardians = new ArrayList<>();
 
@@ -1666,43 +1870,43 @@ public class BattleManager {
                         // 记录目标状态并执行伤害
                         aliveEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                            int totalPoisonDamage =   54 * skillLevel[1];
+                            int totalPoisonDamage = 54 * skillLevel[1];
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(defender,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(defender, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(defender,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(defender,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(defender, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(defender,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+defender.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + defender.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (finalDamage<0){
-                                finalDamage=0;
+                            if (finalDamage < 0) {
+                                finalDamage = 0;
                             }
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
-                            targetStatus.put(g.getId(),data);
+                            targetStatus.put(g.getId(), data);
                             if (g.isDead()) {
-                               
-                                deadUnits.put(g.getId(),data);
+
+                                deadUnits.put(g.getId(), data);
                                 deadGuardians.add(g);
                             }
                         });
@@ -1761,43 +1965,44 @@ public class BattleManager {
                         // 记录目标状态并执行伤害
                         aliveEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                            int totalPoisonDamage =  random.nextInt(140 - 35 + 1) + 35;;
+                            int totalPoisonDamage = random.nextInt(140 - 35 + 1) + 35;
+                            ;
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(defender,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(defender, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(defender,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(defender,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(defender, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(defender,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+defender.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + defender.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (finalDamage<0){
-                                finalDamage=0;
+                            if (finalDamage < 0) {
+                                finalDamage = 0;
                             }
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
-                            targetStatus.put(g.getId(),data);
+                            targetStatus.put(g.getId(), data);
                             if (g.isDead()) {
-                               
-                                deadUnits.put(g.getId(),data);
+
+                                deadUnits.put(g.getId(), data);
                                 deadGuardians.add(g);
                             }
                         });
@@ -1844,8 +2049,20 @@ public class BattleManager {
                             campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
                     if (!enemies.isEmpty()) {
                         Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                        int poisonValue = 30 * skillLevel[0];
-                        randomEnemy.addEffect(EffectType.POISON, poisonValue + defender.getDsAtk(), 99, defender.getId());
+                        int totalPoisonDamage = 30 * skillLevel[0];
+                        // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                        // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                        // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                        int resistUp = calculateTotalVaule(defender, EffectType.POISON_BOOST);
+                        // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.POISON_BOOST_PRET);
+                        // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                        int resistDown = calculateTotalVaule(defender, EffectType.POISON_DOWN);
+                        // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.POISON_DOWN_PRET);
+
+                        int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + defender.getDsAtk() - resistDown));
+                        randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, defender.getId());
                         addLog("剧毒皮肤",
                                 defender.getId(),
                                 defender.getMaxHp(),
@@ -1859,7 +2076,7 @@ public class BattleManager {
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
-                                "中毒+"+poisonValue);
+                                "中毒+" + poisonValue);
                     }
 
                 }
@@ -1872,8 +2089,20 @@ public class BattleManager {
                             campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
                     if (!enemies.isEmpty()) {
                         Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                        int poisonValue = 30 * skillLevel[0];
-                        randomEnemy.addEffect(EffectType.POISON, poisonValue + defender.getDsAtk(), 99, defender.getId());
+                        int totalPoisonDamage = 30 * skillLevel[0];
+                        // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                        // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                        // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                        int resistUp = calculateTotalVaule(defender, EffectType.POISON_BOOST);
+                        // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.POISON_BOOST_PRET);
+                        // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                        int resistDown = calculateTotalVaule(defender, EffectType.POISON_DOWN);
+                        // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.POISON_DOWN_PRET);
+
+                        int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + defender.getDsAtk() - resistDown));
+                        randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, defender.getId());
                         addLog("燥热蛇毒",
                                 defender.getId(),
                                 defender.getMaxHp(),
@@ -1887,7 +2116,7 @@ public class BattleManager {
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
-                                "中毒+"+poisonValue);
+                                "中毒+" + poisonValue);
                     }
 
                 }
@@ -1898,7 +2127,7 @@ public class BattleManager {
                     Guardian enemie = defender.getCamp() == Camp.A ?
                             fieldB : fieldA;
                     if (enemie != null && !enemie.isDead()) {
-                        int value=155 * skillLevel[0];
+                        int value = 155 * skillLevel[0];
                         enemie.setCurrentHp(enemie.getCurrentHp() - value);
 
                         addLog("新月反击",
@@ -1914,14 +2143,14 @@ public class BattleManager {
                                 enemie.isOnField(),
                                 EffectType.DAMAGE,
                                 DamageType.PHYSICAL,
-                                "-"+value);
+                                "-" + value);
                         Map<String, TargetBattleData> deadUnits = new HashMap<>();
 
                         if (enemie.getCurrentHp() <= 0) {
                             enemie.setDead(true);
                             enemie.setOnField(false);
                             TargetBattleData data = new TargetBattleData(enemie.getMaxHp(), enemie.getCurrentHp(), 0, enemie.isOnField());
-                            deadUnits.put(defender.getId(),data);
+                            deadUnits.put(defender.getId(), data);
                         }
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
@@ -1947,9 +2176,9 @@ public class BattleManager {
                 break;
             case "南岳大帝":
 //                草船借箭Lv1受到火焰伤害时，增加自身飞弹伤害13点，最多叠加99层；
-                if (!defender.isDead()&&effectType==EffectType.FIRE_DAMAGE) {
-                    if (1==1) {
-                        int poisonValue = 13 * skillLevel[0]+ defender.getDsAtk();
+                if (!defender.isDead() && effectType == EffectType.FIRE_DAMAGE) {
+                    if (1 == 1) {
+                        int poisonValue = 13 * skillLevel[0] + defender.getDsAtk();
                         defender.addEffect(EffectType.MISSILE_BOOST, poisonValue, 99, defender.getId());
                         addLog("草船借箭",
                                 defender.getId(),
@@ -1964,11 +2193,11 @@ public class BattleManager {
                                 defender.isOnField(),
                                 EffectType.MISSILE_BOOST,
                                 DamageType.BUFF,
-                                "飞弹伤害+"+poisonValue);
+                                "飞弹伤害+" + poisonValue);
                     }
 
                 }
-//                break;
+                break;
             case "长生大帝":
 //                南极祝福Lv1场下，受到任意伤害时提升自身56点生命值上限；
                 if (!defender.isDead() && !defender.isOnField() && skillLevel[1] > 0) {
@@ -2008,6 +2237,33 @@ public class BattleManager {
             return;
         }
         switch (attacker.getName()) {
+            case "东岳大帝":
+                // 致命衰竭：登场目标攻击减少10%
+                if (1==1) {
+                    Guardian target = attacker.getCamp() == Camp.A ? fieldB : fieldA;
+                    if (target != null&&!target.isDead()) {
+                        int weaken = skillLevel[0]*20;
+                        if (weaken<0){
+                            weaken=0;
+                        }
+                        target.setAttack(target.getAttack() - weaken);
+                        addLog("大帝威慑",
+                                attacker.getId(),
+                                attacker.getMaxHp(),
+                                attacker.getCurrentHp(),
+                                0,
+                                attacker.isOnField(),
+                                target.getId(),
+                                target.getMaxHp(),
+                                target.getCurrentHp(),
+                                weaken,
+                                target.isOnField(),
+                                EffectType.WEAKEN,
+                                DamageType.BUFF,
+                                "攻击降低-"+ weaken);
+                    }
+                }
+                break;
             case "燃灯道人":
                 if (1 == 1) {
                     // 仙人指路Lv1每次攻击后增加自身后方单位的攻击66点，最多叠加3次；
@@ -2033,7 +2289,7 @@ public class BattleManager {
                                     guardian.isOnField(),
                                     EffectType.ATTACK_UP,
                                     DamageType.BUFF,
-                                    "攻击力提升+"+attack);
+                                    "攻击力提升+" + attack);
                         }
                     }
                 }
@@ -2042,22 +2298,34 @@ public class BattleManager {
                 if (1 == 1) {
                     // ，剧毒加深Lv1攻击中毒敌人时，为其增加1层毒素效果，每回合损失35点生命；
                     if (defender.isPoison()) {
-                        int poisonValue = 35 * skillLevel[0];
-                        attacker.addEffect(EffectType.POISON, poisonValue + defender.getDsAtk(), 99, defender.getId());
+                        int totalPoisonDamage = 30 * skillLevel[0];
+                        // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                        // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                        // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                        int resistUp = calculateTotalVaule(attacker, EffectType.POISON_BOOST);
+                        // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.POISON_BOOST_PRET);
+                        // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                        int resistDown = calculateTotalVaule(attacker, EffectType.POISON_DOWN);
+                        // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.POISON_DOWN_PRET);
+
+                        int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + defender.getDsAtk() - resistDown));
+                        attacker.addEffect(EffectType.POISON, poisonValue, 99, defender.getId());
                         addLog("剧毒加深",
-                                defender.getId(),
-                                defender.getMaxHp(),
-                                defender.getCurrentHp(),
-                                0,
-                                defender.isOnField(),
                                 attacker.getId(),
                                 attacker.getMaxHp(),
                                 attacker.getCurrentHp(),
                                 0,
                                 attacker.isOnField(),
+                                defender.getId(),
+                                defender.getMaxHp(),
+                                defender.getCurrentHp(),
+                                0,
+                                defender.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
-                                "中毒+"+poisonValue);
+                                "中毒+" + poisonValue);
                     }
                     //妖力聚集Lv1每次攻击后增加自身后方单位的攻击42点，最多叠加5层；
                     List<Guardian> enemies = attacker.getCamp() == Camp.A ?
@@ -2082,7 +2350,7 @@ public class BattleManager {
                                     guardian.isOnField(),
                                     EffectType.ATTACK_UP,
                                     DamageType.BUFF,
-                                    "攻击力提升+"+attack);
+                                    "攻击力提升+" + attack);
                         }
                     }
                 }
@@ -2111,7 +2379,7 @@ public class BattleManager {
                                 guardian.isOnField(),
                                 EffectType.HP_UP,
                                 DamageType.BUFF,
-                                 "生命上限+"+hel);
+                                "生命上限+" + hel);
                     }
                 }
                 break;
@@ -2134,40 +2402,40 @@ public class BattleManager {
                             int totalPoisonDamage = lavaDamage;
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+attacker.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + attacker.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (finalDamage<0){
-                                finalDamage=0;
+                            if (finalDamage < 0) {
+                                finalDamage = 0;
                             }
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
-                            targetStatus.put(g.getId(),data);
+                            targetStatus.put(g.getId(), data);
                             if (g.isDead()) {
-                               
-                                deadUnits.put(g.getId(),data);
+
+                                deadUnits.put(g.getId(), data);
                                 deadGuardians.add(g);
                             }
                         });
@@ -2226,7 +2494,7 @@ public class BattleManager {
                             attacker.isOnField(),
                             EffectType.HEAL,
                             DamageType.MAGIC,
-                            "+"+hel);
+                            "+" + hel);
 
                 }
                 break;
@@ -2248,7 +2516,7 @@ public class BattleManager {
                             attacker.isOnField(),
                             EffectType.HEAL,
                             DamageType.MAGIC,
-                            "+"+hel);
+                            "+" + hel);
                 }
                 break;
             case "金钩大王":
@@ -2262,7 +2530,7 @@ public class BattleManager {
                         defender.setDead(true);
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), 0, defender.isOnField());
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
                         deadGuardians.add(defender);
                     }
                     addLog("毒伤迸发",
@@ -2278,7 +2546,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.DAMAGE,
                             DamageType.PHYSICAL,
-                            "-"+damage);
+                            "-" + damage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -2312,7 +2580,7 @@ public class BattleManager {
                         defender.setDead(true);
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), 0, defender.isOnField());
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
                         deadGuardians.add(defender);
                     }
                     addLog("剧毒痛击",
@@ -2328,7 +2596,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.DAMAGE,
                             DamageType.PHYSICAL,
-                            "-"+damage);
+                            "-" + damage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -2357,34 +2625,34 @@ public class BattleManager {
                     Map<String, TargetBattleData> deadUnits = new HashMap<>();
                     List<Guardian> deadGuardians = new ArrayList<>();
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage = 36*skillLevel[0];
+                    int totalPoisonDamage = 36 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                    int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                     // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                     // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                    int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                     // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(defender,EffectType.FIRE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(defender, EffectType.FIRE_RESIST_BOOST);
                     // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.FIRE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.FIRE_RESIST_BOOST_PRET);
                     // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(defender,EffectType.FIRE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(defender, EffectType.FIRE_RESIST_DOWN);
                     // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.FIRE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.FIRE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+attacker.getHyAtk()-defender.getHyDef()-targetUp+targetDown));
+                    int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + attacker.getHyAtk() - defender.getHyDef() - targetUp + targetDown));
 
-                    if (finalDamage<0){
-                        finalDamage=0;
+                    if (finalDamage < 0) {
+                        finalDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -2394,7 +2662,7 @@ public class BattleManager {
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), 0, defender.isOnField());
 
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
                         deadGuardians.add(defender);
                     }
                     addLog("芭蕉扇",
@@ -2410,7 +2678,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.FIRE_DAMAGE,
                             DamageType.FIRE,
-                            "-"+finalDamage);
+                            "-" + finalDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -2445,31 +2713,31 @@ public class BattleManager {
                         int totalPoisonDamage = 250 * skillLevel[0];
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                        int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                         // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                        double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                         // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                        int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                         // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                        double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int targetUp =calculateTotalVaule(attacker,EffectType.FIRE_RESIST_BOOST);
+                        int targetUp = calculateTotalVaule(attacker, EffectType.FIRE_RESIST_BOOST);
                         // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetUpPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_RESIST_BOOST_PRET);
+                        double targetUpPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_RESIST_BOOST_PRET);
                         // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int targetDown =calculateTotalVaule(attacker,EffectType.FIRE_RESIST_DOWN);
+                        int targetDown = calculateTotalVaule(attacker, EffectType.FIRE_RESIST_DOWN);
                         // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetDownPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_RESIST_DOWN_PRET);
+                        double targetDownPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_RESIST_DOWN_PRET);
                         // 最终（仅基于 buff 计算，无新增方法）
 
-                        int fireDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                +(resistUp-resistDown+attacker.getHyAtk()-attacker.getHyDef()-targetUp+targetDown));
+                        int fireDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                + (resistUp - resistDown + attacker.getHyAtk() - attacker.getHyDef() - targetUp + targetDown));
 
-                        if (fireDamage<0){
-                            fireDamage=0;
+                        if (fireDamage < 0) {
+                            fireDamage = 0;
                         }
 
                         // 4. 扣除伤害
@@ -2480,7 +2748,7 @@ public class BattleManager {
                             attacker.setOnField(false);
                             TargetBattleData data = new TargetBattleData(attacker.getMaxHp(), attacker.getCurrentHp(), fireDamage, attacker.isOnField());
 
-                            deadUnits.put(attacker.getId(),data);
+                            deadUnits.put(attacker.getId(), data);
                             deadGuardians.add(attacker);
                         }
                         addLog("龙息",
@@ -2496,7 +2764,7 @@ public class BattleManager {
                                 defender.isOnField(),
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "-"+fireDamage);
+                                "-" + fireDamage);
 
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
@@ -2519,31 +2787,31 @@ public class BattleManager {
                         int totalPoisonDamage = 250 * skillLevel[0];
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                        int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                         // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                        double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                         // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                        int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                         // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                        double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int targetUp =calculateTotalVaule(defender,EffectType.FIRE_RESIST_BOOST);
+                        int targetUp = calculateTotalVaule(defender, EffectType.FIRE_RESIST_BOOST);
                         // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.FIRE_RESIST_BOOST_PRET);
+                        double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.FIRE_RESIST_BOOST_PRET);
                         // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int targetDown =calculateTotalVaule(defender,EffectType.FIRE_RESIST_DOWN);
+                        int targetDown = calculateTotalVaule(defender, EffectType.FIRE_RESIST_DOWN);
                         // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.FIRE_RESIST_DOWN_PRET);
+                        double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.FIRE_RESIST_DOWN_PRET);
                         // 最终（仅基于 buff 计算，无新增方法）
 
-                        int fireDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                +(resistUp-resistDown+attacker.getHyAtk()-defender.getHyDef()-targetUp+targetDown));
+                        int fireDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                + (resistUp - resistDown + attacker.getHyAtk() - defender.getHyDef() - targetUp + targetDown));
 
-                        if (fireDamage<0){
-                            fireDamage=0;
+                        if (fireDamage < 0) {
+                            fireDamage = 0;
                         }
 
                         // 4. 扣除伤害
@@ -2554,7 +2822,7 @@ public class BattleManager {
                             defender.setOnField(false);
                             TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), fireDamage, defender.isOnField());
 
-                            deadUnits.put(defender.getId(),data);
+                            deadUnits.put(defender.getId(), data);
                             deadGuardians.add(defender);
                         }
                         addLog("龙息",
@@ -2570,7 +2838,7 @@ public class BattleManager {
                                 defender.isOnField(),
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "-"+fireDamage);
+                                "-" + fireDamage);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -2607,7 +2875,7 @@ public class BattleManager {
                         defender.setDead(true);
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), 0, defender.isOnField());
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
                         deadGuardians.add(defender);
                     }
 //                    剧毒痛击lv1攻击中毒单位时，额外造成60点伤害。
@@ -2624,7 +2892,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.DAMAGE,
                             DamageType.PHYSICAL,
-                            "-"+fireDamage);
+                            "-" + fireDamage);
 
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
@@ -2653,14 +2921,26 @@ public class BattleManager {
                     List<Guardian> enemies = defender.getCamp() == Camp.A ? campB : campA;
                     if (!enemies.isEmpty()) {
                         Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                        int poisonValue = 142 * skillLevel[0];
-                        randomEnemy.addEffect(EffectType.POISON, poisonValue + defender.getDsAtk(), 99, defender.getId());
+                        int totalPoisonDamage = 142 * skillLevel[0];
+                        // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                        // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                        // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                        int resistUp = calculateTotalVaule(attacker, EffectType.POISON_BOOST);
+                        // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.POISON_BOOST_PRET);
+                        // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                        int resistDown = calculateTotalVaule(attacker, EffectType.POISON_DOWN);
+                        // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.POISON_DOWN_PRET);
+
+                        int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + attacker.getDsAtk() - resistDown));
+                        randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, attacker.getId());
                         addLog("毒气阻碍",
-                                defender.getId(),
-                                defender.getMaxHp(),
-                                defender.getCurrentHp(),
+                                attacker.getId(),
+                                attacker.getMaxHp(),
+                                attacker.getCurrentHp(),
                                 0,
-                                defender.isOnField(),
+                                attacker.isOnField(),
                                 randomEnemy.getId(),
                                 randomEnemy.getMaxHp(),
                                 randomEnemy.getCurrentHp(),
@@ -2668,15 +2948,27 @@ public class BattleManager {
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
-                                "中毒+"+poisonValue);
+                                "中毒+" + poisonValue);
                     }
                 }
                 break;
             case "黄牙老象":
                 // 幽灵毒击：令攻击者中毒
                 if (!defender.isDead()) {
-                    int poisonValue = 8 * skillLevel[0];
-                    attacker.addEffect(EffectType.POISON, poisonValue + defender.getDsAtk(), 99, defender.getId());
+                    int totalPoisonDamage = 8 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(defender, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(defender, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.POISON_DOWN_PRET);
+
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + defender.getDsAtk() - resistDown));
+                    attacker.addEffect(EffectType.POISON, poisonValue, 99, defender.getId());
                     addLog("幽灵毒击",
                             defender.getId(),
                             defender.getMaxHp(),
@@ -2690,51 +2982,75 @@ public class BattleManager {
                             attacker.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
-                            "中毒+"+poisonValue);
+                            "中毒+" + poisonValue);
 
                 }
                 break;
             case "辟暑大王":
                 // 毒素打击Lv1攻击后令敌方中毒，每回合损失47点生命值;辟尘大王协同Lv1与辟尘大王在同一队伍时，增加自身200点生命上限，50点攻击，50点速度。
                 if (!defender.isDead()) {
-                    int poisonValue = 47 * skillLevel[0];
-                    defender.addEffect(EffectType.POISON, poisonValue + attacker.getDsAtk(), 99, defender.getId());
+                    int totalPoisonDamage = 47 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(attacker, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(attacker, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.POISON_DOWN_PRET);
+
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + attacker.getDsAtk() - resistDown));
+                    defender.addEffect(EffectType.POISON, poisonValue + attacker.getDsAtk(), 99, attacker.getId());
                     addLog("幽灵毒击",
-                            defender.getId(),
-                            defender.getMaxHp(),
-                            defender.getCurrentHp(),
-                            0,
-                            defender.isOnField(),
                             attacker.getId(),
                             attacker.getMaxHp(),
                             attacker.getCurrentHp(),
                             0,
                             attacker.isOnField(),
+                            defender.getId(),
+                            defender.getMaxHp(),
+                            defender.getCurrentHp(),
+                            0,
+                            defender.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
-                            "中毒"+poisonValue);
+                            "中毒" + poisonValue);
 
                 }
                 break;
             case "白眼魔君":
                 // 幽灵毒击：令攻击者中毒
                 if (!defender.isDead()) {
-                    int poisonValue = 8 * skillLevel[0];
-                    attacker.addEffect(EffectType.POISON, poisonValue + defender.getDsAtk(), 99, defender.getId());
+                    int totalPoisonDamage = 8 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(attacker, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(attacker, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.POISON_DOWN_PRET);
+
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + attacker.getDsAtk() - resistDown));
+                    attacker.addEffect(EffectType.POISON, poisonValue, 99, defender.getId());
                     addLog("幽灵毒击",
-                            defender.getId(),
-                            defender.getMaxHp(),
-                            defender.getCurrentHp(),
-                            0,
-                            defender.isOnField(),
                             attacker.getId(),
                             attacker.getMaxHp(),
                             attacker.getCurrentHp(),
                             0,
                             attacker.isOnField(),
+                            defender.getId(),
+                            defender.getMaxHp(),
+                            defender.getCurrentHp(),
+                            0,
+                            defender.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
-                            "中毒"+poisonValue);
+                            "中毒" + poisonValue);
                 }
                 break;
             case "天蓬元帅":
@@ -2749,7 +3065,7 @@ public class BattleManager {
                             defender.setDead(true);
                             defender.setOnField(false);
                             TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), 0, defender.isOnField());
-                            deadUnits.put(defender.getId(),data);
+                            deadUnits.put(defender.getId(), data);
                             deadGuardians.add(defender);
                         }
                         addLog("醉钉耙",
@@ -2765,7 +3081,7 @@ public class BattleManager {
                                 defender.isOnField(),
                                 EffectType.TRUE_DAMAGE,
                                 DamageType.PHYSICAL,
-                                "-"+fireDamage);
+                                "-" + fireDamage);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -2805,7 +3121,7 @@ public class BattleManager {
                             guardian.setDead(true);
                             guardian.setOnField(false);
                             TargetBattleData data = new TargetBattleData(guardian.getMaxHp(), guardian.getCurrentHp(), 0, guardian.isOnField());
-                            deadUnits.put(guardian.getId(),data);
+                            deadUnits.put(guardian.getId(), data);
                             deadGuardians.add(guardian);
                         }
                         addLog("穿云斩",
@@ -2821,7 +3137,7 @@ public class BattleManager {
                                 guardian.isOnField(),
                                 EffectType.TRUE_DAMAGE,
                                 DamageType.PHYSICAL,
-                                "-"+fireDamage);
+                                "-" + fireDamage);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -2861,7 +3177,7 @@ public class BattleManager {
                             guardian.setDead(true);
                             guardian.setOnField(false);
                             TargetBattleData data = new TargetBattleData(guardian.getMaxHp(), guardian.getCurrentHp(), 0, guardian.isOnField());
-                            deadUnits.put(guardian.getId(),data);
+                            deadUnits.put(guardian.getId(), data);
                             deadGuardians.add(guardian);
                         }
 
@@ -2878,7 +3194,7 @@ public class BattleManager {
                                 guardian.isOnField(),
                                 EffectType.TRUE_DAMAGE,
                                 DamageType.PHYSICAL,
-                                "-"+fireDamage);
+                                "-" + fireDamage);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -2918,7 +3234,7 @@ public class BattleManager {
                             guardian.setDead(true);
                             guardian.setOnField(false);
                             TargetBattleData data = new TargetBattleData(guardian.getMaxHp(), guardian.getCurrentHp(), 0, guardian.isOnField());
-                            deadUnits.put(guardian.getId(),data);
+                            deadUnits.put(guardian.getId(), data);
                             deadGuardians.add(guardian);
                         }
                         addLog("穿云剑",
@@ -2934,7 +3250,7 @@ public class BattleManager {
                                 guardian.isOnField(),
                                 EffectType.TRUE_DAMAGE,
                                 DamageType.PHYSICAL,
-                                "-"+fireDamage);
+                                "-" + fireDamage);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -2974,7 +3290,7 @@ public class BattleManager {
                             guardian.setDead(true);
                             guardian.setOnField(false);
                             TargetBattleData data = new TargetBattleData(guardian.getMaxHp(), guardian.getCurrentHp(), 0, guardian.isOnField());
-                            deadUnits.put(guardian.getId(),data);
+                            deadUnits.put(guardian.getId(), data);
                             deadGuardians.add(guardian);
                         }
                         addLog("圣灵斩",
@@ -2990,7 +3306,7 @@ public class BattleManager {
                                 guardian.isOnField(),
                                 EffectType.TRUE_DAMAGE,
                                 DamageType.PHYSICAL,
-                                "-"+fireDamage);
+                                "-" + fireDamage);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -3031,7 +3347,7 @@ public class BattleManager {
                             guardian.setOnField(false);
                             TargetBattleData data = new TargetBattleData(guardian.getMaxHp(), guardian.getCurrentHp(), 0, guardian.isOnField());
 
-                            deadUnits.put(guardian.getId(),data);
+                            deadUnits.put(guardian.getId(), data);
                             deadGuardians.add(guardian);
                         }
 
@@ -3048,7 +3364,7 @@ public class BattleManager {
                                 guardian.isOnField(),
                                 EffectType.TRUE_DAMAGE,
                                 DamageType.PHYSICAL,
-                                "-"+fireDamage);
+                                "-" + fireDamage);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -3092,40 +3408,40 @@ public class BattleManager {
                             int totalPoisonDamage = lavaDamage;
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+attacker.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + attacker.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (finalDamage<0){
-                                finalDamage=0;
+                            if (finalDamage < 0) {
+                                finalDamage = 0;
                             }
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
-                            targetStatus.put(g.getId(),data);
+                            targetStatus.put(g.getId(), data);
                             if (g.isDead()) {
-                               
-                                deadUnits.put(g.getId(),data);
+
+                                deadUnits.put(g.getId(), data);
                                 deadGuardians.add(g);
                             }
                         });
@@ -3187,40 +3503,40 @@ public class BattleManager {
                             int totalPoisonDamage = lavaDamage;
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+attacker.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + attacker.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (finalDamage<0){
-                                finalDamage=0;
+                            if (finalDamage < 0) {
+                                finalDamage = 0;
                             }
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
-                            targetStatus.put(g.getId(),data);
+                            targetStatus.put(g.getId(), data);
                             if (g.isDead()) {
-                               
-                                deadUnits.put(g.getId(),data);
+
+                                deadUnits.put(g.getId(), data);
                                 deadGuardians.add(g);
                             }
                         });
@@ -3279,40 +3595,40 @@ public class BattleManager {
                             int totalPoisonDamage = lavaDamage;
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+attacker.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + attacker.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (finalDamage<0){
-                                finalDamage=0;
+                            if (finalDamage < 0) {
+                                finalDamage = 0;
                             }
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
-                            targetStatus.put(g.getId(),data);
+                            targetStatus.put(g.getId(), data);
                             if (g.isDead()) {
-                               
-                                deadUnits.put(g.getId(),data);
+
+                                deadUnits.put(g.getId(), data);
                                 deadGuardians.add(g);
                             }
                         });
@@ -3378,40 +3694,40 @@ public class BattleManager {
                             int totalPoisonDamage = lavaDamage;
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+attacker.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + attacker.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (finalDamage<0){
-                                finalDamage=0;
+                            if (finalDamage < 0) {
+                                finalDamage = 0;
                             }
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
-                            targetStatus.put(g.getId(),data);
+                            targetStatus.put(g.getId(), data);
                             if (g.isDead()) {
-                               
-                                deadUnits.put(g.getId(),data);
+
+                                deadUnits.put(g.getId(), data);
                                 deadGuardians.add(g);
                             }
                         });
@@ -3468,41 +3784,41 @@ public class BattleManager {
                             int totalPoisonDamage = lavaDamage;
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+attacker.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + attacker.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (finalDamage<0){
-                                finalDamage=0;
+                            if (finalDamage < 0) {
+                                finalDamage = 0;
                             }
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
-                            targetStatus.put(g.getId(),data);
+                            targetStatus.put(g.getId(), data);
                             if (g.isDead()) {
-                               
 
-                                deadUnits.put(g.getId(),data);
+
+                                deadUnits.put(g.getId(), data);
                                 deadGuardians.add(g);
                             }
                         });
@@ -3561,42 +3877,42 @@ public class BattleManager {
                             int totalPoisonDamage = lavaDamage;
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+attacker.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + attacker.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (finalDamage<0){
-                                finalDamage=0;
+                            if (finalDamage < 0) {
+                                finalDamage = 0;
                             }
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
 
-                            targetStatus.put(g.getId(),data);
+                            targetStatus.put(g.getId(), data);
                             if (g.isDead()) {
-                               
 
-                                deadUnits.put(g.getId(),data);
+
+                                deadUnits.put(g.getId(), data);
                                 deadGuardians.add(g);
                             }
                         });
@@ -3656,42 +3972,42 @@ public class BattleManager {
                             int totalPoisonDamage = lavaDamage;
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp =calculateTotalVaule(attacker,EffectType.FIRE_BOOST);
+                            int resistUp = calculateTotalVaule(attacker, EffectType.FIRE_BOOST);
                             // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret =calculateTotalUpPretVaule(attacker,EffectType.FIRE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.FIRE_BOOST_PRET);
                             // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown =calculateTotalVaule(attacker,EffectType.FIRE_DOWN);
+                            int resistDown = calculateTotalVaule(attacker, EffectType.FIRE_DOWN);
                             // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret =calculateTotalDownPretVaule(attacker,EffectType.FIRE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.FIRE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                            int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                             // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                            double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                             // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                            int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                             // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                            double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                             // 最终（仅基于 buff 计算，无新增方法）
 
-                            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                    +(resistUp-resistDown+attacker.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + attacker.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                            if (finalDamage<0){
-                                finalDamage=0;
+                            if (finalDamage < 0) {
+                                finalDamage = 0;
                             }
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
 
-                            targetStatus.put(g.getId(),data);
+                            targetStatus.put(g.getId(), data);
                             if (g.isDead()) {
-                               
 
-                                deadUnits.put(g.getId(),data);
+
+                                deadUnits.put(g.getId(), data);
                                 deadGuardians.add(g);
                             }
                         });
@@ -3754,41 +4070,41 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(v.getLevel(), v.getStar().doubleValue());
                 if (skillLevel[1] > 0) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   325 * skillLevel[0];
+                    int totalPoisonDamage = 325 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(v,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(v, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(v,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(v, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(v,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(v, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(v,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(v, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(minHpPerson,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(minHpPerson, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(minHpPerson,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(minHpPerson, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(minHpPerson,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(minHpPerson, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(minHpPerson,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(minHpPerson, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+v.getFdAtk()-minHpPerson.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + v.getFdAtk() - minHpPerson.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
                     minHpPerson.setCurrentHp(minHpPerson.getCurrentHp() - burnDamage);
                     if (minHpPerson.isDead()) {
                         TargetBattleData data = new TargetBattleData(minHpPerson.getMaxHp(), minHpPerson.getCurrentHp(), 0, minHpPerson.isOnField());
-                        deadUnits.put(minHpPerson.getId(),data);
+                        deadUnits.put(minHpPerson.getId(), data);
                         deadGuardians.add(minHpPerson);
                     }
                     //；信念报偿Lv1死亡时，对敌方血量最小者造成325点飞弹伤害；
@@ -3805,7 +4121,7 @@ public class BattleManager {
                             minHpPerson.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -3840,12 +4156,23 @@ public class BattleManager {
                 Map<String, TargetBattleData> targetStatus = new HashMap<>();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(v.getLevel(), v.getStar().doubleValue());
                 for (Guardian g : offFieldEnemies) {
-                    int poisonValue = 10 * skillLevel[0];
+                    int totalPoisonDamage = 10 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(v, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(v, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(v, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(v, EffectType.POISON_DOWN_PRET);
 
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + v.getDsAtk() - resistDown));
                     g.addEffect(EffectType.POISON, poisonValue + v.getDsAtk(), 99, v.getId());
                     TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), 0, g.isOnField());
 
-                    targetStatus.put(g.getId(),data);
+                    targetStatus.put(g.getId(), data);
                 }
                 // 单条日志记录多目标
                 addMultiTargetLog("死雨风暴",
@@ -3860,8 +4187,20 @@ public class BattleManager {
 
                 Guardian enemie = v.getCamp() == Camp.A ? fieldB : fieldA;
                 if (!enemie.isDead() && skillLevel[1] > 0) {
-                    int poisonValue = 70 * skillLevel[1];
-                    enemie.addEffect(EffectType.POISON, poisonValue + v.getDsAtk(), 99, v.getId());
+                    int totalPoisonDamage = 70 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(v, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(v, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(v, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(v, EffectType.POISON_DOWN_PRET);
+
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + v.getDsAtk() - resistDown));
+                    enemie.addEffect(EffectType.POISON, poisonValue, 99, v.getId());
                     addLog("死亡徘徊",
                             v.getId(),
                             v.getMaxHp(),
@@ -3875,7 +4214,7 @@ public class BattleManager {
                             enemie.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
-                            "中毒+"+poisonValue);
+                            "中毒+" + poisonValue);
                 }
             }
         }
@@ -3889,12 +4228,24 @@ public class BattleManager {
                 Map<String, TargetBattleData> targetStatus = new HashMap<>();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(v.getLevel(), v.getStar().doubleValue());
                 for (Guardian g : offFieldEnemies) {
-                    int poisonValue = 30 * skillLevel[0];
+                    int totalPoisonDamage = 30 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(v, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(v, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(v, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(v, EffectType.POISON_DOWN_PRET);
 
-                    g.addEffect(EffectType.POISON, poisonValue + v.getDsAtk(), 99, v.getId());
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + v.getDsAtk() - resistDown));
+
+                    g.addEffect(EffectType.POISON, poisonValue, 99, v.getId());
                     TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), 0, g.isOnField());
 
-                    targetStatus.put(g.getId(),data);
+                    targetStatus.put(g.getId(), data);
                 }
                 // 单条日志记录多目标
 
@@ -3921,12 +4272,24 @@ public class BattleManager {
                 Map<String, TargetBattleData> targetStatus = new HashMap<>();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(v.getLevel(), v.getStar().doubleValue());
                 for (Guardian g : offFieldEnemies) {
-                    int poisonValue = 30 * skillLevel[0];
+                    int totalPoisonDamage = 30 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(v, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(v, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(v, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(v, EffectType.POISON_DOWN_PRET);
 
-                    g.addEffect(EffectType.POISON, poisonValue + v.getDsAtk(), 99, v.getId());
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + v.getDsAtk() - resistDown));
+
+                    g.addEffect(EffectType.POISON, poisonValue, 99, v.getId());
                     TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), 0, g.isOnField());
 
-                    targetStatus.put(g.getId(),data);
+                    targetStatus.put(g.getId(), data);
                 }
                 // 单条日志记录多目标
                 addMultiTargetLog("尸毒",
@@ -3957,7 +4320,7 @@ public class BattleManager {
 
                         g.setCurrentHp(g.getCurrentHp() + heal);
                         TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), heal, g.isOnField());
-                        targetStatus.put(g.getId(),data);
+                        targetStatus.put(g.getId(), data);
                     });
 
                     addMultiTargetLog("舍身取义",
@@ -4000,7 +4363,7 @@ public class BattleManager {
                         heal,
                         g.isOnField(),
                         EffectType.HP_UP,
-                           null,
+                        null,
                         "生命上限+" + heal);
             }
 
@@ -4030,7 +4393,7 @@ public class BattleManager {
                             changsheng.isOnField(),
                             EffectType.HP_UP,
                             DamageType.MAGIC,
-                            "+"+hel);
+                            "+" + hel);
                 }
             }
 
@@ -4058,7 +4421,7 @@ public class BattleManager {
                             changsheng.isOnField(),
                             EffectType.HP_UP,
                             DamageType.MAGIC,
-                            "+"+hel);
+                            "+" + hel);
                 }
             }
         }
@@ -4093,7 +4456,7 @@ public class BattleManager {
                             changsheng.isOnField(),
                             EffectType.HP_UP,
                             DamageType.BUFF,
-                            "生命上限提升+"+hel);
+                            "生命上限提升+" + hel);
                 }
 
             }
@@ -4128,7 +4491,7 @@ public class BattleManager {
                             changsheng.isOnField(),
                             EffectType.HP_UP,
                             DamageType.BUFF,
-                            "生命上限提升+"+hel);
+                            "生命上限提升+" + hel);
                 }
 
             }
@@ -4163,7 +4526,7 @@ public class BattleManager {
                             changsheng.isOnField(),
                             EffectType.HP_UP,
                             DamageType.BUFF,
-                            "生命上限提升+"+hel);
+                            "生命上限提升+" + hel);
                 }
 
             }
@@ -4198,7 +4561,7 @@ public class BattleManager {
                             changsheng.isOnField(),
                             EffectType.HP_UP,
                             DamageType.BUFF,
-                            "生命上限提升+"+hel);
+                            "生命上限提升+" + hel);
                 }
 
             }
@@ -4215,7 +4578,7 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(changsheng.getLevel(), changsheng.getStar().doubleValue());
                 if (skillLevel[1] > 0) {
                     changsheng.setBuffStacks(changsheng.getBuffStacks() + 1);
-                    int value=50 * skillLevel[1];
+                    int value = 50 * skillLevel[1];
                     changsheng.setAttack(changsheng.getAttack() + value);
 
                     addLog("背水一战",
@@ -4231,7 +4594,7 @@ public class BattleManager {
                             changsheng.isOnField(),
                             EffectType.ATTACK_UP,
                             DamageType.BUFF,
-                            "攻击提升+"+value);
+                            "攻击提升+" + value);
                 }
 
             }
@@ -4246,7 +4609,7 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(changsheng.getLevel(), changsheng.getStar().doubleValue());
                 if (skillLevel[1] > 0) {
                     changsheng.setBuffStacks(changsheng.getBuffStacks() + 1);
-                    int value=50 * skillLevel[1];
+                    int value = 50 * skillLevel[1];
                     changsheng.setAttack(changsheng.getAttack() + value);
 
 
@@ -4263,7 +4626,7 @@ public class BattleManager {
                             changsheng.isOnField(),
                             EffectType.ATTACK_UP,
                             DamageType.BUFF,
-                            "攻击提升+"+value);
+                            "攻击提升+" + value);
                 }
 
             }
@@ -4298,7 +4661,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.ATTACK_UP,
                             DamageType.BUFF,
-                            "攻击力提升+"+attack);
+                            "攻击力提升+" + attack);
                 }
             }
 
@@ -4331,7 +4694,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.ATTACK_UP,
                             DamageType.BUFF,
-                            "攻击力提升+"+attack);
+                            "攻击力提升+" + attack);
                 }
             }
 
@@ -4360,7 +4723,7 @@ public class BattleManager {
                         fieldA.isOnField(),
                         EffectType.HEAL,
                         DamageType.MAGIC,
-                        "+"+heal);
+                        "+" + heal);
                 triggerOnHelSkills(fieldA);
             }
         }
@@ -4388,7 +4751,7 @@ public class BattleManager {
                         fieldB.isOnField(),
                         EffectType.HEAL,
                         DamageType.MAGIC,
-                        "+"+heal);
+                        "+" + heal);
                 triggerOnHelSkills(fieldB);
             }
         }
@@ -4414,7 +4777,7 @@ public class BattleManager {
 
                     g.setCurrentHp(g.getCurrentHp() + heal);
                     TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), heal, g.isOnField());
-                    targetStatus.put(g.getId(),data);
+                    targetStatus.put(g.getId(), data);
                 });
 
                 addMultiTargetLog("生生不息",
@@ -4452,7 +4815,7 @@ public class BattleManager {
 
                     g.setCurrentHp(g.getCurrentHp() + heal);
                     TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), heal, g.isOnField());
-                    targetStatus.put(g.getId(),data);
+                    targetStatus.put(g.getId(), data);
                 });
 
                 addMultiTargetLog("生生不息",
@@ -4479,7 +4842,7 @@ public class BattleManager {
         if (Xtool.isNotNull(campAHasAlive) && currentRound == 1) {
             Guardian defender = campAHasAlive.get(0);
             int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(defender.getLevel(), defender.getStar().doubleValue());
-            int value=60 * skillLevel[0];
+            int value = 60 * skillLevel[0];
             defender.setAttack(defender.getAttack() + value);
             addLog("克敌机先",
                     defender.getId(),
@@ -4501,7 +4864,7 @@ public class BattleManager {
         if (Xtool.isNotNull(campBHasAlive) && currentRound == 1) {
             Guardian defender = campBHasAlive.get(0);
             int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(defender.getLevel(), defender.getStar().doubleValue());
-            int value=60 * skillLevel[0];
+            int value = 60 * skillLevel[0];
             defender.setAttack(defender.getAttack() + value);
             addLog("克敌机先",
                     defender.getId(),
@@ -4528,7 +4891,7 @@ public class BattleManager {
                 if (duoBaoGuanHuan()) {
                     hel = 197 * skillLevel[1];
                 }
-                int value= 67 * skillLevel[1];
+                int value = 67 * skillLevel[1];
                 fieldA.setMaxHp(fieldA.getMaxHp() + hel);
                 fieldA.setCurrentHp(fieldA.getCurrentHp() + hel);
                 fieldA.setAttack(fieldA.getAttack() + value);
@@ -4560,7 +4923,7 @@ public class BattleManager {
                 if (duoBaoGuanHuan()) {
                     hel = 197 * skillLevel[1];
                 }
-                int value= 67 * skillLevel[1];
+                int value = 67 * skillLevel[1];
                 fieldB.setMaxHp(fieldB.getMaxHp() + hel);
                 fieldB.setCurrentHp(fieldB.getCurrentHp() + hel);
                 fieldB.setAttack(fieldB.getAttack() + value);
@@ -4612,10 +4975,10 @@ public class BattleManager {
 
                         g.setMaxHp(g.getMaxHp() - finalReduce);
                         TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalReduce, g.isOnField());
-                        targetStatus.put(g.getId(),data);
+                        targetStatus.put(g.getId(), data);
                         if (g.isDead()) {
-                           
-                            deadUnits.put(g.getId(),data);
+
+                            deadUnits.put(g.getId(), data);
                             deadGuardians.add(g);
                         }
                     });
@@ -4687,10 +5050,10 @@ public class BattleManager {
 
                         g.setMaxHp(g.getMaxHp() - finalReduce);
                         TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalReduce, g.isOnField());
-                        targetStatus.put(g.getId(),data);
+                        targetStatus.put(g.getId(), data);
                         if (g.isDead()) {
-                           
-                            deadUnits.put(g.getId(),data);
+
+                            deadUnits.put(g.getId(), data);
                             deadGuardians.add(g);
                         }
                     });
@@ -4746,7 +5109,7 @@ public class BattleManager {
                     }
                     nianshou.setMaxHp(nianshou.getMaxHp() + hel);
                     nianshou.setCurrentHp(nianshou.getCurrentHp() + hel);
-                    int value=15 * skillLevel[1];
+                    int value = 15 * skillLevel[1];
                     nianshou.addEffect(EffectType.FIRE_BOOST, value, 999, nianshou.getId());
                     addLog("幸运年糕",
                             nianshou.getId(),
@@ -4812,7 +5175,7 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(nianshou.getLevel(), nianshou.getStar().doubleValue());
                 if (skillLevel[1] > 0) {
                     nianshou.setBuffStacks(nianshou.getBuffStacks() + 1);
-                    int value=15 * skillLevel[1];
+                    int value = 15 * skillLevel[1];
                     nianshou.addEffect(EffectType.MISSILE_BOOST, value, 999, nianshou.getId());
                     addLog("策兵奇袭",
                             nianshou.getId(),
@@ -4843,7 +5206,7 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(nianshou.getLevel(), nianshou.getStar().doubleValue());
                 if (skillLevel[1] > 0) {
                     nianshou.setBuffStacks(nianshou.getBuffStacks() + 1);
-                    int value=15 * skillLevel[1];
+                    int value = 15 * skillLevel[1];
                     nianshou.addEffect(EffectType.MISSILE_BOOST, value, 999, nianshou.getId());
                     addLog("策兵奇袭",
                             nianshou.getId(),
@@ -4881,7 +5244,7 @@ public class BattleManager {
                     }
                     nianshou.setMaxHp(nianshou.getMaxHp() + hel);
                     nianshou.setCurrentHp(nianshou.getCurrentHp() + hel);
-                    int value=15 * skillLevel[1];
+                    int value = 15 * skillLevel[1];
                     nianshou.addEffect(EffectType.FIRE_BOOST, value, 999, nianshou.getId());
                     addLog("幸运年糕",
                             nianshou.getId(),
@@ -4947,7 +5310,12 @@ public class BattleManager {
             if (!nianshou.isSilence() && nianshou.getBuffNianShous() < 5) {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(nianshou.getLevel(), nianshou.getStar().doubleValue());
                 nianshou.setBuffStacks(nianshou.getBuffNianShous() + 1);
-                int speed = 20 * skillLevel[1];
+                int totalPoisonDamage = 20 * skillLevel[1];
+                // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                double resistUpPret = calculateTotalUpPretVaule(nianshou, EffectType.SPEED_UP_PRET);
+                int speed = (int) (totalPoisonDamage * resistUpPret);
                 nianshou.setSpeed(nianshou.getSpeed() + speed);
                 addLog("幸运之脚",
                         nianshou.getId(),
@@ -4975,7 +5343,12 @@ public class BattleManager {
             if (!nianshou.isSilence() && nianshou.getBuffNianShous() < 5) {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(nianshou.getLevel(), nianshou.getStar().doubleValue());
                 nianshou.setBuffStacks(nianshou.getBuffNianShous() + 1);
-                int speed = 20 * skillLevel[1];
+                int totalPoisonDamage = 20 * skillLevel[1];
+                // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                double resistUpPret = calculateTotalUpPretVaule(nianshou, EffectType.SPEED_UP_PRET);
+                int speed = (int) (totalPoisonDamage * resistUpPret);
                 nianshou.setSpeed(nianshou.getSpeed() + speed);
                 addLog("幸运之脚",
                         nianshou.getId(),
@@ -5009,8 +5382,20 @@ public class BattleManager {
 
             if (!enemies.isEmpty()) {
                 Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                int poisonValue = 16 * skillLevel[0]+ daji.getDsAtk();
-                randomEnemy.addEffect(EffectType.POISON, poisonValue , 99, daji.getId());
+                int totalPoisonDamage = 16 * skillLevel[0];
+                // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                int resistUp = calculateTotalVaule(daji, EffectType.POISON_BOOST);
+                // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                double resistUpPret = calculateTotalUpPretVaule(daji, EffectType.POISON_BOOST_PRET);
+                // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                int resistDown = calculateTotalVaule(daji, EffectType.POISON_DOWN);
+                // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                double resistDownPret = calculateTotalDownPretVaule(daji, EffectType.POISON_DOWN_PRET);
+
+                int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + daji.getDsAtk() - resistDown));
+                randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, daji.getId());
 
                 addLog("毒入骨髓",
                         daji.getId(),
@@ -5037,7 +5422,6 @@ public class BattleManager {
             int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(daji.getLevel(), daji.getStar().doubleValue());
 
 
-
             // 谄媚噬魂：随机敌方中毒
             List<Guardian> enemies = campA.stream()
                     .filter(g -> !g.isDead())
@@ -5045,7 +5429,19 @@ public class BattleManager {
 
             if (!enemies.isEmpty()) {
                 Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                int poisonValue = 16 * skillLevel[0]+ daji.getDsAtk();
+                int totalPoisonDamage = 16 * skillLevel[0];
+                // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                int resistUp = calculateTotalVaule(daji, EffectType.FIRE_BOOST);
+                // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                double resistUpPret = calculateTotalUpPretVaule(daji, EffectType.FIRE_BOOST_PRET);
+                // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                int resistDown = calculateTotalVaule(daji, EffectType.FIRE_DOWN);
+                // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                double resistDownPret = calculateTotalDownPretVaule(daji, EffectType.FIRE_DOWN_PRET);
+
+                int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + daji.getDsAtk() - resistDown));
                 randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, daji.getId());
 
                 addLog("毒入骨髓",
@@ -5061,7 +5457,7 @@ public class BattleManager {
                         randomEnemy.isOnField(),
                         EffectType.POISON,
                         DamageType.POISON,
-                        "中毒+"+poisonValue);
+                        "中毒+" + poisonValue);
             }
         }
 
@@ -5074,8 +5470,20 @@ public class BattleManager {
                         .findFirst().get();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(daji.getLevel(), daji.getStar().doubleValue());
                 if (skillLevel[1] > 0) {
-                    int poisonValue = 40 * skillLevel[1]+ daji.getDsAtk();
-                    fieldB.addEffect(EffectType.POISON, poisonValue , 99, daji.getId());
+                    int totalPoisonDamage = 40 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(daji, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(daji, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(daji, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(daji, EffectType.POISON_DOWN_PRET);
+
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + daji.getDsAtk() - resistDown));
+                    fieldB.addEffect(EffectType.POISON, poisonValue, 99, daji.getId());
                     addLog("疾病传染",
                             daji.getId(),
                             daji.getMaxHp(),
@@ -5089,7 +5497,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
-                            "中毒+"+poisonValue);
+                            "中毒+" + poisonValue);
                 }
 
             }
@@ -5104,7 +5512,19 @@ public class BattleManager {
                         .findFirst().get();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(daji.getLevel(), daji.getStar().doubleValue());
                 if (skillLevel[1] > 0) {
-                    int poisonValue = 40 * skillLevel[1] + daji.getDsAtk();
+                    int totalPoisonDamage = 40 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(daji, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(daji, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(daji, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(daji, EffectType.POISON_DOWN_PRET);
+
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + daji.getDsAtk() - resistDown));
                     fieldA.addEffect(EffectType.POISON, poisonValue, 99, daji.getId());
                     addLog("疾病传染",
                             daji.getId(),
@@ -5119,7 +5539,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
-                            "中毒+"+poisonValue);
+                            "中毒+" + poisonValue);
                 }
 
             }
@@ -5136,34 +5556,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldB != null && !fieldB.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   106 * skillLevel[0];
+                    int totalPoisonDamage = 106 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldB,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldB, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldB,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldB, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldB.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldB.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -5174,7 +5594,7 @@ public class BattleManager {
                         fieldB.setDead(true);
                         fieldB.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                        deadUnits.put(fieldB.getId(),data);
+                        deadUnits.put(fieldB.getId(), data);
                     }
                     addLog("报复神箭",
                             guardian.getId(),
@@ -5189,7 +5609,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -5223,34 +5643,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldA != null && !fieldA.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   106 * skillLevel[0];
+                    int totalPoisonDamage = 106 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldA,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldA, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldA,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldA, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldA.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldA.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -5261,7 +5681,7 @@ public class BattleManager {
                         fieldA.setDead(true);
                         fieldA.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), burnDamage, fieldA.isOnField());
-                        deadUnits.put(fieldA.getId(),data);
+                        deadUnits.put(fieldA.getId(), data);
                     }
                     addLog("报复神箭",
                             guardian.getId(),
@@ -5276,7 +5696,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -5313,34 +5733,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (defender != null && !defender.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   42 * skillLevel[0];
+                    int totalPoisonDamage = 42 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-defender.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - defender.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -5351,7 +5771,7 @@ public class BattleManager {
                         defender.setDead(true);
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), burnDamage, defender.isOnField());
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
                     }
                     addLog("通灵神箭",
                             guardian.getId(),
@@ -5366,7 +5786,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -5404,34 +5824,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (defender != null && !defender.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   42 * skillLevel[0];
+                    int totalPoisonDamage = 42 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-defender.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - defender.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -5457,7 +5877,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -5494,34 +5914,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (defender != null && !defender.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   35 * skillLevel[0];
+                    int totalPoisonDamage = 35 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-defender.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - defender.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -5532,7 +5952,7 @@ public class BattleManager {
                         defender.setDead(true);
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), burnDamage, defender.isOnField());
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
                     }
                     addLog("苦痛箭",
                             guardian.getId(),
@@ -5547,7 +5967,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.TRUE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -5585,34 +6005,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (defender != null && !defender.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   35 * skillLevel[0];
+                    int totalPoisonDamage = 35 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-defender.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - defender.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -5623,7 +6043,7 @@ public class BattleManager {
                         defender.setDead(true);
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), burnDamage, defender.isOnField());
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
                     }
                     addLog("苦痛箭",
                             guardian.getId(),
@@ -5638,7 +6058,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.TRUE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -5675,34 +6095,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (defender != null && !defender.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   410 * skillLevel[0];
+                    int totalPoisonDamage = 410 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-defender.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - defender.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -5713,7 +6133,7 @@ public class BattleManager {
                         defender.setDead(true);
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), burnDamage, defender.isOnField());
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
                     }
                     addLog("群鸦箭",
                             guardian.getId(),
@@ -5728,7 +6148,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.TRUE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -5766,34 +6186,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (defender != null && !defender.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   410 * skillLevel[0];
+                    int totalPoisonDamage = 410 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-defender.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - defender.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -5804,7 +6224,7 @@ public class BattleManager {
                         defender.setDead(true);
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), burnDamage, defender.isOnField());
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
 
                     }
                     addLog("群鸦箭",
@@ -5820,7 +6240,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.TRUE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -5857,34 +6277,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (defender != null && !defender.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   41 * skillLevel[0];
+                    int totalPoisonDamage = 41 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-defender.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - defender.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -5895,7 +6315,7 @@ public class BattleManager {
                         defender.setDead(true);
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), burnDamage, defender.isOnField());
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
 
                     }
                     addLog("幻影箭",
@@ -5911,7 +6331,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -5949,34 +6369,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (defender != null && !defender.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   41 * skillLevel[0];
+                    int totalPoisonDamage = 41 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-defender.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - defender.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -5987,7 +6407,7 @@ public class BattleManager {
                         defender.setDead(true);
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), burnDamage, defender.isOnField());
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
 
                     }
                     addLog("幻影箭",
@@ -6003,7 +6423,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6044,34 +6464,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (defender != null && !defender.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   42 * skillLevel[0];
+                    int totalPoisonDamage = 42 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-defender.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - defender.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -6082,7 +6502,7 @@ public class BattleManager {
                         defender.setDead(true);
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), burnDamage, defender.isOnField());
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
 
                     }
                     addLog("觅心神箭",
@@ -6098,7 +6518,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6138,34 +6558,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (defender != null && !defender.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   42 * skillLevel[0];
+                    int totalPoisonDamage = 42 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(defender,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(defender, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(defender,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(defender, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(defender,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(defender, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-defender.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - defender.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -6176,7 +6596,7 @@ public class BattleManager {
                         defender.setDead(true);
                         defender.setOnField(false);
                         TargetBattleData data = new TargetBattleData(defender.getMaxHp(), defender.getCurrentHp(), burnDamage, defender.isOnField());
-                        deadUnits.put(defender.getId(),data);
+                        deadUnits.put(defender.getId(), data);
 
                     }
                     addLog("觅心神箭",
@@ -6192,7 +6612,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6236,42 +6656,42 @@ public class BattleManager {
                 if (Xtool.isNotNull(enemies)) {
                     enemies.forEach(g -> {
                         // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                        int totalPoisonDamage =   355 * skillLevel[0];
+                        int totalPoisonDamage = 355 * skillLevel[0];
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int resistUp =calculateTotalVaule(guardian,EffectType.FIRE_BOOST);
+                        int resistUp = calculateTotalVaule(guardian, EffectType.FIRE_BOOST);
                         // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.FIRE_BOOST_PRET);
+                        double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.FIRE_BOOST_PRET);
                         // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int resistDown =calculateTotalVaule(guardian,EffectType.FIRE_DOWN);
+                        int resistDown = calculateTotalVaule(guardian, EffectType.FIRE_DOWN);
                         // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.FIRE_DOWN_PRET);
+                        double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.FIRE_DOWN_PRET);
 
 
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                        int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                         // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                        double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                         // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                        int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                         // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                        double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                         // 最终（仅基于 buff 计算，无新增方法）
 
-                        int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                +(resistUp-resistDown+guardian.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                        int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                + (resistUp - resistDown + guardian.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                        if (burnDamage<0){
-                            burnDamage=0;
+                        if (burnDamage < 0) {
+                            burnDamage = 0;
                         }
 
                         // 4. 扣除伤害
                         g.setCurrentHp(g.getCurrentHp() - burnDamage);
                         TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), burnDamage, g.isOnField());
-                        targetStatus.put(g.getId(),data);
+                        targetStatus.put(g.getId(), data);
                         if (g.isDead()) {
-                            deadUnits.put(g.getId(),data);
+                            deadUnits.put(g.getId(), data);
                             deadGuardians.add(g);
                         }
                     });
@@ -6348,42 +6768,42 @@ public class BattleManager {
                 if (Xtool.isNotNull(enemies)) {
                     enemies.forEach(g -> {
                         // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                        int totalPoisonDamage =   355 * skillLevel[0];
+                        int totalPoisonDamage = 355 * skillLevel[0];
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int resistUp =calculateTotalVaule(guardian,EffectType.FIRE_BOOST);
+                        int resistUp = calculateTotalVaule(guardian, EffectType.FIRE_BOOST);
                         // 火伤增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.FIRE_BOOST_PRET);
+                        double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.FIRE_BOOST_PRET);
                         // 火伤降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int resistDown =calculateTotalVaule(guardian,EffectType.FIRE_DOWN);
+                        int resistDown = calculateTotalVaule(guardian, EffectType.FIRE_DOWN);
                         // 火伤降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.FIRE_DOWN_PRET);
+                        double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.FIRE_DOWN_PRET);
 
 
                         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                         // 火抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                        int targetUp =calculateTotalVaule(g,EffectType.FIRE_RESIST_BOOST);
+                        int targetUp = calculateTotalVaule(g, EffectType.FIRE_RESIST_BOOST);
                         // 火抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetUpPret =calculateTotalDownPretVaule(g,EffectType.FIRE_RESIST_BOOST_PRET);
+                        double targetUpPret = calculateTotalDownPretVaule(g, EffectType.FIRE_RESIST_BOOST_PRET);
                         // 火抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                        int targetDown =calculateTotalVaule(g,EffectType.FIRE_RESIST_DOWN);
+                        int targetDown = calculateTotalVaule(g, EffectType.FIRE_RESIST_DOWN);
                         // 火抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                        double targetDownPret =calculateTotalUpPretVaule(g,EffectType.FIRE_RESIST_DOWN_PRET);
+                        double targetDownPret = calculateTotalUpPretVaule(g, EffectType.FIRE_RESIST_DOWN_PRET);
                         // 最终（仅基于 buff 计算，无新增方法）
 
-                        int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                                +(resistUp-resistDown+guardian.getHyAtk()-g.getHyDef()-targetUp+targetDown));
+                        int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                + (resistUp - resistDown + guardian.getHyAtk() - g.getHyDef() - targetUp + targetDown));
 
-                        if (burnDamage<0){
-                            burnDamage=0;
+                        if (burnDamage < 0) {
+                            burnDamage = 0;
                         }
 
                         // 4. 扣除伤害
                         g.setCurrentHp(g.getCurrentHp() - burnDamage);
                         TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), 0, g.isOnField());
-                        targetStatus.put(g.getId(),data);
+                        targetStatus.put(g.getId(), data);
                         if (g.isDead()) {
-                            deadUnits.put(g.getId(),data);
+                            deadUnits.put(g.getId(), data);
                             deadGuardians.add(g);
                         }
                     });
@@ -6475,7 +6895,19 @@ public class BattleManager {
 
             if (!enemies.isEmpty() && skillLevel[1] > 0) {
                 Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                int poisonValue = 7 * skillLevel[1] + daji.getDsAtk();
+                int totalPoisonDamage = 7 * skillLevel[0];
+                // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                int resistUp = calculateTotalVaule(daji, EffectType.POISON_BOOST);
+                // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                double resistUpPret = calculateTotalUpPretVaule(daji, EffectType.POISON_BOOST_PRET);
+                // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                int resistDown = calculateTotalVaule(daji, EffectType.POISON_DOWN);
+                // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                double resistDownPret = calculateTotalDownPretVaule(daji, EffectType.POISON_DOWN_PRET);
+
+                int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + daji.getDsAtk() - resistDown));
                 randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, daji.getId());
                 addLog("谄媚噬魂",
                         daji.getId(),
@@ -6528,7 +6960,19 @@ public class BattleManager {
 
             if (!enemies.isEmpty() && skillLevel[1] > 0) {
                 Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                int poisonValue = 7 * skillLevel[1] + daji.getDsAtk();
+                int totalPoisonDamage = 7 * skillLevel[0];
+                // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                int resistUp = calculateTotalVaule(daji, EffectType.POISON_BOOST);
+                // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                double resistUpPret = calculateTotalUpPretVaule(daji, EffectType.POISON_BOOST_PRET);
+                // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                int resistDown = calculateTotalVaule(daji, EffectType.POISON_DOWN);
+                // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                double resistDownPret = calculateTotalDownPretVaule(daji, EffectType.POISON_DOWN_PRET);
+
+                int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + daji.getDsAtk() - resistDown));
                 randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, daji.getId());
                 addLog("谄媚噬魂",
                         daji.getId(),
@@ -6543,7 +6987,7 @@ public class BattleManager {
                         randomEnemy.isOnField(),
                         EffectType.POISON,
                         DamageType.POISON,
-                        "中毒+"+poisonValue);
+                        "中毒+" + poisonValue);
             }
         }
 
@@ -6563,7 +7007,19 @@ public class BattleManager {
 
             if (!enemies.isEmpty()) {
                 Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                int poisonValue = 7 * skillLevel[0] + daji.getDsAtk();
+                int totalPoisonDamage = 7 * skillLevel[0];
+                // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                int resistUp = calculateTotalVaule(daji, EffectType.POISON_BOOST);
+                // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                double resistUpPret = calculateTotalUpPretVaule(daji, EffectType.POISON_BOOST_PRET);
+                // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                int resistDown = calculateTotalVaule(daji, EffectType.POISON_DOWN);
+                // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                double resistDownPret = calculateTotalDownPretVaule(daji, EffectType.POISON_DOWN_PRET);
+
+                int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + daji.getDsAtk() - resistDown));
                 randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, daji.getId());
                 addLog("谄媚噬魂",
                         daji.getId(),
@@ -6578,7 +7034,7 @@ public class BattleManager {
                         randomEnemy.isOnField(),
                         EffectType.POISON,
                         DamageType.POISON,
-                        "中毒+"+poisonValue);
+                        "中毒+" + poisonValue);
             }
         }
 
@@ -6597,7 +7053,19 @@ public class BattleManager {
 
             if (!enemies.isEmpty()) {
                 Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                int poisonValue = 7 * skillLevel[0]+ + daji.getDsAtk();
+                int totalPoisonDamage = 7 * skillLevel[0];
+                // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                int resistUp = calculateTotalVaule(daji, EffectType.POISON_BOOST);
+                // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                double resistUpPret = calculateTotalUpPretVaule(daji, EffectType.POISON_BOOST_PRET);
+                // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                int resistDown = calculateTotalVaule(daji, EffectType.POISON_DOWN);
+                // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                double resistDownPret = calculateTotalDownPretVaule(daji, EffectType.POISON_DOWN_PRET);
+
+                int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + daji.getDsAtk() - resistDown));
                 randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, daji.getId());
                 addLog("谄媚噬魂",
                         daji.getId(),
@@ -6612,7 +7080,7 @@ public class BattleManager {
                         randomEnemy.isOnField(),
                         EffectType.POISON,
                         DamageType.POISON,
-                        "中毒+"+poisonValue);
+                        "中毒+" + poisonValue);
             }
         }
     }
@@ -6650,25 +7118,25 @@ public class BattleManager {
 
             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
             // 毒抗增益：所有 POISON_RESIST 类型效果的 value 总和
-            int resistUp =calculateTotalVaule(g,EffectType.POISON_RESIST_BOOST);
+            int resistUp = calculateTotalVaule(g, EffectType.POISON_RESIST_BOOST);
             // 毒抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-            double resistUpPret =calculateTotalDownPretVaule(g,EffectType.POISON_RESIST_BOOST_PRET);
+            double resistUpPret = calculateTotalDownPretVaule(g, EffectType.POISON_RESIST_BOOST_PRET);
             // 毒抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-            int resistDown =calculateTotalVaule(g,EffectType.POISON_RESIST_DOWN);
+            int resistDown = calculateTotalVaule(g, EffectType.POISON_RESIST_DOWN);
             // 毒抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-            double resistDownPret =calculateTotalUpPretVaule(g,EffectType.POISON_RESIST_DOWN_PRET);
+            double resistDownPret = calculateTotalUpPretVaule(g, EffectType.POISON_RESIST_DOWN_PRET);
             // 最终有效毒抗（仅基于 buff 计算，无新增方法）
 
-            int finalDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret-(resistUp+g.getDsDef()-resistDown));
+            int finalDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret - (resistUp + g.getDsDef() - resistDown));
 
-            if (finalDamage<0){
-                finalDamage=0;
+            if (finalDamage < 0) {
+                finalDamage = 0;
             }
 
             // 4. 扣除中毒伤害
             g.setCurrentHp(g.getCurrentHp() - finalDamage);
             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
-            targetStatus.put(g.getId(),data);
+            targetStatus.put(g.getId(), data);
 
             // 5. 处理中毒效果回合数（调用自带的 tickRound()，移除回合≤0的效果）
 
@@ -6677,7 +7145,7 @@ public class BattleManager {
             if (g.getCurrentHp() <= 0) {
                 g.setDead(true);
                 g.setOnField(false);
-                deadUnits.put(g.getId(),data);
+                deadUnits.put(g.getId(), data);
                 deadGuardians.add(g);
             }
         });
@@ -6732,19 +7200,19 @@ public class BattleManager {
     }
 
     private double calculateTotalUpPretVaule(Guardian guardian, EffectType type) {
-         return guardian.getEffects().stream()
-                 .filter(e -> type.equals(e.getType()))
-                 .mapToDouble(e -> 1 + (double) e.getValue() / 100)
-                 .reduce((a, b) -> a * b) // 无初始值，返回OptionalDouble
-                 .orElse(1.0); // 无匹配元素时返回1.0（空乘积默认值）
+        return guardian.getEffects().stream()
+                .filter(e -> type.equals(e.getType()))
+                .mapToDouble(e -> 1 + (double) e.getValue() / 100)
+                .reduce((a, b) -> a * b) // 无初始值，返回OptionalDouble
+                .orElse(1.0); // 无匹配元素时返回1.0（空乘积默认值）
     }
 
     private double calculateTotalDownPretVaule(Guardian guardian, EffectType type) {
-         return guardian.getEffects().stream()
-                 .filter(e -> type.equals(e.getType()))
-                 .mapToDouble(e -> 1 - (double) e.getValue() / 100)
-                 .reduce((a, b) -> a * b) // 无初始值，返回OptionalDouble
-                 .orElse(1.0); // 无匹配元素时返回1.0（空乘积默认值）
+        return guardian.getEffects().stream()
+                .filter(e -> type.equals(e.getType()))
+                .mapToDouble(e -> 1 - (double) e.getValue() / 100)
+                .reduce((a, b) -> a * b) // 无初始值，返回OptionalDouble
+                .orElse(1.0); // 无匹配元素时返回1.0（空乘积默认值）
     }
 
     // 处理登场场下技能
@@ -6763,7 +7231,19 @@ public class BattleManager {
                             campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
                     if (!enemies.isEmpty()) {
                         Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                        int poisonValue = 73 * skillLevel[1]+guardian.getDsAtk();
+                        int totalPoisonDamage = 73 * skillLevel[0];
+                        // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                        // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                        // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                        int resistUp = calculateTotalVaule(guardian, EffectType.POISON_BOOST);
+                        // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.POISON_BOOST_PRET);
+                        // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                        int resistDown = calculateTotalVaule(guardian, EffectType.POISON_DOWN);
+                        // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.POISON_DOWN_PRET);
+
+                        int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + guardian.getDsAtk() - resistDown));
                         randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, guardian.getId());
                         addLog("幽冥审判",
                                 guardian.getId(),
@@ -6778,7 +7258,7 @@ public class BattleManager {
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
-                                "中毒+"+poisonValue);
+                                "中毒+" + poisonValue);
                     }
                 }
 
@@ -6795,7 +7275,19 @@ public class BattleManager {
                         campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
                 if (!enemies.isEmpty()) {
                     Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                    int poisonValue = 7 * skillLevel[0] + guardian.getDsAtk();
+                    int totalPoisonDamage = 7 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(guardian, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(guardian, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.POISON_DOWN_PRET);
+
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + guardian.getDsAtk() - resistDown));
                     randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, guardian.getId());
                     addLog("玉净瓶",
                             guardian.getId(),
@@ -6810,7 +7302,7 @@ public class BattleManager {
                             randomEnemy.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
-                            "中毒+"+poisonValue);
+                            "中毒+" + poisonValue);
                 }
             }
 
@@ -6826,7 +7318,19 @@ public class BattleManager {
                             campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
                     if (!enemies.isEmpty()) {
                         Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                        int poisonValue = 73 * skillLevel[1] + guardian.getDsAtk();
+                        int totalPoisonDamage = 73 * skillLevel[0];
+                        // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                        // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                        // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                        int resistUp = calculateTotalVaule(guardian, EffectType.POISON_BOOST);
+                        // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.POISON_BOOST_PRET);
+                        // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                        int resistDown = calculateTotalVaule(guardian, EffectType.POISON_DOWN);
+                        // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.POISON_DOWN_PRET);
+
+                        int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + guardian.getDsAtk() - resistDown));
                         randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, guardian.getId());
                         addLog("幽冥审判",
                                 guardian.getId(),
@@ -6841,7 +7345,7 @@ public class BattleManager {
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
-                                "中毒+"+poisonValue);
+                                "中毒+" + poisonValue);
                     }
                 }
 
@@ -6858,8 +7362,20 @@ public class BattleManager {
                         campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
                 if (!enemies.isEmpty()) {
                     Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                    int poisonValue = 7 * skillLevel[0]+ guardian.getDsAtk();
-                    randomEnemy.addEffect(EffectType.POISON, poisonValue , 99, guardian.getId());
+                    int totalPoisonDamage = 7 * skillLevel[0] + guardian.getDsAtk();
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(guardian, EffectType.FIRE_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.FIRE_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(guardian, EffectType.FIRE_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.FIRE_DOWN_PRET);
+
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + guardian.getDsAtk() - resistDown));
+                    randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, guardian.getId());
                     addLog("玉净瓶",
                             guardian.getId(),
                             guardian.getMaxHp(),
@@ -6873,18 +7389,19 @@ public class BattleManager {
                             randomEnemy.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
-                            "中毒+"+poisonValue);
+                            "中毒+" + poisonValue);
                 }
 
             }
-//            疫病侵染Lv1场下，我方单位登场时为场上敌人收到疾病效果，疾病令其受到治疗减少2%；
+//            疫病侵染Lv1场下，我方单位登场时为场上敌人添加疾病效果，疾病令受到治疗的效果降低50%，最多叠加1层
             if (defender.getCamp() == Camp.A && campA.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
-                if (fieldB != null && skillLevel[1] > 0) {
-                    int healDowNew = skillLevel[1] * 2;
+                if (fieldB != null && skillLevel[1] > 0 && fieldB.getBuffXuanMins() <= 0) {
+                    int healDowNew = skillLevel[1] * 8;
+                    fieldB.setBuffXuanMins(1);
                     fieldB.addEffect(EffectType.HEAL_DOWNT_PRET, healDowNew, 99, guardian.getId());
 
                     addLog("疫病侵染",
@@ -6900,7 +7417,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.HEAL_DOWN,
                             DamageType.MAGIC,
-                            "治疗降低"+healDowNew+"%");
+                            "治疗降低" + healDowNew + "%");
                 }
             }
 
@@ -6910,8 +7427,9 @@ public class BattleManager {
                         .findFirst().get();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
 
-                if (fieldA != null && skillLevel[1] > 0) {
-                    int healDowNew = skillLevel[1] * 2;
+                if (fieldA != null && skillLevel[1] > 0 && fieldA.getBuffXuanMins() <= 0) {
+                    int healDowNew = skillLevel[1] * 8;
+                    fieldA.setBuffXuanMins(1);
                     fieldA.addEffect(EffectType.HEAL_DOWNT_PRET, healDowNew, 99, guardian.getId());
 
 
@@ -6928,7 +7446,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.HEAL_DOWN,
                             DamageType.MAGIC,
-                            "治疗降低"+healDowNew+"%");
+                            "治疗降低" + healDowNew + "%");
                 }
             }
 
@@ -6940,34 +7458,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldB != null && !fieldB.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   178 * skillLevel[0];
+                    int totalPoisonDamage = 178 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldB,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldB, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldB,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldB, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldB.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldB.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -6978,7 +7496,7 @@ public class BattleManager {
                         fieldB.setDead(true);
                         fieldB.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                        deadUnits.put(fieldB.getId(),data);
+                        deadUnits.put(fieldB.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -6993,7 +7511,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7048,34 +7566,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldA != null && !fieldA.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   178 * skillLevel[0];
+                    int totalPoisonDamage = 178 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldA,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldA, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldA,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldA, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldA.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldA.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -7086,7 +7604,7 @@ public class BattleManager {
                         fieldA.setDead(true);
                         fieldA.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), 0, fieldA.isOnField());
-                        deadUnits.put(fieldA.getId(),data);
+                        deadUnits.put(fieldA.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -7101,7 +7619,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7156,34 +7674,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldB != null && !fieldB.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   178 * skillLevel[0];
+                    int totalPoisonDamage = 178 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldB,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldB, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldB,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldB, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldB.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldB.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -7194,7 +7712,7 @@ public class BattleManager {
                         fieldB.setDead(true);
                         fieldB.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                        deadUnits.put(fieldB.getId(),data);
+                        deadUnits.put(fieldB.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -7209,7 +7727,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7238,34 +7756,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldA != null && !fieldA.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   178 * skillLevel[0];
+                    int totalPoisonDamage = 178 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldA,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldA, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldA,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldA, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldA.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldA.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -7276,7 +7794,7 @@ public class BattleManager {
                         fieldA.setDead(true);
                         fieldA.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), 0, fieldA.isOnField());
-                        deadUnits.put(fieldA.getId(),data);
+                        deadUnits.put(fieldA.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -7291,7 +7809,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7322,34 +7840,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldB != null && !fieldB.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   169 * skillLevel[0];
+                    int totalPoisonDamage = 169 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldB,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldB, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldB,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldB, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldB.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldB.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -7360,7 +7878,7 @@ public class BattleManager {
                         fieldB.setDead(true);
                         fieldB.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                        deadUnits.put(fieldB.getId(),data);
+                        deadUnits.put(fieldB.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -7375,7 +7893,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7404,34 +7922,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldA != null && !fieldA.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   169 * skillLevel[0];
+                    int totalPoisonDamage = 169 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldA,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldA, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldA,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldA, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldA.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldA.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -7442,7 +7960,7 @@ public class BattleManager {
                         fieldA.setDead(true);
                         fieldA.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), 0, fieldA.isOnField());
-                        deadUnits.put(fieldA.getId(),data);
+                        deadUnits.put(fieldA.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -7457,7 +7975,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7487,34 +8005,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldB != null && !fieldB.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   84 * skillLevel[0];
+                    int totalPoisonDamage = 84 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldB,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldB, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldB,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldB, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldB.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldB.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -7525,7 +8043,7 @@ public class BattleManager {
                         fieldB.setDead(true);
                         fieldB.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                        deadUnits.put(fieldB.getId(),data);
+                        deadUnits.put(fieldB.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -7540,7 +8058,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7569,34 +8087,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldA != null && !fieldA.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   84 * skillLevel[0];
+                    int totalPoisonDamage = 84 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldA,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldA, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldA,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldA, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldA.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldA.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -7607,7 +8125,7 @@ public class BattleManager {
                         fieldA.setDead(true);
                         fieldA.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), 0, fieldA.isOnField());
-                        deadUnits.put(fieldA.getId(),data);
+                        deadUnits.put(fieldA.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -7622,7 +8140,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7652,34 +8170,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldB != null && !fieldB.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   50 * skillLevel[0];
+                    int totalPoisonDamage = 50 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldB,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldB, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldB,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldB, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldB.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldB.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -7690,7 +8208,7 @@ public class BattleManager {
                         fieldB.setDead(true);
                         fieldB.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                        deadUnits.put(fieldB.getId(),data);
+                        deadUnits.put(fieldB.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -7705,7 +8223,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7734,34 +8252,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldA != null && !fieldA.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   50 * skillLevel[0];
+                    int totalPoisonDamage = 50 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldA,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldA, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldA,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldA, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldA.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldA.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -7772,7 +8290,7 @@ public class BattleManager {
                         fieldA.setDead(true);
                         fieldA.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), 0, fieldA.isOnField());
-                        deadUnits.put(fieldA.getId(),data);
+                        deadUnits.put(fieldA.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -7787,7 +8305,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7817,34 +8335,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldB != null && !fieldB.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   50 * skillLevel[0];
+                    int totalPoisonDamage = 50 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldB,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldB, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldB,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldB, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldB.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldB.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -7855,7 +8373,7 @@ public class BattleManager {
                         fieldB.setDead(true);
                         fieldB.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                        deadUnits.put(fieldB.getId(),data);
+                        deadUnits.put(fieldB.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -7870,7 +8388,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7899,34 +8417,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldA != null && !fieldA.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   50 * skillLevel[0];
+                    int totalPoisonDamage = 50 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldA,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldA, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value fieldA
-                    double targetDownPret =calculateTotalUpPretVaule(fieldA,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldA, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldA.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldA.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -7937,7 +8455,7 @@ public class BattleManager {
                         fieldA.setDead(true);
                         fieldA.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), 0, fieldA.isOnField());
-                        deadUnits.put(fieldA.getId(),data);
+                        deadUnits.put(fieldA.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -7952,7 +8470,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7982,34 +8500,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldB != null && !fieldB.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   50 * skillLevel[0];
+                    int totalPoisonDamage = 50 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldB,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldB, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetDownPret =calculateTotalUpPretVaule(fieldB,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldB, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldB.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldB.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -8020,7 +8538,7 @@ public class BattleManager {
                         fieldB.setDead(true);
                         fieldB.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                        deadUnits.put(fieldB.getId(),data);
+                        deadUnits.put(fieldB.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -8035,7 +8553,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8064,34 +8582,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldA != null && !fieldA.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   50 * skillLevel[0];
+                    int totalPoisonDamage = 50 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldA,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldA, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetDownPret =calculateTotalUpPretVaule(fieldA,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldA, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldA.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldA.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -8102,7 +8620,7 @@ public class BattleManager {
                         fieldA.setDead(true);
                         fieldA.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), 0, fieldA.isOnField());
-                        deadUnits.put(fieldA.getId(),data);
+                        deadUnits.put(fieldA.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -8117,7 +8635,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8147,34 +8665,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldB != null && !fieldB.isDead()) {
 // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   50 * skillLevel[0];
+                    int totalPoisonDamage = 50 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldB,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldB, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetDownPret =calculateTotalUpPretVaule(fieldB,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldB, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldB.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldB.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -8185,7 +8703,7 @@ public class BattleManager {
                         fieldB.setDead(true);
                         fieldB.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                        deadUnits.put(fieldB.getId(),data);
+                        deadUnits.put(fieldB.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -8200,7 +8718,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8229,34 +8747,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldA != null && !fieldA.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   50 * skillLevel[0];
+                    int totalPoisonDamage = 50 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldA,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldA, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetDownPret =calculateTotalUpPretVaule(fieldA,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldA, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldA.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldA.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -8267,7 +8785,7 @@ public class BattleManager {
                         fieldA.setDead(true);
                         fieldA.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), 0, fieldA.isOnField());
-                        deadUnits.put(fieldA.getId(),data);
+                        deadUnits.put(fieldA.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -8282,7 +8800,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8312,34 +8830,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldB != null && !fieldB.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   30 * skillLevel[0];
+                    int totalPoisonDamage = 30 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldB,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldB, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetDownPret =calculateTotalUpPretVaule(fieldB,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldB, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldB.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldB.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -8350,7 +8868,7 @@ public class BattleManager {
                         fieldB.setDead(true);
                         fieldB.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                        deadUnits.put(fieldB.getId(),data);
+                        deadUnits.put(fieldB.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -8365,7 +8883,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8394,34 +8912,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldA != null && !fieldA.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   30 * skillLevel[0];
+                    int totalPoisonDamage = 30 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldA,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldA, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetDownPret =calculateTotalUpPretVaule(fieldA,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldA, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldA.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldA.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -8432,7 +8950,7 @@ public class BattleManager {
                         fieldA.setDead(true);
                         fieldA.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), 0, fieldA.isOnField());
-                        deadUnits.put(fieldA.getId(),data);
+                        deadUnits.put(fieldA.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -8447,7 +8965,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8478,34 +8996,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldB != null && !fieldB.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   35 * skillLevel[0];
+                    int totalPoisonDamage = 35 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldB,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldB, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldB,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldB, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetDownPret =calculateTotalUpPretVaule(fieldB,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldB, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldB.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldB.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -8516,7 +9034,7 @@ public class BattleManager {
                         fieldB.setDead(true);
                         fieldB.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                        deadUnits.put(fieldB.getId(),data);
+                        deadUnits.put(fieldB.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -8531,7 +9049,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8560,34 +9078,34 @@ public class BattleManager {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 if (fieldA != null && !fieldA.isDead()) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage =   178 * skillLevel[0];
+                    int totalPoisonDamage = 178 * skillLevel[0];
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp =calculateTotalVaule(guardian,EffectType.MISSILE_BOOST);
+                    int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
                     // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret =calculateTotalUpPretVaule(guardian,EffectType.MISSILE_BOOST_PRET);
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
                     // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown =calculateTotalVaule(guardian,EffectType.MISSILE_DOWN);
+                    int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
                     // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret =calculateTotalDownPretVaule(guardian,EffectType.MISSILE_DOWN_PRET);
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
 
 
                     // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                     // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int targetUp =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_BOOST);
+                    int targetUp = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_BOOST);
                     // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetUpPret =calculateTotalDownPretVaule(fieldA,EffectType.MISSILE_RESIST_BOOST_PRET);
+                    double targetUpPret = calculateTotalDownPretVaule(fieldA, EffectType.MISSILE_RESIST_BOOST_PRET);
                     // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int targetDown =calculateTotalVaule(fieldA,EffectType.MISSILE_RESIST_DOWN);
+                    int targetDown = calculateTotalVaule(fieldA, EffectType.MISSILE_RESIST_DOWN);
                     // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double targetDownPret =calculateTotalUpPretVaule(fieldA,EffectType.MISSILE_RESIST_DOWN_PRET);
+                    double targetDownPret = calculateTotalUpPretVaule(fieldA, EffectType.MISSILE_RESIST_DOWN_PRET);
                     // 最终（仅基于 buff 计算，无新增方法）
 
-                    int burnDamage = (int) (totalPoisonDamage*resistUpPret*resistDownPret*targetUpPret*targetDownPret
-                            +(resistUp-resistDown+guardian.getFdAtk()-fieldA.getFdDef()-targetUp+targetDown));
+                    int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                            + (resistUp - resistDown + guardian.getFdAtk() - fieldA.getFdDef() - targetUp + targetDown));
 
-                    if (burnDamage<0){
-                        burnDamage=0;
+                    if (burnDamage < 0) {
+                        burnDamage = 0;
                     }
 
                     // 4. 扣除伤害
@@ -8598,7 +9116,7 @@ public class BattleManager {
                         fieldA.setDead(true);
                         fieldA.setOnField(false);
                         TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), 0, fieldA.isOnField());
-                        deadUnits.put(fieldA.getId(),data);
+                        deadUnits.put(fieldA.getId(), data);
                     }
                     addLog("魂力飞弹",
                             guardian.getId(),
@@ -8613,7 +9131,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-"+burnDamage);
+                            "-" + burnDamage);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8732,7 +9250,7 @@ public class BattleManager {
                         hel = 39 * skillLevel[0];
                     }
                     guardian.setCurrentHp(guardian.getCurrentHp() - hel - guardian.getZlDef());
-                    int hel1=hel + guardian.getZlDef();
+                    int hel1 = hel + guardian.getZlDef();
 //                    最终受到伤害
 //
 //                    = 原始伤害
@@ -8744,7 +9262,7 @@ public class BattleManager {
 //                    × 技能减伤buff1
 //                    × 技能减伤buff2
 //                    − 固定减伤（比如飞弹减伤500）
-                    hel = (int) (hel * healDowPret * healBoostPret + guardian.getZlDef()-healDow+healBoost);
+                    hel = (int) (hel * healDowPret * healBoostPret + guardian.getZlDef() - healDow + healBoost);
                     if (hel < 0) {
                         hel = 0;
                     }
@@ -8755,7 +9273,7 @@ public class BattleManager {
                         guardian.setDead(true);
                         guardian.setOnField(false);
                         TargetBattleData data = new TargetBattleData(guardian.getMaxHp(), guardian.getCurrentHp(), 0, guardian.isOnField());
-                        deadUnits.put(guardian.getId(),data);
+                        deadUnits.put(guardian.getId(), data);
                     }
                     addLog("续命",
                             guardian.getId(),
@@ -8829,7 +9347,7 @@ public class BattleManager {
                         hel = 39 * skillLevel[0];
                     }
                     guardian.setCurrentHp(guardian.getCurrentHp() - hel - guardian.getZlDef());
-                    int hel1=hel + guardian.getZlDef();
+                    int hel1 = hel + guardian.getZlDef();
 //                    最终受到伤害
 //
 //                    = 原始伤害
@@ -8841,7 +9359,7 @@ public class BattleManager {
 //                    × 技能减伤buff1
 //                    × 技能减伤buff2
 //                    − 固定减伤（比如飞弹减伤500）
-                    hel = (int) (hel * (1 - (double)healDowPret / 100) * (1 + (double)healBoostPret / 100) + guardian.getZlDef())-healDow+healBoost;
+                    hel = (int) (hel * (1 - (double) healDowPret / 100) * (1 + (double) healBoostPret / 100) + guardian.getZlDef()) - healDow + healBoost;
                     if (hel < 0) {
                         hel = 0;
                     }
@@ -8852,7 +9370,7 @@ public class BattleManager {
                         guardian.setDead(true);
                         guardian.setOnField(false);
                         TargetBattleData data = new TargetBattleData(guardian.getMaxHp(), guardian.getCurrentHp(), 0, guardian.isOnField());
-                        deadUnits.put(guardian.getId(),data);
+                        deadUnits.put(guardian.getId(), data);
                     }
                     addLog("续命",
                             guardian.getId(),
@@ -8894,9 +9412,6 @@ public class BattleManager {
     }
 
 
-
-
-
     private boolean duoBaoGuanHuan() {
         //血量上限不改变光环
         boolean campAHasAlive = campA.stream().anyMatch(g -> g.getName().equals("多宝道人") && !g.isDead());
@@ -8913,23 +9428,6 @@ public class BattleManager {
         return fireDamage;
     }
 
-    private Integer zhongyuedadiHuan(Guardian guardian) {
-        //飞弹伤害增加光环
-        List<Guardian> zhongyues = guardian.getCamp() == Camp.A ?
-                campA.stream().filter(g -> g.getName().equals("中岳大帝") && !g.isDead()).collect(Collectors.toList()) :
-                campB.stream().filter(g -> g.getName().equals("中岳大帝") && !g.isDead()).collect(Collectors.toList());
-        Integer damage = 0;
-        if (Xtool.isNotNull(zhongyues)) {
-            Guardian zhongyue = zhongyues.get(0);
-            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(zhongyue.getLevel(), zhongyue.getStar().doubleValue());
-            if (skillLevel[1] > 0) {
-                //            五岳灵脉Lv1光环-增加我方全体飞弹伤害20点；
-                damage = skillLevel[1] * 20;
-            }
-
-        }
-        return damage;
-    }
 
     // 判断战斗是否结束
     private boolean isBattleEnd() {

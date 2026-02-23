@@ -27,6 +27,16 @@ public class Guardian {
     private int buffNianShous;
     private int buffRandengs;
     private int buffLiuers;
+
+    public int getBuffXuanMins() {
+        return buffXuanMins;
+    }
+
+    public void setBuffXuanMins(int buffXuanMins) {
+        this.buffXuanMins = buffXuanMins;
+    }
+
+    private int buffXuanMins;
     private int wlAtk;
     private int hyAtk;
     private int dsAtk;
@@ -62,6 +72,8 @@ public class Guardian {
         this.buffStacks = 0;
         this.buffLuoShens = 0;
         this.buffNianShous = 0;
+        this.buffRandengs = 0;
+        this.buffXuanMins = 0;
         this.star = star;
         this.wlAtk = wlAtk;
         this.hyAtk = hyAtk;
