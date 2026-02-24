@@ -20,8 +20,8 @@ public class QqShenxianPlayerFlyup {
     private Integer totalLevel;
     @TableField("total_dan_consume")
     private Integer totalDanConsume;
-    @TableField("flyup_status")
-    private Byte flyupStatus;
+    @TableField("item_id")
+    private String itemId;
     @TableField("flyup_time")
     private Date flyupTime;
 

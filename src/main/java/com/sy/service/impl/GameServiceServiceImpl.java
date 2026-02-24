@@ -1615,7 +1615,9 @@ public class GameServiceServiceImpl implements GameServiceService {
 
 
 
-
+        GameNotice gameNotice = new GameNotice();
+        gameNotice.setDescription("恭喜 "+user.getNickname()+" 玩家 "+character.getName()+" 成功飞升 + "+character.getFlyup()+"，战力飙升，傲视全服！");
+        gameNoticeMapper.insert(gameNotice);
         character.setMaxLv(character.getMaxLv()+5);
         charactersMapper.updateByPrimaryKey(character);
         userMapper.updateuser(user);
@@ -2530,7 +2532,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
             if (currentCount == null) {
                 // 首次请求，初始化计数并设置过期时间
-                redisTemplate.opsForValue().set(lockKey, "1", 400, TimeUnit.MILLISECONDS);
+                redisTemplate.opsForValue().set(lockKey, "1", 600, TimeUnit.MILLISECONDS);
             } else {
                 // 超过阈值，抛出异常
                 baseResp.setErrorMsg("操作过于频繁");

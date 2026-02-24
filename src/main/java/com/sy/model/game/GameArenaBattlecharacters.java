@@ -36,4 +36,6 @@ public class GameArenaBattlecharacters {
     private Integer weekNum;
     @TableField("arena_level")
     private String arenaLevel;
+    @TableField("flyup")
+    private Integer flyup;
 }

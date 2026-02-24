@@ -18,6 +18,7 @@
     cs.go_into_num,
     cs.exp,
      cs.max_lv,
+     cs.flyup,
     cd.name,
     cd.camp,
     cd.hp_growth,
@@ -32,7 +33,16 @@
     cd.coll_hp,
     cd.passive_introduce_one,
     cd.passive_introduce_two,
-    cd.passive_introduce_three
+    cd.passive_introduce_three,
+    cd.wl_atk,
+    cd.hy_atk,
+    cd.ds_atk,
+    cd.fd_atk,
+    cd.wl_def,
+    cd.hy_def,
+    cd.ds_def,
+    cd.fd_def,
+    cd.zl_def
     from   game_arena_battlecharacters cs
     left  join card cd on cd.id=cs.id
     where cs.user_id = #{userId} and  cs.go_into_num &lt;&gt; 6 and  cs.go_into_num &lt;&gt; 7  and cs.is_delete='0'
