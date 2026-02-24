@@ -46,6 +46,15 @@ public class Guardian {
     private int dsDef;
     private int fdDef;
     private int zlDef;
+    private int flyup;
+
+    public int getFlyup() {
+        return flyup;
+    }
+
+    public void setFlyup(int flyup) {
+        this.flyup = flyup;
+    }
 
     // 换成 List 存储效果实例，解决多来源混乱问题
     private List<EffectInstance> effects = new ArrayList<>();
@@ -55,7 +64,7 @@ public class Guardian {
                     String name, Camp camp, int position, Profession profession, Race race,
                     int maxHp, int attack, int speed, int level, BigDecimal star,
                     int wlAtk, int hyAtk, int dsAtk, int fdAtk,
-                    int wlDef, int hyDef, int dsDef, int fdDef, int zlDef) {
+                    int wlDef, int hyDef, int dsDef, int fdDef, int zlDef,int flyup) {
         this.id = id;  // 初始化ID
         this.name = name;
         this.camp = camp;
@@ -84,6 +93,7 @@ public class Guardian {
         this.dsDef = dsDef;
         this.fdDef = fdDef;
         this.zlDef = zlDef;
+        this.flyup = flyup;
     }
     /**
      * 是否处于眩晕/昏睡/冰冻等控制中

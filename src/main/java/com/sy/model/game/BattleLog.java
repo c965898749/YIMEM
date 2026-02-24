@@ -10,6 +10,7 @@ public class BattleLog {
     private String battleId;                // 战斗ID（核心标识）
     private int round;                      // 回合数（核心时序信息）
     private String eventType;               // 事件类型/技能名称（核心事件标识）
+    private Integer flyup;               // 事件类型/技能名称（核心事件标识）
 
     // 来源单位核心信息
     private String sourceUnitId;            // 来源单位唯一ID

@@ -234,6 +234,40 @@ public class GameContoller {
             return baseResp;
         }
     }
+    /**
+     * 卡牌飞升
+     */
+    @RequestMapping(value = "cardFlyUp", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp cardFlyUp(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.cardFlyUp(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
+     * 卡牌飞升
+     */
+    @RequestMapping(value = "cardFlyUp2", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp cardFlyUp2(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.cardFlyUp2(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
     @RequestMapping(value = "cardLevelUp", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp cardLevelUp(@RequestBody TokenDto token, HttpServletRequest request) {

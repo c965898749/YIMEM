@@ -65,6 +65,8 @@ public class Character {
 
     private String xieTong;
 
+    private Integer flyup;
+
     public Character(){
 
     };

@@ -35,7 +35,7 @@ public class BattleManager {
         if (fieldA.getSpeed() >= fieldB.getSpeed()) {
             if (fieldA != null) {
                 fieldA.setOnField(true);
-                addLog("UNIT_ENTER",
+                addLog2(fieldA.getFlyup(),"UNIT_ENTER",
                         fieldA.getId(),
                         fieldA.getMaxHp(), fieldA.getCurrentHp(),
                         0,
@@ -48,7 +48,7 @@ public class BattleManager {
             }
             if (fieldB != null) {
                 fieldB.setOnField(true);
-                addLog("UNIT_ENTER",
+                addLog2(fieldB.getFlyup(),"UNIT_ENTER",
                         fieldB.getId(),
                         fieldB.getMaxHp(), fieldB.getCurrentHp(),
                         0,
@@ -68,7 +68,7 @@ public class BattleManager {
         } else {
             if (fieldB != null) {
                 fieldB.setOnField(true);
-                addLog("UNIT_ENTER",
+                addLog2(fieldB.getFlyup(),"UNIT_ENTER",
                         fieldB.getId(),
                         fieldB.getMaxHp(), fieldB.getCurrentHp(),
                         0,
@@ -82,7 +82,7 @@ public class BattleManager {
             }
             if (fieldA != null) {
                 fieldA.setOnField(true);
-                addLog("UNIT_ENTER",
+                addLog2(fieldA.getFlyup(),"UNIT_ENTER",
                         fieldA.getId(),
                         fieldA.getMaxHp(), fieldA.getCurrentHp(),
                         0,
@@ -331,7 +331,7 @@ public class BattleManager {
                     fieldA = newA;
                     fieldA.setOnField(true);
 
-                    addLog("UNIT_ENTER",
+                    addLog2(fieldA.getFlyup(),"UNIT_ENTER",
                             fieldA.getId(),
                             fieldA.getMaxHp(), fieldA.getCurrentHp(),
                             0,
@@ -352,7 +352,7 @@ public class BattleManager {
                     fieldB = newB;
                     fieldB.setOnField(true);
 
-                    addLog("UNIT_ENTER",
+                    addLog2(fieldB.getFlyup(),"UNIT_ENTER",
                             fieldB.getId(),
                             fieldB.getMaxHp(), fieldB.getCurrentHp(),
                             0,
@@ -1262,12 +1262,12 @@ public class BattleManager {
                                 defender.getId(),
                                 defender.getMaxHp(),
                                 defender.getCurrentHp(),
-                                0,
+                                hel,
                                 defender.isOnField(),
                                 defender.getId(),
                                 defender.getMaxHp(),
                                 defender.getCurrentHp(),
-                                0,
+                                hel,
                                 defender.isOnField(),
                                 EffectType.HP_UP,
                                 DamageType.BUFF,
@@ -4053,7 +4053,7 @@ public class BattleManager {
 
     // 触发死亡相关技能
     private void triggerOnDeathSkills(Guardian v) {
-        if (!v.isSilence() && !v.isDead() && v.getName().equals("燃灯道人")) {
+        if (!v.isSilence()  && v.getName().equals("燃灯道人")) {
             List<Guardian> offFieldEnemies = v.getCamp() == Camp.A ?
                     campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
                     campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
@@ -4147,7 +4147,7 @@ public class BattleManager {
 
         }
 
-        if (!v.isSilence() && !v.isDead() && v.getName().equals("鹏魔王")) {
+        if (!v.isSilence()  && v.getName().equals("鹏魔王")) {
             List<Guardian> offFieldEnemies = v.getCamp() == Camp.A ?
                     campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
                     campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
@@ -4219,7 +4219,7 @@ public class BattleManager {
             }
         }
 
-        if (!v.isSilence() && !v.isDead() && v.getName().equals("辟尘大王")) {
+        if (!v.isSilence()  && v.getName().equals("辟尘大王")) {
             List<Guardian> offFieldEnemies = v.getCamp() == Camp.A ?
                     campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
                     campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
@@ -4263,7 +4263,7 @@ public class BattleManager {
             }
         }
 
-        if (!v.isSilence() && !v.isDead() && v.getName().equals("混世魔王")) {
+        if (!v.isSilence()  && v.getName().equals("混世魔王")) {
             List<Guardian> offFieldEnemies = v.getCamp() == Camp.A ?
                     campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
                     campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
@@ -9474,6 +9474,44 @@ public class BattleManager {
                 battleId,
                 currentRound,
                 eventType,
+                0,
+                sourceUnitId,
+                sourceHpBefore,
+                sourceHpAfter,
+                sourceSelfValue,
+                sourceFieldStatus,
+                targetUnitId,
+                targetHpBefore,
+                targetHpAfter,
+                singleTargetValue,
+                targetFieldStatus,
+                null,
+                effectType,
+                damageType,
+                extraDesc,
+                0
+        ));
+    }
+
+    // 添加单目标日志（包含位置）
+    private void addLog2(int flyup,String eventType,
+                        String sourceUnitId,
+                        int sourceHpBefore, int sourceHpAfter,
+                        int sourceSelfValue,
+                        boolean sourceFieldStatus,
+                        String targetUnitId,
+                        int targetHpBefore, int targetHpAfter,
+                        int singleTargetValue,
+                        boolean targetFieldStatus,
+                        EffectType effectType,
+                        DamageType damageType,
+                        String extraDesc
+    ) {
+        battleLogs.add(new BattleLog(
+                battleId,
+                currentRound,
+                eventType,
+                flyup,
                 sourceUnitId,
                 sourceHpBefore,
                 sourceHpAfter,
@@ -9506,6 +9544,7 @@ public class BattleManager {
                 battleId,
                 currentRound,
                 eventType,
+                0,
                 sourceUnitId,
                 sourceHpBefore,
                 sourceHpAfter,

@@ -128,6 +128,14 @@ public class GameServiceServiceImpl implements GameServiceService {
     private GameTimeRecordMapper gameTimeRecordMapper;
     @Autowired
     private MewYearItemShopMapper mewYearItemShopMapper;
+    @Autowired
+    private QqShenxianFlyupMapper qqShenxianFlyupMapper;
+    @Autowired
+    private QqShenxianPlayerFlyupMapper qqShenxianPlayerFlyupMapper;
+    @Autowired
+    private PillRobRecordMapper pillRobRecordMapper;
+    @Autowired
+    private RevengeRecordMapper revengeRecordMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -1391,6 +1399,281 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp cardFlyUp(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(1);
+            baseResp.setErrorMsg("更新成功");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(1);
+            baseResp.setErrorMsg("更新成功");
+            return baseResp;
+        }
+        String Id = token.getId();
+        if (Xtool.isNull(Id)) {
+            baseResp.setSuccess(1);
+            baseResp.setErrorMsg("更新成功");
+            return baseResp;
+        }
+        Characters character = charactersMapper.listById(token.getUserId(), token.getId());
+        if (character == null) {
+            baseResp.setSuccess(1);
+            baseResp.setErrorMsg("更新成功");
+            return baseResp;
+        }
+        if (character.getFlyup() == 10) {
+            baseResp.setSuccess(1);
+            baseResp.setErrorMsg("更新成功");
+            return baseResp;
+        }
+        List<QqShenxianFlyup> qqShenxianFlyupList = qqShenxianFlyupMapper.selectByMap(new HashMap<>());
+        Map data = new HashMap();
+        List<QqShenxianFlyup> qqShenxianFlyups = qqShenxianFlyupList.stream().filter(x -> x.getFlyupTimes() == character.getFlyup() + 1).collect(Collectors.toList());
+        if (character.getProfession().equals("武圣")) {
+            Map map = new HashMap();
+            map.put("user_id", token.getUserId());
+            map.put("item_id", 21);
+            map.put("is_delete", 0);
+            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
+            if (Xtool.isNotNull(playerBags)) {
+                data.put("dangyaoTotal", playerBags.get(0).getItemCount());
+            } else {
+                data.put("dangyaoTotal", 0);
+            }
+        } else if (character.getProfession().equals("神将")) {
+            Map map = new HashMap();
+            map.put("user_id", token.getUserId());
+            map.put("item_id", 23);
+            map.put("is_delete", 0);
+            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
+            if (Xtool.isNotNull(playerBags)) {
+                data.put("dangyaoTotal", playerBags.get(0).getItemCount());
+            } else {
+                data.put("dangyaoTotal", 0);
+            }
+        } else {
+            Map map = new HashMap();
+            map.put("user_id", token.getUserId());
+            map.put("item_id", 21);
+            map.put("is_delete", 0);
+            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
+            if (Xtool.isNotNull(playerBags)) {
+                data.put("dangyaoTotal", playerBags.get(0).getItemCount());
+            } else {
+                data.put("dangyaoTotal", 0);
+            }
+        }
+        QqShenxianFlyup flyup = qqShenxianFlyups.get(0);
+        data.put("dangyaoTotal2", flyup.getCurrentConsume());
+        data.put("cardTotal", character.getStackCount());
+        data.put("cardTotal2", character.getFlyup() + 1);
+        data.put("gold", flyup.getGold());
+        baseResp.setSuccess(1);
+        baseResp.setData(data);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
+    @Transactional
+    @NoRepeatSubmit(limitSeconds = 5)
+    public BaseResp cardFlyUp2(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user=userMapper.selectUserByUserId(Integer.parseInt(userId));
+        String Id = token.getId();
+        if (Xtool.isNull(Id)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        Characters character = charactersMapper.listById(token.getUserId(), token.getId());
+        if (character == null) {
+            baseResp.setSuccess(1);
+            baseResp.setErrorMsg("飞升主卡不存在");
+            return baseResp;
+        }
+        if (character.getLv()<character.getMaxLv()){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("飞升需主卡达到满级");
+            return baseResp;
+        }
+        if (character.getFlyup() == 10) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("最多飞升10次");
+            return baseResp;
+        }
+        character.setFlyup(character.getFlyup()+1);
+        List<QqShenxianFlyup> qqShenxianFlyupList = qqShenxianFlyupMapper.selectByMap(new HashMap<>());
+        Map data = new HashMap();
+        List<QqShenxianFlyup> qqShenxianFlyups = qqShenxianFlyupList.stream().filter(x -> x.getFlyupTimes() == character.getFlyup()).collect(Collectors.toList());
+        QqShenxianFlyup flyup = qqShenxianFlyups.get(0);
+        if (character.getStackCount()<flyup.getFlyupTimes()){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("飞升从卡不足");
+            return baseResp;
+        }
+        character.setStackCount(character.getStackCount() - flyup.getFlyupTimes());
+        if (user.getGold().compareTo(new BigDecimal(flyup.getGold()))<0){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("飞升金币不足");
+            return baseResp;
+        }
+        user.setGold(user.getGold().subtract(new BigDecimal(flyup.getGold())));
+        if (character.getProfession().equals("武圣")) {
+            Map map = new HashMap();
+            map.put("user_id", token.getUserId());
+            map.put("item_id", 21);
+            map.put("is_delete", 0);
+            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
+            if (Xtool.isNull(playerBags)) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("武圣飞升丹不足");
+                return baseResp;
+            }
+            GamePlayerBag playerBag=playerBags.get(0);
+            if (playerBag.getItemCount() < flyup.getCurrentConsume()) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("武圣飞升丹不足");
+                return baseResp;
+            }
+            if (playerBag.getItemCount() - flyup.getCurrentConsume() > 0) {
+                playerBag.setItemCount(playerBag.getItemCount() - flyup.getCurrentConsume());
+
+            } else {
+                playerBag.setIsDelete("1");
+                playerBag.setItemCount(0);
+            }
+            gamePlayerBagMapper.updateById(playerBag);
+
+        } else if (character.getProfession().equals("神将")) {
+            Map map = new HashMap();
+            map.put("user_id", token.getUserId());
+            map.put("item_id", 23);
+            map.put("is_delete", 0);
+            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
+            if (Xtool.isNull(playerBags)) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("神将飞升丹不足");
+                return baseResp;
+            }
+            GamePlayerBag playerBag=playerBags.get(0);
+            if (playerBag.getItemCount() < flyup.getCurrentConsume()) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("神将飞升丹不足");
+                return baseResp;
+            }
+            if (playerBag.getItemCount() - flyup.getCurrentConsume() > 0) {
+                playerBag.setItemCount(playerBag.getItemCount() - flyup.getCurrentConsume());
+
+            } else {
+                playerBag.setIsDelete("1");
+                playerBag.setItemCount(0);
+            }
+            gamePlayerBagMapper.updateById(playerBag);
+        } else {
+            Map map = new HashMap();
+            map.put("user_id", token.getUserId());
+            map.put("item_id", 22);
+            map.put("is_delete", 0);
+            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
+            if (Xtool.isNull(playerBags)) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("仙灵飞升丹不足");
+                return baseResp;
+            }
+            GamePlayerBag playerBag=playerBags.get(0);
+            if (playerBag.getItemCount() < flyup.getCurrentConsume()) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("仙灵飞升丹不足");
+                return baseResp;
+            }
+            if (playerBag.getItemCount() - flyup.getCurrentConsume() > 0) {
+                playerBag.setItemCount(playerBag.getItemCount() - flyup.getCurrentConsume());
+
+            } else {
+                playerBag.setIsDelete("1");
+                playerBag.setItemCount(0);
+            }
+            gamePlayerBagMapper.updateById(playerBag);
+        }
+
+
+
+
+        character.setMaxLv(character.getMaxLv()+5);
+        charactersMapper.updateByPrimaryKey(character);
+        userMapper.updateuser(user);
+        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+        UserInfo info = new UserInfo();
+        BeanUtils.copyProperties(user, info);
+        info.setCharacterList(formateCharacter(characterList));
+        data.put("UserInfo", info);
+        data.put("cardTotal", character.getStackCount());
+        data.put("cardTotal2", character.getFlyup());
+        data.put("flyup", character.getFlyup());
+        if (character.getFlyup()<11){
+            List<QqShenxianFlyup> qqShenxianFlyups2 = qqShenxianFlyupList.stream().filter(x -> x.getFlyupTimes() == character.getFlyup()).collect(Collectors.toList());
+            QqShenxianFlyup flyup2 = qqShenxianFlyups2.get(0);
+            data.put("dangyaoTotal2", flyup2.getCurrentConsume());
+            data.put("gold", flyup2.getGold());
+        }
+        if (character.getProfession().equals("武圣")) {
+            Map map = new HashMap();
+            map.put("user_id", token.getUserId());
+            map.put("item_id", 21);
+            map.put("is_delete", 0);
+            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
+            if (Xtool.isNotNull(playerBags)) {
+                data.put("dangyaoTotal", playerBags.get(0).getItemCount());
+            } else {
+                data.put("dangyaoTotal", 0);
+            }
+        } else if (character.getProfession().equals("神将")) {
+            Map map = new HashMap();
+            map.put("user_id", token.getUserId());
+            map.put("item_id", 23);
+            map.put("is_delete", 0);
+            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
+            if (Xtool.isNotNull(playerBags)) {
+                data.put("dangyaoTotal", playerBags.get(0).getItemCount());
+            } else {
+                data.put("dangyaoTotal", 0);
+            }
+        } else {
+            Map map = new HashMap();
+            map.put("user_id", token.getUserId());
+            map.put("item_id", 21);
+            map.put("is_delete", 0);
+            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
+            if (Xtool.isNotNull(playerBags)) {
+                data.put("dangyaoTotal", playerBags.get(0).getItemCount());
+            } else {
+                data.put("dangyaoTotal", 0);
+            }
+        }
+        baseResp.setSuccess(1);
+        baseResp.setData(data);
+        baseResp.setErrorMsg("更新成功");
+        return baseResp;
+    }
+
+    @Override
     public BaseResp eqCardLevelUp(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (Xtool.isNull(token.getMyMap())) {
@@ -2211,7 +2494,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
     @Override
     @Transactional
-    @NoRepeatSubmit(limitSeconds = 1)
+//    @NoRepeatSubmit(limitSeconds = 1)
     public BaseResp buyStore(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -2226,87 +2509,122 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
-        Map hashMap = new HashMap();
-        hashMap.put("user_id", userId);
-        List<GameTimeRecord> gameTimeRecord = gameTimeRecordMapper.selectByMap(hashMap);
-        if (Xtool.isNull(gameTimeRecord)) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("操作过快请刷新重试");
-            return baseResp;
-        }
-        List<GameItemShop> picked2 = JSON.parseObject(gameTimeRecord.get(0).getPicked(), new TypeReference<List<GameItemShop>>() {
-        });
-        List<GameItemShop> gameItemShops = picked2.stream().filter(x -> (x.getId() + "").equals(token.getId())).collect(Collectors.toList());
-        if (Xtool.isNull(gameItemShops)) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("商品不存在或已下架");
-            return baseResp;
-        }
-        GameItemShop gameItemShop = gameItemShops.get(0);
-        if (gameItemShop == null) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("商品不存在或已下架");
-            return baseResp;
-        }
-        if (gameItemShop.getGoldEdgePrice() != 0) {
-            BigDecimal gold = user.getGold().subtract(new BigDecimal(gameItemShop.getGoldEdgePrice()));
-            if (gold.compareTo(BigDecimal.ZERO) < 0) {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("银两不足");
-                return baseResp;
-            }
-            user.setGold(gold);
-        } else {
-            BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(gameItemShop.getGemPrice()));
-            if (diamond.compareTo(BigDecimal.ZERO) < 0) {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("钻石不足");
-                return baseResp;
-            }
-            user.setDiamond(diamond);
-        }
-        Characters characters1 = charactersMapper.listById(userId, gameItemShop.getItemId() + "");
-        if (characters1 != null) {
-            characters1.setStackCount(characters1.getStackCount() + 1);
-            charactersMapper.updateByPrimaryKey(characters1);
-        } else {
-            Card card1 = cardMapper.selectByid(gameItemShop.getItemId());
-            if (card1 == null) {
-                baseResp.setErrorMsg("服务器异常联想管理员");
-                baseResp.setSuccess(0);
-                return baseResp;
-            }
-            Characters characters = new Characters();
-            characters.setStackCount(0);
-            characters.setId(gameItemShop.getItemId() + "");
-            characters.setLv(1);
-            characters.setUserId(Integer.parseInt(userId));
-            characters.setStar(new BigDecimal(1));
-            characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
-            charactersMapper.insert(characters);
-        }
-        gameItemShop.setIsBuy(1);
-        //先删再新增
-        Map map = new HashMap();
-        map.put("picked", picked2);
-        String json = JsonUtils.toJson(picked2);
+        String lockKey = "USE_BUY_STORE_" + userId;
+        try {
+            Object countObj = redisTemplate.opsForValue().get(lockKey);
+            Long currentCount = null;
 
-        gameTimeRecordMapper.deleteMe(Integer.parseInt(userId));
-        GameTimeRecord record = new GameTimeRecord();
-        record.setUserId(Integer.parseInt(userId));
-        record.setPicked(json);
-        gameTimeRecordMapper.insert(record);
-        userMapper.updateuser(user);
-        baseResp.setSuccess(1);
-        UserInfo info = new UserInfo();
-        BeanUtils.copyProperties(user, info);
-        //获取卡牌数据
-        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-        info.setCharacterList(formateCharacter(characterList));
-        baseResp.setData(info);
-        baseResp.setSuccess(1);
-        baseResp.setErrorMsg("领取成功");
+// 安全转换：处理 null/字符串/数字等情况
+            if (countObj != null) {
+                if (countObj instanceof Long) {
+                    currentCount = (Long) countObj;
+                } else if (countObj instanceof String) {
+                    try {
+                        currentCount = Long.parseLong((String) countObj);
+                    } catch (NumberFormatException e) {
+                        // 解析失败，视为无效计数，重置为0
+                        currentCount = 0L;
+                    }
+                }
+            }
+
+            if (currentCount == null) {
+                // 首次请求，初始化计数并设置过期时间
+                redisTemplate.opsForValue().set(lockKey, "1", 400, TimeUnit.MILLISECONDS);
+            } else {
+                // 超过阈值，抛出异常
+                baseResp.setErrorMsg("操作过于频繁");
+                baseResp.setSuccess(0);
+                return baseResp;
+            }
+
+
+            User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+            Map hashMap = new HashMap();
+            hashMap.put("user_id", userId);
+            List<GameTimeRecord> gameTimeRecord = gameTimeRecordMapper.selectByMap(hashMap);
+            if (Xtool.isNull(gameTimeRecord)) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("操作过快请刷新重试");
+                return baseResp;
+            }
+            List<GameItemShop> picked2 = JSON.parseObject(gameTimeRecord.get(0).getPicked(), new TypeReference<List<GameItemShop>>() {
+            });
+            List<GameItemShop> gameItemShops = picked2.stream().filter(x -> (x.getId() + "").equals(token.getId())).collect(Collectors.toList());
+            if (Xtool.isNull(gameItemShops)) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("商品不存在或已下架");
+                return baseResp;
+            }
+            GameItemShop gameItemShop = gameItemShops.get(0);
+            if (gameItemShop == null) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("商品不存在或已下架");
+                return baseResp;
+            }
+            if (gameItemShop.getGoldEdgePrice() != 0) {
+                BigDecimal gold = user.getGold().subtract(new BigDecimal(gameItemShop.getGoldEdgePrice()));
+                if (gold.compareTo(BigDecimal.ZERO) < 0) {
+                    baseResp.setSuccess(0);
+                    baseResp.setErrorMsg("银两不足");
+                    return baseResp;
+                }
+                user.setGold(gold);
+            } else {
+                BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(gameItemShop.getGemPrice()));
+                if (diamond.compareTo(BigDecimal.ZERO) < 0) {
+                    baseResp.setSuccess(0);
+                    baseResp.setErrorMsg("钻石不足");
+                    return baseResp;
+                }
+                user.setDiamond(diamond);
+            }
+            Characters characters1 = charactersMapper.listById(userId, gameItemShop.getItemId() + "");
+            if (characters1 != null) {
+                characters1.setStackCount(characters1.getStackCount() + 1);
+                charactersMapper.updateByPrimaryKey(characters1);
+            } else {
+                Card card1 = cardMapper.selectByid(gameItemShop.getItemId());
+                if (card1 == null) {
+                    baseResp.setErrorMsg("服务器异常联想管理员");
+                    baseResp.setSuccess(0);
+                    return baseResp;
+                }
+                Characters characters = new Characters();
+                characters.setStackCount(0);
+                characters.setId(gameItemShop.getItemId() + "");
+                characters.setLv(1);
+                characters.setUserId(Integer.parseInt(userId));
+                characters.setStar(new BigDecimal(1));
+                characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
+                charactersMapper.insert(characters);
+            }
+            gameItemShop.setIsBuy(1);
+            //先删再新增
+            Map map = new HashMap();
+            map.put("picked", picked2);
+            String json = JsonUtils.toJson(picked2);
+
+            gameTimeRecordMapper.deleteMe(Integer.parseInt(userId));
+            GameTimeRecord record = new GameTimeRecord();
+            record.setUserId(Integer.parseInt(userId));
+            record.setPicked(json);
+            gameTimeRecordMapper.insert(record);
+            userMapper.updateuser(user);
+            baseResp.setSuccess(1);
+            UserInfo info = new UserInfo();
+            BeanUtils.copyProperties(user, info);
+            //获取卡牌数据
+            List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+            info.setCharacterList(formateCharacter(characterList));
+            baseResp.setData(info);
+            baseResp.setSuccess(1);
+            baseResp.setErrorMsg("领取成功");
+
+        } finally {
+            // 释放锁（只有加锁成功的线程才释放）
+            redisTemplate.delete(lockKey);
+        }
         return baseResp;
     }
 
@@ -5765,7 +6083,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 //瑶池仙女物理抗性
                 if (characters.getName().equals("瑶池仙女")) {
-                    character.setWlDef(character.getWlDef()+32 * skillLevel[1]);
+                    character.setWlDef(character.getWlDef() + 32 * skillLevel[1]);
                 }
             }
         }
@@ -6016,7 +6334,8 @@ public class GameServiceServiceImpl implements GameServiceService {
                     character.getHyDef(),
                     character.getDsDef(),
                     character.getFdDef(),
-                    character.getZlDef()));
+                    character.getZlDef(),
+                    Xtool.isNotNull(characters.getFlyup())?characters.getFlyup():0));
             character.setUuid("A" + character.getId());
             copyCampA.add(character);
         }
@@ -6035,7 +6354,8 @@ public class GameServiceServiceImpl implements GameServiceService {
                     character.getHyDef(),
                     character.getDsDef(),
                     character.getFdDef(),
-                    character.getZlDef()));
+                    character.getZlDef(),
+                    Xtool.isNotNull(characters.getFlyup())?characters.getFlyup():0));
             character.setUuid("B" + character.getId());
             copyCampB.add(character);
         }
