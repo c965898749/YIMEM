@@ -36,6 +36,7 @@ public class GameScheduled {
         userMapper.updateBronze2();
         userMapper.updateBronze3();
         userMapper.updateChongzhi();
+        userMapper.updatechongzhiTower();
 
     }
 
@@ -53,6 +54,12 @@ public class GameScheduled {
 //        gameServiceService.syncLastWeekRank();
 //    }
 
+    @Scheduled(cron = "0 0 0 ? * 2")
+    public void executeTaskAtMondayMidnight() {
+        // 任务逻辑
+        System.out.println("游戏托自动释放奖励");
+        gameServiceService.sendTuoRawrd();
 
+    }
 
 }

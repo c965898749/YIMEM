@@ -67,6 +67,7 @@ public interface GameServiceService {
     BaseResp equipmentNew(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp equipmentMessageList(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp useBagItem(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp chongZhiTower(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp yijiantansuo(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp hongb(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp isNewYear(TokenDto token, HttpServletRequest request) throws Exception;
@@ -87,6 +88,7 @@ public interface GameServiceService {
     BaseResp arenaTem(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp allCardList(TokenDto token, HttpServletRequest request) throws Exception;
     void sendRawrd();
+    void sendTuoRawrd();
     void addActCode();
     void syncLastWeekRank();
 }

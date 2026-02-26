@@ -4426,6 +4426,87 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @NoRepeatSubmit(limitSeconds = 1)
+    public BaseResp chongZhiTower(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        // 1. 基础参数校验（同之前）
+        if (token == null || Xtool.isNull(token.getToken()) || Xtool.isNull(token.getUserId())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = token.getUserId();
+
+        // 2. 获取用户信息
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        if (user == null) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("用户不存在");
+            return baseResp;
+        }
+
+        //先使用用户本身
+        if (user.getChongzhiTower()>0){
+            user.setChongzhiTower(user.getChongzhiTower()-1);
+            user.setBronze1(1);
+            user.setSilvertower(1);
+            user.setGoldentower(1);
+            userMapper.updateuser(user);
+            baseResp.setSuccess(1);
+            UserInfo info = new UserInfo();
+            Map map = new HashMap();
+            map.put("userInfo", info);
+            BeanUtils.copyProperties(user, info);
+            ImageLevelResult result10 = LevelImageCalculator.calculate(user.getBronze1());
+            map.put("positionInImage", result10.getPositionInImage() - 1);
+            map.put("currentImageNumbers", result10.getCurrentImageNumbers());
+            map.put("nextImageNumbers", result10.getNextImageNumbers());
+            baseResp.setData(map);
+            return baseResp;
+        }
+        // 4. 校验并扣减背包物品
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("item_id", 17);
+        map2.put("user_id", userId);
+        map2.put("is_delete", "0");
+        List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(map2);
+        if (Xtool.isNull(playerBagList)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("物品已用完");
+            return baseResp;
+        }
+        GamePlayerBag playerBag = playerBagList.get(0);
+        if (playerBag.getItemCount() <= 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("物品数量不足");
+            return baseResp;
+        }
+        // 扣减物品数量
+        if (playerBag.getItemCount() - 1 > 0) {
+            playerBag.setItemCount(playerBag.getItemCount() - 1);
+        } else {
+            playerBag.setIsDelete("1");
+        }
+        gamePlayerBagMapper.updateById(playerBag);
+        user.setBronze1(1);
+        user.setSilvertower(1);
+        user.setGoldentower(1);
+        userMapper.updateuser(user);
+        baseResp.setSuccess(1);
+        UserInfo info = new UserInfo();
+        Map map = new HashMap();
+        map.put("userInfo", info);
+        BeanUtils.copyProperties(user, info);
+        ImageLevelResult result10 = LevelImageCalculator.calculate(user.getBronze1());
+        map.put("positionInImage", result10.getPositionInImage() - 1);
+        map.put("currentImageNumbers", result10.getCurrentImageNumbers());
+        map.put("nextImageNumbers", result10.getNextImageNumbers());
+        baseResp.setData(map);
+        return baseResp;
+    }
+
     /**
      * 处理不同物品的使用逻辑（封装冗余代码）
      */
@@ -4612,21 +4693,39 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
-        if (user.getBronze1Time() == null) {
+        Map map1=new HashMap();
+        map1.put("floor_num",100);
+        map1.put("player_id",userId);
+        map1.put("bronze_type",token.getStr());
+        List<PlayerBronzeTower> playerBronzeTower=playerBronzeTowerMapper.selectByMap(map);
+        if (Xtool.isNull(playerBronzeTower)) {
             baseResp.setErrorMsg("您未通关试炼塔无法一键探索");
             baseResp.setSuccess(0);
             return baseResp;
         }
-
-        if (user.getBronze1() > 100) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("塔已通关，可以选择重置继续试炼");
-            return baseResp;
+        if ("bronzetower".equals(token.getStr())) {
+            if (user.getBronze1() > 100) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("塔已通关，可以选择重置继续试炼");
+                return baseResp;
+            }
+        }else  if ("silvertower".equals(token.getStr())) {
+            if (user.getSilvertower() > 100) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("塔已通关，可以选择重置继续试炼");
+                return baseResp;
+            }
+        }else  if ("goldentower".equals(token.getStr())) {
+            if (user.getGoldentower() > 100) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("塔已通关，可以选择重置继续试炼");
+                return baseResp;
+            }
         }
-        user.setBronze1(101);
+
         baseResp.setSuccess(1);
         List<PveReward> pveRewards = new ArrayList<>();
-        if ("bronzetower".equals(token.getStr())) {
+        if (1==1) {
             PveReward pveReward = new PveReward();
             pveReward.setItemId(0);
             pveReward.setRewardAmount(100000);
@@ -4634,7 +4733,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             pveRewards.add(pveReward);
         }
 
-        if ("bronzetower".equals(token.getStr())) {
+        if (1==1) {
             PveReward pveReward = new PveReward();
             pveReward.setItemId(0);
             pveReward.setRewardAmount(50);
@@ -4643,12 +4742,35 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
 
         if ("bronzetower".equals(token.getStr())) {
+            user.setBronze1(101);
             PveReward pveReward = new PveReward();
             GameItemBase gameItemBase = gameItemBaseMapper.selectById(13);
             pveReward.setImg(gameItemBase.getIcon());
-            pveReward.setItemName(gameItemBase.getItemName() + 300);
+            pveReward.setItemName(gameItemBase.getItemName() + 2000);
             pveReward.setItemId(13);
-            pveReward.setRewardAmount(300);
+            pveReward.setRewardAmount(2000);
+            pveReward.setRewardType("6");
+            pveRewards.add(pveReward);
+        }
+        if ("silvertower".equals(token.getStr())) {
+            user.setSilvertower(101);
+            PveReward pveReward = new PveReward();
+            GameItemBase gameItemBase = gameItemBaseMapper.selectById(14);
+            pveReward.setImg(gameItemBase.getIcon());
+            pveReward.setItemName(gameItemBase.getItemName() + 1000);
+            pveReward.setItemId(14);
+            pveReward.setRewardAmount(1000);
+            pveReward.setRewardType("6");
+            pveRewards.add(pveReward);
+        }
+        if ("goldentower".equals(token.getStr())) {
+            user.setGoldentower(101);
+            PveReward pveReward = new PveReward();
+            GameItemBase gameItemBase = gameItemBaseMapper.selectById(15);
+            pveReward.setImg(gameItemBase.getIcon());
+            pveReward.setItemName(gameItemBase.getItemName() + 500);
+            pveReward.setItemId(15);
+            pveReward.setRewardAmount(500);
             pveReward.setRewardType("6");
             pveRewards.add(pveReward);
         }
@@ -7569,6 +7691,19 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         //重置排名
         playerBronzeTowerMapper.deleteByMap(new HashMap<>());
+    }
+
+    @Override
+    public void sendTuoRawrd() {
+        User user=userMapper.selectUserByUserId(2900);
+        user.setDiamond(new BigDecimal(1000000));
+        userMapper.updateuser(user);
+        User user2=userMapper.selectUserByUserId(1728);
+        user2.setDiamond(new BigDecimal(1000000));
+        userMapper.updateuser(user2);
+        User user3=userMapper.selectUserByUserId(2735);
+        user3.setDiamond(new BigDecimal(1000000));
+        userMapper.updateuser(user3);
     }
 
     @Override

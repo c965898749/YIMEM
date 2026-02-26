@@ -7,12 +7,11 @@ public enum EffectType {
     STUN("眩晕"),
     STUN_IMMUNE("眩晕免疫"),
     BLOODTHIRST("嗜血"),
+    CRAZY("疯狂"),
     CHARGE_UP("蓄力"),
     DRAIN("吸血"),
     TRUE_DAMAGE("真实伤害"),
-    ATTACK_SPEED_UP("攻击和速度提升"),
-    ATTACK_DOWN_SPEED_UP("攻击下降和速度提升"),
-    
+
     //治疗类
     HP_RECOVER("生命恢复"),
     XU_HEAL("续命治疗"),
@@ -27,12 +26,15 @@ public enum EffectType {
     XU_HEAL_DOWN_PRET("续命治疗提升"),
     
     //物理攻击
-    WEAKEN("衰弱"),
     DAMAGE("伤害"),
     ATTACK_UP("攻击提升"),
     ATTACK_DOWN("攻击下降"),
     ATTACK_UP_PRET("攻击提升"),
     ATTACK_DOWN_PRET("攻击下降"),
+    ATTACK_RESIST_BOOST("物理抗性提升"),
+    ATTACK_RESIST_BOOST_PRET("物理抗性提升"),
+    ATTACK_RESIST_DOWN("物理抗性下降"),
+    ATTACK_RESIST_DOWN_PRET("物理抗性下降"),
     
     
     
@@ -77,6 +79,7 @@ public enum EffectType {
     HP_UP_PRET("生命上限提升"),
     MAX_HP_DOWN("生命上限下降"),
     MAX_HP_DOWN_PRET("生命上限下降"),
+    MAX_HP_NO_DOWN("生命上限不下降"),
     
     //速度上限类
     SPEED_UP("速度提升"),

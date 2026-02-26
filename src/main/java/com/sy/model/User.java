@@ -139,4 +139,5 @@ public class User {
     private Date loginTime;
     private Integer hongb;
     private Date hongbTime;
+    private Integer chongzhiTower;
 }

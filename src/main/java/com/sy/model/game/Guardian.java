@@ -101,6 +101,9 @@ public class Guardian {
     public boolean isStunned() {
         return hasEffect(EffectType.STUN);
     }
+    public boolean isMaxHpNoDown() {
+        return hasEffect(EffectType.MAX_HP_NO_DOWN);
+    }
     public boolean isHealDown() {
         return hasEffect(EffectType.HEAL_DOWN);
     }

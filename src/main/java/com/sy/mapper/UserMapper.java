@@ -210,4 +210,5 @@ public interface UserMapper {
     int updateBronze2();
     int updateBronze3();
     int updateChongzhi();
+    int updatechongzhiTower();
 }

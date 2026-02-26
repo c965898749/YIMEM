@@ -287,6 +287,10 @@
             <if test="hongbTime!=null">
                 hongb_time=#{hongbTime},
             </if>
+            <if test="chongzhiTower!=null">
+                chongzhi_tower=#{chongzhiTower},
+            </if>
+
         </set>
         where userId=#{userId}
     </update>
@@ -651,5 +655,8 @@
 	</update>
     <update id="updateChongzhi" parameterType="com.sy.model.User">
 		update user set chongzhi='20'
+	</update>
+    <update id="updatechongzhiTower" parameterType="com.sy.model.User">
+		update user set chongzhi_tower = '3'
 	</update>
 </mapper>

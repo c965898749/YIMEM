@@ -1271,6 +1271,26 @@ public class GameContoller {
             return baseResp;
         }
     }
+
+    /**
+     * 使用
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("chongZhiTower")
+    @CrossOrigin
+    public BaseResp chongZhiTower(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.chongZhiTower(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
     /**
      * 使用
      * @param token
@@ -1348,6 +1368,5 @@ public class GameContoller {
             return baseResp;
         }
     }
-
 
 }
