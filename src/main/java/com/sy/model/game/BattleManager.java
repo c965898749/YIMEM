@@ -31,7 +31,7 @@ public class BattleManager {
     //比较速度大小
     private Boolean getSpeed(Guardian guardianA, Guardian guardianB) {
         // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-        int totalPoisonDamage = guardianA.getSpeed();
+        int speedA = guardianA.getSpeed();
         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
         // 物理攻击增益：所有 POISON_RESIST 类型效果的 value 总和
         int resistUp = calculateTotalVaule(guardianA, EffectType.SPEED_UP);
@@ -42,22 +42,21 @@ public class BattleManager {
         // 物理攻击降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
         double resistDownPret = calculateTotalDownPretVaule(guardianA, EffectType.SPEED_DOWN_PRET);
 
-
+        int speedB = guardianA.getSpeed();
         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
         // 物理抗性增益：所有 POISON_RESIST 类型效果的 value 总和
         int targetUp = calculateTotalVaule(guardianB, EffectType.SPEED_UP);
         //  物理抗性增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-        double targetUpPret = calculateTotalDownPretVaule(guardianB, EffectType.SPEED_UP_PRET);
+        double targetUpPret = calculateTotalUpPretVaule(guardianB, EffectType.SPEED_UP_PRET);
         // 物理抗性降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
         int targetDown = calculateTotalVaule(guardianB, EffectType.SPEED_DOWN);
         // 物理抗性降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-        double targetDownPret = calculateTotalUpPretVaule(guardianB, EffectType.SPEED_DOWN_PRET);
+        double targetDownPret = calculateTotalDownPretVaule(guardianB, EffectType.SPEED_DOWN_PRET);
         // 最终（仅基于 buff 计算，无新增方法）
-
-        int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
-                + (resistUp - resistDown - targetUp + targetDown));
+        speedA=(int)(speedA*resistDownPret*resistDownPret+resistUp-resistDown);
+        speedB=(int)(speedB*targetUpPret*targetDownPret+targetUp-targetDown);
         // 物理攻击
-        return burnDamage >= 0;
+        return speedA-speedB >= 0;
     }
 
     // 初始化战斗
@@ -563,6 +562,7 @@ public class BattleManager {
                 .collect(Collectors.toList());
         Map<String, TargetBattleData> multiTargetDataMap = new HashMap<>();
         for (Guardian guardian : aliveUnits) {
+            guardian.onRoundEndBuffTick();
             TargetBattleData data = new TargetBattleData(guardian.getMaxHp(), guardian.getCurrentHp(), 0, guardian.isOnField());
             if (guardian.isSilence()) {
                 data.setSilence(true);
@@ -4786,7 +4786,7 @@ public class BattleManager {
         }
 //        场上触发，每当有单位死亡时，对场上敌方身后单位造成237点飞弹伤害[装备飞弹提成100%]
         if (fieldA.getName().equals("王天君")&&!fieldA.isDead()&&fieldA.isOnField()&&!fieldA.isSilence()) {
-            List<Guardian> offFieldEnemies = v.getCamp() == Camp.A ?
+            List<Guardian> offFieldEnemies = fieldA.getCamp() == Camp.A ?
                     campB.stream().filter(g -> !g.isDead())  // 筛选未死亡的对象
                             .sorted(Comparator.comparing(Guardian::getPosition))  // 升序 = 最小值在前
                             .collect(Collectors.toList()) :
@@ -4839,11 +4839,11 @@ public class BattleManager {
                     }
                     //；信念报偿Lv1死亡时，对敌方血量最小者造成325点飞弹伤害；
                     addLog("法宝反噬",
-                            v.getId(),
-                            v.getMaxHp(),
-                            v.getCurrentHp(),
+                            fieldA.getId(),
+                            fieldA.getMaxHp(),
+                            fieldA.getCurrentHp(),
                             0,
-                            v.isOnField(),
+                            fieldA.isOnField(),
                             minHpPerson.getId(),
                             minHpPerson.getMaxHp(),
                             minHpPerson.getCurrentHp(),
@@ -4879,7 +4879,7 @@ public class BattleManager {
 
         //场上触发，每当有单位死亡时，对场上敌方身后单位造成237点飞弹伤害[装备飞弹提成100%]
         if (fieldB.getName().equals("王天君")&&!fieldB.isDead()&&fieldB.isOnField()&&!fieldB.isSilence()) {
-            List<Guardian> offFieldEnemies = v.getCamp() == Camp.B ?
+            List<Guardian> offFieldEnemies = fieldB.getCamp() == Camp.B ?
                     campA.stream().filter(g -> !g.isDead())  // 筛选未死亡的对象
                             .sorted(Comparator.comparing(Guardian::getPosition))  // 升序 = 最小值在前
                             .collect(Collectors.toList()) :
@@ -4932,11 +4932,11 @@ public class BattleManager {
                     }
                     //；信念报偿Lv1死亡时，对敌方血量最小者造成325点飞弹伤害；
                     addLog("法宝反噬",
-                            v.getId(),
-                            v.getMaxHp(),
-                            v.getCurrentHp(),
+                            fieldB.getId(),
+                            fieldB.getMaxHp(),
+                            fieldB.getCurrentHp(),
                             0,
-                            v.isOnField(),
+                            fieldB.isOnField(),
                             minHpPerson.getId(),
                             minHpPerson.getMaxHp(),
                             minHpPerson.getCurrentHp(),
@@ -5510,9 +5510,9 @@ public class BattleManager {
                 if (!aliveUnits.isEmpty()) {
                     Map<String, TargetBattleData> deadUnits = new HashMap<>();
                     List<Guardian> deadGuardians = new ArrayList<>();
-                    int reduce = 0;
+                    int reduce = 100 * skillLevel[0];
                     if (duoBaoGuanHuan()) {
-                        reduce = 100 * skillLevel[0];
+                        reduce=0;
                     }
 
                     Map<String, TargetBattleData> targetStatus = new HashMap<>();
@@ -5588,9 +5588,9 @@ public class BattleManager {
                 if (!aliveUnits.isEmpty()) {
                     Map<String, TargetBattleData> deadUnits = new HashMap<>();
                     List<Guardian> deadGuardians = new ArrayList<>();
-                    int reduce = 0;
+                    int reduce = 100 * skillLevel[0];
                     if (duoBaoGuanHuan()) {
-                        reduce = 100 * skillLevel[0];
+                        reduce=0;
                     }
 
                     Map<String, TargetBattleData> targetStatus = new HashMap<>();
@@ -7326,7 +7326,7 @@ public class BattleManager {
 
 
             // 妖狐蔽天：3%几率眩晕当前敌人
-            if (ProbabilityBooleanUtils.randomByProbability(0.03 * skillLevel[0]) && fieldB != null && !fieldB.isDead()) {
+            if (ProbabilityBooleanUtils.randomByProbability(0.35) && fieldB != null && !fieldB.isDead()) {
                 fieldB.addEffect(EffectType.STUN, 0, 2, fieldB.getId());
                 addLog("妖狐蔽天",
                         daji.getId(),
@@ -7391,7 +7391,7 @@ public class BattleManager {
 
 
             // 妖狐蔽天：3%几率眩晕当前敌人
-            if (ProbabilityBooleanUtils.randomByProbability(0.03 * skillLevel[0]) && fieldA != null && !fieldA.isDead()) {
+            if (ProbabilityBooleanUtils.randomByProbability(0.35) && fieldA != null && !fieldA.isDead()) {
                 fieldA.addEffect(EffectType.STUN, 0, 2, daji.getId());
                 addLog("妖狐蔽天",
                         daji.getId(),
@@ -7995,7 +7995,7 @@ public class BattleManager {
                         .findFirst().get();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 //  禁心咒Lv1场下
-                if (fieldB != null && !fieldB.isDead() && skillLevel[1] > 0 && ProbabilityBooleanUtils.randomByProbability(0.17 * skillLevel[1]) && fieldB != null) {
+                if (fieldB != null && !fieldB.isDead() && skillLevel[1] > 0 && ProbabilityBooleanUtils.randomByProbability(0.5) && fieldB != null) {
                     fieldB.addEffect(EffectType.SILENCE, 0, 2, guardian.getId());
                     addLog("禁心咒",
                             guardian.getId(),
@@ -8103,7 +8103,7 @@ public class BattleManager {
                         .findFirst().get();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
                 //  禁心咒Lv1场下
-                if (fieldA != null && !fieldA.isDead() && skillLevel[1] > 0 && ProbabilityBooleanUtils.randomByProbability(0.17 * skillLevel[1]) && fieldA != null) {
+                if (fieldA != null && !fieldA.isDead() && skillLevel[1] > 0 && ProbabilityBooleanUtils.randomByProbability(0.5) && fieldA != null) {
                     fieldA.addEffect(EffectType.SILENCE, 0, 2, guardian.getId());
                     addLog("禁心咒",
                             guardian.getId(),
@@ -9872,17 +9872,9 @@ public class BattleManager {
         //血量上限不改变光环
         boolean campAHasAlive = campA.stream().anyMatch(g -> g.getName().equals("多宝道人") && !g.isDead());
         boolean campBHasAlive = campB.stream().anyMatch(g -> g.getName().equals("多宝道人") && !g.isDead());
-        return !campAHasAlive && !campBHasAlive;
+        return campAHasAlive || campBHasAlive;
     }
 
-    private int jiaomowang(Guardian guardian, int fireDamage) {
-        //血量上限不改变光环
-        List<Guardian> jiaomowang = guardian.getCamp() == Camp.A ?
-                campA.stream().filter(g -> g.getName().equals("蛟魔王") && !g.isDead()).collect(Collectors.toList()) :
-                campB.stream().filter(g -> g.getName().equals("蛟魔王") && !g.isDead()).collect(Collectors.toList());
-        if (Xtool.isNotNull(jiaomowang)) return (int) (fireDamage * 0.5);
-        return fireDamage;
-    }
 
 
     // 判断战斗是否结束

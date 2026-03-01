@@ -107,12 +107,12 @@
 
     <update id="changeEqState">
         UPDATE `eq_characters` SET   `go_into_num`='0'
-        where user_id = #{userId} and   id = #{id}
+        where user_id = #{userId} and   id = #{id} and is_delete='0'
     </update>
 
     <update id="changeEqState2">
         UPDATE `eq_characters` SET   `go_into_num`=#{itemId}
-        where user_id = #{userId} and   id = #{id}
+        where user_id = #{userId} and   id = #{id} and is_delete='0'
     </update>
 
 
@@ -126,6 +126,6 @@
       exp = #{exp,jdbcType=INTEGER},
       is_delete = #{isDelete},
       update_time= now()
-    where uuid = #{uuid,jdbcType=INTEGER}
+    where uuid = #{uuid,jdbcType=INTEGER} and is_delete='0'
   </update>
 </mapper>

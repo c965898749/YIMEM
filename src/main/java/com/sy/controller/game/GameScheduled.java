@@ -39,6 +39,10 @@ public class GameScheduled {
         userMapper.updatechongzhiTower();
 
     }
+    @Scheduled(cron = "0 0 0/4 * * ?")
+    public void deleteAll(){
+        gameServiceService.deleteAll();
+    }
 
     @Scheduled(cron = "0 0 22 ? * 7")
 //    @Scheduled(cron = "0 0/2 * * * ?")

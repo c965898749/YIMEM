@@ -13,4 +13,5 @@ import java.util.List;
 public interface EqCardMapper extends BaseMapper<EqCard> {
     EqCard selectByid(String id);
     List<EqCard>  selectByStr(@Param("str") String str);
+    List<EqCard> selectAll();
 }

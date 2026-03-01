@@ -31,4 +31,12 @@
             </choose>
         </if>
     </select>
+    <select id="selectAll" resultType="com.sy.model.game.EqCard">
+        -- 随机查询16条数据
+        SELECT *
+        FROM eq_card  -- 替换为你的表名
+        where  star &lt; 4
+        ORDER BY RAND()       -- RAND() 函数生成0-1之间的随机数，按这个数排序
+        LIMIT 30;             -- 限制只返回16条
+    </select>
 </mapper>

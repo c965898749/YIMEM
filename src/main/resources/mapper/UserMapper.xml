@@ -290,6 +290,9 @@
             <if test="chongzhiTower!=null">
                 chongzhi_tower=#{chongzhiTower},
             </if>
+            <if test="eqCount!=null">
+                eq_count=#{eqCount},
+            </if>
 
         </set>
         where userId=#{userId}

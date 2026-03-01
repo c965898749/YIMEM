@@ -136,6 +136,8 @@ public class GameServiceServiceImpl implements GameServiceService {
     private PillRobRecordMapper pillRobRecordMapper;
     @Autowired
     private RevengeRecordMapper revengeRecordMapper;
+    @Autowired
+    private GameEqRecordMapper gameEqRecordMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -309,21 +311,88 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
-    public BaseResp registerGame(User user, HttpServletRequest request) throws Exception {
+    @Transactional
+    @NoRepeatSubmit(limitSeconds = 1)
+    public BaseResp registerGame(User user2, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         try {
-            if (user == null) {
+            if (user2 == null) {
                 baseResp.setSuccess(0);
                 baseResp.setErrorMsg("请输入账号和密码");
                 return baseResp;
             }
-            if (Xtool.isNull(user.getUsername()) || Xtool.isNull(user.getUserpassword())) {
+            if (Xtool.isNull(user2.getUsername()) || Xtool.isNull(user2.getUserpassword())) {
                 baseResp.setSuccess(0);
                 baseResp.setErrorMsg("请输入账号和密码");
                 return baseResp;
             }
-            baseResp = servic.addUser(user.getUsername(), user.getUserpassword());
-            Card card = cardMapper.selectByid(3);
+            User user = new User();
+            user.setUsername(user2.getUsername());
+            String password = DigestUtils.md5DigestAsHex(user2.getUserpassword().getBytes());
+            user.setUserpassword(password);
+            List<User> userList = userMapper.SelectAllUser();
+            List<String> usernamelist = new ArrayList<>();
+            for (User user1 : userList) {
+                usernamelist.add(user1.getUsername());
+            }
+            if (usernamelist.contains(user2.getUsername())) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("您输入的账号已存在，请重新输入");
+                return baseResp;
+            } else {
+                //设置昵称
+                String nickname = null;
+                Integer flag = 1;
+                Integer len = 4;
+                userList.clear();
+                for (User user1 : userList) {
+                    usernamelist.add(user1.getNickname());
+                }
+                while (flag != 0) {
+                    nickname = RandomName.randomName(false, len);
+                    if (!usernamelist.contains(nickname)) {
+                        flag = 0;
+                    } else {
+                        flag++;
+                        if (flag > 1100000000 && flag < 2100000000) {
+                            len++;
+                            flag = 1;
+                        }
+                    }
+                }
+                user.setNickname(nickname);
+                int max = 6, min = 1;
+                int ran2 = (int) (Math.random() * (max - min) + min);
+                String url = "/imgs/headimg/" + ran2 + ".jpg";
+                user.setHeadImg(url);
+                user.setDownloadmoney((double) 0);
+                user.setRanking(9999);
+                user.setGameRanking(9999);
+                user.setLevel(2);
+                user.setCollectCount(0);
+                user.setBlogCount(0);
+                user.setAttentionCount(0);
+                user.setFansCount(0);
+                user.setResourceCount(0);
+                user.setForumCount(0);
+                user.setAskCount(0);
+                user.setCommentCount(0);
+                user.setLikeCount(0);
+                user.setVisitorCount(0);
+                user.setDownCount(0);
+                user.setUnreadreplaycount(0);
+                user.setReadquerylikecount(0);
+                user.setUnreadfanscount(0);
+                user.setIsEmil("0");
+                user.setStatus(1);
+                int result = userMapper.insertUser(user);
+                if (result <= 0) {
+                    baseResp.setSuccess(0);
+                    baseResp.setErrorMsg("注册失败！");
+                    return baseResp;
+                }
+            }
+            Card card = cardMapper.selectByid(1002);
             if (card == null) {
                 baseResp.setErrorMsg("服务器异常联想管理员");
                 baseResp.setSuccess(0);
@@ -340,6 +409,8 @@ public class GameServiceServiceImpl implements GameServiceService {
             characters.setStar(new BigDecimal(1));
             characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
             charactersMapper.insert2(characters);
+            baseResp.setSuccess(1);
+            baseResp.setErrorMsg("注册成功！");
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();
@@ -2331,6 +2402,8 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    @Transactional
+    @NoRepeatSubmit(limitSeconds = 5)
     public BaseResp getStore(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -2420,6 +2493,81 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    @Transactional
+    @NoRepeatSubmit(limitSeconds = 5)
+    public BaseResp getEqChares(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        Map map = new HashMap();
+        map.put("eqCount", user.getEqCount());
+        map.put("diamond", user.getDiamond());
+        Map hashMap = new HashMap();
+        hashMap.put("user_id", userId);
+        List<GameEqRecord> gameEqRecords = gameEqRecordMapper.selectByMap(hashMap);
+        if (Xtool.isNotNull(gameEqRecords)) {
+            map.put("picked", JsonUtils.fromJsonToObjList(gameEqRecords.get(0).getPicked()));
+        } else {
+            List<EqCard> eqCards = eqCardMapper.selectAll();
+            EqItemPicker picker = new EqItemPicker();
+            for (EqCard eqCard : eqCards) {
+                picker.addItem(eqCard);
+            }
+            // 尝试获取16个物品（种类不足，会重复获取）
+            List<EqCard> picked = picker.pickRandomItems(16);
+            List<EqCard> picked2 = new ArrayList<>();
+            Integer id = 0;
+            for (EqCard shop : picked) {
+                EqCard itemShop = new EqCard();
+                BeanUtils.copyProperties(shop, itemShop);
+                itemShop.setUuid(id);
+                itemShop.setIsBuy(0);
+                itemShop.setGoldEdgePrice(0);
+                if (shop.getStar().compareTo(new BigDecimal(1.5))<0){
+                    itemShop.setGoldEdgePrice(100000);
+                }else if (shop.getStar().compareTo(new BigDecimal(2))<0){
+                    itemShop.setGoldEdgePrice(200000);
+                }else if (shop.getStar().compareTo(new BigDecimal(2.5))<0){
+                    itemShop.setGoldEdgePrice(300000);
+                }else if (shop.getStar().compareTo(new BigDecimal(3))<0){
+                    itemShop.setGoldEdgePrice(400000);
+                }else if (shop.getStar().compareTo(new BigDecimal(3.5))<0){
+                    itemShop.setGemPrice(100);
+                }else if (shop.getStar().compareTo(new BigDecimal(4))<0){
+                    itemShop.setGemPrice(500);
+                }else if (shop.getStar().compareTo(new BigDecimal(4.5))<0){
+                    itemShop.setGemPrice(1000);
+                }
+                picked2.add(itemShop);
+                id++;
+            }
+            map.put("picked", picked2);
+            String json = JsonUtils.toJson(picked2);
+            //先删再新增
+            GameEqRecord record = new GameEqRecord();
+            record.setUserId(Integer.parseInt(userId));
+            record.setPicked(json);
+            gameEqRecordMapper.insert(record);
+        }
+        map.put("shopUpdate", user.getShopUpdate());
+        baseResp.setSuccess(1);
+        baseResp.setData(map);
+        baseResp.setErrorMsg("成功");
+        return baseResp;
+    }
+
+    @Override
     public BaseResp chongzhi(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -2478,6 +2626,118 @@ public class GameServiceServiceImpl implements GameServiceService {
         record.setUserId(Integer.parseInt(userId));
         record.setPicked(json);
         gameTimeRecordMapper.insert(record);
+        baseResp.setSuccess(1);
+        baseResp.setData(map);
+        baseResp.setErrorMsg("成功");
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp chongzhi2(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(1000));
+        if (diamond.compareTo(BigDecimal.ZERO) < 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("钻石不足");
+            return baseResp;
+        }
+        user.setDiamond(diamond);
+        Map map = new HashMap();
+        map.put("diamond",diamond);
+        List<EqCard> eqCards2 = eqCardMapper.selectAll();
+        EqItemPicker picker = new EqItemPicker();
+        for (EqCard eqCard : eqCards2) {
+            picker.addItem(eqCard);
+        }
+        // 尝试获取16个物品（种类不足，会重复获取）
+        List<EqCard> picked = picker.pickRandomItems(16);
+        List<EqCard> picked2 = new ArrayList<>();
+        Integer id = 0;
+        for (EqCard shop : picked) {
+            EqCard itemShop = new EqCard();
+            BeanUtils.copyProperties(shop, itemShop);
+            itemShop.setUuid(id);
+            itemShop.setIsBuy(0);
+            itemShop.setGoldEdgePrice(0);
+            if (shop.getStar().compareTo(new BigDecimal(1.5))<0){
+                itemShop.setGoldEdgePrice(100000);
+            }else if (shop.getStar().compareTo(new BigDecimal(2))<0){
+                itemShop.setGoldEdgePrice(200000);
+            }else if (shop.getStar().compareTo(new BigDecimal(2.5))<0){
+                itemShop.setGoldEdgePrice(300000);
+            }else if (shop.getStar().compareTo(new BigDecimal(3))<0){
+                itemShop.setGoldEdgePrice(400000);
+            }else if (shop.getStar().compareTo(new BigDecimal(3.5))<0){
+                itemShop.setGemPrice(100);
+            }else if (shop.getStar().compareTo(new BigDecimal(4))<0){
+                itemShop.setGemPrice(500);
+            }else if (shop.getStar().compareTo(new BigDecimal(4.5))<0){
+                itemShop.setGemPrice(1000);
+            }
+            picked2.add(itemShop);
+            id++;
+        }
+        user.setEqCount(user.getEqCount()+1);
+        if (user.getEqCount()>10){
+            user.setEqCount(0);
+            EqCard drawnCard = EquipmentGenerateUtil.generateEqCard(4);
+            Map map2 = new HashMap();
+            map2.put("name", drawnCard.getName());
+            map2.put("star", drawnCard.getStar());
+            map2.put("camp", drawnCard.getCamp());
+            map2.put("profession", drawnCard.getProfession());
+            map2.put("eq_type", drawnCard.getEqType());
+            map2.put("eq_type2", drawnCard.getEqType2());
+            map2.put("wl_atk", drawnCard.getWlAtk());
+            map2.put("hy_atk", drawnCard.getHyAtk());
+            map2.put("ds_atk", drawnCard.getDsAtk());
+            map2.put("fd_atk", drawnCard.getFdAtk());
+            map2.put("wl_def", drawnCard.getWlDef());
+            map2.put("hy_def", drawnCard.getHyAtk());
+            map2.put("ds_def", drawnCard.getDsAtk());
+            map2.put("fd_def", drawnCard.getFdDef());
+            map2.put("zl_def", drawnCard.getZlDef());
+            List<EqCard> eqCards = eqCardMapper.selectByMap(map2);
+            if (Xtool.isNotNull(eqCards)) {
+                drawnCard.setId(eqCards.get(0).getId());
+            } else {
+                drawnCard.setId(drawnCard.getId());
+                eqCardMapper.insert(drawnCard);
+                drawnCard.setId(drawnCard.getId() + drawnCard.getUuid());
+                eqCardMapper.updateById(drawnCard);
+            }
+            EqCard itemShop = new EqCard();
+            BeanUtils.copyProperties(drawnCard, itemShop);
+            itemShop.setUuid(0);
+            itemShop.setIsBuy(0);
+            itemShop.setGoldEdgePrice(0);
+            itemShop.setGemPrice(1000);
+            picked2.set(0, itemShop);
+        }
+        userMapper.updateuser(user);
+        map.put("eqCount", user.getEqCount());
+        map.put("picked", picked2);
+        String json = JsonUtils.toJson(picked2);
+        //先删再新增
+        gameEqRecordMapper.deleteMe(Integer.parseInt(userId));
+        GameEqRecord record = new GameEqRecord();
+        record.setUserId(Integer.parseInt(userId));
+        record.setPicked(json);
+        gameEqRecordMapper.insert(record);
+        map.put("shopUpdate", user.getShopUpdate());
         baseResp.setSuccess(1);
         baseResp.setData(map);
         baseResp.setErrorMsg("成功");
@@ -2619,6 +2879,160 @@ public class GameServiceServiceImpl implements GameServiceService {
             //获取卡牌数据
             List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
             info.setCharacterList(formateCharacter(characterList));
+            baseResp.setData(info);
+            baseResp.setSuccess(1);
+            baseResp.setErrorMsg("领取成功");
+
+        } finally {
+            // 释放锁（只有加锁成功的线程才释放）
+            redisTemplate.delete(lockKey);
+        }
+        return baseResp;
+    }
+
+    @Override
+    @Transactional
+    public BaseResp buyStore3(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String userId = token.getUserId();
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        String lockKey = "USE_BUY_EQ_" + userId;
+        try {
+            Object countObj = redisTemplate.opsForValue().get(lockKey);
+            Long currentCount = null;
+
+// 安全转换：处理 null/字符串/数字等情况
+            if (countObj != null) {
+                if (countObj instanceof Long) {
+                    currentCount = (Long) countObj;
+                } else if (countObj instanceof String) {
+                    try {
+                        currentCount = Long.parseLong((String) countObj);
+                    } catch (NumberFormatException e) {
+                        // 解析失败，视为无效计数，重置为0
+                        currentCount = 0L;
+                    }
+                }
+            }
+
+            if (currentCount == null) {
+                // 首次请求，初始化计数并设置过期时间
+                redisTemplate.opsForValue().set(lockKey, "1", 600, TimeUnit.MILLISECONDS);
+            } else {
+                // 超过阈值，抛出异常
+                baseResp.setErrorMsg("操作过于频繁");
+                baseResp.setSuccess(0);
+                return baseResp;
+            }
+
+
+            User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+            Map hashMap = new HashMap();
+            hashMap.put("user_id", userId);
+            List<GameEqRecord> gameEqRecords = gameEqRecordMapper.selectByMap(hashMap);
+            if (Xtool.isNull(gameEqRecords)) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("操作过快请刷新重试");
+                return baseResp;
+            }
+            List<EqCard> picked2 = JSON.parseObject(gameEqRecords.get(0).getPicked(), new TypeReference<List<EqCard>>() {
+            });
+            List<EqCard> eqCards = picked2.stream().filter(x -> (x.getUuid() + "").equals(token.getId())).collect(Collectors.toList());
+            if (Xtool.isNull(eqCards)) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("装备不存在或已下架");
+                return baseResp;
+            }
+            EqCard eqCard = eqCards.get(0);
+            if (eqCard == null) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("装备不存在或已下架");
+                return baseResp;
+            }
+            if (eqCard.getGoldEdgePrice() != 0) {
+                BigDecimal gold = user.getGold().subtract(new BigDecimal(eqCard.getGoldEdgePrice()));
+                if (gold.compareTo(BigDecimal.ZERO) < 0) {
+                    baseResp.setSuccess(0);
+                    baseResp.setErrorMsg("银两不足");
+                    return baseResp;
+                }
+                user.setGold(gold);
+            } else {
+                BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(eqCard.getGemPrice()));
+                if (diamond.compareTo(BigDecimal.ZERO) < 0) {
+                    baseResp.setSuccess(0);
+                    baseResp.setErrorMsg("钻石不足");
+                    return baseResp;
+                }
+                user.setDiamond(diamond);
+            }
+            EqCharacters characters1 = eqCharactersMapper.listById(userId, eqCard.getId() + "");
+            if (characters1 != null) {
+                characters1.setStackCount(characters1.getStackCount() + 1);
+                eqCharactersMapper.updateByPrimaryKey(characters1);
+            } else {
+                EqCard card1 = eqCardMapper.selectByid(eqCard.getId());
+                if (card1 == null) {
+                    baseResp.setErrorMsg("服务器异常联想管理员");
+                    baseResp.setSuccess(0);
+                    return baseResp;
+                }
+                EqCharacters characters = new EqCharacters();
+                characters.setStackCount(0);
+                characters.setId(eqCard.getId() + "");
+                characters.setLv(1);
+                characters.setUserId(Integer.parseInt(userId));
+                characters.setStar(new BigDecimal(1));
+                characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
+                eqCharactersMapper.insert(characters);
+            }
+
+            if (eqCard.getStar().compareTo(new BigDecimal(3)) > 0) {
+                GameNotice gameNotice = new GameNotice();
+                gameNotice.setDescription("恭喜 " + user.getNickname() + " 神秘商店购买" + eqCard.getStar().stripTrailingZeros() + "星" + eqCard.getName());
+                gameNoticeMapper.insert(gameNotice);
+                EqCharactersRecord eqCharactersRecord = new EqCharactersRecord();
+                eqCharactersRecord.setEqImg(eqCard.getImg());
+                eqCharactersRecord.setEqName(eqCard.getName());
+                eqCharactersRecord.setGetTime(new Date());
+                eqCharactersRecord.setId(eqCard.getId());
+                eqCharactersRecord.setStatus(0);
+                eqCharactersRecord.setUserId(Integer.parseInt(userId));
+                eqCharactersRecord.setUserName(user.getNickname());
+                eqCharactersRecord.setStar(eqCard.getStar());
+                eqCharactersRecord.setImg(user.getGameImg());
+                eqCharactersRecordMapper.insert(eqCharactersRecord);
+            }
+
+
+            eqCard.setIsBuy(1);
+            //先删再新增
+            Map map = new HashMap();
+            map.put("picked", picked2);
+            String json = JsonUtils.toJson(picked2);
+
+            gameEqRecordMapper.deleteMe(Integer.parseInt(userId));
+            GameEqRecord record = new GameEqRecord();
+            record.setUserId(Integer.parseInt(userId));
+            record.setPicked(json);
+            gameEqRecordMapper.insert(record);
+            userMapper.updateuser(user);
+            baseResp.setSuccess(1);
+            UserInfo info = new UserInfo();
+            BeanUtils.copyProperties(user, info);
+            //获取卡牌数据
+            List<EqCharacters> characterList = eqCharactersMapper.selectByUserId(user.getUserId());
+            info.setEqCharactersList(characterList);
             baseResp.setData(info);
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("领取成功");
@@ -7691,6 +8105,11 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         //重置排名
         playerBronzeTowerMapper.deleteByMap(new HashMap<>());
+    }
+
+    @Override
+    public void deleteAll() {
+        gameEqRecordMapper.deleteAll();
     }
 
     @Override

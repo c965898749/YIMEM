@@ -42,9 +42,12 @@ public interface GameServiceService {
     BaseResp arenaMessageList(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp receive(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp getStore(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp getEqChares(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp chongzhi(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp chongzhi2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp getStore2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp buyStore(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp buyStore3(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp buyStore2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp giftExchangeCode(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp checkHechen(TokenDto token, HttpServletRequest request) throws Exception;
@@ -88,6 +91,7 @@ public interface GameServiceService {
     BaseResp arenaTem(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp allCardList(TokenDto token, HttpServletRequest request) throws Exception;
     void sendRawrd();
+    void deleteAll();
     void sendTuoRawrd();
     void addActCode();
     void syncLastWeekRank();

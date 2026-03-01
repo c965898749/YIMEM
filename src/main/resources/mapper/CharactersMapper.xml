@@ -93,13 +93,13 @@
                 stack_count = #{stackCount,jdbcType=INTEGER},
             </if>
         </set>
-        where uuid = #{uuid,jdbcType=INTEGER}
+        where uuid = #{uuid,jdbcType=INTEGER} and is_delete='0'
     </update>
     <update id="updateGoNuM">
     update  characters
     set go_into_num = '0',
       update_time= now()
-    where user_id = #{userId}
+    where user_id = #{userId} and is_delete='0'
   </update>
     <update id="updateDelte">
     update  characters
@@ -111,7 +111,7 @@
     update  characters
     set go_into_num = #{num},
       update_time= now()
-    where user_id = #{userId} and  id = #{id}
+    where user_id = #{userId} and  id = #{id} and is_delete='0'
   </update>
     <update id="updateByPrimaryKey" parameterType="com.sy.model.game.Characters">
     update  characters
@@ -125,7 +125,7 @@
       is_delete = #{isDelete},
       flyup = #{flyup},
       update_time= now()
-    where uuid = #{uuid,jdbcType=INTEGER}
+    where uuid = #{uuid,jdbcType=INTEGER} and is_delete='0'
   </update>
     <select id="selectAllCardList" resultType="com.sy.model.game.Characters">
     select

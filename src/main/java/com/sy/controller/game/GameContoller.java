@@ -876,6 +876,20 @@ public class GameContoller {
         }
     }
 
+    @PostMapping("getEqChares")
+    @CrossOrigin
+    public BaseResp getEqChares(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.getEqChares(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
     /**
      *
      * @param token
@@ -888,6 +902,26 @@ public class GameContoller {
         BaseResp baseResp = new BaseResp();
         try {
             baseResp = gameServiceService.chongzhi(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("chongzhi2")
+    @CrossOrigin
+    public BaseResp chongzhi2(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.chongzhi2(token, request);
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();
@@ -920,6 +954,25 @@ public class GameContoller {
         BaseResp baseResp = new BaseResp();
         try {
             baseResp = gameServiceService.buyStore(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    /**
+     * 购买
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("buyStore3")
+    @CrossOrigin
+    public BaseResp buyStore3(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.buyStore3(token, request);
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();

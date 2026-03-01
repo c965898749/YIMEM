@@ -58,4 +58,10 @@ public class EqCard {
     private Integer zlDef;
     @TableField(exist = false)
     private String img;
+    @TableField(exist = false)
+    private Integer isBuy;
+    @TableField(exist = false)
+    private Integer goldEdgePrice;
+    @TableField(exist = false)
+    private Integer gemPrice;
 }
