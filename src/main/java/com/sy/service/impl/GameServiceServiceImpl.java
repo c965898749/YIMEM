@@ -660,6 +660,7 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    @Transactional
     public BaseResp changeEqState2(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
@@ -677,19 +678,19 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
         //判断是否是该职业装备
-        Card card = cardMapper.selectByid(Integer.parseInt(token.getStr()));
-        if (card == null) {
+        Characters characters = charactersMapper.listById(user.getUserId() + "", token.getStr());
+        if (characters == null) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("英雄不存在");
             return baseResp;
         }
-        EqCard eqCard = eqCardMapper.selectByid(token.getId());
-        if (eqCard == null) {
+        EqCharacters eqCharacters = eqCharactersMapper.listById(user.getUserId() + "", token.getId());
+        if (eqCharacters == null) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("装备不存在");
             return baseResp;
         }
-        if (!card.getCamp().equals(eqCard.getCamp()) || !card.getProfession().equals(eqCard.getProfession())) {
+        if (!characters.getCamp().equals(eqCharacters.getCamp()) || !characters.getProfession().equals(eqCharacters.getProfession())) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("装备和护法的种族职业不一致");
             return baseResp;
@@ -2029,13 +2030,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
         for (Map.Entry<String, Integer> entry : myMap.entrySet()) {
             EqCharacters characters = eqCharactersMapper.listById(token.getUserId(), entry.getKey());
-            if (characters.getStackCount() - entry.getValue() >= 0) {
-                characters.setStackCount(characters.getStackCount() - entry.getValue());
-                characters.setLv(1);
-                characters.setExp(5);
-            } else {
-                characters.setIsDelete("1");
-            }
+            characters.setIsDelete("1");
             eqCharactersMapper.updateByPrimaryKey(characters);
         }
         EqCharacters characters = eqCharactersMapper.listById(token.getUserId(), token.getId());
@@ -2976,26 +2971,20 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 user.setDiamond(diamond);
             }
-            EqCharacters characters1 = eqCharactersMapper.listById(userId, eqCard.getId() + "");
-            if (characters1 != null) {
-                characters1.setStackCount(characters1.getStackCount() + 1);
-                eqCharactersMapper.updateByPrimaryKey(characters1);
-            } else {
-                EqCard card1 = eqCardMapper.selectByid(eqCard.getId());
-                if (card1 == null) {
-                    baseResp.setErrorMsg("服务器异常联想管理员");
-                    baseResp.setSuccess(0);
-                    return baseResp;
-                }
-                EqCharacters characters = new EqCharacters();
-                characters.setStackCount(0);
-                characters.setId(eqCard.getId() + "");
-                characters.setLv(1);
-                characters.setUserId(Integer.parseInt(userId));
-                characters.setStar(new BigDecimal(1));
-                characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
-                eqCharactersMapper.insert(characters);
+            EqCard card1 = eqCardMapper.selectByid(eqCard.getId());
+            if (card1 == null) {
+                baseResp.setErrorMsg("服务器异常联想管理员");
+                baseResp.setSuccess(0);
+                return baseResp;
             }
+            EqCharacters characters = new EqCharacters();
+            characters.setStackCount(0);
+            characters.setId(eqCard.getId() + "");
+            characters.setLv(1);
+            characters.setUserId(Integer.parseInt(userId));
+            characters.setStar(new BigDecimal(1));
+            characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card1.getName(), card1.getStar().doubleValue()));
+            eqCharactersMapper.insert(characters);
 
             if (eqCard.getStar().compareTo(new BigDecimal(3)) > 0) {
                 GameNotice gameNotice = new GameNotice();
@@ -3964,26 +3953,13 @@ public class GameServiceServiceImpl implements GameServiceService {
             drawnCard.setId(drawnCard.getId() + drawnCard.getUuid());
             eqCardMapper.updateById(drawnCard);
         }
-
-        EqCharacters characters1 = eqCharactersMapper.listById(userId, drawnCard.getId());
-        if (characters1 != null) {
-            characters1.setStackCount(characters1.getStackCount() + 1);
-            eqCharactersMapper.updateById(characters1);
-        } else {
-            EqCard card1 = eqCardMapper.selectByid(drawnCard.getId());
-            if (card1 == null) {
-                baseResp.setErrorMsg("服务器异常联想管理员");
-                baseResp.setSuccess(0);
-                return baseResp;
-            }
-            EqCharacters characters = new EqCharacters();
-            characters.setStackCount(0);
-            characters.setId(drawnCard.getId());
-            characters.setLv(1);
-            characters.setUserId(Integer.parseInt(userId));
-            characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(drawnCard.getName(), drawnCard.getStar().doubleValue()));
-            eqCharactersMapper.insert(characters);
-        }
+        EqCharacters characters = new EqCharacters();
+        characters.setStackCount(0);
+        characters.setId(drawnCard.getId());
+        characters.setLv(1);
+        characters.setUserId(Integer.parseInt(userId));
+        characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(drawnCard.getName(), drawnCard.getStar().doubleValue()));
+        eqCharactersMapper.insert(characters);
         EqCardDto dto = new EqCardDto();
         dto.setHero(drawnCard);
 //        ValueOperations opsForValue = redisTemplate.opsForValue();

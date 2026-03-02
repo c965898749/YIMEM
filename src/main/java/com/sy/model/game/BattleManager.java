@@ -1655,8 +1655,40 @@ public class BattleManager {
                             "中毒+" + poisonValue);
                 }
                 break;
+            case "黄牙老象":
+                // 幽灵毒击：令攻击者中毒
+                if (!defender.isDead()) {
+                    int totalPoisonDamage = 8 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(defender, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(defender, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.POISON_DOWN_PRET);
 
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + defender.getDsAtk() - resistDown));
+                    attacker.addEffect(EffectType.POISON, poisonValue, 99, defender.getId());
+                    addLog("幽灵毒击",
+                            defender.getId(),
+                            defender.getMaxHp(),
+                            defender.getCurrentHp(),
+                            poisonValue,
+                            defender.isOnField(),
+                            attacker.getId(),
+                            attacker.getMaxHp(),
+                            attacker.getCurrentHp(),
+                            poisonValue,
+                            attacker.isOnField(),
+                            EffectType.POISON,
+                            DamageType.POISON,
+                            "中毒+" + poisonValue);
 
+                }
+                break;
             case "烛龙":
                 // 烛火燎原：对全体敌方造成火焰伤害（多目标整合日志）
                 if (!defender.isDead()) {
@@ -1814,17 +1846,50 @@ public class BattleManager {
                                 defender.getId(),
                                 defender.getMaxHp(),
                                 defender.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 defender.isOnField(),
                                 randomEnemy.getId(),
                                 randomEnemy.getMaxHp(),
                                 randomEnemy.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
                                 "中毒+" + poisonValue);
                     }
+                }
+                break;
+            case "白眼魔君":
+                // 幽灵毒击：令攻击者中毒
+                if (!defender.isDead()) {
+                    int totalPoisonDamage = 8 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(attacker, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(attacker, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.POISON_DOWN_PRET);
+
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + attacker.getDsAtk() - resistDown));
+                    attacker.addEffect(EffectType.POISON, poisonValue, 99, defender.getId());
+                    addLog("幽灵毒击",
+                            attacker.getId(),
+                            attacker.getMaxHp(),
+                            attacker.getCurrentHp(),
+                            poisonValue,
+                            attacker.isOnField(),
+                            defender.getId(),
+                            defender.getMaxHp(),
+                            defender.getCurrentHp(),
+                            poisonValue,
+                            defender.isOnField(),
+                            EffectType.POISON,
+                            DamageType.POISON,
+                            "中毒" + poisonValue);
                 }
                 break;
             case "辟寒大王":
@@ -1853,12 +1918,12 @@ public class BattleManager {
                                 defender.getId(),
                                 defender.getMaxHp(),
                                 defender.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 defender.isOnField(),
                                 randomEnemy.getId(),
                                 randomEnemy.getMaxHp(),
                                 randomEnemy.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
@@ -2394,12 +2459,12 @@ public class BattleManager {
                                 defender.getId(),
                                 defender.getMaxHp(),
                                 defender.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 defender.isOnField(),
                                 randomEnemy.getId(),
                                 randomEnemy.getMaxHp(),
                                 randomEnemy.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
@@ -2434,12 +2499,12 @@ public class BattleManager {
                                 defender.getId(),
                                 defender.getMaxHp(),
                                 defender.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 defender.isOnField(),
                                 randomEnemy.getId(),
                                 randomEnemy.getMaxHp(),
                                 randomEnemy.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
@@ -2676,12 +2741,12 @@ public class BattleManager {
                                 attacker.getId(),
                                 attacker.getMaxHp(),
                                 attacker.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 attacker.isOnField(),
                                 defender.getId(),
                                 defender.getMaxHp(),
                                 defender.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 defender.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
@@ -3224,7 +3289,7 @@ public class BattleManager {
                 }
                 break;
             case "聂小倩":
-                if (skillLevel[1] > 0) {
+                if (skillLevel[1] > 0&&defender.isPoison()) {
                     // 芭蕉扇：造成火焰伤害
                     int fireDamage = 60 * skillLevel[1];
                     defender.setCurrentHp(defender.getCurrentHp() - fireDamage);
@@ -3298,51 +3363,17 @@ public class BattleManager {
                                 attacker.getId(),
                                 attacker.getMaxHp(),
                                 attacker.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 attacker.isOnField(),
                                 randomEnemy.getId(),
                                 randomEnemy.getMaxHp(),
                                 randomEnemy.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
                                 "中毒+" + poisonValue);
                     }
-                }
-                break;
-            case "黄牙老象":
-                // 幽灵毒击：令攻击者中毒
-                if (!defender.isDead()) {
-                    int totalPoisonDamage = 8 * skillLevel[0];
-                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
-                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp = calculateTotalVaule(defender, EffectType.POISON_BOOST);
-                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret = calculateTotalUpPretVaule(defender, EffectType.POISON_BOOST_PRET);
-                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown = calculateTotalVaule(defender, EffectType.POISON_DOWN);
-                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret = calculateTotalDownPretVaule(defender, EffectType.POISON_DOWN_PRET);
-
-                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + defender.getDsAtk() - resistDown));
-                    attacker.addEffect(EffectType.POISON, poisonValue, 99, defender.getId());
-                    addLog("幽灵毒击",
-                            defender.getId(),
-                            defender.getMaxHp(),
-                            defender.getCurrentHp(),
-                            0,
-                            defender.isOnField(),
-                            attacker.getId(),
-                            attacker.getMaxHp(),
-                            attacker.getCurrentHp(),
-                            0,
-                            attacker.isOnField(),
-                            EffectType.POISON,
-                            DamageType.POISON,
-                            "中毒+" + poisonValue);
-
                 }
                 break;
             case "辟暑大王":
@@ -3362,54 +3393,21 @@ public class BattleManager {
 
                     int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + attacker.getDsAtk() - resistDown));
                     defender.addEffect(EffectType.POISON, poisonValue + attacker.getDsAtk(), 99, attacker.getId());
-                    addLog("幽灵毒击",
+                    addLog("毒素打击",
                             attacker.getId(),
                             attacker.getMaxHp(),
                             attacker.getCurrentHp(),
-                            0,
+                            poisonValue,
                             attacker.isOnField(),
                             defender.getId(),
                             defender.getMaxHp(),
                             defender.getCurrentHp(),
-                            0,
+                            poisonValue,
                             defender.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
                             "中毒" + poisonValue);
 
-                }
-                break;
-            case "白眼魔君":
-                // 幽灵毒击：令攻击者中毒
-                if (!defender.isDead()) {
-                    int totalPoisonDamage = 8 * skillLevel[0];
-                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
-                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
-                    int resistUp = calculateTotalVaule(attacker, EffectType.POISON_BOOST);
-                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistUpPret = calculateTotalUpPretVaule(attacker, EffectType.POISON_BOOST_PRET);
-                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                    int resistDown = calculateTotalVaule(attacker, EffectType.POISON_DOWN);
-                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                    double resistDownPret = calculateTotalDownPretVaule(attacker, EffectType.POISON_DOWN_PRET);
-
-                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + attacker.getDsAtk() - resistDown));
-                    attacker.addEffect(EffectType.POISON, poisonValue, 99, defender.getId());
-                    addLog("幽灵毒击",
-                            attacker.getId(),
-                            attacker.getMaxHp(),
-                            attacker.getCurrentHp(),
-                            0,
-                            attacker.isOnField(),
-                            defender.getId(),
-                            defender.getMaxHp(),
-                            defender.getCurrentHp(),
-                            0,
-                            defender.isOnField(),
-                            EffectType.POISON,
-                            DamageType.POISON,
-                            "中毒" + poisonValue);
                 }
                 break;
             case "天蓬元帅":
@@ -4564,12 +4562,12 @@ public class BattleManager {
                             v.getId(),
                             v.getMaxHp(),
                             v.getCurrentHp(),
-                            0,
+                            poisonValue,
                             v.isOnField(),
                             enemie.getId(),
                             enemie.getMaxHp(),
                             enemie.getCurrentHp(),
-                            0,
+                            poisonValue,
                             enemie.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
@@ -6050,12 +6048,12 @@ public class BattleManager {
                             daji.getId(),
                             daji.getMaxHp(),
                             daji.getCurrentHp(),
-                            0,
+                            poisonValue,
                             daji.isOnField(),
                             fieldB.getId(),
                             fieldB.getMaxHp(),
                             fieldB.getCurrentHp(),
-                            0,
+                            poisonValue,
                             fieldB.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
@@ -6092,12 +6090,12 @@ public class BattleManager {
                             daji.getId(),
                             daji.getMaxHp(),
                             daji.getCurrentHp(),
-                            0,
+                            poisonValue,
                             daji.isOnField(),
                             fieldA.getId(),
                             fieldA.getMaxHp(),
                             fieldA.getCurrentHp(),
-                            0,
+                            poisonValue,
                             fieldA.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
@@ -7369,12 +7367,12 @@ public class BattleManager {
                         daji.getId(),
                         daji.getMaxHp(),
                         daji.getCurrentHp(),
-                        0,
+                        poisonValue,
                         daji.isOnField(),
                         randomEnemy.getId(),
                         randomEnemy.getMaxHp(),
                         randomEnemy.getCurrentHp(),
-                        0,
+                        poisonValue,
                         randomEnemy.isOnField(),
                         EffectType.POISON,
                         DamageType.POISON,
@@ -7434,12 +7432,12 @@ public class BattleManager {
                         daji.getId(),
                         daji.getMaxHp(),
                         daji.getCurrentHp(),
-                        0,
+                        poisonValue,
                         daji.isOnField(),
                         randomEnemy.getId(),
                         randomEnemy.getMaxHp(),
                         randomEnemy.getCurrentHp(),
-                        0,
+                        poisonValue,
                         randomEnemy.isOnField(),
                         EffectType.POISON,
                         DamageType.POISON,
@@ -7481,12 +7479,12 @@ public class BattleManager {
                         daji.getId(),
                         daji.getMaxHp(),
                         daji.getCurrentHp(),
-                        0,
+                        poisonValue,
                         daji.isOnField(),
                         randomEnemy.getId(),
                         randomEnemy.getMaxHp(),
                         randomEnemy.getCurrentHp(),
-                        0,
+                        poisonValue,
                         randomEnemy.isOnField(),
                         EffectType.POISON,
                         DamageType.POISON,
@@ -7527,12 +7525,12 @@ public class BattleManager {
                         daji.getId(),
                         daji.getMaxHp(),
                         daji.getCurrentHp(),
-                        0,
+                        poisonValue,
                         daji.isOnField(),
                         randomEnemy.getId(),
                         randomEnemy.getMaxHp(),
                         randomEnemy.getCurrentHp(),
-                        0,
+                        poisonValue,
                         randomEnemy.isOnField(),
                         EffectType.POISON,
                         DamageType.POISON,
@@ -7705,12 +7703,12 @@ public class BattleManager {
                                 guardian.getId(),
                                 guardian.getMaxHp(),
                                 guardian.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 guardian.isOnField(),
                                 randomEnemy.getId(),
                                 randomEnemy.getMaxHp(),
                                 randomEnemy.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
@@ -7749,12 +7747,12 @@ public class BattleManager {
                             guardian.getId(),
                             guardian.getMaxHp(),
                             guardian.getCurrentHp(),
-                            0,
+                            poisonValue,
                             guardian.isOnField(),
                             randomEnemy.getId(),
                             randomEnemy.getMaxHp(),
                             randomEnemy.getCurrentHp(),
-                            0,
+                            poisonValue,
                             randomEnemy.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,
@@ -7792,12 +7790,12 @@ public class BattleManager {
                                 guardian.getId(),
                                 guardian.getMaxHp(),
                                 guardian.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 guardian.isOnField(),
                                 randomEnemy.getId(),
                                 randomEnemy.getMaxHp(),
                                 randomEnemy.getCurrentHp(),
-                                0,
+                                poisonValue,
                                 randomEnemy.isOnField(),
                                 EffectType.POISON,
                                 DamageType.POISON,
@@ -7836,12 +7834,12 @@ public class BattleManager {
                             guardian.getId(),
                             guardian.getMaxHp(),
                             guardian.getCurrentHp(),
-                            0,
+                            poisonValue,
                             guardian.isOnField(),
                             randomEnemy.getId(),
                             randomEnemy.getMaxHp(),
                             randomEnemy.getCurrentHp(),
-                            0,
+                            poisonValue,
                             randomEnemy.isOnField(),
                             EffectType.POISON,
                             DamageType.POISON,

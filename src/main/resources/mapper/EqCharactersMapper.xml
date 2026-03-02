@@ -33,7 +33,7 @@
     cd.passive_introduce_three
     from   eq_characters cs
     left  join eq_card cd on cd.id=cs.id
-    where cs.user_id = #{userId} and   cs.id = #{id} and cs.is_delete='0' limit 1
+    where cs.user_id = #{userId} and   cs.uuid = #{id} and cs.is_delete='0' limit 1
   </select>
     <select id="listByGoOn" resultType="com.sy.model.game.EqCharacters">
     select
@@ -107,12 +107,12 @@
 
     <update id="changeEqState">
         UPDATE `eq_characters` SET   `go_into_num`='0'
-        where user_id = #{userId} and   id = #{id} and is_delete='0'
+        where user_id = #{userId} and   uuid = #{id} and is_delete='0'
     </update>
 
     <update id="changeEqState2">
         UPDATE `eq_characters` SET   `go_into_num`=#{itemId}
-        where user_id = #{userId} and   id = #{id} and is_delete='0'
+        where user_id = #{userId} and   uuid = #{id} and is_delete='0'
     </update>
 
 
