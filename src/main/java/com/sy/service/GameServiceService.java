@@ -78,7 +78,9 @@ public interface GameServiceService {
     BaseResp start5(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp getTower(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start4(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp start6(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp jingji(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp duoquJingji(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp friendAllList(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp invitationSend(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp invitationHandle(TokenDto token, HttpServletRequest request) throws Exception;

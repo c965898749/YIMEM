@@ -744,6 +744,27 @@ public class GameContoller {
         }
     }
 
+    /**
+     * 夺取
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("battle6")
+    @CrossOrigin
+    public BaseResp battle6(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.start6(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
     @PostMapping("stopLevel")
     @CrossOrigin
     public BaseResp stopLevel(@RequestBody TokenDto token, HttpServletRequest request) {
@@ -764,6 +785,26 @@ public class GameContoller {
         BaseResp baseResp = new BaseResp();
         try {
             baseResp = gameServiceService.jingji(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
+     * 夺取
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("duoquJingji")
+    @CrossOrigin
+    public BaseResp duoquJingji(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.duoquJingji(token, request);
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();

@@ -42,7 +42,7 @@ public class BattleManager {
         // 物理攻击降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
         double resistDownPret = calculateTotalDownPretVaule(guardianA, EffectType.SPEED_DOWN_PRET);
 
-        int speedB = guardianA.getSpeed();
+        int speedB = guardianB.getSpeed();
         // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
         // 物理抗性增益：所有 POISON_RESIST 类型效果的 value 总和
         int targetUp = calculateTotalVaule(guardianB, EffectType.SPEED_UP);

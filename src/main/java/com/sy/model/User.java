@@ -141,4 +141,7 @@ public class User {
     private Date hongbTime;
     private Integer chongzhiTower;
     private Integer eqCount;
+
+    private Integer duoCount;
+    private Date duoTime;
 }

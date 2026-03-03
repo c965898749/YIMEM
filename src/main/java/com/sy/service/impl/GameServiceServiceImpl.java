@@ -5485,6 +5485,34 @@ public class GameServiceServiceImpl implements GameServiceService {
             } else {
                 user.setExp(exp);
             }
+        }else {
+            BigDecimal exp = user.getExp().add(new BigDecimal(50));
+            if (exp.compareTo(new BigDecimal(1000)) >= 0) {
+                user.setExp(exp.subtract(new BigDecimal(1000)));
+                //如果巅峰经验满级获得5个魂力宝珠
+                Characters characters1 = charactersMapper.listById(userId, "105");
+                if (characters1 != null) {
+                    characters1.setStackCount(characters1.getStackCount() + 2);
+                    charactersMapper.updateByPrimaryKey(characters1);
+                } else {
+                    Card card = cardMapper.selectByid(105);
+                    if (card == null) {
+                        baseResp.setErrorMsg("服务器异常联想管理员");
+                        baseResp.setSuccess(0);
+                        return baseResp;
+                    }
+                    Characters characters = new Characters();
+                    characters.setStackCount(1);
+                    characters.setId("105");
+                    characters.setLv(1);
+                    characters.setUserId(Integer.parseInt(userId));
+                    characters.setStar(new BigDecimal(1));
+                    characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+                    charactersMapper.insert(characters);
+                }
+            } else {
+                user.setExp(exp);
+            }
         }
         //自己的战队
         List<Characters> leftCharacter = charactersMapper.goIntoListById(user.getUserId() + "");
@@ -6172,6 +6200,116 @@ public class GameServiceServiceImpl implements GameServiceService {
         return baseResp;
     }
 
+    @Override
+    @Transactional
+    @NoRepeatSubmit(limitSeconds = 1)
+    public BaseResp start6(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        if (user.getHuoliCount() - 10 < 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("活力不足");
+            return baseResp;
+        }
+        if (user.getDuoCount()<= 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("挑战次数不足");
+            return baseResp;
+        }
+        //自己的战队
+        List<Characters> leftCharacter = charactersMapper.goIntoListById(user.getUserId() + "");
+        if (Xtool.isNull(leftCharacter)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("你没有配置战队无法战斗");
+            return baseResp;
+        }
+        for (Characters characters : leftCharacter) {
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(user.getUserId() + "", characters.getId());
+            if (Xtool.isNotNull(eqCharacters)) {
+                characters.setEqCharactersList(formateEqCharacter(eqCharacters));
+            }
+        }
+        Collections.sort(leftCharacter, Comparator.comparing(Characters::getGoIntoNum));
+        //对手战队
+        User user1 = userMapper.selectUserByUserId(Integer.parseInt(token.getUserId()));
+        List<Characters> rightCharacter = charactersMapper.goIntoListById(token.getUserId() + "");
+        if (Xtool.isNull(rightCharacter)) {
+            Card card = cardMapper.selectByid(3);
+            if (card == null) {
+                baseResp.setErrorMsg("服务器异常联想管理员");
+                baseResp.setSuccess(0);
+                return baseResp;
+            }
+            Characters characters = new Characters();
+            BeanUtils.copyProperties(card, characters);
+            characters.setId("1002");
+            characters.setGoIntoNum(1);
+            characters.setLv(1);
+            characters.setUserId(Integer.parseInt(userId));
+            characters.setStar(new BigDecimal(1));
+            characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+            rightCharacter.add(characters);
+        }
+
+        baseResp.setSuccess(1);
+        Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), user.getGameImg(), "1");
+        if (battle.getIsWin() == 0) {
+            Map itemMap = new HashMap();
+            itemMap.put("item_id", token.getId());
+            itemMap.put("user_id", userId);
+            itemMap.put("is_delete", "0");
+            List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(itemMap);
+            if (Xtool.isNotNull(playerBagList)) {
+                GamePlayerBag playerBag = playerBagList.get(0);
+                playerBag.setItemCount(playerBag.getItemCount() + 20);
+                gamePlayerBagMapper.updateById(playerBag);
+            } else {
+                GamePlayerBag playerBag = new GamePlayerBag();
+                playerBag.setUserId(Integer.parseInt(userId));
+                playerBag.setItemCount(Integer.parseInt(token.getStr()));
+                playerBag.setGridIndex(1);
+                playerBag.setItemId(Integer.parseInt(token.getId()));
+                gamePlayerBagMapper.insert(playerBag);
+            }
+        }
+        List<PveReward> pveRewards = new ArrayList<>();
+//        if ("bronzetower".equals(token.getStr())) {
+//            PveReward pveReward = new PveReward();
+//            GameItemBase gameItemBase = gameItemBaseMapper.selectById(13);
+//            pveReward.setImg(gameItemBase.getIcon());
+//            pveReward.setItemName(gameItemBase.getItemName() + 2000);
+//            pveReward.setItemId(13);
+//            pveReward.setRewardAmount(2000);
+//            pveReward.setRewardType("6");
+//            pveRewards.add(pveReward);
+//        }
+        Map map=new HashMap();
+        map.put("rewards", pveRewards);
+        user.setDuoCount(user.getDuoCount()-1);
+        user.setHuoliCount(user.getHuoliCount() - 10);
+        userMapper.updateuser(user);
+        UserInfo userInfo=new UserInfo();
+        BeanUtils.copyProperties(user,userInfo);
+        baseResp.setData(battle);
+        map.put("user", userInfo);
+        map.put("battle", battle);
+        baseResp.setData(map);
+        return baseResp;
+    }
+
     /**
      * 从列表中随机选择1~n个物品（n为列表长度）
      */
@@ -6244,6 +6382,37 @@ public class GameServiceServiceImpl implements GameServiceService {
         Map map = new HashMap();
         map.put("user", user);
         map.put("parking", users);
+        baseResp.setData(map);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp duoquJingji(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        //随机获取有队伍的5个人
+        List<User> users = userMapper.SelectUserItemId(token.getId(),userId);
+        List<UserInfo> infos=new ArrayList<>();
+        for (User user1 : users) {
+           UserInfo info=new UserInfo();
+           BeanUtils.copyProperties(user1,info);
+           infos.add(info);
+        }
+        baseResp.setSuccess(1);
+        Map map = new HashMap();
+        map.put("user", infos);
         baseResp.setData(map);
         return baseResp;
     }

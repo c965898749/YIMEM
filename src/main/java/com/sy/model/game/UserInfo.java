@@ -86,4 +86,6 @@ public class UserInfo {
     private Integer goldentower;
     private Integer chongzhi;
     private Integer gameRanking;
+
+    private Integer duoCount;
 }

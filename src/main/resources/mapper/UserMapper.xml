@@ -19,6 +19,21 @@
                 ) AS temp
             );
     </select>
+    <select id="SelectUserItemId" resultType="com.sy.model.User">
+            SELECT * FROM user
+            WHERE userId IN (
+                SELECT userId FROM (
+                    SELECT userId FROM user ur
+                    left join characters cs on cs.user_id=ur.userId
+                    left join game_player_bag gpb on gpb.user_id=ur.userId
+                    where cs.go_into_num >0 and cs.is_delete='0' and gpb.item_count>2 and gpb.item_id=#{itemId}
+                    and  ur.game_ranking between 1 and 1000 and  (ur.duo_time >= DATE_SUB(NOW(), INTERVAL 8 HOUR)
+                    OR ur.duo_time IS NULL)  and ur.userId &lt;&gt; #{userId}
+                    ORDER BY RAND()
+                    LIMIT 5
+                ) AS temp
+            );
+    </select>
     <!--新增所有列-->
     <insert id="insertUser" keyProperty="userid" useGeneratedKeys="true">
         insert into yimem.user(username, userpassword, sex, nickname, birthday, provinces, city, county, description,
@@ -293,7 +308,9 @@
             <if test="eqCount!=null">
                 eq_count=#{eqCount},
             </if>
-
+            <if test="duoCount!=null">
+                duo_count=#{duoCount},
+            </if>
         </set>
         where userId=#{userId}
     </update>
