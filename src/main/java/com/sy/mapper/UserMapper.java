@@ -8,6 +8,8 @@ import java.util.List;
 public interface UserMapper {
     //查询所有用户
     List<User> SelectAllUser();
+
+    List<User> selectUserByYaoCode(@Param("yaoCode")String yaoCode);
     //随机查询5个人
     List<User> SelectRandUser();
 

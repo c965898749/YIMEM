@@ -326,6 +326,17 @@ public class GameServiceServiceImpl implements GameServiceService {
                 baseResp.setErrorMsg("请输入账号和密码");
                 return baseResp;
             }
+            if (Xtool.isNull(user2.getYaoCode()) || Xtool.isNull(user2.getYaoCode())) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("请输入邀请码");
+                return baseResp;
+            }
+            List<User> users=userMapper.selectUserByYaoCode(user2.getYaoCode());
+            if (Xtool.isNull(users)){
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("邀请码不正确");
+                return baseResp;
+            }
             User user = new User();
             user.setUsername(user2.getUsername());
             String password = DigestUtils.md5DigestAsHex(user2.getUserpassword().getBytes());
@@ -385,6 +396,9 @@ public class GameServiceServiceImpl implements GameServiceService {
                 user.setUnreadfanscount(0);
                 user.setIsEmil("0");
                 user.setStatus(1);
+                InviteCodeGenerator generator = InviteCodeGenerator.getInstance();
+                user.setMyCode(generator.generateInviteCode());
+                user.setYaoCode(user2.getYaoCode());
                 int result = userMapper.insertUser(user);
                 if (result <= 0) {
                     baseResp.setSuccess(0);
@@ -5482,6 +5496,32 @@ public class GameServiceServiceImpl implements GameServiceService {
                 user.setLv(user.getLv().add(new BigDecimal(1)));
                 user.setExp(exp.subtract(new BigDecimal(1000)));
                 levelUp = user.getLv().intValue();
+                if (Xtool.isNotNull(user.getYaoCode())){
+                    List<User> users=userMapper.selectUserByYaoCode(user.getYaoCode());
+                    if (Xtool.isNotNull(users)){
+                        //如果少年王天军
+                        Characters characters1 = charactersMapper.listById(userId, "132");
+                        if (characters1 != null) {
+                            characters1.setStackCount(characters1.getStackCount() + 1);
+                            charactersMapper.updateByPrimaryKey(characters1);
+                        } else {
+                            Card card = cardMapper.selectByid(132);
+                            if (card == null) {
+                                baseResp.setErrorMsg("服务器异常联想管理员");
+                                baseResp.setSuccess(0);
+                                return baseResp;
+                            }
+                            Characters characters = new Characters();
+                            characters.setStackCount(1);
+                            characters.setId("132");
+                            characters.setLv(1);
+                            characters.setUserId(Integer.parseInt(userId));
+                            characters.setStar(new BigDecimal(1));
+                            characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+                            charactersMapper.insert(characters);
+                        }
+                    }
+                }
             } else {
                 user.setExp(exp);
             }

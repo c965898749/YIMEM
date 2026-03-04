@@ -1159,7 +1159,31 @@ public class BattleManager {
                         break;
                     case "厚土娘娘":
                         // 大地净化：驱散自身减益
-                        enemy.getEffects().clear();
+//                        enemy.getEffects().clear();
+                        //只驱散负面buff
+                        enemy.remove(EffectType.HEAL_DOWN);
+                        enemy.remove(EffectType.HEAL_DOWNT_PRET);
+                        enemy.remove(EffectType.ATTACK_DOWN);
+                        enemy.remove(EffectType.ATTACK_DOWN_PRET);
+                        enemy.remove(EffectType.POISON);
+                        enemy.remove(EffectType.ATTACK_RESIST_DOWN);
+                        enemy.remove(EffectType.ATTACK_RESIST_DOWN_PRET);
+                        enemy.remove(EffectType.FIRE_DOWN);
+                        enemy.remove(EffectType.FIRE_DOWN_PRET);
+                        enemy.remove(EffectType.FIRE_RESIST_DOWN);
+                        enemy.remove(EffectType.FIRE_RESIST_DOWN_PRET);
+                        enemy.remove(EffectType.POISON_DOWN);
+                        enemy.remove(EffectType.POISON_DOWN_PRET);
+                        enemy.remove(EffectType.POISON_RESIST_DOWN);
+                        enemy.remove(EffectType.POISON_RESIST_DOWN_PRET);
+                        enemy.remove(EffectType.FIRE_RESIST_DOWN_PRET);
+                        enemy.remove(EffectType.MISSILE_DOWN);
+                        enemy.remove(EffectType.MISSILE_DOWN_PRET);
+                        enemy.remove(EffectType.MISSILE_RESIST_DOWN);
+                        enemy.remove(EffectType.MISSILE_RESIST_DOWN_PRET);
+                        enemy.remove(EffectType.MAX_HP_DOWN_PRET);
+                        enemy.remove(EffectType.SPEED_DOWN);
+                        enemy.remove(EffectType.SPEED_DOWN_PRET);
                         addLog("大地净化",
                                 enemy.getId(),
                                 enemy.getMaxHp(),

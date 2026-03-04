@@ -88,4 +88,6 @@ public class UserInfo {
     private Integer gameRanking;
 
     private Integer duoCount;
+    private String yaoCode;
+    private String myCode;
 }

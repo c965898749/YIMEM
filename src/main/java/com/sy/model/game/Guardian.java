@@ -203,6 +203,16 @@ public class Guardian {
             }
         }
     }
+    
+    public void  remove(EffectType effectType){
+        Iterator<EffectInstance> it = effects.iterator();
+        while (it.hasNext()) {
+            EffectInstance e = it.next();
+            if (e.getType()==effectType) {
+                it.remove();
+            }
+        }
+    }
 
     public List<EffectInstance> getEffects() {
         return effects;

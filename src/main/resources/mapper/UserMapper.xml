@@ -6,6 +6,9 @@
     <select id="SelectAllUser" resultType="com.sy.model.User">
        select * from user
    </select>
+    <select id="selectUserByYaoCode" resultType="com.sy.model.User">
+       select * from user where my_code=#{yaoCode}
+   </select>
     <select id="SelectRandUser" resultType="com.sy.model.User">
             SELECT * FROM user
             WHERE userId IN (
@@ -40,12 +43,13 @@
                                industry, job, askSuminter, headImg, blogCount, attentionCount, fansCount, resourceCount,
                                forumCount, askCount, collectCount, downloadmoney, commentCount, likeCount, level,
                                visitorCount, ranking, downCount, askmoney, unreadreplaycount, readquerylikecount,
-                               unreadfanscount, openid, isEmil,status,game_ranking)
+                               unreadfanscount, openid, isEmil,status,game_ranking,yao_code,my_code)
         values (#{username}, #{userpassword}, #{sex}, #{nickname}, #{birthday}, #{provinces}, #{city}, #{county},
                 #{description}, #{industry}, #{job}, #{askSuminter}, #{headImg}, #{blogCount}, #{attentionCount},
                 #{fansCount}, #{resourceCount}, #{forumCount}, #{askCount}, #{collectCount}, #{downloadmoney},
                 #{commentCount}, #{likeCount}, #{level}, #{visitorCount}, #{ranking}, #{downCount}, #{askmoney},
-                #{unreadreplaycount}, #{readquerylikecount}, #{unreadfanscount}, #{openid}, #{isEmil},#{status},#{gameRanking})
+                #{unreadreplaycount}, #{readquerylikecount}, #{unreadfanscount}, #{openid}, #{isEmil},#{status}
+                ,#{gameRanking},#{yaoCode},#{myCode})
     </insert>
     <!--修改用户头像-->
     <insert id="updateUserHeadImgByID">
