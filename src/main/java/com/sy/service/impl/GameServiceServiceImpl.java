@@ -15,6 +15,7 @@ import com.sy.service.GameServiceService;
 import com.sy.service.UserServic;
 import com.sy.tool.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -228,6 +229,10 @@ public class GameServiceServiceImpl implements GameServiceService {
         opsForValue.set(token, emp.getUserId() + "", 2592000, TimeUnit.SECONDS);
         emp.setToken(token);
         emp.setLoginTime(new Date());
+        if(Xtool.isNull(emp.getMyCode())){
+            InviteCodeGenerator generator = InviteCodeGenerator.getInstance();
+            emp.setMyCode(generator.generateInviteCode(12));
+        }
         userMapper.updateuser(emp);
         baseResp.setData(info);
         baseResp.setErrorMsg("登录成功");
@@ -397,7 +402,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 user.setIsEmil("0");
                 user.setStatus(1);
                 InviteCodeGenerator generator = InviteCodeGenerator.getInstance();
-                user.setMyCode(generator.generateInviteCode());
+                user.setMyCode(generator.generateInviteCode(12));
                 user.setYaoCode(user2.getYaoCode());
                 int result = userMapper.insertUser(user);
                 if (result <= 0) {
@@ -1565,148 +1570,112 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class) // 明确指定所有异常都回滚
     @NoRepeatSubmit(limitSeconds = 5)
     public BaseResp cardFlyUp2(TokenDto token, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
-        if (token == null || Xtool.isNull(token.getToken())) {
+        // 1. 基础参数校验
+        if (token == null || Xtool.isNull(token.getToken()) || Xtool.isNull(token.getUserId()) || Xtool.isNull(token.getId())) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
-//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+
         String userId = token.getUserId();
-        if (Xtool.isNull(userId)) {
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        if (user == null) { // 增加用户存在性校验
             baseResp.setSuccess(0);
-            baseResp.setErrorMsg("登录过期");
+            baseResp.setErrorMsg("用户不存在");
             return baseResp;
         }
-        User user=userMapper.selectUserByUserId(Integer.parseInt(userId));
-        String Id = token.getId();
-        if (Xtool.isNull(Id)) {
-            baseResp.setSuccess(0);
-            baseResp.setErrorMsg("登录过期");
-            return baseResp;
-        }
+
+        // 2. 查询角色信息（建议用selectByIdForUpdate加行锁，防止并发修改）
         Characters character = charactersMapper.listById(token.getUserId(), token.getId());
         if (character == null) {
             baseResp.setSuccess(1);
             baseResp.setErrorMsg("飞升主卡不存在");
             return baseResp;
         }
-        if (character.getLv()<character.getMaxLv()){
+
+        // 3. 飞升前置条件校验
+        if (character.getLv() < character.getMaxLv()) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("飞升需主卡达到满级");
             return baseResp;
         }
-        if (character.getFlyup() == 10) {
+        if (character.getFlyup() >= 10) { // 改为>=，防止越界
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("最多飞升10次");
             return baseResp;
         }
-        character.setFlyup(character.getFlyup()+1);
+
+        // 4. 获取飞升配置（增加空值校验）
         List<QqShenxianFlyup> qqShenxianFlyupList = qqShenxianFlyupMapper.selectByMap(new HashMap<>());
-        Map data = new HashMap();
-        List<QqShenxianFlyup> qqShenxianFlyups = qqShenxianFlyupList.stream().filter(x -> x.getFlyupTimes() == character.getFlyup()).collect(Collectors.toList());
+        int targetFlyupTimes = character.getFlyup() + 1;
+        List<QqShenxianFlyup> qqShenxianFlyups = qqShenxianFlyupList.stream()
+                .filter(x -> x.getFlyupTimes() == targetFlyupTimes)
+                .collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(qqShenxianFlyups)) { // 使用Spring的CollectionUtils做空判断
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("飞升配置不存在");
+            return baseResp;
+        }
         QqShenxianFlyup flyup = qqShenxianFlyups.get(0);
-        if (character.getStackCount()<flyup.getFlyupTimes()){
+
+        // 5. 校验飞升材料
+        // 5.1 从卡数量校验
+        if (character.getStackCount() < flyup.getFlyupTimes()) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("飞升从卡不足");
             return baseResp;
         }
-        character.setStackCount(character.getStackCount() - flyup.getFlyupTimes());
-        if (user.getGold().compareTo(new BigDecimal(flyup.getGold()))<0){
+        // 5.2 金币校验
+        if (user.getGold().compareTo(new BigDecimal(flyup.getGold())) < 0) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("飞升金币不足");
             return baseResp;
         }
-        user.setGold(user.getGold().subtract(new BigDecimal(flyup.getGold())));
-        if (character.getProfession().equals("武圣")) {
-            Map map = new HashMap();
-            map.put("user_id", token.getUserId());
-            map.put("item_id", 21);
-            map.put("is_delete", 0);
-            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
-            if (Xtool.isNull(playerBags)) {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("武圣飞升丹不足");
-                return baseResp;
-            }
-            GamePlayerBag playerBag=playerBags.get(0);
-            if (playerBag.getItemCount() < flyup.getCurrentConsume()) {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("武圣飞升丹不足");
-                return baseResp;
-            }
-            if (playerBag.getItemCount() - flyup.getCurrentConsume() > 0) {
-                playerBag.setItemCount(playerBag.getItemCount() - flyup.getCurrentConsume());
 
-            } else {
-                playerBag.setIsDelete("1");
-                playerBag.setItemCount(0);
-            }
-            gamePlayerBagMapper.updateById(playerBag);
-
-        } else if (character.getProfession().equals("神将")) {
-            Map map = new HashMap();
-            map.put("user_id", token.getUserId());
-            map.put("item_id", 23);
-            map.put("is_delete", 0);
-            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
-            if (Xtool.isNull(playerBags)) {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("神将飞升丹不足");
-                return baseResp;
-            }
-            GamePlayerBag playerBag=playerBags.get(0);
-            if (playerBag.getItemCount() < flyup.getCurrentConsume()) {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("神将飞升丹不足");
-                return baseResp;
-            }
-            if (playerBag.getItemCount() - flyup.getCurrentConsume() > 0) {
-                playerBag.setItemCount(playerBag.getItemCount() - flyup.getCurrentConsume());
-
-            } else {
-                playerBag.setIsDelete("1");
-                playerBag.setItemCount(0);
-            }
-            gamePlayerBagMapper.updateById(playerBag);
-        } else {
-            Map map = new HashMap();
-            map.put("user_id", token.getUserId());
-            map.put("item_id", 22);
-            map.put("is_delete", 0);
-            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
-            if (Xtool.isNull(playerBags)) {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("仙灵飞升丹不足");
-                return baseResp;
-            }
-            GamePlayerBag playerBag=playerBags.get(0);
-            if (playerBag.getItemCount() < flyup.getCurrentConsume()) {
-                baseResp.setSuccess(0);
-                baseResp.setErrorMsg("仙灵飞升丹不足");
-                return baseResp;
-            }
-            if (playerBag.getItemCount() - flyup.getCurrentConsume() > 0) {
-                playerBag.setItemCount(playerBag.getItemCount() - flyup.getCurrentConsume());
-
-            } else {
-                playerBag.setIsDelete("1");
-                playerBag.setItemCount(0);
-            }
-            gamePlayerBagMapper.updateById(playerBag);
+        // 5.3 飞升丹校验（抽取成方法，避免重复代码）
+        int itemId;
+        String professionName;
+        switch (character.getProfession()) {
+            case "武圣":
+                itemId = 21;
+                professionName = "武圣";
+                break;
+            case "神将":
+                itemId = 23;
+                professionName = "神将";
+                break;
+            default:
+                itemId = 22; // 修复仙灵item_id错误
+                professionName = "仙灵";
+                break;
+        }
+        if (!checkAndDeductFlyupDan(token.getUserId(), itemId, flyup.getCurrentConsume(), professionName)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg(professionName + "飞升丹不足");
+            return baseResp;
         }
 
+        // 6. 扣减资源
+        character.setStackCount(character.getStackCount() - flyup.getFlyupTimes());
+        user.setGold(user.getGold().subtract(new BigDecimal(flyup.getGold())));
+        character.setFlyup(targetFlyupTimes);
+        character.setMaxLv(character.getMaxLv() + 5); // 核心：更新maxLv
 
-
-        GameNotice gameNotice = new GameNotice();
-        gameNotice.setDescription("恭喜 "+user.getNickname()+" 玩家 "+character.getName()+" 成功飞升 + "+character.getFlyup()+"，战力飙升，傲视全服！");
-        gameNoticeMapper.insert(gameNotice);
-        character.setMaxLv(character.getMaxLv()+5);
-        charactersMapper.updateByPrimaryKey(character);
+        // 7. 保存数据（先更新角色，再更新用户）
+        charactersMapper.updateByPrimaryKeySelective(character); // 改为选择性更新，只更新有值的字段
         userMapper.updateuser(user);
+
+        // 8. 插入系统公告
+        GameNotice gameNotice = new GameNotice();
+        gameNotice.setDescription("恭喜 " + user.getNickname() + " 玩家 " + character.getName() + " 成功飞升 + " + character.getFlyup() + "，战力飙升，傲视全服！");
+        gameNoticeMapper.insert(gameNotice);
+
+        // 9. 组装返回数据
+        Map<String, Object> data = new HashMap<>();
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
         UserInfo info = new UserInfo();
         BeanUtils.copyProperties(user, info);
@@ -1715,50 +1684,74 @@ public class GameServiceServiceImpl implements GameServiceService {
         data.put("cardTotal", character.getStackCount());
         data.put("cardTotal2", character.getFlyup());
         data.put("flyup", character.getFlyup());
-        if (character.getFlyup()<11){
-            List<QqShenxianFlyup> qqShenxianFlyups2 = qqShenxianFlyupList.stream().filter(x -> x.getFlyupTimes() == character.getFlyup()).collect(Collectors.toList());
-            QqShenxianFlyup flyup2 = qqShenxianFlyups2.get(0);
-            data.put("dangyaoTotal2", flyup2.getCurrentConsume());
-            data.put("gold", flyup2.getGold());
-        }
-        if (character.getProfession().equals("武圣")) {
-            Map map = new HashMap();
-            map.put("user_id", token.getUserId());
-            map.put("item_id", 21);
-            map.put("is_delete", 0);
-            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
-            if (Xtool.isNotNull(playerBags)) {
-                data.put("dangyaoTotal", playerBags.get(0).getItemCount());
-            } else {
-                data.put("dangyaoTotal", 0);
-            }
-        } else if (character.getProfession().equals("神将")) {
-            Map map = new HashMap();
-            map.put("user_id", token.getUserId());
-            map.put("item_id", 23);
-            map.put("is_delete", 0);
-            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
-            if (Xtool.isNotNull(playerBags)) {
-                data.put("dangyaoTotal", playerBags.get(0).getItemCount());
-            } else {
-                data.put("dangyaoTotal", 0);
-            }
-        } else {
-            Map map = new HashMap();
-            map.put("user_id", token.getUserId());
-            map.put("item_id", 21);
-            map.put("is_delete", 0);
-            List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
-            if (Xtool.isNotNull(playerBags)) {
-                data.put("dangyaoTotal", playerBags.get(0).getItemCount());
-            } else {
-                data.put("dangyaoTotal", 0);
+
+        // 10. 组装下一次飞升所需信息
+        if (character.getFlyup() < 11) {
+            List<QqShenxianFlyup> qqShenxianFlyups2 = qqShenxianFlyupList.stream()
+                    .filter(x -> x.getFlyupTimes() == character.getFlyup())
+                    .collect(Collectors.toList());
+            if (!CollectionUtils.isEmpty(qqShenxianFlyups2)) {
+                QqShenxianFlyup flyup2 = qqShenxianFlyups2.get(0);
+                data.put("dangyaoTotal2", flyup2.getCurrentConsume());
+                data.put("gold", flyup2.getGold());
             }
         }
+
+        // 11. 查询当前飞升丹数量
+        int currentDanCount = getFlyupDanCount(token.getUserId(), itemId);
+        data.put("dangyaoTotal", currentDanCount);
+
+        // 12. 返回结果
         baseResp.setSuccess(1);
         baseResp.setData(data);
         baseResp.setErrorMsg("更新成功");
         return baseResp;
+    }
+
+    /**
+     * 校验并扣减飞升丹
+     */
+    private boolean checkAndDeductFlyupDan(String userId, int itemId, int consumeCount, String professionName) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("item_id", itemId);
+        map.put("is_delete", 0);
+        List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
+
+        if (CollectionUtils.isEmpty(playerBags)) {
+            return false;
+        }
+
+        GamePlayerBag playerBag = playerBags.get(0);
+        if (playerBag.getItemCount() < consumeCount) {
+            return false;
+        }
+
+        // 扣减飞升丹
+        int remainCount = playerBag.getItemCount() - consumeCount;
+        if (remainCount > 0) {
+            playerBag.setItemCount(remainCount);
+        } else {
+            playerBag.setIsDelete("1");
+            playerBag.setItemCount(0);
+        }
+        gamePlayerBagMapper.updateById(playerBag);
+        return true;
+    }
+
+    /**
+     * 获取当前飞升丹数量
+     */
+    private int getFlyupDanCount(String userId, int itemId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("item_id", itemId);
+        map.put("is_delete", 0);
+        List<GamePlayerBag> playerBags = gamePlayerBagMapper.selectByMap(map);
+        if (CollectionUtils.isEmpty(playerBags)) {
+            return 0;
+        }
+        return playerBags.get(0).getItemCount();
     }
 
     @Override
@@ -5497,28 +5490,87 @@ public class GameServiceServiceImpl implements GameServiceService {
                 user.setExp(exp.subtract(new BigDecimal(1000)));
                 levelUp = user.getLv().intValue();
                 if (Xtool.isNotNull(user.getYaoCode())){
-                    List<User> users=userMapper.selectUserByYaoCode(user.getYaoCode());
-                    if (Xtool.isNotNull(users)){
-                        //如果少年王天军
-                        Characters characters1 = charactersMapper.listById(userId, "132");
-                        if (characters1 != null) {
-                            characters1.setStackCount(characters1.getStackCount() + 1);
-                            charactersMapper.updateByPrimaryKey(characters1);
-                        } else {
-                            Card card = cardMapper.selectByid(132);
-                            if (card == null) {
-                                baseResp.setErrorMsg("服务器异常联想管理员");
-                                baseResp.setSuccess(0);
-                                return baseResp;
+                    if(levelUp==50){
+                        List<User> users=userMapper.selectUserByYaoCode(user.getYaoCode());
+                        if (Xtool.isNotNull(users)){
+                            //如果少年王天军
+                            Characters characters1 = charactersMapper.listById(userId, "132");
+                            if (characters1 != null) {
+                                characters1.setStackCount(characters1.getStackCount() + 1);
+                                charactersMapper.updateByPrimaryKey(characters1);
+                            } else {
+                                Card card = cardMapper.selectByid(132);
+                                if (card == null) {
+                                    baseResp.setErrorMsg("服务器异常联想管理员");
+                                    baseResp.setSuccess(0);
+                                    return baseResp;
+                                }
+                                Characters characters = new Characters();
+                                characters.setStackCount(1);
+                                characters.setId("132");
+                                characters.setLv(1);
+                                characters.setUserId(Integer.parseInt(userId));
+                                characters.setStar(new BigDecimal(1));
+                                characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+                                charactersMapper.insert(characters);
                             }
-                            Characters characters = new Characters();
-                            characters.setStackCount(1);
-                            characters.setId("132");
-                            characters.setLv(1);
-                            characters.setUserId(Integer.parseInt(userId));
-                            characters.setStar(new BigDecimal(1));
-                            characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
-                            charactersMapper.insert(characters);
+                        }
+                    }
+                    if(levelUp==80){
+                        List<User> users=userMapper.selectUserByYaoCode(user.getYaoCode());
+                        List<User> users2=userMapper.selectUserByYaoCode2(user.getYaoCode());
+                        List<User> users1=users2.stream().filter(x->x.getLv().compareTo(new BigDecimal(80))>=0).collect(Collectors.toList());
+                        if (Xtool.isNotNull(users)&&users1.size()==9){
+                            //
+                            Characters characters1 = charactersMapper.listById(userId, "105");
+                            if (characters1 != null) {
+                                characters1.setStackCount(characters1.getStackCount() + 10);
+                                charactersMapper.updateByPrimaryKey(characters1);
+                            } else {
+                                Card card = cardMapper.selectByid(105);
+                                if (card == null) {
+                                    baseResp.setErrorMsg("服务器异常联想管理员");
+                                    baseResp.setSuccess(0);
+                                    return baseResp;
+                                }
+                                Characters characters = new Characters();
+                                characters.setStackCount(10);
+                                characters.setId("105");
+                                characters.setLv(1);
+                                characters.setUserId(Integer.parseInt(userId));
+                                characters.setStar(new BigDecimal(1));
+                                characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+                                charactersMapper.insert(characters);
+                            }
+                        }
+                    }
+
+                    if(levelUp==100){
+                        List<User> users=userMapper.selectUserByYaoCode(user.getYaoCode());
+                        List<User> users2=userMapper.selectUserByYaoCode2(user.getYaoCode());
+                        List<User> users1=users2.stream().filter(x->x.getLv().compareTo(new BigDecimal(100))>=0).collect(Collectors.toList());
+                        if (Xtool.isNotNull(users)&&users1.size()==30){
+                            //
+                            Characters characters1 = charactersMapper.listById(userId, "100");
+                            if (characters1 != null) {
+                                characters1.setStackCount(characters1.getStackCount() + 1);
+                                charactersMapper.updateByPrimaryKey(characters1);
+                            } else {
+                                Card card = cardMapper.selectByid(100);
+                                if (card == null) {
+                                    baseResp.setErrorMsg("服务器异常联想管理员");
+                                    baseResp.setSuccess(0);
+                                    return baseResp;
+                                }
+                                Characters characters = new Characters();
+                                characters.setStackCount(1);
+                                characters.setId("100");
+                                characters.setLv(1);
+                                characters.setUserId(Integer.parseInt(userId));
+                                characters.setStar(new BigDecimal(1));
+                                characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+                                charactersMapper.insert(characters);
+                            }
                         }
                     }
                 }

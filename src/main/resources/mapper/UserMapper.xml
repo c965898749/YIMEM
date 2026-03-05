@@ -9,6 +9,9 @@
     <select id="selectUserByYaoCode" resultType="com.sy.model.User">
        select * from user where my_code=#{yaoCode}
    </select>
+    <select id="selectUserByYaoCode2" resultType="com.sy.model.User">
+       select * from user where yao_code=#{yaoCode}
+   </select>
     <select id="SelectRandUser" resultType="com.sy.model.User">
             SELECT * FROM user
             WHERE userId IN (
@@ -314,6 +317,12 @@
             </if>
             <if test="duoCount!=null">
                 duo_count=#{duoCount},
+            </if>
+            <if test="myCode!=null and myCode!=''">
+                my_code=#{myCode},
+            </if>
+            <if test="yaoCode!=null and yaoCode!=''">
+                yao_code=#{yaoCode},
             </if>
         </set>
         where userId=#{userId}

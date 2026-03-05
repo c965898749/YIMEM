@@ -10,6 +10,8 @@ public interface UserMapper {
     List<User> SelectAllUser();
 
     List<User> selectUserByYaoCode(@Param("yaoCode")String yaoCode);
+
+    List<User> selectUserByYaoCode2(@Param("yaoCode")String yaoCode);
     //随机查询5个人
     List<User> SelectRandUser();
 
