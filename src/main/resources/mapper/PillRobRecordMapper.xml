@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sy.mapper.game.PillRobRecordMapper">
-
+    <select id="seletByUserId" resultType="com.sy.model.game.PillRobRecord">
+        SELECT *,u.nickname,u.nickname as nickname2,u.game_img FROM pill_rob_record prr
+        LEFT JOIN user u on u.userId=prr.robber_id
+        LEFT JOIN user u2 on u2.userId=prr.victim_id
+        where prr.victim_id=#{userId}
+        ORDER BY prr.create_time DESC limit 20
+    </select>
 </mapper>

@@ -89,6 +89,12 @@
             <if test="lv != null">
                 lv = #{lv,jdbcType=INTEGER},
             </if>
+            <if test="maxLv != null">
+                max_lv = #{maxLv,jdbcType=INTEGER},
+            </if>
+            <if test="flyup != null">
+                flyup = #{flyup,jdbcType=INTEGER},
+            </if>
             <if test="stackCount != null">
                 stack_count = #{stackCount,jdbcType=INTEGER},
             </if>

@@ -869,6 +869,20 @@ public class GameContoller {
         }
     }
 
+    @PostMapping("duoMessageList")
+    @CrossOrigin
+    public BaseResp duoMessageList(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.duoMessageList(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
     @PostMapping("arenaMessageList")
     @CrossOrigin
     public BaseResp arenaMessageList(@RequestBody TokenDto token, HttpServletRequest request) {

@@ -33,10 +33,10 @@
                     left join characters cs on cs.user_id=ur.userId
                     left join game_player_bag gpb on gpb.user_id=ur.userId
                     where cs.go_into_num >0 and cs.is_delete='0' and gpb.item_count>2 and gpb.item_id=#{itemId}
-                    and  ur.game_ranking between 1 and 1000 and  (ur.duo_time >= DATE_SUB(NOW(), INTERVAL 8 HOUR)
-                    OR ur.duo_time IS NULL)  and ur.userId &lt;&gt; #{userId}
+                    and  ur.game_ranking between 1 and 1000 and  (ur.duo_time &lt; NOW()
+        OR ur.duo_time IS NULL)  and ur.userId &lt;&gt; #{userId}
                     ORDER BY RAND()
-                    LIMIT 5
+                    LIMIT 7
                 ) AS temp
             );
     </select>
@@ -317,6 +317,9 @@
             </if>
             <if test="duoCount!=null">
                 duo_count=#{duoCount},
+            </if>
+            <if test="duoTime!=null">
+                duo_time=#{duoTime},
             </if>
             <if test="myCode!=null and myCode!=''">
                 my_code=#{myCode},

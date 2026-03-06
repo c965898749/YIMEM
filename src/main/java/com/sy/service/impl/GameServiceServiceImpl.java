@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.sy.mapper.game.*;
 import com.sy.mapper.UserMapper;
+import com.sy.model.PaymentRecord;
 import com.sy.model.User;
 import com.sy.model.game.*;
 import com.sy.model.game.Character;
@@ -229,7 +230,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         opsForValue.set(token, emp.getUserId() + "", 2592000, TimeUnit.SECONDS);
         emp.setToken(token);
         emp.setLoginTime(new Date());
-        if(Xtool.isNull(emp.getMyCode())){
+        if (Xtool.isNull(emp.getMyCode())) {
             InviteCodeGenerator generator = InviteCodeGenerator.getInstance();
             emp.setMyCode(generator.generateInviteCode(12));
         }
@@ -336,8 +337,8 @@ public class GameServiceServiceImpl implements GameServiceService {
                 baseResp.setErrorMsg("请输入邀请码");
                 return baseResp;
             }
-            List<User> users=userMapper.selectUserByYaoCode(user2.getYaoCode());
-            if (Xtool.isNull(users)){
+            List<User> users = userMapper.selectUserByYaoCode(user2.getYaoCode());
+            if (Xtool.isNull(users)) {
                 baseResp.setSuccess(0);
                 baseResp.setErrorMsg("邀请码不正确");
                 return baseResp;
@@ -1680,7 +1681,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         UserInfo info = new UserInfo();
         BeanUtils.copyProperties(user, info);
         info.setCharacterList(formateCharacter(characterList));
-        data.put("UserInfo", info);
+        data.put("userInfo", info);
         data.put("cardTotal", character.getStackCount());
         data.put("cardTotal2", character.getFlyup());
         data.put("flyup", character.getFlyup());
@@ -2197,6 +2198,20 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp duoMessageList(TokenDto token, HttpServletRequest request) throws Exception {
+        List<PillRobRecord> list= pillRobRecordMapper.seletByUserId(token.getUserId());
+        Collections.sort(list, Comparator.comparing(PillRobRecord::getCreateTime).reversed());
+        list.stream().map(x -> {
+            x.setTimeStr(formatTime(x.getCreateTime()));
+            return x;
+        }).collect(Collectors.toList());
+        BaseResp baseResp = new BaseResp();
+        baseResp.setData(list);
+        baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    @Override
     public BaseResp arenaMessageList(TokenDto token, HttpServletRequest request) throws Exception {
         Map map = new HashMap();
         map.put("arena_level", token.getFinalLevel());
@@ -2536,19 +2551,19 @@ public class GameServiceServiceImpl implements GameServiceService {
                 itemShop.setUuid(id);
                 itemShop.setIsBuy(0);
                 itemShop.setGoldEdgePrice(0);
-                if (shop.getStar().compareTo(new BigDecimal(1.5))<0){
+                if (shop.getStar().compareTo(new BigDecimal(1.5)) < 0) {
                     itemShop.setGoldEdgePrice(100000);
-                }else if (shop.getStar().compareTo(new BigDecimal(2))<0){
+                } else if (shop.getStar().compareTo(new BigDecimal(2)) < 0) {
                     itemShop.setGoldEdgePrice(200000);
-                }else if (shop.getStar().compareTo(new BigDecimal(2.5))<0){
+                } else if (shop.getStar().compareTo(new BigDecimal(2.5)) < 0) {
                     itemShop.setGoldEdgePrice(300000);
-                }else if (shop.getStar().compareTo(new BigDecimal(3))<0){
+                } else if (shop.getStar().compareTo(new BigDecimal(3)) < 0) {
                     itemShop.setGoldEdgePrice(400000);
-                }else if (shop.getStar().compareTo(new BigDecimal(3.5))<0){
+                } else if (shop.getStar().compareTo(new BigDecimal(3.5)) < 0) {
                     itemShop.setGemPrice(100);
-                }else if (shop.getStar().compareTo(new BigDecimal(4))<0){
+                } else if (shop.getStar().compareTo(new BigDecimal(4)) < 0) {
                     itemShop.setGemPrice(500);
-                }else if (shop.getStar().compareTo(new BigDecimal(4.5))<0){
+                } else if (shop.getStar().compareTo(new BigDecimal(4.5)) < 0) {
                     itemShop.setGemPrice(1000);
                 }
                 picked2.add(itemShop);
@@ -2658,7 +2673,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         user.setDiamond(diamond);
         Map map = new HashMap();
-        map.put("diamond",diamond);
+        map.put("diamond", diamond);
         List<EqCard> eqCards2 = eqCardMapper.selectAll();
         EqItemPicker picker = new EqItemPicker();
         for (EqCard eqCard : eqCards2) {
@@ -2674,26 +2689,26 @@ public class GameServiceServiceImpl implements GameServiceService {
             itemShop.setUuid(id);
             itemShop.setIsBuy(0);
             itemShop.setGoldEdgePrice(0);
-            if (shop.getStar().compareTo(new BigDecimal(1.5))<0){
+            if (shop.getStar().compareTo(new BigDecimal(1.5)) < 0) {
                 itemShop.setGoldEdgePrice(100000);
-            }else if (shop.getStar().compareTo(new BigDecimal(2))<0){
+            } else if (shop.getStar().compareTo(new BigDecimal(2)) < 0) {
                 itemShop.setGoldEdgePrice(200000);
-            }else if (shop.getStar().compareTo(new BigDecimal(2.5))<0){
+            } else if (shop.getStar().compareTo(new BigDecimal(2.5)) < 0) {
                 itemShop.setGoldEdgePrice(300000);
-            }else if (shop.getStar().compareTo(new BigDecimal(3))<0){
+            } else if (shop.getStar().compareTo(new BigDecimal(3)) < 0) {
                 itemShop.setGoldEdgePrice(400000);
-            }else if (shop.getStar().compareTo(new BigDecimal(3.5))<0){
+            } else if (shop.getStar().compareTo(new BigDecimal(3.5)) < 0) {
                 itemShop.setGemPrice(100);
-            }else if (shop.getStar().compareTo(new BigDecimal(4))<0){
+            } else if (shop.getStar().compareTo(new BigDecimal(4)) < 0) {
                 itemShop.setGemPrice(500);
-            }else if (shop.getStar().compareTo(new BigDecimal(4.5))<0){
+            } else if (shop.getStar().compareTo(new BigDecimal(4.5)) < 0) {
                 itemShop.setGemPrice(1000);
             }
             picked2.add(itemShop);
             id++;
         }
-        user.setEqCount(user.getEqCount()+1);
-        if (user.getEqCount()>10){
+        user.setEqCount(user.getEqCount() + 1);
+        if (user.getEqCount() > 10) {
             user.setEqCount(0);
             EqCard drawnCard = EquipmentGenerateUtil.generateEqCard(4);
             Map map2 = new HashMap();
@@ -4845,8 +4860,8 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
 
         //先使用用户本身
-        if (user.getChongzhiTower()>0){
-            user.setChongzhiTower(user.getChongzhiTower()-1);
+        if (user.getChongzhiTower() > 0) {
+            user.setChongzhiTower(user.getChongzhiTower() - 1);
             user.setBronze1(1);
             user.setSilvertower(1);
             user.setGoldentower(1);
@@ -5042,6 +5057,14 @@ public class GameServiceServiceImpl implements GameServiceService {
                 addBagItem(userId, 7, 20); // 活力袋 ×20
                 addBagItem(userId, 17, 10); // 重置卷 ×10
                 break;
+            case 29:
+                // 1. 获取当前时间的时间戳（毫秒），和你提供的JS逻辑完全一致
+                long now = new Date().getTime();
+                // 2. 计算8小时后的时间戳（8*60*60*1000 = 28800000毫秒）
+                long protectEndTime = now + 8 * 60 * 60 * 1000;
+                // 3. 将时间戳转换为Date对象，赋值给duoTime
+                user.setDuoTime( new Date(protectEndTime));
+                break;
             default:
                 throw new IllegalArgumentException("不支持的物品ID：" + itemId);
         }
@@ -5090,11 +5113,11 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
-        Map map1=new HashMap();
-        map1.put("floor_num",100);
-        map1.put("player_id",userId);
-        map1.put("bronze_type",token.getStr());
-        List<PlayerBronzeTower> playerBronzeTower=playerBronzeTowerMapper.selectByMap(map);
+        Map map1 = new HashMap();
+        map1.put("floor_num", 100);
+        map1.put("player_id", userId);
+        map1.put("bronze_type", token.getStr());
+        List<PlayerBronzeTower> playerBronzeTower = playerBronzeTowerMapper.selectByMap(map);
         if (Xtool.isNull(playerBronzeTower)) {
             baseResp.setErrorMsg("您未通关试炼塔无法一键探索");
             baseResp.setSuccess(0);
@@ -5106,13 +5129,13 @@ public class GameServiceServiceImpl implements GameServiceService {
                 baseResp.setErrorMsg("塔已通关，可以选择重置继续试炼");
                 return baseResp;
             }
-        }else  if ("silvertower".equals(token.getStr())) {
+        } else if ("silvertower".equals(token.getStr())) {
             if (user.getSilvertower() > 100) {
                 baseResp.setSuccess(0);
                 baseResp.setErrorMsg("塔已通关，可以选择重置继续试炼");
                 return baseResp;
             }
-        }else  if ("goldentower".equals(token.getStr())) {
+        } else if ("goldentower".equals(token.getStr())) {
             if (user.getGoldentower() > 100) {
                 baseResp.setSuccess(0);
                 baseResp.setErrorMsg("塔已通关，可以选择重置继续试炼");
@@ -5122,7 +5145,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
         baseResp.setSuccess(1);
         List<PveReward> pveRewards = new ArrayList<>();
-        if (1==1) {
+        if (1 == 1) {
             PveReward pveReward = new PveReward();
             pveReward.setItemId(0);
             pveReward.setRewardAmount(100000);
@@ -5130,7 +5153,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             pveRewards.add(pveReward);
         }
 
-        if (1==1) {
+        if (1 == 1) {
             PveReward pveReward = new PveReward();
             pveReward.setItemId(0);
             pveReward.setRewardAmount(50);
@@ -5489,10 +5512,10 @@ public class GameServiceServiceImpl implements GameServiceService {
                 user.setLv(user.getLv().add(new BigDecimal(1)));
                 user.setExp(exp.subtract(new BigDecimal(1000)));
                 levelUp = user.getLv().intValue();
-                if (Xtool.isNotNull(user.getYaoCode())){
-                    if(levelUp==50){
-                        List<User> users=userMapper.selectUserByYaoCode(user.getYaoCode());
-                        if (Xtool.isNotNull(users)){
+                if (Xtool.isNotNull(user.getYaoCode())) {
+                    if (levelUp == 50) {
+                        List<User> users = userMapper.selectUserByYaoCode(user.getYaoCode());
+                        if (Xtool.isNotNull(users)) {
                             //如果少年王天军
                             Characters characters1 = charactersMapper.listById(userId, "132");
                             if (characters1 != null) {
@@ -5516,11 +5539,11 @@ public class GameServiceServiceImpl implements GameServiceService {
                             }
                         }
                     }
-                    if(levelUp==80){
-                        List<User> users=userMapper.selectUserByYaoCode(user.getYaoCode());
-                        List<User> users2=userMapper.selectUserByYaoCode2(user.getYaoCode());
-                        List<User> users1=users2.stream().filter(x->x.getLv().compareTo(new BigDecimal(80))>=0).collect(Collectors.toList());
-                        if (Xtool.isNotNull(users)&&users1.size()==9){
+                    if (levelUp == 80) {
+                        List<User> users = userMapper.selectUserByYaoCode(user.getYaoCode());
+                        List<User> users2 = userMapper.selectUserByYaoCode2(user.getYaoCode());
+                        List<User> users1 = users2.stream().filter(x -> x.getLv().compareTo(new BigDecimal(80)) >= 0).collect(Collectors.toList());
+                        if (Xtool.isNotNull(users) && users1.size() == 9) {
                             //
                             Characters characters1 = charactersMapper.listById(userId, "105");
                             if (characters1 != null) {
@@ -5545,11 +5568,11 @@ public class GameServiceServiceImpl implements GameServiceService {
                         }
                     }
 
-                    if(levelUp==100){
-                        List<User> users=userMapper.selectUserByYaoCode(user.getYaoCode());
-                        List<User> users2=userMapper.selectUserByYaoCode2(user.getYaoCode());
-                        List<User> users1=users2.stream().filter(x->x.getLv().compareTo(new BigDecimal(100))>=0).collect(Collectors.toList());
-                        if (Xtool.isNotNull(users)&&users1.size()==30){
+                    if (levelUp == 100) {
+                        List<User> users = userMapper.selectUserByYaoCode(user.getYaoCode());
+                        List<User> users2 = userMapper.selectUserByYaoCode2(user.getYaoCode());
+                        List<User> users1 = users2.stream().filter(x -> x.getLv().compareTo(new BigDecimal(100)) >= 0).collect(Collectors.toList());
+                        if (Xtool.isNotNull(users) && users1.size() == 30) {
                             //
                             Characters characters1 = charactersMapper.listById(userId, "100");
                             if (characters1 != null) {
@@ -5577,7 +5600,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             } else {
                 user.setExp(exp);
             }
-        }else {
+        } else {
             BigDecimal exp = user.getExp().add(new BigDecimal(50));
             if (exp.compareTo(new BigDecimal(1000)) >= 0) {
                 user.setExp(exp.subtract(new BigDecimal(1000)));
@@ -6316,20 +6339,20 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("活力不足");
             return baseResp;
         }
-        if (user.getDuoCount()<= 0) {
+        if (user.getDuoCount() <= 0) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("挑战次数不足");
             return baseResp;
         }
         //自己的战队
-        List<Characters> leftCharacter = charactersMapper.goIntoListById(user.getUserId() + "");
+        List<Characters> leftCharacter = charactersMapper.goIntoListById(userId);
         if (Xtool.isNull(leftCharacter)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("你没有配置战队无法战斗");
             return baseResp;
         }
         for (Characters characters : leftCharacter) {
-            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(user.getUserId() + "", characters.getId());
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(userId, characters.getId());
             if (Xtool.isNotNull(eqCharacters)) {
                 characters.setEqCharactersList(formateEqCharacter(eqCharacters));
             }
@@ -6350,51 +6373,78 @@ public class GameServiceServiceImpl implements GameServiceService {
             characters.setId("1002");
             characters.setGoIntoNum(1);
             characters.setLv(1);
-            characters.setUserId(Integer.parseInt(userId));
+            characters.setUserId(Integer.parseInt(token.getUserId()));
             characters.setStar(new BigDecimal(1));
             characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
             rightCharacter.add(characters);
         }
-
+        List<PveReward> pveRewards = new ArrayList<>();
         baseResp.setSuccess(1);
         Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), user.getGameImg(), "1");
         if (battle.getIsWin() == 0) {
             Map itemMap = new HashMap();
-            itemMap.put("item_id", token.getId());
-            itemMap.put("user_id", userId);
+            itemMap.put("item_id", token.getStr());
+            itemMap.put("user_id", token.getUserId());
             itemMap.put("is_delete", "0");
             List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(itemMap);
+
+            Map itemMap2 = new HashMap();
+            itemMap2.put("item_id", token.getStr());
+            itemMap2.put("user_id", userId);
+            itemMap2.put("is_delete", "0");
+            List<GamePlayerBag> playerBagList2 = gamePlayerBagMapper.selectByMap(itemMap2);
+
             if (Xtool.isNotNull(playerBagList)) {
                 GamePlayerBag playerBag = playerBagList.get(0);
-                playerBag.setItemCount(playerBag.getItemCount() + 20);
+                Integer count = (int) (playerBag.getItemCount() * 0.2);
+                playerBag.setItemCount(playerBag.getItemCount() - count);
+                if (playerBag.getItemCount()<= 0) {
+                    playerBag.setIsDelete("0");
+                }
+                PveReward pveReward = new PveReward();
+                GameItemBase gameItemBase = gameItemBaseMapper.selectById(Integer.parseInt(token.getStr()));
+                pveReward.setImg(gameItemBase.getIcon());
+                pveReward.setItemName(gameItemBase.getItemName()+" "+count);
+                pveReward.setItemId(gameItemBase.getItemId());
+                pveReward.setRewardAmount(count);
+                pveReward.setRewardType("6");
+                pveRewards.add(pveReward);
                 gamePlayerBagMapper.updateById(playerBag);
-            } else {
-                GamePlayerBag playerBag = new GamePlayerBag();
-                playerBag.setUserId(Integer.parseInt(userId));
-                playerBag.setItemCount(Integer.parseInt(token.getStr()));
-                playerBag.setGridIndex(1);
-                playerBag.setItemId(Integer.parseInt(token.getId()));
-                gamePlayerBagMapper.insert(playerBag);
+                PillRobRecord pillRobRecord=new PillRobRecord();
+                pillRobRecord.setRobberId(Integer.parseInt(userId));
+                pillRobRecord.setVictimId(Integer.parseInt(token.getUserId()));
+                pillRobRecord.setRobTime(new Date());
+                pillRobRecord.setRobDate(new Date());
+                pillRobRecord.setRobResult(1);
+                pillRobRecord.setRobPillNum(count);
+                pillRobRecord.setRobMaterial(token.getStr());
+                pillRobRecord.setCreateTime(new Date());
+                pillRobRecord.setFreeRobCount(1);
+                pillRobRecord.setUpdateTime(new Date());
+                pillRobRecord.setFightId(battle.getId());
+                pillRobRecordMapper.insert(pillRobRecord);
+                if (Xtool.isNotNull(playerBagList2)) {
+                    GamePlayerBag playerBag2 = playerBagList2.get(0);
+                    playerBag2.setItemCount(playerBag2.getItemCount() + count);
+                    gamePlayerBagMapper.updateById(playerBag2);
+                } else {
+                    GamePlayerBag playerBag2 = new GamePlayerBag();
+                    playerBag2.setUserId(Integer.parseInt(userId));
+                    playerBag2.setItemCount(count);
+                    playerBag2.setGridIndex(1);
+                    playerBag2.setItemId(Integer.parseInt(token.getStr()));
+                    gamePlayerBagMapper.insert(playerBag2);
+                }
             }
         }
-        List<PveReward> pveRewards = new ArrayList<>();
-//        if ("bronzetower".equals(token.getStr())) {
-//            PveReward pveReward = new PveReward();
-//            GameItemBase gameItemBase = gameItemBaseMapper.selectById(13);
-//            pveReward.setImg(gameItemBase.getIcon());
-//            pveReward.setItemName(gameItemBase.getItemName() + 2000);
-//            pveReward.setItemId(13);
-//            pveReward.setRewardAmount(2000);
-//            pveReward.setRewardType("6");
-//            pveRewards.add(pveReward);
-//        }
-        Map map=new HashMap();
+
+        Map map = new HashMap();
         map.put("rewards", pveRewards);
-        user.setDuoCount(user.getDuoCount()-1);
+        user.setDuoCount(user.getDuoCount() - 1);
         user.setHuoliCount(user.getHuoliCount() - 10);
         userMapper.updateuser(user);
-        UserInfo userInfo=new UserInfo();
-        BeanUtils.copyProperties(user,userInfo);
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(user, userInfo);
         baseResp.setData(battle);
         map.put("user", userInfo);
         map.put("battle", battle);
@@ -6495,12 +6545,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             return baseResp;
         }
         //随机获取有队伍的5个人
-        List<User> users = userMapper.SelectUserItemId(token.getId(),userId);
-        List<UserInfo> infos=new ArrayList<>();
+        List<User> users = userMapper.SelectUserItemId(token.getId(), userId);
+        List<UserInfo> infos = new ArrayList<>();
         for (User user1 : users) {
-           UserInfo info=new UserInfo();
-           BeanUtils.copyProperties(user1,info);
-           infos.add(info);
+            UserInfo info = new UserInfo();
+            BeanUtils.copyProperties(user1, info);
+            infos.add(info);
         }
         baseResp.setSuccess(1);
         Map map = new HashMap();
@@ -7110,7 +7160,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     character.getDsDef(),
                     character.getFdDef(),
                     character.getZlDef(),
-                    Xtool.isNotNull(characters.getFlyup())?characters.getFlyup():0));
+                    Xtool.isNotNull(characters.getFlyup()) ? characters.getFlyup() : 0));
             character.setUuid("A" + character.getId());
             copyCampA.add(character);
         }
@@ -7130,7 +7180,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     character.getDsDef(),
                     character.getFdDef(),
                     character.getZlDef(),
-                    Xtool.isNotNull(characters.getFlyup())?characters.getFlyup():0));
+                    Xtool.isNotNull(characters.getFlyup()) ? characters.getFlyup() : 0));
             character.setUuid("B" + character.getId());
             copyCampB.add(character);
         }
@@ -8351,13 +8401,13 @@ public class GameServiceServiceImpl implements GameServiceService {
 
     @Override
     public void sendTuoRawrd() {
-        User user=userMapper.selectUserByUserId(2900);
+        User user = userMapper.selectUserByUserId(2900);
         user.setDiamond(new BigDecimal(1000000));
         userMapper.updateuser(user);
-        User user2=userMapper.selectUserByUserId(1728);
+        User user2 = userMapper.selectUserByUserId(1728);
         user2.setDiamond(new BigDecimal(1000000));
         userMapper.updateuser(user2);
-        User user3=userMapper.selectUserByUserId(2735);
+        User user3 = userMapper.selectUserByUserId(2735);
         user3.setDiamond(new BigDecimal(1000000));
         userMapper.updateuser(user3);
     }
