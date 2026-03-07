@@ -682,6 +682,27 @@ public class GameContoller {
     }
 
     /**
+     * 扫荡
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("saodan")
+    @CrossOrigin
+    public BaseResp saodan(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.saodan(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
      * 塔
      *
      * @param token
@@ -1352,6 +1373,25 @@ public class GameContoller {
         BaseResp baseResp = new BaseResp();
         try {
             baseResp = gameServiceService.equipmentMessageList(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+    /**
+     * 夺取详情
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("ascensionPillDetail")
+    @CrossOrigin
+    public BaseResp ascensionPillDetai(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.ascensionPillDetai(token, request);
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();

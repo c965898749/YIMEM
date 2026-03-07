@@ -882,7 +882,20 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("请选择关卡");
             return baseResp;
         }
-        PveDetail pveDetail = pveDetailMapper.selectById(token.getId());
+        User user=userMapper.selectUserByUserId(Integer.parseInt(userId));
+        List<String> list = Arrays.asList(token.getId().split("-"));
+        Integer num1 = Integer.parseInt(list.get(0));
+        Integer num2 = Integer.parseInt(list.get(1));
+        List<String> list2 = Arrays.asList(user.getChapter().split("-"));
+        Integer num11 = Integer.parseInt(list2.get(0));
+        Integer num22 = Integer.parseInt(list2.get(1));
+        PveDetail pveDetail =new PveDetail();
+        if (num1==num11&&num2==num22){
+            pveDetail = pveDetailMapper.selectById(user.getChapter());
+        }else {
+            pveDetail = pveDetailMapper.selectById(token.getId());
+        }
+
         Map map = new HashMap();
         map.put("detail_code", token.getId());
         List<PveBossDetail> pveBossDetailList = pveBossDetailMapper.selectByMap(map);
@@ -903,12 +916,17 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("关卡不存在");
             return baseResp;
         }
+        Map itemMap = new HashMap();
+        itemMap.put("item_id", "28");
+        itemMap.put("user_id", userId);
+        itemMap.put("is_delete", "0");
+        List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(itemMap);
+        if (Xtool.isNotNull(playerBagList)) {
+            pveDetail.setNum(playerBagList.get(0).getItemCount());
+        } else {
+            pveDetail.setNum(0);
+        }
         baseResp.setSuccess(1);
-//        UserInfo info = new UserInfo();
-//        BeanUtils.copyProperties(user, info);
-//        //获取卡牌数据
-//        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
-//        info.setCharacterList(characterList);
         baseResp.setData(pveDetail);
         baseResp.setErrorMsg("更新成功");
         return baseResp;
@@ -2199,7 +2217,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
     @Override
     public BaseResp duoMessageList(TokenDto token, HttpServletRequest request) throws Exception {
-        List<PillRobRecord> list= pillRobRecordMapper.seletByUserId(token.getUserId());
+        List<PillRobRecord> list = pillRobRecordMapper.seletByUserId(token.getUserId());
         Collections.sort(list, Comparator.comparing(PillRobRecord::getCreateTime).reversed());
         list.stream().map(x -> {
             x.setTimeStr(formatTime(x.getCreateTime()));
@@ -4734,6 +4752,108 @@ public class GameServiceServiceImpl implements GameServiceService {
     }
 
     @Override
+    public BaseResp ascensionPillDetai(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        18
+//        19
+//        20
+//        21
+//        22
+//        23
+//        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        baseResp.setSuccess(1);
+        Map map=new HashMap();
+        Map itemMap = new HashMap();
+        itemMap.put("item_id", "23");
+        itemMap.put("user_id", userId);
+        itemMap.put("is_delete", "0");
+        List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(itemMap);
+        if (Xtool.isNotNull(playerBagList)){
+            map.put("p1",playerBagList.get(0).getItemCount());
+        }else {
+            map.put("p1",0);
+        }
+        Map itemMap2 = new HashMap();
+        itemMap2.put("item_id", "22");
+        itemMap2.put("user_id", userId);
+        itemMap2.put("is_delete", "0");
+        List<GamePlayerBag> playerBagList2 = gamePlayerBagMapper.selectByMap(itemMap2);
+        if (Xtool.isNotNull(playerBagList2)){
+            map.put("p3",playerBagList2.get(0).getItemCount());
+        }else {
+            map.put("p3",0);
+        }
+
+        Map itemMap3 = new HashMap();
+        itemMap3.put("item_id", "21");
+        itemMap3.put("user_id", userId);
+        itemMap3.put("is_delete", "0");
+        List<GamePlayerBag> playerBagList3 = gamePlayerBagMapper.selectByMap(itemMap3);
+        if (Xtool.isNotNull(playerBagList3)){
+            map.put("p2",playerBagList3.get(0).getItemCount());
+        }else {
+            map.put("p2",0);
+        }
+
+
+        Map itemMap4 = new HashMap();
+        itemMap4.put("item_id", "20");
+        itemMap4.put("user_id", userId);
+        itemMap4.put("is_delete", "0");
+        List<GamePlayerBag> playerBagList4 = gamePlayerBagMapper.selectByMap(itemMap4);
+        if (Xtool.isNotNull(playerBagList4)){
+            map.put("p5",playerBagList4.get(0).getItemCount());
+        }else {
+            map.put("p5",0);
+        }
+
+
+        Map itemMap5 = new HashMap();
+        itemMap5.put("item_id", "19");
+        itemMap5.put("user_id", userId);
+        itemMap5.put("is_delete", "0");
+        List<GamePlayerBag> playerBagList5 = gamePlayerBagMapper.selectByMap(itemMap5);
+        if (Xtool.isNotNull(playerBagList5)){
+            map.put("p4",playerBagList5.get(0).getItemCount());
+        }else {
+            map.put("p4",0);
+        }
+
+
+        Map itemMap6 = new HashMap();
+        itemMap6.put("item_id", "18");
+        itemMap6.put("user_id", userId);
+        itemMap6.put("is_delete", "0");
+        List<GamePlayerBag> playerBagList6 = gamePlayerBagMapper.selectByMap(itemMap6);
+        if (Xtool.isNotNull(playerBagList6)){
+            map.put("p6",playerBagList6.get(0).getItemCount());
+        }else {
+            map.put("p6",0);
+        }
+
+        PillRobRecord robRecord = pillRobRecordMapper.seletByUserId2(token.getUserId());
+        if (robRecord!=null){
+            robRecord.setTimeStr(formatTime(robRecord.getCreateTime()));
+        }
+        map.put("robRecord",robRecord);
+        baseResp.setData(map);
+        return baseResp;
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     @NoRepeatSubmit(limitSeconds = 1)
     public BaseResp useBagItem(TokenDto token, HttpServletRequest request) throws Exception {
@@ -5063,7 +5183,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 // 2. 计算8小时后的时间戳（8*60*60*1000 = 28800000毫秒）
                 long protectEndTime = now + 8 * 60 * 60 * 1000;
                 // 3. 将时间戳转换为Date对象，赋值给duoTime
-                user.setDuoTime( new Date(protectEndTime));
+                user.setDuoTime(new Date(protectEndTime));
                 break;
             default:
                 throw new IllegalArgumentException("不支持的物品ID：" + itemId);
@@ -5317,6 +5437,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         List<MewYearItemShop> picked = picker.pickRandomItems(1);
         MewYearItemShop yearItemShop = picked.get(0);
+        List<PveReward> rewards = new ArrayList<>();
         PveReward content = new PveReward();
         content.setItemId(yearItemShop.getItemId());
         content.setItemName(yearItemShop.getItemName());
@@ -5370,7 +5491,8 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gamePlayerBagMapper.insert(playerBag);
             }
         }
-        map.put("rewards", content);
+        rewards.add(content);
+        map.put("rewards", rewards);
         user.setHongbTime(new Date());
         userMapper.updateuser(user);
         User emp = userMapper.selectUserByUserId(Integer.parseInt(userId));
@@ -5413,11 +5535,42 @@ public class GameServiceServiceImpl implements GameServiceService {
     @Override
     public BaseResp isNewYear(TokenDto token, HttpServletRequest request) throws Exception {
         //先获取当前用户战队
+        Date targetDate = new Date();
+        LocalDate targetLocalDate = targetDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
         BaseResp baseResp = new BaseResp();
         if (token == null || Xtool.isNull(token.getToken())) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("登录过期");
             return baseResp;
+        }
+        if (!LunarAlgorithmChecker.isNewYearsEve(targetLocalDate)){
+            targetLocalDate = targetLocalDate.minusDays(1);
+            if (!LunarAlgorithmChecker.isNewYearsEve(targetLocalDate)){
+                targetLocalDate = targetLocalDate.minusDays(1);
+                if (!LunarAlgorithmChecker.isNewYearsEve(targetLocalDate)){
+                    targetLocalDate = targetLocalDate.minusDays(1);
+                    if (!LunarAlgorithmChecker.isNewYearsEve(targetLocalDate)){
+                        targetLocalDate = targetLocalDate.minusDays(1);
+                        if (!LunarAlgorithmChecker.isNewYearsEve(targetLocalDate)){
+                            targetLocalDate = targetLocalDate.minusDays(1);
+                            if (!LunarAlgorithmChecker.isNewYearsEve(targetLocalDate)){
+                                targetLocalDate = targetLocalDate.minusDays(1);
+                                if (!LunarAlgorithmChecker.isNewYearsEve(targetLocalDate)){
+                                    targetLocalDate = targetLocalDate.minusDays(1);
+                                    if (!LunarAlgorithmChecker.isNewYearsEve(targetLocalDate)){
+                                        baseResp.setSuccess(0);
+                                        baseResp.setSuccess(1);
+                                        baseResp.setData(false);
+                                        return baseResp;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 //        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
         String userId = token.getUserId();
@@ -5741,6 +5894,14 @@ public class GameServiceServiceImpl implements GameServiceService {
                         charactersMapper.insert(characters);
                     }
                 } else if ("5".equals(content.getRewardType() + "") || "6".equals(content.getRewardType() + "")) {
+                    GameItemBase gameItemBase = gameItemBaseMapper.selectById(content.getItemId());
+                    if (gameItemBase == null) {
+                        baseResp.setErrorMsg("服务器异常联想管理员");
+                        baseResp.setSuccess(0);
+                        return baseResp;
+                    }
+                    content.setImg(gameItemBase.getIcon());
+                    content.setItemName(gameItemBase.getItemName() + content.getRewardAmount());
                     Map itemMap = new HashMap();
                     itemMap.put("item_id", content.getItemId());
                     itemMap.put("user_id", userId);
@@ -5795,6 +5956,405 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setData(map);
         baseResp.setSuccess(1);
         return baseResp;
+    }
+
+    @Override
+    @Transactional
+    @NoRepeatSubmit(limitSeconds = 1)
+    public BaseResp saodan(TokenDto token, HttpServletRequest request) throws Exception {
+        Integer levelUp = 0;
+        Map map = new HashMap();
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        Integer num = token.getTotalSilverSpent();
+        if (Xtool.isNull(num)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("请使用扫荡券");
+            return baseResp;
+        }
+        User user = userMapper.selectUserByUserId(Integer.parseInt(userId));
+        Map map2=new HashMap();
+        map2.put("user_id",userId);
+        map2.put("item_id",28);
+        map2.put("is_delete",0);
+        List<GamePlayerBag> playerBags=gamePlayerBagMapper.selectByMap(map2);
+        if (Xtool.isNull(playerBags)){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("扫荡券不足");
+            return baseResp;
+        }
+        GamePlayerBag gamePlayerBag=playerBags.get(0);
+        if (gamePlayerBag.getItemCount()-num<0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("扫荡券不足");
+            return baseResp;
+        }
+        // 扣减物品数量
+        if (gamePlayerBag.getItemCount() - num > 0) {
+            gamePlayerBag.setItemCount(gamePlayerBag.getItemCount() - num);
+        } else {
+            gamePlayerBag.setIsDelete("1");
+        }
+        gamePlayerBagMapper.updateById(gamePlayerBag);
+        if (compareSegments(user.getChapter(),token.getStr())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("你还未通关无法扫荡");
+            return baseResp;
+        }
+        if (user.getTiliCount() - 2 * num < 0) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("体力不足");
+            return baseResp;
+        }
+        if (user.getLv().compareTo(new BigDecimal(100)) < 0) {
+            BigDecimal exp = user.getExp().add(new BigDecimal(50).multiply(new BigDecimal(num)));
+            if (exp.compareTo(new BigDecimal(1000)) >= 0) {
+                BigDecimal lv = exp.divide(new BigDecimal(1000));
+                user.setLv(user.getLv().add(lv));
+                user.setExp(exp.subtract(new BigDecimal(1000).multiply(lv)));
+                levelUp = user.getLv().intValue();
+                if (Xtool.isNotNull(user.getYaoCode())) {
+                    if (levelUp == 50) {
+                        List<User> users = userMapper.selectUserByYaoCode(user.getYaoCode());
+                        if (Xtool.isNotNull(users)) {
+                            //如果少年王天军
+                            Characters characters1 = charactersMapper.listById(userId, "132");
+                            if (characters1 != null) {
+                                characters1.setStackCount(characters1.getStackCount() + 1);
+                                charactersMapper.updateByPrimaryKey(characters1);
+                            } else {
+                                Card card = cardMapper.selectByid(132);
+                                if (card == null) {
+                                    baseResp.setErrorMsg("服务器异常联想管理员");
+                                    baseResp.setSuccess(0);
+                                    return baseResp;
+                                }
+                                Characters characters = new Characters();
+                                characters.setStackCount(1);
+                                characters.setId("132");
+                                characters.setLv(1);
+                                characters.setUserId(Integer.parseInt(userId));
+                                characters.setStar(new BigDecimal(1));
+                                characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+                                charactersMapper.insert(characters);
+                            }
+                        }
+                    }
+                    if (levelUp == 80) {
+                        List<User> users = userMapper.selectUserByYaoCode(user.getYaoCode());
+                        List<User> users2 = userMapper.selectUserByYaoCode2(user.getYaoCode());
+                        List<User> users1 = users2.stream().filter(x -> x.getLv().compareTo(new BigDecimal(80)) >= 0).collect(Collectors.toList());
+                        if (Xtool.isNotNull(users) && users1.size() == 9) {
+                            //
+                            Characters characters1 = charactersMapper.listById(userId, "105");
+                            if (characters1 != null) {
+                                characters1.setStackCount(characters1.getStackCount() + 10);
+                                charactersMapper.updateByPrimaryKey(characters1);
+                            } else {
+                                Card card = cardMapper.selectByid(105);
+                                if (card == null) {
+                                    baseResp.setErrorMsg("服务器异常联想管理员");
+                                    baseResp.setSuccess(0);
+                                    return baseResp;
+                                }
+                                Characters characters = new Characters();
+                                characters.setStackCount(10);
+                                characters.setId("105");
+                                characters.setLv(1);
+                                characters.setUserId(Integer.parseInt(userId));
+                                characters.setStar(new BigDecimal(1));
+                                characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+                                charactersMapper.insert(characters);
+                            }
+                        }
+                    }
+
+                    if (levelUp == 100) {
+                        List<User> users = userMapper.selectUserByYaoCode(user.getYaoCode());
+                        List<User> users2 = userMapper.selectUserByYaoCode2(user.getYaoCode());
+                        List<User> users1 = users2.stream().filter(x -> x.getLv().compareTo(new BigDecimal(100)) >= 0).collect(Collectors.toList());
+                        if (Xtool.isNotNull(users) && users1.size() == 30) {
+                            //
+                            Characters characters1 = charactersMapper.listById(userId, "100");
+                            if (characters1 != null) {
+                                characters1.setStackCount(characters1.getStackCount() + 1);
+                                charactersMapper.updateByPrimaryKey(characters1);
+                            } else {
+                                Card card = cardMapper.selectByid(100);
+                                if (card == null) {
+                                    baseResp.setErrorMsg("服务器异常联想管理员");
+                                    baseResp.setSuccess(0);
+                                    return baseResp;
+                                }
+                                Characters characters = new Characters();
+                                characters.setStackCount(1);
+                                characters.setId("100");
+                                characters.setLv(1);
+                                characters.setUserId(Integer.parseInt(userId));
+                                characters.setStar(new BigDecimal(1));
+                                characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+                                charactersMapper.insert(characters);
+                            }
+                        }
+                    }
+                }
+            } else {
+                user.setExp(exp);
+            }
+        } else {
+            BigDecimal exp = user.getExp().add(new BigDecimal(50).multiply(new BigDecimal(num)));
+            if (exp.compareTo(new BigDecimal(1000)) >= 0) {
+                BigDecimal lv = exp.divide(new BigDecimal(1000));
+                user.setExp(exp.subtract(new BigDecimal(1000).multiply(lv)));
+                //如果巅峰经验满级获得5个魂力宝珠
+                Characters characters1 = charactersMapper.listById(userId, "105");
+                if (characters1 != null) {
+                    BigDecimal zhuNum = new BigDecimal(2).multiply(lv);
+                    characters1.setStackCount(characters1.getStackCount() + zhuNum.intValue());
+                    charactersMapper.updateByPrimaryKey(characters1);
+                } else {
+                    Card card = cardMapper.selectByid(105);
+                    if (card == null) {
+                        baseResp.setErrorMsg("服务器异常联想管理员");
+                        baseResp.setSuccess(0);
+                        return baseResp;
+                    }
+                    Characters characters = new Characters();
+                    BigDecimal zhuNum = new BigDecimal(2).multiply(lv).subtract(new BigDecimal(1));
+                    characters1.setStackCount(zhuNum.intValue());
+                    characters.setId("105");
+                    characters.setLv(1);
+                    characters.setUserId(Integer.parseInt(userId));
+                    characters.setStar(new BigDecimal(1));
+                    characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+                    charactersMapper.insert(characters);
+                }
+            } else {
+                user.setExp(exp);
+            }
+        }
+        baseResp.setSuccess(1);
+        Map map1 = new HashMap();
+        map1.put("detail_code", token.getStr());
+
+
+// 原有查询逻辑保持不变
+        List<PveReward> pveRewardsAll = pveRewardMapper.selectByMap(map1);
+        List<PveReward> copyResult1 = new ArrayList<>();
+        for (int i = 0; i < num; i++) {
+            // addAll 是浅拷贝：新集合引用原有PveReward对象，不创建新对象
+            copyResult1.addAll(pveRewardsAll);
+        }
+        List<PveReward> pveRewards = new ArrayList<>();
+        for (PveReward pveReward : copyResult1) {
+            if (!ProbabilityUtils.hitProbability(pveReward.getPrent())) {
+                continue;
+            }
+            pveRewards.add(pveReward);
+        }
+
+
+// 核心改造：按 PveReward 自身的 id 分组（id 是唯一标识，不会为空）
+// key: PveReward 的 id
+// value: 该分组下所有 PveReward 对象（用于汇总数量）
+        Map<Integer, List<PveReward>> rewardGroupByIdMap = pveRewards.stream()
+                .collect(Collectors.groupingBy(PveReward::getId));
+
+// 定义一个Map存储每个分组的总数量（key: PveReward的id，value: 总数量）
+        Map<Integer, Integer> rewardTotalAmountMap = new HashMap<>();
+// 先汇总每个分组的奖励数量
+        for (Map.Entry<Integer, List<PveReward>> entry : rewardGroupByIdMap.entrySet()) {
+            int rewardId = entry.getKey();
+            List<PveReward> sameIdRewards = entry.getValue();
+            // 累加该分组下所有奖励的数量
+            int totalAmount = sameIdRewards.stream()
+                    .mapToInt(PveReward::getRewardAmount)
+                    .sum();
+            rewardTotalAmountMap.put(rewardId, totalAmount);
+        }
+
+// 遍历分组后的奖励，统一处理
+        for (Map.Entry<Integer, List<PveReward>> entry : rewardGroupByIdMap.entrySet()) {
+            int rewardId = entry.getKey();
+            int totalAmount = rewardTotalAmountMap.get(rewardId); // 该分组的总数量
+            // 取该分组下任意一个PveReward对象作为基准（字段值都一样）
+            PveReward content = entry.getValue().get(0);
+
+            // 按奖励类型处理（逻辑和原有一致，数量用累加后的totalAmount）
+            if ("1".equals(content.getRewardType() + "")) {
+                // 钻石
+                user.setDiamond(user.getDiamond().add(new BigDecimal(totalAmount)));
+            } else if ("2".equals(content.getRewardType() + "")) {
+                // 金币
+                user.setGold(user.getGold().add(new BigDecimal(totalAmount)));
+            } else if ("3".equals(content.getRewardType() + "")) {
+                // 魂石
+                user.setSoul(user.getSoul().add(new BigDecimal(totalAmount)));
+            } else if ("4".equals(content.getRewardType() + "")) {
+                // 角色（itemId不为空，否则逻辑本身有问题）
+                String itemId = content.getItemId() + "";
+                Characters characters1 = charactersMapper.listById(userId, itemId);
+                if (characters1 != null) {
+                    // 累加总数量，避免多次更新
+                    characters1.setStackCount(characters1.getStackCount() + totalAmount);
+                    charactersMapper.updateByPrimaryKey(characters1);
+                } else {
+                    Card card = cardMapper.selectByid(content.getItemId());
+                    if (card == null) {
+                        baseResp.setErrorMsg("服务器异常，请联系管理员");
+                        baseResp.setSuccess(0);
+                        return baseResp;
+                    }
+                    Characters characters = new Characters();
+                    characters.setStackCount(totalAmount - 1); // 保持原有逻辑
+                    characters.setId(itemId);
+                    characters.setLv(1);
+                    characters.setUserId(Integer.parseInt(userId));
+                    characters.setStar(new BigDecimal(1));
+                    characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+                    charactersMapper.insert(characters);
+                }
+            } else if ("5".equals(content.getRewardType() + "") || "6".equals(content.getRewardType() + "")) {
+                // 道具/宝石等
+                String itemId = content.getItemId() + "";
+                GameItemBase gameItemBase = gameItemBaseMapper.selectById(content.getItemId());
+                if (gameItemBase == null) {
+                    baseResp.setErrorMsg("服务器异常，请联系管理员");
+                    baseResp.setSuccess(0);
+                    return baseResp;
+                }
+                // 补充道具展示信息
+                content.setImg(gameItemBase.getIcon());
+                content.setItemName(gameItemBase.getItemName() + totalAmount);
+
+                // 查询背包中是否已有该道具
+                Map itemMap = new HashMap();
+                itemMap.put("item_id", itemId);
+                itemMap.put("user_id", userId);
+                itemMap.put("is_delete", "0");
+                List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(itemMap);
+
+                if (Xtool.isNotNull(playerBagList)) {
+                    // 已有道具，累加总数量
+                    GamePlayerBag playerBag = playerBagList.get(0);
+                    playerBag.setItemCount(playerBag.getItemCount() + totalAmount);
+                    gamePlayerBagMapper.updateById(playerBag);
+                } else {
+                    // 新增道具
+                    GamePlayerBag playerBag = new GamePlayerBag();
+                    playerBag.setUserId(Integer.parseInt(userId));
+                    playerBag.setItemCount(totalAmount);
+                    playerBag.setGridIndex(1);
+                    playerBag.setItemId(content.getItemId());
+                    gamePlayerBagMapper.insert(playerBag);
+                }
+            }
+        }
+
+// 重构返回的奖励列表（每个分组只保留一个，数量为总和）
+        List<PveReward> groupedPveRewards = new ArrayList<>();
+        for (Map.Entry<Integer, List<PveReward>> entry : rewardGroupByIdMap.entrySet()) {
+            PveReward originReward = entry.getValue().get(0);
+            int totalAmount = rewardTotalAmountMap.get(entry.getKey());
+            // 复制原有字段，更新数量
+            PveReward groupedReward = new PveReward();
+            groupedReward.setId(originReward.getId());
+            groupedReward.setRewardType(originReward.getRewardType());
+            groupedReward.setItemId(originReward.getItemId());
+            groupedReward.setRewardAmount(totalAmount);
+            groupedReward.setImg(originReward.getImg());
+            groupedReward.setItemName(originReward.getItemName());
+            groupedReward.setPrent(originReward.getPrent());
+            // 其他需要的字段按需复制
+            groupedPveRewards.add(groupedReward);
+        }
+        map.put("rewards", groupedPveRewards);
+        user.setTiliCount(user.getTiliCount() - 2 * num);
+        userMapper.updateuser(user);
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(user, userInfo);
+        userInfo.setLevelUp(levelUp);
+        //获取卡牌数据
+        List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
+        userInfo.setCharacterList(formateCharacter(characterList));
+        map.put("levelUp", levelUp);
+        map.put("user", userInfo);
+        baseResp.setData(map);
+        baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    public boolean compareSegments(String str1, String str2) {
+        // 拆分并解析第一个参数为三个数字
+        int[] parts1 = parseAndValidate(str1);
+        int part1First = parts1[0];
+        int part1Second = parts1[1];
+        int part1Third = parts1[2];
+
+        // 拆分并解析第二个参数为三个数字
+        int[] parts2 = parseAndValidate(str2);
+        int part2First = parts2[0];
+        int part2Second = parts2[1];
+        int part2Third = parts2[2];
+
+        // 规则1：第一位前面小于后面 → 返回true
+        if (part1First < part2First) {
+            return true;
+        }
+        // 第一位相等时进入后续判断
+        else if (part1First == part2First) {
+            // 规则2：第二位前面小于后面 → 返回true
+            if (part1Second < part2Second) {
+                return true;
+            }
+            // 第一位、第二位都相等时
+            else if (part1Second == part2Second) {
+                // 规则3：后面第三位不是10 → 返回false
+                return part2Third == 10; // 等价于：if (part2Third !=10) return false; else 返回true
+            }
+        }
+
+        // 其他情况（比如第一位更大、第二位更大等）返回false
+        return false;
+    }
+
+
+    private int[] parseAndValidate(String str) {
+        // 按"-"拆分字符串
+        String[] parts = str.split("-");
+        // 验证格式是否为3段
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("参数格式错误，需为x-x-x形式，如5-5-1，当前参数：" + str);
+        }
+
+        int[] nums = new int[3];
+        try {
+            // 转换为整数
+            nums[0] = Integer.parseInt(parts[0]);
+            nums[1] = Integer.parseInt(parts[1]);
+            nums[2] = Integer.parseInt(parts[2]);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("参数包含非数字字符，当前参数：" + str, e);
+        }
+
+        // 验证第三位不超过10
+        if (nums[2] > 10) {
+            throw new IllegalArgumentException("第三位数字最大为10，当前参数：" + str);
+        }
+
+        return nums;
     }
 
     @Override
@@ -6398,19 +6958,19 @@ public class GameServiceServiceImpl implements GameServiceService {
                 GamePlayerBag playerBag = playerBagList.get(0);
                 Integer count = (int) (playerBag.getItemCount() * 0.2);
                 playerBag.setItemCount(playerBag.getItemCount() - count);
-                if (playerBag.getItemCount()<= 0) {
+                if (playerBag.getItemCount() <= 0) {
                     playerBag.setIsDelete("0");
                 }
                 PveReward pveReward = new PveReward();
                 GameItemBase gameItemBase = gameItemBaseMapper.selectById(Integer.parseInt(token.getStr()));
                 pveReward.setImg(gameItemBase.getIcon());
-                pveReward.setItemName(gameItemBase.getItemName()+" "+count);
+                pveReward.setItemName(gameItemBase.getItemName() + " " + count);
                 pveReward.setItemId(gameItemBase.getItemId());
                 pveReward.setRewardAmount(count);
                 pveReward.setRewardType("6");
                 pveRewards.add(pveReward);
                 gamePlayerBagMapper.updateById(playerBag);
-                PillRobRecord pillRobRecord=new PillRobRecord();
+                PillRobRecord pillRobRecord = new PillRobRecord();
                 pillRobRecord.setRobberId(Integer.parseInt(userId));
                 pillRobRecord.setVictimId(Integer.parseInt(token.getUserId()));
                 pillRobRecord.setRobTime(new Date());
@@ -8401,9 +8961,6 @@ public class GameServiceServiceImpl implements GameServiceService {
 
     @Override
     public void sendTuoRawrd() {
-        User user = userMapper.selectUserByUserId(2900);
-        user.setDiamond(new BigDecimal(1000000));
-        userMapper.updateuser(user);
         User user2 = userMapper.selectUserByUserId(1728);
         user2.setDiamond(new BigDecimal(1000000));
         userMapper.updateuser(user2);

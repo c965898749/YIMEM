@@ -11,5 +11,6 @@
         gips.stock
         FROM game_item_play_shop gips
         LEFT JOIN game_item_base gib on gib.item_id= gips.item_id
+        where  gips.is_delete='0'
     </select>
 </mapper>

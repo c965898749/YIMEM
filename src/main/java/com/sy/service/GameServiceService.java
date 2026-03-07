@@ -70,12 +70,14 @@ public interface GameServiceService {
     BaseResp bagItemList(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp equipmentNew(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp equipmentMessageList(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp ascensionPillDetai(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp useBagItem(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp chongZhiTower(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp yijiantansuo(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp hongb(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp isNewYear(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start2(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp saodan(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start5(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp getTower(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp start4(TokenDto token, HttpServletRequest request) throws Exception;

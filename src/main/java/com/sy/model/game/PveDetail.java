@@ -18,4 +18,5 @@ public class PveDetail {
 
     private List<PveBossDetail> pveBossDetails;
 
+    private Integer num;
 }

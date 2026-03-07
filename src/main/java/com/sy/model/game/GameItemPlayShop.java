@@ -29,4 +29,6 @@ public class GameItemPlayShop {
     private   String icon;
     @TableField(exist = false)
     private String description;
+    @TableField("is_delete")
+    private String isDelete;
 }

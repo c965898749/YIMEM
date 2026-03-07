@@ -12,7 +12,7 @@ import java.util.Date;
 @TableName("pve_reward")
 public class PveReward {
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
     @TableField("detail_code")
     private String detailCode;
     @TableField("star_level")
@@ -39,5 +39,4 @@ public class PveReward {
     private String img;
     @TableField(exist = false)
     private String itemName;
-
 }

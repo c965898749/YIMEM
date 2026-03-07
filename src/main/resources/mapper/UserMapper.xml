@@ -695,4 +695,7 @@
     <update id="updatechongzhiTower" parameterType="com.sy.model.User">
 		update user set chongzhi_tower = '3'
 	</update>
+    <update id="updatechongzhiQiangduo" parameterType="com.sy.model.User">
+		update user set duo_count = '10'
+	</update>
 </mapper>

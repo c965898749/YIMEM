@@ -8,4 +8,12 @@
         where prr.victim_id=#{userId}
         ORDER BY prr.create_time DESC limit 20
     </select>
+
+    <select id="seletByUserId2" resultType="com.sy.model.game.PillRobRecord">
+        SELECT *,u.nickname,u.nickname as nickname2,u.game_img FROM pill_rob_record prr
+        LEFT JOIN user u on u.userId=prr.robber_id
+        LEFT JOIN user u2 on u2.userId=prr.victim_id
+        where prr.victim_id=#{userId}
+        ORDER BY prr.create_time DESC limit 1
+    </select>
 </mapper>

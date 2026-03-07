@@ -37,6 +37,7 @@ public class GameScheduled {
         userMapper.updateBronze3();
         userMapper.updateChongzhi();
         userMapper.updatechongzhiTower();
+        userMapper.updatechongzhiQiangduo();
 
     }
     @Scheduled(cron = "0 0 0/4 * * ?")

@@ -12,5 +12,6 @@ import java.util.List;
 public interface PillRobRecordMapper extends BaseMapper<PillRobRecord> {
 
     List<PillRobRecord>  seletByUserId(@Param("userId")String userId);
+    PillRobRecord  seletByUserId2(@Param("userId")String userId);
 
 }
