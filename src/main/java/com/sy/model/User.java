@@ -146,4 +146,6 @@ public class User {
     private Date duoTime;
     private String yaoCode;
     private String myCode;
+
+    private Integer itemCount;
 }

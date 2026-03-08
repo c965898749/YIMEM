@@ -786,6 +786,27 @@ public class GameContoller {
         }
     }
 
+    /**
+     * 夺取合成
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("feiShenhechen")
+    @CrossOrigin
+    public BaseResp feiShenhechen(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.feiShenhechen(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
     @PostMapping("stopLevel")
     @CrossOrigin
     public BaseResp stopLevel(@RequestBody TokenDto token, HttpServletRequest request) {

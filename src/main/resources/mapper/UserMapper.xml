@@ -26,14 +26,15 @@
             );
     </select>
     <select id="SelectUserItemId" resultType="com.sy.model.User">
-            SELECT * FROM user
+            SELECT distinct u.*,g.item_count FROM user u
+            left join game_player_bag g on  g.user_id=u.userId and g.item_id=#{itemId}
             WHERE userId IN (
                 SELECT userId FROM (
                     SELECT userId FROM user ur
                     left join characters cs on cs.user_id=ur.userId
                     left join game_player_bag gpb on gpb.user_id=ur.userId
                     where cs.go_into_num >0 and cs.is_delete='0' and gpb.item_count>2 and gpb.item_id=#{itemId}
-                    and  ur.game_ranking between 1 and 1000 and  (ur.duo_time &lt; NOW()
+                    and  ur.game_ranking between 1 and 10000 and  (ur.duo_time &lt; NOW()
         OR ur.duo_time IS NULL)  and ur.userId &lt;&gt; #{userId}
                     ORDER BY RAND()
                     LIMIT 7

@@ -7008,7 +7008,165 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setData(battle);
         map.put("user", userInfo);
         map.put("battle", battle);
+        map.put("duoCount", user.getDuoCount());
         baseResp.setData(map);
+        return baseResp;
+    }
+
+    @Override
+    @Transactional
+    @NoRepeatSubmit(limitSeconds = 1)
+    public BaseResp feiShenhechen(TokenDto token, HttpServletRequest request) throws Exception {
+        //先获取当前用户战队
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+        if (Xtool.isNotNull(token.getStr())&&Integer.parseInt(token.getStr())<7){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("材料至少选择7个材料");
+            return baseResp;
+        }
+        if ("1".equals(token.getId())){
+            Map itemMap = new HashMap();
+            itemMap.put("item_id", 19);
+            itemMap.put("user_id", token.getUserId());
+            itemMap.put("is_delete", "0");
+            List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(itemMap);
+            if (Xtool.isNull(playerBagList)){
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("材料不足");
+                return baseResp;
+            }
+            GamePlayerBag playerBag=playerBagList.get(0);
+            if (playerBag.getItemCount()-Integer.parseInt(token.getStr())<0){
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("材料不足");
+                return baseResp;
+            }
+            int[] result = MaterialSynthesisUtil.calculate(Integer.parseInt(token.getStr()));
+            // 扣减物品数量
+            if (playerBag.getItemCount() - Integer.parseInt(token.getStr())+result[1] > 0) {
+                playerBag.setItemCount(playerBag.getItemCount() -Integer.parseInt(token.getStr())+result[1]);
+            } else {
+                playerBag.setIsDelete("1");
+            }
+            gamePlayerBagMapper.updateById(playerBag);
+
+            Map itemMap2 = new HashMap();
+            itemMap2.put("item_id", 23);
+            itemMap2.put("user_id", userId);
+            itemMap2.put("is_delete", "0");
+            List<GamePlayerBag> playerBagList2 = gamePlayerBagMapper.selectByMap(itemMap2);
+            if (Xtool.isNotNull(playerBagList2)) {
+                GamePlayerBag playerBag2 = playerBagList2.get(0);
+                playerBag2.setItemCount(playerBag2.getItemCount() + result[0]);
+                gamePlayerBagMapper.updateById(playerBag2);
+            } else {
+                GamePlayerBag playerBag2 = new GamePlayerBag();
+                playerBag2.setUserId(Integer.parseInt(userId));
+                playerBag2.setItemCount(result[0]);
+                playerBag2.setGridIndex(1);
+                playerBag2.setItemId(23);
+                gamePlayerBagMapper.insert(playerBag2);
+            }
+        }else if ("1".equals(token.getId())){
+            Map itemMap = new HashMap();
+            itemMap.put("item_id", 20);
+            itemMap.put("user_id", token.getUserId());
+            itemMap.put("is_delete", "0");
+            List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(itemMap);
+            if (Xtool.isNull(playerBagList)){
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("材料不足");
+                return baseResp;
+            }
+            GamePlayerBag playerBag=playerBagList.get(0);
+            if (playerBag.getItemCount()-Integer.parseInt(token.getStr())<0){
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("材料不足");
+                return baseResp;
+            }
+            int[] result = MaterialSynthesisUtil.calculate(Integer.parseInt(token.getStr()));
+            // 扣减物品数量
+            if (playerBag.getItemCount() - Integer.parseInt(token.getStr())+result[1] > 0) {
+                playerBag.setItemCount(playerBag.getItemCount() -Integer.parseInt(token.getStr())+result[1]);
+            } else {
+                playerBag.setIsDelete("1");
+            }
+            gamePlayerBagMapper.updateById(playerBag);
+
+            Map itemMap2 = new HashMap();
+            itemMap2.put("item_id", 26);
+            itemMap2.put("user_id", userId);
+            itemMap2.put("is_delete", "0");
+            List<GamePlayerBag> playerBagList2 = gamePlayerBagMapper.selectByMap(itemMap2);
+            if (Xtool.isNotNull(playerBagList2)) {
+                GamePlayerBag playerBag2 = playerBagList2.get(0);
+                playerBag2.setItemCount(playerBag2.getItemCount() + result[0]);
+                gamePlayerBagMapper.updateById(playerBag2);
+            } else {
+                GamePlayerBag playerBag2 = new GamePlayerBag();
+                playerBag2.setUserId(Integer.parseInt(userId));
+                playerBag2.setItemCount(result[0]);
+                playerBag2.setGridIndex(1);
+                playerBag2.setItemId(26);
+                gamePlayerBagMapper.insert(playerBag2);
+            }
+        }else {
+            Map itemMap = new HashMap();
+            itemMap.put("item_id", 18);
+            itemMap.put("user_id", token.getUserId());
+            itemMap.put("is_delete", "0");
+            List<GamePlayerBag> playerBagList = gamePlayerBagMapper.selectByMap(itemMap);
+            if (Xtool.isNull(playerBagList)) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("材料不足");
+                return baseResp;
+            }
+            GamePlayerBag playerBag = playerBagList.get(0);
+            if (playerBag.getItemCount() - Integer.parseInt(token.getStr()) < 0) {
+                baseResp.setSuccess(0);
+                baseResp.setErrorMsg("材料不足");
+                return baseResp;
+            }
+            int[] result = MaterialSynthesisUtil.calculate(Integer.parseInt(token.getStr()));
+            // 扣减物品数量
+            if (playerBag.getItemCount() - Integer.parseInt(token.getStr()) + result[1] > 0) {
+                playerBag.setItemCount(playerBag.getItemCount() - Integer.parseInt(token.getStr()) + result[1]);
+            } else {
+                playerBag.setIsDelete("1");
+            }
+            gamePlayerBagMapper.updateById(playerBag);
+
+            Map itemMap2 = new HashMap();
+            itemMap2.put("item_id", 24);
+            itemMap2.put("user_id", userId);
+            itemMap2.put("is_delete", "0");
+            List<GamePlayerBag> playerBagList2 = gamePlayerBagMapper.selectByMap(itemMap2);
+            if (Xtool.isNotNull(playerBagList2)) {
+                GamePlayerBag playerBag2 = playerBagList2.get(0);
+                playerBag2.setItemCount(playerBag2.getItemCount() + result[0]);
+                gamePlayerBagMapper.updateById(playerBag2);
+            } else {
+                GamePlayerBag playerBag2 = new GamePlayerBag();
+                playerBag2.setUserId(Integer.parseInt(userId));
+                playerBag2.setItemCount(result[0]);
+                playerBag2.setGridIndex(1);
+                playerBag2.setItemId(24);
+                gamePlayerBagMapper.insert(playerBag2);
+            }
+        }
+        baseResp.setSuccess(1);
         return baseResp;
     }
 
@@ -7104,6 +7262,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             baseResp.setErrorMsg("登录过期");
             return baseResp;
         }
+        User user=userMapper.selectUserByUserId(Integer.parseInt(userId));
         //随机获取有队伍的5个人
         List<User> users = userMapper.SelectUserItemId(token.getId(), userId);
         List<UserInfo> infos = new ArrayList<>();
@@ -7115,6 +7274,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setSuccess(1);
         Map map = new HashMap();
         map.put("user", infos);
+        map.put("duoCount",user.getDuoCount());
         baseResp.setData(map);
         return baseResp;
     }

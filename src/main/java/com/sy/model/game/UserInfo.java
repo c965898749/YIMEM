@@ -90,4 +90,6 @@ public class UserInfo {
     private Integer duoCount;
     private String yaoCode;
     private String myCode;
+
+    private Integer itemCount;
 }
