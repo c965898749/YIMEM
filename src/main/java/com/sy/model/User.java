@@ -148,4 +148,5 @@ public class User {
     private String myCode;
 
     private Integer itemCount;
+    private Integer baoCount;
 }

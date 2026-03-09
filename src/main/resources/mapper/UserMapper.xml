@@ -328,6 +328,9 @@
             <if test="yaoCode!=null and yaoCode!=''">
                 yao_code=#{yaoCode},
             </if>
+            <if test="baoCount!=null">
+                bao_count=#{baoCount},
+            </if>
         </set>
         where userId=#{userId}
     </update>
@@ -698,5 +701,8 @@
 	</update>
     <update id="updatechongzhiQiangduo" parameterType="com.sy.model.User">
 		update user set duo_count = '10'
+	</update>
+    <update id="updatebaoCount" parameterType="com.sy.model.User">
+		update user set bao_count = '20'
 	</update>
 </mapper>

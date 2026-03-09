@@ -218,4 +218,5 @@ public interface UserMapper {
     int updateChongzhi();
     int updatechongzhiTower();
     int updatechongzhiQiangduo();
+    int updatebaoCount();
 }

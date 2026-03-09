@@ -92,4 +92,5 @@ public class UserInfo {
     private String myCode;
 
     private Integer itemCount;
+    private Integer baoCount;
 }

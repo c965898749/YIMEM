@@ -895,7 +895,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         }else {
             pveDetail = pveDetailMapper.selectById(token.getId());
         }
-
+        pveDetail.setBaoCount(user.getBaoCount());
         Map map = new HashMap();
         map.put("detail_code", token.getId());
         List<PveBossDetail> pveBossDetailList = pveBossDetailMapper.selectByMap(map);
@@ -6157,14 +6157,26 @@ public class GameServiceServiceImpl implements GameServiceService {
             // addAll 是浅拷贝：新集合引用原有PveReward对象，不创建新对象
             copyResult1.addAll(pveRewardsAll);
         }
-        List<PveReward> pveRewards = new ArrayList<>();
+        List<PveReward> pveRewards1 = new ArrayList<>();
         for (PveReward pveReward : copyResult1) {
             if (!ProbabilityUtils.hitProbability(pveReward.getPrent())) {
                 continue;
             }
-            pveRewards.add(pveReward);
+            pveRewards1.add(pveReward);
         }
-
+        List<PveReward> pveRewards = new ArrayList<>();
+        List<PveReward> noGoldRewards=pveRewards1.stream().filter(x->!"1".equals(x.getRewardType())).collect(Collectors.toList());
+        Integer czxNum=user.getBaoCount();
+        for (PveReward item : pveRewards1) {
+            if ("1".equals(item.getRewardType())) {
+                if (czxNum > 0) { // 只保留前20个type=1的元素
+                    pveRewards.add(item);
+                }
+                czxNum--;
+            }
+        }
+        user.setBaoCount(czxNum);
+        pveRewards.addAll(noGoldRewards);
 
 // 核心改造：按 PveReward 自身的 id 分组（id 是唯一标识，不会为空）
 // key: PveReward 的 id
