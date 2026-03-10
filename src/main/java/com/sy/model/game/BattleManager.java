@@ -1722,7 +1722,8 @@ public class BattleManager {
                             .collect(Collectors.toList());
 
                     if (!aliveEnemies.isEmpty() && skillLevel[1] > 0) {
-
+                        Map<String, TargetBattleData> deadUnits = new HashMap<>();
+                        List<Guardian> deadGuardians = new ArrayList<>();
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
 
@@ -1763,6 +1764,11 @@ public class BattleManager {
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
                             targetStatus.put(g.getId(), data);
+                            if (g.isDead()) {
+
+                                deadUnits.put(g.getId(), data);
+                                deadGuardians.add(g);
+                            }
                         });
 
                         // 单条日志记录多目标
@@ -1775,6 +1781,23 @@ public class BattleManager {
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
                                 "全体敌方造成火焰伤害");
+                        // 死亡日志
+                        if (!deadUnits.isEmpty()) {
+                            addMultiTargetLog("UNIT_DEATH",
+                                    null,
+                                    0,
+                                    0,
+                                    false,
+                                    deadUnits,
+                                    null,
+                                    null,
+                                    "死亡");
+                            //触发死亡技能
+                            for (Guardian g : deadGuardians) {
+                                triggerOnDeathSkills(g);
+                            }
+
+                        }
                     }
                 }
                 break;
@@ -1787,13 +1810,15 @@ public class BattleManager {
                             .collect(Collectors.toList());
 
                     if (!aliveEnemies.isEmpty()) {
+                        Map<String, TargetBattleData> deadUnits = new HashMap<>();
+                        List<Guardian> deadGuardians = new ArrayList<>();
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
 
                         // 记录目标状态并执行伤害
                         aliveEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                            int totalPoisonDamage = random.nextInt(140 - 35 + 1) + 35;
+                            int totalPoisonDamage = (random.nextInt(140 - 35 + 1) + 35)*skillLevel[1];
                             ;
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
@@ -1829,6 +1854,11 @@ public class BattleManager {
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
 
                             targetStatus.put(g.getId(), data);
+                            if (g.isDead()) {
+
+                                deadUnits.put(g.getId(), data);
+                                deadGuardians.add(g);
+                            }
                         });
 
                         // 单条日志记录多目标
@@ -1841,6 +1871,23 @@ public class BattleManager {
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
                                 "全体敌方造成火焰伤害");
+                        // 死亡日志
+                        if (!deadUnits.isEmpty()) {
+                            addMultiTargetLog("UNIT_DEATH",
+                                    null,
+                                    0,
+                                    0,
+                                    false,
+                                    deadUnits,
+                                    null,
+                                    null,
+                                    "死亡");
+                            //触发死亡技能
+                            for (Guardian g : deadGuardians) {
+                                triggerOnDeathSkills(g);
+                            }
+
+                        }
                     }
                 }
                 break;
@@ -2332,7 +2379,7 @@ public class BattleManager {
                                 defender.getMaxHp(),
                                 defender.getCurrentHp(),
                                 defender.isOnField(),
-                                deadUnits,
+                                targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
                                 "全体敌方造成火焰伤害");
@@ -2381,7 +2428,7 @@ public class BattleManager {
                         // 记录目标状态并执行伤害
                         aliveEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                            int totalPoisonDamage = random.nextInt(140 - 35 + 1) + 35;
+                            int totalPoisonDamage = (random.nextInt(140 - 35 + 1) + 35)*skillLevel[1];
                             ;
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 火伤增益：所有 POISON_RESIST 类型效果的 value 总和
@@ -2428,7 +2475,7 @@ public class BattleManager {
                                 defender.getMaxHp(),
                                 defender.getCurrentHp(),
                                 defender.isOnField(),
-                                deadUnits,
+                                targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
                                 "对全体敌方造成火焰伤害");
@@ -5450,7 +5497,7 @@ public class BattleManager {
         }
 
         // 厚土娘娘后土聚能
-        if (!fieldA.isSilence() && fieldA != null && fieldA.getName().equals("厚土娘娘") && fieldA.getBuffStacks() < 99) {
+        if (!fieldA.isSilence() && !fieldA.isDead() && fieldA != null && fieldA.getName().equals("厚土娘娘") && fieldA.getBuffStacks() < 99) {
             int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(fieldA.getLevel(), fieldA.getStar().doubleValue());
             if (skillLevel[1] > 0) {
                 fieldA.setBuffStacks(fieldA.getBuffStacks() + 1);
@@ -5483,7 +5530,7 @@ public class BattleManager {
 
         }
 
-        if (!fieldB.isSilence() && fieldB != null && fieldB.getName().equals("厚土娘娘") && fieldB.getBuffStacks() < 99) {
+        if (!fieldB.isSilence() && !fieldB.isDead() && fieldB != null && fieldB.getName().equals("厚土娘娘") && fieldB.getBuffStacks() < 99) {
             int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(fieldB.getLevel(), fieldB.getStar().doubleValue());
             if (skillLevel[1] > 0) {
                 fieldB.setBuffStacks(fieldB.getBuffStacks() + 1);
@@ -9706,6 +9753,8 @@ public class BattleManager {
                         hel = 39 * skillLevel[0];
                     } else if ("洛神".equals(guardian.getName())) {
                         hel = 104 * skillLevel[0];
+                    } else if ("银甲神".equals(guardian.getName())) {
+                        hel = 104 * skillLevel[0];
                     } else if ("瑶姬".equals(guardian.getName())) {
                         hel = 160 * skillLevel[0];
                     } else if ("中岳大帝".equals(guardian.getName())) {
@@ -9787,21 +9836,25 @@ public class BattleManager {
 
             }
 
-            if (campB.stream().anyMatch(g -> xuminHeroList.contains(g.getName()) && g.getPosition() == position && !g.isDead() && !g.isOnField() && g.isSilence())) {
+            if (campB.stream().anyMatch(g -> xuminHeroList.contains(g.getName()) && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
                 Guardian guardian = campB.stream()
                         .filter(g -> xuminHeroList.contains(g.getName()) && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
+                //疾病效果或加成效果
+//                哪吒属性还是=飞弹伤害*（1-0.8哪吒）*（1-0.1蛇）*（1+0.1中岳光环）-（装备抗性-装备增伤）
+                int healDow = calculateTotalVaule(fieldB, EffectType.HEAL_DOWN);
+                double healDowPret = calculateTotalDownPretVaule(fieldB, EffectType.HEAL_DOWNT_PRET);
+                int healBoost = calculateTotalVaule(fieldB, EffectType.HEAL_BOOST);
+                double healBoostPret = calculateTotalUpPretVaule(fieldB, EffectType.HEAL_BOOST_PRET);
+
                 if (!fieldB.isDead() && fieldB.getRace() == Race.IMMORTAL) {
-                    //疾病效果或加成效果
-                    int healDow = calculateTotalVaule(fieldB, EffectType.HEAL_DOWN);
-                    int healDowPret = calculateTotalVaule(fieldB, EffectType.HEAL_DOWNT_PRET);
-                    int healBoost = calculateTotalVaule(fieldB, EffectType.HEAL_BOOST);
-                    int healBoostPret = calculateTotalVaule(fieldB, EffectType.HEAL_BOOST_PRET);
                     int hel = 20;
                     if ("小龙女".equals(guardian.getName())) {
                         hel = 39 * skillLevel[0];
                     } else if ("洛神".equals(guardian.getName())) {
+                        hel = 104 * skillLevel[0];
+                    } else if ("银甲神".equals(guardian.getName())) {
                         hel = 104 * skillLevel[0];
                     } else if ("瑶姬".equals(guardian.getName())) {
                         hel = 160 * skillLevel[0];
@@ -9837,7 +9890,7 @@ public class BattleManager {
 //                    × 技能减伤buff1
 //                    × 技能减伤buff2
 //                    − 固定减伤（比如飞弹减伤500）
-                    hel = (int) (hel * (1 - (double) healDowPret / 100) * (1 + (double) healBoostPret / 100) + guardian.getZlDef()) - healDow + healBoost;
+                    hel = (int) (hel * healDowPret * healBoostPret + guardian.getZlDef() - healDow + healBoost);
                     if (hel < 0) {
                         hel = 0;
                     }

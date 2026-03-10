@@ -177,6 +177,26 @@ public class GameContoller {
             return baseResp;
         }
     }
+    /**
+     * 十抽
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "soulShiChou", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp soulShiChou(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.soulShiChou(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
 
     @RequestMapping(value = "updateGame", method = RequestMethod.POST)
     @CrossOrigin
