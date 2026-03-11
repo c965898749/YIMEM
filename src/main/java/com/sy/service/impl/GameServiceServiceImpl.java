@@ -5279,6 +5279,9 @@ public class GameServiceServiceImpl implements GameServiceService {
                 // 3. 将时间戳转换为Date对象，赋值给duoTime
                 user.setDuoTime(new Date(protectEndTime));
                 break;
+            case 30:
+                user.setDuoCount(user.getDuoCount()+1);
+                break;
             default:
                 throw new IllegalArgumentException("不支持的物品ID：" + itemId);
         }
@@ -6644,14 +6647,16 @@ public class GameServiceServiceImpl implements GameServiceService {
                     pveReward.setRewardType("2");
                     pveRewards.add(pveReward);
                 }
-
-                if (Xtool.isNotNull(bronzeTower1.getRewardDiamond()) && bronzeTower1.getRewardDiamond() > 0) {
-                    PveReward pveReward = new PveReward();
-                    pveReward.setItemId(0);
-                    pveReward.setRewardAmount(bronzeTower1.getRewardDiamond());
-                    pveReward.setRewardType("1");
-                    pveRewards.add(pveReward);
+                if (ProbabilityBooleanUtils.randomByProbability(0.2)) {
+                    if (Xtool.isNotNull(bronzeTower1.getRewardDiamond()) && bronzeTower1.getRewardDiamond() > 0) {
+                        PveReward pveReward = new PveReward();
+                        pveReward.setItemId(0);
+                        pveReward.setRewardAmount(bronzeTower1.getRewardDiamond());
+                        pveReward.setRewardType("1");
+                        pveRewards.add(pveReward);
+                    }
                 }
+
 
                 if (Xtool.isNotNull(bronzeTower1.getRewardItem1())) {
                     PveReward pveReward = new PveReward();
@@ -7083,6 +7088,15 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setSuccess(1);
         Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), user.getGameImg(), "1");
         if (battle.getIsWin() == 0) {
+            if (ProbabilityBooleanUtils.randomByProbability(0.5)) {
+                if ("23".equals(token.getStr())){
+                    token.setStr("19");
+                }else if ("22".equals(token.getStr())){
+                    token.setStr("18");
+                } else  if ("21".equals(token.getStr())){
+                    token.setStr("20");
+                }
+            }
             Map itemMap = new HashMap();
             itemMap.put("item_id", token.getStr());
             itemMap.put("user_id", token.getUserId());
@@ -7097,7 +7111,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
             if (Xtool.isNotNull(playerBagList)) {
                 GamePlayerBag playerBag = playerBagList.get(0);
-                Integer count = (int) (playerBag.getItemCount() * 0.2);
+                Integer count = Math.round(playerBag.getItemCount() * 0.2f);
                 playerBag.setItemCount(playerBag.getItemCount() - count);
                 if (playerBag.getItemCount() <= 0) {
                     playerBag.setIsDelete("0");
