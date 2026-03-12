@@ -67,7 +67,7 @@
     cd.passive_introduce_three
     from   eq_characters cs
     left  join eq_card cd on cd.id=cs.id
-    where cs.user_id = #{userId} and   cs.go_into_num = #{id} and cs.is_delete='0' limit 1
+    where cs.user_id = #{userId} and   cs.go_into_num = #{id} and cs.is_delete='0'
   </select>
     <select id="selectByUserId" parameterType="com.sy.model.game.EqCharacters"
             resultType="com.sy.model.game.EqCharacters">

@@ -399,7 +399,7 @@ public class BattleManager {
             //2. 回合开始处理
             processRoundStartEffects();
             // 场上战斗
-            if (fieldA != null && !fieldA.isDead() && fieldB != null && !fieldA.isDead()) {
+            if (fieldA != null && !fieldA.isDead() && fieldB != null && !fieldB.isDead()) {
                 if (getSpeed(fieldA, fieldB)) {
                     processAttack(fieldA, fieldB);
                     if (!fieldB.isDead()) {
@@ -1016,7 +1016,7 @@ public class BattleManager {
                                 enemy.getCurrentHp(),
                                 damage,
                                 enemy.isOnField(),
-                                EffectType.TRUE_DAMAGE,
+                                EffectType.DAMAGE,
                                 DamageType.TRUE,
                                 "-" + damage);
                     }
@@ -1253,7 +1253,7 @@ public class BattleManager {
                             defender.getCurrentHp(),
                             damage,
                             defender.isOnField(),
-                            EffectType.TRUE_DAMAGE,
+                            EffectType.DAMAGE,
                             DamageType.TRUE,
                             "-" + damage);
                 }
@@ -3507,7 +3507,7 @@ public class BattleManager {
                                 defender.getCurrentHp(),
                                 fireDamage,
                                 defender.isOnField(),
-                                EffectType.TRUE_DAMAGE,
+                                EffectType.DAMAGE,
                                 DamageType.TRUE,
                                 "-" + fireDamage);
                         // 死亡日志
@@ -3563,7 +3563,7 @@ public class BattleManager {
                                 guardian.getCurrentHp(),
                                 fireDamage,
                                 guardian.isOnField(),
-                                EffectType.TRUE_DAMAGE,
+                                EffectType.DAMAGE,
                                 DamageType.TRUE,
                                 "-" + fireDamage);
                         // 死亡日志
@@ -3620,7 +3620,7 @@ public class BattleManager {
                                 guardian.getCurrentHp(),
                                 fireDamage,
                                 guardian.isOnField(),
-                                EffectType.TRUE_DAMAGE,
+                                EffectType.DAMAGE,
                                 DamageType.TRUE,
                                 "-" + fireDamage);
                         // 死亡日志
@@ -3732,7 +3732,7 @@ public class BattleManager {
                                 guardian.getCurrentHp(),
                                 fireDamage,
                                 guardian.isOnField(),
-                                EffectType.TRUE_DAMAGE,
+                                EffectType.DAMAGE,
                                 DamageType.TRUE,
                                 "-" + fireDamage);
                         // 死亡日志
@@ -3790,7 +3790,7 @@ public class BattleManager {
                                 guardian.getCurrentHp(),
                                 fireDamage,
                                 guardian.isOnField(),
-                                EffectType.TRUE_DAMAGE,
+                                EffectType.DAMAGE,
                                 DamageType.TRUE,
                                 "-" + fireDamage);
                         // 死亡日志

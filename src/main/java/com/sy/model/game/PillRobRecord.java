@@ -46,4 +46,6 @@ public class PillRobRecord {
     private String gameImg;
     @TableField("fight_id")
     private String fightId;
+    @TableField(exist = false)
+    private String itemName;
 }

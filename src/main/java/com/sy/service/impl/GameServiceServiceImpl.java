@@ -140,6 +140,8 @@ public class GameServiceServiceImpl implements GameServiceService {
     private RevengeRecordMapper revengeRecordMapper;
     @Autowired
     private GameEqRecordMapper gameEqRecordMapper;
+    @Autowired
+    private PveRewardRecordMapper pveRewardRecordMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -5729,7 +5731,13 @@ public class GameServiceServiceImpl implements GameServiceService {
         // 4. 比较两个 LocalDate 是否相等
         return targetDate.equals(today);
     }
-
+    // 简化版：detailCode为String类型
+    public  boolean isDetailCodeEndsWithMinusFive(String detailCode) {
+        if (detailCode == null) {
+            return false;
+        }
+        return detailCode.trim().endsWith("-5");
+    }
     @Override
     @Transactional
     @NoRepeatSubmit(limitSeconds = 1)
@@ -5961,6 +5969,23 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 pveRewards.add(pveReward);
             }
+            if (isDetailCodeEndsWithMinusFive(token.getStr())){
+                Map map11 = new HashMap();
+                map11.put("detail_code", token.getStr());
+                map11.put("user_id", userId);
+                List<PveRewardRecord> pveRewardsAll2 = pveRewardRecordMapper.selectByMap(map11);
+                if (Xtool.isNotNull(pveRewardsAll2)){
+                    pveRewards=pveRewards.stream().filter(x->!"4".equals(x.getRewardType())).collect(Collectors.toList());
+                }else {
+                    List<PveReward> pveRewardsAll3=pveRewards.stream().filter(x->"4".equals(x.getRewardType())).collect(Collectors.toList());
+                    if (Xtool.isNotNull(pveRewardsAll3)){
+                        PveRewardRecord pveRewardRecord=new PveRewardRecord();
+                        BeanUtils.copyProperties(pveRewardsAll3.get(0),pveRewardRecord);
+                        pveRewardRecord.setUserId(Integer.parseInt(userId));
+                        pveRewardRecordMapper.insert(pveRewardRecord);
+                    }
+                }
+            }
             for (PveReward content : pveRewards) {
                 if ("1".equals(content.getRewardType() + "")) {
                     //钻石
@@ -6039,6 +6064,23 @@ public class GameServiceServiceImpl implements GameServiceService {
                 .stream()
                 .collect(Collectors.toList());
         pveDetail2.setPveBossDetails(uniqueUserList);
+        String reward="";
+        if (isDetailCodeEndsWithMinusFive(battle.getChapter())){
+            Map map11 = new HashMap();
+            map11.put("detail_code", battle.getChapter());
+            map11.put("user_id", userId);
+            List<PveRewardRecord> pveRewardsAll2 = pveRewardRecordMapper.selectByMap(map11);
+            if (Xtool.isNull(pveRewardsAll2)){
+                Map map22 = new HashMap();
+                map22.put("detail_code", battle.getChapter());
+                List<PveReward> pveRewardRecords = pveRewardMapper.selectByMap(map22);
+                List<PveReward> pveRewardsAll3=pveRewardRecords.stream().filter(x->"4".equals(x.getRewardType())).collect(Collectors.toList());
+                if (Xtool.isNotNull(pveRewardsAll3)){
+                    reward=pveRewardsAll3.get(0).getItemId()+"";
+                }
+            }
+        }
+        map.put("reward", reward);
         userMapper.updateuser(user);
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(user, userInfo);
@@ -6249,6 +6291,25 @@ public class GameServiceServiceImpl implements GameServiceService {
 
 // 原有查询逻辑保持不变
         List<PveReward> pveRewardsAll = pveRewardMapper.selectByMap(map1);
+        if (isDetailCodeEndsWithMinusFive(token.getStr())){
+            Map map11 = new HashMap();
+            map11.put("detail_code", token.getStr());
+            map11.put("user_id", userId);
+            List<PveRewardRecord> pveRewardsAll2 = pveRewardRecordMapper.selectByMap(map11);
+            if (Xtool.isNotNull(pveRewardsAll2)){
+                pveRewardsAll=pveRewardsAll.stream().filter(x->!"4".equals(x.getRewardType())).collect(Collectors.toList());
+            }else {
+                List<PveReward> pveRewardsAll3=pveRewardsAll.stream().filter(x->"4".equals(x.getRewardType())).collect(Collectors.toList());
+                if (Xtool.isNotNull(pveRewardsAll3)){
+                    pveRewardsAll=pveRewardsAll.stream().filter(x->!"4".equals(x.getRewardType())).collect(Collectors.toList());
+                    pveRewardsAll.add(pveRewardsAll3.get(0));
+                    PveRewardRecord pveRewardRecord=new PveRewardRecord();
+                    BeanUtils.copyProperties(pveRewardsAll3.get(0),pveRewardRecord);
+                    pveRewardRecord.setUserId(Integer.parseInt(userId));
+                    pveRewardRecordMapper.insert(pveRewardRecord);
+                }
+            }
+        }
         List<PveReward> copyResult1 = new ArrayList<>();
         for (int i = 0; i < num; i++) {
             // addAll 是浅拷贝：新集合引用原有PveReward对象，不创建新对象
