@@ -21,7 +21,8 @@ public class BattleManager {
     private int currentRound = 0;
     private List<BattleLog> battleLogs = new ArrayList<>();
     private Random random = new Random();
-
+    // 新增递归深度常量（可根据业务调整）
+    private static final int MAX_TRIGGER_DEPTH = 5;
     public BattleManager(String battleId, List<Guardian> campA, List<Guardian> campB) {
         this.battleId = battleId;
         this.campA = campA;
@@ -1522,6 +1523,11 @@ public class BattleManager {
         }
     }
 
+    // 1. 重载方法：对外暴露无深度参数的版本，内部调用带深度的版本
+    private void triggerOnAttackedSkills(Guardian defender, EffectType effectType) {
+        triggerOnAttackedSkills(defender, effectType, 0);
+    }
+
     // 触发受击技能
     private void triggerOnAttackedSkills(Guardian defender, Guardian attacker) {
         int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(defender.getLevel(), defender.getStar().doubleValue());
@@ -1798,6 +1804,11 @@ public class BattleManager {
                             }
 
                         }
+                        //触发受击技能
+                        aliveEnemies.forEach(g -> {
+                            //触发受到任意伤害技能
+                            triggerOnAttackedSkills(g,EffectType.FIRE_DAMAGE);
+                        });
                     }
                 }
                 break;
@@ -1888,6 +1899,11 @@ public class BattleManager {
                             }
 
                         }
+                        //触发受击技能
+                        aliveEnemies.forEach(g -> {
+                            //触发受到任意伤害技能
+                            triggerOnAttackedSkills(g,EffectType.FIRE_DAMAGE);
+                        });
                     }
                 }
                 break;
@@ -2309,12 +2325,18 @@ public class BattleManager {
     }
 
     // 受到任意技能伤害触发技能
-    private void triggerOnAttackedSkills(Guardian defender, EffectType effectType) {
+    private void triggerOnAttackedSkills(Guardian defender, EffectType effectType, int currentDepth) {
         int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(defender.getLevel(), defender.getStar().doubleValue());
 //        烛龙，烛火燎原Lv1受到任意伤害时对全体敌方造成54点火焰伤害；致命衰竭Lv1场上，有单位登场时为目标添加衰弱状态，攻击减少10%，持续99回合；句芒协同Lv1与句芒在同一队伍时增加自身197点生命上限，99点火焰伤害，197点速度。
         if (defender.isSilence()) {
             return;
         }
+
+        // 兜底保护：超过最大深度直接返回，防止栈溢出
+        if (currentDepth >= MAX_TRIGGER_DEPTH) {
+            return;
+        }
+
         switch (defender.getName()) {
             case "烛龙":
                 // 烛火燎原：对全体敌方造成火焰伤害（多目标整合日志）
@@ -2401,10 +2423,10 @@ public class BattleManager {
 
                         }
                         //触发受击技能
-//                        aliveEnemies.forEach(g -> {
-//                            //触发受到任意伤害技能
-//                            triggerOnAttackedSkills(g);
-//                        });
+                        aliveEnemies.forEach(g -> {
+                            //触发受到任意伤害技能
+                            triggerOnAttackedSkills(g,EffectType.FIRE_DAMAGE , currentDepth + 1);
+                        });
                     }
                 }
                 break;
@@ -2497,10 +2519,10 @@ public class BattleManager {
 
                         }
                         //触发受击技能
-//                        aliveEnemies.forEach(g -> {
-//                            //触发受到任意伤害技能
-//                            triggerOnAttackedSkills(g);
-//                        });
+                        aliveEnemies.forEach(g -> {
+                            //触发受到任意伤害技能
+                            triggerOnAttackedSkills(g,EffectType.FIRE_DAMAGE, currentDepth + 1);
+                        });
                     }
                 }
                 break;
@@ -5731,8 +5753,6 @@ public class BattleManager {
                         nianshou.setMaxHp(nianshou.getMaxHp() + hel);
                         nianshou.setCurrentHp(nianshou.getCurrentHp() + hel);
                     }
-                    nianshou.setMaxHp(nianshou.getMaxHp() + hel);
-                    nianshou.setCurrentHp(nianshou.getCurrentHp() + hel);
                     int value = 15 * skillLevel[1];
                     nianshou.addEffect(EffectType.FIRE_BOOST, value, 999, nianshou.getId());
                     addLog("幸运年糕",
@@ -5872,8 +5892,6 @@ public class BattleManager {
                         nianshou.setMaxHp(nianshou.getMaxHp() + hel);
                         nianshou.setCurrentHp(nianshou.getCurrentHp() + hel);
                     }
-                    nianshou.setMaxHp(nianshou.getMaxHp() + hel);
-                    nianshou.setCurrentHp(nianshou.getCurrentHp() + hel);
                     int value = 15 * skillLevel[1];
                     nianshou.addEffect(EffectType.FIRE_BOOST, value, 999, nianshou.getId());
                     addLog("幸运年糕",
@@ -7685,7 +7703,12 @@ public class BattleManager {
                 null,
                 null,
                 "中毒效果触发");
-
+        //触发受伤技能
+        poisonedUnits.forEach(g->{
+            if (!deadGuardians.contains(g)){
+                triggerOnAttackedSkills(g,EffectType.POISON);
+            }
+        });
         // 阵亡日志
         if (!deadUnits.isEmpty()) {
             addMultiTargetLog("UNIT_DEATH",
