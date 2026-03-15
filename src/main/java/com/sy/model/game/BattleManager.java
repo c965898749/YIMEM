@@ -61,152 +61,71 @@ public class BattleManager {
     }
 
     // 初始化战斗
+// 初始化战斗
     private void initBattle() {
         fieldA = getNextGuardian(campA);
         fieldB = getNextGuardian(campB);
-        if (getSpeed(fieldA, fieldB)) {
-            if (fieldA != null) {
-                fieldA.setOnField(true);
-                Map<String, TargetBattleData> multiTargetDataMap = new HashMap<>();
-                TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), 0, fieldA.isOnField());
-                if (fieldA.isSilence()) {
-                    data.setSilence(true);
-                } else {
-                    data.setSilence(false);
-                }
-                if (fieldA.isFireBoost()) {
-                    data.setFireBoost(true);
-                } else {
-                    data.setFireBoost(false);
-                }
-                if (fieldA.isPoison()) {
-                    data.setPoison(true);
-                } else {
-                    data.setPoison(false);
-                }
-                if (fieldA.isStunned()) {
-                    data.setStunned(true);
-                } else {
-                    data.setStunned(false);
-                }
-                multiTargetDataMap.put(fieldA.getId(), data);
-                addLogEnter(fieldA.getFlyup(), "UNIT_ENTER",
-                        fieldA.getId(),
-                        fieldA.getMaxHp(), fieldA.getCurrentHp(),
-                        fieldA.isOnField(),
-                        multiTargetDataMap,
-                        fieldA.getName() + "登场");
 
-            }
-            if (fieldB != null) {
-                fieldB.setOnField(true);
-                Map<String, TargetBattleData> multiTargetDataMap = new HashMap<>();
-                TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                if (fieldB.isSilence()) {
-                    data.setSilence(true);
-                } else {
-                    data.setSilence(false);
-                }
-                if (fieldB.isFireBoost()) {
-                    data.setFireBoost(true);
-                } else {
-                    data.setFireBoost(false);
-                }
-                if (fieldB.isPoison()) {
-                    data.setPoison(true);
-                } else {
-                    data.setPoison(false);
-                }
-                if (fieldB.isStunned()) {
-                    data.setStunned(true);
-                } else {
-                    data.setStunned(false);
-                }
-                multiTargetDataMap.put(fieldB.getId(), data);
-                addLogEnter(fieldB.getFlyup(), "UNIT_ENTER",
-                        fieldB.getId(),
-                        fieldB.getMaxHp(), fieldB.getCurrentHp(),
-                        fieldB.isOnField(),
-                        multiTargetDataMap,
-                        fieldB.getName() + "登场");
+        // 第一步：统一处理两边角色的登场状态和日志（同时登场）
+        handleUnitEnter(fieldA);
+        handleUnitEnter(fieldB);
 
-            }
+        // 第二步：按速度优先级触发登场技能（只触发一次完整流程，而非分别触发）
+        boolean isCampAFaster = getSpeed(fieldA, fieldB);
+        if (isCampAFaster) {
+            // A速度快，先触发A的技能，再触发B的
             triggerOnEnterSkills(fieldA);
             triggerOnEnterSkills(fieldB);
-            triggerOnEnterSkills2(fieldA);
-            triggerOnEnterSkills2(fieldB);
+            triggerOnEnterSkills2(fieldA,fieldB);
         } else {
-            if (fieldB != null) {
-                fieldB.setOnField(true);
-                Map<String, TargetBattleData> multiTargetDataMap = new HashMap<>();
-                TargetBattleData data = new TargetBattleData(fieldB.getMaxHp(), fieldB.getCurrentHp(), 0, fieldB.isOnField());
-                if (fieldB.isSilence()) {
-                    data.setSilence(true);
-                } else {
-                    data.setSilence(false);
-                }
-                if (fieldB.isFireBoost()) {
-                    data.setFireBoost(true);
-                } else {
-                    data.setFireBoost(false);
-                }
-                if (fieldB.isPoison()) {
-                    data.setPoison(true);
-                } else {
-                    data.setPoison(false);
-                }
-                if (fieldB.isStunned()) {
-                    data.setStunned(true);
-                } else {
-                    data.setStunned(false);
-                }
-                multiTargetDataMap.put(fieldB.getId(), data);
-                addLogEnter(fieldB.getFlyup(), "UNIT_ENTER",
-                        fieldB.getId(),
-                        fieldB.getMaxHp(), fieldB.getCurrentHp(),
-                        fieldB.isOnField(),
-                        multiTargetDataMap,
-                        fieldB.getName() + "登场");
-            }
-            if (fieldA != null) {
-                fieldA.setOnField(true);
-                Map<String, TargetBattleData> multiTargetDataMap = new HashMap<>();
-                TargetBattleData data = new TargetBattleData(fieldA.getMaxHp(), fieldA.getCurrentHp(), 0, fieldA.isOnField());
-                if (fieldA.isSilence()) {
-                    data.setSilence(true);
-                } else {
-                    data.setSilence(false);
-                }
-                if (fieldA.isFireBoost()) {
-                    data.setFireBoost(true);
-                } else {
-                    data.setFireBoost(false);
-                }
-                if (fieldA.isPoison()) {
-                    data.setPoison(true);
-                } else {
-                    data.setPoison(false);
-                }
-                if (fieldA.isStunned()) {
-                    data.setStunned(true);
-                } else {
-                    data.setStunned(false);
-                }
-                multiTargetDataMap.put(fieldA.getId(), data);
-                addLogEnter(fieldA.getFlyup(), "UNIT_ENTER",
-                        fieldA.getId(),
-                        fieldA.getMaxHp(), fieldA.getCurrentHp(),
-                        fieldA.isOnField(),
-                        multiTargetDataMap,
-                        fieldA.getName() + "登场");
-
-            }
+            // B速度快，先触发B的技能，再触发A的
             triggerOnEnterSkills(fieldB);
             triggerOnEnterSkills(fieldA);
-            triggerOnEnterSkills2(fieldB);
-            triggerOnEnterSkills2(fieldA);
+            triggerOnEnterSkills2(fieldB,fieldA);
 
         }
+    }
+
+    /**
+     * 抽取通用的角色登场处理逻辑（避免重复代码）
+     * @param unit 要处理的角色
+     */
+    private void handleUnitEnter(Guardian unit) { // 注意：这里Object需替换为unit的实际类型（如Guardian）
+        if (unit == null) {
+            return;
+        }
+
+        // 设置登场状态
+        unit.setOnField(true);
+
+        // 构建战斗数据
+        Map<String, TargetBattleData> multiTargetDataMap = new HashMap<>();
+        TargetBattleData data = new TargetBattleData(
+                unit.getMaxHp(),
+                unit.getCurrentHp(),
+                0,
+                unit.isOnField()
+        );
+
+        // 设置各种状态（简化写法）
+        data.setSilence(unit.isSilence());
+        data.setFireBoost(unit.isFireBoost());
+        data.setPoison(unit.isPoison());
+        data.setStunned(unit.isStunned());
+
+        multiTargetDataMap.put(unit.getId(), data);
+
+        // 记录登场日志
+        addLogEnter(
+                unit.getFlyup(),
+                "UNIT_ENTER",
+                unit.getId(),
+                unit.getMaxHp(),
+                unit.getCurrentHp(),
+                unit.isOnField(),
+                multiTargetDataMap,
+                unit.getName() + "登场"
+        );
     }
 
     // 获取下一个可上场的护法
@@ -638,7 +557,8 @@ public class BattleManager {
         if (burnDamage < 0) {
             burnDamage = 0;
         }
-
+        Integer logIndex=battleLogs.size();
+        burnDamage=triggerOnAttackedSkills(defender,burnDamage,EffectType.DAMAGE);
 
         defender.setCurrentHp(defender.getCurrentHp() - burnDamage);
         addLog("NORMAL_ATTACK",
@@ -650,7 +570,7 @@ public class BattleManager {
                 defender.getMaxHp(), defender.getCurrentHp(),
                 burnDamage, defender.isOnField(),
                 EffectType.DAMAGE, DamageType.PHYSICAL,
-                "-" + defender.getName());
+                "-" + defender.getName(),logIndex);
         // 检查阵亡
         if (defender.getCurrentHp() <= 0) {
             defender.setDead(true);
@@ -676,6 +596,76 @@ public class BattleManager {
         triggerPostAttackSkills(attacker, defender);
 
 
+    }
+    //吃伤时技能
+    private Integer triggerOnAttackedSkills(Guardian defender, Integer burnDamage,EffectType effectType){
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(defender.getLevel(), defender.getStar().doubleValue());
+            if (defender.isSilence()) {
+                return burnDamage;
+            }
+            switch (defender.getName()) {
+                case "哮天犬":
+//                    哮天犬(兽族护法数*20%)概率将所受伤害的10%转移给已方兽族护法。
+                    List<Guardian> defenders = defender.getCamp() == Camp.A ?
+                            campA.stream().filter(g -> !g.isDead()&&g.getRace()==Race.ORC).collect(Collectors.toList()) :
+                            campB.stream().filter(g -> !g.isDead()&&g.getRace()==Race.ORC).collect(Collectors.toList());
+                    if (ProbabilityBooleanUtils.randomByProbability(1.0 * defenders.size())) {
+                        List<Guardian> shous=defenders.stream().filter(x->!x.isOnField()).collect(Collectors.toList());
+                        if (Xtool.isNotNull(shous)&&skillLevel[1] > 0){
+                            int oldBurnDamage=burnDamage;
+                            burnDamage = (int) Math.round(burnDamage * (1 - 0.1 * skillLevel[1]));
+                            if (burnDamage<0){
+                                burnDamage=0;
+                            }
+                            Guardian g=shous.get(0);
+                            // 4. 扣除伤害
+                            int totalPoisonDamage =oldBurnDamage-burnDamage;
+                            g.setCurrentHp(g.getCurrentHp() - totalPoisonDamage);
+                            addLog("月之暗面",
+                                    defender.getId(),
+                                    defender.getMaxHp(),
+                                    defender.getCurrentHp(),
+                                    0,
+                                    defender.isOnField(),
+                                    g.getId(),
+                                    g.getMaxHp(),
+                                    g.getCurrentHp(),
+                                    totalPoisonDamage,
+                                    g.isOnField(),
+                                    effectType.MAX_HP_DOWN,
+                                    DamageType.TRUE,
+                                    "-" + totalPoisonDamage);
+                            Map<String, TargetBattleData> deadUnits = new HashMap<>();
+
+                            if (g.getCurrentHp() <= 0) {
+                                g.setDead(true);
+                                g.setOnField(false);
+                                TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), burnDamage, g.isOnField());
+                                deadUnits.put(g.getId(), data);
+                            }
+                            // 死亡日志
+                            if (!deadUnits.isEmpty()) {
+                                addMultiTargetLog("UNIT_DEATH",
+                                        null,
+                                        0,
+                                        0,
+                                        false,
+                                        deadUnits,
+                                        null,
+                                        null,
+                                        "死亡");
+                                //触发死亡技能
+                                triggerOnDeathSkills(g);
+
+                            } else {
+                                //触发受击技能
+                                triggerOnAttackedSkills(g, defender);
+                            }
+                        }
+                    }
+                    break;
+            }
+        return burnDamage;
     }
 
     // 触发登场技能
@@ -811,6 +801,7 @@ public class BattleManager {
                             campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
                             campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
                     if (Xtool.isNotNull(enemies)) {
+                        Integer logIndex=battleLogs.size();
                         enemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                             int totalPoisonDamage = 420 * skillLevel[0];
@@ -842,6 +833,7 @@ public class BattleManager {
                             if (burnDamage < 0) {
                                 burnDamage = 0;
                             }
+                            burnDamage=triggerOnAttackedSkills(g,burnDamage,EffectType.FIRE_DAMAGE);
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - burnDamage);
@@ -863,7 +855,7 @@ public class BattleManager {
                                 targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "敌方全体收到火焰伤害");
+                                "敌方全体收到火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -894,8 +886,7 @@ public class BattleManager {
 //                    天兆神火Lv1登场时对对方全体造成35点火焰伤害；
                     Map<String, TargetBattleData> deadUnits = new HashMap<>();
                     List<Guardian> deadGuardians = new ArrayList<>();
-                    int lavaDamage = 35 * skillLevel[0];
-
+                    Integer logIndex=battleLogs.size();
                     Map<String, TargetBattleData> targetStatus = new HashMap<>();
                     List<Guardian> enemies = guardian.getCamp() == Camp.A ?
                             campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
@@ -931,7 +922,7 @@ public class BattleManager {
                         if (burnDamage < 0) {
                             burnDamage = 0;
                         }
-
+                        burnDamage=triggerOnAttackedSkills(g,burnDamage,EffectType.FIRE_DAMAGE);
                         // 4. 扣除伤害
                         g.setCurrentHp(g.getCurrentHp() - burnDamage);
                         TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), burnDamage, g.isOnField());
@@ -951,7 +942,7 @@ public class BattleManager {
                             targetStatus,
                             EffectType.FIRE_DAMAGE,
                             DamageType.FIRE,
-                            "对方全体造成点火焰伤害");
+                            "对方全体造成点火焰伤害",logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -1005,6 +996,8 @@ public class BattleManager {
                     Guardian enemy = guardian.getCamp() == Camp.A ? fieldB : fieldA;
                     if (enemy != null) {
                         int damage = (int) (enemy.getCurrentHp() * 0.04 * skillLevel[0]);
+                        Integer logIndex=battleLogs.size();
+                        damage=triggerOnAttackedSkills(enemy,damage,EffectType.DAMAGE);
                         enemy.setCurrentHp(enemy.getCurrentHp() - damage);
                         addLog("北极剑意",
                                 guardian.getId(),
@@ -1019,7 +1012,7 @@ public class BattleManager {
                                 enemy.isOnField(),
                                 EffectType.DAMAGE,
                                 DamageType.TRUE,
-                                "-" + damage);
+                                "-" + damage,logIndex);
                     }
                 }
                 break;
@@ -1098,28 +1091,30 @@ public class BattleManager {
                 break;
         }
     }
-
     private void triggerOnEnterSkills2(Guardian guardian) {
-        int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
+        triggerOnEnterSkills2(guardian,null);
+    }
+    private void triggerOnEnterSkills2(Guardian guardian1,Guardian guardian2) {
         //TODO 对方登场优先在场先触发技能
-        if (1 == 1) {
-            Guardian enemy = guardian.getCamp() == Camp.A ? fieldB : fieldA;
+        if (1 == 1&&guardian1!=null) {
+            int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian1.getLevel(), guardian1.getStar().doubleValue());
+            Guardian enemy = guardian1.getCamp() == Camp.A ? fieldB : fieldA;
             if (!enemy.isSilence() && enemy != null) {
                 switch (enemy.getName()) {
                     case "托塔天王":
                         // 镇妖塔：对敌方场上造成飞弹伤害
-                        if (guardian != null) {
+                        if (guardian1 != null) {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                             int totalPoisonDamage = 69 * skillLevel[1];
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                             // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
-                            int resistUp = calculateTotalVaule(guardian, EffectType.MISSILE_BOOST);
+                            int resistUp = calculateTotalVaule(guardian1, EffectType.MISSILE_BOOST);
                             // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.MISSILE_BOOST_PRET);
+                            double resistUpPret = calculateTotalUpPretVaule(guardian1, EffectType.MISSILE_BOOST_PRET);
                             // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                            int resistDown = calculateTotalVaule(guardian, EffectType.MISSILE_DOWN);
+                            int resistDown = calculateTotalVaule(guardian1, EffectType.MISSILE_DOWN);
                             // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                            double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.MISSILE_DOWN_PRET);
+                            double resistDownPret = calculateTotalDownPretVaule(guardian1, EffectType.MISSILE_DOWN_PRET);
 
 
                             // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
@@ -1134,11 +1129,135 @@ public class BattleManager {
                             // 最终（仅基于 buff 计算，无新增方法）
 
                             int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
-                                    + (resistUp - resistDown + guardian.getFdAtk() - enemy.getFdDef() - targetUp + targetDown));
+                                    + (resistUp - resistDown + guardian1.getFdAtk() - enemy.getFdDef() - targetUp + targetDown));
 
                             if (burnDamage < 0) {
                                 burnDamage = 0;
                             }
+                            Integer logIndex=battleLogs.size();
+                            burnDamage=triggerOnAttackedSkills(guardian1,burnDamage,EffectType.MISSILE_DAMAGE);
+                            // 4. 扣除伤害
+                            enemy.setCurrentHp(enemy.getCurrentHp() - burnDamage);
+                            addLog("镇妖塔",
+                                    enemy.getId(),
+                                    enemy.getMaxHp(),
+                                    enemy.getCurrentHp(),
+                                    0,
+                                    enemy.isOnField(),
+                                    guardian1.getId(),
+                                    guardian1.getMaxHp(),
+                                    guardian1.getCurrentHp(),
+                                    burnDamage,
+                                    guardian1.isOnField(),
+                                    EffectType.MISSILE_DAMAGE,
+                                    DamageType.MISSILE,
+                                    "-" + burnDamage,logIndex);
+                        }
+                        break;
+                    case "厚土娘娘":
+                        // 大地净化：驱散自身减益
+//                        enemy.getEffects().clear();
+                        //只驱散负面buff
+                        enemy.remove(EffectType.HEAL_DOWN);
+                        enemy.remove(EffectType.HEAL_DOWNT_PRET);
+                        enemy.remove(EffectType.ATTACK_DOWN);
+                        enemy.remove(EffectType.ATTACK_DOWN_PRET);
+                        enemy.remove(EffectType.POISON);
+                        enemy.remove(EffectType.ATTACK_RESIST_DOWN);
+                        enemy.remove(EffectType.ATTACK_RESIST_DOWN_PRET);
+                        enemy.remove(EffectType.FIRE_DOWN);
+                        enemy.remove(EffectType.FIRE_DOWN_PRET);
+                        enemy.remove(EffectType.FIRE_RESIST_DOWN);
+                        enemy.remove(EffectType.FIRE_RESIST_DOWN_PRET);
+                        enemy.remove(EffectType.POISON_DOWN);
+                        enemy.remove(EffectType.POISON_DOWN_PRET);
+                        enemy.remove(EffectType.POISON_RESIST_DOWN);
+                        enemy.remove(EffectType.POISON_RESIST_DOWN_PRET);
+                        enemy.remove(EffectType.FIRE_RESIST_DOWN_PRET);
+                        enemy.remove(EffectType.MISSILE_DOWN);
+                        enemy.remove(EffectType.MISSILE_DOWN_PRET);
+                        enemy.remove(EffectType.MISSILE_RESIST_DOWN);
+                        enemy.remove(EffectType.MISSILE_RESIST_DOWN_PRET);
+                        enemy.remove(EffectType.MAX_HP_DOWN_PRET);
+                        enemy.remove(EffectType.SPEED_DOWN);
+                        enemy.remove(EffectType.SPEED_DOWN_PRET);
+                        addLog("大地净化",
+                                enemy.getId(),
+                                enemy.getMaxHp(),
+                                enemy.getCurrentHp(),
+                                0,
+                                enemy.isOnField(),
+                                enemy.getId(),
+                                enemy.getMaxHp(),
+                                enemy.getCurrentHp(),
+                                0,
+                                enemy.isOnField(),
+                                EffectType.SILENCE_IMMUNE,
+                                DamageType.MAGIC,
+                                "驱散减益");
+                        break;
+                    case "天蓬元帅":
+//                        天蓬元帅，满目桃花Lv1场上遇到女性敌人时，自身攻击降低50%，速度增加50%，持续6回合
+                        enemy.addEffect(EffectType.ATTACK_DOWN_PRET, 50, 6, enemy.getId());
+                        enemy.addEffect(EffectType.SPEED_UP_PRET, 50, 6, enemy.getId());
+                        addLog("满目桃花",
+                                enemy.getId(),
+                                enemy.getMaxHp(),
+                                enemy.getCurrentHp(),
+                                0,
+                                enemy.isOnField(),
+                                enemy.getId(),
+                                enemy.getMaxHp(),
+                                enemy.getCurrentHp(),
+                                0,
+                                enemy.isOnField(),
+                                null,
+                                DamageType.MAGIC,
+                                "攻击-50%，速度+50%");
+                        break;
+                }
+            }
+        }
+        if (1 == 1&&guardian2!=null) {
+            int[] skillLevel2 = CardSkillLevelUtil.calculateSkillLevels(guardian2.getLevel(), guardian2.getStar().doubleValue());
+            Guardian enemy = guardian2.getCamp() == Camp.A ? fieldB : fieldA;
+            if (!enemy.isSilence() && enemy != null) {
+                switch (enemy.getName()) {
+                    case "托塔天王":
+                        // 镇妖塔：对敌方场上造成飞弹伤害
+                        if (guardian2 != null) {
+                            // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                            int totalPoisonDamage = 69 * skillLevel2[1];
+                            // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                            // 飞弹增益：所有 POISON_RESIST 类型效果的 value 总和
+                            int resistUp = calculateTotalVaule(guardian2, EffectType.MISSILE_BOOST);
+                            // 飞弹增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                            double resistUpPret = calculateTotalUpPretVaule(guardian2, EffectType.MISSILE_BOOST_PRET);
+                            // 飞弹降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                            int resistDown = calculateTotalVaule(guardian2, EffectType.MISSILE_DOWN);
+                            // 飞弹降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                            double resistDownPret = calculateTotalDownPretVaule(guardian2, EffectType.MISSILE_DOWN_PRET);
+
+
+                            // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                            // 弹抗增益：所有 POISON_RESIST 类型效果的 value 总和
+                            int targetUp = calculateTotalVaule(enemy, EffectType.MISSILE_RESIST_BOOST);
+                            // 弹抗增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                            double targetUpPret = calculateTotalDownPretVaule(enemy, EffectType.MISSILE_RESIST_BOOST_PRET);
+                            // 弹抗降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                            int targetDown = calculateTotalVaule(enemy, EffectType.MISSILE_RESIST_DOWN);
+                            // 弹抗降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                            double targetDownPret = calculateTotalUpPretVaule(enemy, EffectType.MISSILE_RESIST_DOWN_PRET);
+                            // 最终（仅基于 buff 计算，无新增方法）
+
+                            int burnDamage = (int) (totalPoisonDamage * resistUpPret * resistDownPret * targetUpPret * targetDownPret
+                                    + (resistUp - resistDown + guardian2.getFdAtk() - enemy.getFdDef() - targetUp + targetDown));
+
+                            if (burnDamage < 0) {
+                                burnDamage = 0;
+                            }
+                            Integer logIndex=battleLogs.size();
+                            burnDamage=triggerOnAttackedSkills(guardian2,burnDamage,EffectType.MISSILE_DAMAGE);
 
                             // 4. 扣除伤害
                             enemy.setCurrentHp(enemy.getCurrentHp() - burnDamage);
@@ -1148,14 +1267,14 @@ public class BattleManager {
                                     enemy.getCurrentHp(),
                                     0,
                                     enemy.isOnField(),
-                                    guardian.getId(),
-                                    guardian.getMaxHp(),
-                                    guardian.getCurrentHp(),
+                                    guardian2.getId(),
+                                    guardian2.getMaxHp(),
+                                    guardian2.getCurrentHp(),
                                     burnDamage,
-                                    guardian.isOnField(),
+                                    guardian2.isOnField(),
                                     EffectType.MISSILE_DAMAGE,
                                     DamageType.MISSILE,
-                                    "-" + burnDamage);
+                                    "-" + burnDamage,logIndex);
                         }
                         break;
                     case "厚土娘娘":
@@ -1225,7 +1344,7 @@ public class BattleManager {
 
 
         //TODO 登场，再触发场下
-        processOnFieldSkills0(guardian);
+        processOnFieldSkills0(guardian1,guardian2);
 
 
     }
@@ -1237,10 +1356,38 @@ public class BattleManager {
             return;
         }
         switch (attacker.getName()) {
+            case "哮天犬":
+                //    兽妖 Lv1
+                //    攻击前有10%概率提升攻击且使攻击附带疾病效果（本方每有一名兽族，额外增加20%的攻击力，攻击后清除）。
+                if (ProbabilityBooleanUtils.randomByProbability(1.0 * skillLevel[0])) {
+                    List<Guardian> attackers = attacker.getCamp() == Camp.A ?
+                            campA.stream().filter(g -> !g.isDead()&&g.getRace()==Race.ORC).collect(Collectors.toList()) :
+                            campB.stream().filter(g -> !g.isDead()&&g.getRace()==Race.ORC).collect(Collectors.toList());
+
+                    attacker.addEffect(EffectType.ATTACK_UP_PRET, 20*attackers.size(), 1, attacker.getId());
+
+                    addLog("兽妖",
+                            attacker.getId(),
+                            attacker.getMaxHp(),
+                            attacker.getCurrentHp(),
+                            0,
+                            attacker.isOnField(),
+                            attacker.getId(),
+                            attacker.getMaxHp(),
+                            attacker.getCurrentHp(),
+                            20*attackers.size(),
+                            defender.isOnField(),
+                            EffectType.ATTACK_UP_PRET,
+                            DamageType.TRUE,
+                            "攻击+" +20*attackers.size()+"%");
+                }
+                break;
             case "齐天大圣":
                 // 定海神针：当前生命值6%伤害
                 if (skillLevel[1] > 0) {
                     int damage = (int) (defender.getCurrentHp() * 0.06 * skillLevel[1]);
+                    Integer logIndex=battleLogs.size();
+                    damage=triggerOnAttackedSkills(defender,damage,EffectType.DAMAGE);
                     defender.setCurrentHp(defender.getCurrentHp() - damage);
 
                     addLog("定海神针",
@@ -1256,7 +1403,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.DAMAGE,
                             DamageType.TRUE,
-                            "-" + damage);
+                            "-" + damage,logIndex);
                 }
                 break;
             case "圣灵天将":
@@ -1300,6 +1447,9 @@ public class BattleManager {
                         // 转为整数（可根据需求选择四舍五入或直接截断）
                         int totalPoisonDamage = (int) Math.round(rawPoisonDamage); // 四舍五入
                         // 4. 扣除伤害
+                        Integer logIndex=battleLogs.size();
+                        totalPoisonDamage=triggerOnAttackedSkills(defender,totalPoisonDamage,EffectType.DAMAGE);
+
                         defender.setCurrentHp(defender.getCurrentHp() - totalPoisonDamage);
                         Map<String, TargetBattleData> deadUnits = new HashMap<>();
                         if (attacker.getCurrentHp() <= 0) {
@@ -1321,7 +1471,7 @@ public class BattleManager {
                                 defender.isOnField(),
                                 EffectType.DAMAGE,
                                 DamageType.TRUE,
-                                "-" + totalPoisonDamage);
+                                "-" + totalPoisonDamage,logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -1373,6 +1523,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(defender,burnDamage,EffectType.FIRE_DAMAGE);
 
                     // 4. 扣除伤害
                     defender.setCurrentHp(defender.getCurrentHp() - burnDamage);
@@ -1401,7 +1553,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.FIRE_DAMAGE,
                             DamageType.FIRE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -1453,6 +1605,8 @@ public class BattleManager {
                         if (burnDamage < 0) {
                             burnDamage = 0;
                         }
+                        Integer logIndex=battleLogs.size();
+                        burnDamage=triggerOnAttackedSkills(defender,burnDamage,EffectType.FIRE_DAMAGE);
 
                         // 4. 扣除伤害
                         defender.setCurrentHp(defender.getCurrentHp() - burnDamage);
@@ -1481,7 +1635,7 @@ public class BattleManager {
                                 defender.isOnField(),
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "-" + burnDamage);
+                                "-" + burnDamage,logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -1732,7 +1886,7 @@ public class BattleManager {
                         List<Guardian> deadGuardians = new ArrayList<>();
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
-
+                        Integer logIndex=battleLogs.size();
                         // 记录目标状态并执行伤害
                         aliveEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
@@ -1765,6 +1919,7 @@ public class BattleManager {
                             if (finalDamage < 0) {
                                 finalDamage = 0;
                             }
+                            finalDamage=triggerOnAttackedSkills(g,finalDamage,EffectType.MISSILE_DAMAGE);
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
@@ -1786,7 +1941,7 @@ public class BattleManager {
                                 targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "全体敌方造成火焰伤害");
+                                "全体敌方造成火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -1825,7 +1980,7 @@ public class BattleManager {
                         List<Guardian> deadGuardians = new ArrayList<>();
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
-
+                        Integer logIndex=battleLogs.size();
                         // 记录目标状态并执行伤害
                         aliveEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
@@ -1859,7 +2014,7 @@ public class BattleManager {
                             if (finalDamage < 0) {
                                 finalDamage = 0;
                             }
-
+                            finalDamage=triggerOnAttackedSkills(g,finalDamage,EffectType.FIRE_DAMAGE);
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
                             TargetBattleData data = new TargetBattleData(g.getMaxHp(), g.getCurrentHp(), finalDamage, g.isOnField());
@@ -1881,7 +2036,7 @@ public class BattleManager {
                                 targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "全体敌方造成火焰伤害");
+                                "全体敌方造成火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -2100,6 +2255,8 @@ public class BattleManager {
                         burnDamage = 0;
                     }
 
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(attacker,burnDamage,EffectType.DAMAGE);
 
                     attacker.setCurrentHp(attacker.getCurrentHp() - burnDamage);
 
@@ -2117,7 +2274,7 @@ public class BattleManager {
                             attacker.isOnField(),
                             EffectType.DAMAGE,
                             DamageType.PHYSICAL,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     Map<String, TargetBattleData> deadUnits = new HashMap<>();
 
                     if (attacker.getCurrentHp() <= 0) {
@@ -2193,6 +2350,8 @@ public class BattleManager {
                         if (burnDamage < 0) {
                             burnDamage = 0;
                         }
+                        Integer logIndex=battleLogs.size();
+                        burnDamage=triggerOnAttackedSkills(enemy,burnDamage,EffectType.MISSILE_DAMAGE);
 
                         // 4. 扣除伤害
                         enemy.setCurrentHp(enemy.getCurrentHp() - burnDamage);
@@ -2217,7 +2376,7 @@ public class BattleManager {
                                 enemy.isOnField(),
                                 EffectType.MISSILE_DAMAGE,
                                 DamageType.MISSILE,
-                                "-" + burnDamage);
+                                "-" + burnDamage,logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -2274,6 +2433,8 @@ public class BattleManager {
                         if (burnDamage < 0) {
                             burnDamage = 0;
                         }
+                        Integer logIndex=battleLogs.size();
+                        burnDamage=triggerOnAttackedSkills(enemy,burnDamage,EffectType.MISSILE_DAMAGE);
 
                         // 4. 扣除伤害
                         enemy.setCurrentHp(enemy.getCurrentHp() - burnDamage);
@@ -2298,7 +2459,7 @@ public class BattleManager {
                                 enemy.isOnField(),
                                 EffectType.MISSILE_DAMAGE,
                                 DamageType.MISSILE,
-                                "-" + burnDamage);
+                                "-" + burnDamage,logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -2351,7 +2512,7 @@ public class BattleManager {
                         List<Guardian> deadGuardians = new ArrayList<>();
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
-
+                        Integer logIndex=battleLogs.size();
                         // 记录目标状态并执行伤害
                         aliveEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
@@ -2384,6 +2545,7 @@ public class BattleManager {
                             if (finalDamage < 0) {
                                 finalDamage = 0;
                             }
+                            finalDamage=triggerOnAttackedSkills(g,finalDamage,EffectType.FIRE_DAMAGE);
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
@@ -2404,7 +2566,7 @@ public class BattleManager {
                                 targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "全体敌方造成火焰伤害");
+                                "全体敌方造成火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -2446,6 +2608,7 @@ public class BattleManager {
 
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
+                        Integer logIndex=battleLogs.size();
 
                         // 记录目标状态并执行伤害
                         aliveEnemies.forEach(g -> {
@@ -2480,6 +2643,7 @@ public class BattleManager {
                             if (finalDamage < 0) {
                                 finalDamage = 0;
                             }
+                            finalDamage=triggerOnAttackedSkills(g,finalDamage,EffectType.FIRE_DAMAGE);
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
@@ -2500,7 +2664,7 @@ public class BattleManager {
                                 targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "对全体敌方造成火焰伤害");
+                                "对全体敌方造成火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -2644,6 +2808,8 @@ public class BattleManager {
                             burnDamage = 0;
                         }
 
+                        Integer logIndex=battleLogs.size();
+                        burnDamage=triggerOnAttackedSkills(enemie,burnDamage,EffectType.DAMAGE);
 
                         enemie.setCurrentHp(enemie.getCurrentHp() - burnDamage);
 
@@ -2660,7 +2826,7 @@ public class BattleManager {
                                 enemie.isOnField(),
                                 EffectType.DAMAGE,
                                 DamageType.PHYSICAL,
-                                "-" + burnDamage);
+                                "-" + burnDamage,logIndex);
                         Map<String, TargetBattleData> deadUnits = new HashMap<>();
 
                         if (enemie.getCurrentHp() <= 0) {
@@ -2912,6 +3078,7 @@ public class BattleManager {
                         Map<String, TargetBattleData> deadUnits = new HashMap<>();
                         List<Guardian> deadGuardians = new ArrayList<>();
                         int lavaDamage = 62 * skillLevel[0];
+                        Integer logIndex=battleLogs.size();
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
 
@@ -2946,6 +3113,7 @@ public class BattleManager {
                             if (finalDamage < 0) {
                                 finalDamage = 0;
                             }
+                            finalDamage=triggerOnAttackedSkills(g,finalDamage,EffectType.FIRE_DAMAGE);
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
@@ -2967,7 +3135,7 @@ public class BattleManager {
                                 deadUnits,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "敌方造成火焰伤害");
+                                "敌方造成火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -3333,6 +3501,8 @@ public class BattleManager {
                         }
 
                         // 4. 扣除伤害
+                        Integer logIndex=battleLogs.size();
+                        fireDamage=triggerOnAttackedSkills(defender,fireDamage,EffectType.FIRE_DAMAGE);
 
                         attacker.setCurrentHp(attacker.getCurrentHp() - fireDamage);
                         if (defender.getCurrentHp() <= 0) {
@@ -3356,7 +3526,7 @@ public class BattleManager {
                                 defender.isOnField(),
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "-" + fireDamage);
+                                "-" + fireDamage,logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -3385,6 +3555,9 @@ public class BattleManager {
                 if (skillLevel[1] > 0&&defender.isPoison()) {
                     // 芭蕉扇：造成火焰伤害
                     int fireDamage = 60 * skillLevel[1];
+                    Integer logIndex=battleLogs.size();
+                    fireDamage=triggerOnAttackedSkills(defender,fireDamage,EffectType.DAMAGE);
+
                     defender.setCurrentHp(defender.getCurrentHp() - fireDamage);
                     Map<String, TargetBattleData> deadUnits = new HashMap<>();
                     List<Guardian> deadGuardians = new ArrayList<>();
@@ -3409,7 +3582,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.DAMAGE,
                             DamageType.PHYSICAL,
-                            "-" + fireDamage);
+                            "-" + fireDamage,logIndex);
 
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
@@ -3510,6 +3683,9 @@ public class BattleManager {
                         int fireDamage = (int) (0.5 * defender.getAttack());
                         Map<String, TargetBattleData> deadUnits = new HashMap<>();
                         List<Guardian> deadGuardians = new ArrayList<>();
+                        Integer logIndex=battleLogs.size();
+                        fireDamage=triggerOnAttackedSkills(defender,fireDamage,EffectType.DAMAGE);
+
                         defender.setCurrentHp(defender.getCurrentHp() - fireDamage);
                         if (defender.getCurrentHp() <= 0) {
                             defender.setDead(true);
@@ -3531,7 +3707,7 @@ public class BattleManager {
                                 defender.isOnField(),
                                 EffectType.DAMAGE,
                                 DamageType.TRUE,
-                                "-" + fireDamage);
+                                "-" + fireDamage,logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -3566,6 +3742,9 @@ public class BattleManager {
                         List<Guardian> deadGuardians = new ArrayList<>();
                         Guardian guardian = enemieList.get(0);
                         int fireDamage = 125 * skillLevel[0];
+                        Integer logIndex=battleLogs.size();
+                        fireDamage=triggerOnAttackedSkills(guardian,fireDamage,EffectType.DAMAGE);
+
                         guardian.setCurrentHp(guardian.getCurrentHp() - fireDamage);
                         if (guardian.getCurrentHp() <= 0) {
                             guardian.setDead(true);
@@ -3587,7 +3766,7 @@ public class BattleManager {
                                 guardian.isOnField(),
                                 EffectType.DAMAGE,
                                 DamageType.TRUE,
-                                "-" + fireDamage);
+                                "-" + fireDamage,logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -3622,6 +3801,9 @@ public class BattleManager {
                         List<Guardian> deadGuardians = new ArrayList<>();
                         Guardian guardian = enemieList.get(0);
                         int fireDamage = 100 * skillLevel[0];
+                        Integer logIndex=battleLogs.size();
+                        fireDamage=triggerOnAttackedSkills(guardian,fireDamage,EffectType.DAMAGE);
+
                         guardian.setCurrentHp(guardian.getCurrentHp() - fireDamage);
                         if (guardian.getCurrentHp() <= 0) {
                             guardian.setDead(true);
@@ -3644,7 +3826,7 @@ public class BattleManager {
                                 guardian.isOnField(),
                                 EffectType.DAMAGE,
                                 DamageType.TRUE,
-                                "-" + fireDamage);
+                                "-" + fireDamage,logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -3679,6 +3861,9 @@ public class BattleManager {
                         List<Guardian> deadGuardians = new ArrayList<>();
                         Guardian guardian = enemieList.get(0);
                         int fireDamage = 125 * skillLevel[0];
+                        Integer logIndex=battleLogs.size();
+                        fireDamage=triggerOnAttackedSkills(guardian,fireDamage,EffectType.TRUE_DAMAGE);
+
                         guardian.setCurrentHp(guardian.getCurrentHp() - fireDamage);
                         if (guardian.getCurrentHp() <= 0) {
                             guardian.setDead(true);
@@ -3700,7 +3885,7 @@ public class BattleManager {
                                 guardian.isOnField(),
                                 EffectType.TRUE_DAMAGE,
                                 DamageType.PHYSICAL,
-                                "-" + fireDamage);
+                                "-" + fireDamage,logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -3735,6 +3920,9 @@ public class BattleManager {
                         List<Guardian> deadGuardians = new ArrayList<>();
                         Guardian guardian = enemieList.get(0);
                         int fireDamage = 150 * skillLevel[1];
+                        Integer logIndex=battleLogs.size();
+                        fireDamage=triggerOnAttackedSkills(guardian,fireDamage,EffectType.DAMAGE);
+
                         guardian.setCurrentHp(guardian.getCurrentHp() - fireDamage);
                         if (guardian.getCurrentHp() <= 0) {
                             guardian.setDead(true);
@@ -3756,7 +3944,7 @@ public class BattleManager {
                                 guardian.isOnField(),
                                 EffectType.DAMAGE,
                                 DamageType.TRUE,
-                                "-" + fireDamage);
+                                "-" + fireDamage,logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -3791,6 +3979,9 @@ public class BattleManager {
                         List<Guardian> deadGuardians = new ArrayList<>();
                         Guardian guardian = enemieList.get(0);
                         int fireDamage = 100 * skillLevel[0];
+                        Integer logIndex=battleLogs.size();
+                        fireDamage=triggerOnAttackedSkills(guardian,fireDamage,EffectType.DAMAGE);
+
                         guardian.setCurrentHp(guardian.getCurrentHp() - fireDamage);
                         if (guardian.getCurrentHp() <= 0) {
                             guardian.setDead(true);
@@ -3814,7 +4005,7 @@ public class BattleManager {
                                 guardian.isOnField(),
                                 EffectType.DAMAGE,
                                 DamageType.TRUE,
-                                "-" + fireDamage);
+                                "-" + fireDamage,logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -3850,6 +4041,7 @@ public class BattleManager {
                         Map<String, TargetBattleData> deadUnits = new HashMap<>();
                         List<Guardian> deadGuardians = new ArrayList<>();
                         int lavaDamage = 62 * skillLevel[0];
+                        Integer logIndex=battleLogs.size();
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
 
@@ -3884,6 +4076,7 @@ public class BattleManager {
                             if (finalDamage < 0) {
                                 finalDamage = 0;
                             }
+                            finalDamage=triggerOnAttackedSkills(g,finalDamage,EffectType.FIRE_DAMAGE);
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
@@ -3905,7 +4098,7 @@ public class BattleManager {
                                 targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "对全体造成火焰伤害");
+                                "对全体造成火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -3947,6 +4140,7 @@ public class BattleManager {
                         int lavaDamage = 62 * skillLevel[0];
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
+                        Integer logIndex=battleLogs.size();
 
                         offFieldEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
@@ -3979,6 +4173,7 @@ public class BattleManager {
                             if (finalDamage < 0) {
                                 finalDamage = 0;
                             }
+                            finalDamage=triggerOnAttackedSkills(g,finalDamage,EffectType.FIRE_DAMAGE);
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
@@ -4000,7 +4195,7 @@ public class BattleManager {
                                 targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "对全体造成火焰伤害");
+                                "对全体造成火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -4039,6 +4234,7 @@ public class BattleManager {
                         int lavaDamage = 22 * skillLevel[0];
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
+                        Integer logIndex=battleLogs.size();
 
                         offFieldEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
@@ -4071,6 +4267,7 @@ public class BattleManager {
                             if (finalDamage < 0) {
                                 finalDamage = 0;
                             }
+                            finalDamage=triggerOnAttackedSkills(g,finalDamage,EffectType.FIRE_DAMAGE);
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
@@ -4093,7 +4290,7 @@ public class BattleManager {
                                 targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "对全体造成火焰伤害");
+                                "对全体造成火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -4137,6 +4334,7 @@ public class BattleManager {
                         reduce = 62 * skillLevel[0];
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
+                        Integer logIndex=battleLogs.size();
 
                         int lavaDamage = reduce;
                         aliveUnits.forEach(g -> {
@@ -4170,6 +4368,7 @@ public class BattleManager {
                             if (finalDamage < 0) {
                                 finalDamage = 0;
                             }
+                            finalDamage=triggerOnAttackedSkills(g,finalDamage,EffectType.FIRE_DAMAGE);
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
@@ -4190,7 +4389,7 @@ public class BattleManager {
                                 targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "对全体造成火焰伤害");
+                                "对全体造成火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -4228,6 +4427,7 @@ public class BattleManager {
                         int lavaDamage = 12 * skillLevel[0];
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
+                        Integer logIndex=battleLogs.size();
 
                         offFieldEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
@@ -4260,6 +4460,7 @@ public class BattleManager {
                             if (finalDamage < 0) {
                                 finalDamage = 0;
                             }
+                            finalDamage=triggerOnAttackedSkills(g,finalDamage,EffectType.FIRE_DAMAGE);
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
@@ -4282,7 +4483,7 @@ public class BattleManager {
                                 targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "对全体造成火焰伤害");
+                                "对全体造成火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -4321,6 +4522,7 @@ public class BattleManager {
                         int lavaDamage = 12 * skillLevel[0];
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
+                        Integer logIndex=battleLogs.size();
 
                         offFieldEnemies.forEach(g -> {
                             // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
@@ -4353,6 +4555,7 @@ public class BattleManager {
                             if (finalDamage < 0) {
                                 finalDamage = 0;
                             }
+                            finalDamage=triggerOnAttackedSkills(g,finalDamage,EffectType.FIRE_DAMAGE);
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
@@ -4376,7 +4579,7 @@ public class BattleManager {
                                 targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "对全体造成火焰伤害");
+                                "对全体造成火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -4415,6 +4618,7 @@ public class BattleManager {
                         int lavaDamage = 12 * skillLevel[0];
 
                         Map<String, TargetBattleData> targetStatus = new HashMap<>();
+                        Integer logIndex=battleLogs.size();
 
                         offFieldEnemies.forEach(g -> {
 
@@ -4448,6 +4652,7 @@ public class BattleManager {
                             if (finalDamage < 0) {
                                 finalDamage = 0;
                             }
+                            finalDamage=triggerOnAttackedSkills(g,finalDamage,EffectType.FIRE_DAMAGE);
 
                             // 4. 扣除伤害
                             g.setCurrentHp(g.getCurrentHp() - finalDamage);
@@ -4471,7 +4676,7 @@ public class BattleManager {
                                 targetStatus,
                                 EffectType.FIRE_DAMAGE,
                                 DamageType.FIRE,
-                                "对全体造成火焰伤害");
+                                "对全体造成火焰伤害",logIndex);
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
                             addMultiTargetLog("UNIT_DEATH",
@@ -4549,6 +4754,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(minHpPerson,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     minHpPerson.setCurrentHp(minHpPerson.getCurrentHp() - burnDamage);
@@ -4571,7 +4778,7 @@ public class BattleManager {
                             minHpPerson.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -4920,6 +5127,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(minHpPerson,burnDamage,EffectType.DAMAGE);
 
                     // 4. 扣除伤害
                     minHpPerson.setCurrentHp(minHpPerson.getCurrentHp() - burnDamage);
@@ -4942,7 +5151,7 @@ public class BattleManager {
                             minHpPerson.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -5013,6 +5222,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(minHpPerson,burnDamage,EffectType.DAMAGE);
 
                     // 4. 扣除伤害
                     minHpPerson.setCurrentHp(minHpPerson.getCurrentHp() - burnDamage);
@@ -5035,7 +5246,7 @@ public class BattleManager {
                             minHpPerson.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6234,6 +6445,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldB,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldB.setCurrentHp(fieldB.getCurrentHp() - burnDamage);
@@ -6258,7 +6471,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6321,6 +6534,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldA,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldA.setCurrentHp(fieldA.getCurrentHp() - burnDamage);
@@ -6345,7 +6560,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6411,6 +6626,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                     Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(defender,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     defender.setCurrentHp(defender.getCurrentHp() - burnDamage);
@@ -6435,7 +6652,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6502,6 +6719,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(defender,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     defender.setCurrentHp(defender.getCurrentHp() - burnDamage);
@@ -6526,7 +6745,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6592,6 +6811,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(defender,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     defender.setCurrentHp(defender.getCurrentHp() - burnDamage);
@@ -6616,7 +6837,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.TRUE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6683,6 +6904,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(defender,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     defender.setCurrentHp(defender.getCurrentHp() - burnDamage);
@@ -6707,7 +6930,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.TRUE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6746,6 +6969,8 @@ public class BattleManager {
                     //TODO 真实伤害无法防御
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                     int totalPoisonDamage = 410 * skillLevel[0];
+                    Integer logIndex=battleLogs.size();
+                    totalPoisonDamage=triggerOnAttackedSkills(defender,totalPoisonDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     defender.setCurrentHp(defender.getCurrentHp() - totalPoisonDamage);
@@ -6770,7 +6995,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.TRUE,
-                            "-" + totalPoisonDamage);
+                            "-" + totalPoisonDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6811,6 +7036,8 @@ public class BattleManager {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                     int totalPoisonDamage = 410 * skillLevel[0];
 
+                    Integer logIndex=battleLogs.size();
+                    totalPoisonDamage=triggerOnAttackedSkills(defender,totalPoisonDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     defender.setCurrentHp(defender.getCurrentHp() - totalPoisonDamage);
@@ -6836,7 +7063,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.TRUE,
-                            "-" + totalPoisonDamage);
+                            "-" + totalPoisonDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6876,6 +7103,8 @@ public class BattleManager {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                     int totalPoisonDamage = 41 * skillLevel[0];
 
+                    Integer logIndex=battleLogs.size();
+                    totalPoisonDamage=triggerOnAttackedSkills(defender,totalPoisonDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     defender.setCurrentHp(defender.getCurrentHp() - totalPoisonDamage);
@@ -6901,7 +7130,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.TRUE,
-                            "-" + totalPoisonDamage);
+                            "-" + totalPoisonDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -6941,6 +7170,8 @@ public class BattleManager {
                     //TODO 真实伤害无增益也无法防御
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                     int totalPoisonDamage = 41 * skillLevel[0];
+                    Integer logIndex=battleLogs.size();
+                    totalPoisonDamage=triggerOnAttackedSkills(defender,totalPoisonDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     defender.setCurrentHp(defender.getCurrentHp() - totalPoisonDamage);
@@ -6966,7 +7197,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + totalPoisonDamage);
+                            "-" + totalPoisonDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7036,6 +7267,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(defender,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     defender.setCurrentHp(defender.getCurrentHp() - burnDamage);
@@ -7061,7 +7294,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7130,6 +7363,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(defender,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     defender.setCurrentHp(defender.getCurrentHp() - burnDamage);
@@ -7155,7 +7390,7 @@ public class BattleManager {
                             defender.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7193,6 +7428,7 @@ public class BattleManager {
                 //烈焰阵Lv1登场时，令敌方全体收到火焰伤害420点；
                 Map<String, TargetBattleData> deadUnits = new HashMap<>();
                 List<Guardian> deadGuardians = new ArrayList<>();
+                Integer logIndex=battleLogs.size();
 
                 Map<String, TargetBattleData> targetStatus = new HashMap<>();
                 List<Guardian> enemies = campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
@@ -7228,6 +7464,7 @@ public class BattleManager {
                         if (burnDamage < 0) {
                             burnDamage = 0;
                         }
+                        burnDamage=triggerOnAttackedSkills(g,burnDamage,EffectType.FIRE_DAMAGE);
 
                         // 4. 扣除伤害
                         g.setCurrentHp(g.getCurrentHp() - burnDamage);
@@ -7248,7 +7485,7 @@ public class BattleManager {
                             targetStatus,
                             EffectType.FIRE_DAMAGE,
                             DamageType.FIRE,
-                            "敌方全体收到火焰伤害");
+                            "敌方全体收到火焰伤害",logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7305,6 +7542,7 @@ public class BattleManager {
                 //烈焰阵Lv1登场时，令敌方全体收到火焰伤害420点；
                 Map<String, TargetBattleData> deadUnits = new HashMap<>();
                 List<Guardian> deadGuardians = new ArrayList<>();
+                Integer logIndex=battleLogs.size();
 
                 Map<String, TargetBattleData> targetStatus = new HashMap<>();
                 List<Guardian> enemies = campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
@@ -7340,6 +7578,7 @@ public class BattleManager {
                         if (burnDamage < 0) {
                             burnDamage = 0;
                         }
+                        burnDamage=triggerOnAttackedSkills(g,burnDamage,EffectType.FIRE_DAMAGE);
 
                         // 4. 扣除伤害
                         g.setCurrentHp(g.getCurrentHp() - burnDamage);
@@ -7360,7 +7599,7 @@ public class BattleManager {
                             targetStatus,
                             EffectType.FIRE_DAMAGE,
                             DamageType.FIRE,
-                            "敌方全体收到火焰伤害");
+                            "敌方全体收到火焰伤害",logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -7764,10 +8003,54 @@ public class BattleManager {
     }
 
     // 处理登场场下技能
-    private void processOnFieldSkills0(Guardian defender) {
+    private void processOnFieldSkills0(Guardian defender1,Guardian defender2) {
         for (int i = 1; i < 6; i++) {
             int position = i;
-            if (defender.getCamp() == Camp.B && campA.stream().anyMatch(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+            if (defender1.getCamp() == Camp.B && campA.stream().anyMatch(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+                Guardian guardian = campA.stream()
+                        .filter(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
+                        .findFirst().get();
+                int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
+                if (skillLevel[1] > 0) {
+                    //幽冥审判Lv1每当有敌方登场，令随机敌方中毒73；
+                    List<Guardian> enemies = guardian.getCamp() == Camp.A ?
+                            campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                            campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+                    if (!enemies.isEmpty()) {
+                        Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
+                        int totalPoisonDamage = 73 * skillLevel[0];
+                        // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                        // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                        // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                        int resistUp = calculateTotalVaule(guardian, EffectType.POISON_BOOST);
+                        // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.POISON_BOOST_PRET);
+                        // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                        int resistDown = calculateTotalVaule(guardian, EffectType.POISON_DOWN);
+                        // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.POISON_DOWN_PRET);
+
+                        int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + guardian.getDsAtk() - resistDown));
+                        randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, guardian.getId());
+                        addLog("幽冥审判",
+                                guardian.getId(),
+                                guardian.getMaxHp(),
+                                guardian.getCurrentHp(),
+                                poisonValue,
+                                guardian.isOnField(),
+                                randomEnemy.getId(),
+                                randomEnemy.getMaxHp(),
+                                randomEnemy.getCurrentHp(),
+                                poisonValue,
+                                randomEnemy.isOnField(),
+                                EffectType.POISON,
+                                DamageType.POISON,
+                                "中毒+" + poisonValue);
+                    }
+                }
+
+            }
+            if (defender2!=null&&defender2.getCamp() == Camp.B && campA.stream().anyMatch(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -7812,7 +8095,48 @@ public class BattleManager {
 
             }
 
-            if (defender.getCamp() == Camp.B && campA.stream().anyMatch(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+            if (defender1.getCamp() == Camp.B && campA.stream().anyMatch(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+                Guardian guardian = campA.stream()
+                        .filter(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
+                        .findFirst().get();
+                int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
+                //幽冥审判Lv1每当有敌方登场，令随机敌方中毒73；
+                List<Guardian> enemies = guardian.getCamp() == Camp.A ?
+                        campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                        campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+                if (!enemies.isEmpty()) {
+                    Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
+                    int totalPoisonDamage = 7 * skillLevel[0];
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(guardian, EffectType.POISON_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.POISON_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(guardian, EffectType.POISON_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.POISON_DOWN_PRET);
+
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + guardian.getDsAtk() - resistDown));
+                    randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, guardian.getId());
+                    addLog("玉净瓶",
+                            guardian.getId(),
+                            guardian.getMaxHp(),
+                            guardian.getCurrentHp(),
+                            poisonValue,
+                            guardian.isOnField(),
+                            randomEnemy.getId(),
+                            randomEnemy.getMaxHp(),
+                            randomEnemy.getCurrentHp(),
+                            poisonValue,
+                            randomEnemy.isOnField(),
+                            EffectType.POISON,
+                            DamageType.POISON,
+                            "中毒+" + poisonValue);
+                }
+            }
+            if (defender2!=null&&defender2.getCamp() == Camp.B && campA.stream().anyMatch(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -7854,7 +8178,51 @@ public class BattleManager {
                 }
             }
 
-            if (defender.getCamp() == Camp.A && campB.stream().anyMatch(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+            if (defender1.getCamp() == Camp.A && campB.stream().anyMatch(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
+                Guardian guardian = campB.stream()
+                        .filter(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())
+                        .findFirst().get();
+                int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
+                if (skillLevel[1] > 0) {
+                    //幽冥审判Lv1每当有敌方登场，令随机敌方中毒73；
+                    List<Guardian> enemies = guardian.getCamp() == Camp.B ?
+                            campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                            campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+                    if (!enemies.isEmpty()) {
+                        Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
+                        int totalPoisonDamage = 73 * skillLevel[0];
+                        // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                        // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                        // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                        int resistUp = calculateTotalVaule(guardian, EffectType.POISON_BOOST);
+                        // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.POISON_BOOST_PRET);
+                        // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                        int resistDown = calculateTotalVaule(guardian, EffectType.POISON_DOWN);
+                        // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                        double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.POISON_DOWN_PRET);
+
+                        int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + guardian.getDsAtk() - resistDown));
+                        randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, guardian.getId());
+                        addLog("幽冥审判",
+                                guardian.getId(),
+                                guardian.getMaxHp(),
+                                guardian.getCurrentHp(),
+                                poisonValue,
+                                guardian.isOnField(),
+                                randomEnemy.getId(),
+                                randomEnemy.getMaxHp(),
+                                randomEnemy.getCurrentHp(),
+                                poisonValue,
+                                randomEnemy.isOnField(),
+                                EffectType.POISON,
+                                DamageType.POISON,
+                                "中毒+" + poisonValue);
+                    }
+                }
+
+            }
+            if (defender2!=null&&defender2.getCamp() == Camp.A && campB.stream().anyMatch(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField())) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())
                         .findFirst().get();
@@ -7899,7 +8267,49 @@ public class BattleManager {
 
             }
 
-            if (defender.getCamp() == Camp.A && campB.stream().anyMatch(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+            if (defender1.getCamp() == Camp.A && campB.stream().anyMatch(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+                Guardian guardian = campB.stream()
+                        .filter(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
+                        .findFirst().get();
+                int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
+                //幽冥审判Lv1每当有敌方登场，令随机敌方中毒73；
+                List<Guardian> enemies = guardian.getCamp() == Camp.B ?
+                        campA.stream().filter(g -> !g.isDead()).collect(Collectors.toList()) :
+                        campB.stream().filter(g -> !g.isDead()).collect(Collectors.toList());
+                if (!enemies.isEmpty()) {
+                    Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
+                    int totalPoisonDamage = 7 * skillLevel[0] + guardian.getDsAtk();
+                    // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
+                    // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
+                    // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
+                    int resistUp = calculateTotalVaule(guardian, EffectType.FIRE_BOOST);
+                    // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistUpPret = calculateTotalUpPretVaule(guardian, EffectType.FIRE_BOOST_PRET);
+                    // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
+                    int resistDown = calculateTotalVaule(guardian, EffectType.FIRE_DOWN);
+                    // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
+                    double resistDownPret = calculateTotalDownPretVaule(guardian, EffectType.FIRE_DOWN_PRET);
+
+                    int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + guardian.getDsAtk() - resistDown));
+                    randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, guardian.getId());
+                    addLog("玉净瓶",
+                            guardian.getId(),
+                            guardian.getMaxHp(),
+                            guardian.getCurrentHp(),
+                            poisonValue,
+                            guardian.isOnField(),
+                            randomEnemy.getId(),
+                            randomEnemy.getMaxHp(),
+                            randomEnemy.getCurrentHp(),
+                            poisonValue,
+                            randomEnemy.isOnField(),
+                            EffectType.POISON,
+                            DamageType.POISON,
+                            "中毒+" + poisonValue);
+                }
+
+            }
+            if (defender2!=null&&defender2.getCamp() == Camp.A && campB.stream().anyMatch(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("金角大王") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -7942,7 +8352,33 @@ public class BattleManager {
 
             }
 //            疫病侵染Lv1场下，我方单位登场时为场上敌人添加疾病效果，疾病令受到治疗的效果降低50%，最多叠加1层
-            if (defender.getCamp() == Camp.A && campA.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+            if (defender1.getCamp() == Camp.A && campA.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+                Guardian guardian = campA.stream()
+                        .filter(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())
+                        .findFirst().get();
+                int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
+                if (fieldB != null && skillLevel[1] > 0 && fieldB.getBuffXuanMins() <= 0) {
+                    int healDowNew = skillLevel[1] * 8;
+                    fieldB.setBuffXuanMins(1);
+                    fieldB.addEffect(EffectType.HEAL_DOWNT_PRET, healDowNew, 99, guardian.getId());
+
+                    addLog("疫病侵染",
+                            guardian.getId(),
+                            guardian.getMaxHp(),
+                            guardian.getCurrentHp(),
+                            0,
+                            guardian.isOnField(),
+                            fieldB.getId(),
+                            fieldB.getMaxHp(),
+                            fieldB.getCurrentHp(),
+                            0,
+                            fieldB.isOnField(),
+                            EffectType.HEAL_DOWN,
+                            DamageType.MAGIC,
+                            "治疗降低" + healDowNew + "%");
+                }
+            }
+            if (defender2!=null&&defender2.getCamp() == Camp.A && campA.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -7969,7 +8405,35 @@ public class BattleManager {
                 }
             }
 
-            if (defender.getCamp() == Camp.B && campB.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+            if (defender1.getCamp() == Camp.B && campB.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+                Guardian guardian = campB.stream()
+                        .filter(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())
+                        .findFirst().get();
+                int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(guardian.getLevel(), guardian.getStar().doubleValue());
+
+                if (fieldA != null && skillLevel[1] > 0 && fieldA.getBuffXuanMins() <= 0) {
+                    int healDowNew = skillLevel[1] * 8;
+                    fieldA.setBuffXuanMins(1);
+                    fieldA.addEffect(EffectType.HEAL_DOWNT_PRET, healDowNew, 99, guardian.getId());
+
+
+                    addLog("疫病侵染",
+                            guardian.getId(),
+                            guardian.getMaxHp(),
+                            guardian.getCurrentHp(),
+                            0,
+                            guardian.isOnField(),
+                            fieldA.getId(),
+                            fieldA.getMaxHp(),
+                            fieldA.getCurrentHp(),
+                            0,
+                            fieldA.isOnField(),
+                            EffectType.HEAL_DOWN,
+                            DamageType.MAGIC,
+                            "治疗降低" + healDowNew + "%");
+                }
+            }
+            if (defender2!=null&&defender2.getCamp() == Camp.B && campB.stream().anyMatch(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("玄冥") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -8035,6 +8499,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldB,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldB.setCurrentHp(fieldB.getCurrentHp() - burnDamage);
@@ -8059,7 +8525,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8143,6 +8609,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldA,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldA.setCurrentHp(fieldA.getCurrentHp() - burnDamage);
@@ -8167,7 +8635,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8251,6 +8719,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldB,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldB.setCurrentHp(fieldB.getCurrentHp() - burnDamage);
@@ -8275,7 +8745,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8333,6 +8803,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldA,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldA.setCurrentHp(fieldA.getCurrentHp() - burnDamage);
@@ -8357,7 +8829,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8417,6 +8889,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldB,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldB.setCurrentHp(fieldB.getCurrentHp() - burnDamage);
@@ -8441,7 +8915,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8499,6 +8973,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldA,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldA.setCurrentHp(fieldA.getCurrentHp() - burnDamage);
@@ -8523,7 +8999,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8582,6 +9058,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldB,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldB.setCurrentHp(fieldB.getCurrentHp() - burnDamage);
@@ -8606,7 +9084,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8664,6 +9142,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldA,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldA.setCurrentHp(fieldA.getCurrentHp() - burnDamage);
@@ -8688,7 +9168,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8747,6 +9227,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldB,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldB.setCurrentHp(fieldB.getCurrentHp() - burnDamage);
@@ -8771,7 +9253,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8829,6 +9311,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldA,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldA.setCurrentHp(fieldA.getCurrentHp() - burnDamage);
@@ -8853,7 +9337,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8912,6 +9396,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldB,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldB.setCurrentHp(fieldB.getCurrentHp() - burnDamage);
@@ -8936,7 +9422,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -8994,6 +9480,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldA,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldA.setCurrentHp(fieldA.getCurrentHp() - burnDamage);
@@ -9018,7 +9506,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -9077,6 +9565,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldB,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldB.setCurrentHp(fieldB.getCurrentHp() - burnDamage);
@@ -9101,7 +9591,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -9159,6 +9649,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldA,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldA.setCurrentHp(fieldA.getCurrentHp() - burnDamage);
@@ -9183,7 +9675,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -9242,6 +9734,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldB,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldB.setCurrentHp(fieldB.getCurrentHp() - burnDamage);
@@ -9266,7 +9760,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -9324,6 +9818,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldA,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldA.setCurrentHp(fieldA.getCurrentHp() - burnDamage);
@@ -9348,7 +9844,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -9407,6 +9903,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldB,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldB.setCurrentHp(fieldB.getCurrentHp() - burnDamage);
@@ -9431,7 +9929,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -9489,6 +9987,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldA,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldA.setCurrentHp(fieldA.getCurrentHp() - burnDamage);
@@ -9513,7 +10013,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -9573,6 +10073,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldB,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldB.setCurrentHp(fieldB.getCurrentHp() - burnDamage);
@@ -9597,7 +10099,7 @@ public class BattleManager {
                             fieldB.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -9655,6 +10157,8 @@ public class BattleManager {
                     if (burnDamage < 0) {
                         burnDamage = 0;
                     }
+                    Integer logIndex=battleLogs.size();
+                    burnDamage=triggerOnAttackedSkills(fieldA,burnDamage,EffectType.MISSILE_DAMAGE);
 
                     // 4. 扣除伤害
                     fieldA.setCurrentHp(fieldA.getCurrentHp() - burnDamage);
@@ -9679,7 +10183,7 @@ public class BattleManager {
                             fieldA.isOnField(),
                             EffectType.MISSILE_DAMAGE,
                             DamageType.MISSILE,
-                            "-" + burnDamage);
+                            "-" + burnDamage,logIndex);
                     // 死亡日志
                     if (!deadUnits.isEmpty()) {
                         addMultiTargetLog("UNIT_DEATH",
@@ -9703,7 +10207,29 @@ public class BattleManager {
 
 
 //            瑶姬，倾盆大雨Lv1我方单位登场时，有50%几率令敌方场上单位眩晕2回合；
-            if (defender.getCamp() == Camp.A && campA.stream().anyMatch(g -> g.getName().equals("瑶姬") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+            if (defender1.getCamp() == Camp.A && campA.stream().anyMatch(g -> g.getName().equals("瑶姬") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+                Guardian guardian = campA.stream()
+                        .filter(g -> g.getName().equals("瑶姬") && g.getPosition() == position && !g.isDead() && !g.isOnField())
+                        .findFirst().get();
+                if (ProbabilityBooleanUtils.randomByProbability(0.5) && fieldB != null && !fieldB.isDead()) {
+                    fieldB.addEffect(EffectType.STUN, 0, 2, guardian.getId());
+                    addLog("倾盆大雨",
+                            guardian.getId(),
+                            guardian.getMaxHp(),
+                            guardian.getCurrentHp(),
+                            0,
+                            guardian.isOnField(),
+                            fieldB.getId(),
+                            fieldB.getMaxHp(),
+                            fieldB.getCurrentHp(),
+                            0,
+                            fieldB.isOnField(),
+                            EffectType.STUN,
+                            null,
+                            "眩晕2回合");
+                }
+            }
+            if (defender2!=null&&defender2.getCamp() == Camp.A && campA.stream().anyMatch(g -> g.getName().equals("瑶姬") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
                 Guardian guardian = campA.stream()
                         .filter(g -> g.getName().equals("瑶姬") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -9726,7 +10252,29 @@ public class BattleManager {
                 }
             }
 //            瑶姬，倾盆大雨Lv1我方单位登场时，有50%几率令敌方场上单位眩晕2回合；
-            if (defender.getCamp() == Camp.B && campB.stream().anyMatch(g -> g.getName().equals("瑶姬") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+            if (defender1.getCamp() == Camp.B && campB.stream().anyMatch(g -> g.getName().equals("瑶姬") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+                Guardian guardian = campB.stream()
+                        .filter(g -> g.getName().equals("瑶姬") && g.getPosition() == position && !g.isDead() && !g.isOnField())
+                        .findFirst().get();
+                if (ProbabilityBooleanUtils.randomByProbability(0.5) && fieldA != null && !fieldA.isDead()) {
+                    fieldA.addEffect(EffectType.STUN, 0, 2, guardian.getId());
+                    addLog("倾盆大雨",
+                            guardian.getId(),
+                            guardian.getMaxHp(),
+                            guardian.getCurrentHp(),
+                            0,
+                            guardian.isOnField(),
+                            fieldA.getId(),
+                            fieldA.getMaxHp(),
+                            fieldA.getCurrentHp(),
+                            0,
+                            fieldA.isOnField(),
+                            EffectType.STUN,
+                            null,
+                            "眩晕2回合");
+                }
+            }
+            if (defender2!=null&&defender2.getCamp() == Camp.B && campB.stream().anyMatch(g -> g.getName().equals("瑶姬") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
                 Guardian guardian = campB.stream()
                         .filter(g -> g.getName().equals("瑶姬") && g.getPosition() == position && !g.isDead() && !g.isOnField())
                         .findFirst().get();
@@ -10001,8 +10549,6 @@ public class BattleManager {
                 0, false, null, 0, 0, 0,
                 false, null, null, result);
     }
-
-    // 添加单目标日志（包含位置）
     private void addLog(String eventType,
                         String sourceUnitId,
                         int sourceHpBefore, int sourceHpAfter,
@@ -10015,8 +10561,45 @@ public class BattleManager {
                         EffectType effectType,
                         DamageType damageType,
                         String extraDesc
-    ) {
+    ){
         battleLogs.add(new BattleLog(
+                battleId,
+                currentRound,
+                eventType,
+                0,
+                sourceUnitId,
+                sourceHpBefore,
+                sourceHpAfter,
+                sourceSelfValue,
+                sourceFieldStatus,
+                targetUnitId,
+                targetHpBefore,
+                targetHpAfter,
+                singleTargetValue,
+                targetFieldStatus,
+                null,
+                effectType,
+                damageType,
+                extraDesc,
+                0
+        ));
+    }
+    // 添加单目标日志（包含位置）
+    private void addLog(String eventType,
+                        String sourceUnitId,
+                        int sourceHpBefore, int sourceHpAfter,
+                        int sourceSelfValue,
+                        boolean sourceFieldStatus,
+                        String targetUnitId,
+                        int targetHpBefore, int targetHpAfter,
+                        int singleTargetValue,
+                        boolean targetFieldStatus,
+                        EffectType effectType,
+                        DamageType damageType,
+                        String extraDesc,
+                        int index
+    ) {
+        battleLogs.add(index,new BattleLog(
                 battleId,
                 currentRound,
                 eventType,
@@ -10103,6 +10686,40 @@ public class BattleManager {
         ));
     }
 
+
+    // 添加多目标日志（包含位置）
+    private void addMultiTargetLog(String eventType,
+                                   String sourceUnitId,
+                                   int sourceHpBefore, int sourceHpAfter,
+                                   boolean sourceFieldStatus,
+                                   Map<String, TargetBattleData> multiTargetDataMap,
+                                   EffectType effectType,
+                                   DamageType damageType,
+                                   String extraDesc,
+                                   Integer logIndex
+    ) {
+        battleLogs.add(logIndex,new BattleLog(
+                battleId,
+                currentRound,
+                eventType,
+                0,
+                sourceUnitId,
+                sourceHpBefore,
+                sourceHpAfter,
+                0,
+                sourceFieldStatus,
+                null,
+                0,
+                0,
+                0,
+                false,
+                multiTargetDataMap,
+                effectType,
+                damageType,
+                extraDesc,
+                1
+        ));
+    }
 
     // 获取战斗日志
     public List<BattleLog> getBattleLogs() {

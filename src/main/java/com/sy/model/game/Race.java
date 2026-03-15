@@ -1,7 +1,7 @@
 package com.sy.model.game;
 
 public enum Race {
-    IMMORTAL("sacred"), DEMON("dark");
+    IMMORTAL("sacred"), DEMON("dark"),ORC("ordinary");
     private String name;
     Race(String name) { this.name = name; }
     // 核心：数据库值（sacred/dark）→ 枚举实例
