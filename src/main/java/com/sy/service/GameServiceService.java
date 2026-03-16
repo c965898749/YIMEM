@@ -26,6 +26,7 @@ public interface GameServiceService {
     BaseResp participate(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp participate2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp cardLevelUp(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp xina(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp cardFlyUp(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp cardFlyUp2(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp eqCardLevelUp(TokenDto token, HttpServletRequest request) throws Exception;

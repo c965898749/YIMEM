@@ -301,6 +301,20 @@ public class GameContoller {
             return baseResp;
         }
     }
+
+    @RequestMapping(value = "xina", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp xina(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.xina(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
     @RequestMapping(value = "eqCardLevelUp", method = RequestMethod.POST)
     @CrossOrigin
     public BaseResp eqCardLevelUp(@RequestBody TokenDto token, HttpServletRequest request) {

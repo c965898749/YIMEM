@@ -665,6 +665,8 @@ public class BattleManager {
                     }
                     break;
             }
+            //触发场下技能
+
         return burnDamage;
     }
 
@@ -5095,7 +5097,7 @@ public class BattleManager {
                 Guardian minHpPerson = offFieldEnemies.get(0); // 先默认第一个为最大
                 List<Guardian> deadGuardians = new ArrayList<>();
                 Map<String, TargetBattleData> deadUnits = new HashMap<>();
-                int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(v.getLevel(), v.getStar().doubleValue());
+                int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(fieldA.getLevel(), fieldA.getStar().doubleValue());
                 if (skillLevel[1] > 0) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                     int totalPoisonDamage = 237 * skillLevel[1];
@@ -5190,7 +5192,7 @@ public class BattleManager {
                 Guardian minHpPerson = offFieldEnemies.get(0); // 先默认第一个为最大
                 List<Guardian> deadGuardians = new ArrayList<>();
                 Map<String, TargetBattleData> deadUnits = new HashMap<>();
-                int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(v.getLevel(), v.getStar().doubleValue());
+                int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(fieldB.getLevel(), fieldB.getStar().doubleValue());
                 if (skillLevel[1] > 0) {
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                     int totalPoisonDamage = 237 * skillLevel[1];
@@ -10299,6 +10301,13 @@ public class BattleManager {
         }
     }
 
+//    private void processOnFieldSkills1(Guardian defender,Integer ) {
+//        for (int i = 1; i < 6; i++) {
+//            if (defender.getCamp() == Camp.B && campA.stream().anyMatch(g -> g.getName().equals("阎王") && g.getPosition() == position && !g.isDead() && !g.isOnField() && !g.isSilence())) {
+//
+//            }
+//        }
+//    }
 
     private void processOnFieldSkills2() {
         //续命技能
