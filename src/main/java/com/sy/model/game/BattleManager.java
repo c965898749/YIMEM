@@ -2835,7 +2835,7 @@ public class BattleManager {
                             enemie.setDead(true);
                             enemie.setOnField(false);
                             TargetBattleData data = new TargetBattleData(enemie.getMaxHp(), enemie.getCurrentHp(), burnDamage, enemie.isOnField());
-                            deadUnits.put(defender.getId(), data);
+                            deadUnits.put(enemie.getId(), data);
                         }
                         // 死亡日志
                         if (!deadUnits.isEmpty()) {
@@ -2980,6 +2980,35 @@ public class BattleManager {
                     }
                 }
                 break;
+            case "田螺仙子":
+                if (1 == 1) {
+                    // 田螺歌声Lv1减少后方单位50%中毒伤害；
+                    List<Guardian> enemies = attacker.getCamp() == Camp.A ?
+                            campA.stream().filter(g -> !g.isDead() && !g.isOnField()).collect(Collectors.toList()) :
+                            campB.stream().filter(g -> !g.isDead() && !g.isOnField()).collect(Collectors.toList());
+                    if (!enemies.isEmpty()) {
+                        Guardian guardian = enemies.get(0);
+                        if (guardian.getBuffTianLuos()<=0){
+                            guardian.addEffect(EffectType.POISON_RESIST_BOOST_PRET, 50, 99, attacker.getId());
+                            guardian.setBuffTianLuos(guardian.getBuffTianLuos() + 1);
+                        }
+                        addLog("田螺歌声",
+                                attacker.getId(),
+                                attacker.getMaxHp(),
+                                attacker.getCurrentHp(),
+                                0,
+                                attacker.isOnField(),
+                                guardian.getId(),
+                                guardian.getMaxHp(),
+                                guardian.getCurrentHp(),
+                                0,
+                                guardian.isOnField(),
+                                EffectType.POISON_RESIST_BOOST_PRET,
+                                DamageType.BUFF,
+                                "减少50%中毒伤害");
+                    }
+                }
+                break;
             case "禺绒王":
                 if (1 == 1) {
                     // ，剧毒加深Lv1攻击中毒敌人时，为其增加1层毒素效果，每回合损失35点生命；
@@ -3020,8 +3049,8 @@ public class BattleManager {
                     if (!enemies.isEmpty()) {
                         int attack = 42 * skillLevel[0];
                         Guardian guardian = enemies.get(0);
-                        if (guardian.getBuffLiuers() < 5) {
-                            guardian.setBuffRandengs(guardian.getBuffLiuers() + 1);
+                        if (guardian.getBuffYuRongWans() < 5) {
+                            guardian.setBuffYuRongWans(guardian.getBuffYuRongWans() + 1);
                             guardian.setAttack(guardian.getAttack() + attack);
                             addLog("妖力聚集",
                                     attacker.getId(),
@@ -5955,10 +5984,10 @@ public class BattleManager {
             Guardian nianshou = campA.stream()
                     .filter(g -> g.getName().equals("萌年兽") && !g.isDead())
                     .findFirst().get();
-            if (!nianshou.isSilence() && nianshou.getBuffNianShous() < 5) {
+            if (!nianshou.isSilence() && nianshou.getBuffStacks() < 5) {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(nianshou.getLevel(), nianshou.getStar().doubleValue());
                 if (skillLevel[1] > 0) {
-                    nianshou.setBuffStacks(nianshou.getBuffNianShous() + 1);
+                    nianshou.setBuffStacks(nianshou.getBuffStacks() + 1);
                     int hel = 76 * skillLevel[1];
                     if (duoBaoGuanHuan()) {
                         nianshou.setCurrentHp(nianshou.getCurrentHp() + hel);
@@ -6094,10 +6123,10 @@ public class BattleManager {
             Guardian nianshou = campB.stream()
                     .filter(g -> g.getName().equals("萌年兽") && !g.isDead())
                     .findFirst().get();
-            if (!nianshou.isSilence() && nianshou.getBuffNianShous() < 5) {
+            if (!nianshou.isSilence() && nianshou.getBuffStacks() < 5) {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(nianshou.getLevel(), nianshou.getStar().doubleValue());
                 if (skillLevel[1] > 0) {
-                    nianshou.setBuffStacks(nianshou.getBuffNianShous() + 1);
+                    nianshou.setBuffStacks(nianshou.getBuffStacks() + 1);
                     int hel = 76 * skillLevel[1];
                     if (duoBaoGuanHuan()) {
                         nianshou.setCurrentHp(nianshou.getCurrentHp() + hel);
@@ -6169,9 +6198,9 @@ public class BattleManager {
             Guardian nianshou = campA.stream()
                     .filter(g -> g.getName().equals("玉兔精") && !g.isDead())
                     .findFirst().get();
-            if (!nianshou.isSilence() && nianshou.getBuffNianShous() < 5) {
+            if (!nianshou.isSilence() && nianshou.getBuffStacks() < 5) {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(nianshou.getLevel(), nianshou.getStar().doubleValue());
-                nianshou.setBuffStacks(nianshou.getBuffNianShous() + 1);
+                nianshou.setBuffStacks(nianshou.getBuffStacks() + 1);
                 int totalPoisonDamage = 20 * skillLevel[1];
                 // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                 // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
@@ -6202,9 +6231,9 @@ public class BattleManager {
             Guardian nianshou = campB.stream()
                     .filter(g -> g.getName().equals("玉兔精") && !g.isDead())
                     .findFirst().get();
-            if (!nianshou.isSilence() && nianshou.getBuffNianShous() < 5) {
+            if (!nianshou.isSilence() && nianshou.getBuffStacks() < 5) {
                 int[] skillLevel = CardSkillLevelUtil.calculateSkillLevels(nianshou.getLevel(), nianshou.getStar().doubleValue());
-                nianshou.setBuffStacks(nianshou.getBuffNianShous() + 1);
+                nianshou.setBuffStacks(nianshou.getBuffStacks() + 1);
                 int totalPoisonDamage = 20 * skillLevel[1];
                 // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                 // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
@@ -6970,7 +6999,7 @@ public class BattleManager {
                 if (defender != null && !defender.isDead()) {
                     //TODO 真实伤害无法防御
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage = 410 * skillLevel[0];
+                    int totalPoisonDamage = 206 * skillLevel[0];
                     Integer logIndex=battleLogs.size();
                     totalPoisonDamage=triggerOnAttackedSkills(defender,totalPoisonDamage,EffectType.MISSILE_DAMAGE);
 
@@ -7036,7 +7065,7 @@ public class BattleManager {
                 if (defender != null && !defender.isDead()) {
                     //TODO 真实伤害无法防御
                     // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
-                    int totalPoisonDamage = 410 * skillLevel[0];
+                    int totalPoisonDamage = 206 * skillLevel[0];
 
                     Integer logIndex=battleLogs.size();
                     totalPoisonDamage=triggerOnAttackedSkills(defender,totalPoisonDamage,EffectType.MISSILE_DAMAGE);

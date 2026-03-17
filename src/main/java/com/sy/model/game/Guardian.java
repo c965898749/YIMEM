@@ -23,10 +23,12 @@ public class Guardian {
     private boolean isDead;
     private boolean isOnField;
     private int buffStacks;
+    //只增加别人给你buff，自己的buff全部使用buffStacks
+    //TODO 特殊bufff
     private int buffLuoShens;
-    private int buffNianShous;
     private int buffRandengs;
-    private int buffLiuers;
+    private int buffYuRongWans;
+    private int buffTianLuos;
 
     public int getBuffXuanMins() {
         return buffXuanMins;
@@ -80,9 +82,7 @@ public class Guardian {
         this.isOnField = false;
         this.buffStacks = 0;
         this.buffLuoShens = 0;
-        this.buffNianShous = 0;
         this.buffRandengs = 0;
-        this.buffXuanMins = 0;
         this.star = star;
         this.wlAtk = wlAtk;
         this.hyAtk = hyAtk;
@@ -293,13 +293,13 @@ public class Guardian {
     public void setOnField(boolean onField) { isOnField = onField; }
     public int getBuffStacks() { return buffStacks; }
     public int getBuffLuoShens() { return buffLuoShens; }
-    public int getBuffNianShous() { return buffNianShous; }
     public int getBuffRandengs() { return buffRandengs; }
-    public int getBuffLiuers() { return buffLiuers; }
+    public int getBuffYuRongWans() { return buffYuRongWans; }
+    public int getBuffTianLuos() { return buffTianLuos; }
     public void setStar(BigDecimal star) { this.star = star; }
     public void setBuffStacks(int buffStacks) { this.buffStacks = buffStacks; }
     public void setBuffLuoShens(int buffLuoShens) { this.buffLuoShens = buffLuoShens; }
     public void setBuffRandengs(int buffRandengs) { this.buffRandengs = buffRandengs; }
-    public void setBuffLiuers(int buffLiuers) { this.buffLiuers = buffLiuers; }
-    public void setBuffNianShous(int buffNianShous) { this.buffNianShous = buffNianShous; }
+    public void setBuffYuRongWans(int buffYuRongWans) { this.buffYuRongWans = buffYuRongWans; }
+    public void setBuffTianLuos(int buffTianLuos) { this.buffTianLuos = buffTianLuos; }
 }
