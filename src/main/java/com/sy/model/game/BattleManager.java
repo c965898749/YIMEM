@@ -1199,23 +1199,25 @@ public class BattleManager {
                                 "驱散减益");
                         break;
                     case "天蓬元帅":
-//                        天蓬元帅，满目桃花Lv1场上遇到女性敌人时，自身攻击降低50%，速度增加50%，持续6回合
-                        enemy.addEffect(EffectType.ATTACK_DOWN_PRET, 50, 6, enemy.getId());
-                        enemy.addEffect(EffectType.SPEED_UP_PRET, 50, 6, enemy.getId());
-                        addLog("满目桃花",
-                                enemy.getId(),
-                                enemy.getMaxHp(),
-                                enemy.getCurrentHp(),
-                                0,
-                                enemy.isOnField(),
-                                enemy.getId(),
-                                enemy.getMaxHp(),
-                                enemy.getCurrentHp(),
-                                0,
-                                enemy.isOnField(),
-                                null,
-                                DamageType.MAGIC,
-                                "攻击-50%，速度+50%");
+                        if (guardian1.getSex()==0){
+                            //天蓬元帅，满目桃花Lv1场上遇到女性敌人时，自身攻击降低50%，速度增加50%，持续6回合
+                            enemy.addEffect(EffectType.ATTACK_DOWN_PRET, 50, 6, enemy.getId());
+                            enemy.addEffect(EffectType.SPEED_UP_PRET, 50, 6, enemy.getId());
+                            addLog("满目桃花",
+                                    enemy.getId(),
+                                    enemy.getMaxHp(),
+                                    enemy.getCurrentHp(),
+                                    0,
+                                    enemy.isOnField(),
+                                    enemy.getId(),
+                                    enemy.getMaxHp(),
+                                    enemy.getCurrentHp(),
+                                    0,
+                                    enemy.isOnField(),
+                                    null,
+                                    DamageType.MAGIC,
+                                    "攻击-50%，速度+50%");
+                        }
                         break;
                 }
             }
@@ -6324,13 +6326,13 @@ public class BattleManager {
                 // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                 // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                 // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
-                int resistUp = calculateTotalVaule(daji, EffectType.FIRE_BOOST);
+                int resistUp = calculateTotalVaule(daji, EffectType.POISON_BOOST);
                 // 中毒增益百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                double resistUpPret = calculateTotalUpPretVaule(daji, EffectType.FIRE_BOOST_PRET);
+                double resistUpPret = calculateTotalUpPretVaule(daji, EffectType.POISON_BOOST_PRET);
                 // 中毒降低：所有 POISON_RESIST_DOWN 类型效果的 value 总和
-                int resistDown = calculateTotalVaule(daji, EffectType.FIRE_DOWN);
+                int resistDown = calculateTotalVaule(daji, EffectType.POISON_DOWN);
                 // 中毒降低百分比：所有 POISON_RESIST 类型效果的 value 乘积
-                double resistDownPret = calculateTotalDownPretVaule(daji, EffectType.FIRE_DOWN_PRET);
+                double resistDownPret = calculateTotalDownPretVaule(daji, EffectType.POISON_DOWN_PRET);
 
                 int poisonValue = (int) (totalPoisonDamage * resistUpPret * resistDownPret + (resistUp + daji.getDsAtk() - resistDown));
                 randomEnemy.addEffect(EffectType.POISON, poisonValue, 99, daji.getId());
@@ -7684,7 +7686,7 @@ public class BattleManager {
 
             // 妖狐蔽天：3%几率眩晕当前敌人
             if (ProbabilityBooleanUtils.randomByProbability(0.35) && fieldB != null && !fieldB.isDead()) {
-                fieldB.addEffect(EffectType.STUN, 0, 2, fieldB.getId());
+                fieldB.addEffect(EffectType.STUN, 0, 2, daji.getId());
                 addLog("妖狐蔽天",
                         daji.getId(),
                         daji.getMaxHp(),
@@ -7708,7 +7710,7 @@ public class BattleManager {
 
             if (!enemies.isEmpty() && skillLevel[1] > 0) {
                 Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                int totalPoisonDamage = 7 * skillLevel[0];
+                int totalPoisonDamage = 7 * skillLevel[1];
                 // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                 // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                 // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和
@@ -7735,7 +7737,7 @@ public class BattleManager {
                         randomEnemy.isOnField(),
                         EffectType.POISON,
                         DamageType.POISON,
-                        "眩晕2回合");
+                        "中毒+" + poisonValue);
             }
         }
 
@@ -7773,7 +7775,7 @@ public class BattleManager {
 
             if (!enemies.isEmpty() && skillLevel[1] > 0) {
                 Guardian randomEnemy = enemies.get(random.nextInt(enemies.size()));
-                int totalPoisonDamage = 7 * skillLevel[0];
+                int totalPoisonDamage = 7 * skillLevel[1];
                 // 1. 计算所有中毒效果的总伤害（累加 POISON 类型的 value）
                 // 2. 计算毒抗相关（直接基于你现有 EffectInstance 计算，不新增 Guardian 方法）
                 // 中毒增益：所有 POISON_RESIST 类型效果的 value 总和

@@ -53,6 +53,7 @@ public class Characters {
     private Integer dsDef;
     private Integer fdDef;
     private Integer zlDef;
+    private Integer sex;
 
     private Integer flyup;
 }

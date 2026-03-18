@@ -62,6 +62,7 @@ public class Character {
     private Integer dsDef;
     private Integer fdDef;
     private Integer zlDef;
+    private Integer sex;
 
     private String xieTong;
 

@@ -168,6 +168,7 @@
     cd.hy_def,
     cd.ds_def,
     cd.fd_def,
+    cd.sex,
     cd.zl_def
     from   card cd
   </select>
@@ -212,6 +213,7 @@
     cd.hy_def,
     cd.ds_def,
     cd.fd_def,
+    cd.sex,
     cd.zl_def
     from   characters cs
     left  join card cd on cd.id=cs.id
@@ -258,6 +260,7 @@
     cd.hy_def,
     cd.ds_def,
     cd.fd_def,
+    cd.sex,
     cd.zl_def
     from   characters cs
     left  join card cd on cd.id=cs.id
@@ -306,6 +309,7 @@
     cd.hy_def,
     cd.ds_def,
     cd.fd_def,
+    cd.sex,
     cd.zl_def
     from   characters cs
     left  join card cd on cd.id=cs.id
@@ -353,6 +357,7 @@
     cd.hy_def,
     cd.ds_def,
     cd.fd_def,
+    cd.sex,
     cd.zl_def
     from   characters cs
     left  join card cd on cd.id=cs.id

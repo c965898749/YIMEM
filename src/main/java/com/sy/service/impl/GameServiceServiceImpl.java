@@ -7210,6 +7210,11 @@ public class GameServiceServiceImpl implements GameServiceService {
         Collections.sort(leftCharacter, Comparator.comparing(Characters::getGoIntoNum));
         //对手战队
         User user1 = userMapper.selectUserByUserId(Integer.parseInt(token.getUserId()));
+        if (user1.getDuoTime()!=null&&user1.getDuoTime().compareTo(new Date())>=0){
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("对面还处于抢夺保护期");
+            return baseResp;
+        }
         List<Characters> rightCharacter = charactersMapper.goIntoListById(token.getUserId() + "");
         if (Xtool.isNull(rightCharacter)) {
             Card card = cardMapper.selectByid(3);
@@ -8179,7 +8184,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     character.getDsDef(),
                     character.getFdDef(),
                     character.getZlDef(),
-                    Xtool.isNotNull(characters.getFlyup()) ? characters.getFlyup() : 0));
+                    Xtool.isNotNull(characters.getFlyup()) ? characters.getFlyup() : 0,characters.getSex()));
             character.setUuid("A" + character.getId());
             copyCampA.add(character);
         }
@@ -8199,7 +8204,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     character.getDsDef(),
                     character.getFdDef(),
                     character.getZlDef(),
-                    Xtool.isNotNull(characters.getFlyup()) ? characters.getFlyup() : 0));
+                    Xtool.isNotNull(characters.getFlyup()) ? characters.getFlyup() : 0,characters.getSex()));
             character.setUuid("B" + character.getId());
             copyCampB.add(character);
         }

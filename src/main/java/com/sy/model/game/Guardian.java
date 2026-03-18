@@ -48,6 +48,7 @@ public class Guardian {
     private int dsDef;
     private int fdDef;
     private int zlDef;
+    private int sex;
     private int flyup;
 
     public int getFlyup() {
@@ -66,7 +67,7 @@ public class Guardian {
                     String name, Camp camp, int position, Profession profession, Race race,
                     int maxHp, int attack, int speed, int level, BigDecimal star,
                     int wlAtk, int hyAtk, int dsAtk, int fdAtk,
-                    int wlDef, int hyDef, int dsDef, int fdDef, int zlDef,int flyup) {
+                    int wlDef, int hyDef, int dsDef, int fdDef, int zlDef,int flyup,int sex) {
         this.id = id;  // 初始化ID
         this.name = name;
         this.camp = camp;
@@ -93,6 +94,7 @@ public class Guardian {
         this.dsDef = dsDef;
         this.fdDef = fdDef;
         this.zlDef = zlDef;
+        this.sex = sex;
         this.flyup = flyup;
     }
     /**
@@ -262,6 +264,7 @@ public class Guardian {
     public int getDsDef() { return dsDef; }
     public int getFdDef() { return fdDef; }
     public int getZlDef() { return zlDef; }
+    public int getSex() { return sex; }
 
     public void setWlAtk(int wlAtk) { this.wlAtk = wlAtk; }
     public void setHyAtk(int hyAtk) { this.hyAtk = hyAtk; }
@@ -272,6 +275,7 @@ public class Guardian {
     public void setDsDef(int dsDef) { this.dsDef = dsDef; }
     public void setFdDef(int fdDef) { this.fdDef = fdDef; }
     public void setZlDef(int zlDef) { this.zlDef = zlDef; }
+    public void setSex(int sex) { this.sex = sex; }
 
     public String getName() { return name; }
     public Camp getCamp() { return camp; }

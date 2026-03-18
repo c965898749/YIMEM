@@ -17,9 +17,7 @@
             WHERE userId IN (
                 SELECT userId FROM (
                     SELECT userId FROM user ur
-                    left join characters cs on cs.user_id=ur.userId
-                    where cs.go_into_num >0 and cs.is_delete='0'
-                    and  ur.game_ranking between 1 and 1000
+                    where  ur.game_ranking between 1 and 1000
                     ORDER BY RAND()
                     LIMIT 5
                 ) AS temp
