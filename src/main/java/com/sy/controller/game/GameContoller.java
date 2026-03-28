@@ -542,7 +542,7 @@ public class GameContoller {
     public BaseResp battle(@RequestBody TokenDto token, HttpServletRequest request) {
         BaseResp baseResp = new BaseResp();
         try {
-            baseResp = gameServiceService.start(token, request);
+            baseResp = gameServiceService.start(token, request);//0k
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();
@@ -629,7 +629,7 @@ public class GameContoller {
     public BaseResp battle3(@RequestBody TokenDto token, HttpServletRequest request) {
         BaseResp baseResp = new BaseResp();
         try {
-            baseResp = gameServiceService.start3(token, request);
+            baseResp = gameServiceService.start3(token, request);//0k
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();
@@ -706,7 +706,7 @@ public class GameContoller {
     public BaseResp battle2(@RequestBody TokenDto token, HttpServletRequest request) {
         BaseResp baseResp = new BaseResp();
         try {
-            baseResp = gameServiceService.start2(token, request);
+            baseResp = gameServiceService.start2(token, request);//ok
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();
@@ -748,7 +748,7 @@ public class GameContoller {
     public BaseResp battle5(@RequestBody TokenDto token, HttpServletRequest request) {
         BaseResp baseResp = new BaseResp();
         try {
-            baseResp = gameServiceService.start5(token, request);
+            baseResp = gameServiceService.start5(token, request);//ok
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();
@@ -790,7 +790,7 @@ public class GameContoller {
     public BaseResp battle4(@RequestBody TokenDto token, HttpServletRequest request) {
         BaseResp baseResp = new BaseResp();
         try {
-            baseResp = gameServiceService.start4(token, request);
+            baseResp = gameServiceService.start4(token, request);//ok
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();
@@ -811,7 +811,7 @@ public class GameContoller {
     public BaseResp battle6(@RequestBody TokenDto token, HttpServletRequest request) {
         BaseResp baseResp = new BaseResp();
         try {
-            baseResp = gameServiceService.start6(token, request);
+            baseResp = gameServiceService.start6(token, request);//ok
             return baseResp;
         } catch (Exception e) {
             e.printStackTrace();

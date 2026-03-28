@@ -29,6 +29,7 @@ public class Guardian {
     private int buffRandengs;
     private int buffYuRongWans;
     private int buffTianLuos;
+    private int buffDongyues;
 
     public int getBuffXuanMins() {
         return buffXuanMins;
@@ -300,10 +301,12 @@ public class Guardian {
     public int getBuffRandengs() { return buffRandengs; }
     public int getBuffYuRongWans() { return buffYuRongWans; }
     public int getBuffTianLuos() { return buffTianLuos; }
+    public int getBuffDongyues() { return buffDongyues; }
     public void setStar(BigDecimal star) { this.star = star; }
     public void setBuffStacks(int buffStacks) { this.buffStacks = buffStacks; }
     public void setBuffLuoShens(int buffLuoShens) { this.buffLuoShens = buffLuoShens; }
     public void setBuffRandengs(int buffRandengs) { this.buffRandengs = buffRandengs; }
     public void setBuffYuRongWans(int buffYuRongWans) { this.buffYuRongWans = buffYuRongWans; }
     public void setBuffTianLuos(int buffTianLuos) { this.buffTianLuos = buffTianLuos; }
+    public void setBuffDongyues(int buffDongyues) { this.buffDongyues = buffDongyues; }
 }

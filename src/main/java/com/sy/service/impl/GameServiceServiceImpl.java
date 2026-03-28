@@ -142,6 +142,8 @@ public class GameServiceServiceImpl implements GameServiceService {
     private GameEqRecordMapper gameEqRecordMapper;
     @Autowired
     private PveRewardRecordMapper pveRewardRecordMapper;
+    @Autowired
+    private PlayerTaskProgressMapper playerTaskProgressMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -4490,6 +4492,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
             rightCharacter.add(characters);
         }
+        for (Characters characters : rightCharacter) {
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(token.getUserId() + "", characters.getId());
+            if (Xtool.isNotNull(eqCharacters)) {
+                characters.setEqCharactersList(formateEqCharacter(eqCharacters));
+            }
+        }
 
         baseResp.setSuccess(1);
         Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), user.getGameImg(), "1");
@@ -7233,6 +7241,12 @@ public class GameServiceServiceImpl implements GameServiceService {
             characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
             rightCharacter.add(characters);
         }
+        for (Characters characters : rightCharacter) {
+            List<EqCharacters> eqCharacters = eqCharactersMapper.listByGoOn(token.getUserId(), characters.getId());
+            if (Xtool.isNotNull(eqCharacters)) {
+                characters.setEqCharactersList(formateEqCharacter(eqCharacters));
+            }
+        }
         List<PveReward> pveRewards = new ArrayList<>();
         baseResp.setSuccess(1);
         Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), user.getGameImg(), "1");
@@ -9536,6 +9550,11 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         //重置排名
         playerBronzeTowerMapper.deleteByMap(new HashMap<>());
+    }
+
+    @Override
+    public void executeMothlyTask() {
+        pveRewardRecordMapper.deleteAll();
     }
 
     @Override

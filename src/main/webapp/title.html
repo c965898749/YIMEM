@@ -256,8 +256,8 @@
         <ul class="Tcontain1">
             <li title="首页" style="display: flex"><span style="font-family: Cheatin;font-size: 45px"><span style="color: red">Y</span>ImEm</span><a href="index.html"  id="home_page">首页</a></li>
             <li title="博客"><a href="blog_page.html" id="blog_page">博客</a></li>
-            <li title="资源资源"><a href="download.html?type=1" id="down_load">资源</a></li>
-            <li title="论坛"><a href="forum.html" id="forum_html">论坛</a></li>
+<!--            <li title="资源资源"><a href="download.html?type=1" id="down_load">资源</a></li>-->
+<!--            <li title="论坛"><a href="forum.html" id="forum_html">论坛</a></li>-->
 <!--            <li title="Discuz论坛"><a href="http://www.yimem.com:4399" id="discuz_html" target="_blank">论坛</a></li>-->
 <!--            <li title="问答"><a href="questions.html" id="questions_html">问答</a></li>-->
 <!--            <li title="娱乐"><a href="game.html" id="game_html" target="_b lank">娱乐</a></li>-->
@@ -265,9 +265,9 @@
             <li title="面试真题"><a href="interview.html" id="interview_html">面试宝典</a></li>
 <!--            <li title="Jenkins"><a href="http://www.yimem.com:9494" id="Jenkins_html" target="_blank">Jenkins</a></li>-->
 <!--            <li title="后台管理"><a href="yimem/login"  target="_blank">一梦后台</a></li>-->
-           <li class="appmak">本站app
-                <div id="appma"></div>
-            </li>
+<!--           <li class="appmak">本站app-->
+<!--                <div id="appma"></div>-->
+<!--            </li>-->
             <li>
                 <div id="searchtihing" style="border:1px solid #CCCCCC;border-radius: 10px;width: 250px;height: 32px;margin-top: 5px;display: flex">
                     <input type="text" placeholder="请输入搜索内容" id="searchValue" onkeydown='test()'>
@@ -389,41 +389,41 @@
 
     function getUser(){
         var userJson;
-        $.ajax({
-            url:"isEnter"
-            ,type:"get"
-            ,dataType:"json"
-            ,async:false
-            ,success:function (jsonData) {
-                // //console.log(jsonData)
-                userJson=jsonData;
-                $(".login").html(setEnterHtml(jsonData.success))
-                if(jsonData.success==1){
-                    enterClick()
-                    //渲染头像
-                    $(".TheadImg img").attr("src",jsonData.data.headImg)
-                }else {
-                    $(".TmsgContain").click(function () {
-                        layer.open({
-                            content: '你还未登录'
-                            , btn: ['登录', '退出']
-                            , yes: function (index, layero) {
-                                //按钮【按钮一】的回调
-                                location.href = "login.html";
-                                layer.close(index);
-                            }
-                            , btn2: function (index, layero) {
-                                layer.close(index);
-                            }
-                        });
-                        return false;
-                    })
-                }
-            }
-            ,error:function (res) {
-                //console.log("登入状态ajax提交错误")
-            }
-        })
+        // $.ajax({
+        //     url:"isEnter"
+        //     ,type:"get"
+        //     ,dataType:"json"
+        //     ,async:false
+        //     ,success:function (jsonData) {
+        //         // //console.log(jsonData)
+        //         userJson=jsonData;
+        //         $(".login").html(setEnterHtml(jsonData.success))
+        //         if(jsonData.success==1){
+        //             enterClick()
+        //             //渲染头像
+        //             $(".TheadImg img").attr("src",jsonData.data.headImg)
+        //         }else {
+        //             $(".TmsgContain").click(function () {
+        //                 layer.open({
+        //                     content: '你还未登录'
+        //                     , btn: ['登录', '退出']
+        //                     , yes: function (index, layero) {
+        //                         //按钮【按钮一】的回调
+        //                         location.href = "login.html";
+        //                         layer.close(index);
+        //                     }
+        //                     , btn2: function (index, layero) {
+        //                         layer.close(index);
+        //                     }
+        //                 });
+        //                 return false;
+        //             })
+        //         }
+        //     }
+        //     ,error:function (res) {
+        //         //console.log("登入状态ajax提交错误")
+        //     }
+        // })
         return userJson;
     }
     function blogClick(){

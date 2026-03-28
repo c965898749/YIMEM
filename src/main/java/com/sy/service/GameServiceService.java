@@ -99,6 +99,7 @@ public interface GameServiceService {
     BaseResp arenaTem(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp allCardList(TokenDto token, HttpServletRequest request) throws Exception;
     void sendRawrd();
+    void executeMothlyTask();
     void deleteAll();
     void sendTuoRawrd();
     void addActCode();

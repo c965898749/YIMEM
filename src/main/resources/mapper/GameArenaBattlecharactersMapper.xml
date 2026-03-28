@@ -42,7 +42,8 @@
     cd.hy_def,
     cd.ds_def,
     cd.fd_def,
-    cd.zl_def
+    cd.zl_def,
+    cd.sex
     from   game_arena_battlecharacters cs
     left  join card cd on cd.id=cs.id
     where cs.user_id = #{userId} and  cs.go_into_num &lt;&gt; 6 and  cs.go_into_num &lt;&gt; 7  and cs.is_delete='0'

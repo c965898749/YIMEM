@@ -54,6 +54,11 @@ public class GameScheduled {
         gameServiceService.sendRawrd();
 
     }
+
+    @Scheduled(cron = "0 0 1 1 * ?")
+    public void executeMothlyTask() {
+        gameServiceService.executeMothlyTask();
+    }
 //    @Scheduled(cron = "0 0 0 ? * MON")
 //    public void arenaWeekSettle() {
 //        // 1. 同步上周排名（将上周currentRank赋值到本周lastWeekRank）
