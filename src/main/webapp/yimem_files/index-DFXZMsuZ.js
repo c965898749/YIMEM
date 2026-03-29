@@ -4265,7 +4265,7 @@ const Ma = "/images/games/littleswordmaster/banner-1920x1080.png", ja = "/images
             const t = it(!1), s = [{name: "首页", path: "/"}, {name: "产品", path: "/products"}, {
                 name: "关于我们",
                 path: "/about"
-            }, {name: "官方①群587452663", path: ""}], n = () => {
+            }, {name: "官方①群1092641657", path: ""}], n = () => {
                 t.value = !t.value
             }, r = () => {
                 t.value = !1
