@@ -6030,7 +6030,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         if (battle.getIsWin() == 0) {
             if (num3 + 1 > 10) {
                 if (num2 + 1 > 6) {
-                    if (num1 + 1 > 7) {
+                    if (num1 + 1 > 8) {
 
                     } else {
                         num1 = num1 + 1;
