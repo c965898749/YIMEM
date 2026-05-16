@@ -4161,8 +4161,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 gamePlayerBagMapper.updateById(playerBag);
             }
-            int temp = (int) (Math.random() * 3);
-            start = temp == 2 ? 3 : 3.5; // 0/1→3，2→5 等价【3,3,5】
+            start = 3 + 0.5 * (int)(Math.random() * 2);
         } else if ("3".equals(token.getStr())) {
             BigDecimal gold = new BigDecimal(350000);
             if (gold.compareTo(user.getGold()) > 0) {
@@ -4184,8 +4183,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 gamePlayerBagMapper.updateById(playerBag);
             }
-            int temp = (int) (Math.random() * 3);
-            start = temp == 2 ? 3.5 : 4; // 0/1→3，2→5 等价【3,3,5】
+            start = 3.5 + 0.5 * (int)(Math.random() * 2);
         } else if ("4".equals(token.getStr())) {
             BigDecimal gold = new BigDecimal(550000);
             if (gold.compareTo(user.getGold()) > 0) {
@@ -4207,6 +4205,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 }
                 gamePlayerBagMapper.updateById(playerBag);
             }
+            start = 4 + 0.5 * (int)(Math.random() * 2);
         }
 //        List<EqCard> cardList = eqCardMapper.selectByStr(token.getStr());
 //        cardList = cardList.stream().filter(x -> x.getWeight() > 0).collect(Collectors.toList());
@@ -4262,6 +4261,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             eqCharactersRecord.setEqImg(drawnCard.getImg());
             eqCharactersRecord.setEqName(drawnCard.getName());
             eqCharactersRecord.setGetTime(new Date());
+            eqCharactersRecord.setStatus(1);
             eqCharactersRecord.setId(drawnCard.getId());
             eqCharactersRecord.setUserId(Integer.parseInt(userId));
             eqCharactersRecord.setUserName(user.getNickname());
