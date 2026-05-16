@@ -37,6 +37,7 @@ public interface GameServiceService {
     BaseResp itemUpdate(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp arenaItemUpdate(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp danChou(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp geremonialGiftListChou(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp danChouEq(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp characteSell(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp messageList(TokenDto token, HttpServletRequest request) throws Exception;
@@ -98,6 +99,7 @@ public interface GameServiceService {
     BaseResp arenaSignup(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp arenaTem(TokenDto token, HttpServletRequest request) throws Exception;
     BaseResp allCardList(TokenDto token, HttpServletRequest request) throws Exception;
+    BaseResp geremonialGiftList(TokenDto token, HttpServletRequest request) throws Exception;
     void sendRawrd();
     void executeMothlyTask();
     void deleteAll();

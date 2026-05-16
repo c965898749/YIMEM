@@ -39,4 +39,6 @@ public class PveReward {
     private String img;
     @TableField(exist = false)
     private String itemName;
+    @TableField(exist = false)
+    private Integer index;
 }

@@ -1572,4 +1572,45 @@ public class GameContoller {
         }
     }
 
+    //庆典反馈
+    /**
+     * 使用
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("geremonialGiftList")
+    @CrossOrigin
+    public BaseResp geremonialGiftList(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.geremonialGiftList(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
+
+    /**
+     * 庆典反馈单抽
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "geremonialGiftListChou", method = RequestMethod.POST)
+    @CrossOrigin
+    public BaseResp geremonialGiftListChou(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.geremonialGiftListChou(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
 }
