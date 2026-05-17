@@ -255,19 +255,19 @@ public class GameServiceServiceImpl implements GameServiceService {
             InviteCodeGenerator generator = InviteCodeGenerator.getInstance();
             emp.setMyCode(generator.generateInviteCode(12));
         }
-        dailyViewFinsh(info.getUserId(),"sign_code");
+        dailyViewFinsh(info.getUserId()+"","sign_code");
         userMapper.updateuser(emp);
         baseResp.setData(info);
         baseResp.setErrorMsg("登录成功");
         return baseResp;
     }
-    public void dailyViewFinsh(Integer userId,String giftCode) throws ParseException {
+    public void dailyViewFinsh(String userId,String giftCode) throws ParseException {
         DailyViewFinsh finsh=new DailyViewFinsh();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String today = sdf.format(new Date());
         finsh.setGetTime(sdf.parse(today));
         finsh.setGiftCode(giftCode);
-        finsh.setUserId(userId);
+        finsh.setUserId(Integer.parseInt(userId));
         dailyViewFinshMapper.insert(finsh);
     }
     @Override
@@ -544,7 +544,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         info.setCharacterList(formateCharacter(characterList));
         baseResp.setData(info);
         baseResp.setErrorMsg("更新成功");
-        dailyViewFinsh(info.getUserId(),"sign_code");
+        dailyViewFinsh(info.getUserId()+"","sign_code");
         return baseResp;
     }
 
@@ -2645,10 +2645,19 @@ public class GameServiceServiceImpl implements GameServiceService {
         dailyViewRecordMapper.insert(record);
 
         // 9. 发放奖励（调用道具/金币发放接口，此处简化）
+        List<PveReward> rewards = new ArrayList<>();
         Map map4=new HashMap();
         map4.put("gift_id",gift.getGiftId());
         List<DailyViewContent> contents = dailyViewContentMapper.selectByMap(map4);
         for (DailyViewContent content : contents) {
+            PveReward pveReward = new PveReward();
+            pveReward.setItemId(Integer.parseInt(content.getItemId()+""));
+            pveReward.setItemName(content.getItemName());
+            pveReward.setRewardAmount(content.getItemQuantity());
+            pveReward.setRewardType(content.getItemType()+"");
+            pveReward.setImg(content.getIcon());
+            pveReward.setIndex(0);
+            rewards.add(pveReward);
             if ("1".equals(content.getItemType() + "")) {
                 //灵石
                 user.setDiamond(user.getDiamond().add(new BigDecimal(content.getItemQuantity())));
@@ -2724,7 +2733,10 @@ public class GameServiceServiceImpl implements GameServiceService {
         //获取卡牌数据
         List<Characters> characterList = charactersMapper.selectByUserId(user.getUserId());
         info.setCharacterList(formateCharacter(characterList));
-        baseResp.setData(info);
+        Map resultMap=new HashMap();
+        resultMap.put("rewards", rewards);
+        resultMap.put("user", info);
+        baseResp.setData(resultMap);
         baseResp.setSuccess(1);
         baseResp.setErrorMsg("领取成功");
         return baseResp;
@@ -3704,6 +3716,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("dto", dto);
         baseResp.setData(map);
         baseResp.setErrorMsg("合成成功");
+        dailyViewFinsh(userId,"hechen_code");
         return baseResp;
     }
 
@@ -4176,6 +4189,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("dto", dto);
         baseResp.setData(map);
         baseResp.setErrorMsg("单抽成功");
+        dailyViewFinsh(userId,"zhaohuan_code");
         return baseResp;
     }
 
@@ -4593,6 +4607,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("dto", dto);
         baseResp.setData(map);
         baseResp.setErrorMsg("打造成功");
+        dailyViewFinsh(userId,"dazhao_code");
         return baseResp;
     }
 
@@ -4705,6 +4720,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("dto", dto);
         baseResp.setData(map);
         baseResp.setErrorMsg("单抽成功");
+        dailyViewFinsh(userId,"zhaohuan_code");
         return baseResp;
     }
 
@@ -4791,6 +4807,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("dto", dto);
         baseResp.setData(map);
         baseResp.setErrorMsg("10抽成功");
+        dailyViewFinsh(userId,"zhaohuan_code");
         return baseResp;
     }
 
@@ -4876,6 +4893,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("dto", dto);
         baseResp.setData(map);
         baseResp.setErrorMsg("10抽成功");
+        dailyViewFinsh(userId,"zhaohuan_code");
         return baseResp;
     }
 
@@ -4959,6 +4977,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         user.setHuoliCount(user.getHuoliCount() - 10);
         userMapper.updateuser(user);
         baseResp.setData(battle);
+        dailyViewFinsh(userId,"jinjichang_code");
         return baseResp;
     }
 
@@ -5024,6 +5043,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setSuccess(1);
         baseResp.setData(userInfo);
         baseResp.setErrorMsg("仙缘祝福已送达！\n 仙友已经收到你的心意～\n 体力 + 10、活力 + 10 \n 已注入你的仙躯，可继续闯荡三界！");
+        dailyViewFinsh(userId,"zhufu_code");
         return baseResp;
     }
 
@@ -5162,6 +5182,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setSuccess(1);
         Battle battle = this.battle(leftCharacter, user.getUserId(), user.getNickname(), rightCharacter, user1.getUserId(), user1.getNickname(), user.getGameImg(), "3");
         baseResp.setData(battle);
+        dailyViewFinsh(user.getUserId()+"","qiecuo_code");
         return baseResp;
     }
 
@@ -5927,6 +5948,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             pveReward.setRewardAmount(2000);
             pveReward.setRewardType("6");
             pveRewards.add(pveReward);
+            dailyViewFinsh(userId,"qingtong_code");
         }
         if ("silvertower".equals(token.getStr())) {
             user.setSilvertower(101);
@@ -5938,6 +5960,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             pveReward.setRewardAmount(1000);
             pveReward.setRewardType("6");
             pveRewards.add(pveReward);
+            dailyViewFinsh(userId,"baiying_code");
         }
         if ("goldentower".equals(token.getStr())) {
             user.setGoldentower(101);
@@ -5949,6 +5972,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             pveReward.setRewardAmount(500);
             pveReward.setRewardType("6");
             pveRewards.add(pveReward);
+            dailyViewFinsh(userId,"huanjing_code");
         }
         for (PveReward content : pveRewards) {
             if ("1".equals(content.getRewardType() + "")) {
@@ -6631,6 +6655,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("pveDetail", pveDetail2);
         baseResp.setData(map);
         baseResp.setSuccess(1);
+        dailyViewFinsh(userId,"guanka_code");
         return baseResp;
     }
 
@@ -6790,32 +6815,45 @@ public class GameServiceServiceImpl implements GameServiceService {
                 user.setExp(exp);
             }
         } else {
-            BigDecimal exp = user.getExp().add(new BigDecimal(50).multiply(new BigDecimal(num)));
-            if (exp.compareTo(new BigDecimal(1000)) >= 0) {
-                BigDecimal lv = exp.divide(new BigDecimal(1000));
-                user.setExp(exp.subtract(new BigDecimal(1000).multiply(lv)));
-                //如果巅峰经验满级获得5个魂力宝珠
+            // ================== 优化后 ==================
+            BigDecimal addExp = new BigDecimal(50).multiply(new BigDecimal(num));
+            BigDecimal exp = user.getExp().add(addExp);
+
+            if (exp.compareTo(BigDecimal.valueOf(1000)) >= 0) {
+                // 安全取整（不足1=0，不会有小数）
+                BigDecimal lv = exp.divide(BigDecimal.valueOf(1000), 0, RoundingMode.DOWN);
+                // 计算剩余经验
+                user.setExp(exp.subtract(BigDecimal.valueOf(1000).multiply(lv)));
+
+                // 满级奖励：魂力宝珠（ID:105）
                 Characters characters1 = charactersMapper.listById(userId, "105");
+                BigDecimal zhuNum;
+
                 if (characters1 != null) {
-                    BigDecimal zhuNum = new BigDecimal(2).multiply(lv);
+                    // 已有卡牌 → 叠加
+                    zhuNum = new BigDecimal(2).multiply(lv);
                     characters1.setStackCount(characters1.getStackCount() + zhuNum.intValue());
                     charactersMapper.updateByPrimaryKey(characters1);
                 } else {
+                    // 没有卡牌 → 新建（这里原来的代码严重错误！已修复）
                     Card card = cardMapper.selectByid(105);
                     if (card == null) {
-                        baseResp.setErrorMsg("服务器异常联想管理员");
+                        baseResp.setErrorMsg("服务器异常，请联系管理员");
                         baseResp.setSuccess(0);
                         return baseResp;
                     }
-                    Characters characters = new Characters();
-                    BigDecimal zhuNum = new BigDecimal(2).multiply(lv).subtract(new BigDecimal(1));
-                    characters1.setStackCount(zhuNum.intValue());
-                    characters.setId("105");
-                    characters.setLv(1);
-                    characters.setUserId(Integer.parseInt(userId));
-                    characters.setStar(new BigDecimal(1));
-                    characters.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
-                    charactersMapper.insert(characters);
+                    Characters newChar = new Characters();
+                    newChar.setId("105");
+                    newChar.setLv(1);
+                    newChar.setUserId(Integer.parseInt(userId));
+                    newChar.setStar(BigDecimal.ONE);
+                    newChar.setMaxLv(CardMaxLevelUtils.getMaxLevel(card.getName(), card.getStar().doubleValue()));
+
+                    // 计算数量（修复null指针核心）
+                    zhuNum = new BigDecimal(2).multiply(lv).subtract(BigDecimal.ONE);
+                    newChar.setStackCount(zhuNum.intValue()); // 用newChar 不是 characters1！
+
+                    charactersMapper.insert(newChar);
                 }
             } else {
                 user.setExp(exp);
@@ -7001,6 +7039,9 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("user", userInfo);
         baseResp.setData(map);
         baseResp.setSuccess(1);
+        for (int i=0;i<num;i++){
+            dailyViewFinsh(userId,"guanka_code");
+        }
         return baseResp;
     }
 
@@ -7201,16 +7242,19 @@ public class GameServiceServiceImpl implements GameServiceService {
                 if (token.getStr().equals("bronzetower")) {
                     user.setBronze1(user.getBronze1() + 1);
                     if (user.getBronze1() > 100) {
+                        dailyViewFinsh(userId,"qingtong_code");
                         user.setBronze1Time(new Date());
                     }
                 } else if (token.getStr().equals("silvertower")) {
                     user.setSilvertower(user.getSilvertower() + 1);
                     if (user.getSilvertower() > 100) {
+                        dailyViewFinsh(userId,"baiying_code");
                         user.setSilvertowerTime(new Date());
                     }
                 } else if (token.getStr().equals("goldentower")) {
                     user.setGoldentower(user.getGoldentower() + 1);
                     if (user.getGoldentower() > 100) {
+                        dailyViewFinsh(userId,"huanjing_code");
                         user.setGoldentowerTime(new Date());
                     }
                 }
@@ -7616,6 +7660,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("ranking", ranking);
         baseResp.setData(map);
         baseResp.setSuccess(1);
+        dailyViewFinsh(userId,"tiaozhan_code");
         return baseResp;
     }
 
@@ -7696,15 +7741,25 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         List<PveReward> pveRewards = new ArrayList<>();
         baseResp.setSuccess(1);
+        if ("23".equals(token.getStr())){
+            dailyViewFinsh(userId,"duoqushen_code");
+        }else if ("22".equals(token.getStr())){
+            dailyViewFinsh(userId,"duoquxian_code");
+        } else  if ("21".equals(token.getStr())){
+            dailyViewFinsh(userId,"duoquwu_code");
+        }
         Battle battle = this.battle(leftCharacter, Integer.parseInt(userId), user.getNickname(), rightCharacter, Integer.parseInt(token.getUserId()), user1.getNickname(), user.getGameImg(), "1");
         if (battle.getIsWin() == 0) {
             if (ProbabilityBooleanUtils.randomByProbability(0.5)) {
                 if ("23".equals(token.getStr())){
                     token.setStr("19");
+                    dailyViewFinsh(userId,"duoqushen_code");
                 }else if ("22".equals(token.getStr())){
                     token.setStr("18");
+                    dailyViewFinsh(userId,"duoquxian_code");
                 } else  if ("21".equals(token.getStr())){
                     token.setStr("20");
+                    dailyViewFinsh(userId,"duoquwu_code");
                 }
             }
             Map itemMap = new HashMap();
