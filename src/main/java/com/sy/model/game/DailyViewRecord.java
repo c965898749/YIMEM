@@ -21,7 +21,7 @@ public class DailyViewRecord {
     @TableField("get_time")
     private Date getTime;
     @TableField("status")
-    private Byte status;
+    private Integer status;
     @TableField("fail_reason")
     private String failReason;
     @TableField("platform")

@@ -12,10 +12,10 @@ import java.util.Date;
 public class DailyViewFinsh {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-    @TableField("gift_id")
-    private Long giftId;
+    @TableField("gift_code")
+    private String giftCode;
     @TableField("user_id")
-    private Long userId;
+    private Integer userId;
     @TableField("get_time")
     private Date getTime;
 }

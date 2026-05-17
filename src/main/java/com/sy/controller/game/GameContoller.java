@@ -1630,4 +1630,24 @@ public class GameContoller {
             return baseResp;
         }
     }
+
+    /**
+     * 任务领取
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("dailyReceive")
+    @CrossOrigin
+    public BaseResp dailyReceive(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.dailyReceive(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
 }
