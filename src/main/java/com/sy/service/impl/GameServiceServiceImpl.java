@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.sy.mapper.game.*;
 import com.sy.mapper.UserMapper;
+import com.sy.model.DailyContentVO;
+import com.sy.model.DailyListItemVO;
 import com.sy.model.PaymentRecord;
 import com.sy.model.User;
 import com.sy.model.game.*;
@@ -143,11 +145,17 @@ public class GameServiceServiceImpl implements GameServiceService {
     @Autowired
     private PveRewardRecordMapper pveRewardRecordMapper;
     @Autowired
-    private PlayerTaskProgressMapper playerTaskProgressMapper;
+    private DailyViewFinshMapper dailyViewFinshMapper;
     @Autowired
     private CeremonialGiftMapper ceremonialGiftMapper;
     @Autowired
     private CeremonialGiftRecordMapper ceremonialGiftRecordMapper;
+    @Autowired
+    private DailyViewMapper dailyViewMapper;
+    @Autowired
+    private DailyViewContentMapper dailyViewContentMapper;
+    @Autowired
+    private DailyViewRecordMapper dailyViewRecordMapper;
     // 最大体力值
     private static final int MAX_STAMINA = 720;
     // 每10分钟恢复1点体力
@@ -159,7 +167,11 @@ public class GameServiceServiceImpl implements GameServiceService {
     private static final int LAYER3_MAX = 10;
     private static final int MAX_LEVEL = 50;
     // 有效难度等级白名单
-
+    private static final String[] JING_JIE = {
+            "炼气", "筑基", "结丹", "元婴", "化神",
+            "炼虚", "合体", "大乘", "渡劫",
+            "道祖"
+    };
     @Override
     public BaseResp loginGame(User user, HttpServletRequest request) throws Exception {
         BaseResp baseResp = new BaseResp();
@@ -782,7 +794,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(500));
         if (diamond.compareTo(BigDecimal.ZERO) < 0) {
             baseResp.setSuccess(0);
-            baseResp.setErrorMsg("钻石不足");
+            baseResp.setErrorMsg("灵石不足");
             return baseResp;
         }
         user.setDiamond(diamond);
@@ -1067,7 +1079,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             List<ActivityReward> rewardList = rewardMapper.getByCodde(token.getStr());
             for (ActivityReward content : rewardList) {
                 if ("1".equals(content.getRewardType() + "")) {
-                    //钻石
+                    //灵石
                     user.setDiamond(user.getDiamond().add(new BigDecimal(content.getRewardAmount())));
                 } else if ("2".equals(content.getRewardType() + "")) {
                     user.setGold(user.getGold().add(new BigDecimal(content.getRewardAmount())));
@@ -1247,7 +1259,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             List<ActivityReward> rewardList = rewardMapper.getByCodde(token.getStr());
             for (ActivityReward content : rewardList) {
                 if ("1".equals(content.getRewardType() + "")) {
-                    //钻石
+                    //灵石
                     user.setDiamond(user.getDiamond().add(new BigDecimal(content.getRewardAmount())));
                 } else if ("2".equals(content.getRewardType() + "")) {
                     user.setGold(user.getGold().add(new BigDecimal(content.getRewardAmount())));
@@ -1782,7 +1794,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
         // 8. 插入系统公告
         GameNotice gameNotice = new GameNotice();
-        gameNotice.setDescription("恭喜 " + user.getNickname() + " 玩家 " + character.getName() + " 成功飞升 + " + character.getFlyup() + "，战力飙升，傲视全服！");
+        gameNotice.setDescription("恭喜 " + user.getNickname() + " 玩家 " + character.getName() + " 成功飞升 " + getXiuXianLevel(character.getFlyup()) + "，战力飙升，傲视全服！");
         gameNoticeMapper.insert(gameNotice);
 
         // 9. 组装返回数据
@@ -1818,7 +1830,18 @@ public class GameServiceServiceImpl implements GameServiceService {
         baseResp.setErrorMsg("更新成功");
         return baseResp;
     }
-
+    public  String getXiuXianLevel(int count) {
+        int index = count - 1;
+        // 超出上限返回最高境界
+        if (index >= JING_JIE.length) {
+            return JING_JIE[JING_JIE.length - 1];
+        }
+        // 小于1返回初始境界
+        if (index < 0) {
+            return JING_JIE[0];
+        }
+        return JING_JIE[index];
+    }
     /**
      * 校验并扣减飞升丹
      */
@@ -2451,7 +2474,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         List<GameGiftContent> contents = gameGiftContentMapper.selectByGiftId(giftId);
         for (GameGiftContent content : contents) {
             if ("1".equals(content.getItemType() + "")) {
-                //钻石
+                //灵石
                 user.setDiamond(user.getDiamond().add(new BigDecimal(content.getItemQuantity())));
             } else if ("2".equals(content.getItemType() + "")) {
                 user.setGold(user.getGold().add(new BigDecimal(content.getItemQuantity())));
@@ -2721,7 +2744,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(user.getChongzhi()));
         if (diamond.compareTo(BigDecimal.ZERO) < 0) {
             baseResp.setSuccess(0);
-            baseResp.setErrorMsg("钻石不足");
+            baseResp.setErrorMsg("灵石不足");
             return baseResp;
         }
         user.setDiamond(diamond);
@@ -2786,7 +2809,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(1000));
         if (diamond.compareTo(BigDecimal.ZERO) < 0) {
             baseResp.setSuccess(0);
-            baseResp.setErrorMsg("钻石不足");
+            baseResp.setErrorMsg("灵石不足");
             return baseResp;
         }
         user.setDiamond(diamond);
@@ -2971,7 +2994,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(gameItemShop.getGemPrice()));
                 if (diamond.compareTo(BigDecimal.ZERO) < 0) {
                     baseResp.setSuccess(0);
-                    baseResp.setErrorMsg("钻石不足");
+                    baseResp.setErrorMsg("灵石不足");
                     return baseResp;
                 }
                 user.setDiamond(diamond);
@@ -3106,7 +3129,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(eqCard.getGemPrice()));
                 if (diamond.compareTo(BigDecimal.ZERO) < 0) {
                     baseResp.setSuccess(0);
-                    baseResp.setErrorMsg("钻石不足");
+                    baseResp.setErrorMsg("灵石不足");
                     return baseResp;
                 }
                 user.setDiamond(diamond);
@@ -3209,7 +3232,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             BigDecimal diamond = user.getDiamond().subtract(new BigDecimal(gameItemShop.getGemPrice()).multiply(new BigDecimal(token.getStr())));
             if (diamond.compareTo(BigDecimal.ZERO) < 0) {
                 baseResp.setSuccess(0);
-                baseResp.setErrorMsg("钻石不足");
+                baseResp.setErrorMsg("灵石不足");
                 return baseResp;
             }
             user.setDiamond(diamond);
@@ -3893,6 +3916,30 @@ public class GameServiceServiceImpl implements GameServiceService {
         return vo;
     }
 
+    private DailyListItemVO convertToVO(DailyView gift) {
+        DailyListItemVO vo = new DailyListItemVO();
+        BeanUtils.copyProperties(gift, vo);
+
+        // 补充礼包内容（查询物品名称）
+        Map map=new HashMap();
+        map.put("gift_id",gift.getGiftId());
+        List<DailyViewContent> contents = dailyViewContentMapper.selectByMap(map);
+        List<DailyContentVO> contentVOs = contents.stream().map(content -> {
+            DailyContentVO contentVO = new DailyContentVO();
+            contentVO.setItemType(content.getItemType());
+            contentVO.setItemQuantity(content.getItemQuantity());
+            contentVO.setItemName(content.getItemName());
+            contentVO.setIcon(content.getIcon());
+            // 查询物品名称（从物品表获取，此处简化）
+//            String itemName = itemService.getItemName(content.getItemType(), content.getItemId());
+//            contentVO.setItemName(content.getItemName());
+            return contentVO;
+        }).collect(Collectors.toList());
+        vo.setContents(contentVOs);
+
+        return vo;
+    }
+
     @Override
     @Transactional
 //    @NoRepeatSubmit(limitSeconds = 1)
@@ -3904,7 +3951,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BigDecimal number = new BigDecimal("1000");
         if (user.getDiamond().compareTo(number) < 0) {
             baseResp.setSuccess(0);
-            baseResp.setErrorMsg("当前钻石小于1000");
+            baseResp.setErrorMsg("当前灵石小于1000");
             return baseResp;
         } else {
             user.setDiamond(user.getDiamond().subtract(number));
@@ -4023,7 +4070,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         content.setImg(drawnCard.getIcon());
         content.setIndex(drawnCard.getIndex());
         if ("1".equals(content.getRewardType() + "")) {
-            //钻石
+            //灵石
             user.setDiamond(user.getDiamond().add(new BigDecimal(content.getRewardAmount())));
         } else if ("2".equals(content.getRewardType() + "")) {
             user.setGold(user.getGold().add(new BigDecimal(content.getRewardAmount())));
@@ -4107,6 +4154,79 @@ public class GameServiceServiceImpl implements GameServiceService {
         map.put("user", info);
         baseResp.setData(map);
         baseResp.setSuccess(1);
+        return baseResp;
+    }
+
+    @Override
+    public BaseResp dailyViewList(TokenDto token, HttpServletRequest request) throws Exception {
+        BaseResp baseResp = new BaseResp();
+        if (token == null || Xtool.isNull(token.getToken())) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+//        String userId = (String) redisTemplate.opsForValue().get(token.getToken());
+        String userId = token.getUserId();
+        if (Xtool.isNull(userId)) {
+            baseResp.setSuccess(0);
+            baseResp.setErrorMsg("登录过期");
+            return baseResp;
+        }
+
+
+//        game_gift_exchange_code
+        List<DailyView> validGifts = dailyViewMapper.selectByMap(new HashMap<>());
+
+        Integer finish=0;
+        // 3. 筛选符合用户领取规则的礼包
+        List<DailyListItemVO> result = new ArrayList<>();
+        for (DailyView gift : validGifts) {
+            Long giftId = gift.getGiftId();
+
+
+            // 3.3 封装礼包信息（含内容）
+            DailyListItemVO vo = convertToVO(gift);
+            // 3.1 校验用户是否已达领取上限
+            Map map=new HashMap();
+            map.put("user_id",userId);
+            map.put("gift_id",giftId);
+            map.put("status",1);
+            List<DailyViewRecord> list = dailyViewRecordMapper.selectByMap(map);
+            if (Xtool.isNotNull(list)){
+                vo.setIsFinsh("1");
+                finish++;
+            }
+            Map map2 = new HashMap();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String today = sdf.format(new Date());
+            map2.put("get_time", today);
+            map2.put("user_id", userId);
+            map2.put("gift_id",giftId);
+            List<DailyViewFinsh> finshList=dailyViewFinshMapper.selectByMap(map2);
+            vo.setRemainingQuantity(finshList.size());
+            result.add(vo);
+        }
+        Map map=new HashMap();
+        double rate=0;
+        // 计算实际百分比
+        if (validGifts.size()!=0){
+            rate = (double) finish / validGifts.size() * 100;
+        }
+        // 区间映射
+        if (rate <= 0) {
+            map.put("rate",0);
+        } else if (rate < 40) {
+            map.put("rate",20);
+        } else if (rate < 60) {
+            map.put("rate",50);
+        } else if (rate < 85) {
+            map.put("rate",70);
+        } else {
+            map.put("rate",100);
+        }
+        baseResp.setSuccess(1);
+        map.put("dailyViewList",result);
+        baseResp.setData(map);
         return baseResp;
     }
 
@@ -4427,7 +4547,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         BigDecimal number = new BigDecimal("10000");
         if (user.getDiamond().compareTo(number) < 0) {
             baseResp.setSuccess(0);
-            baseResp.setErrorMsg("当前钻石小于10000");
+            baseResp.setErrorMsg("当前灵石小于10000");
             return baseResp;
         } else {
             user.setDiamond(user.getDiamond().subtract(number));
@@ -5660,7 +5780,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         }
         for (PveReward content : pveRewards) {
             if ("1".equals(content.getRewardType() + "")) {
-                //钻石
+                //灵石
                 user.setDiamond(user.getDiamond().add(new BigDecimal(content.getRewardAmount())));
             } else if ("2".equals(content.getRewardType() + "")) {
                 user.setGold(user.getGold().add(new BigDecimal(content.getRewardAmount())));
@@ -5789,7 +5909,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         content.setRewardType(yearItemShop.getType());
         content.setImg(yearItemShop.getImg());
         if ("1".equals(content.getRewardType() + "")) {
-            //钻石
+            //灵石
             user.setDiamond(user.getDiamond().add(new BigDecimal(content.getRewardAmount())));
         } else if ("2".equals(content.getRewardType() + "")) {
             user.setGold(user.getGold().add(new BigDecimal(content.getRewardAmount())));
@@ -6233,7 +6353,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             }
             for (PveReward content : pveRewards) {
                 if ("1".equals(content.getRewardType() + "")) {
-                    //钻石
+                    //灵石
                     user.setDiamond(user.getDiamond().add(new BigDecimal(content.getRewardAmount())));
                 } else if ("2".equals(content.getRewardType() + "")) {
                     user.setGold(user.getGold().add(new BigDecimal(content.getRewardAmount())));
@@ -6610,7 +6730,7 @@ public class GameServiceServiceImpl implements GameServiceService {
 
             // 按奖励类型处理（逻辑和原有一致，数量用累加后的totalAmount）
             if ("1".equals(content.getRewardType() + "")) {
-                // 钻石
+                // 灵石
                 user.setDiamond(user.getDiamond().add(new BigDecimal(totalAmount)));
             } else if ("2".equals(content.getRewardType() + "")) {
                 // 金币
@@ -7006,7 +7126,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                     // log.info("用户{}领取{}关卡奖励：类型{}，数量{}，物品ID{}", userId, token.getFinalLevel(), content.getRewardType(), content.getRewardAmount(), content.getItemId());
 
                     if ("1".equals(content.getRewardType() + "")) {
-                        //钻石
+                        //灵石
                         user.setDiamond(user.getDiamond().add(new BigDecimal(content.getRewardAmount())));
                     } else if ("2".equals(content.getRewardType() + "")) {
                         //金币
@@ -8685,7 +8805,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("竞技场周排名奖励");
-                gameGift.setDescription("恭喜少侠本周竞技场排名第一，专属排名奖励已奉上,含5000钻石+刷新符*15。");
+                gameGift.setDescription("恭喜少侠本周竞技场排名第一，专属排名奖励已奉上,含5000灵石+刷新符*15。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -8727,7 +8847,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("竞技场周排名奖励");
-                gameGift.setDescription("恭喜少侠本周竞技场排名前 10，专属排名奖励已奉上,含2000钻石+刷新符*10。");
+                gameGift.setDescription("恭喜少侠本周竞技场排名前 10，专属排名奖励已奉上,含2000灵石+刷新符*10。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -8771,7 +8891,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("竞技场周排名奖励");
-                gameGift.setDescription("恭喜少侠本周竞技场排名前 100，专属排名奖励已奉上,含500钻石+刷新符*5。");
+                gameGift.setDescription("恭喜少侠本周竞技场排名前 100，专属排名奖励已奉上,含500灵石+刷新符*5。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -8834,7 +8954,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("初级擂台赛排名奖励");
-                gameGift.setDescription("恭喜少侠初级擂台赛排名第一，专属排名奖励已奉上,含5000钻石+魂力宝珠*5。");
+                gameGift.setDescription("恭喜少侠初级擂台赛排名第一，专属排名奖励已奉上,含5000灵石+魂力宝珠*5。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -8876,7 +8996,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("初级擂台赛排名奖励");
-                gameGift.setDescription("恭喜少侠初级擂台赛排名前 10，专属排名奖励已奉上,含1000钻石+魂力宝珠*1。");
+                gameGift.setDescription("恭喜少侠初级擂台赛排名前 10，专属排名奖励已奉上,含1000灵石+魂力宝珠*1。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -8923,7 +9043,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("初级擂台赛排名奖励");
-                gameGift.setDescription("恭喜少侠初级擂台赛排名前 100，专属排名奖励已奉上,含500钻石。");
+                gameGift.setDescription("恭喜少侠初级擂台赛排名前 100，专属排名奖励已奉上,含500灵石。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -8980,7 +9100,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("中级擂台赛排名奖励");
-                gameGift.setDescription("恭喜少侠中级擂台赛排名第一，专属排名奖励已奉上,含5000钻石+魂力宝珠*5。");
+                gameGift.setDescription("恭喜少侠中级擂台赛排名第一，专属排名奖励已奉上,含5000灵石+魂力宝珠*5。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -9022,7 +9142,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("中级擂台赛排名奖励");
-                gameGift.setDescription("恭喜少侠中级擂台赛排名前 10，专属排名奖励已奉上,含1000钻石+魂力宝珠*1。");
+                gameGift.setDescription("恭喜少侠中级擂台赛排名前 10，专属排名奖励已奉上,含1000灵石+魂力宝珠*1。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -9069,7 +9189,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("中级擂台赛排名奖励");
-                gameGift.setDescription("恭喜少侠中级擂台赛排名前 100，专属排名奖励已奉上,含500钻石。");
+                gameGift.setDescription("恭喜少侠中级擂台赛排名前 100，专属排名奖励已奉上,含500灵石。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -9126,7 +9246,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("大师擂台赛排名奖励");
-                gameGift.setDescription("恭喜少侠大师擂台赛排名第一，专属排名奖励已奉上,含5000钻石+魂力宝珠*5。");
+                gameGift.setDescription("恭喜少侠大师擂台赛排名第一，专属排名奖励已奉上,含5000灵石+魂力宝珠*5。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -9168,7 +9288,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("大师擂台赛排名奖励");
-                gameGift.setDescription("恭喜少侠大师擂台赛排名前 10，专属排名奖励已奉上,含1000钻石+魂力宝珠*1。");
+                gameGift.setDescription("恭喜少侠大师擂台赛排名前 10，专属排名奖励已奉上,含1000灵石+魂力宝珠*1。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -9215,7 +9335,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("大师擂台赛排名奖励");
-                gameGift.setDescription("恭喜少侠大师擂台赛排名前 100，专属排名奖励已奉上,含500钻石。");
+                gameGift.setDescription("恭喜少侠大师擂台赛排名前 100，专属排名奖励已奉上,含500灵石。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -9258,7 +9378,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("探险周排名奖励");
-                gameGift.setDescription("恭喜少侠本周探险排名第一，专属排名奖励已奉上,含5000钻石+刷新符*15。");
+                gameGift.setDescription("恭喜少侠本周探险排名第一，专属排名奖励已奉上,含5000灵石+刷新符*15。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -9300,7 +9420,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("探险周排名奖励");
-                gameGift.setDescription("恭喜少侠本周探险排名前 10，专属排名奖励已奉上,含2000钻石+刷新符*10。");
+                gameGift.setDescription("恭喜少侠本周探险排名前 10，专属排名奖励已奉上,含2000灵石+刷新符*10。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -9344,7 +9464,7 @@ public class GameServiceServiceImpl implements GameServiceService {
                 gameGift.setUpdateTime(new Date());
                 gameGift.setEndTime(nextMonthDate);
                 gameGift.setGiftName("探险周排名奖励");
-                gameGift.setDescription("恭喜少侠本周探险排名前 100，专属排名奖励已奉上,含500钻石+刷新符*5。");
+                gameGift.setDescription("恭喜少侠本周探险排名前 100，专属排名奖励已奉上,含500灵石+刷新符*5。");
                 gameGift.setCreateTime(new Date());
                 gameGiftMapper.insert(gameGift);
                 GameGift gifts = gameGiftMapper.selectByGiftCode(code);
@@ -9785,7 +9905,7 @@ public class GameServiceServiceImpl implements GameServiceService {
             gameGift.setUpdateTime(new Date());
             gameGift.setEndTime(nextMonthDate);
             gameGift.setGiftName("公益捐赠专属礼包");
-            gameGift.setDescription("内含：钻石120000 + 金币1200000\n" +
+            gameGift.setDescription("内含：灵石120000 + 金币1200000\n" +
                     "助力仙途，善意永存！");
             gameGift.setCreateTime(new Date());
             gameGiftMapper.insert(gameGift);

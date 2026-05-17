@@ -1613,4 +1613,21 @@ public class GameContoller {
             return baseResp;
         }
     }
+
+    /**
+     * 获取日常任务
+     */
+    @PostMapping("dailyViewList")
+    @CrossOrigin
+    public BaseResp dailyViewList(@RequestBody TokenDto token, HttpServletRequest request) {
+        BaseResp baseResp = new BaseResp();
+        try {
+            baseResp = gameServiceService.dailyViewList(token, request);
+            return baseResp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResp.setSuccess(0);
+            return baseResp;
+        }
+    }
 }
