@@ -1,6 +1,7 @@
 package com.sy.controller.game;
 
 import com.sy.mapper.UserMapper;
+import com.sy.mapper.game.DailyViewFinshMapper;
 import com.sy.mapper.game.GameFightMapper;
 import com.sy.mapper.game.GameNoticeMapper;
 import com.sy.mapper.game.PlayerBronzeTowerMapper;
@@ -25,6 +26,8 @@ public class GameScheduled {
     private GameNoticeMapper gameNoticeMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private DailyViewFinshMapper dailyViewFinshMapper;
     /**
      * 每天定时清除游戏过多消息
      */
@@ -32,6 +35,7 @@ public class GameScheduled {
     public  void pushsite() {
         gameFightMapper.deleteByTime();
         gameNoticeMapper.deleteByMap(new HashMap<>());
+        dailyViewFinshMapper.deleteByMap(new HashMap<>());
         userMapper.updateBronze1();
         userMapper.updateBronze2();
         userMapper.updateBronze3();
