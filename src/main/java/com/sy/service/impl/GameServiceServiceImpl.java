@@ -4218,7 +4218,7 @@ public class GameServiceServiceImpl implements GameServiceService {
         String today = sdf.format(new Date());
         map2.put("get_time", today);
         map2.put("user_id", userId);
-        List<CeremonialGiftRecord> records=ceremonialGiftRecordMapper.selectByMap(map);
+        List<CeremonialGiftRecord> records=ceremonialGiftRecordMapper.selectByMap(map2);
         if (Xtool.isNotNull(records)) {
             baseResp.setSuccess(0);
             baseResp.setErrorMsg("今日抽奖已参与完毕");
